@@ -1,0 +1,759 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jingmengzhiyue">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="线性回归（linear regression）是线性模型的一种典型方法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LinearRegression">
+<meta property="og:url" content="http://jingmengzhiyue.top/2023/03/05/LinearRegression/index.html">
+<meta property="og:site_name" content="热爱可抵万难">
+<meta property="og:description" content="线性回归（linear regression）是线性模型的一种典型方法。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-03-05T08:37:29.000Z">
+<meta property="article:modified_time" content="2023-03-05T11:25:32.156Z">
+<meta property="article:author" content="Jingmengzhiyue">
+<meta property="article:tag" content="supervised learning">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>LinearRegression - 热爱可抵万难</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jingmengzhiyue.top","root":"/","version":"1.9.5-a","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"gtag":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>热爱可抵万难</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/2.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="LinearRegression"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-05 16:37" pubdate>
+          2023年3月5日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          51 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">LinearRegression</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="LinearRegression"><a href="#LinearRegression" class="headerlink" title="LinearRegression"></a>LinearRegression</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>线性回归（linear regression）是线性模型的一种典型方法。</p>
+<h2 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h2><p>给定一组输入$x$和输出$y$构成的数据集$D &#x3D; {(x_1,y_1),…,(x_m,y_m) }$，其中$y_{i}\in \mathbb{R}$。线性回归模型假设数据线性分布，因此想要学习一个线性模型使得预测值和真实值之间的误差最小。假设线性回归中输出和输入有如下的关系<br>$$<br>y &#x3D; wx_i+b<br>$$<br>利用均方误差最小化有：<br>$$<br>\begin{aligned}<br>(w^*,b^*)&#x3D;\arg\min\sum_{i&#x3D;1}^{m}(y-y_i)^2&#x3D;\arg\min\sum_{i&#x3D;1}^{m}(wx_i+b-y_i)^2<br>\end{aligned}\tag{1}\label{eq1}<br>$$<br>从表达式$\eqref{eq1}$中可以求得参数$w^*$和$b^*$的解析解。<br>$$<br>\begin{aligned}<br>\frac{\partial L(w, b)}{\partial w} &amp; &#x3D;\frac{\partial}{\partial w}\left[\sum_{i&#x3D;1}^{m}\left(w x_{i}+b-y_{i}\right)^{2}\right] &#x3D;\sum_{i&#x3D;1}^{m} \frac{\partial}{\partial w}\left[\left(y_{i}-w x_{i}-b\right)^{2}\right] \<br>&amp; &#x3D;\sum_{i&#x3D;1}^{m}\left[2 \cdot\left(y_{i}-w x_{i}-b\right) \cdot\left(-x_{i}\right)\right] &#x3D;\sum_{i&#x3D;1}^{m}\left[2 \cdot\left(w x_{i}^{2}-y_{i} x_{i}+b x_{i}\right)\right] \<br>&amp; &#x3D;2 \cdot\left(w \sum_{i&#x3D;1}^{m} x_{i}^{2}-\sum_{i&#x3D;1}^{m} y_{i} x_{i}+b \sum_{i&#x3D;1}^{m} x_{i}\right)<br>\end{aligned}<br>$$</p>
+<p>$$<br>\begin{aligned}<br>\frac{\partial L(w, b)}{\partial b} &amp; &#x3D;\frac{\partial}{\partial b}\left[\sum_{i&#x3D;1}^{m}\left(w x_{i}+b-y_{i}\right)^{2}\right] &#x3D;\sum_{i&#x3D;1}^{m} \frac{\partial}{\partial b}\left[\left(y_{i}-w x_{i}-b\right)^{2}\right] \<br>&amp; &#x3D;\sum_{i&#x3D;1}^{m}\left[2 \cdot\left(y_{i}-w x_{i}-b\right) \cdot(-1)\right] &#x3D;\sum_{i&#x3D;1}^{m}\left[2 \cdot\left(-y_{i}+w x_{i}+b\right)\right] \<br>&amp; &#x3D;2 \cdot\left(-\sum_{i&#x3D;1}^{m} y_{i}+\sum_{i&#x3D;1}^{m} w x_{i}+\sum_{i&#x3D;1}^{m} b\right) &#x3D;2 \cdot\left(m b-\sum_{i&#x3D;1}^{m}\left(y_{i}-w x_{i}\right)\right)<br>\end{aligned}<br>$$<br>最终得到权重$w^*$和偏置$b^*$的表达式<br>$$<br>\begin{aligned}<br>w^{<em>}&amp;&#x3D;\frac{\sum_{i&#x3D;1}^{m} y_{i}\left(x_{i}-\bar{x}\right)}{\sum_{i&#x3D;1}^{m} x_{i}^{2}-\frac{1}{m}\left(\sum_{i&#x3D;1}^{m} x_{i}\right)^{2}} \<br>b^{</em>}&amp;&#x3D;\frac{1}{m} \sum_{i&#x3D;1}^{m}\left(y_{i}-w x_{i}\right)<br>\end{aligned}<br>$$<br>形式$\eqref{eq1}$是向量形式的线性回归，在实际中通常利用矩阵化将线性回归表达为矩阵形式，首先将输入$x$拼接成矩阵形式：<br>$$<br>\boldsymbol{X}&#x3D;\left(\begin{array}{ccccc}<br>x_{11} &amp; x_{12} &amp; \cdots &amp; x_{1 d} &amp; 1 \<br>x_{21} &amp; x_{22} &amp; \cdots &amp; x_{2 d} &amp; 1 \<br>\vdots &amp; \vdots &amp; \ddots &amp; \vdots &amp; \vdots \<br>x_{m 1} &amp; x_{m 2} &amp; \cdots &amp; x_{m d} &amp; 1<br>\end{array}\right)&#x3D;\left(\begin{array}{cc}<br>x_{1}^{\mathrm{T}} &amp; 1 \<br>\vdots &amp; \vdots \<br>x_{m}^{\mathrm{T}} &amp; 1<br>\end{array}\right)<br>$$<br>将输出向量$y$相应拼接为$\mathbf{y}&#x3D;(y_1;y_2;…;y_m)$，最终可以得到优化目标函数的矩阵化表达形式：<br>$$<br>w^*&#x3D;\arg\min(\mathbf{y}-\mathbf{X}\hat{w}^T)(\mathbf{y}-\mathbf{X}\hat{w})<br>$$<br>对权重矩阵和偏置矩阵求偏导数可得：<br>$$<br>\begin{aligned}<br>\frac{\partial L}{\partial w}&amp;&#x3D;-\mathbf{X}^T\mathbf{y}-\mathbf{X}^T\mathbf{y}+(\mathbf{X^TX}+\mathbf{X^TX})\hat{w}\<br>\frac{\partial L}{\partial b}&amp;&#x3D;2\mathbf{X}^T(\mathbf{X}\hat{w}-\mathbf{y})<br>\end{aligned}<br>$$<br>根据梯度可以直接求得解析解：<br>$$<br>\hat{w}&#x3D;(\mathbf{X^{T}X})^{-1} \mathbf{X}^{T}\mathbf{y}<br>$$</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><h3 id="基于numpy的算法实现"><a href="#基于numpy的算法实现" class="headerlink" title="基于numpy的算法实现"></a>基于numpy的算法实现</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 导入numpy模块 </span><br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np <br><span class="hljs-comment">### 定义模型主体部分 </span><br><span class="hljs-comment">### 包括线性回归模型公式、均方损失函数和参数求偏导三部分</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">linear_loss</span>(<span class="hljs-params">X, y, w, b</span>): <br>	<span class="hljs-string">&#x27;&#x27;&#x27; 输入： </span><br><span class="hljs-string">	X：输入变量矩阵 </span><br><span class="hljs-string">	y：输出标签向量 </span><br><span class="hljs-string">	w：变量参数权重矩阵 </span><br><span class="hljs-string">	b：偏置 </span><br><span class="hljs-string">	输出： </span><br><span class="hljs-string">	y_hat：线性回归模型预测值 </span><br><span class="hljs-string">	loss：均方损失 </span><br><span class="hljs-string">	dw：权重系数一阶偏导 </span><br><span class="hljs-string">	db：偏置一阶偏导 </span><br><span class="hljs-string">	&#x27;&#x27;&#x27;</span> <br>	<span class="hljs-comment"># 训练样本量 </span><br>	num_train = X.shape[<span class="hljs-number">0</span>] <br>	<span class="hljs-comment"># 训练特征数 </span><br>	num_feature = X.shape[<span class="hljs-number">1</span>] <br>	<span class="hljs-comment"># 线性回归预测值 </span><br>	y_hat = np.dot(X, w) + b <br>	<span class="hljs-comment"># 计算预测值与实际标签之间的均方损失 </span><br>	loss = np.<span class="hljs-built_in">sum</span>((y_hat-y)**<span class="hljs-number">2</span>) / num_train <br>	<span class="hljs-comment"># 基于均方损失对权重系数的一阶梯度 </span><br>	dw = np.dot(X.T, (y_hat-y)) / num_train <br>	<span class="hljs-comment"># 基于均方损失对偏置的一阶梯度 </span><br>	db = np.<span class="hljs-built_in">sum</span>((y_hat-y)) / num_train <br>	<span class="hljs-keyword">return</span> y_hat, loss, dw, db<br><span class="hljs-comment">### 初始化模型参数 </span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">initialize_params</span>(<span class="hljs-params">dims</span>): <br>	<span class="hljs-string">&#x27;&#x27;&#x27; </span><br><span class="hljs-string">	输入： </span><br><span class="hljs-string">	dims：训练数据的变量维度 </span><br><span class="hljs-string">	输出： </span><br><span class="hljs-string">	w：初始化权重系数 </span><br><span class="hljs-string">	b：初始化偏置参数 </span><br><span class="hljs-string">	&#x27;&#x27;&#x27;</span> <br>	<span class="hljs-comment"># 初始化权重系数为零向量 </span><br>	w = np.zeros((dims, <span class="hljs-number">1</span>)) <br>	<span class="hljs-comment"># 初始化偏置参数为零 </span><br>	b = <span class="hljs-number">0</span> <br>	<span class="hljs-keyword">return</span> w, b<br><span class="hljs-comment">### 定义线性回归模型的训练过程 </span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">linear_train</span>(<span class="hljs-params">X, y, learning_rate=<span class="hljs-number">0.01</span>, epochs=<span class="hljs-number">10000</span></span>): <br>	<span class="hljs-string">&#x27;&#x27;&#x27; 输入： </span><br><span class="hljs-string">	X：输入变量矩阵 </span><br><span class="hljs-string">	y：输出标签向量 </span><br><span class="hljs-string">	learning_rate：学习率 </span><br><span class="hljs-string">	epochs：训练迭代次数 </span><br><span class="hljs-string">	输出： </span><br><span class="hljs-string">	loss_his：每次迭代的均方损失 </span><br><span class="hljs-string">	params：优化后的参数字典 </span><br><span class="hljs-string">	grads：优化后的参数梯度字典 </span><br><span class="hljs-string">	&#x27;&#x27;&#x27;</span> <br>	<span class="hljs-comment"># 记录训练损失的空列表 </span><br>	loss_his = [] <br>	<span class="hljs-comment"># 初始化模型参数 </span><br>	w, b = initialize_params(X.shape[<span class="hljs-number">1</span>]) <br>	<span class="hljs-comment"># 迭代训练 </span><br>	<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, epochs): <br>		<span class="hljs-comment"># 计算当前迭代的预测值、均方损失和梯度 </span><br>		y_hat, loss, dw, db = linear_loss(X, y, w, b) <br>		<span class="hljs-comment"># 基于梯度下降法的参数更新 </span><br>		w += -learning_rate * dw <br>		b += -learning_rate * db <br>		<span class="hljs-comment"># 记录当前迭代的损失 </span><br>		loss_his.append(loss) <br>		<span class="hljs-comment"># 每10000次迭代打印当前损失信息 </span><br>		<span class="hljs-keyword">if</span> i % <span class="hljs-number">10000</span> == <span class="hljs-number">0</span>: <br>			<span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;epoch %d loss %f&#x27;</span> % (i, loss)) <br>		<span class="hljs-comment"># 将当前迭代步优化后的参数保存到字典中 </span><br>		params = &#123; <br>			<span class="hljs-string">&#x27;w&#x27;</span>: w, <br>			<span class="hljs-string">&#x27;b&#x27;</span>: b <br>				&#125; <br>		<span class="hljs-comment"># 将当前迭代步的梯度保存到字典中 </span><br>		grads = &#123; <br>			<span class="hljs-string">&#x27;dw&#x27;</span>: dw, <br>			<span class="hljs-string">&#x27;db&#x27;</span>: db <br>				&#125; <br>	<span class="hljs-keyword">return</span> loss_his, params, grads<br><br><span class="hljs-comment"># 导入load_diabetes模块 </span><br><span class="hljs-keyword">from</span> sklearn.datasets <span class="hljs-keyword">import</span> load_diabetes <br><span class="hljs-comment"># 导入打乱数据函数 </span><br><span class="hljs-keyword">from</span> sklearn.utils <span class="hljs-keyword">import</span> shuffle <br><span class="hljs-comment"># 获取diabetes数据集 </span><br>diabetes = load_diabetes() <br><span class="hljs-comment"># 获取输入和标签 </span><br>data, target = diabetes.data, diabetes.target <br><span class="hljs-comment"># 打乱数据集 </span><br>X, y = shuffle(data, target, random_state=<span class="hljs-number">13</span>) <br><span class="hljs-comment"># 按照8∶2划分训练集和测试集 </span><br>offset = <span class="hljs-built_in">int</span>(X.shape[<span class="hljs-number">0</span>] * <span class="hljs-number">0.8</span>) <br><span class="hljs-comment"># 训练集 </span><br>X_train, y_train = X[:offset], y[:offset] <br><span class="hljs-comment"># 测试集 </span><br>X_test, y_test = X[offset:], y[offset:] <br><span class="hljs-comment"># 将训练集改为列向量的形式 </span><br>y_train = y_train.reshape((-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>)) <br><span class="hljs-comment"># 将测试集改为列向量的形式 </span><br>y_test = y_test.reshape((-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>)) <br><span class="hljs-comment"># 打印训练集和测试集的维度 </span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;X_train&#x27;s shape: &quot;</span>, X_train.shape) <br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;X_test&#x27;s shape: &quot;</span>, X_test.shape) <br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;y_train&#x27;s shape: &quot;</span>, y_train.shape) <br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;y_test&#x27;s shape: &quot;</span>, y_test.shape)<br><span class="hljs-comment"># 线性回归模型训练 </span><br>loss_his, params, grads = linear_train(X_train, y_train, <span class="hljs-number">0.01</span>, <span class="hljs-number">200000</span>) <br><span class="hljs-comment"># 打印训练后得到的模型参数 </span><br><span class="hljs-built_in">print</span>(params)<br><span class="hljs-comment">### 定义线性回归模型的预测函数 </span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">predict</span>(<span class="hljs-params">X, params</span>): <br>	<span class="hljs-string">&#x27;&#x27;&#x27; 输入： </span><br><span class="hljs-string">	X：测试集 </span><br><span class="hljs-string">	params：模型训练参数 </span><br><span class="hljs-string">	输出： </span><br><span class="hljs-string">	y_pred：模型预测结果 </span><br><span class="hljs-string">	&#x27;&#x27;&#x27;</span> <br>	<span class="hljs-comment"># 获取模型参数 </span><br>	w = params[<span class="hljs-string">&#x27;w&#x27;</span>] <br>	b = params[<span class="hljs-string">&#x27;b&#x27;</span>] <br>	<span class="hljs-comment"># 预测 </span><br>	y_pred = np.dot(X, w) + b <br>	<span class="hljs-keyword">return</span> y_pred <br><span class="hljs-comment"># 基于测试集的预测 </span><br>y_pred = predict(X_test, params)<br><br><span class="hljs-comment">### 定义R2系数函数 </span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">r2_score</span>(<span class="hljs-params">y_test, y_pred</span>): <br>	<span class="hljs-string">&#x27;&#x27;&#x27; </span><br><span class="hljs-string">	输入： </span><br><span class="hljs-string">	y_test：测试集标签值 </span><br><span class="hljs-string">	y_pred：测试集预测值 </span><br><span class="hljs-string">	输出： </span><br><span class="hljs-string">	r2：R2系数 </span><br><span class="hljs-string">	&#x27;&#x27;&#x27;</span> <br>	<span class="hljs-comment"># 测试集标签均值 </span><br>	y_avg = np.mean(y_test) <br>	<span class="hljs-comment"># 总离差平方和 </span><br>	ss_tot = np.<span class="hljs-built_in">sum</span>((y_test - y_avg)**<span class="hljs-number">2</span>) <br>	<span class="hljs-comment"># 残差平方和 </span><br>	ss_res = np.<span class="hljs-built_in">sum</span>((y_test - y_pred)**<span class="hljs-number">2</span>) <br>	<span class="hljs-comment"># R2计算 </span><br>	r2 = <span class="hljs-number">1</span>- (ss_res/ss_tot) <br>	<span class="hljs-keyword">return</span> r2 <br>	<span class="hljs-comment"># 计算测试集的R2系数 </span><br><span class="hljs-built_in">print</span>(r2_score(y_test, y_pred))<br></code></pre></td></tr></table></figure>
+
+<h3 id="基于sklearn的线性回归模型"><a href="#基于sklearn的线性回归模型" class="headerlink" title="基于sklearn的线性回归模型"></a>基于sklearn的线性回归模型</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 导入线性回归模块 </span><br><span class="hljs-keyword">from</span> sklearn <span class="hljs-keyword">import</span> linear_model <br><span class="hljs-keyword">from</span> sklearn.metrics <span class="hljs-keyword">import</span> mean_squared_error, r2_score <br><span class="hljs-comment"># 定义模型实例 </span><br>regr = linear_model.LinearRegression() <br><span class="hljs-comment"># 模型拟合训练数据 </span><br>regr.fit(X_train, y_train) <br><span class="hljs-comment"># 模型预测值 </span><br>y_pred = regr.predict(X_test) <br><span class="hljs-comment"># 输出模型均方误差 </span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Mean squared error: %.2f&quot;</span>% mean_squared_error(y_test, y_pred)) <br><span class="hljs-comment"># 计算R2系数 </span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;R Square score: %.2f&#x27;</span> % r2_score(y_test, y_pred))<br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/machine-learning/" class="category-chain-item">machine learning</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/supervised-learning/" class="print-no-link">#supervised learning</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>LinearRegression</div>
+      <div>http://jingmengzhiyue.top/2023/03/05/LinearRegression/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Jingmengzhiyue</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月5日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/03/05/Word2Vec/" title="Word2Vec">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Word2Vec</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/01/29/%E5%B9%BF%E4%B9%89%E8%A5%BF%E5%B0%94%E7%BB%B4%E6%96%AF%E7%89%B9%E6%96%B9%E7%A8%8B%E7%9A%84%E6%B1%82%E8%A7%A3/" title="广义西尔维斯特方程的求解">
+                        <span class="hidden-mobile">广义西尔维斯特方程的求解</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"eZ6fNr2wGbxSreDqCc24Ik6y-gzGzoHsz","appKey":"I1HMoNZO5iKmmCSzqE0wTpGr","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

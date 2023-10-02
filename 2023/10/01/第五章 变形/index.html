@@ -1,0 +1,3119 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jingmengzhiyue">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="数据挖掘中pandas的使用，Pandas变形">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pandas变形">
+<meta property="og:url" content="http://jingmengzhiyue.top/2023/10/01/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%8F%98%E5%BD%A2/index.html">
+<meta property="og:site_name" content="热爱可抵万难">
+<meta property="og:description" content="数据挖掘中pandas的使用，Pandas变形">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://jingmengzhiyue.top/2023/10/01/source/_static/ch5_pivot.png">
+<meta property="og:image" content="http://jingmengzhiyue.top/2023/10/01/source/_static/ch5_mulpivot.png">
+<meta property="og:image" content="http://jingmengzhiyue.top/2023/10/01/source/_static/ch5_melt.png">
+<meta property="og:image" content="http://jingmengzhiyue.top/2023/10/01/source/_static/ch5_wtl.png">
+<meta property="og:image" content="http://jingmengzhiyue.top/2023/10/01/source/_static/Ex5_1.png">
+<meta property="article:published_time" content="2023-10-01T13:13:43.000Z">
+<meta property="article:modified_time" content="2023-10-01T02:31:58.066Z">
+<meta property="article:author" content="Jingmengzhiyue">
+<meta property="article:tag" content="Data Mining">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://jingmengzhiyue.top/2023/10/01/source/_static/ch5_pivot.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Pandas变形 - 热爱可抵万难</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jingmengzhiyue.top","root":"/","version":"1.9.5-a","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"gtag":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>热爱可抵万难</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/2.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Pandas变形"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-10-01 21:13" pubdate>
+          2023年10月1日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          18k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          149 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Pandas变形</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Pandas变形"><a href="#Pandas变形" class="headerlink" title="Pandas变形"></a>Pandas变形</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br></code></pre></td></tr></table></figure>
+
+<h2 id="一、长宽表的变形"><a href="#一、长宽表的变形" class="headerlink" title="一、长宽表的变形"></a>一、长宽表的变形</h2><p>什么是长表？什么是宽表？这个概念是对于某一个特征而言的。例如：一个表中把性别存储在某一个列中，那么它就是关于性别的长表；如果把性别作为列名，列中的元素是某一其他的相关特征数值，那么这个表是关于性别的宽表。下面的两张表就分别是关于性别的长表和宽表：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pd.DataFrame(&#123;<span class="hljs-string">&#x27;Gender&#x27;</span>:[<span class="hljs-string">&#x27;F&#x27;</span>,<span class="hljs-string">&#x27;F&#x27;</span>,<span class="hljs-string">&#x27;M&#x27;</span>,<span class="hljs-string">&#x27;M&#x27;</span>], <span class="hljs-string">&#x27;Height&#x27;</span>:[<span class="hljs-number">163</span>, <span class="hljs-number">160</span>, <span class="hljs-number">175</span>, <span class="hljs-number">180</span>]&#125;)<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code class="hljs">.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Gender</th>
+      <th>Height</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>F</td>
+      <td>163</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>F</td>
+      <td>160</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>M</td>
+      <td>175</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>M</td>
+      <td>180</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pd.DataFrame(&#123;<span class="hljs-string">&#x27;Height: F&#x27;</span>:[<span class="hljs-number">163</span>, <span class="hljs-number">160</span>], <span class="hljs-string">&#x27;Height: M&#x27;</span>:[<span class="hljs-number">175</span>, <span class="hljs-number">180</span>]&#125;)<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code class="hljs">.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Height: F</th>
+      <th>Height: M</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>163</td>
+      <td>175</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>160</td>
+      <td>180</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<p>显然这两张表从信息上是完全等价的，它们包含相同的身高统计数值，只是这些数值的呈现方式不同，而其呈现方式主要又与性别一列选择的布局模式有关，即到底是以$\color{red}{long}$的状态存储还是以$\color{red}{wide}$的状态存储。因此，<code>pandas</code>针对此类长宽表的变形操作设计了一些有关的变形函数。</p>
+<h3 id="1-pivot"><a href="#1-pivot" class="headerlink" title="1. pivot"></a>1. pivot</h3><p><code>pivot</code>是一种典型的长表变宽表的函数，首先来看一个例子：下表存储了张三和李四的语文和数学分数，现在想要把语文和数学分数作为列来展示。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">df = pd.DataFrame(&#123;<span class="hljs-string">&#x27;Class&#x27;</span>:[<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">2</span>],<br>                   <span class="hljs-string">&#x27;Name&#x27;</span>:[<span class="hljs-string">&#x27;San Zhang&#x27;</span>,<span class="hljs-string">&#x27;San Zhang&#x27;</span>,<span class="hljs-string">&#x27;Si Li&#x27;</span>,<span class="hljs-string">&#x27;Si Li&#x27;</span>],<br>                   <span class="hljs-string">&#x27;Subject&#x27;</span>:[<span class="hljs-string">&#x27;Chinese&#x27;</span>,<span class="hljs-string">&#x27;Math&#x27;</span>,<span class="hljs-string">&#x27;Chinese&#x27;</span>,<span class="hljs-string">&#x27;Math&#x27;</span>],<br>                   <span class="hljs-string">&#x27;Grade&#x27;</span>:[<span class="hljs-number">80</span>,<span class="hljs-number">75</span>,<span class="hljs-number">90</span>,<span class="hljs-number">85</span>]&#125;)<br>df<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code class="hljs">.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Class</th>
+      <th>Name</th>
+      <th>Subject</th>
+      <th>Grade</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>San Zhang</td>
+      <td>Chinese</td>
+      <td>80</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>San Zhang</td>
+      <td>Math</td>
+      <td>75</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>Si Li</td>
+      <td>Chinese</td>
+      <td>90</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2</td>
+      <td>Si Li</td>
+      <td>Math</td>
+      <td>85</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<p>对于一个基本的长变宽操作而言，最重要的有三个要素，分别是变形后的行索引、需要转到列索引的列，以及这些列和行索引对应的数值，它们分别对应了<code>pivot</code>方法中的<code>index, columns, values</code>参数。新生成表的列索引是<code>columns</code>对应列的<code>unique</code>值，而新表的行索引是<code>index</code>对应列的<code>unique</code>值，而<code>values</code>对应了想要展示的数值列。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df.pivot(index=<span class="hljs-string">&#x27;Name&#x27;</span>, columns=<span class="hljs-string">&#x27;Subject&#x27;</span>, values=<span class="hljs-string">&#x27;Grade&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code class="hljs">.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Subject</th>
+      <th>Chinese</th>
+      <th>Math</th>
+    </tr>
+    <tr>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>San Zhang</th>
+      <td>80</td>
+      <td>75</td>
+    </tr>
+    <tr>
+      <th>Si Li</th>
+      <td>90</td>
+      <td>85</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<p>通过颜色的标记，更容易地能够理解其变形的过程：</p>
+<img src="../source/_static/ch5_pivot.png" srcset="/img/loading.gif" lazyload width="20%">
+
+<p>利用<code>pivot</code>进行变形操作需要满足唯一性的要求，即由于在新表中的行列索引对应了唯一的<code>value</code>，因此原表中的<code>index</code>和<code>columns</code>对应两个列的行组合必须唯一。例如，现在把原表中第二行张三的数学改为语文就会报错，这是由于<code>Name</code>与<code>Subject</code>的组合中两次出现<code>(&quot;San Zhang&quot;, &quot;Chinese&quot;)</code>，从而最后不能够确定到底变形后应该是填写80分还是75分。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">df.loc[<span class="hljs-number">1</span>, <span class="hljs-string">&#x27;Subject&#x27;</span>] = <span class="hljs-string">&#x27;Chinese&#x27;</span><br><span class="hljs-keyword">try</span>:<br>    df.pivot(index=<span class="hljs-string">&#x27;Name&#x27;</span>, columns=<span class="hljs-string">&#x27;Subject&#x27;</span>, values=<span class="hljs-string">&#x27;Grade&#x27;</span>)<br><span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>    Err_Msg = e<br>Err_Msg<br></code></pre></td></tr></table></figure>
+
+
+
+
+<pre><code class="hljs">ValueError(&#39;Index contains duplicate entries, cannot reshape&#39;)
+</code></pre>
+<p><code>pandas</code>从<code>1.1.0</code>开始，<code>pivot</code>相关的三个参数允许被设置为列表，这也意味着会返回多级索引。这里构造一个相应的例子来说明如何使用：下表中六列分别为班级、姓名、测试类型（期中考试和期末考试）、科目、成绩、排名。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python">df = pd.DataFrame(&#123;<span class="hljs-string">&#x27;Class&#x27;</span>:[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>],<br>                   <span class="hljs-string">&#x27;Name&#x27;</span>:[<span class="hljs-string">&#x27;San Zhang&#x27;</span>, <span class="hljs-string">&#x27;San Zhang&#x27;</span>, <span class="hljs-string">&#x27;Si Li&#x27;</span>, <span class="hljs-string">&#x27;Si Li&#x27;</span>,<br>                              <span class="hljs-string">&#x27;San Zhang&#x27;</span>, <span class="hljs-string">&#x27;San Zhang&#x27;</span>, <span class="hljs-string">&#x27;Si Li&#x27;</span>, <span class="hljs-string">&#x27;Si Li&#x27;</span>],<br>                   <span class="hljs-string">&#x27;Examination&#x27;</span>: [<span class="hljs-string">&#x27;Mid&#x27;</span>, <span class="hljs-string">&#x27;Final&#x27;</span>, <span class="hljs-string">&#x27;Mid&#x27;</span>, <span class="hljs-string">&#x27;Final&#x27;</span>,<br>                                    <span class="hljs-string">&#x27;Mid&#x27;</span>, <span class="hljs-string">&#x27;Final&#x27;</span>, <span class="hljs-string">&#x27;Mid&#x27;</span>, <span class="hljs-string">&#x27;Final&#x27;</span>],<br>                   <span class="hljs-string">&#x27;Subject&#x27;</span>:[<span class="hljs-string">&#x27;Chinese&#x27;</span>, <span class="hljs-string">&#x27;Chinese&#x27;</span>, <span class="hljs-string">&#x27;Chinese&#x27;</span>, <span class="hljs-string">&#x27;Chinese&#x27;</span>,<br>                                 <span class="hljs-string">&#x27;Math&#x27;</span>, <span class="hljs-string">&#x27;Math&#x27;</span>, <span class="hljs-string">&#x27;Math&#x27;</span>, <span class="hljs-string">&#x27;Math&#x27;</span>],<br>                   <span class="hljs-string">&#x27;Grade&#x27;</span>:[<span class="hljs-number">80</span>, <span class="hljs-number">75</span>, <span class="hljs-number">85</span>, <span class="hljs-number">65</span>, <span class="hljs-number">90</span>, <span class="hljs-number">85</span>, <span class="hljs-number">92</span>, <span class="hljs-number">88</span>],<br>                   <span class="hljs-string">&#x27;rank&#x27;</span>:[<span class="hljs-number">10</span>, <span class="hljs-number">15</span>, <span class="hljs-number">21</span>, <span class="hljs-number">15</span>, <span class="hljs-number">20</span>, <span class="hljs-number">7</span>, <span class="hljs-number">6</span>, <span class="hljs-number">2</span>]&#125;)<br>df<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code class="hljs">.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Class</th>
+      <th>Name</th>
+      <th>Examination</th>
+      <th>Subject</th>
+      <th>Grade</th>
+      <th>rank</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>San Zhang</td>
+      <td>Mid</td>
+      <td>Chinese</td>
+      <td>80</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>San Zhang</td>
+      <td>Final</td>
+      <td>Chinese</td>
+      <td>75</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>Si Li</td>
+      <td>Mid</td>
+      <td>Chinese</td>
+      <td>85</td>
+      <td>21</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2</td>
+      <td>Si Li</td>
+      <td>Final</td>
+      <td>Chinese</td>
+      <td>65</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>San Zhang</td>
+      <td>Mid</td>
+      <td>Math</td>
+      <td>90</td>
+      <td>20</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1</td>
+      <td>San Zhang</td>
+      <td>Final</td>
+      <td>Math</td>
+      <td>85</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2</td>
+      <td>Si Li</td>
+      <td>Mid</td>
+      <td>Math</td>
+      <td>92</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2</td>
+      <td>Si Li</td>
+      <td>Final</td>
+      <td>Math</td>
+      <td>88</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<p>现在想要把测试类型和科目联合组成的四个类别（期中语文、期末语文、期中数学、期末数学）转到列索引，并且同时统计成绩和排名：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">pivot_multi = df.pivot(index = [<span class="hljs-string">&#x27;Class&#x27;</span>, <span class="hljs-string">&#x27;Name&#x27;</span>],<br>                       columns = [<span class="hljs-string">&#x27;Subject&#x27;</span>,<span class="hljs-string">&#x27;Examination&#x27;</span>],<br>                       values = [<span class="hljs-string">&#x27;Grade&#x27;</span>,<span class="hljs-string">&#x27;rank&#x27;</span>])<br>pivot_multi<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code class="hljs">.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead tr th &#123;
+    text-align: left;
+&#125;
+
+.dataframe thead tr:last-of-type th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th colspan="4" halign="left">Grade</th>
+      <th colspan="4" halign="left">rank</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>Subject</th>
+      <th colspan="2" halign="left">Chinese</th>
+      <th colspan="2" halign="left">Math</th>
+      <th colspan="2" halign="left">Chinese</th>
+      <th colspan="2" halign="left">Math</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>Examination</th>
+      <th>Mid</th>
+      <th>Final</th>
+      <th>Mid</th>
+      <th>Final</th>
+      <th>Mid</th>
+      <th>Final</th>
+      <th>Mid</th>
+      <th>Final</th>
+    </tr>
+    <tr>
+      <th>Class</th>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <th>San Zhang</th>
+      <td>80</td>
+      <td>75</td>
+      <td>90</td>
+      <td>85</td>
+      <td>10</td>
+      <td>15</td>
+      <td>20</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <th>Si Li</th>
+      <td>85</td>
+      <td>65</td>
+      <td>92</td>
+      <td>88</td>
+      <td>21</td>
+      <td>15</td>
+      <td>6</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<p>根据唯一性原则，新表的行索引等价于对<code>index</code>中的多列使用<code>drop_duplicates</code>，而列索引的长度为<code>values</code>中的元素个数乘以<code>columns</code>的唯一组合数量（与<code>index</code>类似） 。从下面的示意图中能够比较容易地理解相应的操作：</p>
+<img src="../source/_static/ch5_mulpivot.png" srcset="/img/loading.gif" lazyload width="35%">
+
+<h3 id="2-pivot-table"><a href="#2-pivot-table" class="headerlink" title="2. pivot_table"></a>2. pivot_table</h3><p><code>pivot</code>的使用依赖于唯一性条件，那如果不满足唯一性条件，那么必须通过聚合操作使得相同行列组合对应的多个值变为一个值。例如，张三和李四都参加了两次语文考试和数学考试，按照学院规定，最后的成绩是两次考试分数的平均值，此时就无法通过<code>pivot</code>函数来完成。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">df = pd.DataFrame(&#123;<span class="hljs-string">&#x27;Name&#x27;</span>:[<span class="hljs-string">&#x27;San Zhang&#x27;</span>, <span class="hljs-string">&#x27;San Zhang&#x27;</span>, <br>                              <span class="hljs-string">&#x27;San Zhang&#x27;</span>, <span class="hljs-string">&#x27;San Zhang&#x27;</span>,<br>                              <span class="hljs-string">&#x27;Si Li&#x27;</span>, <span class="hljs-string">&#x27;Si Li&#x27;</span>, <span class="hljs-string">&#x27;Si Li&#x27;</span>, <span class="hljs-string">&#x27;Si Li&#x27;</span>],<br>                   <span class="hljs-string">&#x27;Subject&#x27;</span>:[<span class="hljs-string">&#x27;Chinese&#x27;</span>, <span class="hljs-string">&#x27;Chinese&#x27;</span>, <span class="hljs-string">&#x27;Math&#x27;</span>, <span class="hljs-string">&#x27;Math&#x27;</span>,<br>                                 <span class="hljs-string">&#x27;Chinese&#x27;</span>, <span class="hljs-string">&#x27;Chinese&#x27;</span>, <span class="hljs-string">&#x27;Math&#x27;</span>, <span class="hljs-string">&#x27;Math&#x27;</span>],<br>                   <span class="hljs-string">&#x27;Grade&#x27;</span>:[<span class="hljs-number">80</span>, <span class="hljs-number">90</span>, <span class="hljs-number">100</span>, <span class="hljs-number">90</span>, <span class="hljs-number">70</span>, <span class="hljs-number">80</span>, <span class="hljs-number">85</span>, <span class="hljs-number">95</span>]&#125;)<br>df<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code class="hljs">.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Subject</th>
+      <th>Grade</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>San Zhang</td>
+      <td>Chinese</td>
+      <td>80</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>San Zhang</td>
+      <td>Chinese</td>
+      <td>90</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>San Zhang</td>
+      <td>Math</td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>San Zhang</td>
+      <td>Math</td>
+      <td>90</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Si Li</td>
+      <td>Chinese</td>
+      <td>70</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Si Li</td>
+      <td>Chinese</td>
+      <td>80</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Si Li</td>
+      <td>Math</td>
+      <td>85</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Si Li</td>
+      <td>Math</td>
+      <td>95</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<p><code>pandas</code>中提供了<code>pivot_table</code>来实现，其中的<code>aggfunc</code>参数就是使用的聚合函数。上述场景可以如下写出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">df.pivot_table(index = <span class="hljs-string">&#x27;Name&#x27;</span>,<br>               columns = <span class="hljs-string">&#x27;Subject&#x27;</span>,<br>               values = <span class="hljs-string">&#x27;Grade&#x27;</span>,<br>               aggfunc = <span class="hljs-string">&#x27;mean&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code class="hljs">.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Subject</th>
+      <th>Chinese</th>
+      <th>Math</th>
+    </tr>
+    <tr>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>San Zhang</th>
+      <td>85</td>
+      <td>95</td>
+    </tr>
+    <tr>
+      <th>Si Li</th>
+      <td>75</td>
+      <td>90</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<p>这里传入<code>aggfunc</code>包含了上一章中介绍的所有合法聚合字符串，此外还可以传入以序列为输入标量为输出的聚合函数来实现自定义操作，上述功能可以等价写出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">df.pivot_table(index = <span class="hljs-string">&#x27;Name&#x27;</span>,<br>               columns = <span class="hljs-string">&#x27;Subject&#x27;</span>,<br>               values = <span class="hljs-string">&#x27;Grade&#x27;</span>,<br>               aggfunc = <span class="hljs-keyword">lambda</span> x:x.mean())<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code class="hljs">.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Subject</th>
+      <th>Chinese</th>
+      <th>Math</th>
+    </tr>
+    <tr>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>San Zhang</th>
+      <td>85</td>
+      <td>95</td>
+    </tr>
+    <tr>
+      <th>Si Li</th>
+      <td>75</td>
+      <td>90</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<p>此外，<code>pivot_table</code>具有边际汇总的功能，可以通过设置<code>margins=True</code>来实现，其中边际的聚合方式与<code>aggfunc</code>中给出的聚合方法一致。下面就分别统计了语文均分和数学均分、张三均分和李四均分，以及总体所有分数的均分：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">df.pivot_table(index = <span class="hljs-string">&#x27;Name&#x27;</span>,<br>               columns = <span class="hljs-string">&#x27;Subject&#x27;</span>,<br>               values = <span class="hljs-string">&#x27;Grade&#x27;</span>,<br>               aggfunc=<span class="hljs-string">&#x27;mean&#x27;</span>,<br>               margins=<span class="hljs-literal">True</span>)<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code class="hljs">.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Subject</th>
+      <th>Chinese</th>
+      <th>Math</th>
+      <th>All</th>
+    </tr>
+    <tr>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>San Zhang</th>
+      <td>85</td>
+      <td>95.0</td>
+      <td>90.00</td>
+    </tr>
+    <tr>
+      <th>Si Li</th>
+      <td>75</td>
+      <td>90.0</td>
+      <td>82.50</td>
+    </tr>
+    <tr>
+      <th>All</th>
+      <td>80</td>
+      <td>92.5</td>
+      <td>86.25</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<h4 id="【练一练】"><a href="#【练一练】" class="headerlink" title="【练一练】"></a>【练一练】</h4><p>在上面的边际汇总例子中，行或列的汇总为新表中行元素或者列元素的平均值，而总体的汇总为新表中四个元素的平均值。这种关系一定成立吗？若不成立，请给出一个例子来说明。</p>
+<h4 id="【END】"><a href="#【END】" class="headerlink" title="【END】"></a>【END】</h4><h3 id="3-melt"><a href="#3-melt" class="headerlink" title="3. melt"></a>3. melt</h3><p>长宽表只是数据呈现方式的差异，但其包含的信息量是等价的，前面提到了利用<code>pivot</code>把长表转为宽表，那么就可以通过相应的逆操作把宽表转为长表，<code>melt</code>函数就起到了这样的作用。在下面的例子中，<code>Subject</code>以列索引的形式存储，现在想要将其压缩到一个列中。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">df = pd.DataFrame(&#123;<span class="hljs-string">&#x27;Class&#x27;</span>:[<span class="hljs-number">1</span>,<span class="hljs-number">2</span>],<br>                   <span class="hljs-string">&#x27;Name&#x27;</span>:[<span class="hljs-string">&#x27;San Zhang&#x27;</span>, <span class="hljs-string">&#x27;Si Li&#x27;</span>],<br>                   <span class="hljs-string">&#x27;Chinese&#x27;</span>:[<span class="hljs-number">80</span>, <span class="hljs-number">90</span>],<br>                   <span class="hljs-string">&#x27;Math&#x27;</span>:[<span class="hljs-number">80</span>, <span class="hljs-number">75</span>]&#125;)<br>df<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code class="hljs">.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Class</th>
+      <th>Name</th>
+      <th>Chinese</th>
+      <th>Math</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>San Zhang</td>
+      <td>80</td>
+      <td>80</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>Si Li</td>
+      <td>90</td>
+      <td>75</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">df_melted = df.melt(id_vars = [<span class="hljs-string">&#x27;Class&#x27;</span>, <span class="hljs-string">&#x27;Name&#x27;</span>],<br>                    value_vars = [<span class="hljs-string">&#x27;Chinese&#x27;</span>, <span class="hljs-string">&#x27;Math&#x27;</span>],<br>                    var_name = <span class="hljs-string">&#x27;Subject&#x27;</span>,<br>                    value_name = <span class="hljs-string">&#x27;Grade&#x27;</span>)<br>df_melted<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code class="hljs">.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Class</th>
+      <th>Name</th>
+      <th>Subject</th>
+      <th>Grade</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>San Zhang</td>
+      <td>Chinese</td>
+      <td>80</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>Si Li</td>
+      <td>Chinese</td>
+      <td>90</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>San Zhang</td>
+      <td>Math</td>
+      <td>80</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2</td>
+      <td>Si Li</td>
+      <td>Math</td>
+      <td>75</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<p><code>melt</code>的主要参数和压缩的过程如下图所示：</p>
+<img src="../source/_static/ch5_melt.png" srcset="/img/loading.gif" lazyload width="35%">
+
+<p>前面提到了<code>melt</code>和<code>pivot</code>是一组互逆过程，那么就一定可以通过<code>pivot</code>操作把<code>df_melted</code>转回<code>df</code>的形式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">df_unmelted = df_melted.pivot(index = [<span class="hljs-string">&#x27;Class&#x27;</span>, <span class="hljs-string">&#x27;Name&#x27;</span>],<br>                              columns=<span class="hljs-string">&#x27;Subject&#x27;</span>,<br>                              values=<span class="hljs-string">&#x27;Grade&#x27;</span>)<br>df_unmelted <span class="hljs-comment"># 下面需要恢复索引，并且重命名列索引名称</span><br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code class="hljs">.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Subject</th>
+      <th>Chinese</th>
+      <th>Math</th>
+    </tr>
+    <tr>
+      <th>Class</th>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <th>San Zhang</th>
+      <td>80</td>
+      <td>80</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <th>Si Li</th>
+      <td>90</td>
+      <td>75</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">df_unmelted = df_unmelted.reset_index().rename_axis(columns=&#123;<span class="hljs-string">&#x27;Subject&#x27;</span>:<span class="hljs-string">&#x27;&#x27;</span>&#125;)<br>df_unmelted.equals(df)<br></code></pre></td></tr></table></figure>
+
+
+
+
+<pre><code class="hljs">True
+</code></pre>
+<h3 id="4-wide-to-long"><a href="#4-wide-to-long" class="headerlink" title="4. wide_to_long"></a>4. wide_to_long</h3><p><code>melt</code>方法中，在列索引中被压缩的一组值对应的列元素只能代表同一层次的含义，即<code>values_name</code>。现在如果列中包含了交叉类别，比如期中期末的类别和语文数学的类别，那么想要把<code>values_name</code>对应的<code>Grade</code>扩充为两列分别对应语文分数和数学分数，只把期中期末的信息压缩，这种需求下就要使用<code>wide_to_long</code>函数来完成。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">df = pd.DataFrame(&#123;<span class="hljs-string">&#x27;Class&#x27;</span>:[<span class="hljs-number">1</span>,<span class="hljs-number">2</span>],<span class="hljs-string">&#x27;Name&#x27;</span>:[<span class="hljs-string">&#x27;San Zhang&#x27;</span>, <span class="hljs-string">&#x27;Si Li&#x27;</span>],<br>                   <span class="hljs-string">&#x27;Chinese_Mid&#x27;</span>:[<span class="hljs-number">80</span>, <span class="hljs-number">75</span>], <span class="hljs-string">&#x27;Math_Mid&#x27;</span>:[<span class="hljs-number">90</span>, <span class="hljs-number">85</span>],<br>                   <span class="hljs-string">&#x27;Chinese_Final&#x27;</span>:[<span class="hljs-number">80</span>, <span class="hljs-number">75</span>], <span class="hljs-string">&#x27;Math_Final&#x27;</span>:[<span class="hljs-number">90</span>, <span class="hljs-number">85</span>]&#125;)<br>df<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code class="hljs">.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Class</th>
+      <th>Name</th>
+      <th>Chinese_Mid</th>
+      <th>Math_Mid</th>
+      <th>Chinese_Final</th>
+      <th>Math_Final</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>San Zhang</td>
+      <td>80</td>
+      <td>90</td>
+      <td>80</td>
+      <td>90</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>Si Li</td>
+      <td>75</td>
+      <td>85</td>
+      <td>75</td>
+      <td>85</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">pd.wide_to_long(df,<br>                stubnames=[<span class="hljs-string">&#x27;Chinese&#x27;</span>, <span class="hljs-string">&#x27;Math&#x27;</span>],<br>                i = [<span class="hljs-string">&#x27;Class&#x27;</span>, <span class="hljs-string">&#x27;Name&#x27;</span>],<br>                j=<span class="hljs-string">&#x27;Examination&#x27;</span>,<br>                sep=<span class="hljs-string">&#x27;_&#x27;</span>,<br>                suffix=<span class="hljs-string">&#x27;.+&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code class="hljs">.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>Chinese</th>
+      <th>Math</th>
+    </tr>
+    <tr>
+      <th>Class</th>
+      <th>Name</th>
+      <th>Examination</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">1</th>
+      <th rowspan="2" valign="top">San Zhang</th>
+      <th>Mid</th>
+      <td>80</td>
+      <td>90</td>
+    </tr>
+    <tr>
+      <th>Final</th>
+      <td>80</td>
+      <td>90</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">2</th>
+      <th rowspan="2" valign="top">Si Li</th>
+      <th>Mid</th>
+      <td>75</td>
+      <td>85</td>
+    </tr>
+    <tr>
+      <th>Final</th>
+      <td>75</td>
+      <td>85</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<p>具体的变换过程由下图进行展示，属相同概念的元素使用了一致的颜色标出：</p>
+<img src="../source/_static/ch5_wtl.png" srcset="/img/loading.gif" lazyload width="35%">
+
+<p>下面给出一个比较复杂的案例，把之前在<code>pivot</code>一节中多列操作的结果（产生了多级索引），利用<code>wide_to_long</code>函数，将其转为原来的形态。其中，使用了第八章的<code>str.split</code>函数，目前暂时只需将其理解为对序列按照某个分隔符进行拆分即可。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python">res = pivot_multi.copy()<br>res.columns = res.columns.<span class="hljs-built_in">map</span>(<span class="hljs-keyword">lambda</span> x:<span class="hljs-string">&#x27;_&#x27;</span>.join(x))<br>res = res.reset_index()<br>res = pd.wide_to_long(res, stubnames=[<span class="hljs-string">&#x27;Grade&#x27;</span>, <span class="hljs-string">&#x27;rank&#x27;</span>],<br>                           i = [<span class="hljs-string">&#x27;Class&#x27;</span>, <span class="hljs-string">&#x27;Name&#x27;</span>],<br>                           j = <span class="hljs-string">&#x27;Subject_Examination&#x27;</span>,<br>                           sep = <span class="hljs-string">&#x27;_&#x27;</span>,<br>                           suffix = <span class="hljs-string">&#x27;.+&#x27;</span>)<br>res<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code class="hljs">.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>Grade</th>
+      <th>rank</th>
+    </tr>
+    <tr>
+      <th>Class</th>
+      <th>Name</th>
+      <th>Subject_Examination</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="4" valign="top">1</th>
+      <th rowspan="4" valign="top">San Zhang</th>
+      <th>Chinese_Mid</th>
+      <td>80</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>Chinese_Final</th>
+      <td>75</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <th>Math_Mid</th>
+      <td>90</td>
+      <td>20</td>
+    </tr>
+    <tr>
+      <th>Math_Final</th>
+      <td>85</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th rowspan="4" valign="top">2</th>
+      <th rowspan="4" valign="top">Si Li</th>
+      <th>Chinese_Mid</th>
+      <td>85</td>
+      <td>21</td>
+    </tr>
+    <tr>
+      <th>Chinese_Final</th>
+      <td>65</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <th>Math_Mid</th>
+      <td>92</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>Math_Final</th>
+      <td>88</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">res = res.reset_index()<br>res[[<span class="hljs-string">&#x27;Subject&#x27;</span>, <span class="hljs-string">&#x27;Examination&#x27;</span>]] = res[<span class="hljs-string">&#x27;Subject_Examination&#x27;</span>].<span class="hljs-built_in">str</span>.split(<span class="hljs-string">&#x27;_&#x27;</span>, expand=<span class="hljs-literal">True</span>)<br>res = res[[<span class="hljs-string">&#x27;Class&#x27;</span>, <span class="hljs-string">&#x27;Name&#x27;</span>, <span class="hljs-string">&#x27;Examination&#x27;</span>, <span class="hljs-string">&#x27;Subject&#x27;</span>, <span class="hljs-string">&#x27;Grade&#x27;</span>, <span class="hljs-string">&#x27;rank&#x27;</span>]].sort_values(<span class="hljs-string">&#x27;Subject&#x27;</span>)<br>res = res.reset_index(drop=<span class="hljs-literal">True</span>)<br>res<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code class="hljs">.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Class</th>
+      <th>Name</th>
+      <th>Examination</th>
+      <th>Subject</th>
+      <th>Grade</th>
+      <th>rank</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>San Zhang</td>
+      <td>Mid</td>
+      <td>Chinese</td>
+      <td>80</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>San Zhang</td>
+      <td>Final</td>
+      <td>Chinese</td>
+      <td>75</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>Si Li</td>
+      <td>Mid</td>
+      <td>Chinese</td>
+      <td>85</td>
+      <td>21</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2</td>
+      <td>Si Li</td>
+      <td>Final</td>
+      <td>Chinese</td>
+      <td>65</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>San Zhang</td>
+      <td>Mid</td>
+      <td>Math</td>
+      <td>90</td>
+      <td>20</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1</td>
+      <td>San Zhang</td>
+      <td>Final</td>
+      <td>Math</td>
+      <td>85</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2</td>
+      <td>Si Li</td>
+      <td>Mid</td>
+      <td>Math</td>
+      <td>92</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2</td>
+      <td>Si Li</td>
+      <td>Final</td>
+      <td>Math</td>
+      <td>88</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<h2 id="二、索引的变形"><a href="#二、索引的变形" class="headerlink" title="二、索引的变形"></a>二、索引的变形</h2><h3 id="1-stack与unstack"><a href="#1-stack与unstack" class="headerlink" title="1. stack与unstack"></a>1. stack与unstack</h3><p>在第二章中提到了利用<code>swaplevel</code>或者<code>reorder_levels</code>进行索引内部的层交换，下面就要讨论$\color{red}{行列索引之间}$的交换，由于这种交换带来了<code>DataFrame</code>维度上的变化，因此属于变形操作。在第一节中提到的4种变形函数与其不同之处在于，它们都属于某一列或几列$\color{red}{元素}$和$\color{red}{列索引}$之间的转换，而不是索引之间的转换。</p>
+<p><code>unstack</code>函数的作用是把行索引转为列索引，例如下面这个简单的例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">df = pd.DataFrame(np.ones((<span class="hljs-number">4</span>,<span class="hljs-number">2</span>)),<br>                  index = pd.Index([(<span class="hljs-string">&#x27;A&#x27;</span>, <span class="hljs-string">&#x27;cat&#x27;</span>, <span class="hljs-string">&#x27;big&#x27;</span>),<br>                                    (<span class="hljs-string">&#x27;A&#x27;</span>, <span class="hljs-string">&#x27;dog&#x27;</span>, <span class="hljs-string">&#x27;small&#x27;</span>),<br>                                    (<span class="hljs-string">&#x27;B&#x27;</span>, <span class="hljs-string">&#x27;cat&#x27;</span>, <span class="hljs-string">&#x27;big&#x27;</span>),<br>                                    (<span class="hljs-string">&#x27;B&#x27;</span>, <span class="hljs-string">&#x27;dog&#x27;</span>, <span class="hljs-string">&#x27;small&#x27;</span>)]),<br>                  columns=[<span class="hljs-string">&#x27;col_1&#x27;</span>, <span class="hljs-string">&#x27;col_2&#x27;</span>])<br>df<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code class="hljs">.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>col_1</th>
+      <th>col_2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">A</th>
+      <th>cat</th>
+      <th>big</th>
+      <td>1.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>dog</th>
+      <th>small</th>
+      <td>1.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">B</th>
+      <th>cat</th>
+      <th>big</th>
+      <td>1.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>dog</th>
+      <th>small</th>
+      <td>1.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df.unstack()<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code class="hljs">.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead tr th &#123;
+    text-align: left;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th colspan="2" halign="left">col_1</th>
+      <th colspan="2" halign="left">col_2</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th></th>
+      <th>big</th>
+      <th>small</th>
+      <th>big</th>
+      <th>small</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">A</th>
+      <th>cat</th>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>dog</th>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">B</th>
+      <th>cat</th>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>dog</th>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<p><code>unstack</code>的主要参数是移动的层号，默认转化最内层，移动到列索引的最内层，同时支持同时转化多个层：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df.unstack(<span class="hljs-number">2</span>)<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code class="hljs">.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead tr th &#123;
+    text-align: left;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th colspan="2" halign="left">col_1</th>
+      <th colspan="2" halign="left">col_2</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th></th>
+      <th>big</th>
+      <th>small</th>
+      <th>big</th>
+      <th>small</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">A</th>
+      <th>cat</th>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>dog</th>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">B</th>
+      <th>cat</th>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>dog</th>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df.unstack([<span class="hljs-number">0</span>,<span class="hljs-number">2</span>])<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code class="hljs">.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead tr th &#123;
+    text-align: left;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th colspan="4" halign="left">col_1</th>
+      <th colspan="4" halign="left">col_2</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th colspan="2" halign="left">A</th>
+      <th colspan="2" halign="left">B</th>
+      <th colspan="2" halign="left">A</th>
+      <th colspan="2" halign="left">B</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>big</th>
+      <th>small</th>
+      <th>big</th>
+      <th>small</th>
+      <th>big</th>
+      <th>small</th>
+      <th>big</th>
+      <th>small</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>cat</th>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>dog</th>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<p>类似于<code>pivot</code>中的唯一性要求，在<code>unstack</code>中必须保证$\color{red}{被转为列索引的行索引层}$和$\color{red}{被保留的行索引层}$构成的组合是唯一的，例如把前两个列索引改成相同的破坏唯一性，那么就会报错：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">my_index = df.index.to_list()<br>my_index[<span class="hljs-number">1</span>] = my_index[<span class="hljs-number">0</span>]<br>df.index = pd.Index(my_index)<br>df<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code class="hljs">.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>col_1</th>
+      <th>col_2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">A</th>
+      <th rowspan="2" valign="top">cat</th>
+      <th>big</th>
+      <td>1.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>big</th>
+      <td>1.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">B</th>
+      <th>cat</th>
+      <th>big</th>
+      <td>1.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>dog</th>
+      <th>small</th>
+      <td>1.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">try</span>:<br>    df.unstack()<br><span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>    Err_Msg = e<br>Err_Msg<br></code></pre></td></tr></table></figure>
+
+
+
+
+<pre><code class="hljs">ValueError(&#39;Index contains duplicate entries, cannot reshape&#39;)
+</code></pre>
+<p>与<code>unstack</code>相反，<code>stack</code>的作用就是把列索引的层压入行索引，其用法完全类似。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">df = pd.DataFrame(np.ones((<span class="hljs-number">4</span>,<span class="hljs-number">2</span>)),<br>                  index = pd.Index([(<span class="hljs-string">&#x27;A&#x27;</span>, <span class="hljs-string">&#x27;cat&#x27;</span>, <span class="hljs-string">&#x27;big&#x27;</span>),<br>                                    (<span class="hljs-string">&#x27;A&#x27;</span>, <span class="hljs-string">&#x27;dog&#x27;</span>, <span class="hljs-string">&#x27;small&#x27;</span>),<br>                                    (<span class="hljs-string">&#x27;B&#x27;</span>, <span class="hljs-string">&#x27;cat&#x27;</span>, <span class="hljs-string">&#x27;big&#x27;</span>),<br>                                    (<span class="hljs-string">&#x27;B&#x27;</span>, <span class="hljs-string">&#x27;dog&#x27;</span>, <span class="hljs-string">&#x27;small&#x27;</span>)]),<br>                  columns=[<span class="hljs-string">&#x27;index_1&#x27;</span>, <span class="hljs-string">&#x27;index_2&#x27;</span>]).T<br>df<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code class="hljs">.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead tr th &#123;
+    text-align: left;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th colspan="2" halign="left">A</th>
+      <th colspan="2" halign="left">B</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>cat</th>
+      <th>dog</th>
+      <th>cat</th>
+      <th>dog</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>big</th>
+      <th>small</th>
+      <th>big</th>
+      <th>small</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>index_1</th>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>index_2</th>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df.stack()<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code class="hljs">.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead tr th &#123;
+    text-align: left;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th colspan="2" halign="left">A</th>
+      <th colspan="2" halign="left">B</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th></th>
+      <th>cat</th>
+      <th>dog</th>
+      <th>cat</th>
+      <th>dog</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">index_1</th>
+      <th>big</th>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>small</th>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">index_2</th>
+      <th>big</th>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>small</th>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df.stack([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>])<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code class="hljs">.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">index_1</th>
+      <th>cat</th>
+      <th>big</th>
+      <td>1.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>dog</th>
+      <th>small</th>
+      <td>1.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">index_2</th>
+      <th>cat</th>
+      <th>big</th>
+      <td>1.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>dog</th>
+      <th>small</th>
+      <td>1.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<h3 id="2-聚合与变形的关系"><a href="#2-聚合与变形的关系" class="headerlink" title="2. 聚合与变形的关系"></a>2. 聚合与变形的关系</h3><p>在上面介绍的所有函数中，除了带有聚合效果的<code>pivot_table</code>以外，所有的函数在变形前后并不会带来<code>values</code>个数的改变，只是这些值在呈现的形式上发生了变化。在上一章讨论的分组聚合操作，由于生成了新的行列索引，因此必然也属于某种特殊的变形操作，但由于聚合之后把原来的多个值变为了一个值，因此<code>values</code>的个数产生了变化，这也是分组聚合与变形函数的最大区别。</p>
+<h2 id="三、其他变形函数"><a href="#三、其他变形函数" class="headerlink" title="三、其他变形函数"></a>三、其他变形函数</h2><h3 id="1-crosstab"><a href="#1-crosstab" class="headerlink" title="1. crosstab"></a>1. crosstab</h3><p><code>crosstab</code>是一个地位尴尬的函数，因为它能实现的所有功能<code>pivot_table</code>都能完成。在默认状态下，<code>crosstab</code>可以统计元素组合出现的频数，即<code>count</code>操作。例如统计<code>learn_pandas</code>数据集中学校和转系情况对应的频数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">df = pd.read_csv(<span class="hljs-string">&#x27;../data/learn_pandas.csv&#x27;</span>)<br>pd.crosstab(index = df.School, columns = df.Transfer)<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code class="hljs">.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Transfer</th>
+      <th>N</th>
+      <th>Y</th>
+    </tr>
+    <tr>
+      <th>School</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Fudan University</th>
+      <td>38</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>Peking University</th>
+      <td>28</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>Shanghai Jiao Tong University</th>
+      <td>53</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>Tsinghua University</th>
+      <td>62</td>
+      <td>4</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<p>这等价于如下<code>crosstab</code>的如下写法，这里的<code>aggfunc</code>即聚合参数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pd.crosstab(index = df.School, columns = df.Transfer, values = [<span class="hljs-number">0</span>]*df.shape[<span class="hljs-number">0</span>], aggfunc = <span class="hljs-string">&#x27;count&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code class="hljs">.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Transfer</th>
+      <th>N</th>
+      <th>Y</th>
+    </tr>
+    <tr>
+      <th>School</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Fudan University</th>
+      <td>38.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>Peking University</th>
+      <td>28.0</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>Shanghai Jiao Tong University</th>
+      <td>53.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>Tsinghua University</th>
+      <td>62.0</td>
+      <td>4.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<p>同样，可以利用<code>pivot_table</code>进行等价操作，由于这里统计的是组合的频数，因此<code>values</code>参数无论传入哪一个列都不会影响最后的结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">df.pivot_table(index = <span class="hljs-string">&#x27;School&#x27;</span>,<br>               columns = <span class="hljs-string">&#x27;Transfer&#x27;</span>,<br>               values = <span class="hljs-string">&#x27;Name&#x27;</span>,<br>               aggfunc = <span class="hljs-string">&#x27;count&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code class="hljs">.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Transfer</th>
+      <th>N</th>
+      <th>Y</th>
+    </tr>
+    <tr>
+      <th>School</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Fudan University</th>
+      <td>38.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>Peking University</th>
+      <td>28.0</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>Shanghai Jiao Tong University</th>
+      <td>53.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>Tsinghua University</th>
+      <td>62.0</td>
+      <td>4.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<p>从上面可以看出这两个函数的区别在于，<code>crosstab</code>的对应位置传入的是具体的序列，而<code>pivot_table</code>传入的是被调用表对应的名字，若传入序列对应的值则会报错。</p>
+<p>除了默认状态下的<code>count</code>统计，所有的聚合字符串和返回标量的自定义函数都是可用的，例如统计对应组合的身高均值：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pd.crosstab(index = df.School, columns = df.Transfer, values = df.Height, aggfunc = <span class="hljs-string">&#x27;mean&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code class="hljs">.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Transfer</th>
+      <th>N</th>
+      <th>Y</th>
+    </tr>
+    <tr>
+      <th>School</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Fudan University</th>
+      <td>162.043750</td>
+      <td>177.20</td>
+    </tr>
+    <tr>
+      <th>Peking University</th>
+      <td>163.429630</td>
+      <td>162.40</td>
+    </tr>
+    <tr>
+      <th>Shanghai Jiao Tong University</th>
+      <td>163.953846</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>Tsinghua University</th>
+      <td>163.253571</td>
+      <td>164.55</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<h3 id="2-explode"><a href="#2-explode" class="headerlink" title="2. explode"></a>2. explode</h3><p><code>explode</code>参数能够对某一列的元素进行纵向的展开，被展开的单元格必须存储<code>list, tuple, Series, np.ndarray</code>中的一种类型。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">df_ex = pd.DataFrame(&#123;<span class="hljs-string">&#x27;A&#x27;</span>: [[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>], <span class="hljs-string">&#x27;my_str&#x27;</span>, &#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>&#125;, pd.Series([<span class="hljs-number">3</span>, <span class="hljs-number">4</span>])],<br>                      <span class="hljs-string">&#x27;B&#x27;</span>: <span class="hljs-number">1</span>&#125;)<br>df_ex<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code class="hljs">.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>[1, 2]</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>my_str</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>{1, 2}</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0    3
+1    4
+dtype: int64</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df_ex.explode(<span class="hljs-string">&#x27;A&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code class="hljs">.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>my_str</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<h3 id="3-get-dummies"><a href="#3-get-dummies" class="headerlink" title="3. get_dummies"></a>3. get_dummies</h3><p><code>get_dummies</code>是用于特征构建的重要函数之一，其作用是把类别特征转为指示变量。例如，对年级一列转为指示变量，属于某一个年级的对应列标记为1，否则为0：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pd.get_dummies(df.Grade).head()<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code class="hljs">.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Freshman</th>
+      <th>Junior</th>
+      <th>Senior</th>
+      <th>Sophomore</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<h2 id="四、练习"><a href="#四、练习" class="headerlink" title="四、练习"></a>四、练习</h2><h3 id="Ex1：美国非法药物数据集"><a href="#Ex1：美国非法药物数据集" class="headerlink" title="Ex1：美国非法药物数据集"></a>Ex1：美国非法药物数据集</h3><p>现有一份关于美国非法药物的数据集，其中<code>SubstanceName, DrugReports</code>分别指药物名称和报告数量：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">df = pd.read_csv(<span class="hljs-string">&#x27;../data/drugs.csv&#x27;</span>).sort_values([<span class="hljs-string">&#x27;State&#x27;</span>,<span class="hljs-string">&#x27;COUNTY&#x27;</span>,<span class="hljs-string">&#x27;SubstanceName&#x27;</span>],ignore_index=<span class="hljs-literal">True</span>)<br>df.head(<span class="hljs-number">3</span>)<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code class="hljs">.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>YYYY</th>
+      <th>State</th>
+      <th>COUNTY</th>
+      <th>SubstanceName</th>
+      <th>DrugReports</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2011</td>
+      <td>KY</td>
+      <td>ADAIR</td>
+      <td>Buprenorphine</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2012</td>
+      <td>KY</td>
+      <td>ADAIR</td>
+      <td>Buprenorphine</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2013</td>
+      <td>KY</td>
+      <td>ADAIR</td>
+      <td>Buprenorphine</td>
+      <td>4</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<ol>
+<li>将数据转为如下的形式：</li>
+</ol>
+<img src="../source/_static/Ex5_1.png" srcset="/img/loading.gif" lazyload width="35%">
+
+<ol start="2">
+<li>将第1问中的结果恢复为原表。</li>
+<li>按<code>State</code>分别统计每年的报告数量总和，其中<code>State, YYYY</code>分别为列索引和行索引，要求分别使用<code>pivot_table</code>函数与<code>groupby+unstack</code>两种不同的策略实现，并体会它们之间的联系。</li>
+</ol>
+<h3 id="Ex2：特殊的wide-to-long方法"><a href="#Ex2：特殊的wide-to-long方法" class="headerlink" title="Ex2：特殊的wide_to_long方法"></a>Ex2：特殊的wide_to_long方法</h3><p>从功能上看，<code>melt</code>方法应当属于<code>wide_to_long</code>的一种特殊情况，即<code>stubnames</code>只有一类。请使用<code>wide_to_long</code>生成<code>melt</code>一节中的<code>df_melted</code>。（提示：对列名增加适当的前缀）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">df = pd.DataFrame(&#123;<span class="hljs-string">&#x27;Class&#x27;</span>:[<span class="hljs-number">1</span>,<span class="hljs-number">2</span>],<br>                   <span class="hljs-string">&#x27;Name&#x27;</span>:[<span class="hljs-string">&#x27;San Zhang&#x27;</span>, <span class="hljs-string">&#x27;Si Li&#x27;</span>],<br>                   <span class="hljs-string">&#x27;Chinese&#x27;</span>:[<span class="hljs-number">80</span>, <span class="hljs-number">90</span>],<br>                   <span class="hljs-string">&#x27;Math&#x27;</span>:[<span class="hljs-number">80</span>, <span class="hljs-number">75</span>]&#125;)<br>df<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code class="hljs">.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Class</th>
+      <th>Name</th>
+      <th>Chinese</th>
+      <th>Math</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>San Zhang</td>
+      <td>80</td>
+      <td>80</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>Si Li</td>
+      <td>90</td>
+      <td>75</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Data-Mining/" class="category-chain-item">Data Mining</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Data-Mining/" class="print-no-link">#Data Mining</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Pandas变形</div>
+      <div>http://jingmengzhiyue.top/2023/10/01/第五章 变形/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Jingmengzhiyue</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年10月1日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/10/01/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E8%BF%9E%E6%8E%A5/" title="Pandas连接">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Pandas连接</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/10/01/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20pandas%E5%9F%BA%E7%A1%80/" title="Pandas基础">
+                        <span class="hidden-mobile">Pandas基础</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"eZ6fNr2wGbxSreDqCc24Ik6y-gzGzoHsz","appKey":"I1HMoNZO5iKmmCSzqE0wTpGr","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

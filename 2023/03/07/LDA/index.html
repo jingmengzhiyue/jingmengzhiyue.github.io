@@ -1,0 +1,793 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jingmengzhiyue">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="linear discriminant analysis (LDA)是一种线性分类方法，它将数据从高维空间投影到低维空间，使得同类数据尽可能接近，不同类数据尽可能远离。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LDA">
+<meta property="og:url" content="http://jingmengzhiyue.top/2023/03/07/LDA/index.html">
+<meta property="og:site_name" content="热爱可抵万难">
+<meta property="og:description" content="linear discriminant analysis (LDA)是一种线性分类方法，它将数据从高维空间投影到低维空间，使得同类数据尽可能接近，不同类数据尽可能远离。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://jingmengzhiyue.top/img/LDA.jpg">
+<meta property="article:published_time" content="2023-03-07T08:22:38.000Z">
+<meta property="article:modified_time" content="2023-03-07T08:25:23.788Z">
+<meta property="article:author" content="Jingmengzhiyue">
+<meta property="article:tag" content="machine learning">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://jingmengzhiyue.top/img/LDA.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>LDA - 热爱可抵万难</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jingmengzhiyue.top","root":"/","version":"1.9.5-a","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"gtag":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>热爱可抵万难</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/2.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="LDA"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-07 16:22" pubdate>
+          2023年3月7日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          8.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          69 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">LDA</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="LDA-原理"><a href="#LDA-原理" class="headerlink" title="LDA 原理"></a>LDA 原理</h2><p>给定数据$\mathbf{X}\in \mathbb{R}^{N\times p}$，以及$\mathbf{y}\in {0,1}$，构成输入与输出训练数据对$D&#x3D;{(\mathbf{x}_1,\mathbf{y}_1),…,(\mathbf{x}_N,\mathbf{y}_N)}$。训练集$D$表示整个训练数据集有$N$条数据，每一条数据的维度为$p$维，所有数据只有两个类别分别对应于输出$\mathbf{y}$取值为0或者1。</p>
+<p>首先假设两类数据中第一类数据$\mathbf{x}<em>{c1}$有$|\mathbf{x}</em>{c1}|&#x3D;N_1$个，第二类数据有$|\mathbf{x}_{c2}|&#x3D;N_2$个，且$N_1+N_2&#x3D;N$。两类数据的均值和方差可以表示为：</p>
+<p>$$<br>\bar{\mathbf{x_1}}&#x3D;\frac{1}{N_1}\sum_{i&#x3D;1}^{N_1}\mathbf{x}_i<br>$$</p>
+<p>$$<br>\bar{\mathbf{x_2}}&#x3D;\frac{1}{N_2}\sum_{i&#x3D;1}^{N_2}\mathbf{x}_i<br>$$</p>
+<p>$$<br>\mathbf{S}<em>{x1}&#x3D;\frac{1}{N_1}\sum</em>{i&#x3D;1}^{N_1}(\mathbf{x}_i-\bar{\mathbf{x_1}})(\mathbf{x}_i-\bar{\mathbf{x_1}})^T<br>$$</p>
+<p>$$<br>\mathbf{S}<em>{x2}&#x3D;\frac{1}{N_2}\sum</em>{i&#x3D;1}^{N_2}(\mathbf{x}_i-\bar{\mathbf{x_2}})(\mathbf{x}_i-\bar{\mathbf{x_2}})^T<br>$$</p>
+<p>对输入的$p$维特征进行降维有$\mathbf{z}_i&#x3D;\mathbf{W}^T\mathbf{x}_i$，其中$\mathbf{z}$表示降维之后的数据，那么降维之后的数据的均值和方差分别为：</p>
+<p>$$<br>\bar{\mathbf{z_1}}&#x3D;\frac{1}{N_1}\sum_{i&#x3D;1}^{N_1}\mathbf{W}^T\mathbf{x}_i<br>$$</p>
+<p>$$<br>\mathbf{S}<em>1&#x3D;\frac{1}{N_1}\sum</em>{i&#x3D;1}^{N_1}(\mathbf{W}^T\mathbf{x}_i-\bar{\mathbf{z_1}})(\mathbf{W}^T\mathbf{x}_i-\bar{\mathbf{z_1}})^T<br>$$</p>
+<p>$$<br>\bar{\mathbf{z_2}}&#x3D;\frac{1}{N_2}\sum_{i&#x3D;1}^{N_2}\mathbf{W}^T\mathbf{x}_i<br>$$</p>
+<p>$$<br>\mathbf{S}<em>2&#x3D;\frac{1}{N_2}\sum</em>{i&#x3D;1}^{N_2}(\mathbf{W}^T\mathbf{x}_i-\bar{\mathbf{z_2}})(\mathbf{W}^T\mathbf{x}_i-\bar{\mathbf{z_2}})^T<br>$$</p>
+<p><img src="/img/LDA.jpg" srcset="/img/loading.gif" lazyload alt="二维LDA示意图"><br>LDA的示意图如上图所示，它的最终目的是使得同一类型的数据之间尽可能地聚集在一起，使得位于不同类别的两类数据尽可能分开。首先是让位于同一类别的数据尽可能地聚集在一起，实际上就是让两类数据的方差尽可能小$\min \mathbf{S}_1+\mathbf{S}_2$。其次是让位于不同类别的数据之间尽可能离得远，这一点可以通过让两类数据的中心也就是均值之间的距离尽可能远$\max|| \bar{\mathbf{z}_1}-\bar{\mathbf{z}_2}||_F^2$<br>最终LDA的目标函数可以表示为：</p>
+<p>$$<br>L &#x3D; \frac{|| \bar{\mathbf{z}_1}-\bar{\mathbf{z}_2}||_F^2}{\mathbf{S}_1+\mathbf{S}_2}<br>$$</p>
+<p>首先对分子进行化简有：</p>
+<p>$$<br>\begin{aligned}<br>|| \bar{\mathbf{z}_1}-\bar{\mathbf{z}_2}||<em>F^2&amp;&#x3D;||\frac{1}{N_1}\sum</em>{x&#x3D;1}^{N_1}\mathbf{W}^T\mathbf{x}<em>i-\frac{1}{N_2}\sum</em>{x&#x3D;1}^{N_2}\mathbf{W}^T\mathbf{x}_i||<em>F^2\<br>&amp;&#x3D;||\mathbf{W}^T(\frac{1}{N_1}\sum</em>{t&#x3D;1}^{N_1}\mathbf{x}<em>i-\frac{1}{N_2}\sum</em>{t&#x3D;1}^{N_2}\mathbf{x}_i)||_F^2\<br>&amp;&#x3D;||\mathbf{W}^T(\bar{\mathbf{x_1}}-\bar{\mathbf{x_2}})||_F^2\<br>&amp;&#x3D;\mathbf{W}^T(\bar{\mathbf{x_1}}-\bar{\mathbf{x_2}})(\bar{\mathbf{x_1}}-\bar{\mathbf{x_2}})^T\mathbf{W}<br>\end{aligned}<br>$$</p>
+<p>对分母进行化简有：</p>
+<p>$$<br>\begin{aligned}<br>\mathbf{S_1+S_2}&amp;&#x3D;\frac{1}{N_1}\sum_{i&#x3D;1}^{N_1}(\mathbf{W}^T\mathbf{x}_i-\bar{\mathbf{z_1}})(\mathbf{W}^T\mathbf{x}<em>i-\bar{\mathbf{z_1}})^T+\frac{1}{N_2}\sum</em>{i&#x3D;1}^{N_2}(\mathbf{W}^T\mathbf{x}_i-\bar{\mathbf{z_2}})(\mathbf{W}^T\mathbf{x}<em>i-\bar{\mathbf{z_2}})^T\<br>&amp;&#x3D;\frac{1}{N_1}\sum</em>{i&#x3D;1}^{N_1}(\mathbf{W}^T\mathbf{x}<em>i-\frac{1}{N_1}\sum</em>{i&#x3D;1}^{N_1}\mathbf{W}^T\mathbf{x}_i)(\mathbf{W}^T\mathbf{x}<em>i-\frac{1}{N_1}\sum</em>{i&#x3D;1}^{N_1}\mathbf{W}^T\mathbf{x}<em>i)^T\<br>&amp;+\frac{1}{N_2}\sum</em>{i&#x3D;1}^{N_2}(\mathbf{W}^T\mathbf{x}<em>i-\frac{1}{N_2}\sum</em>{i&#x3D;1}^{N_2}\mathbf{W}^T\mathbf{x}_i)(\mathbf{W}^T\mathbf{x}<em>i-\frac{1}{N_2}\sum</em>{i&#x3D;1}^{N_2}\mathbf{W}^T\mathbf{x}<em>i)^T\<br>&amp;&#x3D;\mathbf{W}^T\frac{1}{N_1}\sum</em>{i&#x3D;1}^{N_1}(\mathbf{x}<em>i-\frac{1}{N_1}\sum</em>{i&#x3D;1}^{N_1}\mathbf{x}_i)(\mathbf{x}<em>i-\frac{1}{N_1}\sum</em>{i&#x3D;1}^{N_1}\mathbf{x}<em>i)^T\mathbf{W}\<br>&amp;&#x3D;\mathbf{W}^T\frac{1}{N_2}\sum</em>{i&#x3D;1}^{N_2}(\mathbf{x}<em>i-\frac{1}{N_2}\sum</em>{i&#x3D;1}^{N_2}\mathbf{x}_i)(\mathbf{x}<em>i-\frac{1}{N_2}\sum</em>{i&#x3D;1}^{N_2}\mathbf{x}<em>i)^T\mathbf{W}\<br>&amp;&#x3D;\mathbf{W}^T\frac{1}{N_1}\sum</em>{i&#x3D;1}^{N_1}(\mathbf{x}_i-\bar{\mathbf{x}_1})(\mathbf{x}_i-\bar{\mathbf{x}<em>1})^T\mathbf{W}+\mathbf{W}^T\frac{1}{N_2}\sum</em>{i&#x3D;1}^{N_2}(\mathbf{x}_i-\bar{\mathbf{x}_2})(\mathbf{x}<em>i-\bar{\mathbf{x}<em>2})^T\mathbf{W}\<br>&amp;&#x3D;\mathbf{W}^T(\mathbf{S}</em>{x1}-\mathbf{S}</em>{x2})\mathbf{W}<br>\end{aligned}<br>$$</p>
+<p>最终LDA的目标函数可以表示为：</p>
+<p>$$<br>L &#x3D; \frac{\mathbf{W}^T(\bar{\mathbf{x_1}}-\bar{\mathbf{x_2}})(\bar{\mathbf{x_1}}-\bar{\mathbf{x_2}})^T\mathbf{W}}{\mathbf{W}^T(\mathbf{S}<em>{x1}-\mathbf{S}</em>{x2})\mathbf{W}}<br>$$</p>
+<p>令$\mathbf{S}<em>{w}&#x3D; (\bar{\mathbf{x_1}}-\bar{\mathbf{x_2}})(\bar{\mathbf{x_1}}-\bar{\mathbf{x_2}})^T$，$\mathbf{S}</em>{b}&#x3D; \mathbf{S}<em>{x1}-\mathbf{S}</em>{x2}$有：</p>
+<p>$$<br>L &#x3D; \frac{\mathbf{W}^T\mathbf{S}_w\mathbf{W}}{\mathbf{W}^T\mathbf{S}_b\mathbf{W}}<br>$$</p>
+<p>求解目标函数中的$\mathbf{W}$可以得到最终的解。</p>
+<h2 id="算法实现"><a href="#算法实现" class="headerlink" title="算法实现"></a>算法实现</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">import</span> matplotlib.cm <span class="hljs-keyword">as</span> cmx<br><span class="hljs-keyword">import</span> matplotlib.colors <span class="hljs-keyword">as</span> colors<br><span class="hljs-keyword">from</span> sklearn <span class="hljs-keyword">import</span> datasets<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">from</span> sklearn.model_selection <span class="hljs-keyword">import</span> train_test_split<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">LDA</span>():<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-comment"># 初始化权重矩阵</span><br>        self.w = <span class="hljs-literal">None</span><br>    <br>    <span class="hljs-comment"># 计算协方差矩阵</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">calc_cov</span>(<span class="hljs-params">self, X, Y=<span class="hljs-literal">None</span></span>):<br>        m = X.shape[<span class="hljs-number">0</span>]<br>        <span class="hljs-comment"># 数据标准化</span><br>        X = (X - np.mean(X, axis=<span class="hljs-number">0</span>))/np.std(X, axis=<span class="hljs-number">0</span>)<br>        Y = X <span class="hljs-keyword">if</span> Y == <span class="hljs-literal">None</span> <span class="hljs-keyword">else</span> (Y - np.mean(Y, axis=<span class="hljs-number">0</span>))/np.std(Y, axis=<span class="hljs-number">0</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span> / m * np.matmul(X.T, Y)<br>  <br>    <span class="hljs-comment"># 对数据进行投影</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">project</span>(<span class="hljs-params">self, X, y</span>):<br>        self.fit(X, y)<br>        X_projection = X.dot(self.w)<br>        <span class="hljs-keyword">return</span> X_projection<br>  <br>    <span class="hljs-comment"># LDA拟合过程</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">fit</span>(<span class="hljs-params">self, X, y</span>):<br>        <span class="hljs-comment"># 按类分组</span><br>        X0 = X[y == <span class="hljs-number">0</span>]<br>        X1 = X[y == <span class="hljs-number">1</span>]<br><br>        <span class="hljs-comment"># 分别计算两类数据自变量的协方差矩阵</span><br>        sigma0 = self.calc_cov(X0)<br>        sigma1 = self.calc_cov(X1)<br>        <span class="hljs-comment"># 计算类内散度矩阵</span><br>        Sw = sigma0 + sigma1<br><br>        <span class="hljs-comment"># 分别计算两类数据自变量的均值和差</span><br>        u0, u1 = np.mean(X0, axis=<span class="hljs-number">0</span>), np.mean(X1, axis=<span class="hljs-number">0</span>)<br>        mean_diff = np.atleast_1d(u0 - u1)<br><br>        <span class="hljs-comment"># 对类内散度矩阵进行奇异值分解</span><br>        U, S, V = np.linalg.svd(Sw)<br>        <span class="hljs-comment"># 计算类内散度矩阵的逆</span><br>        Sw_ = np.dot(np.dot(V.T, np.linalg.pinv(np.diag(S))), U.T)<br>        <span class="hljs-comment"># 计算w</span><br>        self.w = Sw_.dot(mean_diff)<br><br>  <br>    <span class="hljs-comment"># LDA分类预测</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">predict</span>(<span class="hljs-params">self, X</span>):<br>        y_pred = []<br>        <span class="hljs-keyword">for</span> sample <span class="hljs-keyword">in</span> X:<br>            h = sample.dot(self.w)<br>            y = <span class="hljs-number">1</span> * (h &lt; <span class="hljs-number">0</span>)<br>            y_pred.append(y)<br>        <span class="hljs-keyword">return</span> y_pred<br><br><br>data = datasets.load_iris()<br>X = data.data<br>y = data.target<br><br>X = X[y != <span class="hljs-number">2</span>]<br>y = y[y != <span class="hljs-number">2</span>]<br>X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="hljs-number">0.2</span>, random_state=<span class="hljs-number">41</span>)<br><span class="hljs-built_in">print</span>(X_train.shape, X_test.shape, y_train.shape, y_test.shape)<br><br>lda = LDA()<br>lda.fit(X_train, y_train)<br>y_pred = lda.predict(X_test)<br><br><span class="hljs-keyword">from</span> sklearn.metrics <span class="hljs-keyword">import</span> accuracy_score<br>accuracy = accuracy_score(y_test, y_pred)<br><span class="hljs-built_in">print</span>(accuracy)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">calculate_covariance_matrix</span>(<span class="hljs-params">X, Y=<span class="hljs-literal">None</span></span>):<br>    <span class="hljs-keyword">if</span> Y <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>        Y = X<br>    n_samples = np.shape(X)[<span class="hljs-number">0</span>]<br>    covariance_matrix = (<span class="hljs-number">1</span> / (n_samples-<span class="hljs-number">1</span>)) * (X - X.mean(axis=<span class="hljs-number">0</span>)).T.dot(Y - Y.mean(axis=<span class="hljs-number">0</span>))<br><br>    <span class="hljs-keyword">return</span> np.array(covariance_matrix, dtype=<span class="hljs-built_in">float</span>)<br><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Plot</span>():<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self</span>): <br>        self.cmap = plt.get_cmap(<span class="hljs-string">&#x27;viridis&#x27;</span>)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">_transform</span>(<span class="hljs-params">self, X, dim</span>):<br>        covariance = calculate_covariance_matrix(X)<br>        eigenvalues, eigenvectors = np.linalg.eig(covariance)<br>        <span class="hljs-comment"># Sort eigenvalues and eigenvector by largest eigenvalues</span><br>        idx = eigenvalues.argsort()[::-<span class="hljs-number">1</span>]<br>        eigenvalues = eigenvalues[idx][:dim]<br>        eigenvectors = np.atleast_1d(eigenvectors[:, idx])[:, :dim]<br>        <span class="hljs-comment"># Project the data onto principal components</span><br>        X_transformed = X.dot(eigenvectors)<br><br>        <span class="hljs-keyword">return</span> X_transformed<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">plot_regression</span>(<span class="hljs-params">self, lines, title, axis_labels=<span class="hljs-literal">None</span>, mse=<span class="hljs-literal">None</span>, scatter=<span class="hljs-literal">None</span>, legend=&#123;<span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;lines&quot;</span>, <span class="hljs-string">&quot;loc&quot;</span>: <span class="hljs-string">&quot;lower right&quot;</span>&#125;</span>):<br>    <br>        <span class="hljs-keyword">if</span> scatter:<br>            scatter_plots = scatter_labels = []<br>            <span class="hljs-keyword">for</span> s <span class="hljs-keyword">in</span> scatter:<br>                scatter_plots += [plt.scatter(s[<span class="hljs-string">&quot;x&quot;</span>], s[<span class="hljs-string">&quot;y&quot;</span>], color=s[<span class="hljs-string">&quot;color&quot;</span>], s=s[<span class="hljs-string">&quot;size&quot;</span>])]<br>                scatter_labels += [s[<span class="hljs-string">&quot;label&quot;</span>]]<br>            scatter_plots = <span class="hljs-built_in">tuple</span>(scatter_plots)<br>            scatter_labels = <span class="hljs-built_in">tuple</span>(scatter_labels)<br><br>        <span class="hljs-keyword">for</span> l <span class="hljs-keyword">in</span> lines:<br>            li = plt.plot(l[<span class="hljs-string">&quot;x&quot;</span>], l[<span class="hljs-string">&quot;y&quot;</span>], color=s[<span class="hljs-string">&quot;color&quot;</span>], linewidth=l[<span class="hljs-string">&quot;width&quot;</span>], label=l[<span class="hljs-string">&quot;label&quot;</span>])<br><br>        <span class="hljs-keyword">if</span> mse:<br>            plt.suptitle(title)<br>            plt.title(<span class="hljs-string">&quot;MSE: %.2f&quot;</span> % mse, fontsize=<span class="hljs-number">10</span>)<br>        <span class="hljs-keyword">else</span>:<br>            plt.title(title)<br><br>        <span class="hljs-keyword">if</span> axis_labels:<br>            plt.xlabel(axis_labels[<span class="hljs-string">&quot;x&quot;</span>])<br>            plt.ylabel(axis_labels[<span class="hljs-string">&quot;y&quot;</span>])<br><br>        <span class="hljs-keyword">if</span> legend[<span class="hljs-string">&quot;type&quot;</span>] == <span class="hljs-string">&quot;lines&quot;</span>:<br>            plt.legend(loc=<span class="hljs-string">&quot;lower_left&quot;</span>)<br>        <span class="hljs-keyword">elif</span> legend[<span class="hljs-string">&quot;type&quot;</span>] == <span class="hljs-string">&quot;scatter&quot;</span> <span class="hljs-keyword">and</span> scatter:<br>            plt.legend(scatter_plots, scatter_labels, loc=legend[<span class="hljs-string">&quot;loc&quot;</span>])<br><br>        plt.show()<br><br>    <span class="hljs-comment"># Plot the dataset X and the corresponding labels y in 2D using PCA.</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">plot_in_2d</span>(<span class="hljs-params">self, X, y=<span class="hljs-literal">None</span>, title=<span class="hljs-literal">None</span>, accuracy=<span class="hljs-literal">None</span>, legend_labels=<span class="hljs-literal">None</span></span>):<br>        X_transformed = self._transform(X, dim=<span class="hljs-number">2</span>)<br>        x1 = X_transformed[:, <span class="hljs-number">0</span>]<br>        x2 = X_transformed[:, <span class="hljs-number">1</span>]<br>        class_distr = []<br><br>        y = np.array(y).astype(<span class="hljs-built_in">int</span>)<br><br>        colors = [self.cmap(i) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> np.linspace(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-built_in">len</span>(np.unique(y)))]<br><br>        <span class="hljs-comment"># Plot the different class distributions</span><br>        <span class="hljs-keyword">for</span> i, l <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(np.unique(y)):<br>            _x1 = x1[y == l]<br>            _x2 = x2[y == l]<br>            _y = y[y == l]<br>            class_distr.append(plt.scatter(_x1, _x2, color=colors[i]))<br><br>        <span class="hljs-comment"># Plot legend</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> legend_labels <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>: <br>            plt.legend(class_distr, legend_labels, loc=<span class="hljs-number">1</span>)<br><br>        <span class="hljs-comment"># Plot title</span><br>        <span class="hljs-keyword">if</span> title:<br>            <span class="hljs-keyword">if</span> accuracy:<br>                perc = <span class="hljs-number">100</span> * accuracy<br>                plt.suptitle(title)<br>                plt.title(<span class="hljs-string">&quot;Accuracy: %.1f%%&quot;</span> % perc, fontsize=<span class="hljs-number">10</span>)<br>            <span class="hljs-keyword">else</span>:<br>                plt.title(title)<br><br>        <span class="hljs-comment"># Axis labels</span><br>        plt.xlabel(<span class="hljs-string">&#x27;class 1&#x27;</span>)<br>        plt.ylabel(<span class="hljs-string">&#x27;class 2&#x27;</span>)<br><br>        plt.show()<br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/machine-learning/" class="category-chain-item">machine learning</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/machine-learning/" class="print-no-link">#machine learning</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>LDA</div>
+      <div>http://jingmengzhiyue.top/2023/03/07/LDA/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Jingmengzhiyue</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月7日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/03/31/CPP%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" title="CPP基本语法">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">CPP基本语法</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/03/06/ChatGPT/" title="ChatGPT">
+                        <span class="hidden-mobile">ChatGPT</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"eZ6fNr2wGbxSreDqCc24Ik6y-gzGzoHsz","appKey":"I1HMoNZO5iKmmCSzqE0wTpGr","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
