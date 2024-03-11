@@ -358,13 +358,6 @@
   </url>
   
   <url>
-    <loc>http://jingmengzhiyue.top/tags/machine-learning/</loc>
-    <lastmod>2024-03-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>http://jingmengzhiyue.top/tags/deepLearning/</loc>
     <lastmod>2024-03-11</lastmod>
     <changefreq>weekly</changefreq>
@@ -372,7 +365,7 @@
   </url>
   
   <url>
-    <loc>http://jingmengzhiyue.top/tags/natural-language-processing/</loc>
+    <loc>http://jingmengzhiyue.top/tags/machine-learning/</loc>
     <lastmod>2024-03-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -380,6 +373,13 @@
   
   <url>
     <loc>http://jingmengzhiyue.top/tags/supervised-learning/</loc>
+    <lastmod>2024-03-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://jingmengzhiyue.top/tags/natural-language-processing/</loc>
     <lastmod>2024-03-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -409,14 +409,14 @@
   </url>
   
   <url>
-    <loc>http://jingmengzhiyue.top/categories/The-Missing-Semester-of-Your-CS-Education/</loc>
+    <loc>http://jingmengzhiyue.top/categories/online-signature-veri%EF%AC%81cation/</loc>
     <lastmod>2024-03-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://jingmengzhiyue.top/categories/online-signature-veri%EF%AC%81cation/</loc>
+    <loc>http://jingmengzhiyue.top/categories/Large-Language-Model/</loc>
     <lastmod>2024-03-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -430,7 +430,7 @@
   </url>
   
   <url>
-    <loc>http://jingmengzhiyue.top/categories/Large-Language-Model/</loc>
+    <loc>http://jingmengzhiyue.top/categories/The-Missing-Semester-of-Your-CS-Education/</loc>
     <lastmod>2024-03-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
