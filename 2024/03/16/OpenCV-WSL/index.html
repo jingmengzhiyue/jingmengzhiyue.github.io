@@ -16,24 +16,24 @@
   <meta name="author" content="Jingmengzhiyue">
   <meta name="keywords" content="">
   
-    <meta name="description" content="数据挖掘中pandas的使用，Pandas分组">
+    <meta name="description" content="Setting up OpenCV C++ on Windows Subsystem for Linux (WSL) involves several steps, including installing WSL, installing necessary dependencies, downloading the OpenCV source code, and compiling and in">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Pandas分组">
-<meta property="og:url" content="http://jingmengzhiyue.top/2023/10/01/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E5%88%86%E7%BB%84/index.html">
+<meta property="og:title" content="Using OpenCV C++ on Windows Subsystem for Linux (WSL)">
+<meta property="og:url" content="http://jingmengzhiyue.top/2024/03/16/OpenCV-WSL/index.html">
 <meta property="og:site_name" content="热爱可抵万难">
-<meta property="og:description" content="数据挖掘中pandas的使用，Pandas分组">
+<meta property="og:description" content="Setting up OpenCV C++ on Windows Subsystem for Linux (WSL) involves several steps, including installing WSL, installing necessary dependencies, downloading the OpenCV source code, and compiling and in">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-10-01T13:13:43.000Z">
-<meta property="article:modified_time" content="2024-03-14T12:19:24.676Z">
+<meta property="article:published_time" content="2024-03-16T08:37:10.000Z">
+<meta property="article:modified_time" content="2024-03-16T08:38:25.513Z">
 <meta property="article:author" content="Jingmengzhiyue">
-<meta property="article:tag" content="Pandas">
+<meta property="article:tag" content="OpenCV">
 <meta name="twitter:card" content="summary_large_image">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>Pandas分组 - 热爱可抵万难</title>
+  <title>Using OpenCV C++ on Windows Subsystem for Linux (WSL) - 热爱可抵万难</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -217,7 +217,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Pandas分组"></span>
+            <span id="subtitle" data-typed-text="Using OpenCV C++ on Windows Subsystem for Linux (WSL)"></span>
           
         </div>
 
@@ -228,8 +228,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-10-01 21:13" pubdate>
-          2023年10月1日 晚上
+        <time datetime="2024-03-16 16:37" pubdate>
+          2024年3月16日 下午
         </time>
       </span>
     
@@ -240,7 +240,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.9k 字
+          2.8k 字
         
       </span>
     
@@ -288,204 +288,40 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Pandas分组</h1>
+            <h1 id="seo-header">Using OpenCV C++ on Windows Subsystem for Linux (WSL)</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="Pandas-分组"><a href="#Pandas-分组" class="headerlink" title="Pandas 分组"></a>Pandas 分组</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br></code></pre></td></tr></table></figure>
+                <p>Setting up OpenCV C++ on Windows Subsystem for Linux (WSL) involves several steps, including installing WSL, installing necessary dependencies, downloading the OpenCV source code, and compiling and installing OpenCV. This blog post provides a step-by-step guide to help you through the process.</p>
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>The process of using OpenCV C++ on Windows Subsystem for Linux (WSL) involves enabling WSL on your Windows system, installing a Linux distribution (like Ubuntu), updating and installing required dependencies, downloading the OpenCV and OpenCV Contrib source code, configuring the build environment with CMake, compiling and installing OpenCV, and finally verifying the installation by running a simple OpenCV C++ program.</p>
+<h2 id="Step-by-Step-Guide"><a href="#Step-by-Step-Guide" class="headerlink" title="Step-by-Step Guide"></a>Step-by-Step Guide</h2><ol>
+<li><p><strong>Install WSL</strong>: Ensure that WSL is enabled on your Windows 10 or higher system. You can run the following command in PowerShell to enable WSL and install Ubuntu (or any other Linux distribution of your choice):</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">wsl <span class="hljs-literal">--install</span><br></code></pre></td></tr></table></figure>
 
-<h2 id="一、分组模式及其对象"><a href="#一、分组模式及其对象" class="headerlink" title="一、分组模式及其对象"></a>一、分组模式及其对象</h2><h3 id="1-分组的一般模式"><a href="#1-分组的一般模式" class="headerlink" title="1. 分组的一般模式"></a>1. 分组的一般模式</h3><p>分组操作在日常生活中使用极其广泛，例如：</p>
-<ul>
-<li>依据性别分组，统计全国人口寿命的平均值</li>
-<li>依据季节分组，对每一个季节的温度进行组内标准化</li>
-<li>依据班级筛选出组内数学分数的平均值超过80分的班级</li>
-</ul>
-<p>从上述的几个例子中不难看出，想要实现分组操作，必须明确三个要素：分组依据、数据来源、操作及其返回结果。同时从充分性的角度来说，如果明确了这三方面，就能确定一个分组操作，从而分组代码的一般模式即：</p>
-<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scss">df<span class="hljs-selector-class">.groupby</span>(分组依据)<span class="hljs-selector-attr">[数据来源]</span>.使用操作<br></code></pre></td></tr></table></figure>
-<p>例如第一个例子中的代码就应该如下：</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus">df<span class="hljs-selector-class">.groupby</span>(<span class="hljs-string">&#x27;Gender&#x27;</span>)<span class="hljs-selector-attr">[<span class="hljs-string">&#x27;Longevity&#x27;</span>]</span><span class="hljs-selector-class">.mean</span>()<br></code></pre></td></tr></table></figure>
+<p>After restarting your computer, open the Microsoft Store, search for Ubuntu, and install your preferred version.</p>
+</li>
+<li><p><strong>Update and Install Dependencies</strong>: Launch your Linux distribution (e.g., Ubuntu), and use the following commands to update your package manager and install the required dependencies for compiling OpenCV:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo apt update &amp;&amp; sudo apt upgrade -y<br>sudo apt install -y build-essential cmake git pkg-config libgtk-3-dev \<br>libavcodec-dev libavformat-dev libswscale-dev libv4l-dev \<br>libxvidcore-dev libx264-dev libjpeg-dev libpng-dev libtiff-dev \<br>gfortran openexr libatlas-base-dev python3-dev python3-numpy \<br>libtbb2 libtbb-dev libdc1394-22-dev<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Download OpenCV and OpenCV Contrib Source Code</strong>: Download the OpenCV and OpenCV Contrib source code from the OpenCV GitHub repository:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">mkdir</span> ~/opencv_build &amp;&amp; <span class="hljs-built_in">cd</span> ~/opencv_build<br>git <span class="hljs-built_in">clone</span> https://github.com/opencv/opencv.git<br>git <span class="hljs-built_in">clone</span> https://github.com/opencv/opencv_contrib.git<br></code></pre></td></tr></table></figure>
 
-<p>现在返回到学生体测的数据集上，如果想要按照性别统计身高中位数，就可以如下写出：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">df = pd.read_csv(<span class="hljs-string">&#x27;../data/learn_pandas.csv&#x27;</span>)<br>df.groupby(<span class="hljs-string">&#x27;Gender&#x27;</span>)[<span class="hljs-string">&#x27;Height&#x27;</span>].median()<br></code></pre></td></tr></table></figure>
+<p>Ensure both repositories are on the same version, e.g., OpenCV 4.x:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> ~/opencv_build/opencv<br>git checkout 4.x<br><span class="hljs-built_in">cd</span> ../opencv_contrib<br>git checkout 4.x<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Compile and Install OpenCV</strong>: Create a build directory, configure the build environment using CMake, and then compile and install OpenCV:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> ~/opencv_build/opencv<br><span class="hljs-built_in">mkdir</span> build &amp;&amp; <span class="hljs-built_in">cd</span> build<br>cmake -D CMAKE_BUILD_TYPE=RELEASE \<br>-D CMAKE_INSTALL_PREFIX=/usr/local \<br>-D INSTALL_C_EXAMPLES=ON \<br>-D INSTALL_PYTHON_EXAMPLES=ON \<br>-D OPENCV_GENERATE_PKGCONFIG=ON \<br>-D OPENCV_EXTRA_MODULES_PATH=~/opencv_build/opencv_contrib/modules \<br>-D BUILD_EXAMPLES=ON ..<br>make -j$(<span class="hljs-built_in">nproc</span>)<br>sudo make install<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Configure Environment Variables</strong>: To ensure the compiler can find the OpenCV libraries, you need to update the <code>LD_LIBRARY_PATH</code> environment variable. Add the following line to your <code>~/.bashrc</code> or <code>~/.profile</code> file:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">export</span> LD_LIBRARY_PATH=<span class="hljs-variable">$LD_LIBRARY_PATH</span>:/usr/local/lib<br></code></pre></td></tr></table></figure>
 
-
-
-
-<pre><code class="hljs">Gender
-Female    159.6
-Male      173.4
-Name: Height, dtype: float64
-</code></pre>
-<h3 id="2-分组依据的本质"><a href="#2-分组依据的本质" class="headerlink" title="2. 分组依据的本质"></a>2. 分组依据的本质</h3><p>前面提到的若干例子都是以单一维度进行分组的，比如根据性别，如果现在需要根据多个维度进行分组，该如何做？事实上，只需在<code>groupby</code>中传入相应列名构成的列表即可。例如，现希望根据学校和性别进行分组，统计身高的均值就可以如下写出：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df.groupby([<span class="hljs-string">&#x27;School&#x27;</span>, <span class="hljs-string">&#x27;Gender&#x27;</span>])[<span class="hljs-string">&#x27;Height&#x27;</span>].mean()<br></code></pre></td></tr></table></figure>
-
-
-
-
-<pre><code class="hljs">School                         Gender
-Fudan University               Female    158.776923
-                               Male      174.212500
-Peking University              Female    158.666667
-                               Male      172.030000
-Shanghai Jiao Tong University  Female    159.122500
-                               Male      176.760000
-Tsinghua University            Female    159.753333
-                               Male      171.638889
-Name: Height, dtype: float64
-</code></pre>
-<p>目前为止，<code>groupby</code>的分组依据都是直接可以从列中按照名字获取的，那如果希望通过一定的复杂逻辑来分组，例如根据学生体重是否超过总体均值来分组，同样还是计算身高的均值。</p>
-<p>首先应该先写出分组条件：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">condition = df.Weight &gt; df.Weight.mean()<br></code></pre></td></tr></table></figure>
-
-<p>然后将其传入<code>groupby</code>中：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df.groupby(condition)[<span class="hljs-string">&#x27;Height&#x27;</span>].mean()<br></code></pre></td></tr></table></figure>
-
-
-
-
-<pre><code class="hljs">Weight
-False    159.034646
-True     172.705357
-Name: Height, dtype: float64
-</code></pre>
-<h4 id="【练一练】"><a href="#【练一练】" class="headerlink" title="【练一练】"></a>【练一练】</h4><p>请根据上下四分位数分割，将体重分为high、normal、low三组，统计身高的均值。</p>
-<h4 id="【END】"><a href="#【END】" class="headerlink" title="【END】"></a>【END】</h4><p>从索引可以看出，其实最后产生的结果就是按照条件列表中元素的值（此处是<code>True</code>和<code>False</code>）来分组，下面用随机传入字母序列来验证这一想法：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">item = np.random.choice(<span class="hljs-built_in">list</span>(<span class="hljs-string">&#x27;abc&#x27;</span>), df.shape[<span class="hljs-number">0</span>])<br>df.groupby(item)[<span class="hljs-string">&#x27;Height&#x27;</span>].mean()<br></code></pre></td></tr></table></figure>
-
-
-
-
-<pre><code class="hljs">a    163.094828
-b    163.874603
-c    162.666129
-Name: Height, dtype: float64
-</code></pre>
-<p>此处的索引就是原先item中的元素，如果传入多个序列进入<code>groupby</code>，那么最后分组的依据就是这两个序列对应行的唯一组合：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df.groupby([condition, item])[<span class="hljs-string">&#x27;Height&#x27;</span>].mean()<br></code></pre></td></tr></table></figure>
-
-
-
-
-<pre><code class="hljs">Weight   
-False   a    159.334146
-        b    159.257143
-        c    158.543182
-True    a    172.164706
-        b    173.109524
-        c    172.744444
-Name: Height, dtype: float64
-</code></pre>
-<p>由此可以看出，之前传入列名只是一种简便的记号，事实上等价于传入的是一个或多个列，最后分组的依据来自于数据来源组合的unique值，通过<code>drop_duplicates</code>就能知道具体的组类别：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df[[<span class="hljs-string">&#x27;School&#x27;</span>, <span class="hljs-string">&#x27;Gender&#x27;</span>]].drop_duplicates()<br></code></pre></td></tr></table></figure>
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-<pre><code class="hljs">.dataframe tbody tr th &#123;
-    vertical-align: top;
-&#125;
-
-.dataframe thead th &#123;
-    text-align: right;
-&#125;
-</code></pre>
-<p></style></p>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>School</th>
-      <th>Gender</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Shanghai Jiao Tong University</td>
-      <td>Female</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Peking University</td>
-      <td>Male</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Shanghai Jiao Tong University</td>
-      <td>Male</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Fudan University</td>
-      <td>Female</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Fudan University</td>
-      <td>Male</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>Tsinghua University</td>
-      <td>Female</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>Peking University</td>
-      <td>Female</td>
-    </tr>
-    <tr>
-      <th>16</th>
-      <td>Tsinghua University</td>
-      <td>Male</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
-
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df.groupby([df[<span class="hljs-string">&#x27;School&#x27;</span>], df[<span class="hljs-string">&#x27;Gender&#x27;</span>]])[<span class="hljs-string">&#x27;Height&#x27;</span>].mean()<br></code></pre></td></tr></table></figure>
-
-
-
-
-<pre><code class="hljs">School                         Gender
-Fudan University               Female    158.776923
-                               Male      174.212500
-Peking University              Female    158.666667
-                               Male      172.030000
-Shanghai Jiao Tong University  Female    159.122500
-                               Male      176.760000
-Tsinghua University            Female    159.753333
-                               Male      171.638889
-Name: Height, dtype: float64
-</code></pre>
-<h3 id="3-Groupby对象"><a href="#3-Groupby对象" class="headerlink" title="3. Groupby对象"></a>3. Groupby对象</h3><p>能够注意到，最终具体做分组操作时，所调用的方法都来自于<code>pandas</code>中的<code>groupby</code>对象，这个对象上定义了许多方法，也具有一些方便的属性。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">gb = df.groupby([<span class="hljs-string">&#x27;School&#x27;</span>, <span class="hljs-string">&#x27;Grade&#x27;</span>])<br>gb<br></code></pre></td></tr></table></figure>
-
-
-
-
-<pre><code class="hljs">&lt;pandas.core.groupby.generic.DataFrameGroupBy object at 0x000001C1E7AB1408&gt;
-</code></pre>
-<p>通过<code>ngroups</code>属性，可以得到分组个数：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">gb.ngroups<br></code></pre></td></tr></table></figure>
-
-
-
-
-<pre><code class="hljs">16
-</code></pre>
-<p>通过<code>groups</code>属性，可以返回从$\color</p>
+<p>Then, execute <code>source ~/.bashrc</code> or restart your terminal application to apply the changes.</p>
+</li>
+<li><p><strong>Verify Installation</strong>: Compile and run a simple OpenCV program to verify the successful installation. You can create a simple C++ program that uses OpenCV to read and display an image.</p>
+</li>
+</ol>
+<p>By following these steps, you should be able to successfully set up and use OpenCV C++ on the Windows Subsystem for Linux (WSL).</p>
 
                 
               </div>
@@ -504,7 +340,7 @@ Name: Height, dtype: float64
     
       <span class="category-chain">
         
-  <a href="/categories/Machine-Learning/" class="category-chain-item">Machine Learning</a>
+  <a href="/categories/Programming/" class="category-chain-item">Programming</a>
   
   
 
@@ -519,7 +355,7 @@ Name: Height, dtype: float64
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Pandas/" class="print-no-link">#Pandas</a>
+        <a href="/tags/OpenCV/" class="print-no-link">#OpenCV</a>
       
     </div>
   
@@ -531,8 +367,8 @@ Name: Height, dtype: float64
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Pandas分组</div>
-      <div>http://jingmengzhiyue.top/2023/10/01/第四章 分组/</div>
+      <div>Using OpenCV C++ on Windows Subsystem for Linux (WSL)</div>
+      <div>http://jingmengzhiyue.top/2024/03/16/OpenCV-WSL/</div>
     </div>
     <div class="license-meta">
       
@@ -544,7 +380,7 @@ Name: Height, dtype: float64
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年10月1日</div>
+          <div>2024年3月16日</div>
         </div>
       
       
@@ -576,18 +412,12 @@ Name: Height, dtype: float64
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/10/01/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E8%BF%9E%E6%8E%A5/" title="Pandas连接">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Pandas连接</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/10/01/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%97%B6%E5%BA%8F%E6%95%B0%E6%8D%AE/" title="Pandas时序数据">
-                        <span class="hidden-mobile">Pandas时序数据</span>
+                      <a href="/2024/03/14/OpenCV-Basics/" title="OpenCV Basics">
+                        <span class="hidden-mobile">OpenCV Basics</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -676,27 +506,6 @@ Name: Height, dtype: float64
 
   
 
-
-  
-  
-
-
-
-
-
-  <script>
-  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
-    mermaid.initialize({"theme":"default"});
-
-    Fluid.utils.listenDOMLoaded(function() {
-      Fluid.events.registerRefreshCallback(function() {
-        if ('mermaid' in window) {
-          mermaid.init();
-        }
-      });
-    });
-  });
-</script>
 
 
 
@@ -913,49 +722,6 @@ Name: Height, dtype: float64
 
 
   <script>Fluid.plugins.imageCaption();</script>
-
-  
-      <script>
-        if (!window.MathJax) {
-          window.MathJax = {
-            tex    : {
-              inlineMath: { '[+]': [['$', '$']] }
-            },
-            loader : {
-              load: ['ui/lazy']
-            },
-            options: {
-              renderActions: {
-                insertedScript: [200, () => {
-                  document.querySelectorAll('mjx-container').forEach(node => {
-                    let target = node.parentNode;
-                    if (target.nodeName.toLowerCase() === 'li') {
-                      target.parentNode.classList.add('has-jax');
-                    }
-                  });
-                }, '', false]
-              }
-            }
-          };
-        } else {
-          MathJax.startup.document.state(0);
-          MathJax.texReset();
-          MathJax.typeset();
-          MathJax.typesetPromise();
-        }
-
-        Fluid.events.registerRefreshCallback(function() {
-          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
-            MathJax.startup.document.state(0);
-            MathJax.texReset();
-            MathJax.typeset();
-            MathJax.typesetPromise();
-          }
-        });
-      </script>
-    
-
-  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 
