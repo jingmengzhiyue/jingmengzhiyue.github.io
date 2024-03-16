@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://jingmengzhiyue.top/2023/01/29/%E5%B9%BF%E4%B9%89%E8%A5%BF%E5%B0%94%E7%BB%B4%E6%96%AF%E7%89%B9%E6%96%B9%E7%A8%8B%E7%9A%84%E6%B1%82%E8%A7%A3/</loc>
+    <lastmod>2024-03-16</lastmod>
+  </url>
+  <url>
+    <loc>http://jingmengzhiyue.top/2024/03/11/WSL2-proxy/</loc>
+    <lastmod>2024-03-16</lastmod>
+  </url>
+  <url>
+    <loc>http://jingmengzhiyue.top/2024/03/11/rust-wal2-vscode/</loc>
+    <lastmod>2024-03-16</lastmod>
+  </url>
+  <url>
+    <loc>http://jingmengzhiyue.top/2024/03/11/Dual-System/</loc>
+    <lastmod>2024-03-16</lastmod>
+  </url>
+  <url>
+    <loc>http://jingmengzhiyue.top/2023/03/05/LinearRegression/</loc>
+    <lastmod>2024-03-16</lastmod>
+  </url>
+  <url>
+    <loc>http://jingmengzhiyue.top/2023/03/07/LDA/</loc>
+    <lastmod>2024-03-16</lastmod>
+  </url>
+  <url>
     <loc>http://jingmengzhiyue.top/2024/03/16/OpenCV-WSL/</loc>
     <lastmod>2024-03-16</lastmod>
   </url>
@@ -30,10 +54,6 @@
   </url>
   <url>
     <loc>http://jingmengzhiyue.top/2023/08/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0----%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/</loc>
-    <lastmod>2024-03-14</lastmod>
-  </url>
-  <url>
-    <loc>http://jingmengzhiyue.top/2023/01/29/%E5%B9%BF%E4%B9%89%E8%A5%BF%E5%B0%94%E7%BB%B4%E6%96%AF%E7%89%B9%E6%96%B9%E7%A8%8B%E7%9A%84%E6%B1%82%E8%A7%A3/</loc>
     <lastmod>2024-03-14</lastmod>
   </url>
   <url>
@@ -77,10 +97,6 @@
     <lastmod>2024-03-14</lastmod>
   </url>
   <url>
-    <loc>http://jingmengzhiyue.top/2024/03/11/WSL2-proxy/</loc>
-    <lastmod>2024-03-14</lastmod>
-  </url>
-  <url>
     <loc>http://jingmengzhiyue.top/2023/03/05/Word2Vec/</loc>
     <lastmod>2024-03-14</lastmod>
   </url>
@@ -94,10 +110,6 @@
   </url>
   <url>
     <loc>http://jingmengzhiyue.top/2023/06/05/security/</loc>
-    <lastmod>2024-03-14</lastmod>
-  </url>
-  <url>
-    <loc>http://jingmengzhiyue.top/2024/03/11/rust-wal2-vscode/</loc>
     <lastmod>2024-03-14</lastmod>
   </url>
   <url>
@@ -117,15 +129,7 @@
     <lastmod>2024-03-14</lastmod>
   </url>
   <url>
-    <loc>http://jingmengzhiyue.top/2023/03/05/LinearRegression/</loc>
-    <lastmod>2024-03-14</lastmod>
-  </url>
-  <url>
     <loc>http://jingmengzhiyue.top/2023/06/05/editors/</loc>
-    <lastmod>2024-03-14</lastmod>
-  </url>
-  <url>
-    <loc>http://jingmengzhiyue.top/2024/03/11/Dual-System/</loc>
     <lastmod>2024-03-14</lastmod>
   </url>
   <url>
@@ -167,9 +171,5 @@
   <url>
     <loc>http://jingmengzhiyue.top/2023/03/06/ChatGPT/</loc>
     <lastmod>2024-03-14</lastmod>
-  </url>
-  <url>
-    <loc>http://jingmengzhiyue.top/2023/03/07/LDA/</loc>
-    <lastmod>2023-03-07</lastmod>
   </url>
 </urlset> 
