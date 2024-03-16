@@ -24,7 +24,7 @@
 <meta property="og:description" content="使用ADMM求解广义西尔维斯特方程">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-01-29T09:43:04.000Z">
-<meta property="article:modified_time" content="2024-03-16T12:53:19.964Z">
+<meta property="article:modified_time" content="2024-03-16T12:58:45.174Z">
 <meta property="article:author" content="Jingmengzhiyue">
 <meta property="article:tag" content="ADMM">
 <meta property="article:tag" content="Sylvester equation">
@@ -321,14 +321,14 @@
 <p>上两个方程组是同解方程组因此两个$\mathbf{X}$拥有相同的解，因此可以写为</p>
 <p>$$<br>\begin{cases}<br>\mathbf{AX_1B}&#x3D;\mathbf{E}_1<br> \<br>\mathbf{CX_2D}&#x3D;\mathbf{E}_2<br>\end{cases}<br>$$</p>
 <p>先求解$\mathbf{AX_1B}&#x3D;\mathbf{E}_1$</p>
-<p>$$<br>\begin{aligned}<br>\min_{\mathbf{X}_1, \mathbf{Z}_1} &amp; \quad \frac{1}{2} \left| \mathbf{Z_1B-E_1} \right|_F^2 \<br>\text{s.t.} &amp; \quad \mathbf{Z}_1 &#x3D; \mathbf{AX}_1<br>\end{aligned}<br>$$</p>
+<p>$$<br>\begin{aligned}<br>\min_{\mathbf{X}_1, \mathbf{Z}_1} &amp; \quad \frac{1}{2} \left| \mathbf{Z_1B-E_1} \right|_F^2 \\<br>\text{s.t.} &amp; \quad \mathbf{Z}_1 &#x3D; \mathbf{AX}_1<br>\end{aligned}<br>$$</p>
 <p>利用ADMM可以得到</p>
-<p>$$<br>\begin{aligned}<br>\mathbf{Z}_1 &amp;&#x3D; \left((\mathbf{E-CX_2D})\mathbf{B}^T+\eta\mathbf{AX_1-Q_1}\right)\left(\mathbf{BB}^T+\eta\mathbf{I}\right)^{-1} \<br>\mathbf{X}_1 &amp;&#x3D; \left(\eta\mathbf{A^TA}\right)^{-1}\left(\mathbf{A^TQ_1}+\eta\mathbf{A^TZ_1}\right) \<br>\mathbf{Q_1} &amp;&#x3D; \mathbf{Q_1} + \eta\left(\mathbf{Z}_1-\mathbf{AX_1}\right)<br>\end{aligned}<br>$$</p>
+<p>$$<br>\begin{aligned}<br>\mathbf{Z}_1 &amp;&#x3D; \left((\mathbf{E-CX_2D})\mathbf{B}^T+\eta\mathbf{AX_1-Q_1}\right)\left(\mathbf{BB}^T+\eta\mathbf{I}\right)^{-1} \\<br>\mathbf{X}_1 &amp;&#x3D; \left(\eta\mathbf{A^TA}\right)^{-1}\left(\mathbf{A^TQ_1}+\eta\mathbf{A^TZ_1}\right) \\<br>\mathbf{Q_1} &amp;&#x3D; \mathbf{Q_1} + \eta\left(\mathbf{Z}_1-\mathbf{AX_1}\right)<br>\end{aligned}<br>$$</p>
 <hr>
 <p>同样的对$\mathbf{CX_2D}&#x3D;\mathbf{E}_2$使用ADMM求解有</p>
-<p>$$<br>\begin{aligned}<br>\min_{\mathbf{X}_2, \mathbf{Z}_2} &amp; \quad \frac{1}{2} \left| \mathbf{Z_2D-E_2} \right|_F^2 \<br>\text{s.t.} &amp; \quad \mathbf{Z}_2 &#x3D; \mathbf{CX}_2<br>\end{aligned}<br>$$</p>
+<p>$$<br>\begin{aligned}<br>\min_{\mathbf{X}_2, \mathbf{Z}_2} &amp; \quad \frac{1}{2} \left| \mathbf{Z_2D-E_2} \right|_F^2 \\<br>\text{s.t.} &amp; \quad \mathbf{Z}_2 &#x3D; \mathbf{CX}_2<br>\end{aligned}<br>$$</p>
 <p>利用ADMM可以得到</p>
-<p>$$<br>\begin{aligned}<br>\mathbf{Z}_2 &amp;&#x3D; \left((\mathbf{E-AX_1B})\mathbf{D}^T+\eta\mathbf{CX_2-Q_2}\right)\left(\mathbf{DD}^T+\eta\mathbf{I}\right)^{-1} \<br>\mathbf{X}_2 &amp;&#x3D; \left(\eta\mathbf{C^TC}\right)^{-1}\left(\mathbf{C^TQ_2}+\eta\mathbf{C^TZ_2}\right) \<br>\mathbf{Q_2} &amp;&#x3D; \mathbf{Q_2} + \eta\left(\mathbf{Z}_2-\mathbf{CX_2}\right)<br>\end{aligned}<br>$$</p>
+<p>$$<br>\begin{align}<br>\mathbf{Z}_2 &amp;&#x3D; \left((\mathbf{E-AX_1B})\mathbf{D}^T+\eta\mathbf{CX_2-Q_2}\right)\left(\mathbf{DD}^T+\eta\mathbf{I}\right)^{-1} \\<br>\mathbf{X}_2 &amp;&#x3D; \left(\eta\mathbf{C^TC}\right)^{-1}\left(\mathbf{C^TQ_2}+\eta\mathbf{C^TZ_2}\right) \\<br>\mathbf{Q_2} &amp;&#x3D; \mathbf{Q_2} + \eta\left(\mathbf{Z}_2-\mathbf{CX_2}\right)<br>\end{align}<br>$$</p>
 <p>对公式(2)和公式(4)依次迭代可以得到最终的$\mathbf{X}_1$和$\mathbf{X}_2$<br>最后：</p>
 <p>$$<br>\mathbf{X} &#x3D; \eta\mathbf{X}_1+(1-\eta)\mathbf{X}_2<br>$$</p>
 <p>其中$\eta&gt;0$。</p>
