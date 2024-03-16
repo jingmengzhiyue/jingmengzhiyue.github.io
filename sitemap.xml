@@ -2,16 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://jingmengzhiyue.top/2023/10/02/hello-world/</loc>
+    <loc>http://jingmengzhiyue.top/2024/03/14/OpenCV-Basics/</loc>
     
-    <lastmod>2024-03-14</lastmod>
+    <lastmod>2024-03-16</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://jingmengzhiyue.top/2024/03/14/OpenCV-Basics/</loc>
+    <loc>http://jingmengzhiyue.top/2023/10/02/hello-world/</loc>
     
     <lastmod>2024-03-14</lastmod>
     
@@ -391,7 +391,7 @@
 
   <url>
     <loc>http://jingmengzhiyue.top/</loc>
-    <lastmod>2024-03-14</lastmod>
+    <lastmod>2024-03-16</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -399,105 +399,105 @@
   
   <url>
     <loc>http://jingmengzhiyue.top/tags/C/</loc>
-    <lastmod>2024-03-14</lastmod>
+    <lastmod>2024-03-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://jingmengzhiyue.top/tags/ChatGPT/</loc>
-    <lastmod>2024-03-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://jingmengzhiyue.top/tags/The-Missing-Semester-of-Your-CS-Education/</loc>
-    <lastmod>2024-03-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://jingmengzhiyue.top/tags/Windows-Linux/</loc>
-    <lastmod>2024-03-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://jingmengzhiyue.top/tags/machine-learning/</loc>
-    <lastmod>2024-03-14</lastmod>
+    <lastmod>2024-03-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://jingmengzhiyue.top/tags/DTW/</loc>
-    <lastmod>2024-03-14</lastmod>
+    <lastmod>2024-03-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://jingmengzhiyue.top/tags/The-Missing-Semester-of-Your-CS-Education/</loc>
+    <lastmod>2024-03-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://jingmengzhiyue.top/tags/Windows-Linux/</loc>
+    <lastmod>2024-03-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://jingmengzhiyue.top/tags/machine-learning/</loc>
+    <lastmod>2024-03-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://jingmengzhiyue.top/tags/OpenCV/</loc>
-    <lastmod>2024-03-14</lastmod>
+    <lastmod>2024-03-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://jingmengzhiyue.top/tags/WSL-proxy/</loc>
-    <lastmod>2024-03-14</lastmod>
+    <lastmod>2024-03-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://jingmengzhiyue.top/tags/NLP/</loc>
-    <lastmod>2024-03-14</lastmod>
+    <lastmod>2024-03-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://jingmengzhiyue.top/tags/Linux/</loc>
-    <lastmod>2024-03-14</lastmod>
+    <lastmod>2024-03-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://jingmengzhiyue.top/tags/WSL-Rust-VS-Code/</loc>
-    <lastmod>2024-03-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://jingmengzhiyue.top/tags/Machine-Learning/</loc>
-    <lastmod>2024-03-14</lastmod>
+    <lastmod>2024-03-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://jingmengzhiyue.top/tags/ADMM-Sylvester-equation/</loc>
-    <lastmod>2024-03-14</lastmod>
+    <lastmod>2024-03-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://jingmengzhiyue.top/tags/Machine-Learning/</loc>
+    <lastmod>2024-03-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://jingmengzhiyue.top/tags/Python/</loc>
-    <lastmod>2024-03-14</lastmod>
+    <lastmod>2024-03-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://jingmengzhiyue.top/tags/Pandas/</loc>
-    <lastmod>2024-03-14</lastmod>
+    <lastmod>2024-03-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -506,63 +506,63 @@
   
   <url>
     <loc>http://jingmengzhiyue.top/categories/Programming/</loc>
-    <lastmod>2024-03-14</lastmod>
+    <lastmod>2024-03-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://jingmengzhiyue.top/categories/LLM/</loc>
-    <lastmod>2024-03-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://jingmengzhiyue.top/categories/Computer-Science/</loc>
-    <lastmod>2024-03-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://jingmengzhiyue.top/categories/Environment-Configuration/</loc>
-    <lastmod>2024-03-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://jingmengzhiyue.top/categories/machine-learning/</loc>
-    <lastmod>2024-03-14</lastmod>
+    <lastmod>2024-03-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://jingmengzhiyue.top/categories/Algorithm/</loc>
-    <lastmod>2024-03-14</lastmod>
+    <lastmod>2024-03-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://jingmengzhiyue.top/categories/Computer-Science/</loc>
+    <lastmod>2024-03-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://jingmengzhiyue.top/categories/Environment-Configuration/</loc>
+    <lastmod>2024-03-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://jingmengzhiyue.top/categories/machine-learning/</loc>
+    <lastmod>2024-03-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://jingmengzhiyue.top/categories/Deep-Learning/</loc>
-    <lastmod>2024-03-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://jingmengzhiyue.top/categories/Machine-Learning/</loc>
-    <lastmod>2024-03-14</lastmod>
+    <lastmod>2024-03-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://jingmengzhiyue.top/categories/Optimization/</loc>
-    <lastmod>2024-03-14</lastmod>
+    <lastmod>2024-03-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://jingmengzhiyue.top/categories/Machine-Learning/</loc>
+    <lastmod>2024-03-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
