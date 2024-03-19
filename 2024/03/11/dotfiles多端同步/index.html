@@ -16,12 +16,12 @@
   <meta name="author" content="Jingmengzhiyue">
   <meta name="keywords" content="">
   
-    <meta name="description" content="在多台设备上管理dotfiles和应用程序(如Vim和Tmux)的配置可能是一项艰巨的任务。然而,通过以下几个简单步骤,您可以简化这一流程,在任何机器上实现一键配置。  版本控制: 使用Git来跟踪您的dotfiles。创建一个Git仓库,并将您的配置文件存储在其中。这样可以让您管理文件版本并在不同机器之间同步设置。  符号链接: 在新机器上克隆您的dotfiles仓库,并创建指向这些文件的符号链">
+    <meta name="description" content="在多台设备上管理dotfiles和应用程序(如Vim和Tmux)的配置可能是一项艰巨的任务。然而,通过以下几个简单步骤,您可以简化这一流程,在任何机器上实现一键配置。  版本控制: 使用Git来跟踪您的dotfiles。创建一个Git仓库,并将您的配置文件存储在其中。这样可以让您管理文件版本并在不同机器之间同步设置。 符号链接: 在新机器上克隆您的dotfiles仓库,并创建指向这些文件">
 <meta property="og:type" content="article">
 <meta property="og:title" content="dotfiles多端同步">
 <meta property="og:url" content="http://jingmengzhiyue.top/2024/03/11/dotfiles%E5%A4%9A%E7%AB%AF%E5%90%8C%E6%AD%A5/index.html">
 <meta property="og:site_name" content="热爱可抵万难">
-<meta property="og:description" content="在多台设备上管理dotfiles和应用程序(如Vim和Tmux)的配置可能是一项艰巨的任务。然而,通过以下几个简单步骤,您可以简化这一流程,在任何机器上实现一键配置。  版本控制: 使用Git来跟踪您的dotfiles。创建一个Git仓库,并将您的配置文件存储在其中。这样可以让您管理文件版本并在不同机器之间同步设置。  符号链接: 在新机器上克隆您的dotfiles仓库,并创建指向这些文件的符号链">
+<meta property="og:description" content="在多台设备上管理dotfiles和应用程序(如Vim和Tmux)的配置可能是一项艰巨的任务。然而,通过以下几个简单步骤,您可以简化这一流程,在任何机器上实现一键配置。  版本控制: 使用Git来跟踪您的dotfiles。创建一个Git仓库,并将您的配置文件存储在其中。这样可以让您管理文件版本并在不同机器之间同步设置。 符号链接: 在新机器上克隆您的dotfiles仓库,并创建指向这些文件">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-03-11T12:45:01.000Z">
 <meta property="article:modified_time" content="2024-03-14T11:52:19.312Z">
@@ -211,7 +211,7 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('https://t.mwm.moe/fj') no-repeat center center; background-size: cover;">
+     style="background: url('/img/2.jpg') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
@@ -294,35 +294,36 @@
               <div class="markdown-body">
                 
                 <p>在多台设备上管理dotfiles和应用程序(如Vim和Tmux)的配置可能是一项艰巨的任务。然而,通过以下几个简单步骤,您可以简化这一流程,在任何机器上实现一键配置。</p>
-<ol>
-<li><p><strong>版本控制:</strong> 使用Git来跟踪您的dotfiles。创建一个Git仓库,并将您的配置文件存储在其中。这样可以让您管理文件版本并在不同机器之间同步设置。</p>
-</li>
-<li><p><strong>符号链接:</strong> 在新机器上克隆您的dotfiles仓库,并创建指向这些文件的符号链接。这样,您就可以在仓库中保持文件位置,同时系统使用指向这些文件的符号链接。</p>
-</li>
-<li><p><strong>自动化脚本:</strong> 编写一个安装脚本,当您在新机器上克隆仓库时,自动创建符号链接并安装必要的软件(如Vim和Tmux插件管理器)。</p>
-</li>
-<li><p><strong>插件管理器:</strong> 对于Vim,您可以使用 <code>vim-plug</code> 这样的插件管理器;对于Tmux,您可以使用<code>tpm</code>(Tmux Plugin Manager)。这样,您只需在配置文件中指定所需的插件,然后运行相应的命令自动安装它们。</p>
-</li>
+<ol type="1">
+<li><p><strong>版本控制:</strong>
+使用Git来跟踪您的dotfiles。创建一个Git仓库,并将您的配置文件存储在其中。这样可以让您管理文件版本并在不同机器之间同步设置。</p></li>
+<li><p><strong>符号链接:</strong>
+在新机器上克隆您的dotfiles仓库,并创建指向这些文件的符号链接。这样,您就可以在仓库中保持文件位置,同时系统使用指向这些文件的符号链接。</p></li>
+<li><p><strong>自动化脚本:</strong>
+编写一个安装脚本,当您在新机器上克隆仓库时,自动创建符号链接并安装必要的软件(如Vim和Tmux插件管理器)。</p></li>
+<li><p><strong>插件管理器:</strong> 对于Vim,您可以使用
+<code>vim-plug</code>
+这样的插件管理器;对于Tmux,您可以使用<code>tpm</code>(Tmux Plugin
+Manager)。这样,您只需在配置文件中指定所需的插件,然后运行相应的命令自动安装它们。</p></li>
 </ol>
 <p>以下是设置和同步dotfiles、Vim和Tmux配置的简单分步指南:</p>
-<h3 id="步骤1-设置Git仓库"><a href="#步骤1-设置Git仓库" class="headerlink" title="步骤1: 设置Git仓库"></a>步骤1: 设置Git仓库</h3><p>在主机上,创建一个Git仓库来存储您的dotfiles:</p>
+<h3 id="步骤1-设置git仓库">步骤1: 设置Git仓库</h3>
+<p>在主机上,创建一个Git仓库来存储您的dotfiles:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> ~<br><span class="hljs-built_in">mkdir</span> dotfiles<br><span class="hljs-built_in">cd</span> dotfiles<br>git init<br></code></pre></td></tr></table></figure>
-
 <p>将您的dotfiles移动到此目录并提交:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">mv</span> .vimrc dotfiles/<br><span class="hljs-built_in">mv</span> .tmux.conf dotfiles/<br><span class="hljs-comment"># ...移动其他配置文件</span><br>git add .<br>git commit -m <span class="hljs-string">&quot;Add initial dotfiles&quot;</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="步骤2-创建符号链接"><a href="#步骤2-创建符号链接" class="headerlink" title="步骤2: 创建符号链接"></a>步骤2: 创建符号链接</h3><p>编写一个脚本自动创建指向dotfiles的符号链接:</p>
+<h3 id="步骤2-创建符号链接">步骤2: 创建符号链接</h3>
+<p>编写一个脚本自动创建指向dotfiles的符号链接:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><br>DOTFILES_DIR=~/dotfiles<br><br><span class="hljs-built_in">ln</span> -sf <span class="hljs-variable">$DOTFILES_DIR</span>/.vimrc ~/.vimrc<br><span class="hljs-built_in">ln</span> -sf <span class="hljs-variable">$DOTFILES_DIR</span>/.tmux.conf ~/.tmux.conf<br><span class="hljs-comment"># 为所有其他dotfiles重复上述步骤</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="步骤3-自动化脚本"><a href="#步骤3-自动化脚本" class="headerlink" title="步骤3: 自动化脚本"></a>步骤3: 自动化脚本</h3><p>创建一个安装脚本(如 <code>install.sh</code>)来设置新机器:</p>
+<h3 id="步骤3-自动化脚本">步骤3: 自动化脚本</h3>
+<p>创建一个安装脚本(如 <code>install.sh</code>)来设置新机器:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><br><span class="hljs-comment"># 克隆dotfiles仓库</span><br>git <span class="hljs-built_in">clone</span> https://github.com/yourusername/dotfiles.git ~/dotfiles<br><br><span class="hljs-comment"># 运行创建符号链接的脚本</span><br>~/dotfiles/create_symlinks.sh<br><br><span class="hljs-comment"># 安装vim-plug插件管理器</span><br>curl -fLo ~/.vim/autoload/plug.vim --create-dirs \<br>https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim<br><br><span class="hljs-comment"># 安装Vim插件</span><br>vim +PlugInstall +qall<br><br><span class="hljs-comment"># 安装tpm (Tmux Plugin Manager)</span><br>git <span class="hljs-built_in">clone</span> https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm<br><br><span class="hljs-comment"># 安装Tmux插件</span><br>~/.tmux/plugins/tpm/bin/install_plugins<br></code></pre></td></tr></table></figure>
-
-<p>确保您的 <code>install.sh</code> 和 <code>create_symlinks.sh</code> 脚本具有可执行权限:</p>
+<p>确保您的 <code>install.sh</code> 和 <code>create_symlinks.sh</code>
+脚本具有可执行权限:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">chmod</span> +x ~/dotfiles/install.sh<br><span class="hljs-built_in">chmod</span> +x ~/dotfiles/create_symlinks.sh<br></code></pre></td></tr></table></figure>
-
-<h3 id="步骤4-同步到新机器"><a href="#步骤4-同步到新机器" class="headerlink" title="步骤4: 同步到新机器"></a>步骤4: 同步到新机器</h3><p>在新机器上,您只需克隆dotfiles仓库并运行安装脚本:</p>
+<h3 id="步骤4-同步到新机器">步骤4: 同步到新机器</h3>
+<p>在新机器上,您只需克隆dotfiles仓库并运行安装脚本:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> https://github.com/yourusername/dotfiles.git ~/dotfiles<br><span class="hljs-built_in">cd</span> ~/dotfiles<br>./install.sh<br></code></pre></td></tr></table></figure>
-
 <p>这将设置您的环境并安装所有Vim和Tmux插件。</p>
 <p>如果您的dotfiles包含敏感信息,请确保Git仓库是私有的。对于更复杂的设置,您可能需要在安装脚本中添加额外的逻辑,如安装依赖项、编译Vim(如需特定功能)或其他自定义设置。</p>
 <p>通过这种方式,您可以在多台设备上无缝维护一致的开发环境,节省时间并确保工作流程的顺畅。</p>
@@ -331,22 +332,20 @@
 <p>版本控制：利用Git来追踪您的dotfiles。建立一个Git仓库，并将您的配置文件存放于其中。这样，您就可以轻松管理文件版本，并在不同设备间同步设置。</p>
 <p>建立符号链接：在新设备上克隆dotfiles仓库，并针对这些文件创建符号链接。如此一来，文件在仓库中的位置保持不变，同时系统通过符号链接来使用这些文件。</p>
 <p>编写自动化脚本：制作一个安装脚本，当您在新设备上克隆仓库时，它会自动创建符号链接并安装所需的软件（例如Vim和Tmux插件管理器）。</p>
-<p>使用插件管理器：对于Vim，您可以采用像vim-plug这样的插件管理器；对于Tmux，可以使用tpm（Tmux Plugin Manager）。这样，您只需在配置文件中指定所需插件，然后运行相应命令即可自动安装。</p>
+<p>使用插件管理器：对于Vim，您可以采用像vim-plug这样的插件管理器；对于Tmux，可以使用tpm（Tmux
+Plugin
+Manager）。这样，您只需在配置文件中指定所需插件，然后运行相应命令即可自动安装。</p>
 <p>以下是同步dotfiles、Vim与Tmux配置的分步指南：</p>
-<p>第一步：搭建Git仓库<br>在主机上，创建用于存放dotfiles的Git仓库：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> ~<br><span class="hljs-built_in">mkdir</span> dotfiles<br><span class="hljs-built_in">cd</span> dotfiles<br>git init<br></code></pre></td></tr></table></figure>
-<p>将您的dotfiles移至此目录并提交：</p>
+<p>第一步：搭建Git仓库 在主机上，创建用于存放dotfiles的Git仓库：
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> ~<br><span class="hljs-built_in">mkdir</span> dotfiles<br><span class="hljs-built_in">cd</span> dotfiles<br>git init<br></code></pre></td></tr></table></figure> 将您的dotfiles移至此目录并提交：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">mv</span> .vimrc dotfiles/<br><span class="hljs-built_in">mv</span> .tmux.conf dotfiles/<br><span class="hljs-comment"># 移动其他配置文件...</span><br>git add .<br>git commit -m <span class="hljs-string">&quot;初始化dotfiles&quot;</span><br></code></pre></td></tr></table></figure>
-
-<p>第二步：创建符号链接<br>编写一个脚本以自动创建指向dotfiles的符号链接：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br> <br>DOTFILES_DIR=~/dotfiles<br> <br><span class="hljs-built_in">ln</span> -sf <span class="hljs-variable">$DOTFILES_DIR</span>/.vimrc ~/.vimrc<br><span class="hljs-built_in">ln</span> -sf <span class="hljs-variable">$DOTFILES_DIR</span>/.tmux.conf ~/.tmux.conf<br><span class="hljs-comment"># 对其他dotfiles重复以上操作</span><br></code></pre></td></tr></table></figure>
-<p>第三步：制作自动化安装脚本<br>创建一个安装脚本（如install.sh），以便在新设备上快速设置：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br> <br><span class="hljs-comment"># 克隆dotfiles仓库</span><br>git <span class="hljs-built_in">clone</span> https://github.com/yourusername/dotfiles.git ~/dotfiles<br> <br><span class="hljs-comment"># 执行创建符号链接的脚本</span><br>~/dotfiles/create_symlinks.sh<br> <br><span class="hljs-comment"># 安装vim-plug插件管理器</span><br>curl -fLo ~/.vim/autoload/plug.vim --create-dirs \<br>https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim<br> <br><span class="hljs-comment"># 安装Vim插件</span><br>vim +PlugInstall +qall<br> <br><span class="hljs-comment"># 安装Tmux Plugin Manager</span><br>git <span class="hljs-built_in">clone</span> https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm<br> <br><span class="hljs-comment"># 安装Tmux插件</span><br>~/.tmux/plugins/tpm/bin/install_plugins<br></code></pre></td></tr></table></figure>
-<p>确保install.sh和create_symlinks.sh脚本具备执行权限：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">chmod</span> +x ~/dotfiles/install.sh<br><span class="hljs-built_in">chmod</span> +x ~/dotfiles/create_symlinks.sh<br></code></pre></td></tr></table></figure>
-<p>第四步：在新设备上同步<br>在新设备上，只需克隆dotfiles仓库并运行安装脚本：</p>
+<p>第二步：创建符号链接 编写一个脚本以自动创建指向dotfiles的符号链接：
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br> <br>DOTFILES_DIR=~/dotfiles<br> <br><span class="hljs-built_in">ln</span> -sf <span class="hljs-variable">$DOTFILES_DIR</span>/.vimrc ~/.vimrc<br><span class="hljs-built_in">ln</span> -sf <span class="hljs-variable">$DOTFILES_DIR</span>/.tmux.conf ~/.tmux.conf<br><span class="hljs-comment"># 对其他dotfiles重复以上操作</span><br></code></pre></td></tr></table></figure> 第三步：制作自动化安装脚本
+创建一个安装脚本（如install.sh），以便在新设备上快速设置： <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br> <br><span class="hljs-comment"># 克隆dotfiles仓库</span><br>git <span class="hljs-built_in">clone</span> https://github.com/yourusername/dotfiles.git ~/dotfiles<br> <br><span class="hljs-comment"># 执行创建符号链接的脚本</span><br>~/dotfiles/create_symlinks.sh<br> <br><span class="hljs-comment"># 安装vim-plug插件管理器</span><br>curl -fLo ~/.vim/autoload/plug.vim --create-dirs \<br>https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim<br> <br><span class="hljs-comment"># 安装Vim插件</span><br>vim +PlugInstall +qall<br> <br><span class="hljs-comment"># 安装Tmux Plugin Manager</span><br>git <span class="hljs-built_in">clone</span> https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm<br> <br><span class="hljs-comment"># 安装Tmux插件</span><br>~/.tmux/plugins/tpm/bin/install_plugins<br></code></pre></td></tr></table></figure>
+确保install.sh和create_symlinks.sh脚本具备执行权限： <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">chmod</span> +x ~/dotfiles/install.sh<br><span class="hljs-built_in">chmod</span> +x ~/dotfiles/create_symlinks.sh<br></code></pre></td></tr></table></figure>
+第四步：在新设备上同步 在新设备上，只需克隆dotfiles仓库并运行安装脚本：
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> https://github.com/yourusername/dotfiles.git ~/dotfiles<br><span class="hljs-built_in">cd</span> ~/dotfiles<br>./install.sh<br></code></pre></td></tr></table></figure>
-<p>执行以上操作后，您的开发环境即可设置完毕，所有Vim和Tmux插件也将安装就绪。</p>
+执行以上操作后，您的开发环境即可设置完毕，所有Vim和Tmux插件也将安装就绪。</p>
 <p>若dotfiles中含有敏感信息，请确保Git仓库保持私密状态。对于更为复杂的设置，您可能需要在安装脚本中加入额外的逻辑处理，例如安装依赖项、编译Vim（以支持特定功能）或其他自定义设置。</p>
 <p>通过这种方法，您可以在多台设备上轻松维护统一且高效的开发环境，节省宝贵时间，确保工作流程的连贯性。</p>
 

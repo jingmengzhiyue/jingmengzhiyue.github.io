@@ -16,26 +16,25 @@
   <meta name="author" content="Jingmengzhiyue">
   <meta name="keywords" content="">
   
-    <meta name="description" content="机器学习中的支持向量机模型">
+    <meta name="description" content="基于特征值阈值的端元数估计方法 在高光谱图像分析中，端元数估计是一个关键步骤，它关系到后续处理的准确性和效率。本文介绍了一种基于特征值阈值的端元数估计方法，该方法通过噪声白化和特征值分析来确定高光谱数据中的端元数量。 高光谱图像的噪声白化 首先，我们考虑一个高光谱图像 \(\mathbf{X} \in \mathbb{R}^{M \times B}\)，其中 \(M\) 是空间像素数，\(">
 <meta property="og:type" content="article">
-<meta property="og:title" content="机器学习----支持向量机">
-<meta property="og:url" content="http://jingmengzhiyue.top/2023/08/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0----%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/index.html">
+<meta property="og:title" content="基于特征值阈值的端元数估计方法">
+<meta property="og:url" content="http://jingmengzhiyue.top/2024/03/19/est-endnum/index.html">
 <meta property="og:site_name" content="热爱可抵万难">
-<meta property="og:description" content="机器学习中的支持向量机模型">
+<meta property="og:description" content="基于特征值阈值的端元数估计方法 在高光谱图像分析中，端元数估计是一个关键步骤，它关系到后续处理的准确性和效率。本文介绍了一种基于特征值阈值的端元数估计方法，该方法通过噪声白化和特征值分析来确定高光谱数据中的端元数量。 高光谱图像的噪声白化 首先，我们考虑一个高光谱图像 \(\mathbf{X} \in \mathbb{R}^{M \times B}\)，其中 \(M\) 是空间像素数，\(">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://jingmengzhiyue.top/img/cs229note3f1.png">
-<meta property="article:published_time" content="2023-08-01T13:18:39.000Z">
-<meta property="article:modified_time" content="2024-03-14T12:20:06.645Z">
+<meta property="article:published_time" content="2024-03-19T14:01:49.000Z">
+<meta property="article:modified_time" content="2024-03-19T14:07:17.598Z">
 <meta property="article:author" content="Jingmengzhiyue">
-<meta property="article:tag" content="Machine Learning">
+<meta property="article:tag" content="Remote Sensing">
+<meta property="article:tag" content="Endmember">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://jingmengzhiyue.top/img/cs229note3f1.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>机器学习----支持向量机 - 热爱可抵万难</title>
+  <title>基于特征值阈值的端元数估计方法 - 热爱可抵万难</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -219,7 +218,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="机器学习----支持向量机"></span>
+            <span id="subtitle" data-typed-text="基于特征值阈值的端元数估计方法"></span>
           
         </div>
 
@@ -230,8 +229,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-08-01 21:18" pubdate>
-          2023年8月1日 晚上
+        <time datetime="2024-03-19 22:01" pubdate>
+          2024年3月19日 晚上
         </time>
       </span>
     
@@ -242,7 +241,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.9k 字
+          2.5k 字
         
       </span>
     
@@ -253,7 +252,7 @@
         
         
         
-          17 分钟
+          21 分钟
         
       </span>
     
@@ -290,80 +289,120 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">机器学习----支持向量机</h1>
+            <h1 id="seo-header">基于特征值阈值的端元数估计方法</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="第三章">第三章</h1>
-<h3 id="第五部分-支持向量机support-vector-machines">第五部分
-支持向量机(Support Vector Machines)</h3>
-<p>本章的讲义主要讲述的是 支持向量机（Support Vector Machine ，缩写为
-SVM） 学习算法。SVM
-算得上是现有的最好的现成的(“off-the-shelf”)监督学习算法之一，很多人实际上认为这里没有“之一”这两个字的必要，认为
-SVM 就是最好的现成的监督学习算法。讲这个 SVM
-的来龙去脉之前，我们需要先讲一些关于边界的内容，以及对数据进行分割成大的区块（gap）的思路。接下来，我们要讲一下最优边界分类器(optimal
-margin classifier,)，其中还会引入一些关于拉格朗日对偶(Lagrange
-duality)的内容。然后我们还会接触到核(Kernels)，这提供了一种在非常高的维度(例如无穷维度)中进行
-SVM 学习的高效率方法，最终本章结尾部分会讲 SMO 算法，也就是 SVM
-算法的一个有效实现方法。</p>
-<h4 id="边界margins直觉intuition">1 边界(Margins)：直觉(Intuition)</h4>
-<p>咱们这回讲 SVM
-学习算法，从边界(margins)开始说起。这一节我们会给出关于边界的一些直观展示(intuitions)，以及对于我们做出的预测的信心(confidence)；在本章的第三节中，会对这些概念进行更正式化的表述。</p>
-<p>考虑逻辑回归，其中的概率分布<span class="math inline">\(p(y =
-1|x;\theta)\)</span> 是基于 <span class="math inline">\(h_\theta(x) =
-g(\theta^Tx)\)</span> 而建立的模型。当且仅当 <span
-class="math inline">\(h_\theta(x) \geq 0.5\)</span> ，也就是 <span
-class="math inline">\(\theta^Tx \geq 0\)</span>
-的时候，我们才会预测出“<span
-class="math inline">\(1\)</span>”。假如有一个正向(Positive)的训练样本(positive
-tra_ining example)(<span class="math inline">\(y =
-1\)</span>)。那么<span class="math inline">\(\theta^Tx\)</span>
-越大，<span class="math inline">\(h_\theta (x) = p(y = 1|x; w,
-b)\)</span> 也就越大，我们对预测 Label 为 <span
-class="math inline">\(1\)</span> 的“信心(confidence)”也就越强。所以如果
-<span class="math inline">\(y = 1\)</span> 且 <span
-class="math inline">\(\theta^T x \gg 0\)</span>（远大于 <span
-class="math inline">\(0\)</span>），那么我们就对这时候进行的预测非常有信心，当然这只是一种很不正式的粗略认识。与之类似，在逻辑回归中，如果有
-<span class="math inline">\(y = 0\)</span> 且 <span
-class="math inline">\(\theta^T x \ll 0\)</span>(远小于
-0)，我们也对这时候给出的预测很有信心。所以还是以一种非常不正式的方式来说，对于一个给定的训练集，如果我们能找到一个
-<span class="math inline">\(\theta\)</span>，满足当 <span
-class="math inline">\(y^{(i)} = 1\)</span> 的时候总有 <span
-class="math inline">\(\theta^T x^{(i)} \gg 0\)</span>，而 <span
-class="math inline">\(y^{(i)} = 0\)</span> 的时候则 <span
-class="math inline">\(\theta^T x^{(i)} \ll
-0\)</span>，我们就说这个对训练数据的拟合很好，因为这就能对所有训练样本给出可靠（甚至正确）的分类。似乎这样就是咱们要实现的目标了，稍后我们就要使用<strong>函数边界记号(notion
-of functional margins)</strong> 来用正规的语言来表达该思路。</p>
-<p>还有另外一种的直观表示，例如下面这个图当中，画叉的点表示的是正向训练样本，而小圆圈的点表示的是负向训练样本，图中还画出了<strong>分类边界(decision
-boundary)，</strong> 这条线也就是通过等式 <span
-class="math inline">\(\theta^T x = 0\)</span>
-来确定的，也叫做<strong>分类超平面(separating hyperplane)。</strong>
-图中还标出了三个点 <span class="math inline">\(A，B 和 C\)</span>。</p>
-<p><img src="/img/cs229note3f1.png" srcset="/img/loading.gif" lazyload /></p>
-<p>可以发现 <span class="math inline">\(A\)</span>
-点距离分界线很远。如果我们对 <span class="math inline">\(A\)</span> 点的
-<span class="math inline">\(y\)</span>
-值进行预测，估计我们会很有信心地认为在那个位置的 <span
-class="math inline">\(y = 1\)</span>。与之相反的是 <span
-class="math inline">\(C\)</span>，这个点距离边界线很近，而且虽然这个
-<span class="math inline">\(C\)</span> 点也在预测值 <span
-class="math inline">\(y = 1\)</span>
-的一侧，但看上去距离边界线的距离实在是很近的，所以也很可能会让我们对这个点的预测为
-<span class="math inline">\(y = 0\)</span>。因此，我们对 <span
-class="math inline">\(A\)</span> 点的预测要比对 <span
-class="math inline">\(C\)</span> 点的预测更有把握得多。<span
-class="math inline">\(B\)</span>
-点正好在上面两种极端情况之间，更广泛地说，如果一个点距离<strong>分类超平面(separating
-hyperplane)</strong>
-比较远，我们就可以对给出的预测很有信心。那么给定一个训练集，如果我们能够找到一个分类边界，利用这个边界我们可以对所有的训练样本给出正确并且有信心（也就是数据点距离分类边界要都很远）的预测，那这就是我们想要达到的状态了。当然上面这种说法还是很不正规，后面我们会使用<strong>几何边界记号(notion
-of geometric margins)</strong> 来更正规地来表达。</p>
-<h4 id="记号notation">2 记号(Notation)</h4>
-<p>在讨论 SVMs
-的时候，出于简化的目的，我们先要引入一个新的记号，用来表示分类。假设我们要针对一个二值化分类的问题建立一个线性分类器，其中用来分类的标签(label)为
-<span class="math inline">\(y\)</span>，分类特征(feature)为 <span
-class="math inline">\(x\)</span>。从此以后我们就用 $y <br />
-</p>
+                <h1
+id="基于特征值阈值的端元数估计方法">基于特征值阈值的端元数估计方法</h1>
+<p>在高光谱图像分析中，端元数估计是一个关键步骤，它关系到后续处理的准确性和效率。本文介绍了一种基于特征值阈值的端元数估计方法，该方法通过噪声白化和特征值分析来确定高光谱数据中的端元数量。</p>
+<h2 id="高光谱图像的噪声白化">高光谱图像的噪声白化</h2>
+<p>首先，我们考虑一个高光谱图像 <span class="math inline">\(\mathbf{X}
+\in \mathbb{R}^{M \times B}\)</span>，其中 <span
+class="math inline">\(M\)</span> 是空间像素数，<span
+class="math inline">\(B\)</span> 是谱带数。每个谱带可以表示为 <span
+class="math inline">\(\mathbf{X}\)</span> 的一个列向量 <span
+class="math inline">\(\mathbf{x}_i\)</span>。</p>
+<p>噪声白化是预处理高光谱数据的第一步，目的是减少数据中的噪声，从而更容易识别出端元。为此，我们首先计算高光谱数据的协方差矩阵
+<span class="math inline">\(\mathbf{C}_x\)</span>，其定义如下：</p>
+<p><span class="math display">\[
+    \mathbf{C}_x = \operatorname{Cov}(\mathbf{X}) =
+\left[\begin{array}{ccc}
+                \sigma\left(\mathbf{x}_{1}, \mathbf{x}_{1}\right) &amp;
+\cdots &amp; \sigma\left(\mathbf{x}_{1}, \mathbf{x}_{B}\right) \\
+                \vdots &amp; \ddots &amp; \vdots \\
+                \sigma\left(\mathbf{x}_{B}, \mathbf{x}_{1}\right) &amp;
+\cdots &amp; \sigma\left(\mathbf{x}_{B}, \mathbf{x}_{B}\right)
+            \end{array}\right] \in \mathbb{R}^{B \times B}
+\]</span></p>
+<p>其中，<span class="math inline">\(\sigma\left(\mathbf{x}_{m},
+\mathbf{x}_{k}\right)\)</span> 是两个向量 <span
+class="math inline">\(\mathbf{x}_m\)</span> 和 <span
+class="math inline">\(\mathbf{x}_k\)</span>
+之间的协方差，计算公式为：</p>
+<p><span class="math display">\[
+    \sigma\left(\mathbf{x}_{m}, \mathbf{x}_{k}\right) = \frac{1}{n-1}
+\sum_{i=1}^{n}\left(\mathbf{x}_{m i} -
+\bar{\mathbf{x}}_{m}\right)\left(\mathbf{x}_{k i} -
+\bar{\mathbf{x}}_{k}\right)
+\]</span></p>
+<p>接下来，我们根据协方差矩阵 <span
+class="math inline">\(\mathbf{C}_x\)</span> 计算噪声矩阵协方差 <span
+class="math inline">\(\mathbf{N}\)</span>：</p>
+<p><span class="math display">\[
+    \mathbf{N} =
+\operatorname{diag}\left(\frac{1}{\operatorname{Getdiag}(\mathbf{C}_x^{-1})}\right)
+\in \mathbb{R}^{B \times B}
+\]</span></p>
+<p>其中，<span
+class="math inline">\(\operatorname{Getdiag}(\cdot)\)</span>
+表示提取矩阵的对角线元素，<span
+class="math inline">\(\operatorname{diag}(\cdot)\)</span>
+表示将向量转换为对角矩阵。</p>
+<p>有了噪声矩阵协方差 <span
+class="math inline">\(\mathbf{N}\)</span>，我们可以计算白化噪声矩阵
+<span class="math inline">\(\mathbf{Y}\)</span>：</p>
+<p><span class="math display">\[
+    \mathbf{Y} =
+\mathbf{X}\left(\left(\sqrt{\mathbf{N}}\right)^{-1}\right)^\top
+\]</span></p>
+<h2 id="特征值软阈值算法">特征值软阈值算法</h2>
+<p>白化后的噪声矩阵 <span class="math inline">\(\mathbf{Y}\)</span>
+用于端元数估计。我们首先计算 <span
+class="math inline">\(\mathbf{Y}\)</span> 的自相关矩阵 <span
+class="math inline">\(\mathbf{C}_y\)</span> 和自协方差矩阵 <span
+class="math inline">\(\mathbf{R}_y\)</span>：</p>
+<p><span class="math display">\[
+    \mathbf{C}_y = \operatorname{Cov}(\mathbf{Y}) \in \mathbb{R}^{B
+\times B}
+\]</span></p>
+<p><span class="math display">\[
+    \mathbf{R}_y = E\left(\mathbf{Y} \mathbf{Y}^{T}\right) \in
+\mathbb{R}^{B \times B}
+\]</span></p>
+<p>其中，自相关矩阵 <span class="math inline">\(\mathbf{C}_y\)</span>
+的元素 <span class="math inline">\(\sigma\left(\mathbf{y}_{i},
+\mathbf{y}_{j}\right)\)</span> 和自协方差矩阵 <span
+class="math inline">\(\mathbf{R}_y\)</span> 的元素 <span
+class="math inline">\(\rho(\mathbf{y}_i, \mathbf{y}_j)\)</span>
+定义如下：</p>
+<p><span class="math display">\[
+    \rho(\mathbf{y}_i, \mathbf{y}_j) = \operatorname{corr}(\mathbf{y}_i,
+\mathbf{y}_j) = \frac{\operatorname{cov}(\mathbf{y}_i,
+\mathbf{y}_j)}{\sigma_Y \sigma_Y}
+\]</span></p>
+<p>接下来，我们分别计算这两个矩阵的特征值：</p>
+<p><span class="math display">\[
+    \mathbf{\Sigma}_C = \operatorname{eig}(\mathbf{C}_y)
+\]</span></p>
+<p><span class="math display">\[
+    \mathbf{\Sigma}_R = \operatorname{eig}(\mathbf{R}_y)
+\]</span></p>
+<p>特征值矩阵 <span class="math inline">\(\mathbf{\Sigma}_C\)</span> 和
+<span class="math inline">\(\mathbf{\Sigma}_R\)</span>
+包含了自相关矩阵和自协方差矩阵的特征值。我们通过这两个矩阵计算特征值之间的方差
+<span class="math inline">\(\mathbf{D}\)</span>：</p>
+<p><span class="math display">\[
+    \mathbf{D} = \mathbf{\Sigma}_R - \mathbf{\Sigma}_C
+\]</span></p>
+<p>然后，我们估计噪声方差 <span
+class="math inline">\(\mathbf{V}\)</span>：</p>
+<p><span class="math display">\[
+    \mathbf{V} = \frac{2}{M}\left(\mathbf{\Sigma}_R^2 +
+\mathbf{\Sigma}_C^2\right)
+\]</span></p>
+<p>最后，我们根据噪声方差 <span
+class="math inline">\(\mathbf{V}\)</span> 计算特征值阈值门限 <span
+class="math inline">\(\operatorname{gate}\)</span>：</p>
+<p><span class="math display">\[
+    \operatorname{gate} = \sqrt{2 \times \mathbf{V}}
+\]</span></p>
+<p>利用特征值阈值算法，我们可以得到估计的端元数 <span
+class="math inline">\(I\)</span>：</p>
+<p><span class="math display">\[
+    I = \sum_{i = 1}^B (\mathbf{D}_{ii} &gt; \operatorname{gate})
+\]</span></p>
 
                 
               </div>
@@ -382,7 +421,7 @@ class="math inline">\(x\)</span>。从此以后我们就用 $y <br />
     
       <span class="category-chain">
         
-  <a href="/categories/Machine-Learning/" class="category-chain-item">Machine Learning</a>
+  <a href="/categories/Remote-Sensing/" class="category-chain-item">Remote Sensing</a>
   
   
 
@@ -397,7 +436,9 @@ class="math inline">\(x\)</span>。从此以后我们就用 $y <br />
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Machine-Learning/" class="print-no-link">#Machine Learning</a>
+        <a href="/tags/Remote-Sensing/" class="print-no-link">#Remote Sensing</a>
+      
+        <a href="/tags/Endmember/" class="print-no-link">#Endmember</a>
       
     </div>
   
@@ -409,8 +450,8 @@ class="math inline">\(x\)</span>。从此以后我们就用 $y <br />
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>机器学习----支持向量机</div>
-      <div>http://jingmengzhiyue.top/2023/08/01/机器学习----支持向量机/</div>
+      <div>基于特征值阈值的端元数估计方法</div>
+      <div>http://jingmengzhiyue.top/2024/03/19/est-endnum/</div>
     </div>
     <div class="license-meta">
       
@@ -422,7 +463,7 @@ class="math inline">\(x\)</span>。从此以后我们就用 $y <br />
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年8月1日</div>
+          <div>2024年3月19日</div>
         </div>
       
       
@@ -454,9 +495,9 @@ class="math inline">\(x\)</span>。从此以后我们就用 $y <br />
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/08/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0----%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA/" title="机器学习----学习理论">
+                      <a href="/2024/03/19/ppi/" title="基于纯像元指数(PPI)的端元提取算法">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">机器学习----学习理论</span>
+                        <span class="hidden-mobile">基于纯像元指数(PPI)的端元提取算法</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -464,8 +505,8 @@ class="math inline">\(x\)</span>。从此以后我们就用 $y <br />
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/08/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0----%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/" title="机器学习----生成模型">
-                        <span class="hidden-mobile">机器学习----生成模型</span>
+                      <a href="/2024/03/19/endmember/" title="端元初始化">
+                        <span class="hidden-mobile">端元初始化</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -560,21 +601,6 @@ class="math inline">\(x\)</span>。从此以后我们就用 $y <br />
 
 
 
-
-
-  <script>
-  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
-    mermaid.initialize({"theme":"default"});
-
-    Fluid.utils.listenDOMLoaded(function() {
-      Fluid.events.registerRefreshCallback(function() {
-        if ('mermaid' in window) {
-          mermaid.init();
-        }
-      });
-    });
-  });
-</script>
 
 
 

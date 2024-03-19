@@ -211,7 +211,7 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('https://t.mwm.moe/fj') no-repeat center center; background-size: cover;">
+     style="background: url('/img/2.jpg') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
@@ -240,7 +240,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          925 字
+          893 字
         
       </span>
     
@@ -293,34 +293,53 @@
             
               <div class="markdown-body">
                 
-                <h1 id="Word2Vec"><a href="#Word2Vec" class="headerlink" title="Word2Vec"></a>Word2Vec</h1><p>由于深度神经网络无法向人类一样理解单词或者句子，因此需要将单词或者句子表达成网络可以理解的形式。</p>
-<p>假设有一个词表$\mathbf{V}&#x3D;{w_1,…,w_{|v|}}$，对每一个单词$w_i$来说，有两种表达方式，首先是独热码，其次是分布式表示。</p>
-<h2 id="one-hot-representation"><a href="#one-hot-representation" class="headerlink" title="one-hot representation"></a>one-hot representation</h2><p>将每一个单词表示为一个向量，向量的长度是词表中单词的总数，每一个向量只有一个1剩下的值都是0。</p>
-<h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ol>
+                <h1 id="word2vec">Word2Vec</h1>
+<p>由于深度神经网络无法向人类一样理解单词或者句子，因此需要将单词或者句子表达成网络可以理解的形式。</p>
+<p>假设有一个词表<span
+class="math inline">\(\mathbf{V}=\{w_1,...,w_{|v|}\}\)</span>，对每一个单词<span
+class="math inline">\(w_i\)</span>来说，有两种表达方式，首先是独热码，其次是分布式表示。</p>
+<h2 id="one-hot-representation">one-hot representation</h2>
+<p>将每一个单词表示为一个向量，向量的长度是词表中单词的总数，每一个向量只有一个1剩下的值都是0。</p>
+<h3 id="优点">优点</h3>
+<ol type="1">
 <li>解释性强：每个单词有唯一对应的独热码，独热码的向量长度等于词表中单词的总数。</li>
 <li>无信息丢失：词向量的维度等于单词的数量</li>
 </ol>
-<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ol>
+<h3 id="缺点">缺点</h3>
+<ol type="1">
 <li>高维数据导致运算复杂：由于每一个词向量的维度等于词表中单词的总数，因此每一个词向量的维度会高达几千到几万维，因此导致运算复杂度的大幅度上升。</li>
 <li>效率低下：由于每一个词向量中只有一个1剩下都是0，因此从信息论的角度上说，利用率非常低</li>
 <li>无法表示任意两个单词之间的相似性：由于使用了独热编码，任意两个单词之间都是正交的。</li>
 </ol>
-<h2 id="distributed-representation"><a href="#distributed-representation" class="headerlink" title="distributed representation"></a>distributed representation</h2><h2 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h2><ol>
+<h2 id="distributed-representation">distributed representation</h2>
+<h2 id="优点-1">优点</h2>
+<ol type="1">
 <li>和独热码相比维度较低。</li>
 <li>向量中每一个元素取值范围为实数</li>
 <li>可以表达两个单词之间的相似性信息</li>
 </ol>
-<h3 id="word2vec"><a href="#word2vec" class="headerlink" title="word2vec"></a>word2vec</h3><p>假设：</p>
-<ol>
-<li>假设窗口大小为$2c$</li>
+<h3 id="word2vec-1">word2vec</h3>
+<p>假设：</p>
+<ol type="1">
+<li>假设窗口大小为<span class="math inline">\(2c\)</span></li>
 <li>假设任意两个词向量分布之间相互独立</li>
 </ol>
-<p>对于词表$\bf{V}&#x3D;{w_1,…,W_T }$来说，可以得到联合概率分布：</p>
-<p>$$<br>P(w_{1:T})&#x3D;P(w_t)*P(\text{context}(w_t)|w_t)<br>$$</p>
-<p>给定$w_t$可以得到条件似然：</p>
-<p>$$<br>P(w_{1:T})&#x3D;P(w_t)P(w_{t-c : t-1}, w_{t+1:t+c}|w_t)&#x3D;\Pi_{t&#x3D;1}^TP(w_{t-c:t-1},w_{t+1:t+c}|w_t)<br>$$</p>
+<p>对于词表<span class="math inline">\(\bf{V}=\{w_1,...,W_T
+\}\)</span>来说，可以得到联合概率分布：</p>
+<p><span class="math display">\[
+P(w_{1:T})=P(w_t)*P(\text{context}(w_t)|w_t)
+\]</span></p>
+<p>给定<span class="math inline">\(w_t\)</span>可以得到条件似然：</p>
+<p><span class="math display">\[
+P(w_{1:T})=P(w_t)P(w_{t-c : t-1},
+w_{t+1:t+c}|w_t)=\Pi_{t=1}^TP(w_{t-c:t-1},w_{t+1:t+c}|w_t)
+\]</span></p>
 <p>平均条件似然可以表示为：</p>
-<p>$$<br>L &#x3D; \frac{1}{T}\sum\limits_{t&#x3D;1}^{T}\log P(w_{t-c:t-1},w_{t+1:t+c}|w_t)&#x3D;\frac{1}{T}\sum\limits_{t&#x3D;1}^{T}\sum\limits_{i\in [-c,c]}\log P(w_{t+1}|w_t)<br>$$</p>
+<p><span class="math display">\[
+L = \frac{1}{T}\sum\limits_{t=1}^{T}\log
+P(w_{t-c:t-1},w_{t+1:t+c}|w_t)=\frac{1}{T}\sum\limits_{t=1}^{T}\sum\limits_{i\in
+[-c,c]}\log P(w_{t+1}|w_t)
+\]</span></p>
 
                 
               </div>

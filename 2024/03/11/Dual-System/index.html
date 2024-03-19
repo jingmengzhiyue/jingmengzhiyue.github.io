@@ -16,12 +16,12 @@
   <meta name="author" content="Jingmengzhiyue">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Ever found yourself torn between the sleek, user-friendly experience of Windows and the robustness and open-source allure of Linux? Fret not, for you can have the best of both worlds with a seamless d">
+    <meta name="description" content="Ever found yourself torn between the sleek, user-friendly experience of Windows and the robustness and open-source allure of Linux? Fret not, for you can have the best of both worlds with a seamless">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Installing Windows &amp; Linux Dual Boot System">
 <meta property="og:url" content="http://jingmengzhiyue.top/2024/03/11/Dual-System/index.html">
 <meta property="og:site_name" content="热爱可抵万难">
-<meta property="og:description" content="Ever found yourself torn between the sleek, user-friendly experience of Windows and the robustness and open-source allure of Linux? Fret not, for you can have the best of both worlds with a seamless d">
+<meta property="og:description" content="Ever found yourself torn between the sleek, user-friendly experience of Windows and the robustness and open-source allure of Linux? Fret not, for you can have the best of both worlds with a seamless">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://jingmengzhiyue.top/img/%E5%9B%BE%E7%89%871.jpg">
 <meta property="og:image" content="http://jingmengzhiyue.top/img/%E5%9B%BE%E7%89%872.jpg">
@@ -243,7 +243,7 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('https://t.mwm.moe/fj') no-repeat center center; background-size: cover;">
+     style="background: url('/img/2.jpg') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
@@ -272,7 +272,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          8.8k 字
+          8.7k 字
         
       </span>
     
@@ -283,7 +283,7 @@
         
         
         
-          74 分钟
+          73 分钟
         
       </span>
     
@@ -325,131 +325,282 @@
             
               <div class="markdown-body">
                 
-                <p>Ever found yourself torn between the sleek, user-friendly experience of Windows and the robustness and open-source allure of Linux? Fret not, for you can have the best of both worlds with a seamless dual-boot setup. In this comprehensive guide, we’ll walk you through the intricate process of installing Windows and Linux on the same machine, unlocking a realm of endless possibilities and flexibility.</p>
-<p>Imagine being able to seamlessly transition between operating systems, harnessing the power of Linux for development, server management, or simply embracing its customizable nature, while still having access to the familiarity and compatibility of Windows for daily tasks or gaming. With a dual-boot configuration, you’ll no longer have to compromise; instead, you’ll wield the ultimate computing experience tailored to your needs.</p>
-<p>But installing a dual-boot system is no mere child’s play; it requires meticulous planning, attention to detail, and a deep understanding of partitioning and boot management. Fear not, for this guide will hold your hand every step of the way, from crafting a bootable USB drive to meticulously dividing your disk space and configuring boot options.</p>
-<p>So, buckle up and prepare to embark on a journey that will transform your computing paradigm, empowering you with the versatility and freedom to harness the capabilities of both Windows and Linux on a single machine. Get ready to unlock a world of endless possibilities and unleash your true potential as a power user.</p>
-<h2 id="1-Preparation-Work"><a href="#1-Preparation-Work" class="headerlink" title="1. Preparation Work"></a>1. Preparation Work</h2><h3 id="1-1-Creating-a-Bootable-USB-Drive"><a href="#1-1-Creating-a-Bootable-USB-Drive" class="headerlink" title="1.1 Creating a Bootable USB Drive"></a>1.1 Creating a Bootable USB Drive</h3><p>Prepare a USB drive with 8GB or more capacity (4GB is sufficient). Back up any data on the drive as it will be formatted.</p>
-<p>Next, go to the <a target="_blank" rel="noopener" href="https://www.ubuntu.com/">Ubuntu</a> official website and download the desired ISO image file, typically Ubuntu 18 or Ubuntu 16. If you’re not comfortable with English, you can use the Chrome browser which will automatically translate the webpage.</p>
-<ol>
-<li><a target="_blank" rel="noopener" href="https://www.ubuntu.com/download/desktop">https://www.ubuntu.com/download/desktop</a> &#x2F;&#x2F; Download links for Ubuntu 18.04.2 and 19.04</li>
-<li><a target="_blank" rel="noopener" href="http://releases.ubuntu.com/?_ga=2.132932682.518720393.1557799252-856679875.1557799252">http://releases.ubuntu.com/?_ga&#x3D;2.132932682.518720393.1557799252-856679875.1557799252</a> &#x2F;&#x2F; Other mirror download links</li>
+                <p>Ever found yourself torn between the sleek, user-friendly experience
+of Windows and the robustness and open-source allure of Linux? Fret not,
+for you can have the best of both worlds with a seamless dual-boot
+setup. In this comprehensive guide, we'll walk you through the intricate
+process of installing Windows and Linux on the same machine, unlocking a
+realm of endless possibilities and flexibility.</p>
+<p>Imagine being able to seamlessly transition between operating
+systems, harnessing the power of Linux for development, server
+management, or simply embracing its customizable nature, while still
+having access to the familiarity and compatibility of Windows for daily
+tasks or gaming. With a dual-boot configuration, you'll no longer have
+to compromise; instead, you'll wield the ultimate computing experience
+tailored to your needs.</p>
+<p>But installing a dual-boot system is no mere child's play; it
+requires meticulous planning, attention to detail, and a deep
+understanding of partitioning and boot management. Fear not, for this
+guide will hold your hand every step of the way, from crafting a
+bootable USB drive to meticulously dividing your disk space and
+configuring boot options.</p>
+<p>So, buckle up and prepare to embark on a journey that will transform
+your computing paradigm, empowering you with the versatility and freedom
+to harness the capabilities of both Windows and Linux on a single
+machine. Get ready to unlock a world of endless possibilities and
+unleash your true potential as a power user.</p>
+<h2 id="preparation-work">1. Preparation Work</h2>
+<h3 id="creating-a-bootable-usb-drive">1.1 Creating a Bootable USB
+Drive</h3>
+<p>Prepare a USB drive with 8GB or more capacity (4GB is sufficient).
+Back up any data on the drive as it will be formatted.</p>
+<p>Next, go to the <a target="_blank" rel="noopener" href="https://www.ubuntu.com/">Ubuntu</a> official
+website and download the desired ISO image file, typically Ubuntu 18 or
+Ubuntu 16. If you're not comfortable with English, you can use the
+Chrome browser which will automatically translate the webpage.</p>
+<ol type="1">
+<li><a
+target="_blank" rel="noopener" href="https://www.ubuntu.com/download/desktop">https://www.ubuntu.com/download/desktop</a>
+// Download links for Ubuntu 18.04.2 and 19.04</li>
+<li><a
+target="_blank" rel="noopener" href="http://releases.ubuntu.com/?_ga=2.132932682.518720393.1557799252-856679875.1557799252">http://releases.ubuntu.com/?_ga=2.132932682.518720393.1557799252-856679875.1557799252</a>
+// Other mirror download links</li>
 </ol>
-<p><img src="/img/%E5%9B%BE%E7%89%871.jpg" srcset="/img/loading.gif" lazyload></p>
-<p>Next, create the bootable USB drive using the <a target="_blank" rel="noopener" href="https://rufus.ie/">Rufus</a> tool.</p>
-<p>After downloading Rufus, open it, select the downloaded ISO file, and it will automatically set the parameters. Click “Start” and wait for the process to complete.</p>
-<p><img src="/img/%E5%9B%BE%E7%89%872.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/img/图片1.jpg" srcset="/img/loading.gif" lazyload /></p>
+<p>Next, create the bootable USB drive using the <a
+target="_blank" rel="noopener" href="https://rufus.ie/">Rufus</a> tool.</p>
+<p>After downloading Rufus, open it, select the downloaded ISO file, and
+it will automatically set the parameters. Click "Start" and wait for the
+process to complete.</p>
+<p><img src="/img/图片2.jpg" srcset="/img/loading.gif" lazyload /></p>
 <p>If you see any prompt messages, select the default option.</p>
-<p><img src="/img/%E5%9B%BE%E7%89%873.jpg" srcset="/img/loading.gif" lazyload><br><img src="/img/%E5%9B%BE%E7%89%874.jpg" srcset="/img/loading.gif" lazyload></p>
-<p>Detailed instructions are also available on the official website. Here’s the <a target="_blank" rel="noopener" href="https://tutorials.ubuntu.com/tutorial/tutorial-create-a-usb-stick-on-windows?_ga=2.232393947.518720393.1557799252-856679875.1557799252#0">link</a>. If the link is broken, you can find it on the official website under the download section.</p>
-<p><img src="/img/%E5%9B%BE%E7%89%875.jpg" srcset="/img/loading.gif" lazyload></p>
-<h3 id="1-2-Allocating-Disk-Space"><a href="#1-2-Allocating-Disk-Space" class="headerlink" title="1.2 Allocating Disk Space"></a>1.2 Allocating Disk Space</h3><p>Allocate a portion of your computer’s hard drive for Ubuntu installation.</p>
-<p>Press Windows + X and select “Disk Management,” or right-click on “My Computer” &gt; “Manage” &gt; “Disk Management.”</p>
-<p>Select a drive other than C: that has sufficient free space (100GB or more). If possible, choose the last drive letter (E: if you have C, D, and E drives; F: if you have C, D, E, and F drives). Right-click on the drive and select “Shrink Volume.” Enter the desired amount of space you want to allocate for the Ubuntu system. You can revisit this step later after learning about Ubuntu partitions and decide on the appropriate space allocation based on your needs.</p>
-<p><img src="/img/%E5%9B%BE%E7%89%876.jpg" srcset="/img/loading.gif" lazyload></p>
-<p>In my case, I had plenty of free space, so I allocated 600GB. You can see a 600GB independent space that will be assigned to Ubuntu later.</p>
-<p><img src="/img/%E5%9B%BE%E7%89%877.jpg" srcset="/img/loading.gif" lazyload></p>
-<h2 id="2-Installing-Ubuntu"><a href="#2-Installing-Ubuntu" class="headerlink" title="2. Installing Ubuntu"></a>2. Installing Ubuntu</h2><p>Insert the bootable USB drive you created earlier into your computer and press the hotkey during boot to enter the boot menu. You should see a prominent “Ubuntu” boot option; select it.</p>
-<p>You’ll then see the Ubuntu boot screen, followed by several options. The first two options are likely “Try Ubuntu” and “Install Ubuntu.” Select “Install Ubuntu.”</p>
-<p><img src="/img/%E5%9B%BE%E7%89%878.jpg" srcset="/img/loading.gif" lazyload></p>
-<p>Prepare for the installation. If you have an internet connection, it’s recommended to check the option to download updates.</p>
-<p><img src="/img/%E5%9B%BE%E7%89%879.jpg" srcset="/img/loading.gif" lazyload></p>
-<p>Next, select the installation type. Choosing “Erase entire disk” will erase your existing Windows system, so select the “Something else” option to perform manual partitioning.</p>
-<p><img src="/img/%E5%9B%BE%E7%89%8710.jpg" srcset="/img/loading.gif" lazyload></p>
-<p>You should see several partitions on this screen, including the free space you allocated earlier.</p>
-<p><img src="/img/%E5%9B%BE%E7%89%8711.jpg" srcset="/img/loading.gif" lazyload></p>
-<h3 id="2-1-Partitioning"><a href="#2-1-Partitioning" class="headerlink" title="2.1 Partitioning"></a>2.1 Partitioning</h3><p>Now, let’s discuss partitioning. Partitioning involves dividing your free space into several sections, each with its own responsibilities.</p>
-<p>Ubuntu Linux can mount partitions as directories. For a typical hard drive size (500GB-1000GB), the recommended directory allocation is as follows:</p>
+<p><img src="/img/图片3.jpg" srcset="/img/loading.gif" lazyload /> <img src="/img/图片4.jpg" srcset="/img/loading.gif" lazyload /></p>
+<p>Detailed instructions are also available on the official website.
+Here's the <a
+target="_blank" rel="noopener" href="https://tutorials.ubuntu.com/tutorial/tutorial-create-a-usb-stick-on-windows?_ga=2.232393947.518720393.1557799252-856679875.1557799252#0">link</a>.
+If the link is broken, you can find it on the official website under the
+download section.</p>
+<p><img src="/img/图片5.jpg" srcset="/img/loading.gif" lazyload /></p>
+<h3 id="allocating-disk-space">1.2 Allocating Disk Space</h3>
+<p>Allocate a portion of your computer's hard drive for Ubuntu
+installation.</p>
+<p>Press Windows + X and select "Disk Management," or right-click on "My
+Computer" &gt; "Manage" &gt; "Disk Management."</p>
+<p>Select a drive other than C: that has sufficient free space (100GB or
+more). If possible, choose the last drive letter (E: if you have C, D,
+and E drives; F: if you have C, D, E, and F drives). Right-click on the
+drive and select "Shrink Volume." Enter the desired amount of space you
+want to allocate for the Ubuntu system. You can revisit this step later
+after learning about Ubuntu partitions and decide on the appropriate
+space allocation based on your needs.</p>
+<p><img src="/img/图片6.jpg" srcset="/img/loading.gif" lazyload /></p>
+<p>In my case, I had plenty of free space, so I allocated 600GB. You can
+see a 600GB independent space that will be assigned to Ubuntu later.</p>
+<p><img src="/img/图片7.jpg" srcset="/img/loading.gif" lazyload /></p>
+<h2 id="installing-ubuntu">2. Installing Ubuntu</h2>
+<p>Insert the bootable USB drive you created earlier into your computer
+and press the hotkey during boot to enter the boot menu. You should see
+a prominent "Ubuntu" boot option; select it.</p>
+<p>You'll then see the Ubuntu boot screen, followed by several options.
+The first two options are likely "Try Ubuntu" and "Install Ubuntu."
+Select "Install Ubuntu."</p>
+<p><img src="/img/图片8.jpg" srcset="/img/loading.gif" lazyload /></p>
+<p>Prepare for the installation. If you have an internet connection,
+it's recommended to check the option to download updates.</p>
+<p><img src="/img/图片9.jpg" srcset="/img/loading.gif" lazyload /></p>
+<p>Next, select the installation type. Choosing "Erase entire disk" will
+erase your existing Windows system, so select the "Something else"
+option to perform manual partitioning.</p>
+<p><img src="/img/图片10.jpg" srcset="/img/loading.gif" lazyload /></p>
+<p>You should see several partitions on this screen, including the free
+space you allocated earlier.</p>
+<p><img src="/img/图片11.jpg" srcset="/img/loading.gif" lazyload /></p>
+<h3 id="partitioning">2.1 Partitioning</h3>
+<p>Now, let's discuss partitioning. Partitioning involves dividing your
+free space into several sections, each with its own
+responsibilities.</p>
+<p>Ubuntu Linux can mount partitions as directories. For a typical hard
+drive size (500GB-1000GB), the recommended directory allocation is as
+follows:</p>
 <table>
+
 <thead>
-<tr>
+<tr class="header">
 <th>Directory</th>
 <th>Suggested Size</th>
 <th>Format</th>
 <th>Description</th>
 </tr>
 </thead>
-<tbody><tr>
-<td>&#x2F;</td>
+<tbody>
+<tr class="odd">
+<td>/</td>
 <td>150GB-200GB</td>
 <td>ext4</td>
 <td>Root directory</td>
 </tr>
-<tr>
-<td>&#x2F;tmp</td>
+<tr class="even">
+<td>/tmp</td>
 <td>Around 5GB</td>
 <td>ext4</td>
-<td>System temporary files, typically not saved after a system restart. (Required for server setup?)</td>
+<td>System temporary files, typically not saved after a system restart.
+(Required for server setup?)</td>
 </tr>
-<tr>
-<td>&#x2F;boot</td>
+<tr class="odd">
+<td>/boot</td>
 <td>Around 1GB</td>
 <td>ext4</td>
-<td>System boot starting location. Recommended: Should be larger than 400MB or 1GB. Linux kernel and boot system program files, such as vmlinuz and initrd.img, are located in this directory. In general, the GRUB or LILO system boot manager is also located here. Boot files location, such as kernels, initrd, and grub.</td>
+<td>System boot starting location. Recommended: Should be larger than
+400MB or 1GB. Linux kernel and boot system program files, such as
+vmlinuz and initrd.img, are located in this directory. In general, the
+GRUB or LILO system boot manager is also located here. Boot files
+location, such as kernels, initrd, and grub.</td>
 </tr>
-<tr>
-<td>&#x2F;home</td>
+<tr class="even">
+<td>/home</td>
 <td>As large as possible</td>
 <td>ext4</td>
-<td>User working directory; personal configuration files, such as environment variables; each account is assigned a working directory.</td>
+<td>User working directory; personal configuration files, such as
+environment variables; each account is assigned a working
+directory.</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>swap</td>
 <td>Twice the physical memory</td>
 <td>Swap space</td>
-<td>Swap space: Similar to “virtual memory” in Windows. If you have low memory (1-4GB), allocate twice the physical memory. For higher memory (8-16GB), set it equal to the physical memory or physical memory + 2GB.</td>
+<td>Swap space: Similar to "virtual memory" in Windows. If you have low
+memory (1-4GB), allocate twice the physical memory. For higher memory
+(8-16GB), set it equal to the physical memory or physical memory +
+2GB.</td>
 </tr>
-</tbody></table>
-<p>&#x2F;tmp is optional, and &#x2F;boot can be 1GB. The root directory (&#x2F;) and &#x2F;home should be allocated more space, from tens to hundreds of gigabytes, depending on your needs. When allocating space, it’s best to allocate other partitions first and then allocate the swap space.</p>
-<h3 id="2-2-Partitioning-Demonstration"><a href="#2-2-Partitioning-Demonstration" class="headerlink" title="2.2 Partitioning Demonstration"></a>2.2 Partitioning Demonstration</h3><p>Select your free space and click the “+” sign. First, allocate space for &#x2F;boot.</p>
-<p><img src="/img/%E5%9B%BE%E7%89%8712.jpg" srcset="/img/loading.gif" lazyload></p>
-<p>There’s a recommendation for dual-boot systems: If your computer already has a primary partition-type boot loader, you can choose the “Logical Partition” for &#x2F;boot. For a completely blank disk, &#x2F;boot should be set as a “Primary Partition.” I haven’t tried both methods, but this should be correct.</p>
-<p>However, if you have a completely blank disk, you don’t need to partition manually. You can simply choose the “Erase entire disk” option at the beginning.</p>
-<p><strong>Special Note: This article was written later, and I didn’t save screenshots from when I installed Ubuntu. The images in this section are taken from someone else’s blog, where they allocated only 300MB for &#x2F;boot. My recommendation is still to allocate 1GB.</strong></p>
-<p>Click “+” again to allocate other partitions. The partition type should be “Logical Partition,” and the location should be the starting position of the free space. For the partition sizes, you can follow my suggestions in the table below the red text.</p>
-<p><img src="/img/%E5%9B%BE%E7%89%8713.jpg" srcset="/img/loading.gif" lazyload><br><img src="/img/%E5%9B%BE%E7%89%8714.jpg" srcset="/img/loading.gif" lazyload></p>
-<p>When allocating the swap space, remember to change the “Use as” option to “Swap Space.”</p>
-<p><img src="/img/%E5%9B%BE%E7%89%8715.jpg" srcset="/img/loading.gif" lazyload></p>
-<h3 id="2-3-Installation"><a href="#2-3-Installation" class="headerlink" title="2.3 Installation"></a>2.3 Installation</h3><p>After partitioning is complete, prepare for the installation.</p>
-<p>Select the partition corresponding to &#x2F;boot for the “Device for boot loader installation.” Confirm the details and click “Install.”</p>
-<p><img src="/img/%E5%9B%BE%E7%89%8716.jpg" srcset="/img/loading.gif" lazyload></p>
-<p>Next, you’ll go through some simple locale and language selections and create a user account. I won’t cover those steps here.</p>
-<p>Wait for the installation to complete…</p>
-<p>After the installation is finished, you can check the partitions in Windows:</p>
-<p><img src="/img/%E5%9B%BE%E7%89%8717.jpg" srcset="/img/loading.gif" lazyload></p>
-<h2 id="3-Modifying-Boot-Options"><a href="#3-Modifying-Boot-Options" class="headerlink" title="3. Modifying Boot Options"></a>3. Modifying Boot Options</h2><p>After installing the dual-boot system, your computer may still default to booting into Windows. If you want Ubuntu to be the default boot option, you’ll need to modify the boot order.</p>
-<p>In the Windows system, download the EasyBCD tool. Here’s a link if it’s no longer available, you can search for it online.</p>
-<p>Link: <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1slPiDZ3?pwd=z3r7">https://pan.baidu.com/s/1slPiDZ3</a> Password: z3r7</p>
-<p><img src="/img/%E5%9B%BE%E7%89%8718.jpg" srcset="/img/loading.gif" lazyload><br><img src="/img/%E5%9B%BE%E7%89%8719.jpg" srcset="/img/loading.gif" lazyload></p>
-<p>Move the system you want to boot as the default to the top of the list.</p>
-<p><img src="/img/%E5%9B%BE%E7%89%8720.jpg" srcset="/img/loading.gif" lazyload></p>
-<h2 id="Uninstalling-the-Windows-Linux-Dual-Boot-System"><a href="#Uninstalling-the-Windows-Linux-Dual-Boot-System" class="headerlink" title="Uninstalling the Windows+Linux Dual Boot System"></a>Uninstalling the Windows+Linux Dual Boot System</h2><p>The following content is based on a post from <a target="_blank" rel="noopener" href="http://tieba.baidu.com/p/4485862313?see_lz=1">http://tieba.baidu.com/p/4485862313?see_lz&#x3D;1</a>.</p>
-<p>The post was visible a few days ago (as of May 14, 2019, 3:21:39 PM), but it suddenly disappeared. Fortunately, I found the Baidu cached version.</p>
-<p>This section covers uninstalling Linux while keeping Windows (applicable to UEFI+GPT systems). For dual-boot installation, you can refer to <a target="_blank" rel="noopener" href="https://blog.csdn.net/fanxueya1322/article/details/90205143">https://blog.csdn.net/fanxueya1322/article/details/90205143</a>.</p>
-<h3 id="1-Delete-Ubuntu-Partitions-in-Windows"><a href="#1-Delete-Ubuntu-Partitions-in-Windows" class="headerlink" title="1. Delete Ubuntu Partitions in Windows"></a>1. Delete Ubuntu Partitions in Windows</h3><p>Press Windows + X to open Disk Management.</p>
+</tbody>
+</table>
+<p>/tmp is optional, and /boot can be 1GB. The root directory (/) and
+/home should be allocated more space, from tens to hundreds of
+gigabytes, depending on your needs. When allocating space, it's best to
+allocate other partitions first and then allocate the swap space.</p>
+<h3 id="partitioning-demonstration">2.2 Partitioning Demonstration</h3>
+<p>Select your free space and click the "+" sign. First, allocate space
+for /boot.</p>
+<p><img src="/img/图片12.jpg" srcset="/img/loading.gif" lazyload /></p>
+<p>There's a recommendation for dual-boot systems: If your computer
+already has a primary partition-type boot loader, you can choose the
+"Logical Partition" for /boot. For a completely blank disk, /boot should
+be set as a "Primary Partition." I haven't tried both methods, but this
+should be correct.</p>
+<p>However, if you have a completely blank disk, you don't need to
+partition manually. You can simply choose the "Erase entire disk" option
+at the beginning.</p>
+<p><strong>Special Note: This article was written later, and I didn't
+save screenshots from when I installed Ubuntu. The images in this
+section are taken from someone else's blog, where they allocated only
+300MB for /boot. My recommendation is still to allocate
+1GB.</strong></p>
+<p>Click "+" again to allocate other partitions. The partition type
+should be "Logical Partition," and the location should be the starting
+position of the free space. For the partition sizes, you can follow my
+suggestions in the table below the red text.</p>
+<p><img src="/img/图片13.jpg" srcset="/img/loading.gif" lazyload /> <img src="/img/图片14.jpg" srcset="/img/loading.gif" lazyload /></p>
+<p>When allocating the swap space, remember to change the "Use as"
+option to "Swap Space."</p>
+<p><img src="/img/图片15.jpg" srcset="/img/loading.gif" lazyload /></p>
+<h3 id="installation">2.3 Installation</h3>
+<p>After partitioning is complete, prepare for the installation.</p>
+<p>Select the partition corresponding to /boot for the "Device for boot
+loader installation." Confirm the details and click "Install."</p>
+<p><img src="/img/图片16.jpg" srcset="/img/loading.gif" lazyload /></p>
+<p>Next, you'll go through some simple locale and language selections
+and create a user account. I won't cover those steps here.</p>
+<p>Wait for the installation to complete...</p>
+<p>After the installation is finished, you can check the partitions in
+Windows:</p>
+<p><img src="/img/图片17.jpg" srcset="/img/loading.gif" lazyload /></p>
+<h2 id="modifying-boot-options">3. Modifying Boot Options</h2>
+<p>After installing the dual-boot system, your computer may still
+default to booting into Windows. If you want Ubuntu to be the default
+boot option, you'll need to modify the boot order.</p>
+<p>In the Windows system, download the EasyBCD tool. Here's a link if
+it's no longer available, you can search for it online.</p>
+<p>Link: <a
+target="_blank" rel="noopener" href="https://pan.baidu.com/s/1slPiDZ3?pwd=z3r7">https://pan.baidu.com/s/1slPiDZ3</a>
+Password: z3r7</p>
+<p><img src="/img/图片18.jpg" srcset="/img/loading.gif" lazyload /> <img src="/img/图片19.jpg" srcset="/img/loading.gif" lazyload /></p>
+<p>Move the system you want to boot as the default to the top of the
+list.</p>
+<p><img src="/img/图片20.jpg" srcset="/img/loading.gif" lazyload /></p>
+<h2 id="uninstalling-the-windowslinux-dual-boot-system">Uninstalling the
+Windows+Linux Dual Boot System</h2>
+<p>The following content is based on a post from <a
+target="_blank" rel="noopener" href="http://tieba.baidu.com/p/4485862313?see_lz=1">http://tieba.baidu.com/p/4485862313?see_lz=1</a>.</p>
+<p>The post was visible a few days ago (as of May 14, 2019, 3:21:39 PM),
+but it suddenly disappeared. Fortunately, I found the Baidu cached
+version.</p>
+<p>This section covers uninstalling Linux while keeping Windows
+(applicable to UEFI+GPT systems). For dual-boot installation, you can
+refer to <a
+target="_blank" rel="noopener" href="https://blog.csdn.net/fanxueya1322/article/details/90205143">https://blog.csdn.net/fanxueya1322/article/details/90205143</a>.</p>
+<h3 id="delete-ubuntu-partitions-in-windows">1. Delete Ubuntu Partitions
+in Windows</h3>
+<p>Press Windows + X to open Disk Management.</p>
 <p>Windows is the key that looks like a flag next to the Alt key.</p>
-<p><img src="/img/%E5%9B%BE%E7%89%8721.jpg" srcset="/img/loading.gif" lazyload></p>
-<p>These are the partitions I created when installing Ubuntu. Right-click and delete each volume.</p>
-<p><img src="/img/%E5%9B%BE%E7%89%8722.jpg" srcset="/img/loading.gif" lazyload></p>
-<p>Restore the free space. In my case, I had originally shrunk the D: drive to create this 600GB space for Ubuntu. Select the D: drive, right-click, and select “Extend Volume” to restore it to its original size.</p>
-<p><img src="/img/%E5%9B%BE%E7%89%8723.jpg" srcset="/img/loading.gif" lazyload></p>
-<h3 id="2-Removing-Boot-Entries"><a href="#2-Removing-Boot-Entries" class="headerlink" title="2. Removing Boot Entries"></a>2. Removing Boot Entries</h3><p>After deleting all Ubuntu partitions and rebooting, the GRUB interface is still present, but attempting to boot into Ubuntu fails. Next, you’ll need to remove Ubuntu’s boot files.</p>
-<p>If you use the easyUEFI software to view the EFI boot entries, you’ll find that Ubuntu has written its EFI boot files to the Windows EFI boot partition.</p>
-<p><img src="/img/%E5%9B%BE%E7%89%8724.jpg" srcset="/img/loading.gif" lazyload><br><img src="/img/%E5%9B%BE%E7%89%8725.jpg" srcset="/img/loading.gif" lazyload></p>
-<p>If you only want to remove the boot files, you don’t need to download easyUEFI. It’s just used to view the boot entries.</p>
-<p>Here’s how to remove the boot entries:</p>
-<h4 id="2-1-Mount-the-EFI-Partition"><a href="#2-1-Mount-the-EFI-Partition" class="headerlink" title="2.1 Mount the EFI Partition"></a>2.1 Mount the EFI Partition</h4><p>(1) Right-click on the Windows icon and select “Command Prompt (Admin)”<br>(2) Type “diskpart” and press Enter<br>(3) Type “list disk” to list all disks in the system<br>(4) Type “select disk 0” to select the disk containing the EFI boot partition (adjust the disk number based on your system)<br>(5) Type “list partition” to list all partitions on the selected disk<br>(6) Type “select partition 1” to select the EFI boot partition (the partition type should be “System”)<br>(7) Type “assign letter&#x3D;p” to assign a drive letter to the selected partition (use an available letter)</p>
-<p><img src="/img/%E5%9B%BE%E7%89%8726.jpg" srcset="/img/loading.gif" lazyload></p>
-<h4 id="2-2-Using-Total-Commander"><a href="#2-2-Using-Total-Commander" class="headerlink" title="2.2 Using Total Commander"></a>2.2 Using Total Commander</h4><p>After mounting the EFI partition, you should see a new drive (P:) in My Computer, but you won’t have access permissions. Even running as an administrator won’t grant you access. What can you do?</p>
-<p>We’ll use a software called Total Commander. Search for it online, download, and install it. After installation, open the program (it’s free for personal use) and follow the prompts.</p>
+<p><img src="/img/图片21.jpg" srcset="/img/loading.gif" lazyload /></p>
+<p>These are the partitions I created when installing Ubuntu.
+Right-click and delete each volume.</p>
+<p><img src="/img/图片22.jpg" srcset="/img/loading.gif" lazyload /></p>
+<p>Restore the free space. In my case, I had originally shrunk the D:
+drive to create this 600GB space for Ubuntu. Select the D: drive,
+right-click, and select "Extend Volume" to restore it to its original
+size.</p>
+<p><img src="/img/图片23.jpg" srcset="/img/loading.gif" lazyload /></p>
+<h3 id="removing-boot-entries">2. Removing Boot Entries</h3>
+<p>After deleting all Ubuntu partitions and rebooting, the GRUB
+interface is still present, but attempting to boot into Ubuntu fails.
+Next, you'll need to remove Ubuntu's boot files.</p>
+<p>If you use the easyUEFI software to view the EFI boot entries, you'll
+find that Ubuntu has written its EFI boot files to the Windows EFI boot
+partition.</p>
+<p><img src="/img/图片24.jpg" srcset="/img/loading.gif" lazyload /> <img src="/img/图片25.jpg" srcset="/img/loading.gif" lazyload /></p>
+<p>If you only want to remove the boot files, you don't need to download
+easyUEFI. It's just used to view the boot entries.</p>
+<p>Here's how to remove the boot entries:</p>
+<h4 id="mount-the-efi-partition">2.1 Mount the EFI Partition</h4>
+<ol type="1">
+<li>Right-click on the Windows icon and select "Command Prompt
+(Admin)"<br />
+</li>
+<li>Type "diskpart" and press Enter<br />
+</li>
+<li>Type "list disk" to list all disks in the system<br />
+</li>
+<li>Type "select disk 0" to select the disk containing the EFI boot
+partition (adjust the disk number based on your system)<br />
+</li>
+<li>Type "list partition" to list all partitions on the selected
+disk<br />
+</li>
+<li>Type "select partition 1" to select the EFI boot partition (the
+partition type should be "System")<br />
+</li>
+<li>Type "assign letter=p" to assign a drive letter to the selected
+partition (use an available letter)</li>
+</ol>
+<p><img src="/img/图片26.jpg" srcset="/img/loading.gif" lazyload /></p>
+<h4 id="using-total-commander">2.2 Using Total Commander</h4>
+<p>After mounting the EFI partition, you should see a new drive (P:) in
+My Computer, but you won't have access permissions. Even running as an
+administrator won't grant you access. What can you do?</p>
+<p>We'll use a software called Total Commander. Search for it online,
+download, and install it. After installation, open the program (it's
+free for personal use) and follow the prompts.</p>
 <p>Once open, select the P: drive.</p>
-<p><img src="/img/%E5%9B%BE%E7%89%8727.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/img/图片27.jpg" srcset="/img/loading.gif" lazyload /></p>
 <p>Run Total Commander as an administrator.</p>
-<p><img src="/img/%E5%9B%BE%E7%89%8728.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/img/图片28.jpg" srcset="/img/loading.gif" lazyload /></p>
 <p>Navigate to the EFI folder.</p>
-<p><img src="/img/%E5%9B%BE%E7%89%8729.jpg" srcset="/img/loading.gif" lazyload></p>
-<p>Select the Ubuntu folder (it should turn red), then press Shift + Delete to delete it.</p>
-<p><img src="/img/%E5%9B%BE%E7%89%8730.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/img/图片29.jpg" srcset="/img/loading.gif" lazyload /></p>
+<p>Select the Ubuntu folder (it should turn red), then press Shift +
+Delete to delete it.</p>
+<p><img src="/img/图片30.jpg" srcset="/img/loading.gif" lazyload /></p>
 <p>Done!</p>
 
                 
