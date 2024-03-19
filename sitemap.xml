@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://jingmengzhiyue.top/2024/03/19/ppi-en/</loc>
+    
+    <lastmod>2024-03-19</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://jingmengzhiyue.top/2024/03/19/ppi/</loc>
     
     <lastmod>2024-03-19</lastmod>
@@ -441,7 +450,7 @@
   </url>
   
   <url>
-    <loc>http://jingmengzhiyue.top/tags/ChatGPT/</loc>
+    <loc>http://jingmengzhiyue.top/tags/DTW/</loc>
     <lastmod>2024-03-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -449,13 +458,6 @@
   
   <url>
     <loc>http://jingmengzhiyue.top/tags/The-Missing-Semester-of-Your-CS-Education/</loc>
-    <lastmod>2024-03-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://jingmengzhiyue.top/tags/DTW/</loc>
     <lastmod>2024-03-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -483,14 +485,14 @@
   </url>
   
   <url>
-    <loc>http://jingmengzhiyue.top/tags/OpenCV/</loc>
+    <loc>http://jingmengzhiyue.top/tags/ChatGPT/</loc>
     <lastmod>2024-03-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://jingmengzhiyue.top/tags/NLP/</loc>
+    <loc>http://jingmengzhiyue.top/tags/OpenCV/</loc>
     <lastmod>2024-03-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -505,6 +507,13 @@
   
   <url>
     <loc>http://jingmengzhiyue.top/tags/Proxy/</loc>
+    <lastmod>2024-03-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://jingmengzhiyue.top/tags/NLP/</loc>
     <lastmod>2024-03-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -553,14 +562,14 @@
   </url>
   
   <url>
-    <loc>http://jingmengzhiyue.top/tags/Pandas/</loc>
+    <loc>http://jingmengzhiyue.top/tags/Python/</loc>
     <lastmod>2024-03-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://jingmengzhiyue.top/tags/Python/</loc>
+    <loc>http://jingmengzhiyue.top/tags/Pandas/</loc>
     <lastmod>2024-03-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -576,7 +585,7 @@
   </url>
   
   <url>
-    <loc>http://jingmengzhiyue.top/categories/LLM/</loc>
+    <loc>http://jingmengzhiyue.top/categories/Algorithm/</loc>
     <lastmod>2024-03-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -584,13 +593,6 @@
   
   <url>
     <loc>http://jingmengzhiyue.top/categories/Computer-Science/</loc>
-    <lastmod>2024-03-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://jingmengzhiyue.top/categories/Algorithm/</loc>
     <lastmod>2024-03-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -605,6 +607,13 @@
   
   <url>
     <loc>http://jingmengzhiyue.top/categories/machine-learning/</loc>
+    <lastmod>2024-03-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://jingmengzhiyue.top/categories/LLM/</loc>
     <lastmod>2024-03-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
