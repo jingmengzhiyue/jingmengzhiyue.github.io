@@ -16,12 +16,12 @@
   <meta name="author" content="Jingmengzhiyue">
   <meta name="keywords" content="">
   
-    <meta name="description" content="In hyperspectral image analysis, estimating the number of endmembers is a crucial step that affects the accuracy and efficiency of subsequent processing. This post introduces an eigenvalue thresholdin">
+    <meta name="description" content="In hyperspectral image analysis, estimating the number of endmembers is a crucial step that affects the accuracy and efficiency of subsequent processing. This post introduces an eigenvalue threshold">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Endmember Number Estimation Using Eigenvalue Thresholding">
 <meta property="og:url" content="http://jingmengzhiyue.top/2024/03/19/est-endnum-en/index.html">
 <meta property="og:site_name" content="热爱可抵万难">
-<meta property="og:description" content="In hyperspectral image analysis, estimating the number of endmembers is a crucial step that affects the accuracy and efficiency of subsequent processing. This post introduces an eigenvalue thresholdin">
+<meta property="og:description" content="In hyperspectral image analysis, estimating the number of endmembers is a crucial step that affects the accuracy and efficiency of subsequent processing. This post introduces an eigenvalue threshold">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-03-19T14:01:49.000Z">
 <meta property="article:modified_time" content="2024-03-19T14:55:47.835Z">
@@ -239,7 +239,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.4k 字
+          3.6k 字
         
       </span>
     
@@ -250,7 +250,7 @@
         
         
         
-          29 分钟
+          30 分钟
         
       </span>
     
@@ -292,38 +292,128 @@
             
               <div class="markdown-body">
                 
-                <p>In hyperspectral image analysis, estimating the number of endmembers is a crucial step that affects the accuracy and efficiency of subsequent processing. This post introduces an eigenvalue thresholding approach for estimating the number of endmembers in hyperspectral data through noise whitening and eigenvalue analysis.</p>
-<h2 id="Noise-Whitening-of-Hyperspectral-Image"><a href="#Noise-Whitening-of-Hyperspectral-Image" class="headerlink" title="Noise Whitening of Hyperspectral Image"></a>Noise Whitening of Hyperspectral Image</h2><p>Let’s consider a hyperspectral image $\mathbf{X} \in \mathbb{R}^{M \times B}$, where $M$ is the number of spatial pixels and $B$ is the number of spectral bands. Each band can be represented as a column vector $\mathbf{x}_i$ of $\mathbf{X}$.</p>
-<p>Noise whitening is the first step in preprocessing hyperspectral data, aiming to reduce noise and facilitate endmember identification. To achieve this, we first calculate the covariance matrix $\mathbf{C}_x$ of the hyperspectral data, defined as:</p>
-<script type="math/tex; mode=display">
-    \mathbf{C}_x = \operatorname{Cov}(\mathbf{X}) = \left[\begin{array}{ccc}
-                \sigma\left(\mathbf{x}_{1}, \mathbf{x}_{1}\right) & \cdots & \sigma\left(\mathbf{x}_{1}, \mathbf{x}_{B}\right) \\
-                \vdots & \ddots & \vdots \\
-                \sigma\left(\mathbf{x}_{B}, \mathbf{x}_{1}\right) & \cdots & \sigma\left(\mathbf{x}_{B}, \mathbf{x}_{B}\right)
-            \end{array}\right] \in \mathbb{R}^{B \times B}</script><p>where $\sigma\left(\mathbf{x}<em>{m}, \mathbf{x}</em>{k}\right)$ is the covariance between vectors $\mathbf{x}_m$ and $\mathbf{x}_k$, calculated as:</p>
-<script type="math/tex; mode=display">
-    \sigma\left(\mathbf{x}_{m}, \mathbf{x}_{k}\right) = \frac{1}{n-1} \sum_{i=1}^{n}\left(\mathbf{x}_{m i} - \bar{\mathbf{x}}_{m}\right)\left(\mathbf{x}_{k i} - \bar{\mathbf{x}}_{k}\right)</script><p>Next, we compute the noise covariance matrix $\mathbf{N}$ from $\mathbf{C}_x$:</p>
-<script type="math/tex; mode=display">
-    \mathbf{N} = \operatorname{diag}\left(\frac{1}{\operatorname{Getdiag}(\mathbf{C}_x^{-1})}\right) \in \mathbb{R}^{B \times B}</script><p>where $\operatorname{Getdiag}(\cdot)$ extracts the diagonal elements of a matrix, and $\operatorname{diag}(\cdot)$ converts a vector into a diagonal matrix.</p>
-<p>With the noise covariance matrix $\mathbf{N}$, we can calculate the whitened noise matrix $\mathbf{Y}$:</p>
-<script type="math/tex; mode=display">
-    \mathbf{Y} = \mathbf{X}\left(\left(\sqrt{\mathbf{N}}\right)^{-1}\right)^\top</script><h2 id="Eigenvalue-Soft-Thresholding-Algorithm"><a href="#Eigenvalue-Soft-Thresholding-Algorithm" class="headerlink" title="Eigenvalue Soft-Thresholding Algorithm"></a>Eigenvalue Soft-Thresholding Algorithm</h2><p>The whitened noise matrix $\mathbf{Y}$ is used for endmember number estimation. We first compute the auto-covariance matrix $\mathbf{C}_y$ and the auto-correlation matrix $\mathbf{R}_y$ of $\mathbf{Y}$:</p>
-<script type="math/tex; mode=display">
-    \mathbf{C}_y = \operatorname{Cov}(\mathbf{Y}) \in \mathbb{R}^{B \times B}</script><script type="math/tex; mode=display">
-    \mathbf{R}_y = E\left(\mathbf{Y} \mathbf{Y}^{T}\right) \in \mathbb{R}^{B \times B}</script><p>where the elements $\sigma\left(\mathbf{y}<em>{i}, \mathbf{y}</em>{j}\right)$ of $\mathbf{C}_y$ and $\rho(\mathbf{y}_i, \mathbf{y}_j)$ of $\mathbf{R}_y$ are defined as:</p>
-<script type="math/tex; mode=display">
-    \rho(\mathbf{y}_i, \mathbf{y}_j) = \operatorname{corr}(\mathbf{y}_i, \mathbf{y}_j) = \frac{\operatorname{cov}(\mathbf{y}_i, \mathbf{y}_j)}{\sigma_Y \sigma_Y}</script><p>Next, we compute the eigenvalues of these two matrices:</p>
-<script type="math/tex; mode=display">
-    \mathbf{\Sigma}_C = \operatorname{eig}(\mathbf{C}_y)</script><script type="math/tex; mode=display">
-    \mathbf{\Sigma}_R = \operatorname{eig}(\mathbf{R}_y)</script><p>The eigenvalue matrices $\mathbf{\Sigma}_C$ and $\mathbf{\Sigma}_R$ contain the eigenvalues of the auto-covariance and auto-correlation matrices, respectively. We then calculate the variance $\mathbf{D}$ between these eigenvalues:</p>
-<script type="math/tex; mode=display">
-    \mathbf{D} = \mathbf{\Sigma}_R - \mathbf{\Sigma}_C</script><p>Subsequently, we estimate the noise variance $\mathbf{V}$:</p>
-<script type="math/tex; mode=display">
-    \mathbf{V} = \frac{2}{M}\left(\mathbf{\Sigma}_R^2 + \mathbf{\Sigma}_C^2\right)</script><p>Finally, we compute the eigenvalue threshold gate based on the noise variance $\mathbf{V}$:</p>
-<script type="math/tex; mode=display">
-    \operatorname{gate} = \sqrt{2 \times \mathbf{V}}</script><p>Using the eigenvalue soft-thresholding algorithm, we can obtain the estimated number of endmembers $I$:</p>
-<script type="math/tex; mode=display">
-    I = \sum_{i = 1}^B (\mathbf{D}_{ii} > \operatorname{gate})</script><p>This approach provides an automated method for estimating the number of endmembers in hyperspectral data, which is crucial for subsequent unmixing and analysis tasks.</p>
+                <p>In hyperspectral image analysis, estimating the number of endmembers
+is a crucial step that affects the accuracy and efficiency of subsequent
+processing. This post introduces an eigenvalue thresholding approach for
+estimating the number of endmembers in hyperspectral data through noise
+whitening and eigenvalue analysis.</p>
+<h2 id="noise-whitening-of-hyperspectral-image">Noise Whitening of
+Hyperspectral Image</h2>
+<p>Let's consider a hyperspectral image <span
+class="math inline">\(\mathbf{X} \in \mathbb{R}^{M \times B}\)</span>,
+where <span class="math inline">\(M\)</span> is the number of spatial
+pixels and <span class="math inline">\(B\)</span> is the number of
+spectral bands. Each band can be represented as a column vector <span
+class="math inline">\(\mathbf{x}_i\)</span> of <span
+class="math inline">\(\mathbf{X}\)</span>.</p>
+<p>Noise whitening is the first step in preprocessing hyperspectral
+data, aiming to reduce noise and facilitate endmember identification. To
+achieve this, we first calculate the covariance matrix <span
+class="math inline">\(\mathbf{C}_x\)</span> of the hyperspectral data,
+defined as:</p>
+<p><span class="math display">\[
+    \mathbf{C}_x = \operatorname{Cov}(\mathbf{X}) =
+\left[\begin{array}{ccc}
+                \sigma\left(\mathbf{x}_{1}, \mathbf{x}_{1}\right) &amp;
+\cdots &amp; \sigma\left(\mathbf{x}_{1}, \mathbf{x}_{B}\right) \\
+                \vdots &amp; \ddots &amp; \vdots \\
+                \sigma\left(\mathbf{x}_{B}, \mathbf{x}_{1}\right) &amp;
+\cdots &amp; \sigma\left(\mathbf{x}_{B}, \mathbf{x}_{B}\right)
+            \end{array}\right] \in \mathbb{R}^{B \times B}
+\]</span></p>
+<p>where <span class="math inline">\(\sigma\left(\mathbf{x}_{m},
+\mathbf{x}_{k}\right)\)</span> is the covariance between vectors <span
+class="math inline">\(\mathbf{x}_m\)</span> and <span
+class="math inline">\(\mathbf{x}_k\)</span>, calculated as:</p>
+<p><span class="math display">\[
+    \sigma\left(\mathbf{x}_{m}, \mathbf{x}_{k}\right) = \frac{1}{n-1}
+\sum_{i=1}^{n}\left(\mathbf{x}_{m i} -
+\bar{\mathbf{x}}_{m}\right)\left(\mathbf{x}_{k i} -
+\bar{\mathbf{x}}_{k}\right)
+\]</span></p>
+<p>Next, we compute the noise covariance matrix <span
+class="math inline">\(\mathbf{N}\)</span> from <span
+class="math inline">\(\mathbf{C}_x\)</span>:</p>
+<p><span class="math display">\[
+    \mathbf{N} =
+\operatorname{diag}\left(\frac{1}{\operatorname{Getdiag}(\mathbf{C}_x^{-1})}\right)
+\in \mathbb{R}^{B \times B}
+\]</span></p>
+<p>where <span
+class="math inline">\(\operatorname{Getdiag}(\cdot)\)</span> extracts
+the diagonal elements of a matrix, and <span
+class="math inline">\(\operatorname{diag}(\cdot)\)</span> converts a
+vector into a diagonal matrix.</p>
+<p>With the noise covariance matrix <span
+class="math inline">\(\mathbf{N}\)</span>, we can calculate the whitened
+noise matrix <span class="math inline">\(\mathbf{Y}\)</span>:</p>
+<p><span class="math display">\[
+    \mathbf{Y} =
+\mathbf{X}\left(\left(\sqrt{\mathbf{N}}\right)^{-1}\right)^\top
+\]</span></p>
+<h2 id="eigenvalue-soft-thresholding-algorithm">Eigenvalue
+Soft-Thresholding Algorithm</h2>
+<p>The whitened noise matrix <span
+class="math inline">\(\mathbf{Y}\)</span> is used for endmember number
+estimation. We first compute the auto-covariance matrix <span
+class="math inline">\(\mathbf{C}_y\)</span> and the auto-correlation
+matrix <span class="math inline">\(\mathbf{R}_y\)</span> of <span
+class="math inline">\(\mathbf{Y}\)</span>:</p>
+<p><span class="math display">\[
+    \mathbf{C}_y = \operatorname{Cov}(\mathbf{Y}) \in \mathbb{R}^{B
+\times B}
+\]</span></p>
+<p><span class="math display">\[
+    \mathbf{R}_y = E\left(\mathbf{Y} \mathbf{Y}^{T}\right) \in
+\mathbb{R}^{B \times B}
+\]</span></p>
+<p>where the elements <span
+class="math inline">\(\sigma\left(\mathbf{y}_{i},
+\mathbf{y}_{j}\right)\)</span> of <span
+class="math inline">\(\mathbf{C}_y\)</span> and <span
+class="math inline">\(\rho(\mathbf{y}_i, \mathbf{y}_j)\)</span> of <span
+class="math inline">\(\mathbf{R}_y\)</span> are defined as:</p>
+<p><span class="math display">\[
+    \rho(\mathbf{y}_i, \mathbf{y}_j) = \operatorname{corr}(\mathbf{y}_i,
+\mathbf{y}_j) = \frac{\operatorname{cov}(\mathbf{y}_i,
+\mathbf{y}_j)}{\sigma_Y \sigma_Y}
+\]</span></p>
+<p>Next, we compute the eigenvalues of these two matrices:</p>
+<p><span class="math display">\[
+    \mathbf{\Sigma}_C = \operatorname{eig}(\mathbf{C}_y)
+\]</span></p>
+<p><span class="math display">\[
+    \mathbf{\Sigma}_R = \operatorname{eig}(\mathbf{R}_y)
+\]</span></p>
+<p>The eigenvalue matrices <span
+class="math inline">\(\mathbf{\Sigma}_C\)</span> and <span
+class="math inline">\(\mathbf{\Sigma}_R\)</span> contain the eigenvalues
+of the auto-covariance and auto-correlation matrices, respectively. We
+then calculate the variance <span
+class="math inline">\(\mathbf{D}\)</span> between these eigenvalues:</p>
+<p><span class="math display">\[
+    \mathbf{D} = \mathbf{\Sigma}_R - \mathbf{\Sigma}_C
+\]</span></p>
+<p>Subsequently, we estimate the noise variance <span
+class="math inline">\(\mathbf{V}\)</span>:</p>
+<p><span class="math display">\[
+    \mathbf{V} = \frac{2}{M}\left(\mathbf{\Sigma}_R^2 +
+\mathbf{\Sigma}_C^2\right)
+\]</span></p>
+<p>Finally, we compute the eigenvalue threshold gate based on the noise
+variance <span class="math inline">\(\mathbf{V}\)</span>:</p>
+<p><span class="math display">\[
+    \operatorname{gate} = \sqrt{2 \times \mathbf{V}}
+\]</span></p>
+<p>Using the eigenvalue soft-thresholding algorithm, we can obtain the
+estimated number of endmembers <span
+class="math inline">\(I\)</span>:</p>
+<p><span class="math display">\[
+    I = \sum_{i = 1}^B (\mathbf{D}_{ii} &gt; \operatorname{gate})
+\]</span></p>
+<p>This approach provides an automated method for estimating the number
+of endmembers in hyperspectral data, which is crucial for subsequent
+unmixing and analysis tasks.</p>
 
                 
               </div>
