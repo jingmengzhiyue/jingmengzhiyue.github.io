@@ -239,7 +239,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.3k 字
+          2.2k 字
         
       </span>
     
@@ -250,7 +250,7 @@
         
         
         
-          19 分钟
+          18 分钟
         
       </span>
     
@@ -292,136 +292,78 @@
             
               <div class="markdown-body">
                 
-                <h1 id="广义西尔维斯特方程的求解">广义西尔维斯特方程的求解</h1>
-<h2 id="常见的西尔维斯特方程">常见的西尔维斯特方程</h2>
-<p>西尔维斯特方程</p>
-<p><span class="math display">\[
-\mathbf{AX}+\mathbf{XD} = \mathbf{E}
-\]</span></p>
-<hr />
+                <h1 id="广义西尔维斯特方程的求解"><a href="#广义西尔维斯特方程的求解" class="headerlink" title="广义西尔维斯特方程的求解"></a>广义西尔维斯特方程的求解</h1><h2 id="常见的西尔维斯特方程"><a href="#常见的西尔维斯特方程" class="headerlink" title="常见的西尔维斯特方程"></a>常见的西尔维斯特方程</h2><p>西尔维斯特方程</p>
+<script type="math/tex; mode=display">
+\mathbf{AX}+\mathbf{XD} = \mathbf{E}</script><hr>
 <p>广义西尔维斯特方程</p>
-<p><span class="math display">\[
-\mathbf{AXB}+\mathbf{CXD} = \mathbf{E}
-\]</span></p>
-<p>式中<span class="math inline">\(\mathbf{X}\in \mathbb{R}^{n\times
-r}\)</span>, <span class="math inline">\(\mathbf{A}\in
-\mathbb{R}^{m\times n}\)</span>, <span
-class="math inline">\(\mathbf{B}\in \mathbb{R}^{r\times p}\)</span>,
-<span class="math inline">\(\mathbf{C}\in \mathbb{R}^{m\times
-n}\)</span>, <span class="math inline">\(\mathbf{D}\in
-\mathbb{R}^{r\times p}\)</span>, <span
-class="math inline">\(\mathbf{E}\in \mathbb{R}^{m\times
-p}\)</span>。</p>
-<hr />
+<script type="math/tex; mode=display">
+\mathbf{AXB}+\mathbf{CXD} = \mathbf{E}</script><p>式中$\mathbf{X}\in \mathbb{R}^{n\times r}$, $\mathbf{A}\in \mathbb{R}^{m\times n}$, $\mathbf{B}\in \mathbb{R}^{r\times p}$, $\mathbf{C}\in \mathbb{R}^{m\times n}$, $\mathbf{D}\in \mathbb{R}^{r\times p}$, $\mathbf{E}\in \mathbb{R}^{m\times p}$。</p>
+<hr>
 <p>Stein矩阵方程</p>
-<p><span class="math display">\[
-\mathbf{AXB}+\mathbf{X} = \mathbf{E}
-\]</span></p>
-<hr />
+<script type="math/tex; mode=display">
+\mathbf{AXB}+\mathbf{X} = \mathbf{E}</script><hr>
 <p>Lyapunov 矩阵方程</p>
-<p><span class="math display">\[
-\mathbf{AX}+\mathbf{XA^T}=\mathbf{E}
-\]</span></p>
-<hr />
-<h2 id="求解广义西尔维斯特方程">求解广义西尔维斯特方程</h2>
-<ol type="1">
+<script type="math/tex; mode=display">
+\mathbf{AX}+\mathbf{XA^T}=\mathbf{E}</script><hr>
+<h2 id="求解广义西尔维斯特方程"><a href="#求解广义西尔维斯特方程" class="headerlink" title="求解广义西尔维斯特方程"></a>求解广义西尔维斯特方程</h2><ol>
 <li>使用闭式解</li>
 <li>使用牛顿法或者共轭梯度法</li>
 </ol>
-<h2
-id="使用admm求解广义西尔维斯特方程">使用ADMM求解广义西尔维斯特方程</h2>
-<p><span class="math display">\[
+<h2 id="使用ADMM求解广义西尔维斯特方程"><a href="#使用ADMM求解广义西尔维斯特方程" class="headerlink" title="使用ADMM求解广义西尔维斯特方程"></a>使用ADMM求解广义西尔维斯特方程</h2><script type="math/tex; mode=display">
 \begin{cases}
 \mathbf{AXB}+\mathbf{CXD}=\mathbf{E}
-\\
+ \\
 \mathbf{AXB}+\mathbf{CXD}=\mathbf{E}
-\end{cases}
-\]</span></p>
-<p>移项构造同解方程组</p>
-<p><span class="math display">\[
+\end{cases}</script><p>移项构造同解方程组</p>
+<script type="math/tex; mode=display">
 \begin{cases}
 \mathbf{AXB}=\mathbf{E}-\mathbf{CXD}
-\\
+ \\
 \mathbf{CXD}=\mathbf{E}-\mathbf{AXB}
-\end{cases}
-\]</span></p>
-<p>令</p>
-<p><span class="math display">\[
+\end{cases}</script><p>令</p>
+<script type="math/tex; mode=display">
 \begin{cases}
 \mathbf{E}_1=\mathbf{E}-\mathbf{CXD}
-\\
+ \\
 \mathbf{E}_2=\mathbf{E}-\mathbf{AXB}
-\end{cases}
-\]</span></p>
-<p>可以得到</p>
-<p><span class="math display">\[
+\end{cases}</script><p>可以得到</p>
+<script type="math/tex; mode=display">
 \begin{cases}
 \mathbf{AXB}=\mathbf{E}_1
-\\
+ \\
 \mathbf{CXD}=\mathbf{E}_2
-\end{cases}
-\]</span></p>
-<p>上两个方程组是同解方程组因此两个<span
-class="math inline">\(\mathbf{X}\)</span>拥有相同的解，因此可以写为</p>
-<p><span class="math display">\[
+\end{cases}</script><p>上两个方程组是同解方程组因此两个$\mathbf{X}$拥有相同的解，因此可以写为</p>
+<script type="math/tex; mode=display">
 \begin{cases}
 \mathbf{AX_1B}=\mathbf{E}_1
-\\
+ \\
 \mathbf{CX_2D}=\mathbf{E}_2
-\end{cases}
-\]</span></p>
-<p>先求解<span
-class="math inline">\(\mathbf{AX_1B}=\mathbf{E}_1\)</span></p>
-<p><span class="math display">\[
+\end{cases}</script><p>先求解$\mathbf{AX_1B}=\mathbf{E}_1$</p>
+<script type="math/tex; mode=display">
 \begin{aligned}
-\min_{\mathbf{X}_1, \mathbf{Z}_1} &amp; \quad \frac{1}{2} \left\|
-\mathbf{Z_1B-E_1} \right\|_F^2 \\\\
-\text{s.t.} &amp; \quad \mathbf{Z}_1 = \mathbf{AX}_1
-\end{aligned}
-\]</span></p>
-<p>利用ADMM可以得到</p>
-<p><span class="math display">\[
+\min_{\mathbf{X}_1, \mathbf{Z}_1} & \quad \frac{1}{2} \left\| \mathbf{Z_1B-E_1} \right\|_F^2 \\\\
+\text{s.t.} & \quad \mathbf{Z}_1 = \mathbf{AX}_1
+\end{aligned}</script><p>利用ADMM可以得到</p>
+<script type="math/tex; mode=display">
 \begin{aligned}
-\mathbf{Z}_1 &amp;=
-\left((\mathbf{E-CX_2D})\mathbf{B}^T+\eta\mathbf{AX_1-Q_1}\right)\left(\mathbf{BB}^T+\eta\mathbf{I}\right)^{-1}
-\\\\
-\mathbf{X}_1 &amp;=
-\left(\eta\mathbf{A^TA}\right)^{-1}\left(\mathbf{A^TQ_1}+\eta\mathbf{A^TZ_1}\right)
-\\\\
-\mathbf{Q_1} &amp;= \mathbf{Q_1} +
-\eta\left(\mathbf{Z}_1-\mathbf{AX_1}\right)
-\end{aligned}
-\]</span></p>
-<hr />
-<p>同样的对<span
-class="math inline">\(\mathbf{CX_2D}=\mathbf{E}_2\)</span>使用ADMM求解有</p>
-<p><span class="math display">\[
+\mathbf{Z}_1 &= \left((\mathbf{E-CX_2D})\mathbf{B}^T+\eta\mathbf{AX_1-Q_1}\right)\left(\mathbf{BB}^T+\eta\mathbf{I}\right)^{-1} \\\\
+\mathbf{X}_1 &= \left(\eta\mathbf{A^TA}\right)^{-1}\left(\mathbf{A^TQ_1}+\eta\mathbf{A^TZ_1}\right) \\\\
+\mathbf{Q_1} &= \mathbf{Q_1} + \eta\left(\mathbf{Z}_1-\mathbf{AX_1}\right)
+\end{aligned}</script><hr>
+<p>同样的对$\mathbf{CX_2D}=\mathbf{E}_2$使用ADMM求解有</p>
+<script type="math/tex; mode=display">
 \begin{aligned}
-\min_{\mathbf{X}_2, \mathbf{Z}_2} &amp; \quad \frac{1}{2} \left\|
-\mathbf{Z_2D-E_2} \right\|_F^2 \\\\
-\text{s.t.} &amp; \quad \mathbf{Z}_2 = \mathbf{CX}_2
-\end{aligned}
-\]</span></p>
-<p>利用ADMM可以得到</p>
-<p><span class="math display">\[
+\min_{\mathbf{X}_2, \mathbf{Z}_2} & \quad \frac{1}{2} \left\| \mathbf{Z_2D-E_2} \right\|_F^2 \\\\
+\text{s.t.} & \quad \mathbf{Z}_2 = \mathbf{CX}_2
+\end{aligned}</script><p>利用ADMM可以得到</p>
+<script type="math/tex; mode=display">
 \begin{align}
-\mathbf{Z}_2 &amp;=
-\left((\mathbf{E-AX_1B})\mathbf{D}^T+\eta\mathbf{CX_2-Q_2}\right)\left(\mathbf{DD}^T+\eta\mathbf{I}\right)^{-1}
-\\\\
-\mathbf{X}_2 &amp;=
-\left(\eta\mathbf{C^TC}\right)^{-1}\left(\mathbf{C^TQ_2}+\eta\mathbf{C^TZ_2}\right)
-\\\\
-\mathbf{Q_2} &amp;= \mathbf{Q_2} +
-\eta\left(\mathbf{Z}_2-\mathbf{CX_2}\right)
-\end{align}
-\]</span></p>
-<p>对公式(2)和公式(4)依次迭代可以得到最终的<span
-class="math inline">\(\mathbf{X}_1\)</span>和<span
-class="math inline">\(\mathbf{X}_2\)</span> 最后：</p>
-<p><span class="math display">\[
-\mathbf{X} = \eta\mathbf{X}_1+(1-\eta)\mathbf{X}_2
-\]</span></p>
-<p>其中<span class="math inline">\(\eta&gt;0\)</span>。</p>
+\mathbf{Z}_2 &= \left((\mathbf{E-AX_1B})\mathbf{D}^T+\eta\mathbf{CX_2-Q_2}\right)\left(\mathbf{DD}^T+\eta\mathbf{I}\right)^{-1} \\\\
+\mathbf{X}_2 &= \left(\eta\mathbf{C^TC}\right)^{-1}\left(\mathbf{C^TQ_2}+\eta\mathbf{C^TZ_2}\right) \\\\
+\mathbf{Q_2} &= \mathbf{Q_2} + \eta\left(\mathbf{Z}_2-\mathbf{CX_2}\right)
+\end{align}</script><p>对公式(2)和公式(4)依次迭代可以得到最终的$\mathbf{X}_1$和$\mathbf{X}_2$<br>最后：</p>
+<script type="math/tex; mode=display">
+\mathbf{X} = \eta\mathbf{X}_1+(1-\eta)\mathbf{X}_2</script><p>其中$\eta&gt;0$。</p>
 
                 
               </div>
