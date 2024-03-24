@@ -16,17 +16,18 @@
   <meta name="author" content="Jingmengzhiyue">
   <meta name="keywords" content="">
   
-    <meta name="description" content="问题定义高光谱成像能同时在多个不同波长获取同一场景的图像,在农业、天文、监视和矿物学等领域具有广泛应用。然而,由于各种硬件限制,获得高分辨率(HR)高光谱图像仍然是一个挑战。下面将介绍如何利用低分辨率(LR)高光谱图像和同一场景的高分辨率(HR)多光谱或RGB图像,来重建HR高光谱图像。 给定一对观测图像:LR高光谱图像 $X \in \mathbb{R}^{L \times n}$ 和HR多光谱">
+    <meta name="description" content="问题定义 高光谱成像能同时在多个不同波长获取同一场景的图像,在农业、天文、监视和矿物学等领域具有广泛应用。然而,由于各种硬件限制,获得高分辨率(HR)高光谱图像仍然是一个挑战。下面将介绍如何利用低分辨率(LR)高光谱图像和同一场景的高分辨率(HR)多光谱或RGB图像,来重建HR高光谱图像。 给定一对观测图像:LR高光谱图像 \(X \in \mathbb{R}^{L \times n}\)">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于耦合非负矩阵分解的高光谱图像超分辨率算法">
 <meta property="og:url" content="http://jingmengzhiyue.top/2024/03/24/NSSR/index.html">
 <meta property="og:site_name" content="热爱可抵万难">
-<meta property="og:description" content="问题定义高光谱成像能同时在多个不同波长获取同一场景的图像,在农业、天文、监视和矿物学等领域具有广泛应用。然而,由于各种硬件限制,获得高分辨率(HR)高光谱图像仍然是一个挑战。下面将介绍如何利用低分辨率(LR)高光谱图像和同一场景的高分辨率(HR)多光谱或RGB图像,来重建HR高光谱图像。 给定一对观测图像:LR高光谱图像 $X \in \mathbb{R}^{L \times n}$ 和HR多光谱">
+<meta property="og:description" content="问题定义 高光谱成像能同时在多个不同波长获取同一场景的图像,在农业、天文、监视和矿物学等领域具有广泛应用。然而,由于各种硬件限制,获得高分辨率(HR)高光谱图像仍然是一个挑战。下面将介绍如何利用低分辨率(LR)高光谱图像和同一场景的高分辨率(HR)多光谱或RGB图像,来重建HR高光谱图像。 给定一对观测图像:LR高光谱图像 \(X \in \mathbb{R}^{L \times n}\)">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-03-24T08:30:33.000Z">
-<meta property="article:modified_time" content="2024-03-24T08:35:49.432Z">
+<meta property="article:modified_time" content="2024-03-24T08:36:24.738Z">
 <meta property="article:author" content="Jingmengzhiyue">
 <meta property="article:tag" content="Remote Sensing">
+<meta property="article:tag" content="Super-Resolution">
 <meta name="twitter:card" content="summary_large_image">
   
   
@@ -238,7 +239,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.7k 字
+          1.9k 字
         
       </span>
     
@@ -249,7 +250,7 @@
         
         
         
-          15 分钟
+          16 分钟
         
       </span>
     
@@ -291,23 +292,78 @@
             
               <div class="markdown-body">
                 
-                <h2 id="问题定义"><a href="#问题定义" class="headerlink" title="问题定义"></a>问题定义</h2><p>高光谱成像能同时在多个不同波长获取同一场景的图像,在农业、天文、监视和矿物学等领域具有广泛应用。然而,由于各种硬件限制,获得高分辨率(HR)高光谱图像仍然是一个挑战。下面将介绍如何利用低分辨率(LR)高光谱图像和同一场景的高分辨率(HR)多光谱或RGB图像,来重建HR高光谱图像。</p>
-<p>给定一对观测图像:LR高光谱图像 $X \in \mathbb{R}^{L \times n}$ 和HR多光谱图像 $Y \in \mathbb{R}^{3 \times N}$,目标是重建HR高光谱图像 $Z \in \mathbb{R}^{L \times N}$,其中 $N=W \times H, n=w \times h (w \ll W, h \ll H)$ 分别表示HR图像和LR图像的像素数量, $L \gg 3$ 是波段数量。两个观测图像可表示为期望HR图像的线性组合:</p>
-<script type="math/tex; mode=display">X = ZH, \quad Y = PZ</script><p>其中 $H \in \mathbb{R}^{N \times n}$ 是关于LR图像 $X$ 的退化算子(模糊和下采样), $P$ 是将HR高光谱图像 $Z$ 映射到RGB表示 $Y$ 的变换矩阵。由于方程数量远小于未知变量数,估计 $Z$ 是一个病态反问题,需要利用先验知识进行正则化。</p>
-<h2 id="基于稀疏表示的方法"><a href="#基于稀疏表示的方法" class="headerlink" title="基于稀疏表示的方法"></a>基于稀疏表示的方法</h2><h3 id="非负字典学习"><a href="#非负字典学习" class="headerlink" title="非负字典学习"></a>非负字典学习</h3><p>利用高光谱图像的稀疏先验,每个像素 $z_i \in \mathbb{R}^L$ 可表示为字典 $D \in \mathbb{R}^{L \times K}$ 的稀疏线性组合:</p>
-<script type="math/tex; mode=display">z_i = D\alpha_i + e_i, \quad \text{s.t. } \|\alpha_i\|_0 < T</script><p>其中 $\alpha_i \in \mathbb{R}^K$ 是稀疏系数向量, $e_i$ 是近似误差。字典 $D$ 的每一列对应场景中材质的反射光谱。根据线性混合模型,LR高光谱图像 $X$ 可表示为:</p>
-<script type="math/tex; mode=display">x_i = D\beta_i + v_i, \quad \beta_i = \sum_{j \in W_i} h_j\alpha_j</script><p>其中 $W_i$ 是以 $i$ 为中心的窗口, $h_j$ 是加权系数。在每个位置 $x_i$,仅有少数物质成分,因此 $\beta_i$ 是稀疏向量。为同时估计字典 $D$ 和稀疏码 $B=[\beta_1,…,\beta_n]$,我们最小化以下目标函数:</p>
-<script type="math/tex; mode=display">(D, B) = \arg\min_{D,B} \frac{1}{2}\|X - DB\|_F^2 + \lambda\|B\|_1, \quad \text{s.t. } \beta_i \geq 0, d_k \geq 0</script><p>通过高效的块坐标下降算法进行优化,每次更新字典 $D$ 的一个原子,从而提高计算效率。</p>
-<h3 id="基于聚类的结构化稀疏编码"><a href="#基于聚类的结构化稀疏编码" class="headerlink" title="基于聚类的结构化稀疏编码"></a>基于聚类的结构化稀疏编码</h3><p>在估计出字典 $D$ 后,可以从HR多光谱图像 $Y$ 和LR高光谱图像 $X$ 联合估计目标HR高光谱图像 $Z$ 的稀疏码 $A=[\alpha_1,…,\alpha_N]$:</p>
-<script type="math/tex; mode=display">\begin{aligned}
-&Y = \tilde{D}A + W_1, \quad \tilde{D}=PD \\
-&X = DAH + W_2
-\end{aligned}</script><p>最小化加权重构误差和 $\ell_1$ 范数稀疏约束:</p>
-<script type="math/tex; mode=display">A = \arg\min_A \|Y - \tilde{D}A\|_F^2 + \|X - DAH\|_F^2 + \eta\|A\|_1, \quad \text{s.t. } \alpha_i \geq 0</script><p>为利用高光谱图像中像素的空间相关性,利用基于聚类的结构化稀疏表示(NSSR)模型:</p>
-<script type="math/tex; mode=display">\begin{aligned}
-A = \arg\min_A &\|Y - \tilde{D}A\|_F^2 + \|X - DAH\|_F^2\\ 
-&+ \eta_1\sum_{q=1}^Q \sum_{i \in S_q} \|D\alpha_i - \mu_q\|_2^2 + \eta_2\|A\|_1,\quad \text{s.t. } \alpha_i \geq 0
-\end{aligned}</script><p>其中 $\mu_q$ 是第 $q$ 个聚类的中心,通过递归方式进行更新。 $S_q$ 是第 $q$ 个聚类的样本集,通过在HR多光谱图像上进行 $k$-近邻搜索获得。此模型不仅利用了稀疏先验,还利用了重构像素应当接近聚类中心的结构先验。通过交替方向乘子算法(ADMM)高效求解上述优化问题。</p>
+                <h2 id="问题定义">问题定义</h2>
+<p>高光谱成像能同时在多个不同波长获取同一场景的图像,在农业、天文、监视和矿物学等领域具有广泛应用。然而,由于各种硬件限制,获得高分辨率(HR)高光谱图像仍然是一个挑战。下面将介绍如何利用低分辨率(LR)高光谱图像和同一场景的高分辨率(HR)多光谱或RGB图像,来重建HR高光谱图像。</p>
+<p>给定一对观测图像:LR高光谱图像 <span class="math inline">\(X \in
+\mathbb{R}^{L \times n}\)</span> 和HR多光谱图像 <span
+class="math inline">\(Y \in \mathbb{R}^{3 \times
+N}\)</span>,目标是重建HR高光谱图像 <span class="math inline">\(Z \in
+\mathbb{R}^{L \times N}\)</span>,其中 <span class="math inline">\(N=W
+\times H, n=w \times h (w \ll W, h \ll H)\)</span>
+分别表示HR图像和LR图像的像素数量, <span class="math inline">\(L \gg
+3\)</span> 是波段数量。两个观测图像可表示为期望HR图像的线性组合:</p>
+<p><span class="math display">\[X = ZH, \quad Y = PZ\]</span></p>
+<p>其中 <span class="math inline">\(H \in \mathbb{R}^{N \times
+n}\)</span> 是关于LR图像 <span class="math inline">\(X\)</span>
+的退化算子(模糊和下采样), <span class="math inline">\(P\)</span>
+是将HR高光谱图像 <span class="math inline">\(Z\)</span> 映射到RGB表示
+<span class="math inline">\(Y\)</span>
+的变换矩阵。由于方程数量远小于未知变量数,估计 <span
+class="math inline">\(Z\)</span>
+是一个病态反问题,需要利用先验知识进行正则化。</p>
+<h2 id="基于稀疏表示的方法">基于稀疏表示的方法</h2>
+<h3 id="非负字典学习">非负字典学习</h3>
+<p>利用高光谱图像的稀疏先验,每个像素 <span class="math inline">\(z_i \in
+\mathbb{R}^L\)</span> 可表示为字典 <span class="math inline">\(D \in
+\mathbb{R}^{L \times K}\)</span> 的稀疏线性组合:</p>
+<p><span class="math display">\[z_i = D\alpha_i + e_i, \quad \text{s.t.
+} \|\alpha_i\|_0 &lt; T\]</span></p>
+<p>其中 <span class="math inline">\(\alpha_i \in \mathbb{R}^K\)</span>
+是稀疏系数向量, <span class="math inline">\(e_i\)</span>
+是近似误差。字典 <span class="math inline">\(D\)</span>
+的每一列对应场景中材质的反射光谱。根据线性混合模型,LR高光谱图像 <span
+class="math inline">\(X\)</span> 可表示为:</p>
+<p><span class="math display">\[x_i = D\beta_i + v_i, \quad \beta_i =
+\sum_{j \in W_i} h_j\alpha_j\]</span></p>
+<p>其中 <span class="math inline">\(W_i\)</span> 是以 <span
+class="math inline">\(i\)</span> 为中心的窗口, <span
+class="math inline">\(h_j\)</span> 是加权系数。在每个位置 <span
+class="math inline">\(x_i\)</span>,仅有少数物质成分,因此 <span
+class="math inline">\(\beta_i\)</span> 是稀疏向量。为同时估计字典 <span
+class="math inline">\(D\)</span> 和稀疏码 <span
+class="math inline">\(B=[\beta_1,...,\beta_n]\)</span>,我们最小化以下目标函数:</p>
+<p><span class="math display">\[(D, B) = \arg\min_{D,B} \frac{1}{2}\|X -
+DB\|_F^2 + \lambda\|B\|_1, \quad \text{s.t. } \beta_i \geq 0, d_k \geq
+0\]</span></p>
+<p>通过高效的块坐标下降算法进行优化,每次更新字典 <span
+class="math inline">\(D\)</span> 的一个原子,从而提高计算效率。</p>
+<h3 id="基于聚类的结构化稀疏编码">基于聚类的结构化稀疏编码</h3>
+<p>在估计出字典 <span class="math inline">\(D\)</span>
+后,可以从HR多光谱图像 <span class="math inline">\(Y\)</span>
+和LR高光谱图像 <span class="math inline">\(X\)</span>
+联合估计目标HR高光谱图像 <span class="math inline">\(Z\)</span> 的稀疏码
+<span class="math inline">\(A=[\alpha_1,...,\alpha_N]\)</span>:</p>
+<p><span class="math display">\[\begin{aligned}
+&amp;Y = \tilde{D}A + W_1, \quad \tilde{D}=PD \\
+&amp;X = DAH + W_2
+\end{aligned}\]</span></p>
+<p>最小化加权重构误差和 <span class="math inline">\(\ell_1\)</span>
+范数稀疏约束:</p>
+<p><span class="math display">\[A = \arg\min_A \|Y - \tilde{D}A\|_F^2 +
+\|X - DAH\|_F^2 + \eta\|A\|_1, \quad \text{s.t. } \alpha_i \geq
+0\]</span></p>
+<p>为利用高光谱图像中像素的空间相关性,利用基于聚类的结构化稀疏表示(NSSR)模型:</p>
+<p><span class="math display">\[\begin{aligned}
+A = \arg\min_A &amp;\|Y - \tilde{D}A\|_F^2 + \|X - DAH\|_F^2\\
+&amp;+ \eta_1\sum_{q=1}^Q \sum_{i \in S_q} \|D\alpha_i - \mu_q\|_2^2 +
+\eta_2\|A\|_1,\quad \text{s.t. } \alpha_i \geq 0
+\end{aligned}\]</span></p>
+<p>其中 <span class="math inline">\(\mu_q\)</span> 是第 <span
+class="math inline">\(q\)</span> 个聚类的中心,通过递归方式进行更新。
+<span class="math inline">\(S_q\)</span> 是第 <span
+class="math inline">\(q\)</span> 个聚类的样本集,通过在HR多光谱图像上进行
+<span
+class="math inline">\(k\)</span>-近邻搜索获得。此模型不仅利用了稀疏先验,还利用了重构像素应当接近聚类中心的结构先验。通过交替方向乘子算法(ADMM)高效求解上述优化问题。</p>
 <p>总之,该方法在利用LR高光谱图像估计字典的同时,充分利用了HR多光谱图像的信息,并结合了稀疏和结构两种先验。</p>
 
                 
@@ -343,6 +399,8 @@ A = \arg\min_A &\|Y - \tilde{D}A\|_F^2 + \|X - DAH\|_F^2\\
       <i class="iconfont icon-tags"></i>
       
         <a href="/tags/Remote-Sensing/" class="print-no-link">#Remote Sensing</a>
+      
+        <a href="/tags/Super-Resolution/" class="print-no-link">#Super-Resolution</a>
       
     </div>
   

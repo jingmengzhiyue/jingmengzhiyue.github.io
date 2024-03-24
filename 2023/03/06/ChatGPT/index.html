@@ -23,7 +23,6 @@
 <meta property="og:site_name" content="热爱可抵万难">
 <meta property="og:description" content="ChatGPT是如何训练的">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://jingmengzhiyue.top/img/ChatGPT_Diagram.png">
 <meta property="og:image" content="http://jingmengzhiyue.top/img/Hello.png">
 <meta property="og:image" content="http://jingmengzhiyue.top/img/ChatGPT3.jpg">
 <meta property="og:image" content="http://jingmengzhiyue.top/img/ChatGPT4.jpg">
@@ -32,7 +31,7 @@
 <meta property="article:author" content="Jingmengzhiyue">
 <meta property="article:tag" content="ChatGPT">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://jingmengzhiyue.top/img/ChatGPT_Diagram.png">
+<meta name="twitter:image" content="http://jingmengzhiyue.top/img/Hello.png">
   
   
   
@@ -296,45 +295,84 @@
             
               <div class="markdown-body">
                 
-                <p>ChatGPT是由InstructGPT演变而来的，<br><img src="/img/ChatGPT_Diagram.png" srcset="/img/loading.gif" lazyload alt="ChatGPT训练流程图"></p>
-<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>它的训练可以分为四个阶段：</p>
-<ol>
+                <p>ChatGPT是由InstructGPT演变而来的， <img
+src="/img/ChatGPT_Diagram.png" srcset="/img/loading.gif" lazyload alt="ChatGPT训练流程图" /></p>
+<h2 id="简介">简介</h2>
+<p>它的训练可以分为四个阶段：</p>
+<ol type="1">
 <li>基于Mask的自监督训练</li>
 <li>人工标注的监督QA训练</li>
 <li>利用人工对答案优先级的标注数据进行监督训练</li>
 <li>利用学习到的人类喜好通过强化学习训练判别模型</li>
 </ol>
-<h2 id="自监督训练"><a href="#自监督训练" class="headerlink" title="自监督训练"></a>自监督训练</h2><p><img src="/img/Hello.png" srcset="/img/loading.gif" lazyload alt="基于采样的自监督训练"></p>
-<p>利用自监督训练进行文本生成，在训练中向模型中输入前面的单词，让模型自动预测后面的单词。预测得到的是可能单词的一个概率分布，通过beam search可以采样得到下一个词。然后再将最新生成的词也输入模型中再得到接下来的输出。由于输出结果是随机采样得到的，因此每次输出的结果是随机的。</p>
+<h2 id="自监督训练">自监督训练</h2>
+<figure>
+<img src="/img/Hello.png" srcset="/img/loading.gif" lazyload alt="基于采样的自监督训练" />
+<figcaption aria-hidden="true">基于采样的自监督训练</figcaption>
+</figure>
+<p>利用自监督训练进行文本生成，在训练中向模型中输入前面的单词，让模型自动预测后面的单词。预测得到的是可能单词的一个概率分布，通过beam
+search可以采样得到下一个词。然后再将最新生成的词也输入模型中再得到接下来的输出。由于输出结果是随机采样得到的，因此每次输出的结果是随机的。</p>
 <p>实际上仅仅通过自监督训练已经可以完成ChatGPT中的问答任务了，例如：世界上最高的山在哪里？，将问题输入到模型中让模型进行文字生成，然后将生成文字作为问题的答案。但是这种模型仍然有很大的缺陷：</p>
-<ol>
+<ol type="1">
 <li>由于每次的输出是随机采样得到的，因此每次得到的结果都是不固定的。</li>
 <li>由于训练文本的复杂性往往无法得到可靠的结果</li>
 </ol>
 <p>为了解决以上的问题，ChatGPT使用了人工标注的QA数据进行了监督训练</p>
-<h2 id="监督QA训练"><a href="#监督QA训练" class="headerlink" title="监督QA训练"></a>监督QA训练</h2><p>为了提升网络对问答的准确性，首先收集一部分{“问题”，“答案”}数据，将问题答案数据对输入到模型中进行监督训练以提升模型对问答的可靠性。</p>
+<h2 id="监督qa训练">监督QA训练</h2>
+<p>为了提升网络对问答的准确性，首先收集一部分{“问题”，“答案”}数据，将问题答案数据对输入到模型中进行监督训练以提升模型对问答的可靠性。</p>
 <p>值得注意的是，如果有标注数据的规模足够大，那么就可以模型的性能会最够好，但是人工标注的QA数据非常难以收集，而且昂贵。因此ChatGPT的训练中只使用了少量的标注数据，然后同构后续的步骤进一步提升模型的性能。</p>
-<h2 id="监督学习人类的喜好"><a href="#监督学习人类的喜好" class="headerlink" title="监督学习人类的喜好"></a>监督学习人类的喜好</h2><p>和人工标注的QA文本对相比，如果由人工标注ChatGPT生成答案的优先性更为方便快捷。实际上对ChatGPT来说，它能够生成正确的答案，它只是不知道哪一个答案更好而已。OpenAI雇佣了大量的人工对ChatGPT产生的答案进行评分和排序，然后利用收集到的数据训练一个评价网络<br><img src="/img/ChatGPT3.jpg" srcset="/img/loading.gif" lazyload alt="利用人工对ChatGPT答案进行评估排序"><br>在评价网络中的训练中，将问题和ChatGPT生成的答案同时输入网络中，网络会输出一个分数<br><img src="/img/ChatGPT4.jpg" srcset="/img/loading.gif" lazyload alt="使用标注数据训练评估网络"><br>分数越高的答案就意味着答案更符合人类的喜好。<br>评估模型训练的损失函数可以表示为：</p>
-<script type="math/tex; mode=display">
+<h2 id="监督学习人类的喜好">监督学习人类的喜好</h2>
+<p>和人工标注的QA文本对相比，如果由人工标注ChatGPT生成答案的优先性更为方便快捷。实际上对ChatGPT来说，它能够生成正确的答案，它只是不知道哪一个答案更好而已。OpenAI雇佣了大量的人工对ChatGPT产生的答案进行评分和排序，然后利用收集到的数据训练一个评价网络
+<img src="/img/ChatGPT3.jpg" srcset="/img/loading.gif" lazyload alt="利用人工对ChatGPT答案进行评估排序" />
+在评价网络中的训练中，将问题和ChatGPT生成的答案同时输入网络中，网络会输出一个分数
+<img src="/img/ChatGPT4.jpg" srcset="/img/loading.gif" lazyload alt="使用标注数据训练评估网络" />
+分数越高的答案就意味着答案更符合人类的喜好。
+评估模型训练的损失函数可以表示为：</p>
+<p><span class="math display">\[
 \operatorname{loss}(\theta)=-\frac{1}{\left(\begin{array}{c}
 K \\
 2
-\end{array}\right)} E_{\left(x, y_{w}, y_{l}\right) \sim D}\left[\log \left(\sigma\left(r_{\theta}\left(x, y_{w}\right)-r_{\theta}\left(x, y_{l}\right)\right)\right)\right]</script><p>式中$r_{\theta}$表示训练的评价网络，而$x$表示输入ChatGPT中的问题，$y_w$和$y_l$表示ChatGPT输出的两个不同的答案，其中$y_w$为更好的那个答案，因此损失函数实际上就是让网络更能够区分两个不同质量的答案。损失函数前面的组合数实际上表示对同一个问题ChatGPT输出的答案数量，对输出的答案进行优先级排序就能够得到多个组合，可以大幅度提高数据的利用率。</p>
-<h2 id="强化学习"><a href="#强化学习" class="headerlink" title="强化学习"></a>强化学习</h2><p>强化学习的目标函数为</p>
-<script type="math/tex; mode=display">
+\end{array}\right)} E_{\left(x, y_{w}, y_{l}\right) \sim D}\left[\log
+\left(\sigma\left(r_{\theta}\left(x, y_{w}\right)-r_{\theta}\left(x,
+y_{l}\right)\right)\right)\right]
+\]</span></p>
+<p>式中<span
+class="math inline">\(r_{\theta}\)</span>表示训练的评价网络，而<span
+class="math inline">\(x\)</span>表示输入ChatGPT中的问题，<span
+class="math inline">\(y_w\)</span>和<span
+class="math inline">\(y_l\)</span>表示ChatGPT输出的两个不同的答案，其中<span
+class="math inline">\(y_w\)</span>为更好的那个答案，因此损失函数实际上就是让网络更能够区分两个不同质量的答案。损失函数前面的组合数实际上表示对同一个问题ChatGPT输出的答案数量，对输出的答案进行优先级排序就能够得到多个组合，可以大幅度提高数据的利用率。</p>
+<h2 id="强化学习">强化学习</h2>
+<p>强化学习的目标函数为</p>
+<p><span class="math display">\[
 \begin{aligned}
-\operatorname{objective}(\phi)= & E_{(x, y) \sim D_{\pi_{\phi}^{\mathrm{RL}}}}\left[r_{\theta}(x, y)-\beta \log \left(\pi_{\phi}^{\mathrm{RL}}(y \mid x) / \pi^{\mathrm{SFT}}(y \mid x)\right)\right]+ \\
-& \gamma E_{x \sim D_{\text {prerrain }}}\left[\log \left(\pi_{\phi}^{\mathrm{RL}}(x)\right)\right]
-\end{aligned}</script><p>强化学习的目标函数包括三项，首先第一项表示$r_{\theta}(x, y)$评价模型，强化学习目标是调整ChatGPT参数，使得评价模型对ChatGPT输出的答案评分最高。</p>
-<p>目标函数的第二项实际上是一个KL散度，$\pi^\mathrm{SFT}$表示通过人工标注QA数据训练的ChatGPT模型，而$\pi_{\phi}^{\mathrm{RL}}$表示强化学习要学习的网络。这一项的意义实际上表示通过强化学习的网路要和通过标注QA学习得到的网络要尽可能接近，不希望网络有太大的改变。这一项是强化学习PPO-ptx 模型的主要创新点。</p>
+\operatorname{objective}(\phi)= &amp; E_{(x, y) \sim
+D_{\pi_{\phi}^{\mathrm{RL}}}}\left[r_{\theta}(x, y)-\beta \log
+\left(\pi_{\phi}^{\mathrm{RL}}(y \mid x) / \pi^{\mathrm{SFT}}(y \mid
+x)\right)\right]+ \\
+&amp; \gamma E_{x \sim D_{\text {prerrain }}}\left[\log
+\left(\pi_{\phi}^{\mathrm{RL}}(x)\right)\right]
+\end{aligned}
+\]</span></p>
+<p>强化学习的目标函数包括三项，首先第一项表示<span
+class="math inline">\(r_{\theta}(x,
+y)\)</span>评价模型，强化学习目标是调整ChatGPT参数，使得评价模型对ChatGPT输出的答案评分最高。</p>
+<p>目标函数的第二项实际上是一个KL散度，<span
+class="math inline">\(\pi^\mathrm{SFT}\)</span>表示通过人工标注QA数据训练的ChatGPT模型，而<span
+class="math inline">\(\pi_{\phi}^{\mathrm{RL}}\)</span>表示强化学习要学习的网络。这一项的意义实际上表示通过强化学习的网路要和通过标注QA学习得到的网络要尽可能接近，不希望网络有太大的改变。这一项是强化学习PPO-ptx
+模型的主要创新点。</p>
 <p>目标函数的第三项表示ChatGPT预训练中的损失函数，网络训练中不希望通过微调提升了问答任务的表现但是使得预训练中的生成任务性能下降，因此把预训练中损失函数拿过来防止网络在其他任务上的性能下降。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<h2 id="总结">总结</h2>
+<ol type="1">
 <li>ChatGPT简单来说就是将GPT3再在标注数据上进行微调。</li>
 <li>ChatGPT对很多问题都能得到很好的结果，但是，它本质上仍然是基于数据的模型，因此如果问ChatGPT一些没有用的问题，ChatGPT就可能出现问题。</li>
 </ol>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ol>
-<li><a target="_blank" rel="noopener" href="https://openai.com/blog/instruction-following/">InstructGPT</a></li>
-<li><a target="_blank" rel="noopener" href="https://openai.com/blog/chatgpt">Introducing ChatGPT (openai.com)</a></li>
+<h2 id="reference">Reference</h2>
+<ol type="1">
+<li><a
+target="_blank" rel="noopener" href="https://openai.com/blog/instruction-following/">InstructGPT</a></li>
+<li><a target="_blank" rel="noopener" href="https://openai.com/blog/chatgpt">Introducing ChatGPT
+(openai.com)</a></li>
 </ol>
 
                 
