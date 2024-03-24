@@ -16,12 +16,12 @@
   <meta name="author" content="Jingmengzhiyue">
   <meta name="keywords" content="">
   
-    <meta name="description" content="IntroductionYou can set up a Rust environment on either Windows or Linux. After searching online, I found that setting up a Rust environment on Linux is much quicker than on Windows, but I still use t">
+    <meta name="description" content="Introduction You can set up a Rust environment on either Windows or Linux. After searching online, I found that setting up a Rust environment on Linux is much quicker than on Windows, but I still u">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Windows 11 + WSL + VS Code + Rust Environment Setup">
 <meta property="og:url" content="http://jingmengzhiyue.top/2024/03/11/rust-wal2-vscode/index.html">
 <meta property="og:site_name" content="热爱可抵万难">
-<meta property="og:description" content="IntroductionYou can set up a Rust environment on either Windows or Linux. After searching online, I found that setting up a Rust environment on Linux is much quicker than on Windows, but I still use t">
+<meta property="og:description" content="Introduction You can set up a Rust environment on either Windows or Linux. After searching online, I found that setting up a Rust environment on Linux is much quicker than on Windows, but I still u">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://jingmengzhiyue.top/img/%E5%9B%BE%E7%89%8740.png">
 <meta property="og:image" content="http://jingmengzhiyue.top/img/%E5%9B%BE%E7%89%8731.png">
@@ -253,7 +253,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          7.5k 字
+          7.7k 字
         
       </span>
     
@@ -264,7 +264,7 @@
         
         
         
-          63 分钟
+          65 分钟
         
       </span>
     
@@ -306,9 +306,15 @@
             
               <div class="markdown-body">
                 
-                <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>You can set up a Rust environment on either Windows or Linux. After searching online, I found that setting up a Rust environment on Linux is much quicker than on Windows, but I still use the Windows system on a daily basis.</p>
-<p>Therefore, I ultimately chose to set up the Rust environment in the WSL2 of Windows 11, and then use VS Code to connect to WSL.</p>
-<h2 id="Overall-Steps"><a href="#Overall-Steps" class="headerlink" title="Overall Steps"></a>Overall Steps</h2><ol>
+                <h2 id="introduction">Introduction</h2>
+<p>You can set up a Rust environment on either Windows or Linux. After
+searching online, I found that setting up a Rust environment on Linux is
+much quicker than on Windows, but I still use the Windows system on a
+daily basis.</p>
+<p>Therefore, I ultimately chose to set up the Rust environment in the
+WSL2 of Windows 11, and then use VS Code to connect to WSL.</p>
+<h2 id="overall-steps">Overall Steps</h2>
+<ol type="1">
 <li>Install WSL on Windows 11</li>
 <li>Change the source on WSL in Windows 11</li>
 <li>Install gcc on WSL in Windows 11</li>
@@ -318,21 +324,51 @@
 <li>Simple verification</li>
 <li>Run and debug</li>
 </ol>
-<h2 id="Install-WSL-on-Windows-11"><a href="#Install-WSL-on-Windows-11" class="headerlink" title="Install WSL on Windows 11"></a>Install WSL on Windows 11</h2><p>Reference: <a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/windows/wsl/about">https://learn.microsoft.com/en-us/windows/wsl/about</a></p>
-<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/windows/wsl/install">https://learn.microsoft.com/en-us/windows/wsl/install</a></p>
+<h2 id="install-wsl-on-windows-11">Install WSL on Windows 11</h2>
+<p>Reference: <a
+target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/windows/wsl/about">https://learn.microsoft.com/en-us/windows/wsl/about</a></p>
+<p><a
+target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/windows/wsl/install">https://learn.microsoft.com/en-us/windows/wsl/install</a></p>
 <p>Prerequisites:</p>
-<p><img src="/img/图片40.png" srcset="/img/loading.gif" lazyload alt="image-20231126161500760"></p>
-<p>Open PowerShell or Windows Command Prompt as an administrator, and enter the <code>wsl --install</code> command to start installing WSL. By default, this will install the latest stable version of Ubuntu. You can manually choose other versions; see the <a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/windows/wsl/install">Microsoft tutorial</a> for specific instructions.</p>
-<p>After the installation is complete, you need to restart your computer for the configuration to take effect.</p>
-<p>PS: It might be because I had a VPN running all the time, but during the WSL installation, it kept prompting “wsl: Localhost proxy configuration detected, but not mirrored to WSL. Localhost proxy is not supported in NAT mode for WSL.”</p>
-<p>I’m not sure if this would affect the network of WSL, but to be safe, I followed the <a target="_blank" rel="noopener" href="https://github.com/microsoft/WSL/issues/10753">instructions</a> to make some configurations.</p>
-<p>In WSL, there is a configuration file used to configure advanced setting options, which is <a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/windows/wsl/wsl-config">.wslconfig</a>. This file doesn’t exist by default; if you want to configure it, you need to create it manually.</p>
-<p>This file is located at <code>C:\Users\&lt;UserName&gt;\.wslconfig</code>.</p>
+<figure>
+<img src="/img/图片40.png" srcset="/img/loading.gif" lazyload alt="image-20231126161500760" />
+<figcaption aria-hidden="true">image-20231126161500760</figcaption>
+</figure>
+<p>Open PowerShell or Windows Command Prompt as an administrator, and
+enter the <code>wsl --install</code> command to start installing WSL. By
+default, this will install the latest stable version of Ubuntu. You can
+manually choose other versions; see the <a
+target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/windows/wsl/install">Microsoft
+tutorial</a> for specific instructions.</p>
+<p>After the installation is complete, you need to restart your computer
+for the configuration to take effect.</p>
+<p>PS: It might be because I had a VPN running all the time, but during
+the WSL installation, it kept prompting "wsl: Localhost proxy
+configuration detected, but not mirrored to WSL. Localhost proxy is not
+supported in NAT mode for WSL."</p>
+<p>I'm not sure if this would affect the network of WSL, but to be safe,
+I followed the <a
+target="_blank" rel="noopener" href="https://github.com/microsoft/WSL/issues/10753">instructions</a> to
+make some configurations.</p>
+<p>In WSL, there is a configuration file used to configure advanced
+setting options, which is <a
+target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/windows/wsl/wsl-config">.wslconfig</a>.
+This file doesn't exist by default; if you want to configure it, you
+need to create it manually.</p>
+<p>This file is located at
+<code>C:\Users\&lt;UserName&gt;\.wslconfig</code>.</p>
 <p>After creating the file, enter the following content and save it:</p>
 <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-section">[experimental]</span><br><span class="hljs-attr">autoMemoryReclaim</span>=gradual <span class="hljs-comment"># gradual | dropcache | disabled</span><br><span class="hljs-attr">networkingMode</span>=mirrored<br><span class="hljs-attr">dnsTunneling</span>=<span class="hljs-literal">true</span><br><span class="hljs-attr">firewall</span>=<span class="hljs-literal">true</span><br><span class="hljs-attr">autoProxy</span>=<span class="hljs-literal">true</span><br></code></pre></td></tr></table></figure>
-<p>Then, open PowerShell and enter <code>wsl --shutdown</code>, and reopen WSL. The previous prompt should be gone.</p>
-<h2 id="Change-the-Source-on-WSL-in-Windows-11"><a href="#Change-the-Source-on-WSL-in-Windows-11" class="headerlink" title="Change the Source on WSL in Windows 11"></a>Change the Source on WSL in Windows 11</h2><p>Just like a normal Ubuntu system, WSL uses foreign sources by default, which are inconvenient for us to use. Therefore, we can change to domestic sources, and the method is the same as in the Ubuntu system.</p>
-<p>PS: Make sure to confirm the system version installed in WSL first. Here, the default installation is Ubuntu 22.04.3 LTS.</p>
+<p>Then, open PowerShell and enter <code>wsl --shutdown</code>, and
+reopen WSL. The previous prompt should be gone.</p>
+<h2 id="change-the-source-on-wsl-in-windows-11">Change the Source on WSL
+in Windows 11</h2>
+<p>Just like a normal Ubuntu system, WSL uses foreign sources by
+default, which are inconvenient for us to use. Therefore, we can change
+to domestic sources, and the method is the same as in the Ubuntu
+system.</p>
+<p>PS: Make sure to confirm the system version installed in WSL first.
+Here, the default installation is Ubuntu 22.04.3 LTS.</p>
 <p><strong>Domestic Sources</strong></p>
 <p>Tsinghua University:</p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment"># Default commented out source code mirror to improve apt update speed, uncomment if needed</span><br>deb https:<span class="hljs-regexp">//mi</span>rrors.tuna.tsinghua.edu.cn<span class="hljs-regexp">/ubuntu/</span> jammy main restricted universe multiverse<br><span class="hljs-comment"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy main restricted universe multiverse</span><br>deb https:<span class="hljs-regexp">//mi</span>rrors.tuna.tsinghua.edu.cn<span class="hljs-regexp">/ubuntu/</span> jammy-updates main restricted universe multiverse<br><span class="hljs-comment"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse</span><br>deb https:<span class="hljs-regexp">//mi</span>rrors.tuna.tsinghua.edu.cn<span class="hljs-regexp">/ubuntu/</span> jammy-backports main restricted universe multiverse<br><span class="hljs-comment"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-backports main restricted universe multiverse</span><br>deb https:<span class="hljs-regexp">//mi</span>rrors.tuna.tsinghua.edu.cn<span class="hljs-regexp">/ubuntu/</span> jammy-security main restricted universe multiverse<br><span class="hljs-comment"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-security main restricted universe multiverse</span><br><br><span class="hljs-comment"># Prerelease software source, not recommended to enable</span><br><span class="hljs-comment"># deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-proposed main restricted universe multiverse</span><br><span class="hljs-comment"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-proposed main restricted universe multiverse</span><br></code></pre></td></tr></table></figure>
@@ -344,37 +380,91 @@
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs awk">deb http:<span class="hljs-regexp">//mi</span>rrors.<span class="hljs-number">163</span>.com<span class="hljs-regexp">/ubuntu/</span> jammy main restricted universe multiverse<br>deb http:<span class="hljs-regexp">//mi</span>rrors.<span class="hljs-number">163</span>.com<span class="hljs-regexp">/ubuntu/</span> jammy-security main restricted universe multiverse<br>deb http:<span class="hljs-regexp">//mi</span>rrors.<span class="hljs-number">163</span>.com<span class="hljs-regexp">/ubuntu/</span> jammy-updates main restricted universe multiverse<br>deb http:<span class="hljs-regexp">//mi</span>rrors.<span class="hljs-number">163</span>.com<span class="hljs-regexp">/ubuntu/</span> jammy-proposed main restricted universe multiverse<br>deb http:<span class="hljs-regexp">//mi</span>rrors.<span class="hljs-number">163</span>.com<span class="hljs-regexp">/ubuntu/</span> jammy-backports main restricted universe multiverse<br>deb-src http:<span class="hljs-regexp">//mi</span>rrors.<span class="hljs-number">163</span>.com<span class="hljs-regexp">/ubuntu/</span> jammy main restricted universe multiverse<br>deb-src http:<span class="hljs-regexp">//mi</span>rrors.<span class="hljs-number">163</span>.com<span class="hljs-regexp">/ubuntu/</span> jammy-security main restricted universe multiverse<br>deb-src http:<span class="hljs-regexp">//mi</span>rrors.<span class="hljs-number">163</span>.com<span class="hljs-regexp">/ubuntu/</span> jammy-updates main restricted universe multiverse<br>deb-src http:<span class="hljs-regexp">//mi</span>rrors.<span class="hljs-number">163</span>.com<span class="hljs-regexp">/ubuntu/</span> jammy-proposed main restricted universe multiverse<br>deb-src http:<span class="hljs-regexp">//mi</span>rrors.<span class="hljs-number">163</span>.com<span class="hljs-regexp">/ubuntu/</span> jammy-backports main restricted universe multiverse<br></code></pre></td></tr></table></figure>
 <p>After choosing a domestic source, execute the following commands:</p>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs routeros">sudo apt-<span class="hljs-built_in">get</span> update<br>sudo apt-<span class="hljs-built_in">get</span> upgrade<br></code></pre></td></tr></table></figure>
-<h2 id="Install-gcc-on-WSL-in-Windows-11"><a href="#Install-gcc-on-WSL-in-Windows-11" class="headerlink" title="Install gcc on WSL in Windows 11"></a>Install gcc on WSL in Windows 11</h2><p>Open WSL and run the following commands:</p>
+<h2 id="install-gcc-on-wsl-in-windows-11">Install gcc on WSL in Windows
+11</h2>
+<p>Open WSL and run the following commands:</p>
 <figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">apt-<span class="hljs-keyword">get</span> <span class="hljs-keyword">update</span> # Make sure apt-<span class="hljs-keyword">get</span> <span class="hljs-keyword">is</span> up-<span class="hljs-keyword">to</span>-<span class="hljs-type">date</span>, <span class="hljs-keyword">as</span> it may report an error <span class="hljs-keyword">when</span> installing gcc<br>sudo apt install gcc<br></code></pre></td></tr></table></figure>
-<h2 id="Install-Rust-on-WSL-in-Windows-11"><a href="#Install-Rust-on-WSL-in-Windows-11" class="headerlink" title="Install Rust on WSL in Windows 11"></a>Install Rust on WSL in Windows 11</h2><p>Two commands are enough:</p>
+<h2 id="install-rust-on-wsl-in-windows-11">Install Rust on WSL in
+Windows 11</h2>
+<p>Two commands are enough:</p>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmake">sudo apt <span class="hljs-keyword">install</span> rustc<br></code></pre></td></tr></table></figure>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmake">sudo apt <span class="hljs-keyword">install</span> cargo<br></code></pre></td></tr></table></figure>
-<p>After the installation is complete, run <code>cargo version</code> in the terminal.</p>
-<p>If you see the following output, it means Rust has been installed successfully.</p>
-<p><img src="/img/图片31.png" srcset="/img/loading.gif" lazyload alt="image-20231126163636737"></p>
-<h2 id="Install-Remote-WSL-on-VS-Code-in-Windows-11"><a href="#Install-Remote-WSL-on-VS-Code-in-Windows-11" class="headerlink" title="Install Remote-WSL on VS Code in Windows 11"></a>Install Remote-WSL on VS Code in Windows 11</h2><p>Currently, VS Code provides a plugin that allows you to connect to WSL2 from the Windows version of VS Code. This plugin is called Remote-WSL.</p>
-<p><img src="/img/图片32.png" srcset="/img/loading.gif" lazyload alt="image-20231126163800014"></p>
-<p>So, as long as you install this plugin in the Windows version of VS Code, you can connect to WSL2.</p>
-<p>The first time you connect, you may need to wait for some time, as it needs to perform some initialization work.</p>
-<p>After the initialization is complete, click “Open Folder” to select a folder in WSL2.</p>
-<p><img src="/img/图片33.png" srcset="/img/loading.gif" lazyload alt="image-20231126163942891"></p>
-<h2 id="Install-rust-analyzer-on-VS-Code-in-Windows-11"><a href="#Install-rust-analyzer-on-VS-Code-in-Windows-11" class="headerlink" title="Install rust-analyzer on VS Code in Windows 11"></a>Install rust-analyzer on VS Code in Windows 11</h2><p>After connecting VS Code to WSL, the installed plugins have two “versions”: one for use on Windows, and one installed in WSL.</p>
-<p><img src="/img/图片34.png" srcset="/img/loading.gif" lazyload alt="image-20231126164254143"></p>
+<p>After the installation is complete, run <code>cargo version</code> in
+the terminal.</p>
+<p>If you see the following output, it means Rust has been installed
+successfully.</p>
+<figure>
+<img src="/img/图片31.png" srcset="/img/loading.gif" lazyload alt="image-20231126163636737" />
+<figcaption aria-hidden="true">image-20231126163636737</figcaption>
+</figure>
+<h2 id="install-remote-wsl-on-vs-code-in-windows-11">Install Remote-WSL
+on VS Code in Windows 11</h2>
+<p>Currently, VS Code provides a plugin that allows you to connect to
+WSL2 from the Windows version of VS Code. This plugin is called
+Remote-WSL.</p>
+<figure>
+<img src="/img/图片32.png" srcset="/img/loading.gif" lazyload alt="image-20231126163800014" />
+<figcaption aria-hidden="true">image-20231126163800014</figcaption>
+</figure>
+<p>So, as long as you install this plugin in the Windows version of VS
+Code, you can connect to WSL2.</p>
+<p>The first time you connect, you may need to wait for some time, as it
+needs to perform some initialization work.</p>
+<p>After the initialization is complete, click "Open Folder" to select a
+folder in WSL2.</p>
+<figure>
+<img src="/img/图片33.png" srcset="/img/loading.gif" lazyload alt="image-20231126163942891" />
+<figcaption aria-hidden="true">image-20231126163942891</figcaption>
+</figure>
+<h2 id="install-rust-analyzer-on-vs-code-in-windows-11">Install
+rust-analyzer on VS Code in Windows 11</h2>
+<p>After connecting VS Code to WSL, the installed plugins have two
+"versions": one for use on Windows, and one installed in WSL.</p>
+<figure>
+<img src="/img/图片34.png" srcset="/img/loading.gif" lazyload alt="image-20231126164254143" />
+<figcaption aria-hidden="true">image-20231126164254143</figcaption>
+</figure>
 <p>Here, we only need one for now, which is rust-analyzer.</p>
-<p>In the VS Code window connected to WSL, search for rust-analyzer and install the plugin.</p>
-<h2 id="Simple-Verification"><a href="#Simple-Verification" class="headerlink" title="Simple Verification"></a>Simple Verification</h2><p>In WSL, navigate to any directory and enter <code>cargo init hello-world</code>.</p>
-<p>Then, enter <code>code .</code> to open the Rust project in VS Code.</p>
-<p><img src="/img/图片35.png" srcset="/img/loading.gif" lazyload alt="image-20231126164600855"></p>
-<p>In the VS Code terminal, run <code>cargo run</code> to verify if the environment is configured successfully. If successful, the output should look like the following:</p>
-<p><img src="/img/图片36.png" srcset="/img/loading.gif" lazyload alt="image-20231126164727968"></p>
-<p>At this point, the basic Rust environment has been set up successfully.</p>
-<h2 id="Run-and-Debug"><a href="#Run-and-Debug" class="headerlink" title="Run and Debug"></a>Run and Debug</h2><p><img src="/img/图片37.png" srcset="/img/loading.gif" lazyload alt="image-20231126170853688"></p>
-<p>After entering <code>code .</code> in WSL to open VS Code, click the “Run” button in the top-left corner of the code editor to execute the program.</p>
+<p>In the VS Code window connected to WSL, search for rust-analyzer and
+install the plugin.</p>
+<h2 id="simple-verification">Simple Verification</h2>
+<p>In WSL, navigate to any directory and enter
+<code>cargo init hello-world</code>.</p>
+<p>Then, enter <code>code .</code> to open the Rust project in VS
+Code.</p>
+<figure>
+<img src="/img/图片35.png" srcset="/img/loading.gif" lazyload alt="image-20231126164600855" />
+<figcaption aria-hidden="true">image-20231126164600855</figcaption>
+</figure>
+<p>In the VS Code terminal, run <code>cargo run</code> to verify if the
+environment is configured successfully. If successful, the output should
+look like the following:</p>
+<figure>
+<img src="/img/图片36.png" srcset="/img/loading.gif" lazyload alt="image-20231126164727968" />
+<figcaption aria-hidden="true">image-20231126164727968</figcaption>
+</figure>
+<p>At this point, the basic Rust environment has been set up
+successfully.</p>
+<h2 id="run-and-debug">Run and Debug</h2>
+<figure>
+<img src="/img/图片37.png" srcset="/img/loading.gif" lazyload alt="image-20231126170853688" />
+<figcaption aria-hidden="true">image-20231126170853688</figcaption>
+</figure>
+<p>After entering <code>code .</code> in WSL to open VS Code, click the
+"Run" button in the top-left corner of the code editor to execute the
+program.</p>
 <p>To debug, you need to install the CodeLLDB plugin.</p>
-<p>After installing the plugin, you can use the debugging functionality.</p>
-<p><img src="/img/图片38.png" srcset="/img/loading.gif" lazyload alt="image-20231126171239141"></p>
+<p>After installing the plugin, you can use the debugging
+functionality.</p>
+<figure>
+<img src="/img/图片38.png" srcset="/img/loading.gif" lazyload alt="image-20231126171239141" />
+<figcaption aria-hidden="true">image-20231126171239141</figcaption>
+</figure>
 <p>Currently, the plugins installed on WSL are as follows:</p>
-<p><img src="/img/图片39.png" srcset="/img/loading.gif" lazyload alt="image-20231126171146275"></p>
+<figure>
+<img src="/img/图片39.png" srcset="/img/loading.gif" lazyload alt="image-20231126171146275" />
+<figcaption aria-hidden="true">image-20231126171146275</figcaption>
+</figure>
 
                 
               </div>
@@ -625,14 +715,14 @@
   
     
       <span id="busuanzi_container_site_pv" style="display: none">
-        总访问量 
+        总访问量 18954
         <span id="busuanzi_value_site_pv"></span>
          次
       </span>
     
     
       <span id="busuanzi_container_site_uv" style="display: none">
-        总访客数 
+        总访客数 9873
         <span id="busuanzi_value_site_uv"></span>
          人
       </span>

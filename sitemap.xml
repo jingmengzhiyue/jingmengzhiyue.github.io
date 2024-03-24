@@ -468,7 +468,7 @@
   </url>
   
   <url>
-    <loc>http://jingmengzhiyue.top/tags/The-Missing-Semester-of-Your-CS-Education/</loc>
+    <loc>http://jingmengzhiyue.top/tags/ChatGPT/</loc>
     <lastmod>2024-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -476,6 +476,20 @@
   
   <url>
     <loc>http://jingmengzhiyue.top/tags/DTW/</loc>
+    <lastmod>2024-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://jingmengzhiyue.top/tags/The-Missing-Semester-of-Your-CS-Education/</loc>
+    <lastmod>2024-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://jingmengzhiyue.top/tags/Machine-Learning/</loc>
     <lastmod>2024-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -496,7 +510,7 @@
   </url>
   
   <url>
-    <loc>http://jingmengzhiyue.top/tags/ChatGPT/</loc>
+    <loc>http://jingmengzhiyue.top/tags/OpenCV/</loc>
     <lastmod>2024-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -518,20 +532,6 @@
   
   <url>
     <loc>http://jingmengzhiyue.top/tags/Remote-Sensing/</loc>
-    <lastmod>2024-03-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://jingmengzhiyue.top/tags/Machine-Learning/</loc>
-    <lastmod>2024-03-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://jingmengzhiyue.top/tags/OpenCV/</loc>
     <lastmod>2024-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -610,7 +610,7 @@
   </url>
   
   <url>
-    <loc>http://jingmengzhiyue.top/categories/Computer-Science/</loc>
+    <loc>http://jingmengzhiyue.top/categories/LLM/</loc>
     <lastmod>2024-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -624,21 +624,7 @@
   </url>
   
   <url>
-    <loc>http://jingmengzhiyue.top/categories/Environment-Configuration/</loc>
-    <lastmod>2024-03-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://jingmengzhiyue.top/categories/LLM/</loc>
-    <lastmod>2024-03-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://jingmengzhiyue.top/categories/Remote-Sensing-Algorithm/</loc>
+    <loc>http://jingmengzhiyue.top/categories/Computer-Science/</loc>
     <lastmod>2024-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -646,6 +632,20 @@
   
   <url>
     <loc>http://jingmengzhiyue.top/categories/Machine-Learning/</loc>
+    <lastmod>2024-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://jingmengzhiyue.top/categories/Environment-Configuration/</loc>
+    <lastmod>2024-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://jingmengzhiyue.top/categories/Remote-Sensing-Algorithm/</loc>
     <lastmod>2024-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
