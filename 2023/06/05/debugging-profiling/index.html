@@ -23,11 +23,14 @@
 <meta property="og:site_name" content="热爱可抵万难">
 <meta property="og:description" content="计算机科学中的调试">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.brendangregg.com/FlameGraphs/cpu-bash-flamegraph.svg">
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/2/2f/A_Call_Graph_generated_by_pycallgraph.png">
 <meta property="article:published_time" content="2023-06-05T08:37:29.000Z">
 <meta property="article:modified_time" content="2024-03-14T11:51:52.793Z">
 <meta property="article:author" content="Jingmengzhiyue">
 <meta property="article:tag" content="The Missing Semester of Your CS Education">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://www.brendangregg.com/FlameGraphs/cpu-bash-flamegraph.svg">
   
   
   
@@ -249,7 +252,7 @@
         
         
         
-          106 分钟
+          109 分钟
         
       </span>
     
@@ -292,62 +295,33 @@
               <div class="markdown-body">
                 
                 <p>代码不能完全按照您的想法运行，它只能完全按照您的写法运行，这是编程界的一条金科玉律。</p>
-<p>让您的写法符合您的想法是非常困难的。在这节课中，我们会传授给您一些非常有用技术，帮您处理代码中的
-bug 和程序性能问题。</p>
-<h1 id="调试代码">调试代码</h1>
-<h2 id="打印调试法与日志">打印调试法与日志</h2>
-<p>"最有效的 debug 工具就是细致的分析，配合恰当位置的打印语句" — Brian
-Kernighan, <em>Unix 新手入门</em>。</p>
+<p>让您的写法符合您的想法是非常困难的。在这节课中，我们会传授给您一些非常有用技术，帮您处理代码中的 bug 和程序性能问题。</p>
+<h1 id="调试代码"><a href="#调试代码" class="headerlink" title="调试代码"></a>调试代码</h1><h2 id="打印调试法与日志"><a href="#打印调试法与日志" class="headerlink" title="打印调试法与日志"></a>打印调试法与日志</h2><p>“最有效的 debug 工具就是细致的分析，配合恰当位置的打印语句” — Brian Kernighan, <em>Unix 新手入门</em>。</p>
 <p>调试代码的第一种方法往往是在您发现问题的地方添加一些打印语句，然后不断重复此过程直到您获取了足够的信息并找到问题的根本原因。</p>
 <p>另外一个方法是使用日志，而不是临时添加打印语句。日志较普通的打印语句有如下的一些优势：</p>
 <ul>
-<li>您可以将日志写入文件、socket
-或者甚至是发送到远端服务器而不仅仅是标准输出；</li>
-<li>日志可以支持严重等级（例如 INFO, DEBUG, WARN,
-ERROR等)，这使您可以根据需要过滤日志；</li>
+<li>您可以将日志写入文件、socket 或者甚至是发送到远端服务器而不仅仅是标准输出；</li>
+<li>日志可以支持严重等级（例如 INFO, DEBUG, WARN, ERROR等)，这使您可以根据需要过滤日志；</li>
 <li>对于新发现的问题，很可能您的日志中已经包含了可以帮助您定位问题的足够的信息。</li>
 </ul>
-<p><a href="/static/files/logger.py">这里</a>
-是一个包含日志的例程序：</p>
+<p><a href="/static/files/logger.py">这里</a> 是一个包含日志的例程序：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ python logger.py<br><span class="hljs-comment"># Raw output as with just prints</span><br>$ python logger.py <span class="hljs-built_in">log</span><br><span class="hljs-comment"># Log formatted output</span><br>$ python logger.py <span class="hljs-built_in">log</span> ERROR<br><span class="hljs-comment"># Print only ERROR levels and above</span><br>$ python logger.py color<br><span class="hljs-comment"># Color formatted output</span><br></code></pre></td></tr></table></figure>
 <p>有很多技巧可以使日志的可读性变得更好，我最喜欢的一个是技巧是对其进行着色。到目前为止，您应该已经知道，以彩色文本显示终端信息时可读性更好。但是应该如何设置呢？</p>
-<p><code>ls</code> 和 <code>grep</code> 这样的程序会使用 <a
-target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/ANSI_escape_code">ANSI escape
-codes</a>，它是一系列的特殊字符，可以使您的 shell
-改变输出结果的颜色。例如，执行
-<code>echo -e "\e[38;2;255;0;0mThis is red\e[0m"</code>
-会打印红色的字符串：<code>This is red</code> 。只要您的终端支持<a
-target="_blank" rel="noopener" href="https://gist.github.com/XVilka/8346728#terminals--true-color">真彩色</a>。如果您的终端不支持真彩色（例如
-MacOS 的 Terminal.app），您可以使用支持更加广泛的 16
-色，例如："(https://www.nginx.com/) web
-服务器就将其日志存放于<code>/var/log/nginx</code>。</p>
-<p>目前，系统开始使用 <strong>system
-log</strong>，您所有的日志都会保存在这里。大多数（但不是全部的）Linux
-系统都会使用
-<code>systemd</code>，这是一个系统守护进程，它会控制您系统中的很多东西，例如哪些服务应该启动并运行。<code>systemd</code>
-会将日志以某种特殊格式存放于<code>/var/log/journal</code>，您可以使用 <a
-target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man1/journalctl.1.html"><code>journalctl</code></a>
-命令显示这些消息。</p>
-<p>类似地，在 macOS 系统中是
-<code>/var/log/system.log</code>，但是有更多的工具会使用系统日志，它的内容可以使用
-<a target="_blank" rel="noopener" href="https://www.manpagez.com/man/1/log/"><code>log show</code></a>
-显示。</p>
-<p>对于大多数的 UNIX 系统，您也可以使用<a
-target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man1/dmesg.1.html"><code>dmesg</code></a>
-命令来读取内核的日志。</p>
-<p>如果您希望将日志加入到系统日志中，您可以使用 <a
-target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man1/logger.1.html"><code>logger</code></a>
-这个 shell 程序。下面这个例子显示了如何使用
-<code>logger</code>并且如何找到能够将其存入系统日志的条目。</p>
+<p><code>ls</code> 和 <code>grep</code> 这样的程序会使用 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/ANSI_escape_code">ANSI escape codes</a>，它是一系列的特殊字符，可以使您的 shell 改变输出结果的颜色。例如，执行 <code>echo -e &quot;\e[38;2;255;0;0mThis is red\e[0m&quot;</code> 会打印红色的字符串：<code>This is red</code> 。只要您的终端支持<a target="_blank" rel="noopener" href="https://gist.github.com/XVilka/8346728#terminals--true-color">真彩色</a>。如果您的终端不支持真彩色（例如 MacOS 的 Terminal.app），您可以使用支持更加广泛的 16 色，例如：”\e[31;1mThis is red\e[0m”。</p>
+<p>下面这个脚本向您展示了如何在终端中打印多种颜色（只要您的终端支持真彩色）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/usr/bin/env bash</span><br><span class="hljs-keyword">for</span> R <span class="hljs-keyword">in</span> $(<span class="hljs-built_in">seq</span> 0 20 255); <span class="hljs-keyword">do</span><br>    <span class="hljs-keyword">for</span> G <span class="hljs-keyword">in</span> $(<span class="hljs-built_in">seq</span> 0 20 255); <span class="hljs-keyword">do</span><br>        <span class="hljs-keyword">for</span> B <span class="hljs-keyword">in</span> $(<span class="hljs-built_in">seq</span> 0 20 255); <span class="hljs-keyword">do</span><br>            <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;\e[38;2;<span class="hljs-variable">$&#123;R&#125;</span>;<span class="hljs-variable">$&#123;G&#125;</span>;<span class="hljs-variable">$&#123;B&#125;</span>m█\e[0m&quot;</span>;<br>        <span class="hljs-keyword">done</span><br>    <span class="hljs-keyword">done</span><br><span class="hljs-keyword">done</span><br></code></pre></td></tr></table></figure>
+<h2 id="第三方日志系统"><a href="#第三方日志系统" class="headerlink" title="第三方日志系统"></a>第三方日志系统</h2><p>如果您正在构建大型软件系统，您很可能会使用到一些依赖，有些依赖会作为程序单独运行。如 Web 服务器、数据库或消息代理都是此类常见的第三方依赖。</p>
+<p>和这些系统交互的时候，阅读它们的日志是非常必要的，因为仅靠客户端侧的错误信息可能并不足以定位问题。</p>
+<p>幸运的是，大多数的程序都会将日志保存在您的系统中的某个地方。对于 UNIX 系统来说，程序的日志通常存放在 <code>/var/log</code>。例如， <a target="_blank" rel="noopener" href="https://www.nginx.com/">NGINX</a> web 服务器就将其日志存放于<code>/var/log/nginx</code>。</p>
+<p>目前，系统开始使用 <strong>system log</strong>，您所有的日志都会保存在这里。大多数（但不是全部的）Linux 系统都会使用 <code>systemd</code>，这是一个系统守护进程，它会控制您系统中的很多东西，例如哪些服务应该启动并运行。<code>systemd</code> 会将日志以某种特殊格式存放于<code>/var/log/journal</code>，您可以使用 <a target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man1/journalctl.1.html"><code>journalctl</code></a> 命令显示这些消息。</p>
+<p>类似地，在 macOS 系统中是 <code>/var/log/system.log</code>，但是有更多的工具会使用系统日志，它的内容可以使用 <a target="_blank" rel="noopener" href="https://www.manpagez.com/man/1/log/"><code>log show</code></a> 显示。</p>
+<p>对于大多数的 UNIX 系统，您也可以使用<a target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man1/dmesg.1.html"><code>dmesg</code></a> 命令来读取内核的日志。</p>
+<p>如果您希望将日志加入到系统日志中，您可以使用 <a target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man1/logger.1.html"><code>logger</code></a> 这个 shell 程序。下面这个例子显示了如何使用 <code>logger</code>并且如何找到能够将其存入系统日志的条目。</p>
 <p>不仅如此，大多数的编程语言都支持向系统日志中写日志。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">logger <span class="hljs-string">&quot;Hello Logs&quot;</span><br><span class="hljs-comment"># On macOS</span><br><span class="hljs-built_in">log</span> show --last 1m | grep Hello<br><span class="hljs-comment"># On Linux</span><br>journalctl --since <span class="hljs-string">&quot;1m ago&quot;</span> | grep Hello<br></code></pre></td></tr></table></figure>
 <p>正如我们在数据整理那节课上看到的那样，日志的内容可以非常的多，我们需要对其进行处理和过滤才能得到我们想要的信息。</p>
-<p>如果您发现您需要对 <code>journalctl</code> 和 <code>log show</code>
-的结果进行大量的过滤，那么此时可以考虑使用它们自带的选项对其结果先过滤一遍再输出。还有一些像
-<a target="_blank" rel="noopener" href="http://lnav.org/"><code>lnav</code></a>
-这样的工具，它为日志文件提供了更好的展现和浏览方式。</p>
-<h2 id="调试器">调试器</h2>
-<p>当通过打印已经不能满足您的调试需求时，您应该使用调试器。</p>
+<p>如果您发现您需要对 <code>journalctl</code> 和 <code>log show</code> 的结果进行大量的过滤，那么此时可以考虑使用它们自带的选项对其结果先过滤一遍再输出。还有一些像 <a target="_blank" rel="noopener" href="http://lnav.org/"><code>lnav</code></a> 这样的工具，它为日志文件提供了更好的展现和浏览方式。</p>
+<h2 id="调试器"><a href="#调试器" class="headerlink" title="调试器"></a>调试器</h2><p>当通过打印已经不能满足您的调试需求时，您应该使用调试器。</p>
 <p>调试器是一种可以允许我们和正在执行的程序进行交互的程序，它可以做到：</p>
 <ul>
 <li>当到达某一行时将程序暂停；</li>
@@ -356,358 +330,125 @@ target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man1/logger
 <li>满足特定条件时暂停程序；</li>
 <li>其他高级功能。</li>
 </ul>
-<p>很多编程语言都有自己的调试器。Python 的调试器是<a
-target="_blank" rel="noopener" href="https://docs.python.org/3/library/pdb.html"><code>pdb</code></a>.</p>
+<p>很多编程语言都有自己的调试器。Python 的调试器是<a target="_blank" rel="noopener" href="https://docs.python.org/3/library/pdb.html"><code>pdb</code></a>.</p>
 <p>下面对<code>pdb</code> 支持的命令进行简单的介绍：</p>
 <ul>
-<li><strong>l</strong>(ist) -
-显示当前行附近的11行或继续执行之前的显示；</li>
-<li><strong>s</strong>(tep) -
-执行当前行，并在第一个可能的地方停止；</li>
-<li><strong>n</strong>(ext) - 继续执行直到当前函数的下一条语句或者
-return 语句；</li>
+<li><strong>l</strong>(ist) - 显示当前行附近的11行或继续执行之前的显示；</li>
+<li><strong>s</strong>(tep) - 执行当前行，并在第一个可能的地方停止；</li>
+<li><strong>n</strong>(ext) - 继续执行直到当前函数的下一条语句或者 return 语句；</li>
 <li><strong>b</strong>(reak) - 设置断点（基于传入的参数）；</li>
-<li><strong>p</strong>(rint) -
-在当前上下文对表达式求值并打印结果。还有一个命令是<strong>pp</strong>
-，它使用 <a
-target="_blank" rel="noopener" href="https://docs.python.org/3/library/pprint.html"><code>pprint</code></a>
-打印；</li>
+<li><strong>p</strong>(rint) - 在当前上下文对表达式求值并打印结果。还有一个命令是<strong>pp</strong> ，它使用 <a target="_blank" rel="noopener" href="https://docs.python.org/3/library/pprint.html"><code>pprint</code></a> 打印；</li>
 <li><strong>r</strong>(eturn) - 继续执行直到当前函数返回；</li>
 <li><strong>q</strong>(uit) - 退出调试器。</li>
 </ul>
-<p>让我们使用<code>pdb</code> 来修复下面的 Python
-代码（参考讲座视频）</p>
+<p>让我们使用<code>pdb</code> 来修复下面的 Python 代码（参考讲座视频）</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">bubble_sort</span>(<span class="hljs-params">arr</span>):<br>    n = <span class="hljs-built_in">len</span>(arr)<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(n):<br>        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(n):<br>            <span class="hljs-keyword">if</span> arr[j] &gt; arr[j+<span class="hljs-number">1</span>]:<br>                arr[j] = arr[j+<span class="hljs-number">1</span>]<br>                arr[j+<span class="hljs-number">1</span>] = arr[j]<br>    <span class="hljs-keyword">return</span> arr<br><br><span class="hljs-built_in">print</span>(bubble_sort([<span class="hljs-number">4</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>, <span class="hljs-number">8</span>, <span class="hljs-number">7</span>, <span class="hljs-number">6</span>]))<br></code></pre></td></tr></table></figure>
-<p>注意，因为 Python 是一种解释型语言，所以我们可以通过 <code>pdb</code>
-shell 执行命令。 <a
-target="_blank" rel="noopener" href="https://pypi.org/project/ipdb/"><code>ipdb</code></a>
-是一种增强型的 <code>pdb</code> ，它使用<a
-target="_blank" rel="noopener" href="https://ipython.org"><code>IPython</code></a> 作为 REPL并开启了
-tab 补全、语法高亮、更好的回溯和更好的内省，同时还保留了<code>pdb</code>
-模块相同的接口。</p>
-<p>对于更底层的编程语言，您可能需要了解一下 <a
-target="_blank" rel="noopener" href="https://www.gnu.org/software/gdb/"><code>gdb</code></a> (
-以及它的改进版 <a
-target="_blank" rel="noopener" href="https://github.com/pwndbg/pwndbg"><code>pwndbg</code></a>) 和 <a
-target="_blank" rel="noopener" href="https://lldb.llvm.org/"><code>lldb</code></a>。</p>
-<p>它们都对类 C
-语言的调试进行了优化，它允许您探索任意进程及其机器状态：寄存器、堆栈、程序计数器等。</p>
-<h2 id="专门工具">专门工具</h2>
-<p>即使您需要调试的程序是一个二进制的黑盒程序，仍然有一些工具可以帮助到您。当您的程序需要执行一些只有操作系统内核才能完成的操作时，它需要使用
-<a
-target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/System_call">系统调用</a>。有一些命令可以帮助您追踪您的程序执行的系统调用。在
-Linux 中可以使用<a
-target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man1/strace.1.html"><code>strace</code></a>
-，在 macOS 和 BSD 中可以使用 <a
-target="_blank" rel="noopener" href="http://dtrace.org/blogs/about/"><code>dtrace</code></a>。<code>dtrace</code>
-用起来可能有些别扭，因为它使用的是它自有的 <code>D</code>
-语言，但是我们可以使用一个叫做 <a
-target="_blank" rel="noopener" href="https://www.manpagez.com/man/1/dtruss/"><code>dtruss</code></a>
-的封装使其具有和 <code>strace</code> (更多信息参考 <a
-target="_blank" rel="noopener" href="https://8thlight.com/blog/colin-jones/2015/11/06/dtrace-even-better-than-strace-for-osx.html">这里</a>)类似的接口</p>
-<p>下面的例子展现来如何使用 <code>strace</code> 或 <code>dtruss</code>
-来显示<code>ls</code> 执行时，对<a
-target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man2/stat.2.html"><code>stat</code></a>
-系统调用进行追踪对结果。若需要深入了解 <code>strace</code>，<a
-target="_blank" rel="noopener" href="https://blogs.oracle.com/linux/strace-the-sysadmins-microscope-v2">这篇文章</a>
-值得一读。</p>
+<p>注意，因为 Python 是一种解释型语言，所以我们可以通过 <code>pdb</code> shell 执行命令。<br><a target="_blank" rel="noopener" href="https://pypi.org/project/ipdb/"><code>ipdb</code></a> 是一种增强型的 <code>pdb</code> ，它使用<a target="_blank" rel="noopener" href="https://ipython.org"><code>IPython</code></a> 作为 REPL并开启了 tab 补全、语法高亮、更好的回溯和更好的内省，同时还保留了<code>pdb</code> 模块相同的接口。</p>
+<p>对于更底层的编程语言，您可能需要了解一下 <a target="_blank" rel="noopener" href="https://www.gnu.org/software/gdb/"><code>gdb</code></a> ( 以及它的改进版 <a target="_blank" rel="noopener" href="https://github.com/pwndbg/pwndbg"><code>pwndbg</code></a>) 和 <a target="_blank" rel="noopener" href="https://lldb.llvm.org/"><code>lldb</code></a>。</p>
+<p>它们都对类 C 语言的调试进行了优化，它允许您探索任意进程及其机器状态：寄存器、堆栈、程序计数器等。</p>
+<h2 id="专门工具"><a href="#专门工具" class="headerlink" title="专门工具"></a>专门工具</h2><p>即使您需要调试的程序是一个二进制的黑盒程序，仍然有一些工具可以帮助到您。当您的程序需要执行一些只有操作系统内核才能完成的操作时，它需要使用 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/System_call">系统调用</a>。有一些命令可以帮助您追踪您的程序执行的系统调用。在 Linux 中可以使用<a target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man1/strace.1.html"><code>strace</code></a> ，在 macOS 和 BSD 中可以使用 <a target="_blank" rel="noopener" href="http://dtrace.org/blogs/about/"><code>dtrace</code></a>。<code>dtrace</code> 用起来可能有些别扭，因为它使用的是它自有的 <code>D</code> 语言，但是我们可以使用一个叫做 <a target="_blank" rel="noopener" href="https://www.manpagez.com/man/1/dtruss/"><code>dtruss</code></a> 的封装使其具有和 <code>strace</code> (更多信息参考 <a target="_blank" rel="noopener" href="https://8thlight.com/blog/colin-jones/2015/11/06/dtrace-even-better-than-strace-for-osx.html">这里</a>)类似的接口</p>
+<p>下面的例子展现来如何使用 <code>strace</code> 或 <code>dtruss</code> 来显示<code>ls</code> 执行时，对<a target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man2/stat.2.html"><code>stat</code></a> 系统调用进行追踪对结果。若需要深入了解 <code>strace</code>，<a target="_blank" rel="noopener" href="https://blogs.oracle.com/linux/strace-the-sysadmins-microscope-v2">这篇文章</a> 值得一读。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># On Linux</span><br>sudo strace -e lstat <span class="hljs-built_in">ls</span> -l &gt; /dev/null<br>4<br><span class="hljs-comment"># On macOS</span><br>sudo dtruss -t lstat64_extended <span class="hljs-built_in">ls</span> -l &gt; /dev/null<br></code></pre></td></tr></table></figure>
-<p>有些情况下，我们需要查看网络数据包才能定位问题。像 <a
-target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man1/tcpdump.1.html"><code>tcpdump</code></a>
-和 <a target="_blank" rel="noopener" href="https://www.wireshark.org/">Wireshark</a>
-这样的网络数据包分析工具可以帮助您获取网络数据包的内容并基于不同的条件进行过滤。</p>
-<p>对于 web 开发， Chrome/Firefox 的开发者工具非常方便，功能也很强大： -
-源码 -查看任意站点的 HTML/CSS/JS 源码； - 实时地修改 HTML, CSS, JS 代码
--
-修改网站的内容、样式和行为用于测试（从这一点您也能看出来，网页截图是不可靠的）；
-- Javascript shell - 在 JS REPL中执行命令； - 网络 - 分析请求的时间线；
-- 存储 - 查看 Cookies 和本地应用存储。</p>
-<h2 id="静态分析">静态分析</h2>
-<p>有些问题是您不需要执行代码就能发现的。例如，仔细观察一段代码，您就能发现某个循环变量覆盖了某个已经存在的变量或函数名；或是有个变量在被读取之前并没有被定义。
-这种情况下 <a
-target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Static_program_analysis">静态分析</a>
-工具就可以帮我们找到问题。静态分析会将程序的源码作为输入然后基于编码规则对其进行分析并对代码的正确性进行推理。</p>
-<p>下面这段 Python 代码中存在几个问题。
-首先，我们的循环变量<code>foo</code>
-覆盖了之前定义的函数<code>foo</code>。最后一行，我们还把
-<code>bar</code>
-错写成了<code>baz</code>，因此当程序完成<code>sleep</code>
-(一分钟)后，执行到这一行的时候便会崩溃。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> time<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">foo</span>():<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">42</span><br><br><span class="hljs-keyword">for</span> foo <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>):<br>    <span class="hljs-built_in">print</span>(foo)<br>bar = <span class="hljs-number">1</span><br>bar *= <span class="hljs-number">0.2</span><br>time.sleep(<span class="hljs-number">60</span>)<br><span class="hljs-built_in">print</span>(baz)<br></code></pre></td></tr></table></figure>
-<p>静态分析工具可以发现此类的问题。当我们使用<a
-target="_blank" rel="noopener" href="https://pypi.org/project/pyflakes"><code>pyflakes</code></a>
-分析代码的时候，我们会得到与这两处 bug 相关的错误信息。<a
-target="_blank" rel="noopener" href="http://mypy-lang.org/"><code>mypy</code></a>
-则是另外一个工具，它可以对代码进行类型检查。这里，<code>mypy</code>
-会经过我们<code>bar</code> 起初是一个 <code>int</code> ，然后变成了
-<code>float</code>。这些问题都可以在不运行代码的情况下被发现。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ pyflakes foobar.py<br>foobar.py:6: redefinition of unused <span class="hljs-string">&#x27;foo&#x27;</span> from line 3<br>foobar.py:11: undefined name <span class="hljs-string">&#x27;baz&#x27;</span><br><br>$ mypy foobar.py<br>foobar.py:6: error: Incompatible types <span class="hljs-keyword">in</span> assignment (expression has <span class="hljs-built_in">type</span> <span class="hljs-string">&quot;int&quot;</span>, variable has <span class="hljs-built_in">type</span> <span class="hljs-string">&quot;Callable[[], Any]&quot;</span>)<br>foobar.py:9: error: Incompatible types <span class="hljs-keyword">in</span> assignment (expression has <span class="hljs-built_in">type</span> <span class="hljs-string">&quot;float&quot;</span>, variable has <span class="hljs-built_in">type</span> <span class="hljs-string">&quot;int&quot;</span>)<br>foobar.py:11: error: Name <span class="hljs-string">&#x27;baz&#x27;</span> is not defined<br>Found 3 errors <span class="hljs-keyword">in</span> 1 file (checked 1 <span class="hljs-built_in">source</span> file)<br></code></pre></td></tr></table></figure>
-<p>在 shell 工具那一节课的时候，我们介绍了 <a
-target="_blank" rel="noopener" href="https://www.shellcheck.net/"><code>shellcheck</code></a>，这是一个类似的工具，但它是应用于
-shell 脚本的。</p>
-<p>大多数的编辑器和 IDE
-都支持在编辑界面显示这些工具的分析结果、高亮有警告和错误的位置。
-这个过程通常称为 <strong>code linting</strong>
-。风格检查或安全检查的结果同样也可以进行相应的显示。</p>
-<p>在 vim 中，有 <a
-target="_blank" rel="noopener" href="https://vimawesome.com/plugin/ale"><code>ale</code></a> 或 <a
-target="_blank" rel="noopener" href="https://vimawesome.com/plugin/syntastic"><code>syntastic</code></a>
-可以帮助您做同样的事情。 在 Python 中， <a
-target="_blank" rel="noopener" href="https://www.pylint.org"><code>pylint</code></a> 和 <a
-target="_blank" rel="noopener" href="https://pypi.org/project/pep8/"><code>pep8</code></a>
-是两种用于进行风格检查的工具，而 <a
-target="_blank" rel="noopener" href="https://pypi.org/project/bandit/"><code>bandit</code></a>
-工具则用于检查安全相关的问题。</p>
-<p>对于其他语言的开发者来说，静态分析工具可以参考这个列表：<a
-target="_blank" rel="noopener" href="https://github.com/mre/awesome-static-analysis">Awesome Static
-Analysis</a> (您也许会对 <em>Writing</em> 一节感兴趣) 。对于 linters
-则可以参考这个列表： <a
-target="_blank" rel="noopener" href="https://github.com/caramelomartins/awesome-linters">Awesome
-Linters</a>。</p>
-<p>对于风格检查和代码格式化，还有以下一些工具可以作为补充：用于 Python
-的 <a target="_blank" rel="noopener" href="https://github.com/psf/black"><code>black</code></a>、用于
-Go 语言的 <code>gofmt</code>、用于 Rust 的 <code>rustfmt</code> 或是用于
-JavaScript, HTML 和 CSS 的 <a
-target="_blank" rel="noopener" href="https://prettier.io/"><code>prettier</code></a>
-。这些工具可以自动格式化您的代码，这样代码风格就可以与常见的风格保持一致。
-尽管您可能并不想对代码进行风格控制，标准的代码风格有助于方便别人阅读您的代码，也可以方便您阅读它的代码。</p>
-<h1 id="性能分析">性能分析</h1>
-<p>即使您的代码能够像您期望的一样运行，但是如果它消耗了您全部的 CPU
-和内存，那么它显然也不是个好程序。算法课上我们通常会介绍大O标记法，但却没教给我们如何找到程序中的热点。
-鉴于 <a
-target="_blank" rel="noopener" href="http://wiki.c2.com/?PrematureOptimization">过早的优化是万恶之源</a>，您需要学习性能分析和监控工具，它们会帮助您找到程序中最耗时、最耗资源的部分，这样您就可以有针对性的进行性能优化。</p>
-<h2 id="计时">计时</h2>
-<p>和调试代码类似，大多数情况下我们只需要打印两处代码之间的时间即可发现问题。下面这个例子中，我们使用了
-Python 的 <a
-target="_blank" rel="noopener" href="https://docs.python.org/3/library/time.html"><code>time</code></a>模块。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> time, random<br>n = random.randint(<span class="hljs-number">1</span>, <span class="hljs-number">10</span>) * <span class="hljs-number">100</span><br><br><span class="hljs-comment"># 获取当前时间 </span><br>start = time.time()<br><br><span class="hljs-comment"># 执行一些操作</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Sleeping for &#123;&#125; ms&quot;</span>.<span class="hljs-built_in">format</span>(n))<br>time.sleep(n/<span class="hljs-number">1000</span>)<br><br><span class="hljs-comment"># 比较当前时间和起始时间</span><br><span class="hljs-built_in">print</span>(time.time() - start)<br><br><span class="hljs-comment"># Output</span><br><span class="hljs-comment"># Sleeping for 500 ms</span><br><span class="hljs-comment"># 0.5713930130004883</span><br></code></pre></td></tr></table></figure>
-<p>不过，执行时间（wall clock
-time）也可能会误导您，因为您的电脑可能也在同时运行其他进程，也可能在此期间发生了等待。
-对于工具来说，需要区分真实时间、用户时间和系统时间。通常来说，用户时间+系统时间代表了您的进程所消耗的实际
-CPU （更详细的解释可以参照<a
-target="_blank" rel="noopener" href="https://stackoverflow.com/questions/556405/what-do-real-user-and-sys-mean-in-the-output-of-time1">这篇文章</a>）。</p>
+<p>有些情况下，我们需要查看网络数据包才能定位问题。像 <a target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man1/tcpdump.1.html"><code>tcpdump</code></a> 和 <a target="_blank" rel="noopener" href="https://www.wireshark.org/">Wireshark</a> 这样的网络数据包分析工具可以帮助您获取网络数据包的内容并基于不同的条件进行过滤。 </p>
+<p>对于 web 开发， Chrome/Firefox 的开发者工具非常方便，功能也很强大：</p>
 <ul>
-<li>真实时间 -
-从程序开始到结束流失掉的真实时间，包括其他进程的执行时间以及阻塞消耗的时间（例如等待
-I/O或网络）；</li>
+<li>源码 -查看任意站点的 HTML/CSS/JS 源码；</li>
+<li>实时地修改 HTML, CSS, JS 代码 - 修改网站的内容、样式和行为用于测试（从这一点您也能看出来，网页截图是不可靠的）；</li>
+<li>Javascript shell - 在 JS REPL中执行命令；</li>
+<li>网络 - 分析请求的时间线；</li>
+<li>存储 - 查看 Cookies 和本地应用存储。</li>
+</ul>
+<h2 id="静态分析"><a href="#静态分析" class="headerlink" title="静态分析"></a>静态分析</h2><p>有些问题是您不需要执行代码就能发现的。例如，仔细观察一段代码，您就能发现某个循环变量覆盖了某个已经存在的变量或函数名；或是有个变量在被读取之前并没有被定义。<br>这种情况下 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Static_program_analysis">静态分析</a> 工具就可以帮我们找到问题。静态分析会将程序的源码作为输入然后基于编码规则对其进行分析并对代码的正确性进行推理。</p>
+<p>下面这段 Python 代码中存在几个问题。 首先，我们的循环变量<code>foo</code> 覆盖了之前定义的函数<code>foo</code>。最后一行，我们还把 <code>bar</code> 错写成了<code>baz</code>，因此当程序完成<code>sleep</code>  (一分钟)后，执行到这一行的时候便会崩溃。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> time<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">foo</span>():<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">42</span><br><br><span class="hljs-keyword">for</span> foo <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>):<br>    <span class="hljs-built_in">print</span>(foo)<br>bar = <span class="hljs-number">1</span><br>bar *= <span class="hljs-number">0.2</span><br>time.sleep(<span class="hljs-number">60</span>)<br><span class="hljs-built_in">print</span>(baz)<br></code></pre></td></tr></table></figure>
+<p>静态分析工具可以发现此类的问题。当我们使用<a target="_blank" rel="noopener" href="https://pypi.org/project/pyflakes"><code>pyflakes</code></a> 分析代码的时候，我们会得到与这两处 bug 相关的错误信息。<a target="_blank" rel="noopener" href="http://mypy-lang.org/"><code>mypy</code></a> 则是另外一个工具，它可以对代码进行类型检查。这里，<code>mypy</code> 会经过我们<code>bar</code> 起初是一个 <code>int</code> ，然后变成了 <code>float</code>。这些问题都可以在不运行代码的情况下被发现。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ pyflakes foobar.py<br>foobar.py:6: redefinition of unused <span class="hljs-string">&#x27;foo&#x27;</span> from line 3<br>foobar.py:11: undefined name <span class="hljs-string">&#x27;baz&#x27;</span><br><br>$ mypy foobar.py<br>foobar.py:6: error: Incompatible types <span class="hljs-keyword">in</span> assignment (expression has <span class="hljs-built_in">type</span> <span class="hljs-string">&quot;int&quot;</span>, variable has <span class="hljs-built_in">type</span> <span class="hljs-string">&quot;Callable[[], Any]&quot;</span>)<br>foobar.py:9: error: Incompatible types <span class="hljs-keyword">in</span> assignment (expression has <span class="hljs-built_in">type</span> <span class="hljs-string">&quot;float&quot;</span>, variable has <span class="hljs-built_in">type</span> <span class="hljs-string">&quot;int&quot;</span>)<br>foobar.py:11: error: Name <span class="hljs-string">&#x27;baz&#x27;</span> is not defined<br>Found 3 errors <span class="hljs-keyword">in</span> 1 file (checked 1 <span class="hljs-built_in">source</span> file)<br></code></pre></td></tr></table></figure>
+<p>在 shell 工具那一节课的时候，我们介绍了 <a target="_blank" rel="noopener" href="https://www.shellcheck.net/"><code>shellcheck</code></a>，这是一个类似的工具，但它是应用于 shell 脚本的。</p>
+<p>大多数的编辑器和 IDE 都支持在编辑界面显示这些工具的分析结果、高亮有警告和错误的位置。<br>这个过程通常称为 <strong>code linting</strong> 。风格检查或安全检查的结果同样也可以进行相应的显示。</p>
+<p>在 vim 中，有 <a target="_blank" rel="noopener" href="https://vimawesome.com/plugin/ale"><code>ale</code></a> 或 <a target="_blank" rel="noopener" href="https://vimawesome.com/plugin/syntastic"><code>syntastic</code></a> 可以帮助您做同样的事情。<br>在 Python 中， <a target="_blank" rel="noopener" href="https://www.pylint.org"><code>pylint</code></a> 和 <a target="_blank" rel="noopener" href="https://pypi.org/project/pep8/"><code>pep8</code></a> 是两种用于进行风格检查的工具，而 <a target="_blank" rel="noopener" href="https://pypi.org/project/bandit/"><code>bandit</code></a> 工具则用于检查安全相关的问题。</p>
+<p>对于其他语言的开发者来说，静态分析工具可以参考这个列表：<a target="_blank" rel="noopener" href="https://github.com/mre/awesome-static-analysis">Awesome Static Analysis</a> (您也许会对  <em>Writing</em> 一节感兴趣) 。对于  linters 则可以参考这个列表： <a target="_blank" rel="noopener" href="https://github.com/caramelomartins/awesome-linters">Awesome Linters</a>。</p>
+<p>对于风格检查和代码格式化，还有以下一些工具可以作为补充：用于 Python 的 <a target="_blank" rel="noopener" href="https://github.com/psf/black"><code>black</code></a>、用于 Go 语言的 <code>gofmt</code>、用于 Rust 的 <code>rustfmt</code> 或是用于 JavaScript, HTML 和 CSS 的 <a target="_blank" rel="noopener" href="https://prettier.io/"><code>prettier</code></a> 。这些工具可以自动格式化您的代码，这样代码风格就可以与常见的风格保持一致。<br>尽管您可能并不想对代码进行风格控制，标准的代码风格有助于方便别人阅读您的代码，也可以方便您阅读它的代码。</p>
+<h1 id="性能分析"><a href="#性能分析" class="headerlink" title="性能分析"></a>性能分析</h1><p>即使您的代码能够像您期望的一样运行，但是如果它消耗了您全部的 CPU 和内存，那么它显然也不是个好程序。算法课上我们通常会介绍大O标记法，但却没教给我们如何找到程序中的热点。<br>鉴于 <a target="_blank" rel="noopener" href="http://wiki.c2.com/?PrematureOptimization">过早的优化是万恶之源</a>，您需要学习性能分析和监控工具，它们会帮助您找到程序中最耗时、最耗资源的部分，这样您就可以有针对性的进行性能优化。</p>
+<h2 id="计时"><a href="#计时" class="headerlink" title="计时"></a>计时</h2><p>和调试代码类似，大多数情况下我们只需要打印两处代码之间的时间即可发现问题。下面这个例子中，我们使用了 Python 的 <a target="_blank" rel="noopener" href="https://docs.python.org/3/library/time.html"><code>time</code></a>模块。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> time, random<br>n = random.randint(<span class="hljs-number">1</span>, <span class="hljs-number">10</span>) * <span class="hljs-number">100</span><br><br><span class="hljs-comment"># 获取当前时间 </span><br>start = time.time()<br><br><span class="hljs-comment"># 执行一些操作</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Sleeping for &#123;&#125; ms&quot;</span>.<span class="hljs-built_in">format</span>(n))<br>time.sleep(n/<span class="hljs-number">1000</span>)<br><br><span class="hljs-comment"># 比较当前时间和起始时间</span><br><span class="hljs-built_in">print</span>(time.time() - start)<br><br><span class="hljs-comment"># Output</span><br><span class="hljs-comment"># Sleeping for 500 ms</span><br><span class="hljs-comment"># 0.5713930130004883</span><br></code></pre></td></tr></table></figure>
+<p>不过，执行时间（wall clock time）也可能会误导您，因为您的电脑可能也在同时运行其他进程，也可能在此期间发生了等待。 对于工具来说，需要区分真实时间、用户时间和系统时间。通常来说，用户时间+系统时间代表了您的进程所消耗的实际 CPU （更详细的解释可以参照<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/556405/what-do-real-user-and-sys-mean-in-the-output-of-time1">这篇文章</a>）。</p>
+<ul>
+<li>真实时间 - 从程序开始到结束流失掉的真实时间，包括其他进程的执行时间以及阻塞消耗的时间（例如等待 I/O或网络）；</li>
 <li><em>User</em> - CPU 执行用户代码所花费的时间；</li>
 <li><em>Sys</em> - CPU 执行系统内核代码所花费的时间。</li>
 </ul>
-<p>例如，试着执行一个用于发起 HTTP 请求的命令并在其前面添加 <a
-target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man1/time.1.html"><code>time</code></a>
-前缀。网络不好的情况下您可能会看到下面的输出结果。请求花费了 2s
-才完成，但是进程仅花费了 15ms 的 CPU 用户时间和 12ms 的 CPU
-内核时间。</p>
+<p>例如，试着执行一个用于发起 HTTP 请求的命令并在其前面添加 <a target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man1/time.1.html"><code>time</code></a> 前缀。网络不好的情况下您可能会看到下面的输出结果。请求花费了 2s 才完成，但是进程仅花费了 15ms 的 CPU 用户时间和 12ms 的 CPU 内核时间。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ time curl https://missing.csail.mit.edu &amp;&gt; /dev/null<br>real    0m2.561s<br>user    0m0.015s<br>sys     0m0.012s<br></code></pre></td></tr></table></figure>
-<h2 id="性能分析工具profilers">性能分析工具（profilers）</h2>
-<h3 id="cpu">CPU</h3>
-<p>大多数情况下，当人们提及性能分析工具的时候，通常指的是 CPU
-性能分析工具。 CPU 性能分析工具有两种：
-追踪分析器（<em>tracing</em>）及采样分析器（<em>sampling</em>）。
-追踪分析器
-会记录程序的每一次函数调用，而采样分析器则只会周期性的监测（通常为每毫秒）您的程序并记录程序堆栈。它们使用这些记录来生成统计信息，显示程序在哪些事情上花费了最多的时间。如果您希望了解更多相关信息，可以参考<a
-target="_blank" rel="noopener" href="https://jvns.ca/blog/2017/12/17/how-do-ruby---python-profilers-work-">这篇</a>
-介绍性的文章。</p>
-<p>大多数的编程语言都有一些基于命令行的分析器，我们可以使用它们来分析代码。它们通常可以集成在
-IDE 中，但是本节课我们会专注于这些命令行工具本身。</p>
-<p>在 Python 中，我们使用 <code>cProfile</code>
-模块来分析每次函数调用所消耗的时间。
-在下面的例子中，我们实现了一个基础的 grep 命令：</p>
+<h2 id="性能分析工具（profilers）"><a href="#性能分析工具（profilers）" class="headerlink" title="性能分析工具（profilers）"></a>性能分析工具（profilers）</h2><h3 id="CPU"><a href="#CPU" class="headerlink" title="CPU"></a>CPU</h3><p>大多数情况下，当人们提及性能分析工具的时候，通常指的是 CPU 性能分析工具。<br>CPU 性能分析工具有两种： 追踪分析器（<em>tracing</em>）及采样分析器（<em>sampling</em>）。<br>追踪分析器 会记录程序的每一次函数调用，而采样分析器则只会周期性的监测（通常为每毫秒）您的程序并记录程序堆栈。它们使用这些记录来生成统计信息，显示程序在哪些事情上花费了最多的时间。如果您希望了解更多相关信息，可以参考<a target="_blank" rel="noopener" href="https://jvns.ca/blog/2017/12/17/how-do-ruby---python-profilers-work-">这篇</a> 介绍性的文章。</p>
+<p>大多数的编程语言都有一些基于命令行的分析器，我们可以使用它们来分析代码。它们通常可以集成在 IDE 中，但是本节课我们会专注于这些命令行工具本身。</p>
+<p>在 Python 中，我们使用 <code>cProfile</code> 模块来分析每次函数调用所消耗的时间。 在下面的例子中，我们实现了一个基础的 grep 命令：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#!/usr/bin/env python</span><br><br><span class="hljs-keyword">import</span> sys, re<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">grep</span>(<span class="hljs-params">pattern, file</span>):<br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(file, <span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>        <span class="hljs-built_in">print</span>(file)<br>        <span class="hljs-keyword">for</span> i, line <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(f.readlines()):<br>            pattern = re.<span class="hljs-built_in">compile</span>(pattern)<br>            <span class="hljs-keyword">match</span> = pattern.search(line)<br>            <span class="hljs-keyword">if</span> <span class="hljs-keyword">match</span> <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:<br>                <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;&#123;&#125;: &#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(i, line), end=<span class="hljs-string">&quot;&quot;</span>)<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    times = <span class="hljs-built_in">int</span>(sys.argv[<span class="hljs-number">1</span>])<br>    pattern = sys.argv[<span class="hljs-number">2</span>]<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(times):<br>        <span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> sys.argv[<span class="hljs-number">3</span>:]:<br>            grep(pattern, file)<br></code></pre></td></tr></table></figure>
-<p>我们可以使用下面的命令来对这段代码进行分析。通过它的输出我们可以知道，IO
-消耗了大量的时间，编译正则表达式也比较耗费时间。因为正则表达式只需要编译一次，我们可以将其移动到
-for 循环外面来改进性能。</p>
+<p>我们可以使用下面的命令来对这段代码进行分析。通过它的输出我们可以知道，IO 消耗了大量的时间，编译正则表达式也比较耗费时间。因为正则表达式只需要编译一次，我们可以将其移动到 for 循环外面来改进性能。</p>
 <figure class="highlight profile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs profile">$ python -m cProfile -s <span class="hljs-keyword">tottime</span> grep.py 1000 &#x27;^(import|\s*def)[^,]*$&#x27; *.py<br><br>[omitted program output]<br><br> <span class="hljs-keyword">ncalls</span>  <span class="hljs-keyword">tottime</span>  percall  <span class="hljs-keyword">cumtime</span>  percall <span class="hljs-keyword">filename</span>:lineno(function)<br>   <span class="hljs-number">8000</span>    <span class="hljs-number">0.266</span>    <span class="hljs-number">0.000</span>    <span class="hljs-number">0.292</span>    <span class="hljs-number">0.000</span> &#123;built-in method io.open&#125;<br>   8000    0.153    0.000    0.894    0.000 grep.py:<span class="hljs-number">5</span>(<span class="hljs-string">grep</span>)<br>  <span class="hljs-number">17000</span>    <span class="hljs-number">0.101</span>    <span class="hljs-number">0.000</span>    <span class="hljs-number">0.101</span>    <span class="hljs-number">0.000</span> &#123;built-in method builtins.print&#125;<br>   8000    0.100    0.000    0.129    0.000 &#123;method &#x27;readlines&#x27; of &#x27;_io._IOBase&#x27; objects&#125;<br>  93000    0.097    0.000    0.111    0.000 re.py:<span class="hljs-number">286</span>(<span class="hljs-string">_compile</span>)<br>  <span class="hljs-number">93000</span>    <span class="hljs-number">0.069</span>    <span class="hljs-number">0.000</span>    <span class="hljs-number">0.069</span>    <span class="hljs-number">0.000</span> &#123;method <span class="hljs-string">&#x27;search&#x27;</span> of <span class="hljs-string">&#x27;_sre.SRE_Pattern&#x27;</span> objects&#125;<br>  <span class="hljs-number">93000</span>    <span class="hljs-number">0.030</span>    <span class="hljs-number">0.000</span>    <span class="hljs-number">0.141</span>    <span class="hljs-number">0.000</span> re.py:<span class="hljs-number">231</span>(<span class="hljs-string">compile</span>)<br>  <span class="hljs-number">17000</span>    <span class="hljs-number">0.019</span>    <span class="hljs-number">0.000</span>    <span class="hljs-number">0.029</span>    <span class="hljs-number">0.000</span> codecs.py:<span class="hljs-number">318</span>(<span class="hljs-string">decode</span>)<br>      <span class="hljs-number">1</span>    <span class="hljs-number">0.017</span>    <span class="hljs-number">0.017</span>    <span class="hljs-number">0.911</span>    <span class="hljs-number">0.911</span> grep.py:<span class="hljs-number">3</span>(<span class="hljs-string">&lt;module&gt;</span>)<br><br>[omitted lines]<br></code></pre></td></tr></table></figure>
-<p>关于 Python 的 <code>cProfile</code>
-分析器（以及其他一些类似的分析器），需要注意的是它显示的是每次函数调用的时间。看上去可能快到反直觉，尤其是如果您在代码里面使用了第三方的函数库，因为内部函数调用也会被看作函数调用。</p>
-<p>更加符合直觉的显示分析信息的方式是包括每行代码的执行时间，这也是<em>行分析器</em>的工作。例如，下面这段
-Python 代码会向本课程的网站发起一个请求，然后解析响应返回的页面中的全部
-URL：</p>
+<p>关于 Python 的 <code>cProfile</code> 分析器（以及其他一些类似的分析器），需要注意的是它显示的是每次函数调用的时间。看上去可能快到反直觉，尤其是如果您在代码里面使用了第三方的函数库，因为内部函数调用也会被看作函数调用。</p>
+<p>更加符合直觉的显示分析信息的方式是包括每行代码的执行时间，这也是<em>行分析器</em>的工作。例如，下面这段 Python 代码会向本课程的网站发起一个请求，然后解析响应返回的页面中的全部 URL：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#!/usr/bin/env python</span><br><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup<br><br><span class="hljs-comment"># 这个装饰器会告诉行分析器 </span><br><span class="hljs-comment"># 我们想要分析这个函数</span><br><span class="hljs-meta">@profile</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_urls</span>():<br>    response = requests.get(<span class="hljs-string">&#x27;https://missing.csail.mit.edu&#x27;</span>)<br>    s = BeautifulSoup(response.content, <span class="hljs-string">&#x27;lxml&#x27;</span>)<br>    urls = []<br>    <span class="hljs-keyword">for</span> url <span class="hljs-keyword">in</span> s.find_all(<span class="hljs-string">&#x27;a&#x27;</span>):<br>        urls.append(url[<span class="hljs-string">&#x27;href&#x27;</span>])<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    get_urls()<br></code></pre></td></tr></table></figure>
-<p>如果我们使用 Python 的 <code>cProfile</code>
-分析器，我们会得到超过2500行的输出结果，即使对其进行排序，我仍然搞不懂时间到底都花在哪了。如果我们使用
-<a
-target="_blank" rel="noopener" href="https://github.com/pyutils/line_profiler"><code>line_profiler</code></a>，它会基于行来显示时间：</p>
+<p>如果我们使用 Python 的 <code>cProfile</code> 分析器，我们会得到超过2500行的输出结果，即使对其进行排序，我仍然搞不懂时间到底都花在哪了。如果我们使用 <a target="_blank" rel="noopener" href="https://github.com/pyutils/line_profiler"><code>line_profiler</code></a>，它会基于行来显示时间：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ kernprof -l -v a.py<br>Wrote profile results to urls.py.lprof<br>Timer unit: 1e-06 s<br><br>Total time: 0.636188 s<br>File: a.py<br>Function: get_urls at line 5<br><br>Line <span class="hljs-comment">#  Hits         Time  Per Hit   % Time  Line Contents</span><br>==============================================================<br> 5                                           @profile<br> 6                                           def get_urls():<br> 7         1     613909.0 613909.0     96.5      response = requests.get(<span class="hljs-string">&#x27;https://missing.csail.mit.edu&#x27;</span>)<br> 8         1      21559.0  21559.0      3.4      s = BeautifulSoup(response.content, <span class="hljs-string">&#x27;lxml&#x27;</span>)<br> 9         1          2.0      2.0      0.0      urls = []<br>10        25        685.0     27.4      0.1      <span class="hljs-keyword">for</span> url <span class="hljs-keyword">in</span> s.find_all(<span class="hljs-string">&#x27;a&#x27;</span>):<br>11        24         33.0      1.4      0.0          urls.append(url[<span class="hljs-string">&#x27;href&#x27;</span>])<br></code></pre></td></tr></table></figure>
-<h3 id="内存">内存</h3>
-<p>像 C 或者 C++
-这样的语言，内存泄漏会导致您的程序在使用完内存后不去释放它。为了应对内存类的
-Bug，我们可以使用类似 <a target="_blank" rel="noopener" href="https://valgrind.org/">Valgrind</a>
-这样的工具来检查内存泄漏问题。</p>
-<p>对于 Python
-这类具有垃圾回收机制的语言，内存分析器也是很有用的，因为对于某个对象来说，只要有指针还指向它，那它就不会被回收。</p>
-<p>下面这个例子及其输出，展示了 <a
-target="_blank" rel="noopener" href="https://pypi.org/project/memory-profiler/">memory-profiler</a>
-是如何工作的（注意装饰器和 <code>line-profiler</code> 类似）。</p>
+<h3 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h3><p>像 C 或者 C++ 这样的语言，内存泄漏会导致您的程序在使用完内存后不去释放它。为了应对内存类的 Bug，我们可以使用类似 <a target="_blank" rel="noopener" href="https://valgrind.org/">Valgrind</a> 这样的工具来检查内存泄漏问题。</p>
+<p>对于 Python 这类具有垃圾回收机制的语言，内存分析器也是很有用的，因为对于某个对象来说，只要有指针还指向它，那它就不会被回收。</p>
+<p>下面这个例子及其输出，展示了 <a target="_blank" rel="noopener" href="https://pypi.org/project/memory-profiler/">memory-profiler</a> 是如何工作的（注意装饰器和 <code>line-profiler</code> 类似）。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">@profile</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">my_func</span>():<br>    a = [<span class="hljs-number">1</span>] * (<span class="hljs-number">10</span> ** <span class="hljs-number">6</span>)<br>    b = [<span class="hljs-number">2</span>] * (<span class="hljs-number">2</span> * <span class="hljs-number">10</span> ** <span class="hljs-number">7</span>)<br>    <span class="hljs-keyword">del</span> b<br>    <span class="hljs-keyword">return</span> a<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    my_func()<br></code></pre></td></tr></table></figure>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ python -m memory_profiler example.py<br>Line <span class="hljs-comment">#    Mem usage  Increment   Line Contents</span><br>==============================================<br>     3                           @profile<br>     4      5.97 MB    0.00 MB   def my_func():<br>     5     13.61 MB    7.64 MB       a = [1] * (10 ** 6)<br>     6    166.20 MB  152.59 MB       b = [2] * (2 * 10 ** 7)<br>     7     13.61 MB -152.59 MB       del b<br>     8     13.61 MB    0.00 MB       <span class="hljs-built_in">return</span> a<br></code></pre></td></tr></table></figure>
-<h3 id="事件分析">事件分析</h3>
-<p>在我们使用<code>strace</code>调试代码的时候，您可能会希望忽略一些特殊的代码并希望在分析时将其当作黑盒处理。<a
-target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man1/perf.1.html"><code>perf</code></a>
-命令将 CPU
-的区别进行了抽象，它不会报告时间和内存的消耗，而是报告与您的程序相关的系统事件。</p>
-<p>例如，<code>perf</code> 可以报告不佳的缓存局部性（poor cache
-locality）、大量的页错误（page
-faults）或活锁（livelocks）。下面是关于常见命令的简介：</p>
+<h3 id="事件分析"><a href="#事件分析" class="headerlink" title="事件分析"></a>事件分析</h3><p>在我们使用<code>strace</code>调试代码的时候，您可能会希望忽略一些特殊的代码并希望在分析时将其当作黑盒处理。<a target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man1/perf.1.html"><code>perf</code></a> 命令将 CPU 的区别进行了抽象，它不会报告时间和内存的消耗，而是报告与您的程序相关的系统事件。</p>
+<p>例如，<code>perf</code> 可以报告不佳的缓存局部性（poor cache locality）、大量的页错误（page faults）或活锁（livelocks）。下面是关于常见命令的简介：</p>
 <ul>
 <li><code>perf list</code> - 列出可以被 pref 追踪的事件；</li>
-<li><code>perf stat COMMAND ARG1 ARG2</code> -
-收集与某个进程或指令相关的事件；</li>
-<li><code>perf record COMMAND ARG1 ARG2</code> -
-记录命令执行的采样信息并将统计数据储存在<code>perf.data</code>中；</li>
-<li><code>perf report</code> - 格式化并打印 <code>perf.data</code>
-中的数据。</li>
+<li><code>perf stat COMMAND ARG1 ARG2</code> - 收集与某个进程或指令相关的事件；</li>
+<li><code>perf record COMMAND ARG1 ARG2</code> - 记录命令执行的采样信息并将统计数据储存在<code>perf.data</code>中；</li>
+<li><code>perf report</code> - 格式化并打印 <code>perf.data</code> 中的数据。</li>
 </ul>
-<h3 id="可视化">可视化</h3>
-<p>使用分析器来分析真实的程序时，由于软件的复杂性，其输出结果中将包含大量的信息。人类是一种视觉动物，非常不善于阅读大量的文字。因此很多工具都提供了可视化分析器输出结果的功能。</p>
-<p>对于采样分析器来说，常见的显示 CPU 分析数据的形式是 <a
-target="_blank" rel="noopener" href="http://www.brendangregg.com/flamegraphs.html">火焰图</a>，火焰图会在
-Y 轴显示函数调用关系，并在 X
-轴显示其耗时的比例。火焰图同时还是可交互的，您可以深入程序的某一具体部分，并查看其栈追踪（您可以尝试点击下面的图片）。</p>
-<p><a
-target="_blank" rel="noopener" href="http://www.brendangregg.com/FlameGraphs/cpu-bash-flamegraph.svg"><img
-src="http://www.brendangregg.com/FlameGraphs/cpu-bash-flamegraph.svg" srcset="/img/loading.gif" lazyload
-alt="FlameGraph" /></a></p>
-<p>调用图和控制流图可以显示子程序之间的关系，它将函数作为节点并把函数调用作为边。将它们和分析器的信息（例如调用次数、耗时等）放在一起使用时，调用图会变得非常有用，它可以帮助我们分析程序的流程。
-在 Python 中您可以使用 <a
-target="_blank" rel="noopener" href="http://pycallgraph.slowchop.com/en/master/"><code>pycallgraph</code></a>
-来生成这些图片。</p>
-<figure>
-<img
-src="https://upload.wikimedia.org/wikipedia/commons/2/2f/A_Call_Graph_generated_by_pycallgraph.png" srcset="/img/loading.gif" lazyload
-alt="Call Graph" />
-<figcaption aria-hidden="true">Call Graph</figcaption>
-</figure>
-<h2 id="资源监控">资源监控</h2>
-<p>有时候，分析程序性能的第一步是搞清楚它所消耗的资源。程序变慢通常是因为它所需要的资源不够了。例如，没有足够的内存或者网络连接变慢的时候。</p>
-<p>有很多很多的工具可以被用来显示不同的系统资源，例如 CPU
-占用、内存使用、网络、磁盘使用等。</p>
+<h3 id="可视化"><a href="#可视化" class="headerlink" title="可视化"></a>可视化</h3><p>使用分析器来分析真实的程序时，由于软件的复杂性，其输出结果中将包含大量的信息。人类是一种视觉动物，非常不善于阅读大量的文字。因此很多工具都提供了可视化分析器输出结果的功能。</p>
+<p>对于采样分析器来说，常见的显示 CPU 分析数据的形式是 <a target="_blank" rel="noopener" href="http://www.brendangregg.com/flamegraphs.html">火焰图</a>，火焰图会在 Y 轴显示函数调用关系，并在 X 轴显示其耗时的比例。火焰图同时还是可交互的，您可以深入程序的某一具体部分，并查看其栈追踪（您可以尝试点击下面的图片）。</p>
+<p><a target="_blank" rel="noopener" href="http://www.brendangregg.com/FlameGraphs/cpu-bash-flamegraph.svg"><img src="http://www.brendangregg.com/FlameGraphs/cpu-bash-flamegraph.svg" srcset="/img/loading.gif" lazyload alt="FlameGraph"></a></p>
+<p>调用图和控制流图可以显示子程序之间的关系，它将函数作为节点并把函数调用作为边。将它们和分析器的信息（例如调用次数、耗时等）放在一起使用时，调用图会变得非常有用，它可以帮助我们分析程序的流程。<br>在 Python 中您可以使用 <a target="_blank" rel="noopener" href="http://pycallgraph.slowchop.com/en/master/"><code>pycallgraph</code></a> 来生成这些图片。</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/A_Call_Graph_generated_by_pycallgraph.png" srcset="/img/loading.gif" lazyload alt="Call Graph"></p>
+<h2 id="资源监控"><a href="#资源监控" class="headerlink" title="资源监控"></a>资源监控</h2><p>有时候，分析程序性能的第一步是搞清楚它所消耗的资源。程序变慢通常是因为它所需要的资源不够了。例如，没有足够的内存或者网络连接变慢的时候。</p>
+<p>有很多很多的工具可以被用来显示不同的系统资源，例如 CPU 占用、内存使用、网络、磁盘使用等。</p>
 <ul>
-<li><strong>通用监控</strong> - 最流行的工具要数 <a
-target="_blank" rel="noopener" href="https://htop.dev/"><code>htop</code></a>,了，它是 <a
-target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man1/top.1.html"><code>top</code></a>的改进版。<code>htop</code>
-可以显示当前运行进程的多种统计信息。<code>htop</code>
-有很多选项和快捷键，常见的有：<code>&lt;F6&gt;</code> 进程排序、
-<code>t</code> 显示树状结构和 <code>h</code> 打开或折叠线程。
-还可以留意一下 <a
-target="_blank" rel="noopener" href="https://nicolargo.github.io/glances/"><code>glances</code></a>
-，它的实现类似但是用户界面更好。如果需要合并测量全部的进程， <a
-target="_blank" rel="noopener" href="http://dag.wiee.rs/home-made/dstat/"><code>dstat</code></a>
-是也是一个非常好用的工具，它可以实时地计算不同子系统资源的度量数据，例如
-I/O、网络、 CPU 利用率、上下文切换等等；</li>
-<li><strong>I/O 操作</strong> - <a
-target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man8/iotop.8.html"><code>iotop</code></a>
-可以显示实时 I/O
-占用信息而且可以非常方便地检查某个进程是否正在执行大量的磁盘读写操作；</li>
-<li><strong>磁盘使用</strong> - <a
-target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man1/df.1.html"><code>df</code></a>
-可以显示每个分区的信息，而 <a
-target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man1/du.1.html"><code>du</code></a>
-则可以显示当前目录下每个文件的磁盘使用情况（ <strong>d</strong>isk
-<strong>u</strong>sage）。<code>-h</code>
-选项可以使命令以对人类（<strong>h</strong>uman）更加友好的格式显示数据；<a
-target="_blank" rel="noopener" href="https://dev.yorhel.nl/ncdu"><code>ncdu</code></a>是一个交互性更好的
-<code>du</code> ，它可以让您在不同目录下导航、删除文件和文件夹；</li>
-<li><strong>内存使用</strong> - <a
-target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man1/free.1.html"><code>free</code></a>
-可以显示系统当前空闲的内存。内存也可以使用 <code>htop</code>
-这样的工具来显示；</li>
-<li><strong>打开文件</strong> - <a
-target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man8/lsof.8.html"><code>lsof</code></a>
-可以列出被进程打开的文件信息。
-当我们需要查看某个文件是被哪个进程打开的时候，这个命令非常有用；</li>
-<li><strong>网络连接和配置</strong> - <a
-target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man8/ss.8.html"><code>ss</code></a>
-能帮助我们监控网络包的收发情况以及网络接口的显示信息。<code>ss</code>
-常见的一个使用场景是找到端口被进程占用的信息。如果要显示路由、网络设备和接口信息，您可以使用
-<a
-target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man8/ip.8.html"><code>ip</code></a>
-命令。注意，<code>netstat</code> 和 <code>ifconfig</code>
-这两个命令已经被前面那些工具所代替了。</li>
-<li><strong>网络使用</strong> - <a
-target="_blank" rel="noopener" href="https://github.com/raboof/nethogs"><code>nethogs</code></a> 和 <a
-target="_blank" rel="noopener" href="http://www.ex-parrot.com/pdw/iftop/"><code>iftop</code></a>
-是非常好的用于对网络占用进行监控的交互式命令行工具。</li>
+<li><strong>通用监控</strong> - 最流行的工具要数 <a target="_blank" rel="noopener" href="https://htop.dev/"><code>htop</code></a>,了，它是 <a target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man1/top.1.html"><code>top</code></a>的改进版。<code>htop</code> 可以显示当前运行进程的多种统计信息。<code>htop</code> 有很多选项和快捷键，常见的有：<code>&lt;F6&gt;</code> 进程排序、 <code>t</code> 显示树状结构和 <code>h</code> 打开或折叠线程。 还可以留意一下 <a target="_blank" rel="noopener" href="https://nicolargo.github.io/glances/"><code>glances</code></a> ，它的实现类似但是用户界面更好。如果需要合并测量全部的进程， <a target="_blank" rel="noopener" href="http://dag.wiee.rs/home-made/dstat/"><code>dstat</code></a> 是也是一个非常好用的工具，它可以实时地计算不同子系统资源的度量数据，例如 I/O、网络、 CPU 利用率、上下文切换等等；</li>
+<li><strong>I/O 操作</strong> - <a target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man8/iotop.8.html"><code>iotop</code></a> 可以显示实时 I/O 占用信息而且可以非常方便地检查某个进程是否正在执行大量的磁盘读写操作；</li>
+<li><strong>磁盘使用</strong> - <a target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man1/df.1.html"><code>df</code></a> 可以显示每个分区的信息，而 <a target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man1/du.1.html"><code>du</code></a> 则可以显示当前目录下每个文件的磁盘使用情况（ <strong>d</strong>isk <strong>u</strong>sage）。<code>-h</code> 选项可以使命令以对人类（<strong>h</strong>uman）更加友好的格式显示数据；<a target="_blank" rel="noopener" href="https://dev.yorhel.nl/ncdu"><code>ncdu</code></a>是一个交互性更好的 <code>du</code> ，它可以让您在不同目录下导航、删除文件和文件夹；</li>
+<li><strong>内存使用</strong> - <a target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man1/free.1.html"><code>free</code></a> 可以显示系统当前空闲的内存。内存也可以使用 <code>htop</code> 这样的工具来显示；</li>
+<li><strong>打开文件</strong> - <a target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man8/lsof.8.html"><code>lsof</code></a>  可以列出被进程打开的文件信息。 当我们需要查看某个文件是被哪个进程打开的时候，这个命令非常有用；</li>
+<li><strong>网络连接和配置</strong> - <a target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man8/ss.8.html"><code>ss</code></a> 能帮助我们监控网络包的收发情况以及网络接口的显示信息。<code>ss</code> 常见的一个使用场景是找到端口被进程占用的信息。如果要显示路由、网络设备和接口信息，您可以使用 <a target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man8/ip.8.html"><code>ip</code></a> 命令。注意，<code>netstat</code> 和 <code>ifconfig</code> 这两个命令已经被前面那些工具所代替了。</li>
+<li><strong>网络使用</strong> -  <a target="_blank" rel="noopener" href="https://github.com/raboof/nethogs"><code>nethogs</code></a> 和 <a target="_blank" rel="noopener" href="http://www.ex-parrot.com/pdw/iftop/"><code>iftop</code></a> 是非常好的用于对网络占用进行监控的交互式命令行工具。</li>
 </ul>
-<p>如果您希望测试一下这些工具，您可以使用 <a
-target="_blank" rel="noopener" href="https://linux.die.net/man/1/stress"><code>stress</code></a>
-命令来为系统人为地增加负载。</p>
-<h3 id="专用工具">专用工具</h3>
-<p>有时候，您只需要对黑盒程序进行基准测试，并依此对软件选择进行评估。
-类似 <a
-target="_blank" rel="noopener" href="https://github.com/sharkdp/hyperfine"><code>hyperfine</code></a>
-这样的命令行可以帮您快速进行基准测试。例如，我们在 shell
-工具和脚本那一节课中我们推荐使用 <code>fd</code> 来代替
-<code>find</code>。我们这里可以用<code>hyperfine</code>来比较一下它们。</p>
-<p>例如，下面的例子中，我们可以看到<code>fd</code> 比 <code>find</code>
-要快20倍。</p>
+<p>如果您希望测试一下这些工具，您可以使用 <a target="_blank" rel="noopener" href="https://linux.die.net/man/1/stress"><code>stress</code></a> 命令来为系统人为地增加负载。</p>
+<h3 id="专用工具"><a href="#专用工具" class="headerlink" title="专用工具"></a>专用工具</h3><p>有时候，您只需要对黑盒程序进行基准测试，并依此对软件选择进行评估。<br>类似 <a target="_blank" rel="noopener" href="https://github.com/sharkdp/hyperfine"><code>hyperfine</code></a> 这样的命令行可以帮您快速进行基准测试。例如，我们在 shell 工具和脚本那一节课中我们推荐使用 <code>fd</code> 来代替 <code>find</code>。我们这里可以用<code>hyperfine</code>来比较一下它们。</p>
+<p>例如，下面的例子中，我们可以看到<code>fd</code> 比 <code>find</code> 要快20倍。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hyperfine --warmup 3 <span class="hljs-string">&#x27;fd -e jpg&#x27;</span> <span class="hljs-string">&#x27;find . -iname &quot;*.jpg&quot;&#x27;</span><br>Benchmark <span class="hljs-comment">#1: fd -e jpg</span><br>  Time (mean ± σ):      51.4 ms ±   2.9 ms    [User: 121.0 ms, System: 160.5 ms]<br>  Range (min … max):    44.2 ms …  60.1 ms    56 runs<br><br>Benchmark <span class="hljs-comment">#2: find . -iname &quot;*.jpg&quot;</span><br>  Time (mean ± σ):      1.126 s ±  0.101 s    [User: 141.1 ms, System: 956.1 ms]<br>  Range (min … max):    0.975 s …  1.287 s    10 runs<br><br>Summary<br>  <span class="hljs-string">&#x27;fd -e jpg&#x27;</span> ran<br>   21.89 ± 2.33 <span class="hljs-built_in">times</span> faster than <span class="hljs-string">&#x27;find . -iname &quot;*.jpg&quot;&#x27;</span><br></code></pre></td></tr></table></figure>
-<p>和 debug
-一样，浏览器也包含了很多不错的性能分析工具，可以用来分析页面加载，让我们可以搞清楚时间都消耗在什么地方（加载、渲染、脚本等等）。
-更多关于 <a
-target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Mozilla/Performance/Profiling_with_the_Built-in_Profiler">Firefox</a>
-和 <a
-target="_blank" rel="noopener" href="https://developers.google.com/web/tools/chrome-devtools/rendering-tools">Chrome</a>的信息可以点击链接。</p>
-<h1 id="课后练习">课后练习</h1>
-<p>[习题解答](//) ## 调试 1.
-使用 Linux 上的 <code>journalctl</code> 或 macOS 上的
-<code>log show</code>
-命令来获取最近一天中超级用户的登录信息及其所执行的指令。如果找不到相关信息，您可以执行一些无害的命令，例如<code>sudo ls</code>
-然后再次查看。</p>
-<ol start="2" type="1">
-<li><p>学习 <a target="_blank" rel="noopener" href="https://github.com/spiside/pdb-tutorial">这份</a>
-<code>pdb</code> 实践教程并熟悉相关的命令。更深入的信息您可以参考<a
-target="_blank" rel="noopener" href="https://realpython.com/python-debugging-pdb">这份</a>教程。</p></li>
-<li><p>安装 <a
-target="_blank" rel="noopener" href="https://www.shellcheck.net/"><code>shellcheck</code></a>
-并尝试对下面的脚本进行检查。这段代码有什么问题吗？请修复相关问题。在您的编辑器中安装一个linter插件，这样它就可以自动地显示相关警告信息。
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/sh</span><br><span class="hljs-comment">## Example: a typical script with several problems</span><br><span class="hljs-keyword">for</span> f <span class="hljs-keyword">in</span> $(<span class="hljs-built_in">ls</span> *.m3u)<br><span class="hljs-keyword">do</span><br>  grep -qi hq.*mp3 <span class="hljs-variable">$f</span> \<br>    &amp;&amp; <span class="hljs-built_in">echo</span> -e <span class="hljs-string">&#x27;Playlist $f contains a HQ file in mp3 format&#x27;</span><br><span class="hljs-keyword">done</span><br></code></pre></td></tr></table></figure></p></li>
-<li><p>(进阶题) 请阅读 <a
-target="_blank" rel="noopener" href="https://undo.io/resources/reverse-debugging-whitepaper/">可逆调试</a>
-并尝试创建一个可以工作的例子（使用 <a
-target="_blank" rel="noopener" href="https://rr-project.org/"><code>rr</code></a> 或 <a
-target="_blank" rel="noopener" href="https://morepypy.blogspot.com/2016/07/reverse-debugging-for-python.html"><code>RevPDB</code></a>）。</p></li>
+<p>和 debug 一样，浏览器也包含了很多不错的性能分析工具，可以用来分析页面加载，让我们可以搞清楚时间都消耗在什么地方（加载、渲染、脚本等等）。 更多关于 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Mozilla/Performance/Profiling_with_the_Built-in_Profiler">Firefox</a> 和 <a target="_blank" rel="noopener" href="https://developers.google.com/web/tools/chrome-devtools/rendering-tools">Chrome</a>的信息可以点击链接。</p>
+<h1 id="课后练习"><a href="#课后练习" class="headerlink" title="课后练习"></a>课后练习</h1><p><a href="!--swig￼18--&gt;//&lt;!--swig￼20--">习题解答</a></p>
+<h2 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h2><ol>
+<li><p>使用 Linux 上的 <code>journalctl</code> 或 macOS 上的 <code>log show</code> 命令来获取最近一天中超级用户的登录信息及其所执行的指令。如果找不到相关信息，您可以执行一些无害的命令，例如<code>sudo ls</code> 然后再次查看。</p>
+</li>
+<li><p>学习 <a target="_blank" rel="noopener" href="https://github.com/spiside/pdb-tutorial">这份</a> <code>pdb</code> 实践教程并熟悉相关的命令。更深入的信息您可以参考<a target="_blank" rel="noopener" href="https://realpython.com/python-debugging-pdb">这份</a>教程。</p>
+</li>
+<li><p>安装 <a target="_blank" rel="noopener" href="https://www.shellcheck.net/"><code>shellcheck</code></a> 并尝试对下面的脚本进行检查。这段代码有什么问题吗？请修复相关问题。在您的编辑器中安装一个linter插件，这样它就可以自动地显示相关警告信息。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/sh</span><br><span class="hljs-comment">## Example: a typical script with several problems</span><br><span class="hljs-keyword">for</span> f <span class="hljs-keyword">in</span> $(<span class="hljs-built_in">ls</span> *.m3u)<br><span class="hljs-keyword">do</span><br>  grep -qi hq.*mp3 <span class="hljs-variable">$f</span> \<br>    &amp;&amp; <span class="hljs-built_in">echo</span> -e <span class="hljs-string">&#x27;Playlist $f contains a HQ file in mp3 format&#x27;</span><br><span class="hljs-keyword">done</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>(进阶题) 请阅读 <a target="_blank" rel="noopener" href="https://undo.io/resources/reverse-debugging-whitepaper/">可逆调试</a> 并尝试创建一个可以工作的例子（使用 <a target="_blank" rel="noopener" href="https://rr-project.org/"><code>rr</code></a> 或 <a target="_blank" rel="noopener" href="https://morepypy.blogspot.com/2016/07/reverse-debugging-for-python.html"><code>RevPDB</code></a>）。</p>
+</li>
 </ol>
-<h2 id="性能分析-1">性能分析</h2>
-<ol type="1">
-<li><p><a href="/static/files/sorts.py">这里</a>
-有一些排序算法的实现。请使用 <a
-target="_blank" rel="noopener" href="https://docs.python.org/3/library/profile.html"><code>cProfile</code></a>
-和 <a
-target="_blank" rel="noopener" href="https://github.com/pyutils/line_profiler"><code>line_profiler</code></a>
-来比较插入排序和快速排序的性能。两种算法的瓶颈分别在哪里？然后使用
-<code>memory_profiler</code>
-来检查内存消耗，为什么插入排序更好一些？然后再看看原地排序版本的快排。附加题：使用
-<code>perf</code>
-来查看不同算法的循环次数及缓存命中及丢失情况。</p></li>
-<li><p>这里有一些用于计算斐波那契数列 Python
-代码，它为计算每个数字都定义了一个函数： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#!/usr/bin/env python</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">fib0</span>(): <span class="hljs-keyword">return</span> <span class="hljs-number">0</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">fib1</span>(): <span class="hljs-keyword">return</span> <span class="hljs-number">1</span><br><br>s = <span class="hljs-string">&quot;&quot;&quot;def fib&#123;&#125;(): return fib&#123;&#125;() + fib&#123;&#125;()&quot;&quot;&quot;</span><br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br><br>    <span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">2</span>, <span class="hljs-number">10</span>):<br>        <span class="hljs-built_in">exec</span>(s.<span class="hljs-built_in">format</span>(n, n-<span class="hljs-number">1</span>, n-<span class="hljs-number">2</span>))<br>    <span class="hljs-comment"># from functools import lru_cache</span><br>    <span class="hljs-comment"># for n in range(10):</span><br>    <span class="hljs-comment">#     exec(&quot;fib&#123;&#125; = lru_cache(1)(fib&#123;&#125;)&quot;.format(n, n))</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-built_in">eval</span>(<span class="hljs-string">&quot;fib9()&quot;</span>))<br></code></pre></td></tr></table></figure>
-将代码拷贝到文件中使其变为一个可执行的程序。首先安装 <a
-target="_blank" rel="noopener" href="http://pycallgraph.slowchop.com/en/master/"><code>pycallgraph</code></a>和<a
-target="_blank" rel="noopener" href="http://graphviz.org/"><code>graphviz</code></a>(如果您能够执行<code>dot</code>,
-则说明已经安装了 GraphViz.)。并使用
-<code>pycallgraph graphviz -- ./fib.py</code>
-来执行代码并查看<code>pycallgraph.png</code> 这个文件。<code>fib0</code>
-被调用了多少次？我们可以通过记忆法来对其进行优化。将注释掉的部分放开，然后重新生成图片。这回每个<code>fibN</code>
-函数被调用了多少次？</p></li>
-<li><p>我们经常会遇到的情况是某个我们希望去监听的端口已经被其他进程占用了。让我们通过进程的PID查找相应的进程。首先执行
-<code>python -m http.server 4444</code> 启动一个最简单的 web
-服务器来监听 <code>4444</code> 端口。在另外一个终端中，执行
-<code>lsof | grep LISTEN</code>
-打印出所有监听端口的进程及相应的端口。找到对应的 PID 然后使用
-<code>kill &lt;PID&gt;</code> 停止该进程。</p></li>
-<li><p>限制进程资源也是一个非常有用的技术。执行 <code>stress -c 3</code>
-并使用<code>htop</code> 对 CPU
-消耗进行可视化。现在，执行<code>taskset --cpu-list 0,2 stress -c 3</code>
-并可视化。<code>stress</code> 占用了3个 CPU 吗？为什么没有？阅读<a
-target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man1/taskset.1.html"><code>man taskset</code></a>来寻找答案。附加题：使用
-<a
-target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man7/cgroups.7.html"><code>cgroups</code></a>来实现相同的操作，限制<code>stress -m</code>的内存使用。</p></li>
-<li><p>(进阶题) <code>curl ipinfo.io</code> 命令或执行 HTTP
-请求并获取关于您 IP 的信息。打开 <a
-target="_blank" rel="noopener" href="https://www.wireshark.org/">Wireshark</a> 并抓取 <code>curl</code>
-发起的请求和收到的回复报文。（提示：可以使用<code>http</code>进行过滤，只显示
-HTTP 报文）</p></li>
+<h2 id="性能分析-1"><a href="#性能分析-1" class="headerlink" title="性能分析"></a>性能分析</h2><ol>
+<li><p><a href="/static/files/sorts.py">这里</a> 有一些排序算法的实现。请使用 <a target="_blank" rel="noopener" href="https://docs.python.org/3/library/profile.html"><code>cProfile</code></a> 和 <a target="_blank" rel="noopener" href="https://github.com/pyutils/line_profiler"><code>line_profiler</code></a> 来比较插入排序和快速排序的性能。两种算法的瓶颈分别在哪里？然后使用 <code>memory_profiler</code> 来检查内存消耗，为什么插入排序更好一些？然后再看看原地排序版本的快排。附加题：使用 <code>perf</code> 来查看不同算法的循环次数及缓存命中及丢失情况。</p>
+</li>
+<li><p>这里有一些用于计算斐波那契数列 Python 代码，它为计算每个数字都定义了一个函数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#!/usr/bin/env python</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">fib0</span>(): <span class="hljs-keyword">return</span> <span class="hljs-number">0</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">fib1</span>(): <span class="hljs-keyword">return</span> <span class="hljs-number">1</span><br><br>s = <span class="hljs-string">&quot;&quot;&quot;def fib&#123;&#125;(): return fib&#123;&#125;() + fib&#123;&#125;()&quot;&quot;&quot;</span><br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br><br>    <span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">2</span>, <span class="hljs-number">10</span>):<br>        <span class="hljs-built_in">exec</span>(s.<span class="hljs-built_in">format</span>(n, n-<span class="hljs-number">1</span>, n-<span class="hljs-number">2</span>))<br>    <span class="hljs-comment"># from functools import lru_cache</span><br>    <span class="hljs-comment"># for n in range(10):</span><br>    <span class="hljs-comment">#     exec(&quot;fib&#123;&#125; = lru_cache(1)(fib&#123;&#125;)&quot;.format(n, n))</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-built_in">eval</span>(<span class="hljs-string">&quot;fib9()&quot;</span>))<br></code></pre></td></tr></table></figure>
+<p>将代码拷贝到文件中使其变为一个可执行的程序。首先安装 <a target="_blank" rel="noopener" href="http://pycallgraph.slowchop.com/en/master/"><code>pycallgraph</code></a>和<a target="_blank" rel="noopener" href="http://graphviz.org/"><code>graphviz</code></a>(如果您能够执行<code>dot</code>, 则说明已经安装了 GraphViz.)。并使用 <code>pycallgraph graphviz -- ./fib.py</code> 来执行代码并查看<code>pycallgraph.png</code> 这个文件。<code>fib0</code> 被调用了多少次？我们可以通过记忆法来对其进行优化。将注释掉的部分放开，然后重新生成图片。这回每个<code>fibN</code> 函数被调用了多少次？</p>
+</li>
+<li><p>我们经常会遇到的情况是某个我们希望去监听的端口已经被其他进程占用了。让我们通过进程的PID查找相应的进程。首先执行 <code>python -m http.server 4444</code> 启动一个最简单的 web 服务器来监听 <code>4444</code> 端口。在另外一个终端中，执行 <code>lsof | grep LISTEN</code> 打印出所有监听端口的进程及相应的端口。找到对应的 PID 然后使用 <code>kill &lt;PID&gt;</code> 停止该进程。</p>
+</li>
+<li><p>限制进程资源也是一个非常有用的技术。执行 <code>stress -c 3</code> 并使用<code>htop</code> 对 CPU 消耗进行可视化。现在，执行<code>taskset --cpu-list 0,2 stress -c 3</code> 并可视化。<code>stress</code> 占用了3个 CPU 吗？为什么没有？阅读<a target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man1/taskset.1.html"><code>man taskset</code></a>来寻找答案。附加题：使用 <a target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man7/cgroups.7.html"><code>cgroups</code></a>来实现相同的操作，限制<code>stress -m</code>的内存使用。</p>
+</li>
+<li><p>(进阶题) <code>curl ipinfo.io</code> 命令或执行 HTTP 请求并获取关于您 IP 的信息。打开 <a target="_blank" rel="noopener" href="https://www.wireshark.org/">Wireshark</a> 并抓取 <code>curl</code> 发起的请求和收到的回复报文。（提示：可以使用<code>http</code>进行过滤，只显示 HTTP 报文）</p>
+</li>
 </ol>
 
                 
@@ -799,9 +540,9 @@ HTTP 报文）</p></li>
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/06/05/editors/" title="editors">
+                      <a href="/2023/06/05/data-wrangling/" title="data-wrangling">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">editors</span>
+                        <span class="hidden-mobile">data-wrangling</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -809,8 +550,8 @@ HTTP 报文）</p></li>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/06/05/metaprogramming/" title="metaprogramming">
-                        <span class="hidden-mobile">metaprogramming</span>
+                      <a href="/2023/06/05/editors/" title="editors">
+                        <span class="hidden-mobile">editors</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
