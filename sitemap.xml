@@ -477,6 +477,13 @@
   </url>
   
   <url>
+    <loc>http://jingmengzhiyue.top/tags/DTW/</loc>
+    <lastmod>2024-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://jingmengzhiyue.top/tags/ChatGPT/</loc>
     <lastmod>2024-03-24</lastmod>
     <changefreq>weekly</changefreq>
@@ -485,13 +492,6 @@
   
   <url>
     <loc>http://jingmengzhiyue.top/tags/The-Missing-Semester-of-Your-CS-Education/</loc>
-    <lastmod>2024-03-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://jingmengzhiyue.top/tags/DTW/</loc>
     <lastmod>2024-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -533,13 +533,6 @@
   </url>
   
   <url>
-    <loc>http://jingmengzhiyue.top/tags/OpenCV/</loc>
-    <lastmod>2024-03-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>http://jingmengzhiyue.top/tags/Windows/</loc>
     <lastmod>2024-03-24</lastmod>
     <changefreq>weekly</changefreq>
@@ -548,6 +541,13 @@
   
   <url>
     <loc>http://jingmengzhiyue.top/tags/Linux/</loc>
+    <lastmod>2024-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://jingmengzhiyue.top/tags/OpenCV/</loc>
     <lastmod>2024-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -626,6 +626,13 @@
   </url>
   
   <url>
+    <loc>http://jingmengzhiyue.top/categories/Algorithm/</loc>
+    <lastmod>2024-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://jingmengzhiyue.top/categories/LLM/</loc>
     <lastmod>2024-03-24</lastmod>
     <changefreq>weekly</changefreq>
@@ -634,13 +641,6 @@
   
   <url>
     <loc>http://jingmengzhiyue.top/categories/Computer-Science/</loc>
-    <lastmod>2024-03-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://jingmengzhiyue.top/categories/Algorithm/</loc>
     <lastmod>2024-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
