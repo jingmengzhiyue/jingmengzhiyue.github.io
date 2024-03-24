@@ -16,22 +16,22 @@
   <meta name="author" content="Jingmengzhiyue">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Setting up OpenCV C++ on Windows Subsystem for Linux (WSL) involves several steps, including installing WSL, installing necessary dependencies, downloading the OpenCV source code, and compiling and in">
+    <meta name="description" content="问题定义高光谱成像能同时在多个不同波长获取同一场景的图像,在农业、天文、监视和矿物学等领域具有广泛应用。然而,由于各种硬件限制,获得高分辨率(HR)高光谱图像仍然是一个挑战。下面将介绍如何利用低分辨率(LR)高光谱图像和同一场景的高分辨率(HR)多光谱或RGB图像,来重建HR高光谱图像。 给定一对观测图像:LR高光谱图像 $X \in \mathbb{R}^{L \times n}$ 和HR多光谱">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Using OpenCV C++ on Windows Subsystem for Linux (WSL)">
-<meta property="og:url" content="http://jingmengzhiyue.top/2024/03/16/OpenCV-WSL/index.html">
+<meta property="og:title" content="基于耦合非负矩阵分解的高光谱图像超分辨率算法">
+<meta property="og:url" content="http://jingmengzhiyue.top/2024/03/24/NSSR/index.html">
 <meta property="og:site_name" content="热爱可抵万难">
-<meta property="og:description" content="Setting up OpenCV C++ on Windows Subsystem for Linux (WSL) involves several steps, including installing WSL, installing necessary dependencies, downloading the OpenCV source code, and compiling and in">
+<meta property="og:description" content="问题定义高光谱成像能同时在多个不同波长获取同一场景的图像,在农业、天文、监视和矿物学等领域具有广泛应用。然而,由于各种硬件限制,获得高分辨率(HR)高光谱图像仍然是一个挑战。下面将介绍如何利用低分辨率(LR)高光谱图像和同一场景的高分辨率(HR)多光谱或RGB图像,来重建HR高光谱图像。 给定一对观测图像:LR高光谱图像 $X \in \mathbb{R}^{L \times n}$ 和HR多光谱">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-03-16T08:37:10.000Z">
-<meta property="article:modified_time" content="2024-03-16T08:38:25.513Z">
+<meta property="article:published_time" content="2024-03-24T08:30:33.000Z">
+<meta property="article:modified_time" content="2024-03-24T08:35:49.432Z">
 <meta property="article:author" content="Jingmengzhiyue">
-<meta property="article:tag" content="OpenCV">
+<meta property="article:tag" content="Remote Sensing">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>Using OpenCV C++ on Windows Subsystem for Linux (WSL) - 热爱可抵万难</title>
+  <title>基于耦合非负矩阵分解的高光谱图像超分辨率算法 - 热爱可抵万难</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -215,7 +215,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Using OpenCV C++ on Windows Subsystem for Linux (WSL)"></span>
+            <span id="subtitle" data-typed-text="基于耦合非负矩阵分解的高光谱图像超分辨率算法"></span>
           
         </div>
 
@@ -226,8 +226,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-03-16 16:37" pubdate>
-          2024年3月16日 下午
+        <time datetime="2024-03-24 16:30" pubdate>
+          2024年3月24日 下午
         </time>
       </span>
     
@@ -238,7 +238,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.8k 字
+          1.7k 字
         
       </span>
     
@@ -249,7 +249,7 @@
         
         
         
-          24 分钟
+          15 分钟
         
       </span>
     
@@ -286,37 +286,29 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Using OpenCV C++ on Windows Subsystem for Linux (WSL)</h1>
+            <h1 id="seo-header">基于耦合非负矩阵分解的高光谱图像超分辨率算法</h1>
             
             
               <div class="markdown-body">
                 
-                <p>Setting up OpenCV C++ on Windows Subsystem for Linux (WSL) involves several steps, including installing WSL, installing necessary dependencies, downloading the OpenCV source code, and compiling and installing OpenCV. This blog post provides a step-by-step guide to help you through the process.</p>
-<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>The process of using OpenCV C++ on Windows Subsystem for Linux (WSL) involves enabling WSL on your Windows system, installing a Linux distribution (like Ubuntu), updating and installing required dependencies, downloading the OpenCV and OpenCV Contrib source code, configuring the build environment with CMake, compiling and installing OpenCV, and finally verifying the installation by running a simple OpenCV C++ program.</p>
-<h2 id="Step-by-Step-Guide"><a href="#Step-by-Step-Guide" class="headerlink" title="Step-by-Step Guide"></a>Step-by-Step Guide</h2><ol>
-<li><p><strong>Install WSL</strong>: Ensure that WSL is enabled on your Windows 10 or higher system. You can run the following command in PowerShell to enable WSL and install Ubuntu (or any other Linux distribution of your choice):</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">wsl <span class="hljs-literal">--install</span><br></code></pre></td></tr></table></figure>
-<p>After restarting your computer, open the Microsoft Store, search for Ubuntu, and install your preferred version.</p>
-</li>
-<li><p><strong>Update and Install Dependencies</strong>: Launch your Linux distribution (e.g., Ubuntu), and use the following commands to update your package manager and install the required dependencies for compiling OpenCV:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo apt update &amp;&amp; sudo apt upgrade -y<br>sudo apt install -y build-essential cmake git pkg-config libgtk-3-dev \<br>libavcodec-dev libavformat-dev libswscale-dev libv4l-dev \<br>libxvidcore-dev libx264-dev libjpeg-dev libpng-dev libtiff-dev \<br>gfortran openexr libatlas-base-dev python3-dev python3-numpy \<br>libtbb2 libtbb-dev libdc1394-22-dev<br></code></pre></td></tr></table></figure>
-</li>
-<li><p><strong>Download OpenCV and OpenCV Contrib Source Code</strong>: Download the OpenCV and OpenCV Contrib source code from the OpenCV GitHub repository:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">mkdir</span> ~/opencv_build &amp;&amp; <span class="hljs-built_in">cd</span> ~/opencv_build<br>git <span class="hljs-built_in">clone</span> https://github.com/opencv/opencv.git<br>git <span class="hljs-built_in">clone</span> https://github.com/opencv/opencv_contrib.git<br></code></pre></td></tr></table></figure>
-<p>Ensure both repositories are on the same version, e.g., OpenCV 4.x:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> ~/opencv_build/opencv<br>git checkout 4.x<br><span class="hljs-built_in">cd</span> ../opencv_contrib<br>git checkout 4.x<br></code></pre></td></tr></table></figure>
-</li>
-<li><p><strong>Compile and Install OpenCV</strong>: Create a build directory, configure the build environment using CMake, and then compile and install OpenCV:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> ~/opencv_build/opencv<br><span class="hljs-built_in">mkdir</span> build &amp;&amp; <span class="hljs-built_in">cd</span> build<br>cmake -D CMAKE_BUILD_TYPE=RELEASE \<br>-D CMAKE_INSTALL_PREFIX=/usr/local \<br>-D INSTALL_C_EXAMPLES=ON \<br>-D INSTALL_PYTHON_EXAMPLES=ON \<br>-D OPENCV_GENERATE_PKGCONFIG=ON \<br>-D OPENCV_EXTRA_MODULES_PATH=~/opencv_build/opencv_contrib/modules \<br>-D BUILD_EXAMPLES=ON ..<br>make -j$(<span class="hljs-built_in">nproc</span>)<br>sudo make install<br></code></pre></td></tr></table></figure>
-</li>
-<li><p><strong>Configure Environment Variables</strong>: To ensure the compiler can find the OpenCV libraries, you need to update the <code>LD_LIBRARY_PATH</code> environment variable. Add the following line to your <code>~/.bashrc</code> or <code>~/.profile</code> file:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">export</span> LD_LIBRARY_PATH=<span class="hljs-variable">$LD_LIBRARY_PATH</span>:/usr/local/lib<br></code></pre></td></tr></table></figure>
-<p>Then, execute <code>source ~/.bashrc</code> or restart your terminal application to apply the changes.</p>
-</li>
-<li><p><strong>Verify Installation</strong>: Compile and run a simple OpenCV program to verify the successful installation. You can create a simple C++ program that uses OpenCV to read and display an image.</p>
-</li>
-</ol>
-<p>By following these steps, you should be able to successfully set up and use OpenCV C++ on the Windows Subsystem for Linux (WSL).</p>
+                <h2 id="问题定义"><a href="#问题定义" class="headerlink" title="问题定义"></a>问题定义</h2><p>高光谱成像能同时在多个不同波长获取同一场景的图像,在农业、天文、监视和矿物学等领域具有广泛应用。然而,由于各种硬件限制,获得高分辨率(HR)高光谱图像仍然是一个挑战。下面将介绍如何利用低分辨率(LR)高光谱图像和同一场景的高分辨率(HR)多光谱或RGB图像,来重建HR高光谱图像。</p>
+<p>给定一对观测图像:LR高光谱图像 $X \in \mathbb{R}^{L \times n}$ 和HR多光谱图像 $Y \in \mathbb{R}^{3 \times N}$,目标是重建HR高光谱图像 $Z \in \mathbb{R}^{L \times N}$,其中 $N=W \times H, n=w \times h (w \ll W, h \ll H)$ 分别表示HR图像和LR图像的像素数量, $L \gg 3$ 是波段数量。两个观测图像可表示为期望HR图像的线性组合:</p>
+<script type="math/tex; mode=display">X = ZH, \quad Y = PZ</script><p>其中 $H \in \mathbb{R}^{N \times n}$ 是关于LR图像 $X$ 的退化算子(模糊和下采样), $P$ 是将HR高光谱图像 $Z$ 映射到RGB表示 $Y$ 的变换矩阵。由于方程数量远小于未知变量数,估计 $Z$ 是一个病态反问题,需要利用先验知识进行正则化。</p>
+<h2 id="基于稀疏表示的方法"><a href="#基于稀疏表示的方法" class="headerlink" title="基于稀疏表示的方法"></a>基于稀疏表示的方法</h2><h3 id="非负字典学习"><a href="#非负字典学习" class="headerlink" title="非负字典学习"></a>非负字典学习</h3><p>利用高光谱图像的稀疏先验,每个像素 $z_i \in \mathbb{R}^L$ 可表示为字典 $D \in \mathbb{R}^{L \times K}$ 的稀疏线性组合:</p>
+<script type="math/tex; mode=display">z_i = D\alpha_i + e_i, \quad \text{s.t. } \|\alpha_i\|_0 < T</script><p>其中 $\alpha_i \in \mathbb{R}^K$ 是稀疏系数向量, $e_i$ 是近似误差。字典 $D$ 的每一列对应场景中材质的反射光谱。根据线性混合模型,LR高光谱图像 $X$ 可表示为:</p>
+<script type="math/tex; mode=display">x_i = D\beta_i + v_i, \quad \beta_i = \sum_{j \in W_i} h_j\alpha_j</script><p>其中 $W_i$ 是以 $i$ 为中心的窗口, $h_j$ 是加权系数。在每个位置 $x_i$,仅有少数物质成分,因此 $\beta_i$ 是稀疏向量。为同时估计字典 $D$ 和稀疏码 $B=[\beta_1,…,\beta_n]$,我们最小化以下目标函数:</p>
+<script type="math/tex; mode=display">(D, B) = \arg\min_{D,B} \frac{1}{2}\|X - DB\|_F^2 + \lambda\|B\|_1, \quad \text{s.t. } \beta_i \geq 0, d_k \geq 0</script><p>通过高效的块坐标下降算法进行优化,每次更新字典 $D$ 的一个原子,从而提高计算效率。</p>
+<h3 id="基于聚类的结构化稀疏编码"><a href="#基于聚类的结构化稀疏编码" class="headerlink" title="基于聚类的结构化稀疏编码"></a>基于聚类的结构化稀疏编码</h3><p>在估计出字典 $D$ 后,可以从HR多光谱图像 $Y$ 和LR高光谱图像 $X$ 联合估计目标HR高光谱图像 $Z$ 的稀疏码 $A=[\alpha_1,…,\alpha_N]$:</p>
+<script type="math/tex; mode=display">\begin{aligned}
+&Y = \tilde{D}A + W_1, \quad \tilde{D}=PD \\
+&X = DAH + W_2
+\end{aligned}</script><p>最小化加权重构误差和 $\ell_1$ 范数稀疏约束:</p>
+<script type="math/tex; mode=display">A = \arg\min_A \|Y - \tilde{D}A\|_F^2 + \|X - DAH\|_F^2 + \eta\|A\|_1, \quad \text{s.t. } \alpha_i \geq 0</script><p>为利用高光谱图像中像素的空间相关性,利用基于聚类的结构化稀疏表示(NSSR)模型:</p>
+<script type="math/tex; mode=display">\begin{aligned}
+A = \arg\min_A &\|Y - \tilde{D}A\|_F^2 + \|X - DAH\|_F^2\\ 
+&+ \eta_1\sum_{q=1}^Q \sum_{i \in S_q} \|D\alpha_i - \mu_q\|_2^2 + \eta_2\|A\|_1,\quad \text{s.t. } \alpha_i \geq 0
+\end{aligned}</script><p>其中 $\mu_q$ 是第 $q$ 个聚类的中心,通过递归方式进行更新。 $S_q$ 是第 $q$ 个聚类的样本集,通过在HR多光谱图像上进行 $k$-近邻搜索获得。此模型不仅利用了稀疏先验,还利用了重构像素应当接近聚类中心的结构先验。通过交替方向乘子算法(ADMM)高效求解上述优化问题。</p>
+<p>总之,该方法在利用LR高光谱图像估计字典的同时,充分利用了HR多光谱图像的信息,并结合了稀疏和结构两种先验。</p>
 
                 
               </div>
@@ -335,7 +327,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/Programming/" class="category-chain-item">Programming</a>
+  <a href="/categories/Remote-Sensing/" class="category-chain-item">Remote Sensing</a>
   
   
 
@@ -350,7 +342,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/OpenCV/" class="print-no-link">#OpenCV</a>
+        <a href="/tags/Remote-Sensing/" class="print-no-link">#Remote Sensing</a>
       
     </div>
   
@@ -362,8 +354,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Using OpenCV C++ on Windows Subsystem for Linux (WSL)</div>
-      <div>http://jingmengzhiyue.top/2024/03/16/OpenCV-WSL/</div>
+      <div>基于耦合非负矩阵分解的高光谱图像超分辨率算法</div>
+      <div>http://jingmengzhiyue.top/2024/03/24/NSSR/</div>
     </div>
     <div class="license-meta">
       
@@ -375,7 +367,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年3月16日</div>
+          <div>2024年3月24日</div>
         </div>
       
       
@@ -407,18 +399,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/03/19/endmember/" title="端元初始化">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">端元初始化</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/03/14/OpenCV-Basics/" title="OpenCV Basics">
-                        <span class="hidden-mobile">OpenCV Basics</span>
+                      <a href="/2024/03/24/HyperCSI/" title="基于最小体积单纯形的快速高光谱图像解混算法">
+                        <span class="hidden-mobile">基于最小体积单纯形的快速高光谱图像解混算法</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

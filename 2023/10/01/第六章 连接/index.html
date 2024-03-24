@@ -294,23 +294,15 @@
             
               <div class="markdown-body">
                 
-                <h1 id="pandas连接">Pandas连接</h1>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br></code></pre></td></tr></table></figure>
-<h2 id="一关系型连接">一、关系型连接</h2>
-<h3 id="连接的基本概念">1. 连接的基本概念</h3>
-<p>把两张相关的表按照某一个或某一组键连接起来是一种常见操作，例如学生期末考试各个科目的成绩表按照<span
-class="math inline">\(\color{red}{姓名}\)</span>和<span
-class="math inline">\(\color{red}{班级}\)</span>连接成总的成绩表，又例如对企业员工的各类信息表按照<span
-class="math inline">\(\color{red}{员工ID号}\)</span>进行连接汇总。由此可以看出，在关系型连接中，<span
-class="math inline">\(\color{red}{键}\)</span>是十分重要的，往往用<code>on</code>参数表示。</p>
+                <h1 id="Pandas连接"><a href="#Pandas连接" class="headerlink" title="Pandas连接"></a>Pandas连接</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br></code></pre></td></tr></table></figure>
+<h2 id="一、关系型连接"><a href="#一、关系型连接" class="headerlink" title="一、关系型连接"></a>一、关系型连接</h2><h3 id="1-连接的基本概念"><a href="#1-连接的基本概念" class="headerlink" title="1. 连接的基本概念"></a>1. 连接的基本概念</h3><p>把两张相关的表按照某一个或某一组键连接起来是一种常见操作，例如学生期末考试各个科目的成绩表按照$\color{red}{姓名}$和$\color{red}{班级}$连接成总的成绩表，又例如对企业员工的各类信息表按照$\color{red}{员工ID号}$进行连接汇总。由此可以看出，在关系型连接中，$\color{red}{键}$是十分重要的，往往用<code>on</code>参数表示。</p>
 <p>另一个重要的要素是连接的形式。在<code>pandas</code>中的关系型连接函数<code>merge</code>和<code>join</code>中提供了<code>how</code>参数来代表连接形式，分为左连接<code>left</code>、右连接<code>right</code>、内连接<code>inner</code>、外连接<code>outer</code>，它们的区别可以用如下示意图表示：</p>
 <p><img src="../source/_static/ch6_1.png" srcset="/img/loading.gif" lazyload width="50%"></p>
 <p>从图中可以看到，所谓左连接即以左表的键为准，如果右表中的键于左表存在，那么就添加到左表，否则则处理为缺失值，右连接类似处理。内连接只负责合并两边同时出现的键，而外连接则会在内连接的基础上包含只在左边出现以及只在右边出现的值，因此外连接又叫全连接。</p>
 <p>上面这个简单的例子中，同一个表中的键没有出现重复的情况，那么如果出现重复的键应该如何处理？只需把握一个原则，即只要两边同时出现的值，就以笛卡尔积的方式加入，如果单边出现则根据连接形式进行处理。其中，关于笛卡尔积可用如下例子说明：设左表中键<code>张三</code>出现两次，右表中的<code>张三</code>也出现两次，那么逐个进行匹配，最后产生的表必然包含<code>2*2</code>个姓名为<code>张三</code>的行。下面是一个对应例子的示意图：</p>
 <p><img src="../source/_static/ch6_2.png" srcset="/img/loading.gif" lazyload width="60%"></p>
 <p>显然在不同的场合应该使用不同的连接形式。其中左连接和右连接是等价的，由于它们的结果中的键是被一侧的表确定的，因此常常用于有方向性地添加到目标表。内外连接两侧的表，经常是地位类似的（左右表位置的交换不引起结果的变化），想取出键的交集或者并集，具体的操作还需要根据业务的需求来判断。</p>
-<h3 id="值连接">2. 值连接</h3>
-<p>在上面示意图中的例子中，两张表根据某一列的值来连接，事实上还可以通过几列值的组合进行连接，这种基于值的连接在<code>pandas</code>中可以由<code>merge</code>函数实现，例如第一张图的左连接：</p>
+<h3 id="2-值连接"><a href="#2-值连接" class="headerlink" title="2. 值连接"></a>2. 值连接</h3><p>在上面示意图中的例子中，两张表根据某一列的值来连接，事实上还可以通过几列值的组合进行连接，这种基于值的连接在<code>pandas</code>中可以由<code>merge</code>函数实现，例如第一张图的左连接：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">df1 = pd.DataFrame(&#123;<span class="hljs-string">&#x27;Name&#x27;</span>:[<span class="hljs-string">&#x27;San Zhang&#x27;</span>,<span class="hljs-string">&#x27;Si Li&#x27;</span>], <span class="hljs-string">&#x27;Age&#x27;</span>:[<span class="hljs-number">20</span>,<span class="hljs-number">30</span>]&#125;)<br>df2 = pd.DataFrame(&#123;<span class="hljs-string">&#x27;Name&#x27;</span>:[<span class="hljs-string">&#x27;Si Li&#x27;</span>,<span class="hljs-string">&#x27;Wu Wang&#x27;</span>], <span class="hljs-string">&#x27;Gender&#x27;</span>:[<span class="hljs-string">&#x27;F&#x27;</span>,<span class="hljs-string">&#x27;M&#x27;</span>]&#125;)<br>df1.merge(df2, on=<span class="hljs-string">&#x27;Name&#x27;</span>, how=<span class="hljs-string">&#x27;left&#x27;</span>)<br></code></pre></td></tr></table></figure>
 <div>
 <style scoped>
@@ -327,53 +319,33 @@ class="math inline">\(\color{red}{键}\)</span>是十分重要的，往往用<co
     }
 </style>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>
-</th>
-<th>
-Name
-</th>
-<th>
-Age
-</th>
-<th>
-Gender
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>
-0
-</th>
-<td>
-San Zhang
-</td>
-<td>
-20
-</td>
-<td>
-NaN
-</td>
-</tr>
-<tr>
-<th>
-1
-</th>
-<td>
-Si Li
-</td>
-<td>
-30
-</td>
-<td>
-F
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Gender</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>San Zhang</td>
+      <td>20</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Si Li</td>
+      <td>30</td>
+      <td>F</td>
+    </tr>
+  </tbody>
 </table>
 </div>
+
+
+
 <p>如果两个表中想要连接的列不具备相同的列名，可以通过<code>left_on</code>和<code>right_on</code>指定：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">df1 = pd.DataFrame(&#123;<span class="hljs-string">&#x27;df1_name&#x27;</span>:[<span class="hljs-string">&#x27;San Zhang&#x27;</span>,<span class="hljs-string">&#x27;Si Li&#x27;</span>], <span class="hljs-string">&#x27;Age&#x27;</span>:[<span class="hljs-number">20</span>,<span class="hljs-number">30</span>]&#125;)<br>df2 = pd.DataFrame(&#123;<span class="hljs-string">&#x27;df2_name&#x27;</span>:[<span class="hljs-string">&#x27;Si Li&#x27;</span>,<span class="hljs-string">&#x27;Wu Wang&#x27;</span>], <span class="hljs-string">&#x27;Gender&#x27;</span>:[<span class="hljs-string">&#x27;F&#x27;</span>,<span class="hljs-string">&#x27;M&#x27;</span>]&#125;)<br>df1.merge(df2, left_on=<span class="hljs-string">&#x27;df1_name&#x27;</span>, right_on=<span class="hljs-string">&#x27;df2_name&#x27;</span>, how=<span class="hljs-string">&#x27;left&#x27;</span>)<br></code></pre></td></tr></table></figure>
 <div>
@@ -391,62 +363,36 @@ F
     }
 </style>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>
-</th>
-<th>
-df1_name
-</th>
-<th>
-Age
-</th>
-<th>
-df2_name
-</th>
-<th>
-Gender
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>
-0
-</th>
-<td>
-San Zhang
-</td>
-<td>
-20
-</td>
-<td>
-NaN
-</td>
-<td>
-NaN
-</td>
-</tr>
-<tr>
-<th>
-1
-</th>
-<td>
-Si Li
-</td>
-<td>
-30
-</td>
-<td>
-Si Li
-</td>
-<td>
-F
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>df1_name</th>
+      <th>Age</th>
+      <th>df2_name</th>
+      <th>Gender</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>San Zhang</td>
+      <td>20</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Si Li</td>
+      <td>30</td>
+      <td>Si Li</td>
+      <td>F</td>
+    </tr>
+  </tbody>
 </table>
 </div>
+
+
+
 <p>如果两个表中的列出现了重复的列名，那么可以通过<code>suffixes</code>参数指定。例如合并考试成绩的时候，第一个表记录了语文成绩，第二个是数学成绩：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">df1 = pd.DataFrame(&#123;<span class="hljs-string">&#x27;Name&#x27;</span>:[<span class="hljs-string">&#x27;San Zhang&#x27;</span>],<span class="hljs-string">&#x27;Grade&#x27;</span>:[<span class="hljs-number">70</span>]&#125;)<br>df2 = pd.DataFrame(&#123;<span class="hljs-string">&#x27;Name&#x27;</span>:[<span class="hljs-string">&#x27;San Zhang&#x27;</span>],<span class="hljs-string">&#x27;Grade&#x27;</span>:[<span class="hljs-number">80</span>]&#125;)<br>df1.merge(df2, on=<span class="hljs-string">&#x27;Name&#x27;</span>, how=<span class="hljs-string">&#x27;left&#x27;</span>, suffixes=[<span class="hljs-string">&#x27;_Chinese&#x27;</span>,<span class="hljs-string">&#x27;_Math&#x27;</span>])<br></code></pre></td></tr></table></figure>
 <div>
@@ -464,39 +410,27 @@ F
     }
 </style>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>
-</th>
-<th>
-Name
-</th>
-<th>
-Grade_Chinese
-</th>
-<th>
-Grade_Math
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>
-0
-</th>
-<td>
-San Zhang
-</td>
-<td>
-70
-</td>
-<td>
-80
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Grade_Chinese</th>
+      <th>Grade_Math</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>San Zhang</td>
+      <td>70</td>
+      <td>80</td>
+    </tr>
+  </tbody>
 </table>
 </div>
+
+
+
 <p>在某些时候出现重复元素是麻烦的，例如两位同学来自不同的班级，但是姓名相同，这种时候就要指定<code>on</code>参数为多个列使得正确连接：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">df1 = pd.DataFrame(&#123;<span class="hljs-string">&#x27;Name&#x27;</span>:[<span class="hljs-string">&#x27;San Zhang&#x27;</span>, <span class="hljs-string">&#x27;San Zhang&#x27;</span>],<br>                    <span class="hljs-string">&#x27;Age&#x27;</span>:[<span class="hljs-number">20</span>, <span class="hljs-number">21</span>],<br>                    <span class="hljs-string">&#x27;Class&#x27;</span>:[<span class="hljs-string">&#x27;one&#x27;</span>, <span class="hljs-string">&#x27;two&#x27;</span>]&#125;)<br>df2 = pd.DataFrame(&#123;<span class="hljs-string">&#x27;Name&#x27;</span>:[<span class="hljs-string">&#x27;San Zhang&#x27;</span>, <span class="hljs-string">&#x27;San Zhang&#x27;</span>],<br>                    <span class="hljs-string">&#x27;Gender&#x27;</span>:[<span class="hljs-string">&#x27;F&#x27;</span>, <span class="hljs-string">&#x27;M&#x27;</span>],<br>                    <span class="hljs-string">&#x27;Class&#x27;</span>:[<span class="hljs-string">&#x27;two&#x27;</span>, <span class="hljs-string">&#x27;one&#x27;</span>]&#125;)<br>df1<br></code></pre></td></tr></table></figure>
 <div>
@@ -514,53 +448,34 @@ San Zhang
     }
 </style>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>
-</th>
-<th>
-Name
-</th>
-<th>
-Age
-</th>
-<th>
-Class
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>
-0
-</th>
-<td>
-San Zhang
-</td>
-<td>
-20
-</td>
-<td>
-one
-</td>
-</tr>
-<tr>
-<th>
-1
-</th>
-<td>
-San Zhang
-</td>
-<td>
-21
-</td>
-<td>
-two
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Class</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>San Zhang</td>
+      <td>20</td>
+      <td>one</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>San Zhang</td>
+      <td>21</td>
+      <td>two</td>
+    </tr>
+  </tbody>
 </table>
 </div>
+
+
+
+
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df2<br></code></pre></td></tr></table></figure>
 <div>
 <style scoped>
@@ -577,53 +492,34 @@ two
     }
 </style>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>
-</th>
-<th>
-Name
-</th>
-<th>
-Gender
-</th>
-<th>
-Class
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>
-0
-</th>
-<td>
-San Zhang
-</td>
-<td>
-F
-</td>
-<td>
-two
-</td>
-</tr>
-<tr>
-<th>
-1
-</th>
-<td>
-San Zhang
-</td>
-<td>
-M
-</td>
-<td>
-one
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Gender</th>
+      <th>Class</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>San Zhang</td>
+      <td>F</td>
+      <td>two</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>San Zhang</td>
+      <td>M</td>
+      <td>one</td>
+    </tr>
+  </tbody>
 </table>
 </div>
+
+
+
+
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df1.merge(df2, on=<span class="hljs-string">&#x27;Name&#x27;</span>, how=<span class="hljs-string">&#x27;left&#x27;</span>) <span class="hljs-comment"># 错误的结果</span><br></code></pre></td></tr></table></figure>
 <div>
 <style scoped>
@@ -640,111 +536,56 @@ one
     }
 </style>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>
-</th>
-<th>
-Name
-</th>
-<th>
-Age
-</th>
-<th>
-Class_x
-</th>
-<th>
-Gender
-</th>
-<th>
-Class_y
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>
-0
-</th>
-<td>
-San Zhang
-</td>
-<td>
-20
-</td>
-<td>
-one
-</td>
-<td>
-F
-</td>
-<td>
-two
-</td>
-</tr>
-<tr>
-<th>
-1
-</th>
-<td>
-San Zhang
-</td>
-<td>
-20
-</td>
-<td>
-one
-</td>
-<td>
-M
-</td>
-<td>
-one
-</td>
-</tr>
-<tr>
-<th>
-2
-</th>
-<td>
-San Zhang
-</td>
-<td>
-21
-</td>
-<td>
-two
-</td>
-<td>
-F
-</td>
-<td>
-two
-</td>
-</tr>
-<tr>
-<th>
-3
-</th>
-<td>
-San Zhang
-</td>
-<td>
-21
-</td>
-<td>
-two
-</td>
-<td>
-M
-</td>
-<td>
-one
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Class_x</th>
+      <th>Gender</th>
+      <th>Class_y</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>San Zhang</td>
+      <td>20</td>
+      <td>one</td>
+      <td>F</td>
+      <td>two</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>San Zhang</td>
+      <td>20</td>
+      <td>one</td>
+      <td>M</td>
+      <td>one</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>San Zhang</td>
+      <td>21</td>
+      <td>two</td>
+      <td>F</td>
+      <td>two</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>San Zhang</td>
+      <td>21</td>
+      <td>two</td>
+      <td>M</td>
+      <td>one</td>
+    </tr>
+  </tbody>
 </table>
 </div>
+
+
+
+
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df1.merge(df2, on=[<span class="hljs-string">&#x27;Name&#x27;</span>, <span class="hljs-string">&#x27;Class&#x27;</span>], how=<span class="hljs-string">&#x27;left&#x27;</span>) <span class="hljs-comment"># 正确的结果</span><br></code></pre></td></tr></table></figure>
 <div>
 <style scoped>
@@ -761,68 +602,39 @@ one
     }
 </style>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>
-</th>
-<th>
-Name
-</th>
-<th>
-Age
-</th>
-<th>
-Class
-</th>
-<th>
-Gender
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>
-0
-</th>
-<td>
-San Zhang
-</td>
-<td>
-20
-</td>
-<td>
-one
-</td>
-<td>
-M
-</td>
-</tr>
-<tr>
-<th>
-1
-</th>
-<td>
-San Zhang
-</td>
-<td>
-21
-</td>
-<td>
-two
-</td>
-<td>
-F
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Class</th>
+      <th>Gender</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>San Zhang</td>
+      <td>20</td>
+      <td>one</td>
+      <td>M</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>San Zhang</td>
+      <td>21</td>
+      <td>two</td>
+      <td>F</td>
+    </tr>
+  </tbody>
 </table>
 </div>
+
+
+
 <p>从上面的例子来看，在进行基于唯一性的连接下，如果键不是唯一的，那么结果就会产生问题。举例中的行数很少，但如果实际数据中有几十万到上百万行的进行合并时，如果想要保证唯一性，除了用<code>duplicated</code>检查是否重复外，<code>merge</code>中也提供了<code>validate</code>参数来检查连接的唯一性模式。这里共有三种模式，即一对一连接<code>1:1</code>，一对多连接<code>1:m</code>，多对一连接<code>m:1</code>连接，第一个是指左右表的键都是唯一的，后面两个分别指左表键唯一和右表键唯一。</p>
-<h4 id="练一练">【练一练】</h4>
-<p>上面以多列为键的例子中，错误写法显然是一种多对多连接，而正确写法是一对一连接，请修改原表，使得以多列为键的正确写法能够通过<code>validate='1:m'</code>的检验，但不能通过<code>validate='m:1'</code>的检验。
-#### 【END】</p>
-<h3 id="索引连接">3. 索引连接</h3>
-<p>所谓索引连接，就是把索引当作键，因此这和值连接本质上没有区别，<code>pandas</code>中利用<code>join</code>函数来处理索引连接，它的参数选择要少于<code>merge</code>，除了必须的<code>on</code>和<code>how</code>之外，可以对重复的列指定左右后缀<code>lsuffix</code>和<code>rsuffix</code>。其中，<code>on</code>参数指索引名，单层索引时省略参数表示按照当前索引连接。</p>
+<h4 id="【练一练】"><a href="#【练一练】" class="headerlink" title="【练一练】"></a>【练一练】</h4><p>上面以多列为键的例子中，错误写法显然是一种多对多连接，而正确写法是一对一连接，请修改原表，使得以多列为键的正确写法能够通过<code>validate=&#39;1:m&#39;</code>的检验，但不能通过<code>validate=&#39;m:1&#39;</code>的检验。</p>
+<h4 id="【END】"><a href="#【END】" class="headerlink" title="【END】"></a>【END】</h4><h3 id="3-索引连接"><a href="#3-索引连接" class="headerlink" title="3. 索引连接"></a>3. 索引连接</h3><p>所谓索引连接，就是把索引当作键，因此这和值连接本质上没有区别，<code>pandas</code>中利用<code>join</code>函数来处理索引连接，它的参数选择要少于<code>merge</code>，除了必须的<code>on</code>和<code>how</code>之外，可以对重复的列指定左右后缀<code>lsuffix</code>和<code>rsuffix</code>。其中，<code>on</code>参数指索引名，单层索引时省略参数表示按照当前索引连接。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">df1 = pd.DataFrame(&#123;<span class="hljs-string">&#x27;Age&#x27;</span>:[<span class="hljs-number">20</span>,<span class="hljs-number">30</span>]&#125;, index=pd.Series([<span class="hljs-string">&#x27;San Zhang&#x27;</span>,<span class="hljs-string">&#x27;Si Li&#x27;</span>],name=<span class="hljs-string">&#x27;Name&#x27;</span>))<br>df2 = pd.DataFrame(&#123;<span class="hljs-string">&#x27;Gender&#x27;</span>:[<span class="hljs-string">&#x27;F&#x27;</span>,<span class="hljs-string">&#x27;M&#x27;</span>]&#125;, index=pd.Series([<span class="hljs-string">&#x27;Si Li&#x27;</span>,<span class="hljs-string">&#x27;Wu Wang&#x27;</span>],name=<span class="hljs-string">&#x27;Name&#x27;</span>))<br>df1.join(df2, how=<span class="hljs-string">&#x27;left&#x27;</span>)<br></code></pre></td></tr></table></figure>
 <div>
 <style scoped>
@@ -839,53 +651,35 @@ F
     }
 </style>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>
-</th>
-<th>
-Age
-</th>
-<th>
-Gender
-</th>
-</tr>
-<tr>
-<th>
-Name
-</th>
-<th>
-</th>
-<th>
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>
-San Zhang
-</th>
-<td>
-20
-</td>
-<td>
-NaN
-</td>
-</tr>
-<tr>
-<th>
-Si Li
-</th>
-<td>
-30
-</td>
-<td>
-F
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Age</th>
+      <th>Gender</th>
+    </tr>
+    <tr>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>San Zhang</th>
+      <td>20</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>Si Li</th>
+      <td>30</td>
+      <td>F</td>
+    </tr>
+  </tbody>
 </table>
 </div>
+
+
+
 <p>仿照第2小节的例子，写出语文和数学分数合并的<code>join</code>版本：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">df1 = pd.DataFrame(&#123;<span class="hljs-string">&#x27;Grade&#x27;</span>:[<span class="hljs-number">70</span>]&#125;, index=pd.Series([<span class="hljs-string">&#x27;San Zhang&#x27;</span>], name=<span class="hljs-string">&#x27;Name&#x27;</span>))<br>df2 = pd.DataFrame(&#123;<span class="hljs-string">&#x27;Grade&#x27;</span>:[<span class="hljs-number">80</span>]&#125;, index=pd.Series([<span class="hljs-string">&#x27;San Zhang&#x27;</span>], name=<span class="hljs-string">&#x27;Name&#x27;</span>))<br>df1.join(df2, how=<span class="hljs-string">&#x27;left&#x27;</span>, lsuffix=<span class="hljs-string">&#x27;_Chinese&#x27;</span>, rsuffix=<span class="hljs-string">&#x27;_Math&#x27;</span>)<br></code></pre></td></tr></table></figure>
 <div>
@@ -903,42 +697,30 @@ F
     }
 </style>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>
-</th>
-<th>
-Grade_Chinese
-</th>
-<th>
-Grade_Math
-</th>
-</tr>
-<tr>
-<th>
-Name
-</th>
-<th>
-</th>
-<th>
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>
-San Zhang
-</th>
-<td>
-70
-</td>
-<td>
-80
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Grade_Chinese</th>
+      <th>Grade_Math</th>
+    </tr>
+    <tr>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>San Zhang</th>
+      <td>70</td>
+      <td>80</td>
+    </tr>
+  </tbody>
 </table>
 </div>
+
+
+
 <p>如果想要进行类似于<code>merge</code>中以多列为键的操作的时候，<code>join</code>需要使用多级索引，例如在<code>merge</code>中的最后一个例子可以如下写出：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">df1 = pd.DataFrame(&#123;<span class="hljs-string">&#x27;Age&#x27;</span>:[<span class="hljs-number">20</span>,<span class="hljs-number">21</span>]&#125;, index=pd.MultiIndex.from_arrays([[<span class="hljs-string">&#x27;San Zhang&#x27;</span>, <span class="hljs-string">&#x27;San Zhang&#x27;</span>],[<span class="hljs-string">&#x27;one&#x27;</span>, <span class="hljs-string">&#x27;two&#x27;</span>]], names=(<span class="hljs-string">&#x27;Name&#x27;</span>,<span class="hljs-string">&#x27;Class&#x27;</span>)))<br>df2 = pd.DataFrame(&#123;<span class="hljs-string">&#x27;Gender&#x27;</span>:[<span class="hljs-string">&#x27;F&#x27;</span>, <span class="hljs-string">&#x27;M&#x27;</span>]&#125;, index=pd.MultiIndex.from_arrays([[<span class="hljs-string">&#x27;San Zhang&#x27;</span>, <span class="hljs-string">&#x27;San Zhang&#x27;</span>],[<span class="hljs-string">&#x27;two&#x27;</span>, <span class="hljs-string">&#x27;one&#x27;</span>]], names=(<span class="hljs-string">&#x27;Name&#x27;</span>,<span class="hljs-string">&#x27;Class&#x27;</span>)))<br>df1<br></code></pre></td></tr></table></figure>
 <div>
@@ -956,50 +738,35 @@ San Zhang
     }
 </style>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>
-</th>
-<th>
-</th>
-<th>
-Age
-</th>
-</tr>
-<tr>
-<th>
-Name
-</th>
-<th>
-Class
-</th>
-<th>
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th rowspan="2" valign="top">
-San Zhang
-</th>
-<th>
-one
-</th>
-<td>
-20
-</td>
-</tr>
-<tr>
-<th>
-two
-</th>
-<td>
-21
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>Age</th>
+    </tr>
+    <tr>
+      <th>Name</th>
+      <th>Class</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">San Zhang</th>
+      <th>one</th>
+      <td>20</td>
+    </tr>
+    <tr>
+      <th>two</th>
+      <td>21</td>
+    </tr>
+  </tbody>
 </table>
 </div>
+
+
+
+
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df2<br></code></pre></td></tr></table></figure>
 <div>
 <style scoped>
@@ -1016,50 +783,35 @@ two
     }
 </style>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>
-</th>
-<th>
-</th>
-<th>
-Gender
-</th>
-</tr>
-<tr>
-<th>
-Name
-</th>
-<th>
-Class
-</th>
-<th>
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th rowspan="2" valign="top">
-San Zhang
-</th>
-<th>
-two
-</th>
-<td>
-F
-</td>
-</tr>
-<tr>
-<th>
-one
-</th>
-<td>
-M
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>Gender</th>
+    </tr>
+    <tr>
+      <th>Name</th>
+      <th>Class</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">San Zhang</th>
+      <th>two</th>
+      <td>F</td>
+    </tr>
+    <tr>
+      <th>one</th>
+      <td>M</td>
+    </tr>
+  </tbody>
 </table>
 </div>
+
+
+
+
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df1.join(df2)<br></code></pre></td></tr></table></figure>
 <div>
 <style scoped>
@@ -1076,64 +828,39 @@ M
     }
 </style>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>
-</th>
-<th>
-</th>
-<th>
-Age
-</th>
-<th>
-Gender
-</th>
-</tr>
-<tr>
-<th>
-Name
-</th>
-<th>
-Class
-</th>
-<th>
-</th>
-<th>
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th rowspan="2" valign="top">
-San Zhang
-</th>
-<th>
-one
-</th>
-<td>
-20
-</td>
-<td>
-M
-</td>
-</tr>
-<tr>
-<th>
-two
-</th>
-<td>
-21
-</td>
-<td>
-F
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>Age</th>
+      <th>Gender</th>
+    </tr>
+    <tr>
+      <th>Name</th>
+      <th>Class</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">San Zhang</th>
+      <th>one</th>
+      <td>20</td>
+      <td>M</td>
+    </tr>
+    <tr>
+      <th>two</th>
+      <td>21</td>
+      <td>F</td>
+    </tr>
+  </tbody>
 </table>
 </div>
-<h2 id="二方向连接">二、方向连接</h2>
-<h3 id="concat">1. concat</h3>
-<p>前面介绍了关系型连接，其中最重要的参数是<code>on</code>和<code>how</code>，但有时候用户并不关心以哪一列为键来合并，只是希望把两个表或者多个表按照纵向或者横向拼接，为这种需求，<code>pandas</code>中提供了<code>concat</code>函数来实现。</p>
+
+
+
+<h2 id="二、方向连接"><a href="#二、方向连接" class="headerlink" title="二、方向连接"></a>二、方向连接</h2><h3 id="1-concat"><a href="#1-concat" class="headerlink" title="1. concat"></a>1. concat</h3><p>前面介绍了关系型连接，其中最重要的参数是<code>on</code>和<code>how</code>，但有时候用户并不关心以哪一列为键来合并，只是希望把两个表或者多个表按照纵向或者横向拼接，为这种需求，<code>pandas</code>中提供了<code>concat</code>函数来实现。</p>
 <p>在<code>concat</code>中，最常用的有三个参数，它们是<code>axis, join, keys</code>，分别表示拼接方向，连接形式，以及在新表中指示来自于哪一张旧表的名字。这里需要特别注意，<code>join</code>和<code>keys</code>与之前提到的<code>join</code>函数和键的概念没有任何关系。</p>
 <p>在默认状态下的<code>axis=0</code>，表示纵向拼接多个表，常常用于多个样本的拼接；而<code>axis=1</code>表示横向拼接多个表，常用于多个字段或特征的拼接。</p>
 <p>例如，纵向合并各表中人的信息：</p>
@@ -1153,55 +880,35 @@ F
     }
 </style>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>
-</th>
-<th>
-Name
-</th>
-<th>
-Age
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>
-0
-</th>
-<td>
-San Zhang
-</td>
-<td>
-20
-</td>
-</tr>
-<tr>
-<th>
-1
-</th>
-<td>
-Si Li
-</td>
-<td>
-30
-</td>
-</tr>
-<tr>
-<th>
-0
-</th>
-<td>
-Wu Wang
-</td>
-<td>
-40
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Age</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>San Zhang</td>
+      <td>20</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Si Li</td>
+      <td>30</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Wu Wang</td>
+      <td>40</td>
+    </tr>
+  </tbody>
 </table>
 </div>
+
+
+
 <p>横向合并各表中的字段：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">df2 = pd.DataFrame(&#123;<span class="hljs-string">&#x27;Grade&#x27;</span>:[<span class="hljs-number">80</span>, <span class="hljs-number">90</span>]&#125;)<br>df3 = pd.DataFrame(&#123;<span class="hljs-string">&#x27;Gender&#x27;</span>:[<span class="hljs-string">&#x27;M&#x27;</span>, <span class="hljs-string">&#x27;F&#x27;</span>]&#125;)<br>pd.concat([df1, df2, df3], <span class="hljs-number">1</span>)<br></code></pre></td></tr></table></figure>
 <div>
@@ -1219,62 +926,36 @@ Wu Wang
     }
 </style>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>
-</th>
-<th>
-Name
-</th>
-<th>
-Age
-</th>
-<th>
-Grade
-</th>
-<th>
-Gender
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>
-0
-</th>
-<td>
-San Zhang
-</td>
-<td>
-20
-</td>
-<td>
-80
-</td>
-<td>
-M
-</td>
-</tr>
-<tr>
-<th>
-1
-</th>
-<td>
-Si Li
-</td>
-<td>
-30
-</td>
-<td>
-90
-</td>
-<td>
-F
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Grade</th>
+      <th>Gender</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>San Zhang</td>
+      <td>20</td>
+      <td>80</td>
+      <td>M</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Si Li</td>
+      <td>30</td>
+      <td>90</td>
+      <td>F</td>
+    </tr>
+  </tbody>
 </table>
 </div>
+
+
+
 <p>虽然说<code>concat</code>是处理关系型合并的函数，但是它仍然是关于索引进行连接的。纵向拼接会根据列索引对其，默认状态下<code>join=outer</code>，表示保留所有的列，并将不存在的值设为缺失；<code>join=inner</code>，表示保留两个表都出现过的列。横向拼接则根据行索引对齐，<code>join</code>参数可以类似设置。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">df2 = pd.DataFrame(&#123;<span class="hljs-string">&#x27;Name&#x27;</span>:[<span class="hljs-string">&#x27;Wu Wang&#x27;</span>], <span class="hljs-string">&#x27;Gender&#x27;</span>:[<span class="hljs-string">&#x27;M&#x27;</span>]&#125;)<br>pd.concat([df1, df2])<br></code></pre></td></tr></table></figure>
 <div>
@@ -1292,67 +973,40 @@ F
     }
 </style>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>
-</th>
-<th>
-Name
-</th>
-<th>
-Age
-</th>
-<th>
-Gender
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>
-0
-</th>
-<td>
-San Zhang
-</td>
-<td>
-20.0
-</td>
-<td>
-NaN
-</td>
-</tr>
-<tr>
-<th>
-1
-</th>
-<td>
-Si Li
-</td>
-<td>
-30.0
-</td>
-<td>
-NaN
-</td>
-</tr>
-<tr>
-<th>
-0
-</th>
-<td>
-Wu Wang
-</td>
-<td>
-NaN
-</td>
-<td>
-M
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Gender</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>San Zhang</td>
+      <td>20.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Si Li</td>
+      <td>30.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Wu Wang</td>
+      <td>NaN</td>
+      <td>M</td>
+    </tr>
+  </tbody>
 </table>
 </div>
+
+
+
+
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">df2 = pd.DataFrame(&#123;<span class="hljs-string">&#x27;Grade&#x27;</span>:[<span class="hljs-number">80</span>, <span class="hljs-number">90</span>]&#125;, index=[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>])<br>pd.concat([df1, df2], <span class="hljs-number">1</span>)<br></code></pre></td></tr></table></figure>
 <div>
 <style scoped>
@@ -1369,67 +1023,40 @@ M
     }
 </style>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>
-</th>
-<th>
-Name
-</th>
-<th>
-Age
-</th>
-<th>
-Grade
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>
-0
-</th>
-<td>
-San Zhang
-</td>
-<td>
-20.0
-</td>
-<td>
-NaN
-</td>
-</tr>
-<tr>
-<th>
-1
-</th>
-<td>
-Si Li
-</td>
-<td>
-30.0
-</td>
-<td>
-80.0
-</td>
-</tr>
-<tr>
-<th>
-2
-</th>
-<td>
-NaN
-</td>
-<td>
-NaN
-</td>
-<td>
-90.0
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Grade</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>San Zhang</td>
+      <td>20.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Si Li</td>
+      <td>30.0</td>
+      <td>80.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>90.0</td>
+    </tr>
+  </tbody>
 </table>
 </div>
+
+
+
+
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pd.concat([df1, df2], axis=<span class="hljs-number">1</span>, join=<span class="hljs-string">&#x27;inner&#x27;</span>)<br></code></pre></td></tr></table></figure>
 <div>
 <style scoped>
@@ -1446,39 +1073,27 @@ NaN
     }
 </style>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>
-</th>
-<th>
-Name
-</th>
-<th>
-Age
-</th>
-<th>
-Grade
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>
-1
-</th>
-<td>
-Si Li
-</td>
-<td>
-30
-</td>
-<td>
-80
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Grade</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>Si Li</td>
+      <td>30</td>
+      <td>80</td>
+    </tr>
+  </tbody>
 </table>
 </div>
+
+
+
 <p>因此，当确认要使用多表直接的方向合并时，尤其是横向的合并，可以先用<code>reset_index</code>方法恢复默认整数索引再进行合并，防止出现由索引的误对齐和重复索引的笛卡尔积带来的错误结果。</p>
 <p>最后，<code>keys</code>参数的使用场景在于多个表合并后，用户仍然想要知道新表中的数据来自于哪个原表，这时可以通过<code>keys</code>参数产生多级索引进行标记。例如，第一个表中都是一班的同学，而第二个表中都是二班的同学，可以使用如下方式合并：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">df1 = pd.DataFrame(&#123;<span class="hljs-string">&#x27;Name&#x27;</span>:[<span class="hljs-string">&#x27;San Zhang&#x27;</span>,<span class="hljs-string">&#x27;Si Li&#x27;</span>], <span class="hljs-string">&#x27;Age&#x27;</span>:[<span class="hljs-number">20</span>,<span class="hljs-number">21</span>]&#125;)<br>df2 = pd.DataFrame(&#123;<span class="hljs-string">&#x27;Name&#x27;</span>:[<span class="hljs-string">&#x27;Wu Wang&#x27;</span>],<span class="hljs-string">&#x27;Age&#x27;</span>:[<span class="hljs-number">21</span>]&#125;)<br>pd.concat([df1, df2], keys=[<span class="hljs-string">&#x27;one&#x27;</span>, <span class="hljs-string">&#x27;two&#x27;</span>])<br></code></pre></td></tr></table></figure>
@@ -1497,65 +1112,39 @@ Si Li
     }
 </style>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>
-</th>
-<th>
-</th>
-<th>
-Name
-</th>
-<th>
-Age
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th rowspan="2" valign="top">
-one
-</th>
-<th>
-0
-</th>
-<td>
-San Zhang
-</td>
-<td>
-20
-</td>
-</tr>
-<tr>
-<th>
-1
-</th>
-<td>
-Si Li
-</td>
-<td>
-21
-</td>
-</tr>
-<tr>
-<th>
-two
-</th>
-<th>
-0
-</th>
-<td>
-Wu Wang
-</td>
-<td>
-21
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>Name</th>
+      <th>Age</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">one</th>
+      <th>0</th>
+      <td>San Zhang</td>
+      <td>20</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Si Li</td>
+      <td>21</td>
+    </tr>
+    <tr>
+      <th>two</th>
+      <th>0</th>
+      <td>Wu Wang</td>
+      <td>21</td>
+    </tr>
+  </tbody>
 </table>
 </div>
-<h3 id="序列与表的合并">2. 序列与表的合并</h3>
-<p>利用<code>concat</code>可以实现多个表之间的方向拼接，如果想要把一个序列追加到表的行末或者列末，则可以分别使用<code>append</code>和<code>assign</code>方法。</p>
+
+
+
+<h3 id="2-序列与表的合并"><a href="#2-序列与表的合并" class="headerlink" title="2. 序列与表的合并"></a>2. 序列与表的合并</h3><p>利用<code>concat</code>可以实现多个表之间的方向拼接，如果想要把一个序列追加到表的行末或者列末，则可以分别使用<code>append</code>和<code>assign</code>方法。</p>
 <p>在<code>append</code>中，如果原表是默认整数序列的索引，那么可以使用<code>ignore_index=True</code>对新序列对应的索引自动标号，否则必须对<code>Series</code>指定<code>name</code>属性。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">s = pd.Series([<span class="hljs-string">&#x27;Wu Wang&#x27;</span>, <span class="hljs-number">21</span>], index = df1.columns)<br>df1.append(s, ignore_index=<span class="hljs-literal">True</span>)<br></code></pre></td></tr></table></figure>
 <div>
@@ -1573,56 +1162,36 @@ Wu Wang
     }
 </style>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>
-</th>
-<th>
-Name
-</th>
-<th>
-Age
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>
-0
-</th>
-<td>
-San Zhang
-</td>
-<td>
-20
-</td>
-</tr>
-<tr>
-<th>
-1
-</th>
-<td>
-Si Li
-</td>
-<td>
-21
-</td>
-</tr>
-<tr>
-<th>
-2
-</th>
-<td>
-Wu Wang
-</td>
-<td>
-21
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Age</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>San Zhang</td>
+      <td>20</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Si Li</td>
+      <td>21</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Wu Wang</td>
+      <td>21</td>
+    </tr>
+  </tbody>
 </table>
 </div>
-<p>对于<code>assign</code>而言，虽然可以利用其添加新的列，但一般通过<code>df['new_col'] = ...</code>的形式就可以等价地添加新列。同时，使用<code>[]</code>修改的缺点是它会直接在原表上进行改动，而<code>assign</code>返回的是一个临时副本：</p>
+
+
+
+<p>对于<code>assign</code>而言，虽然可以利用其添加新的列，但一般通过<code>df[&#39;new_col&#39;] = ...</code>的形式就可以等价地添加新列。同时，使用<code>[]</code>修改的缺点是它会直接在原表上进行改动，而<code>assign</code>返回的是一个临时副本：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">s = pd.Series([<span class="hljs-number">80</span>, <span class="hljs-number">90</span>])<br>df1.assign(Grade=s)<br></code></pre></td></tr></table></figure>
 <div>
 <style scoped>
@@ -1639,53 +1208,34 @@ Wu Wang
     }
 </style>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>
-</th>
-<th>
-Name
-</th>
-<th>
-Age
-</th>
-<th>
-Grade
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>
-0
-</th>
-<td>
-San Zhang
-</td>
-<td>
-20
-</td>
-<td>
-80
-</td>
-</tr>
-<tr>
-<th>
-1
-</th>
-<td>
-Si Li
-</td>
-<td>
-21
-</td>
-<td>
-90
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Grade</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>San Zhang</td>
+      <td>20</td>
+      <td>80</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Si Li</td>
+      <td>21</td>
+      <td>90</td>
+    </tr>
+  </tbody>
 </table>
 </div>
+
+
+
+
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">df1[<span class="hljs-string">&#x27;Grade&#x27;</span>] = s<br>df1<br></code></pre></td></tr></table></figure>
 <div>
 <style scoped>
@@ -1702,57 +1252,35 @@ Si Li
     }
 </style>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>
-</th>
-<th>
-Name
-</th>
-<th>
-Age
-</th>
-<th>
-Grade
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>
-0
-</th>
-<td>
-San Zhang
-</td>
-<td>
-20
-</td>
-<td>
-80
-</td>
-</tr>
-<tr>
-<th>
-1
-</th>
-<td>
-Si Li
-</td>
-<td>
-21
-</td>
-<td>
-90
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Grade</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>San Zhang</td>
+      <td>20</td>
+      <td>80</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Si Li</td>
+      <td>21</td>
+      <td>90</td>
+    </tr>
+  </tbody>
 </table>
 </div>
-<h2 id="三类连接操作">三、类连接操作</h2>
-<p>除了上述介绍的若干连接函数之外，<code>pandas</code>中还设计了一些函数能够对两个表进行某些操作，这里把它们统称为类连接操作。</p>
-<h3 id="比较">1. 比较</h3>
-<p><code>compare</code>是在<code>1.1.0</code>后引入的新函数，它能够比较两个表或者序列的不同处并将其汇总展示：</p>
+
+
+
+<h2 id="三、类连接操作"><a href="#三、类连接操作" class="headerlink" title="三、类连接操作"></a>三、类连接操作</h2><p>除了上述介绍的若干连接函数之外，<code>pandas</code>中还设计了一些函数能够对两个表进行某些操作，这里把它们统称为类连接操作。</p>
+<h3 id="1-比较"><a href="#1-比较" class="headerlink" title="1. 比较"></a>1. 比较</h3><p><code>compare</code>是在<code>1.1.0</code>后引入的新函数，它能够比较两个表或者序列的不同处并将其汇总展示：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">df1 = pd.DataFrame(&#123;<span class="hljs-string">&#x27;Name&#x27;</span>:[<span class="hljs-string">&#x27;San Zhang&#x27;</span>, <span class="hljs-string">&#x27;Si Li&#x27;</span>, <span class="hljs-string">&#x27;Wu Wang&#x27;</span>],<br>                    <span class="hljs-string">&#x27;Age&#x27;</span>:[<span class="hljs-number">20</span>, <span class="hljs-number">21</span> ,<span class="hljs-number">21</span>],<br>                    <span class="hljs-string">&#x27;Class&#x27;</span>:[<span class="hljs-string">&#x27;one&#x27;</span>, <span class="hljs-string">&#x27;two&#x27;</span>, <span class="hljs-string">&#x27;three&#x27;</span>]&#125;)<br>df2 = pd.DataFrame(&#123;<span class="hljs-string">&#x27;Name&#x27;</span>:[<span class="hljs-string">&#x27;San Zhang&#x27;</span>, <span class="hljs-string">&#x27;Li Si&#x27;</span>, <span class="hljs-string">&#x27;Wu Wang&#x27;</span>],<br>                    <span class="hljs-string">&#x27;Age&#x27;</span>:[<span class="hljs-number">20</span>, <span class="hljs-number">21</span> ,<span class="hljs-number">21</span>],<br>                    <span class="hljs-string">&#x27;Class&#x27;</span>:[<span class="hljs-string">&#x27;one&#x27;</span>, <span class="hljs-string">&#x27;two&#x27;</span>, <span class="hljs-string">&#x27;Three&#x27;</span>]&#125;)<br>df1.compare(df2)<br></code></pre></td></tr></table></figure>
 <div>
 <style scoped>
@@ -1769,72 +1297,41 @@ Si Li
     }
 </style>
 <table border="1" class="dataframe">
-<thead>
-<tr>
-<th>
-</th>
-<th colspan="2" halign="left">
-Name
-</th>
-<th colspan="2" halign="left">
-Class
-</th>
-</tr>
-<tr>
-<th>
-</th>
-<th>
-self
-</th>
-<th>
-other
-</th>
-<th>
-self
-</th>
-<th>
-other
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>
-1
-</th>
-<td>
-Si Li
-</td>
-<td>
-Li Si
-</td>
-<td>
-NaN
-</td>
-<td>
-NaN
-</td>
-</tr>
-<tr>
-<th>
-2
-</th>
-<td>
-NaN
-</td>
-<td>
-NaN
-</td>
-<td>
-three
-</td>
-<td>
-Three
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th></th>
+      <th colspan="2" halign="left">Name</th>
+      <th colspan="2" halign="left">Class</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>self</th>
+      <th>other</th>
+      <th>self</th>
+      <th>other</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>Si Li</td>
+      <td>Li Si</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>three</td>
+      <td>Three</td>
+    </tr>
+  </tbody>
 </table>
 </div>
+
+
+
 <p>结果中返回了不同值所在的行列，如果相同则会被填充为缺失值<code>NaN</code>，其中<code>other</code>和<code>self</code>分别指代传入的参数表和被调用的表自身。</p>
 <p>如果想要完整显示表中所有元素的比较情况，可以设置<code>keep_shape=True</code>：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df1.compare(df2, keep_shape=<span class="hljs-literal">True</span>)<br></code></pre></td></tr></table></figure>
@@ -1853,118 +1350,58 @@ Three
     }
 </style>
 <table border="1" class="dataframe">
-<thead>
-<tr>
-<th>
-</th>
-<th colspan="2" halign="left">
-Name
-</th>
-<th colspan="2" halign="left">
-Age
-</th>
-<th colspan="2" halign="left">
-Class
-</th>
-</tr>
-<tr>
-<th>
-</th>
-<th>
-self
-</th>
-<th>
-other
-</th>
-<th>
-self
-</th>
-<th>
-other
-</th>
-<th>
-self
-</th>
-<th>
-other
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>
-0
-</th>
-<td>
-NaN
-</td>
-<td>
-NaN
-</td>
-<td>
-NaN
-</td>
-<td>
-NaN
-</td>
-<td>
-NaN
-</td>
-<td>
-NaN
-</td>
-</tr>
-<tr>
-<th>
-1
-</th>
-<td>
-Si Li
-</td>
-<td>
-Li Si
-</td>
-<td>
-NaN
-</td>
-<td>
-NaN
-</td>
-<td>
-NaN
-</td>
-<td>
-NaN
-</td>
-</tr>
-<tr>
-<th>
-2
-</th>
-<td>
-NaN
-</td>
-<td>
-NaN
-</td>
-<td>
-NaN
-</td>
-<td>
-NaN
-</td>
-<td>
-three
-</td>
-<td>
-Three
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th></th>
+      <th colspan="2" halign="left">Name</th>
+      <th colspan="2" halign="left">Age</th>
+      <th colspan="2" halign="left">Class</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>self</th>
+      <th>other</th>
+      <th>self</th>
+      <th>other</th>
+      <th>self</th>
+      <th>other</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Si Li</td>
+      <td>Li Si</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>three</td>
+      <td>Three</td>
+    </tr>
+  </tbody>
 </table>
 </div>
-<h3 id="组合">2. 组合</h3>
-<p><code>combine</code>函数能够让两张表按照一定的规则进行组合，在进行规则比较时会自动进行列索引的对齐。对于传入的函数而言，每一次操作中输入的参数是来自两个表的同名<code>Series</code>，依次传入的列是两个表列名的并集，例如下面这个例子会依次传入<code>A,B,C,D</code>四组序列，每组为左右表的两个序列。同时，进行<code>A</code>列比较的时候，<code>s2</code>指代的就是一个全空的序列，因为它在被调用的表中并不存在，并且来自第一个表的序列索引会被<code>reindex</code>成两个索引的并集。具体的过程可以通过在传入的函数中插入适当的<code>print</code>方法查看。</p>
+
+
+
+<h3 id="2-组合"><a href="#2-组合" class="headerlink" title="2. 组合"></a>2. 组合</h3><p><code>combine</code>函数能够让两张表按照一定的规则进行组合，在进行规则比较时会自动进行列索引的对齐。对于传入的函数而言，每一次操作中输入的参数是来自两个表的同名<code>Series</code>，依次传入的列是两个表列名的并集，例如下面这个例子会依次传入<code>A,B,C,D</code>四组序列，每组为左右表的两个序列。同时，进行<code>A</code>列比较的时候，<code>s2</code>指代的就是一个全空的序列，因为它在被调用的表中并不存在，并且来自第一个表的序列索引会被<code>reindex</code>成两个索引的并集。具体的过程可以通过在传入的函数中插入适当的<code>print</code>方法查看。</p>
 <p>下面的例子表示选出对应索引位置较小的元素：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">choose_min</span>(<span class="hljs-params">s1, s2</span>):<br>    s2 = s2.reindex_like(s1)<br>    res = s1.where(s1&lt;s2, s2)<br>    res = res.mask(s1.isna()) <span class="hljs-comment"># isna表示是否为缺失值，返回布尔序列</span><br>    <span class="hljs-keyword">return</span> res<br>df1 = pd.DataFrame(&#123;<span class="hljs-string">&#x27;A&#x27;</span>:[<span class="hljs-number">1</span>,<span class="hljs-number">2</span>], <span class="hljs-string">&#x27;B&#x27;</span>:[<span class="hljs-number">3</span>,<span class="hljs-number">4</span>], <span class="hljs-string">&#x27;C&#x27;</span>:[<span class="hljs-number">5</span>,<span class="hljs-number">6</span>]&#125;)<br>df2 = pd.DataFrame(&#123;<span class="hljs-string">&#x27;B&#x27;</span>:[<span class="hljs-number">5</span>,<span class="hljs-number">6</span>], <span class="hljs-string">&#x27;C&#x27;</span>:[<span class="hljs-number">7</span>,<span class="hljs-number">8</span>], <span class="hljs-string">&#x27;D&#x27;</span>:[<span class="hljs-number">9</span>,<span class="hljs-number">10</span>]&#125;, index=[<span class="hljs-number">1</span>,<span class="hljs-number">2</span>])<br>df1.combine(df2, choose_min)<br></code></pre></td></tr></table></figure>
 <div>
@@ -1982,84 +1419,45 @@ Three
     }
 </style>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>
-</th>
-<th>
-A
-</th>
-<th>
-B
-</th>
-<th>
-C
-</th>
-<th>
-D
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>
-0
-</th>
-<td>
-NaN
-</td>
-<td>
-NaN
-</td>
-<td>
-NaN
-</td>
-<td>
-NaN
-</td>
-</tr>
-<tr>
-<th>
-1
-</th>
-<td>
-NaN
-</td>
-<td>
-4.0
-</td>
-<td>
-6.0
-</td>
-<td>
-NaN
-</td>
-</tr>
-<tr>
-<th>
-2
-</th>
-<td>
-NaN
-</td>
-<td>
-NaN
-</td>
-<td>
-NaN
-</td>
-<td>
-NaN
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+      <th>C</th>
+      <th>D</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>NaN</td>
+      <td>4.0</td>
+      <td>6.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
 </table>
 </div>
-<h4 id="练一练-1">【练一练】</h4>
-<p>请在上述代码的基础上修改，保留<code>df2</code>中4个未被<code>df1</code>替换的相应位置原始值。
-#### 【END】
-此外，设置<code>overtwrite</code>参数为<code>False</code>可以保留<span
-class="math inline">\(\color{red}{被调用表}\)</span>中未出现在传入的参数表中的列，而不会设置未缺失值：</p>
+
+
+
+<h4 id="【练一练】-1"><a href="#【练一练】-1" class="headerlink" title="【练一练】"></a>【练一练】</h4><p>请在上述代码的基础上修改，保留<code>df2</code>中4个未被<code>df1</code>替换的相应位置原始值。</p>
+<h4 id="【END】-1"><a href="#【END】-1" class="headerlink" title="【END】"></a>【END】</h4><p>此外，设置<code>overtwrite</code>参数为<code>False</code>可以保留$\color{red}{被调用表}$中未出现在传入的参数表中的列，而不会设置未缺失值：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df1.combine(df2, choose_min, overwrite=<span class="hljs-literal">False</span>)<br></code></pre></td></tr></table></figure>
 <div>
 <style scoped>
@@ -2076,83 +1474,45 @@ class="math inline">\(\color{red}{被调用表}\)</span>中未出现在传入的
     }
 </style>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>
-</th>
-<th>
-A
-</th>
-<th>
-B
-</th>
-<th>
-C
-</th>
-<th>
-D
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>
-0
-</th>
-<td>
-1.0
-</td>
-<td>
-NaN
-</td>
-<td>
-NaN
-</td>
-<td>
-NaN
-</td>
-</tr>
-<tr>
-<th>
-1
-</th>
-<td>
-2.0
-</td>
-<td>
-4.0
-</td>
-<td>
-6.0
-</td>
-<td>
-NaN
-</td>
-</tr>
-<tr>
-<th>
-2
-</th>
-<td>
-NaN
-</td>
-<td>
-NaN
-</td>
-<td>
-NaN
-</td>
-<td>
-NaN
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+      <th>C</th>
+      <th>D</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2.0</td>
+      <td>4.0</td>
+      <td>6.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
 </table>
 </div>
-<h4 id="练一练-2">【练一练】</h4>
-<p>除了<code>combine</code>之外，<code>pandas</code>中还有一个<code>combine_first</code>方法，其功能是在对两张表组合时，若第二张表中的值在第一张表中对应索引位置的值不是缺失状态，那么就使用第一张表的值填充。下面给出一个例子，请用<code>combine</code>函数完成相同的功能。
-#### 【END】</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">df1 = pd.DataFrame(&#123;<span class="hljs-string">&#x27;A&#x27;</span>:[<span class="hljs-number">1</span>,<span class="hljs-number">2</span>], <span class="hljs-string">&#x27;B&#x27;</span>:[<span class="hljs-number">3</span>,np.nan]&#125;)<br>df2 = pd.DataFrame(&#123;<span class="hljs-string">&#x27;A&#x27;</span>:[<span class="hljs-number">5</span>,<span class="hljs-number">6</span>], <span class="hljs-string">&#x27;B&#x27;</span>:[<span class="hljs-number">7</span>,<span class="hljs-number">8</span>]&#125;, index=[<span class="hljs-number">1</span>,<span class="hljs-number">2</span>])<br>df1.combine_first(df2)<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="【练一练】-2"><a href="#【练一练】-2" class="headerlink" title="【练一练】"></a>【练一练】</h4><p>除了<code>combine</code>之外，<code>pandas</code>中还有一个<code>combine_first</code>方法，其功能是在对两张表组合时，若第二张表中的值在第一张表中对应索引位置的值不是缺失状态，那么就使用第一张表的值填充。下面给出一个例子，请用<code>combine</code>函数完成相同的功能。</p>
+<h4 id="【END】-2"><a href="#【END】-2" class="headerlink" title="【END】"></a>【END】</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">df1 = pd.DataFrame(&#123;<span class="hljs-string">&#x27;A&#x27;</span>:[<span class="hljs-number">1</span>,<span class="hljs-number">2</span>], <span class="hljs-string">&#x27;B&#x27;</span>:[<span class="hljs-number">3</span>,np.nan]&#125;)<br>df2 = pd.DataFrame(&#123;<span class="hljs-string">&#x27;A&#x27;</span>:[<span class="hljs-number">5</span>,<span class="hljs-number">6</span>], <span class="hljs-string">&#x27;B&#x27;</span>:[<span class="hljs-number">7</span>,<span class="hljs-number">8</span>]&#125;, index=[<span class="hljs-number">1</span>,<span class="hljs-number">2</span>])<br>df1.combine_first(df2)<br></code></pre></td></tr></table></figure>
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -2168,65 +1528,42 @@ NaN
     }
 </style>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>
-</th>
-<th>
-A
-</th>
-<th>
-B
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>
-0
-</th>
-<td>
-1.0
-</td>
-<td>
-3.0
-</td>
-</tr>
-<tr>
-<th>
-1
-</th>
-<td>
-2.0
-</td>
-<td>
-7.0
-</td>
-</tr>
-<tr>
-<th>
-2
-</th>
-<td>
-6.0
-</td>
-<td>
-8.0
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.0</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2.0</td>
+      <td>7.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>6.0</td>
+      <td>8.0</td>
+    </tr>
+  </tbody>
 </table>
 </div>
-<h2 id="四练习">四、练习</h2>
-<h3 id="ex1美国疫情数据集">Ex1：美国疫情数据集</h3>
-<p>现有美国4月12日至11月16日的疫情报表（在<code>/data/us_report</code>文件夹下），请将<code>New York</code>的<code>Confirmed, Deaths, Recovered, Active</code>合并为一张表，索引为按如下方法生成的日期字符串序列：</p>
+
+
+
+<h2 id="四、练习"><a href="#四、练习" class="headerlink" title="四、练习"></a>四、练习</h2><h3 id="Ex1：美国疫情数据集"><a href="#Ex1：美国疫情数据集" class="headerlink" title="Ex1：美国疫情数据集"></a>Ex1：美国疫情数据集</h3><p>现有美国4月12日至11月16日的疫情报表（在<code>/data/us_report</code>文件夹下），请将<code>New York</code>的<code>Confirmed, Deaths, Recovered, Active</code>合并为一张表，索引为按如下方法生成的日期字符串序列：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">date = pd.date_range(<span class="hljs-string">&#x27;20200412&#x27;</span>, <span class="hljs-string">&#x27;20201116&#x27;</span>).to_series()<br>date = date.dt.month.astype(<span class="hljs-string">&#x27;string&#x27;</span>).<span class="hljs-built_in">str</span>.zfill(<span class="hljs-number">2</span>) +<span class="hljs-string">&#x27;-&#x27;</span>+ date.dt.day.astype(<span class="hljs-string">&#x27;string&#x27;</span>).<span class="hljs-built_in">str</span>.zfill(<span class="hljs-number">2</span>) +<span class="hljs-string">&#x27;-&#x27;</span>+ <span class="hljs-string">&#x27;2020&#x27;</span><br>date = date.tolist()<br>date[:<span class="hljs-number">5</span>]<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">[&#39;04-12-2020&#39;, &#39;04-13-2020&#39;, &#39;04-14-2020&#39;, &#39;04-15-2020&#39;, &#39;04-16-2020&#39;]</code></pre>
-<h3 id="ex2实现join函数">Ex2：实现join函数</h3>
-<p>请实现带有<code>how</code>参数的<code>join</code>函数</p>
+<pre><code class="hljs">[&#39;04-12-2020&#39;, &#39;04-13-2020&#39;, &#39;04-14-2020&#39;, &#39;04-15-2020&#39;, &#39;04-16-2020&#39;]
+</code></pre><h3 id="Ex2：实现join函数"><a href="#Ex2：实现join函数" class="headerlink" title="Ex2：实现join函数"></a>Ex2：实现join函数</h3><p>请实现带有<code>how</code>参数的<code>join</code>函数</p>
 <ul>
 <li>假设连接的两表无公共列</li>
-<li>调用方式为 <code>join(df1, df2, how="left")</code></li>
+<li>调用方式为 <code>join(df1, df2, how=&quot;left&quot;)</code></li>
 <li>给出测试样例</li>
 </ul>
 
@@ -2319,9 +1656,9 @@ B
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/10/01/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20pandas%E5%9F%BA%E7%A1%80/" title="Pandas基础">
+                      <a href="/2023/10/01/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E6%96%87%E6%9C%AC%E6%95%B0%E6%8D%AE/" title="Pandas处理文本数据">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Pandas基础</span>
+                        <span class="hidden-mobile">Pandas处理文本数据</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     

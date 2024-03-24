@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://jingmengzhiyue.top/2024/03/24/NSSR/</loc>
+    
+    <lastmod>2024-03-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://jingmengzhiyue.top/2024/03/24/HyperCSI/</loc>
     
     <lastmod>2024-03-24</lastmod>
@@ -468,7 +477,14 @@
   </url>
   
   <url>
-    <loc>http://jingmengzhiyue.top/tags/ChatGPT/</loc>
+    <loc>http://jingmengzhiyue.top/tags/Windows/</loc>
+    <lastmod>2024-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://jingmengzhiyue.top/tags/Linux/</loc>
     <lastmod>2024-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -476,13 +492,6 @@
   
   <url>
     <loc>http://jingmengzhiyue.top/tags/The-Missing-Semester-of-Your-CS-Education/</loc>
-    <lastmod>2024-03-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://jingmengzhiyue.top/tags/DTW/</loc>
     <lastmod>2024-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -510,6 +519,20 @@
   </url>
   
   <url>
+    <loc>http://jingmengzhiyue.top/tags/ChatGPT/</loc>
+    <lastmod>2024-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://jingmengzhiyue.top/tags/DTW/</loc>
+    <lastmod>2024-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://jingmengzhiyue.top/tags/Machine-Learning/</loc>
     <lastmod>2024-03-24</lastmod>
     <changefreq>weekly</changefreq>
@@ -518,20 +541,6 @@
   
   <url>
     <loc>http://jingmengzhiyue.top/tags/OpenCV/</loc>
-    <lastmod>2024-03-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://jingmengzhiyue.top/tags/Windows/</loc>
-    <lastmod>2024-03-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://jingmengzhiyue.top/tags/Linux/</loc>
     <lastmod>2024-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -587,14 +596,14 @@
   </url>
   
   <url>
-    <loc>http://jingmengzhiyue.top/tags/Python/</loc>
+    <loc>http://jingmengzhiyue.top/tags/Pandas/</loc>
     <lastmod>2024-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://jingmengzhiyue.top/tags/Pandas/</loc>
+    <loc>http://jingmengzhiyue.top/tags/Python/</loc>
     <lastmod>2024-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -610,7 +619,7 @@
   </url>
   
   <url>
-    <loc>http://jingmengzhiyue.top/categories/LLM/</loc>
+    <loc>http://jingmengzhiyue.top/categories/Environment-Configuration/</loc>
     <lastmod>2024-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -624,14 +633,21 @@
   </url>
   
   <url>
-    <loc>http://jingmengzhiyue.top/categories/Algorithm/</loc>
+    <loc>http://jingmengzhiyue.top/categories/Remote-Sensing-Algorithm/</loc>
     <lastmod>2024-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://jingmengzhiyue.top/categories/Remote-Sensing-Algorithm/</loc>
+    <loc>http://jingmengzhiyue.top/categories/LLM/</loc>
+    <lastmod>2024-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://jingmengzhiyue.top/categories/Algorithm/</loc>
     <lastmod>2024-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -645,7 +661,7 @@
   </url>
   
   <url>
-    <loc>http://jingmengzhiyue.top/categories/Environment-Configuration/</loc>
+    <loc>http://jingmengzhiyue.top/categories/Remote-Sensing/</loc>
     <lastmod>2024-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -653,13 +669,6 @@
   
   <url>
     <loc>http://jingmengzhiyue.top/categories/Deep-Learning/</loc>
-    <lastmod>2024-03-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://jingmengzhiyue.top/categories/Remote-Sensing/</loc>
     <lastmod>2024-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
