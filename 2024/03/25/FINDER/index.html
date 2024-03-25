@@ -1,0 +1,847 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jingmengzhiyue">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="基于 N-FINDER 的端元提取算法 N-FINDER 算法是一种用于从高光谱数据立方体中提取端元特征的算法。该算法的核心思想是在数据集中寻找表示最大体积的单纯形,其顶点即为所需的端元特征。算法的数学原理和具体步骤如下: 算法数学原理 设有 \(M \times N \times C\) 维的高光谱数据立方体 \(\mathbf{X}\),我们需要从中找出 \(p\) 个端元特征 \(">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于 N-FINDER 的端元提取算法">
+<meta property="og:url" content="http://jingmengzhiyue.top/2024/03/25/FINDER/index.html">
+<meta property="og:site_name" content="热爱可抵万难">
+<meta property="og:description" content="基于 N-FINDER 的端元提取算法 N-FINDER 算法是一种用于从高光谱数据立方体中提取端元特征的算法。该算法的核心思想是在数据集中寻找表示最大体积的单纯形,其顶点即为所需的端元特征。算法的数学原理和具体步骤如下: 算法数学原理 设有 \(M \times N \times C\) 维的高光谱数据立方体 \(\mathbf{X}\),我们需要从中找出 \(p\) 个端元特征 \(">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-03-25T13:35:21.000Z">
+<meta property="article:modified_time" content="2024-03-25T13:40:12.016Z">
+<meta property="article:author" content="Jingmengzhiyue">
+<meta property="article:tag" content="Hyperspectral unmixing">
+<meta property="article:tag" content="Remote Sensing">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>基于 N-FINDER 的端元提取算法 - 热爱可抵万难</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jingmengzhiyue.top","root":"/","version":"1.9.5-a","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"eZ6fNr2wGbxSreDqCc24Ik6y-gzGzoHsz","app_key":"I1HMoNZO5iKmmCSzqE0wTpGr","server_url":"https://ez6fnr2w.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false},"gtag":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+  
+    <script>
+        (function(){
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+            }
+            else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+   
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>热爱可抵万难</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://t.mwm.moe/fj/') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="基于 N-FINDER 的端元提取算法"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-03-25 21:35" pubdate>
+          2024年3月25日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          59 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">基于 N-FINDER 的端元提取算法</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="基于-n-finder-的端元提取算法">基于 N-FINDER 的端元提取算法</h1>
+<p>N-FINDER
+算法是一种用于从高光谱数据立方体中提取端元特征的算法。该算法的核心思想是在数据集中寻找表示最大体积的单纯形,其顶点即为所需的端元特征。算法的数学原理和具体步骤如下:</p>
+<h2 id="算法数学原理">算法数学原理</h2>
+<p>设有 <span class="math inline">\(M \times N \times C\)</span>
+维的高光谱数据立方体 <span
+class="math inline">\(\mathbf{X}\)</span>,我们需要从中找出 <span
+class="math inline">\(p\)</span> 个端元特征 <span
+class="math inline">\(\mathbf{e}_1, \mathbf{e}_2, \ldots,
+\mathbf{e}_p\)</span>,这些特征向量组成的矩阵记为 <span
+class="math inline">\(\mathbf{E} = [\mathbf{e}_1, \mathbf{e}_2, \ldots,
+\mathbf{e}_p]^T \in \mathbb{R}^{C \times p}\)</span>。</p>
+<p>根据线性混合模型,数据立方体 <span
+class="math inline">\(\mathbf{X}\)</span> 中的每个像素 <span
+class="math inline">\(\mathbf{x}_i\)</span>
+可表示为端元特征的线性组合:</p>
+<p><span class="math display">\[\mathbf{x}_i = \sum_{j=1}^p a_{ij}
+\mathbf{e}_j + \mathbf{n}_i\]</span></p>
+<p>其中 <span class="math inline">\(a_{ij}\)</span>
+为相应的丰度分数,满足约束条件 <span class="math inline">\(\sum_{j=1}^p
+a_{ij} = 1\)</span> 和 <span class="math inline">\(a_{ij} \geq
+0\)</span>,<span class="math inline">\(\mathbf{n}_i\)</span>
+为加性噪声项。</p>
+<p>N-FINDER 算法的目标是找到一组端元特征 <span
+class="math inline">\(\mathbf{E}\)</span>,使得由这些特征向量构成的 <span
+class="math inline">\(p\)</span>
+维单纯形具有最大体积。该单纯形的体积可由端元特征矩阵 <span
+class="math inline">\(\mathbf{E}\)</span> 的行列式的绝对值表示:</p>
+<p><span class="math display">\[\mathrm{vol}(\mathbf{E}) =
+|\det(\mathbf{E})|\]</span></p>
+<p>算法通过迭代不断更新端元特征矩阵 <span
+class="math inline">\(\mathbf{E}\)</span>,直到找到最大化上述行列式的解。</p>
+<h2 id="算法步骤">算法步骤</h2>
+<ol type="1">
+<li><strong>初始化</strong>: 从数据立方体中随机选择 <span
+class="math inline">\(p\)</span>
+个像素作为初始端元特征向量,构成初始端元特征矩阵 <span
+class="math inline">\(\mathbf{E}^{(0)}\)</span>,计算其行列式的绝对值
+<span
+class="math inline">\(\mathrm{vol}(\mathbf{E}^{(0)})\)</span>。</li>
+<li><strong>迭代</strong>:
+<ul>
+<li>对每个端元特征向量 <span
+class="math inline">\(\mathbf{e}_i^{(t)}\)</span>,用数据立方体中的其他像素
+<span class="math inline">\(\mathbf{x}_j\)</span>
+代替,构成新的端元特征矩阵 <span
+class="math inline">\(\mathbf{E}_{ij}^{(t+1)}\)</span>。</li>
+<li>计算 <span
+class="math inline">\(\mathrm{vol}(\mathbf{E}_{ij}^{(t+1)})\)</span>,若其大于
+<span
+class="math inline">\(\mathrm{vol}(\mathbf{E}^{(t)})\)</span>,则更新
+<span class="math inline">\(\mathbf{E}^{(t+1)} =
+\mathbf{E}_{ij}^{(t+1)}\)</span>。</li>
+<li>重复上述步骤,直到无法再提高体积为止。</li>
+</ul></li>
+<li><strong>输出</strong>: 得到的最终端元特征矩阵 <span
+class="math inline">\(\mathbf{E}\)</span> 即为所求解。</li>
+</ol>
+<h2 id="代码实现">代码实现</h2>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br></pre></td><td class="code"><pre><code class="hljs matlab"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">endmemSig</span> = <span class="hljs-title">nfindr</span><span class="hljs-params">(cube, num, option)</span></span><br><span class="hljs-comment">% NFINDR 通过在数据立方体上找到单纯形来提取端元特征</span><br><span class="hljs-comment">%   ENDMEMSIG = NFINDR(CUBE, NUM) 通过在降维后的数据上找到单纯形的体积来估计端元特征</span><br><span class="hljs-comment">%   NUM 描述了 CUBE 中存在的端元特征数量</span><br><span class="hljs-comment">%   CUBE 是一个包含高光谱数据或高光谱立方体对象的 M-by-N-by-C 数值数组</span><br><span class="hljs-comment">%   M 和 N 分别是高光谱立方体的行数和列数</span><br><span class="hljs-comment">%   C 描述了高光谱立方体中的波段数量</span><br><span class="hljs-comment">%   NUM 是一个大于 1 的正整数值</span><br><span class="hljs-comment">%   输出 ENDMEMSIG 是一个 C-by-NUM 的数值矩阵,它提供了端元特征</span><br><br><span class="hljs-comment">%   ENDMEMSIG = NFINDR(___, Name, Value) 使用选定的名称-值对在降维后的数据上找到最大体积单纯形来估计端元特征</span><br><br><span class="hljs-comment">%   &#x27;NumIterations&#x27;  算法运行的次数,如果没有收敛,默认值为: 3*NUM</span><br><br><span class="hljs-comment">%   &#x27;ReductionMethod&#x27; - 用于执行维数减少的方法。选择如下:</span><br><span class="hljs-comment">%</span><br><span class="hljs-comment">%       &#x27;PCA&#x27;  基于最大数据变化,主成分分析 (PCA) 将大量数据转换为较小的数据</span><br><span class="hljs-comment">%              同时保持大部分信息</span><br><span class="hljs-comment">%</span><br><span class="hljs-comment">%       &#x27;MNF&#x27;  基于噪声分数,最大噪声分数 (MNF) 将大量数据转换为较小的数据</span><br><span class="hljs-comment">%              同时保持大部分信息。MNF 是一种根据图像质量对分量进行排序的方法</span><br><span class="hljs-comment">%              默认方法是 MNF</span><br><br><span class="hljs-comment">%   注释</span><br><span class="hljs-comment">%   -----</span><br><span class="hljs-comment">%   1) NFINDR 算法使用默认的随机种子来生成随机单位向量</span><br><span class="hljs-comment">%</span><br><span class="hljs-comment">%   2) 对于较大数据集,NFINDR 算法计算量很大</span><br><br><span class="hljs-comment">%   类支持</span><br><span class="hljs-comment">%   -------------</span><br><span class="hljs-comment">%   输入数组 CUBE 必须是以下类之一: uint8、uint16、uint32、int8、int16、int32、single、double、uint64、int64 或 hypercube 对象</span><br><span class="hljs-comment">%   它必须是实数且非稀疏矩阵</span><br><span class="hljs-comment">%   NUM 和 NUMITER 是正整数标量</span><br><span class="hljs-comment">%   输出 ENDMEMSIG 是与输入立方体相同类的 C-by-NUM 数值矩阵</span><br><br><span class="hljs-comment">%   参考</span><br><span class="hljs-comment">%   ---------</span><br><span class="hljs-comment">%   M.E. Winter, &quot;N-FINDR: an algorithm for fast autonomous spectral</span><br><span class="hljs-comment">%   end-member determination in hyperspectral data&quot;, Proc. SPIE 3753,</span><br><span class="hljs-comment">%   Imaging Spectrometry V, 1999.</span><br><br><span class="hljs-comment">%   示例 - 1 : 找到端元特征</span><br><span class="hljs-comment">%   -----------</span><br><span class="hljs-comment">%   % 加载 indian pines 数据集</span><br><span class="hljs-comment">%   cube = load(&#x27;indian_pines.mat&#x27;);</span><br><span class="hljs-comment">%</span><br><span class="hljs-comment">%   % 估计端元数量</span><br><span class="hljs-comment">%   num = countEndmembersHFC(cube.indian_pines);</span><br><span class="hljs-comment">% </span><br><span class="hljs-comment">%   % 估计并可视化端元特征</span><br><span class="hljs-comment">%   endmemSig = nfindr(cube.indian_pines, num);</span><br><span class="hljs-comment">%   plot(endmemSig);</span><br><span class="hljs-comment">%   xlabel(&#x27;Band index&#x27;)</span><br><span class="hljs-comment">%   ylabel(&#x27;Signatures&#x27;)</span><br><span class="hljs-comment">%   title(&#x27;Endmembers&#x27;)</span><br><br><span class="hljs-comment">%   示例 - 2 : 使用 &#x27;PCA&#x27; 降维方法找到端元特征</span><br><span class="hljs-comment">%   -----------</span><br><span class="hljs-comment">%   % 读取高光谱立方体</span><br><span class="hljs-comment">%   obj = hypercube(&#x27;indian_pines.hdr&#x27;);</span><br><span class="hljs-comment">%</span><br><span class="hljs-comment">%   % 估计端元数量</span><br><span class="hljs-comment">%   num = countEndmembersHFC(obj);</span><br><span class="hljs-comment">%</span><br><span class="hljs-comment">%   % 使用 NFINDR 方法估计端元特征</span><br><span class="hljs-comment">%   endmemSig = nfindr(obj, num, &#x27;ReductionMethod&#x27;, &#x27;pca&#x27;);</span><br><span class="hljs-comment">%   plot(endmemSig);</span><br><span class="hljs-comment">%   xlabel(&#x27;Band index&#x27;)</span><br><span class="hljs-comment">%   ylabel(&#x27;Signatures&#x27;)</span><br><span class="hljs-comment">%   title(&#x27;Endmembers&#x27;)</span><br><span class="hljs-comment">%</span><br><span class="hljs-comment">%   另请参阅 ppi, fippi, hypercube, countEndmembersHFC。</span><br><br><span class="hljs-comment">%   Copyright 2020-2021 The MathWorks, Inc.</span><br><br><span class="hljs-keyword">arguments</span><br>    cube &#123;mustBeA(cube,<span class="hljs-string">&#x27;hypercube&#x27;</span>)&#125; <span class="hljs-comment">% 强制 cube 是 hypercube 对象</span><br>     num (<span class="hljs-number">1</span>,<span class="hljs-number">1</span>) &#123;mustBeNumeric, mustBeNonNan, mustBeFinite, mustBeNonsparse, ...<br>        mustBeNonempty, mustBeReal, mustBeInteger, mustBePositive, ...<br>        mustBeLessSize(num, cube)&#125; <span class="hljs-comment">% 强制 num 是正整数且小于波段数</span><br>    option.NumIterations (<span class="hljs-number">1</span>,<span class="hljs-number">1</span>) &#123;mustBeNumeric, mustBeNonNan, mustBeFinite, ...<br>        mustBeNonsparse, mustBeNonempty, mustBeReal, mustBeInteger,...<br>        mustBePositive&#125; = <span class="hljs-number">3</span>*num <span class="hljs-comment">% 默认迭代次数为 3*num</span><br>    option.ReductionMethod (<span class="hljs-number">1</span>,<span class="hljs-number">1</span>) string ...<br>        &#123;validatestring(option.ReductionMethod,&#123;<span class="hljs-string">&#x27;MNF&#x27;</span>, <span class="hljs-string">&#x27;PCA&#x27;</span>&#125;)&#125; = <span class="hljs-string">&quot;MNF&quot;</span>  <span class="hljs-comment">% 默认降维方法为 MNF</span><br><span class="hljs-keyword">end</span><br><br><span class="hljs-comment">% 用于编译器测试</span><br><span class="hljs-keyword">if</span> isdeployed<br>    rootDir = ctfroot;<br><span class="hljs-keyword">else</span><br>    rootDir = matlabroot;<br><span class="hljs-keyword">end</span><br><span class="hljs-comment">% 注册资源/hyperspectral</span><br>matlab.internal.msgcat.setAdditionalResourceLocation(rootDir);<br><br><span class="hljs-comment">% 输入解析</span><br><span class="hljs-keyword">if</span> isobject(cube)<br>    cube = cube.DataCube; <span class="hljs-comment">% 如果 cube 是对象,则提取数据立方体</span><br><span class="hljs-keyword">end</span><br><br>maxItr = option.NumIterations; <span class="hljs-comment">% 最大迭代次数</span><br>method = validatestring(option.ReductionMethod, &#123;<span class="hljs-string">&#x27;MNF&#x27;</span>, <span class="hljs-string">&#x27;PCA&#x27;</span>&#125;); <span class="hljs-comment">% 降维方法</span><br><br><span class="hljs-comment">% 立方体维度</span><br>[rows, cols, channels] = <span class="hljs-built_in">size</span>(cube);<br>numOfSamples = rows*cols; <span class="hljs-comment">% 样本数量</span><br><br><span class="hljs-comment">% 重塑原始数据立方体</span><br>originalCube = <span class="hljs-built_in">reshape</span>(cube, numOfSamples, channels);<br><br><span class="hljs-keyword">if</span> isinteger(cube)<br>    cube = single(cube); <span class="hljs-comment">% 将整数类型转换为 single</span><br>    num = single(num);<br><span class="hljs-keyword">end</span><br><br><span class="hljs-keyword">if</span> strcmpi(method, <span class="hljs-string">&#x27;PCA&#x27;</span>)<br>    <span class="hljs-comment">% 对高光谱立方体进行主成分分析 (PCA)</span><br>    cube = hyperpca(cube, num<span class="hljs-number">-1</span>);<br>    <br><span class="hljs-keyword">else</span><br>    <span class="hljs-comment">% 使用最大噪声分数 (MNF) 变换来减少计算要求</span><br>    cube = hypermnf(cube, num<span class="hljs-number">-1</span>);<br><span class="hljs-keyword">end</span><br><br><span class="hljs-comment">% 重塑降维后的立方体</span><br>cube = <span class="hljs-built_in">reshape</span>(cube, [numOfSamples num<span class="hljs-number">-1</span>]);<br><br><span class="hljs-comment">% 初始化矩阵,并将第一行设置为 1,每一列向量包含端元的光谱</span><br>signatures = <span class="hljs-built_in">zeros</span>(num);<br>signatures(<span class="hljs-number">1</span>,:) = <span class="hljs-number">1</span>;<br><br><span class="hljs-comment">% 在 1 到 numOfSamples 范围内生成随机样本</span><br>prevS = rng(<span class="hljs-string">&#x27;default&#x27;</span>);<br>randSamplesInd = randi([<span class="hljs-number">1</span> numOfSamples], <span class="hljs-number">1</span>, num);<br><br><span class="hljs-comment">% 清理随机状态</span><br>cleanup = onCleanup(@() rng(prevS));<br><span class="hljs-comment">% 选择随机像素并将其设置为端元</span><br>signatures(<span class="hljs-number">2</span>:num, :) = cube(randSamplesInd, :)&#x27;;<br><br><span class="hljs-comment">% 对于该算法,除以 (factorial(p-1)) 是一个不变量,因此跳过了</span><br>actualVolume = <span class="hljs-built_in">abs</span>(det(signatures));<br><br><span class="hljs-comment">% 初始化迭代次数</span><br>itr = <span class="hljs-number">1</span>;<br><br><span class="hljs-comment">% 初始化体积 v1 和 v2</span><br>initVol = -itr;<br>maxVol = actualVolume;<br><br><span class="hljs-comment">% 计算所有像素的体积,如果替换像素会导致体积增加,则将替换像素视为端元</span><br><span class="hljs-comment">% 该过程重复进行,直到没有更多端元替换</span><br><span class="hljs-keyword">while</span> maxVol &gt; initVol<br>    <span class="hljs-keyword">for</span> sigCount=<span class="hljs-number">1</span>:num<br>         <br>         <span class="hljs-comment">% 找到体积的单纯形</span><br>         [randSamplesInd, actualVolume, signatures] = findSimplex(signatures, cube, ...<br>             randSamplesInd, actualVolume, numOfSamples, num, sigCount); <br>    <span class="hljs-keyword">end</span><br>    <br>    <span class="hljs-comment">% 如果达到最大迭代次数,则中断</span><br>    <span class="hljs-keyword">if</span> itr == maxItr<br>        <span class="hljs-keyword">break</span>;<br>    <span class="hljs-keyword">end</span><br>    <br>    <span class="hljs-comment">% 更新迭代次数、v1 和 v2</span><br>    itr = itr+<span class="hljs-number">1</span>;<br>    initVol = maxVol;<br>    maxVol = actualVolume;<br><span class="hljs-keyword">end</span><br><br><span class="hljs-comment">% 根据样本索引从体积中提取端元特征</span><br>endmemSig = originalCube(randSamplesInd, :)&#x27;;<br><span class="hljs-keyword">end</span><br><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">[randSamplesInd, actualVolume, signatures]</span> = <span class="hljs-title">findSimplex</span><span class="hljs-params">(signatures, reducedCube, ...</span></span><br><span class="hljs-params"><span class="hljs-function">    randSamplesInd, actualVolume, numOfSamples, num, sigCount)</span></span><br><span class="hljs-keyword">for</span> sampleCount=<span class="hljs-number">1</span>:numOfSamples<br>    <br>    <span class="hljs-comment">% 检查降维后的每个样本</span><br>    signatures(<span class="hljs-number">2</span>:num, sigCount) = reducedCube(sampleCount, :);<br><br>    <span class="hljs-comment">% 使用端元估计形成的单纯形的体积与特征矩阵的行列式成正比</span><br>    volume = <span class="hljs-built_in">abs</span>(det(signatures));<br>    <span class="hljs-keyword">if</span> volume &gt; actualVolume<br>        actualVolume = volume;<br>        randSamplesInd(sigCount) = sampleCount;<br>    <span class="hljs-keyword">end</span><br><span class="hljs-keyword">end</span><br><br><span class="hljs-comment">% 用最新样本更新端元特征</span><br>signatures(<span class="hljs-number">2</span>:num, sigCount) = reducedCube(randSamplesInd(sigCount), :);<br><br><span class="hljs-keyword">end</span><br><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">mustBeA</span><span class="hljs-params">(hypercube,classIn)</span></span><br><br><span class="hljs-keyword">if</span> isobject(hypercube)<br>    validateattributes(hypercube,&#123;classIn&#125;,&#123;<span class="hljs-string">&#x27;nonempty&#x27;</span>&#125;,<span class="hljs-string">&#x27;nfindr&#x27;</span>,<span class="hljs-string">&#x27;hypercube&#x27;</span>);<br>    cube = hypercube.DataCube;<br><span class="hljs-keyword">else</span><br>    cube = hypercube;<br><span class="hljs-keyword">end</span><br><br>validateattributes(cube, ...<br>    &#123;<span class="hljs-string">&#x27;numeric&#x27;</span>&#125;, &#123;<span class="hljs-string">&#x27;nonsparse&#x27;</span>, <span class="hljs-string">&#x27;nonempty&#x27;</span>, <span class="hljs-string">&#x27;real&#x27;</span>,<span class="hljs-string">&#x27;nonnan&#x27;</span>, <span class="hljs-string">&#x27;finite&#x27;</span>, ...<br>    <span class="hljs-string">&#x27;ndims&#x27;</span>,<span class="hljs-number">3</span>&#125;, mfilename, <span class="hljs-string">&#x27;hypercube&#x27;</span>, <span class="hljs-number">1</span>);<br><br><span class="hljs-keyword">end</span><br><br><span class="hljs-comment">% 验证 numComponents 小于波段数</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">mustBeLessSize</span><span class="hljs-params">(a, b)</span></span><br><span class="hljs-keyword">if</span> isobject(b)<br>    cube = b.DataCube;<br><span class="hljs-keyword">else</span><br>    cube = b;<br><span class="hljs-keyword">end</span><br>sz = <span class="hljs-built_in">size</span>(cube);<br>validateattributes(a, &#123;<span class="hljs-string">&#x27;numeric&#x27;</span>&#125;,...<br>    &#123;<span class="hljs-string">&#x27;&gt;&#x27;</span>, <span class="hljs-number">1</span>, <span class="hljs-string">&#x27;&lt;=&#x27;</span>,sz(<span class="hljs-number">3</span>), <span class="hljs-string">&#x27;scalar&#x27;</span>&#125;,mfilename, <span class="hljs-string">&#x27;num&#x27;</span>,<span class="hljs-number">2</span>);<br><br><span class="hljs-keyword">if</span> (a &gt;= sz(<span class="hljs-number">1</span>)*sz(<span class="hljs-number">2</span>))<br>    error(message(<span class="hljs-string">&#x27;hyperspectral:hyperpca:notGreaterEqual&#x27;</span>));    <br><span class="hljs-keyword">end</span><br><span class="hljs-keyword">end</span><br></code></pre></td></tr></table></figure>
+<p>该算法的优点是思路清晰,能够有效提取出最大体积簇对应的端元特征。但缺点是计算量很大,对于大数据集会耗费大量时间。因此在实际应用中,通常会先利用
+PCA 或 MNF 等方法对数据进行降维,再在降维后的数据上运行 N-FINDER
+算法,以缩减计算量。</p>
+<p>总的来说,N-FINDER
+算法通过最大化端元特征向量组成的单纯形体积,来有效提取出数据中的端元特征,是一种较为经典的无监督端元提取算法。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Remote-Sensing/" class="category-chain-item">Remote Sensing</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Hyperspectral-unmixing/" class="print-no-link">#Hyperspectral unmixing</a>
+      
+        <a href="/tags/Remote-Sensing/" class="print-no-link">#Remote Sensing</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>基于 N-FINDER 的端元提取算法</div>
+      <div>http://jingmengzhiyue.top/2024/03/25/FINDER/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Jingmengzhiyue</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年3月25日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/03/25/FIPPI/" title="改进的快速迭代纯像素指数提取端元特征">
+                        <span class="hidden-mobile">改进的快速迭代纯像素指数提取端元特征</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"eZ6fNr2wGbxSreDqCc24Ik6y-gzGzoHsz","appKey":"I1HMoNZO5iKmmCSzqE0wTpGr","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 18954 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 9873 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
