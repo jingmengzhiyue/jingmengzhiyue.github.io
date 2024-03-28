@@ -1,0 +1,877 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jingmengzhiyue">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="在自然语言处理和其他序列数据建模任务中,Transformer模型凭借其优异的性能成为了研究的热点。其中,多头自注意力(Multi-Head Self-Attention)是Transformer的核心组件之一，接下来将深入了解它的运作原理和实现细节。 什么是自注意力 自注意力机制允许模型在编码序列时,对于每个位置的表示,都可以获取其他位置的信息,并基于这些信息进行更新。不同于RNN&#x2F;LST">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Transformer中的多头自注意力机制">
+<meta property="og:url" content="http://jingmengzhiyue.top/2024/03/28/MSA/index.html">
+<meta property="og:site_name" content="热爱可抵万难">
+<meta property="og:description" content="在自然语言处理和其他序列数据建模任务中,Transformer模型凭借其优异的性能成为了研究的热点。其中,多头自注意力(Multi-Head Self-Attention)是Transformer的核心组件之一，接下来将深入了解它的运作原理和实现细节。 什么是自注意力 自注意力机制允许模型在编码序列时,对于每个位置的表示,都可以获取其他位置的信息,并基于这些信息进行更新。不同于RNN&#x2F;LST">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-03-28T15:47:31.000Z">
+<meta property="article:modified_time" content="2024-03-28T15:53:20.719Z">
+<meta property="article:author" content="Jingmengzhiyue">
+<meta property="article:tag" content="Deep Learning">
+<meta property="article:tag" content="MSA">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Transformer中的多头自注意力机制 - 热爱可抵万难</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jingmengzhiyue.top","root":"/","version":"1.9.5-a","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"eZ6fNr2wGbxSreDqCc24Ik6y-gzGzoHsz","app_key":"I1HMoNZO5iKmmCSzqE0wTpGr","server_url":"https://ez6fnr2w.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false},"gtag":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+  
+    <script>
+        (function(){
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+            }
+            else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+   
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>热爱可抵万难</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://t.mwm.moe/fj/') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Transformer中的多头自注意力机制"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-03-28 23:47" pubdate>
+          2024年3月28日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          25 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Transformer中的多头自注意力机制</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>在自然语言处理和其他序列数据建模任务中,Transformer模型凭借其优异的性能成为了研究的热点。其中,多头自注意力(Multi-Head
+Self-Attention)是Transformer的核心组件之一，接下来将深入了解它的运作原理和实现细节。</p>
+<h2 id="什么是自注意力">什么是自注意力</h2>
+<p>自注意力机制允许模型在编码序列时,对于每个位置的表示,都可以获取其他位置的信息,并基于这些信息进行更新。不同于RNN/LSTM等循环神经网络捕获序列依赖的方式,自注意力通过注意力分数直接建模不同位置间的依赖关系。这种长程依赖的直接建模方式大大提高了模型的表现力。</p>
+<h2 id="多头注意力的计算过程">多头注意力的计算过程</h2>
+<p>多头自注意力将注意力机制进一步推广,使用多个独立的"注意力头"来从不同的表示子空间捕获序列信息。具体计算过程如下:</p>
+<ol type="1">
+<li><p><strong>线性投影</strong></p>
+<p>输入序列<span class="math inline">\(X\)</span>的维度为<span
+class="math inline">\((N, T, d)\)</span>,其中<span
+class="math inline">\(N\)</span>为批次大小, <span
+class="math inline">\(T\)</span>为序列长度, <span
+class="math inline">\(d\)</span>为特征维度。我们首先通过一个线性变换<span
+class="math inline">\(W_{QKV}\)</span>将<span
+class="math inline">\(X\)</span>投影到查询(Query)、键(Key)和值(Value)空间,得到<span
+class="math inline">\((N, T,
+3d)\)</span>的表示,然后将其沿最后一个维度拆分成<span
+class="math inline">\(Q\)</span>、<span
+class="math inline">\(K\)</span>和<span
+class="math inline">\(V\)</span>,每个形状为<span
+class="math inline">\((N, T, d)\)</span>。</p></li>
+<li><p><strong>分头(Multi-Head)</strong></p>
+<p>将<span class="math inline">\(Q\)</span>、<span
+class="math inline">\(K\)</span>和<span
+class="math inline">\(V\)</span>在最后一个维度上分割成<span
+class="math inline">\(h\)</span>个head,每个head的维度为<span
+class="math inline">\(d/h\)</span>。这样<span
+class="math inline">\(Q\)</span>、<span
+class="math inline">\(K\)</span>和<span
+class="math inline">\(V\)</span>的形状变为<span
+class="math inline">\((N, T, h, d/h)\)</span>。接着,我们交换<span
+class="math inline">\(Q\)</span>、<span
+class="math inline">\(K\)</span>和<span
+class="math inline">\(V\)</span>的第1和第2个维度,形状变为<span
+class="math inline">\((N, h, T, d/h)\)</span>,方便后续计算。</p></li>
+<li><p><strong>缩放点积注意力</strong></p>
+<p>对于每个头<span class="math inline">\(i\)</span>,我们计算<span
+class="math inline">\(Q_i\)</span>和<span
+class="math inline">\(K_i\)</span>的点积,除以<span
+class="math inline">\(\sqrt{d/h}\)</span>进行缩放,加上掩码矩阵<span
+class="math inline">\(M\)</span>处理填充项,然后对最后两个维度应用Softmax函数获得注意力分数矩阵:</p>
+<p><span class="math display">\[\text{Attention}_i =
+\text{softmax}\left(\frac{Q_iK_i^T}{\sqrt{d/h}} + M\right)\]</span></p>
+<p>分数矩阵的形状为<span class="math inline">\((N, h, T,
+T)\)</span>。</p></li>
+<li><p><strong>加权求和</strong></p>
+<p>将注意力分数与<span
+class="math inline">\(V_i\)</span>相乘,在最后两个维度上执行矩阵乘法,获得每个头的加权表示:</p>
+<p><span class="math display">\[\text{Head}_i = \text{Attention}_i
+V_i\]</span></p>
+<p>即<span class="math inline">\((N, h, T,
+d/h)\)</span>的张量。</p></li>
+<li><p><strong>合并头(Concat Heads)</strong></p>
+<p>将<span
+class="math inline">\(h\)</span>个头的加权表示在最后一个维度上拼接,形状变为<span
+class="math inline">\((N, h, T, d)\)</span>。</p></li>
+<li><p><strong>线性变换</strong></p>
+<p>通过一个额外的线性层<span
+class="math inline">\(W_o\)</span>将合并后的表示映射回<span
+class="math inline">\(d\)</span>维空间,得到最终的多头自注意力输出<span
+class="math inline">\((N, T, d)\)</span>。</p></li>
+</ol>
+<p>上述过程中牵涉到的几个关键矩阵运算,可以用形状来解释其合理性:</p>
+<ul>
+<li><span class="math inline">\(Q_i\)</span>与<span
+class="math inline">\(K_i^T\)</span>相乘: <span
+class="math inline">\((N, h, T, d/h) \times (N, h, d/h, T) \rightarrow
+(N, h, T, T)\)</span><br />
+</li>
+<li><span class="math inline">\(\text{Attention}_i\)</span>与<span
+class="math inline">\(V_i\)</span>相乘: <span class="math inline">\((N,
+h, T, T) \times (N, h, T, d/h) \rightarrow (N, h, T, d/h)\)</span></li>
+<li>多头合并: <span class="math inline">\((N, h, T, d/h) \rightarrow (N,
+T, h, d/h) \rightarrow (N, T, d)\)</span></li>
+</ul>
+<p>通过分解成多个并行子空间,多头注意力能够从不同的表示子空间获取序列信息,并将这些信息融合,从而提高了模型的表现力。另一方面,通过矩阵运算的高效实现,多头自注意力也可以实现对序列的并行编码,这种并行性是循环神经网络所无法企及的。</p>
+<h2 id="实现细节">实现细节</h2>
+<p>在上一部分,我们从理论层面介绍了多头自注意力的计算过程。现在让我们看一下使用NumPy实现多头自注意力的代码,并与PyTorch官方实现进行对比验证。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> torch<br><span class="hljs-keyword">import</span> torch.nn <span class="hljs-keyword">as</span> nn<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">softmax</span>(<span class="hljs-params">Z</span>):<br>    Z = np.exp(Z - Z.<span class="hljs-built_in">max</span>(axis=-<span class="hljs-number">1</span>, keepdims=<span class="hljs-literal">True</span>))<br>    <span class="hljs-keyword">return</span> Z / Z.<span class="hljs-built_in">sum</span>(axis=-<span class="hljs-number">1</span>, keepdims=<span class="hljs-literal">True</span>)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">MSA</span>(<span class="hljs-params">X, mask, heads, W_QKV, W_out</span>):<br>    N, T, d = X.shape  <br>    K, Q, V = np.split(X@W_QKV, <span class="hljs-number">3</span>, axis=-<span class="hljs-number">1</span>)<br>    K, Q, V = [a.reshape(N, T, heads, d//heads).swapaxes(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> (K, Q, V)]<br>    <br>    attn = softmax(K@Q.swapaxes(-<span class="hljs-number">1</span>,-<span class="hljs-number">2</span>)/np.sqrt(d//heads)+mask)<br>    <span class="hljs-keyword">return</span> (attn@V).swapaxes(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>).reshape(N, T, d)@W_out, attn<br></code></pre></td></tr></table></figure>
+<p>这段代码实现了前文描述的多头自注意力计算过程。值得注意的几点是:</p>
+<ol type="1">
+<li>线性投影得到Q、K、V后,使用列表解析重新reshape并交换维度,这样处理比较简洁高效。</li>
+<li>计算注意力分数时,先进行Q与K的点积运算,再除以<span
+class="math inline">\(\sqrt{d/h}\)</span>进行缩放,最后加上掩码矩阵进行软化约束。</li>
+<li>加权求和时,先在注意力分数与V相乘,再与<span
+class="math inline">\(W_o\)</span>相乘,保证了形状的匹配。</li>
+<li>计算 Z
+沿着最后一个维度（axis=-1）的最大值，并保留这个维度（keepdims=True），得到一个新的具有相同形状但最后一个维度上所有值为原数组对应最大值的新数组。然后将原数组
+Z
+中的相应元素减去这个最大值数组，这样可以确保所有元素的值都不大于1。</li>
+</ol>
+<p>为了验证这一实现的正确性,我们可以与PyTorch官方实现进行对比:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python">N = <span class="hljs-number">10</span> <br>T = <span class="hljs-number">100</span><br>d = <span class="hljs-number">64</span><br>heads = <span class="hljs-number">4</span><br>X = torch.randn(N,T,d)<br>M = torch.triu(-<span class="hljs-built_in">float</span>(<span class="hljs-string">&quot;inf&quot;</span>)*torch.ones(T,T),<span class="hljs-number">1</span>) <br>attn = nn.MultiheadAttention(d, heads, bias=<span class="hljs-literal">False</span>, batch_first=<span class="hljs-literal">True</span>)<br>Y_, A_ = attn(X,X,X, attn_mask=M)<br>Y, A = MSA(X.numpy(), M.numpy(), heads, attn.in_proj_weight.detach().numpy().T, attn.out_proj.weight.detach().numpy().T)<br><br><span class="hljs-built_in">print</span>(np.linalg.norm(Y - Y_.detach().numpy())) <span class="hljs-comment"># 输出接近0,说明两者结果很接近</span><br><span class="hljs-built_in">print</span>(np.linalg.norm(A.mean(<span class="hljs-number">1</span>) - A_.detach().numpy())) <span class="hljs-comment"># 输出也接近0</span><br></code></pre></td></tr></table></figure>
+<p>这段代码构造了一个简单的多头自注意力计算示例,并与PyTorch内置的<code>nn.MultiheadAttention</code>模块进行结果对比。可以看到,两者的输出之间的差异接近于0,说明我们的NumPy实现是正确的。</p>
+<p>通过上述代码实现和结果验证,相信你现在对多头自注意力机制有了更加具体和透彻的理解。这种自注意力机制是Transformer和其它顺序模型的核心,掌握它有助于我们进一步探索和优化这些模型。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Deep-Learning/" class="category-chain-item">Deep Learning</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Deep-Learning/" class="print-no-link">#Deep Learning</a>
+      
+        <a href="/tags/MSA/" class="print-no-link">#MSA</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Transformer中的多头自注意力机制</div>
+      <div>http://jingmengzhiyue.top/2024/03/28/MSA/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Jingmengzhiyue</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年3月28日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/03/25/FINDER/" title="基于 N-FINDER 的端元提取算法">
+                        <span class="hidden-mobile">基于 N-FINDER 的端元提取算法</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"eZ6fNr2wGbxSreDqCc24Ik6y-gzGzoHsz","appKey":"I1HMoNZO5iKmmCSzqE0wTpGr","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 18954 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 9873 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

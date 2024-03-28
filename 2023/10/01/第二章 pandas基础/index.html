@@ -249,7 +249,7 @@
         
         
         
-          169 分钟
+          170 分钟
         
       </span>
     
@@ -291,11 +291,14 @@
             
               <div class="markdown-body">
                 
-                <h1 id="Pandas基础"><a href="#Pandas基础" class="headerlink" title="Pandas基础"></a>Pandas基础</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br></code></pre></td></tr></table></figure>
+                <h1 id="pandas基础">Pandas基础</h1>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br></code></pre></td></tr></table></figure>
 <p>请保证<code>pandas</code>的版本号不低于如下所示的版本，否则请务必升级！请确认已经安装了<code>xlrd, xlwt, openpyxl</code>这三个包，其中<code>xlrd</code>版本不得高于<code>2.0.0</code>。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pd.__version__<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">&#39;1.1.5&#39;
-</code></pre><h2 id="一、文件的读取和写入"><a href="#一、文件的读取和写入" class="headerlink" title="一、文件的读取和写入"></a>一、文件的读取和写入</h2><h3 id="1-文件读取"><a href="#1-文件读取" class="headerlink" title="1. 文件读取"></a>1. 文件读取</h3><p><code>pandas</code>可以读取的文件格式有很多，这里主要介绍读取<code>csv, excel, txt</code>文件。</p>
+<pre><code class="hljs">&#39;1.1.5&#39;</code></pre>
+<h2 id="一文件的读取和写入">一、文件的读取和写入</h2>
+<h3 id="文件读取">1. 文件读取</h3>
+<p><code>pandas</code>可以读取的文件格式有很多，这里主要介绍读取<code>csv, excel, txt</code>文件。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">df_csv = pd.read_csv(<span class="hljs-string">&#x27;../data/my_csv.csv&#x27;</span>)<br>df_csv<br></code></pre></td></tr></table></figure>
 <div>
 <style scoped>
@@ -312,56 +315,111 @@
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>col1</th>
-      <th>col2</th>
-      <th>col3</th>
-      <th>col4</th>
-      <th>col5</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>2</td>
-      <td>a</td>
-      <td>1.4</td>
-      <td>apple</td>
-      <td>2020/1/1</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>3</td>
-      <td>b</td>
-      <td>3.4</td>
-      <td>banana</td>
-      <td>2020/1/2</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>6</td>
-      <td>c</td>
-      <td>2.5</td>
-      <td>orange</td>
-      <td>2020/1/5</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>5</td>
-      <td>d</td>
-      <td>3.2</td>
-      <td>lemon</td>
-      <td>2020/1/7</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+col1
+</th>
+<th>
+col2
+</th>
+<th>
+col3
+</th>
+<th>
+col4
+</th>
+<th>
+col5
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+2
+</td>
+<td>
+a
+</td>
+<td>
+1.4
+</td>
+<td>
+apple
+</td>
+<td>
+2020/1/1
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+3
+</td>
+<td>
+b
+</td>
+<td>
+3.4
+</td>
+<td>
+banana
+</td>
+<td>
+2020/1/2
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+6
+</td>
+<td>
+c
+</td>
+<td>
+2.5
+</td>
+<td>
+orange
+</td>
+<td>
+2020/1/5
+</td>
+</tr>
+<tr>
+<th>
+3
+</th>
+<td>
+5
+</td>
+<td>
+d
+</td>
+<td>
+3.2
+</td>
+<td>
+lemon
+</td>
+<td>
+2020/1/7
+</td>
+</tr>
+</tbody>
 </table>
 </div>
-
-
-
-
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">df_txt = pd.read_table(<span class="hljs-string">&#x27;../data/my_table.txt&#x27;</span>)<br>df_txt<br></code></pre></td></tr></table></figure>
 <div>
 <style scoped>
@@ -378,51 +436,96 @@
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>col1</th>
-      <th>col2</th>
-      <th>col3</th>
-      <th>col4</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>2</td>
-      <td>a</td>
-      <td>1.4</td>
-      <td>apple 2020/1/1</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>3</td>
-      <td>b</td>
-      <td>3.4</td>
-      <td>banana 2020/1/2</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>6</td>
-      <td>c</td>
-      <td>2.5</td>
-      <td>orange 2020/1/5</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>5</td>
-      <td>d</td>
-      <td>3.2</td>
-      <td>lemon 2020/1/7</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+col1
+</th>
+<th>
+col2
+</th>
+<th>
+col3
+</th>
+<th>
+col4
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+2
+</td>
+<td>
+a
+</td>
+<td>
+1.4
+</td>
+<td>
+apple 2020/1/1
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+3
+</td>
+<td>
+b
+</td>
+<td>
+3.4
+</td>
+<td>
+banana 2020/1/2
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+6
+</td>
+<td>
+c
+</td>
+<td>
+2.5
+</td>
+<td>
+orange 2020/1/5
+</td>
+</tr>
+<tr>
+<th>
+3
+</th>
+<td>
+5
+</td>
+<td>
+d
+</td>
+<td>
+3.2
+</td>
+<td>
+lemon 2020/1/7
+</td>
+</tr>
+</tbody>
 </table>
 </div>
-
-
-
-
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">df_excel = pd.read_excel(<span class="hljs-string">&#x27;../data/my_excel.xlsx&#x27;</span>)<br>df_excel<br></code></pre></td></tr></table></figure>
 <div>
 <style scoped>
@@ -439,55 +542,111 @@
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>col1</th>
-      <th>col2</th>
-      <th>col3</th>
-      <th>col4</th>
-      <th>col5</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>2</td>
-      <td>a</td>
-      <td>1.4</td>
-      <td>apple</td>
-      <td>2020/1/1</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>3</td>
-      <td>b</td>
-      <td>3.4</td>
-      <td>banana</td>
-      <td>2020/1/2</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>6</td>
-      <td>c</td>
-      <td>2.5</td>
-      <td>orange</td>
-      <td>2020/1/5</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>5</td>
-      <td>d</td>
-      <td>3.2</td>
-      <td>lemon</td>
-      <td>2020/1/7</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+col1
+</th>
+<th>
+col2
+</th>
+<th>
+col3
+</th>
+<th>
+col4
+</th>
+<th>
+col5
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+2
+</td>
+<td>
+a
+</td>
+<td>
+1.4
+</td>
+<td>
+apple
+</td>
+<td>
+2020/1/1
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+3
+</td>
+<td>
+b
+</td>
+<td>
+3.4
+</td>
+<td>
+banana
+</td>
+<td>
+2020/1/2
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+6
+</td>
+<td>
+c
+</td>
+<td>
+2.5
+</td>
+<td>
+orange
+</td>
+<td>
+2020/1/5
+</td>
+</tr>
+<tr>
+<th>
+3
+</th>
+<td>
+5
+</td>
+<td>
+d
+</td>
+<td>
+3.2
+</td>
+<td>
+lemon
+</td>
+<td>
+2020/1/7
+</td>
+</tr>
+</tbody>
 </table>
 </div>
-
-
-
 <p>这里有一些常用的公共参数，<code>header=None</code>表示第一行不作为列名，<code>index_col</code>表示把某一列或几列作为索引，索引的内容将会在第三章进行详述，<code>usecols</code>表示读取列的集合，默认读取所有的列，<code>parse_dates</code>表示需要转化为时间的列，关于时间序列的有关内容将在第十章讲解，<code>nrows</code>表示读取的数据行数。上面这些参数在上述的三个函数里都可以使用。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pd.read_table(<span class="hljs-string">&#x27;../data/my_table.txt&#x27;</span>, header=<span class="hljs-literal">None</span>)<br></code></pre></td></tr></table></figure>
 <div>
@@ -505,58 +664,113 @@
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>0</th>
-      <th>1</th>
-      <th>2</th>
-      <th>3</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>col1</td>
-      <td>col2</td>
-      <td>col3</td>
-      <td>col4</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>2</td>
-      <td>a</td>
-      <td>1.4</td>
-      <td>apple 2020/1/1</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>3</td>
-      <td>b</td>
-      <td>3.4</td>
-      <td>banana 2020/1/2</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>6</td>
-      <td>c</td>
-      <td>2.5</td>
-      <td>orange 2020/1/5</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>5</td>
-      <td>d</td>
-      <td>3.2</td>
-      <td>lemon 2020/1/7</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+0
+</th>
+<th>
+1
+</th>
+<th>
+2
+</th>
+<th>
+3
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+col1
+</td>
+<td>
+col2
+</td>
+<td>
+col3
+</td>
+<td>
+col4
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+2
+</td>
+<td>
+a
+</td>
+<td>
+1.4
+</td>
+<td>
+apple 2020/1/1
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+3
+</td>
+<td>
+b
+</td>
+<td>
+3.4
+</td>
+<td>
+banana 2020/1/2
+</td>
+</tr>
+<tr>
+<th>
+3
+</th>
+<td>
+6
+</td>
+<td>
+c
+</td>
+<td>
+2.5
+</td>
+<td>
+orange 2020/1/5
+</td>
+</tr>
+<tr>
+<th>
+4
+</th>
+<td>
+5
+</td>
+<td>
+d
+</td>
+<td>
+3.2
+</td>
+<td>
+lemon 2020/1/7
+</td>
+</tr>
+</tbody>
 </table>
 </div>
-
-
-
-
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pd.read_csv(<span class="hljs-string">&#x27;../data/my_csv.csv&#x27;</span>, index_col=[<span class="hljs-string">&#x27;col1&#x27;</span>, <span class="hljs-string">&#x27;col2&#x27;</span>])<br></code></pre></td></tr></table></figure>
 <div>
 <style scoped>
@@ -573,58 +787,109 @@
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th></th>
-      <th>col3</th>
-      <th>col4</th>
-      <th>col5</th>
-    </tr>
-    <tr>
-      <th>col1</th>
-      <th>col2</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>2</th>
-      <th>a</th>
-      <td>1.4</td>
-      <td>apple</td>
-      <td>2020/1/1</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <th>b</th>
-      <td>3.4</td>
-      <td>banana</td>
-      <td>2020/1/2</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <th>c</th>
-      <td>2.5</td>
-      <td>orange</td>
-      <td>2020/1/5</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <th>d</th>
-      <td>3.2</td>
-      <td>lemon</td>
-      <td>2020/1/7</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+</th>
+<th>
+col3
+</th>
+<th>
+col4
+</th>
+<th>
+col5
+</th>
+</tr>
+<tr>
+<th>
+col1
+</th>
+<th>
+col2
+</th>
+<th>
+</th>
+<th>
+</th>
+<th>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+2
+</th>
+<th>
+a
+</th>
+<td>
+1.4
+</td>
+<td>
+apple
+</td>
+<td>
+2020/1/1
+</td>
+</tr>
+<tr>
+<th>
+3
+</th>
+<th>
+b
+</th>
+<td>
+3.4
+</td>
+<td>
+banana
+</td>
+<td>
+2020/1/2
+</td>
+</tr>
+<tr>
+<th>
+6
+</th>
+<th>
+c
+</th>
+<td>
+2.5
+</td>
+<td>
+orange
+</td>
+<td>
+2020/1/5
+</td>
+</tr>
+<tr>
+<th>
+5
+</th>
+<th>
+d
+</th>
+<td>
+3.2
+</td>
+<td>
+lemon
+</td>
+<td>
+2020/1/7
+</td>
+</tr>
+</tbody>
 </table>
 </div>
-
-
-
-
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pd.read_table(<span class="hljs-string">&#x27;../data/my_table.txt&#x27;</span>, usecols=[<span class="hljs-string">&#x27;col1&#x27;</span>, <span class="hljs-string">&#x27;col2&#x27;</span>])<br></code></pre></td></tr></table></figure>
 <div>
 <style scoped>
@@ -641,41 +906,66 @@
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>col1</th>
-      <th>col2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>2</td>
-      <td>a</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>3</td>
-      <td>b</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>6</td>
-      <td>c</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>5</td>
-      <td>d</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+col1
+</th>
+<th>
+col2
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+2
+</td>
+<td>
+a
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+3
+</td>
+<td>
+b
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+6
+</td>
+<td>
+c
+</td>
+</tr>
+<tr>
+<th>
+3
+</th>
+<td>
+5
+</td>
+<td>
+d
+</td>
+</tr>
+</tbody>
 </table>
 </div>
-
-
-
-
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pd.read_csv(<span class="hljs-string">&#x27;../data/my_csv.csv&#x27;</span>, parse_dates=[<span class="hljs-string">&#x27;col5&#x27;</span>])<br></code></pre></td></tr></table></figure>
 <div>
 <style scoped>
@@ -692,56 +982,111 @@
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>col1</th>
-      <th>col2</th>
-      <th>col3</th>
-      <th>col4</th>
-      <th>col5</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>2</td>
-      <td>a</td>
-      <td>1.4</td>
-      <td>apple</td>
-      <td>2020-01-01</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>3</td>
-      <td>b</td>
-      <td>3.4</td>
-      <td>banana</td>
-      <td>2020-01-02</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>6</td>
-      <td>c</td>
-      <td>2.5</td>
-      <td>orange</td>
-      <td>2020-01-05</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>5</td>
-      <td>d</td>
-      <td>3.2</td>
-      <td>lemon</td>
-      <td>2020-01-07</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+col1
+</th>
+<th>
+col2
+</th>
+<th>
+col3
+</th>
+<th>
+col4
+</th>
+<th>
+col5
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+2
+</td>
+<td>
+a
+</td>
+<td>
+1.4
+</td>
+<td>
+apple
+</td>
+<td>
+2020-01-01
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+3
+</td>
+<td>
+b
+</td>
+<td>
+3.4
+</td>
+<td>
+banana
+</td>
+<td>
+2020-01-02
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+6
+</td>
+<td>
+c
+</td>
+<td>
+2.5
+</td>
+<td>
+orange
+</td>
+<td>
+2020-01-05
+</td>
+</tr>
+<tr>
+<th>
+3
+</th>
+<td>
+5
+</td>
+<td>
+d
+</td>
+<td>
+3.2
+</td>
+<td>
+lemon
+</td>
+<td>
+2020-01-07
+</td>
+</tr>
+</tbody>
 </table>
 </div>
-
-
-
-
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pd.read_excel(<span class="hljs-string">&#x27;../data/my_excel.xlsx&#x27;</span>, nrows=<span class="hljs-number">2</span>)<br></code></pre></td></tr></table></figure>
 <div>
 <style scoped>
@@ -758,39 +1103,71 @@
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>col1</th>
-      <th>col2</th>
-      <th>col3</th>
-      <th>col4</th>
-      <th>col5</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>2</td>
-      <td>a</td>
-      <td>1.4</td>
-      <td>apple</td>
-      <td>2020/1/1</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>3</td>
-      <td>b</td>
-      <td>3.4</td>
-      <td>banana</td>
-      <td>2020/1/2</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+col1
+</th>
+<th>
+col2
+</th>
+<th>
+col3
+</th>
+<th>
+col4
+</th>
+<th>
+col5
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+2
+</td>
+<td>
+a
+</td>
+<td>
+1.4
+</td>
+<td>
+apple
+</td>
+<td>
+2020/1/1
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+3
+</td>
+<td>
+b
+</td>
+<td>
+3.4
+</td>
+<td>
+banana
+</td>
+<td>
+2020/1/2
+</td>
+</tr>
+</tbody>
 </table>
 </div>
-
-
-
 <p>在读取<code>txt</code>文件时，经常遇到分隔符非空格的情况，<code>read_table</code>有一个分割参数<code>sep</code>，它使得用户可以自定义分割符号，进行<code>txt</code>数据的读取。例如，下面的读取的表以<code>||||</code>为分割：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pd.read_table(<span class="hljs-string">&#x27;../data/my_table_special_sep.txt&#x27;</span>)<br></code></pre></td></tr></table></figure>
 <div>
@@ -808,35 +1185,51 @@
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>col1 |||| col2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>TS |||| This is an apple.</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>GQ |||| My name is Bob.</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>WT |||| Well done!</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>PT |||| May I help you?</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+col1 |||| col2
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+TS |||| This is an apple.
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+GQ |||| My name is Bob.
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+WT |||| Well done!
+</td>
+</tr>
+<tr>
+<th>
+3
+</th>
+<td>
+PT |||| May I help you?
+</td>
+</tr>
+</tbody>
 </table>
 </div>
-
-
-
 <p>上面的结果显然不是理想的，这时可以使用<code>sep</code>，同时需要指定引擎为<code>python</code>：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pd.read_table(<span class="hljs-string">&#x27;../data/my_table_special_sep.txt&#x27;</span>, sep=<span class="hljs-string">&#x27; \|\|\|\| &#x27;</span>, engine=<span class="hljs-string">&#x27;python&#x27;</span>)<br></code></pre></td></tr></table></figure>
 <div>
@@ -854,42 +1247,71 @@
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>col1</th>
-      <th>col2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>TS</td>
-      <td>This is an apple.</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>GQ</td>
-      <td>My name is Bob.</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>WT</td>
-      <td>Well done!</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>PT</td>
-      <td>May I help you?</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+col1
+</th>
+<th>
+col2
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+TS
+</td>
+<td>
+This is an apple.
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+GQ
+</td>
+<td>
+My name is Bob.
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+WT
+</td>
+<td>
+Well done!
+</td>
+</tr>
+<tr>
+<th>
+3
+</th>
+<td>
+PT
+</td>
+<td>
+May I help you?
+</td>
+</tr>
+</tbody>
 </table>
 </div>
-
-
-
-<h4 id="【WARNING】sep是正则参数"><a href="#【WARNING】sep是正则参数" class="headerlink" title="【WARNING】sep是正则参数"></a>【WARNING】<code>sep</code>是正则参数</h4><p>在使用<code>read_table</code>的时候需要注意，参数<code>sep</code>中使用的是正则表达式，因此需要对<code>|</code>进行转义变成<code>\|</code>，否则无法读取到正确的结果。有关正则表达式的基本内容可以参考第八章或者其他相关资料。</p>
-<h4 id="【END】"><a href="#【END】" class="headerlink" title="【END】"></a>【END】</h4><h3 id="2-数据写入"><a href="#2-数据写入" class="headerlink" title="2. 数据写入"></a>2. 数据写入</h3><p>一般在数据写入中，最常用的操作是把<code>index</code>设置为<code>False</code>，特别当索引没有特殊意义的时候，这样的行为能把索引在保存的时候去除。</p>
+<h4 id="warningsep是正则参数">【WARNING】<code>sep</code>是正则参数</h4>
+<p>在使用<code>read_table</code>的时候需要注意，参数<code>sep</code>中使用的是正则表达式，因此需要对<code>|</code>进行转义变成<code>\|</code>，否则无法读取到正确的结果。有关正则表达式的基本内容可以参考第八章或者其他相关资料。</p>
+<h4 id="end">【END】</h4>
+<h3 id="数据写入">2. 数据写入</h3>
+<p>一般在数据写入中，最常用的操作是把<code>index</code>设置为<code>False</code>，特别当索引没有特殊意义的时候，这样的行为能把索引在保存的时候去除。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">df_csv.to_csv(<span class="hljs-string">&#x27;../data/my_csv_saved.csv&#x27;</span>, index=<span class="hljs-literal">False</span>)<br>df_excel.to_excel(<span class="hljs-string">&#x27;../data/my_excel_saved.xlsx&#x27;</span>, index=<span class="hljs-literal">False</span>)<br></code></pre></td></tr></table></figure>
 <p><code>pandas</code>中没有定义<code>to_table</code>函数，但是<code>to_csv</code>可以保存为<code>txt</code>文件，并且允许自定义分隔符，常用制表符<code>\t</code>分割：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df_txt.to_csv(<span class="hljs-string">&#x27;../data/my_txt_saved.txt&#x27;</span>, sep=<span class="hljs-string">&#x27;\t&#x27;</span>, index=<span class="hljs-literal">False</span>)<br></code></pre></td></tr></table></figure>
@@ -900,8 +1322,8 @@
 |  0 |      2 | a      |    1.4 | apple  | 2020/1/1 |
 |  1 |      3 | b      |    3.4 | banana | 2020/1/2 |
 |  2 |      6 | c      |    2.5 | orange | 2020/1/5 |
-|  3 |      5 | d      |    3.2 | lemon  | 2020/1/7 |
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(df_csv.to_latex())<br></code></pre></td></tr></table></figure>
+|  3 |      5 | d      |    3.2 | lemon  | 2020/1/7 |</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(df_csv.to_latex())<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">\begin&#123;tabular&#125;&#123;lrlrll&#125;
 \toprule
 &#123;&#125; &amp;  col1 &amp; col2 &amp;  col3 &amp;    col4 &amp;      col5 \\
@@ -911,30 +1333,35 @@
 2 &amp;     6 &amp;    c &amp;   2.5 &amp;  orange &amp;  2020/1/5 \\
 3 &amp;     5 &amp;    d &amp;   3.2 &amp;   lemon &amp;  2020/1/7 \\
 \bottomrule
-\end&#123;tabular&#125;
-</code></pre><h2 id="二、基本数据结构"><a href="#二、基本数据结构" class="headerlink" title="二、基本数据结构"></a>二、基本数据结构</h2><p><code>pandas</code>中具有两种基本的数据存储结构，存储一维<code>values</code>的<code>Series</code>和存储二维<code>values</code>的<code>DataFrame</code>，在这两种结构上定义了很多的属性和方法。</p>
-<h3 id="1-Series"><a href="#1-Series" class="headerlink" title="1. Series"></a>1. Series</h3><p><code>Series</code>一般由四个部分组成，分别是序列的值<code>data</code>、索引<code>index</code>、存储类型<code>dtype</code>、序列的名字<code>name</code>。其中，索引也可以指定它的名字，默认为空。</p>
+\end&#123;tabular&#125;</code></pre>
+<h2 id="二基本数据结构">二、基本数据结构</h2>
+<p><code>pandas</code>中具有两种基本的数据存储结构，存储一维<code>values</code>的<code>Series</code>和存储二维<code>values</code>的<code>DataFrame</code>，在这两种结构上定义了很多的属性和方法。</p>
+<h3 id="series">1. Series</h3>
+<p><code>Series</code>一般由四个部分组成，分别是序列的值<code>data</code>、索引<code>index</code>、存储类型<code>dtype</code>、序列的名字<code>name</code>。其中，索引也可以指定它的名字，默认为空。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">s = pd.Series(data = [<span class="hljs-number">100</span>, <span class="hljs-string">&#x27;a&#x27;</span>, &#123;<span class="hljs-string">&#x27;dic1&#x27;</span>:<span class="hljs-number">5</span>&#125;],<br>              index = pd.Index([<span class="hljs-string">&#x27;id1&#x27;</span>, <span class="hljs-number">20</span>, <span class="hljs-string">&#x27;third&#x27;</span>], name=<span class="hljs-string">&#x27;my_idx&#x27;</span>),<br>              dtype = <span class="hljs-string">&#x27;object&#x27;</span>,<br>              name = <span class="hljs-string">&#x27;my_name&#x27;</span>)<br>s<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">my_idx
 id1              100
 20                 a
 third    &#123;&#39;dic1&#39;: 5&#125;
-Name: my_name, dtype: object
-</code></pre><h4 id="【NOTE】object类型"><a href="#【NOTE】object类型" class="headerlink" title="【NOTE】object类型"></a>【NOTE】<code>object</code>类型</h4><p><code>object</code>代表了一种混合类型，正如上面的例子中存储了整数、字符串以及<code>Python</code>的字典数据结构。此外，目前<code>pandas</code>把纯字符串序列也默认认为是一种<code>object</code>类型的序列，但它也可以用<code>string</code>类型存储，文本序列的内容会在第八章中讨论。</p>
-<h4 id="【END】-1"><a href="#【END】-1" class="headerlink" title="【END】"></a>【END】</h4><p>对于这些属性，可以通过 . 的方式来获取：</p>
+Name: my_name, dtype: object</code></pre>
+<h4 id="noteobject类型">【NOTE】<code>object</code>类型</h4>
+<p><code>object</code>代表了一种混合类型，正如上面的例子中存储了整数、字符串以及<code>Python</code>的字典数据结构。此外，目前<code>pandas</code>把纯字符串序列也默认认为是一种<code>object</code>类型的序列，但它也可以用<code>string</code>类型存储，文本序列的内容会在第八章中讨论。</p>
+<h4 id="end-1">【END】</h4>
+<p>对于这些属性，可以通过 . 的方式来获取：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.values<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">array([100, &#39;a&#39;, &#123;&#39;dic1&#39;: 5&#125;], dtype=object)
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.index<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">Index([&#39;id1&#39;, 20, &#39;third&#39;], dtype=&#39;object&#39;, name=&#39;my_idx&#39;)
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.dtype<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">dtype(&#39;O&#39;)
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.name<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">&#39;my_name&#39;
-</code></pre><p>利用<code>.shape</code>可以获取序列的长度：</p>
+<pre><code class="hljs">array([100, &#39;a&#39;, &#123;&#39;dic1&#39;: 5&#125;], dtype=object)</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.index<br></code></pre></td></tr></table></figure>
+<pre><code class="hljs">Index([&#39;id1&#39;, 20, &#39;third&#39;], dtype=&#39;object&#39;, name=&#39;my_idx&#39;)</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.dtype<br></code></pre></td></tr></table></figure>
+<pre><code class="hljs">dtype(&#39;O&#39;)</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.name<br></code></pre></td></tr></table></figure>
+<pre><code class="hljs">&#39;my_name&#39;</code></pre>
+<p>利用<code>.shape</code>可以获取序列的长度：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.shape<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">(3,)
-</code></pre><p>索引是<code>pandas</code>中最重要的概念之一，它将在第三章中被详细地讨论。如果想要取出单个索引对应的值，可以通过<code>[index_item]</code>可以取出。</p>
-<h3 id="2-DataFrame"><a href="#2-DataFrame" class="headerlink" title="2. DataFrame"></a>2. DataFrame</h3><p><code>DataFrame</code>在<code>Series</code>的基础上增加了列索引，一个数据框可以由二维的<code>data</code>与行列索引来构造：</p>
+<pre><code class="hljs">(3,)</code></pre>
+<p>索引是<code>pandas</code>中最重要的概念之一，它将在第三章中被详细地讨论。如果想要取出单个索引对应的值，可以通过<code>[index_item]</code>可以取出。</p>
+<h3 id="dataframe">2. DataFrame</h3>
+<p><code>DataFrame</code>在<code>Series</code>的基础上增加了列索引，一个数据框可以由二维的<code>data</code>与行列索引来构造：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">data = [[<span class="hljs-number">1</span>, <span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-number">1.2</span>], [<span class="hljs-number">2</span>, <span class="hljs-string">&#x27;b&#x27;</span>, <span class="hljs-number">2.2</span>], [<span class="hljs-number">3</span>, <span class="hljs-string">&#x27;c&#x27;</span>, <span class="hljs-number">3.2</span>]]<br>df = pd.DataFrame(data = data,<br>                  index = [<span class="hljs-string">&#x27;row_%d&#x27;</span>%i <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>)],<br>                  columns=[<span class="hljs-string">&#x27;col_0&#x27;</span>, <span class="hljs-string">&#x27;col_1&#x27;</span>, <span class="hljs-string">&#x27;col_2&#x27;</span>])<br>df<br></code></pre></td></tr></table></figure>
 <div>
 <style scoped>
@@ -951,39 +1378,67 @@ Name: my_name, dtype: object
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>col_0</th>
-      <th>col_1</th>
-      <th>col_2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>row_0</th>
-      <td>1</td>
-      <td>a</td>
-      <td>1.2</td>
-    </tr>
-    <tr>
-      <th>row_1</th>
-      <td>2</td>
-      <td>b</td>
-      <td>2.2</td>
-    </tr>
-    <tr>
-      <th>row_2</th>
-      <td>3</td>
-      <td>c</td>
-      <td>3.2</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+col_0
+</th>
+<th>
+col_1
+</th>
+<th>
+col_2
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+row_0
+</th>
+<td>
+1
+</td>
+<td>
+a
+</td>
+<td>
+1.2
+</td>
+</tr>
+<tr>
+<th>
+row_1
+</th>
+<td>
+2
+</td>
+<td>
+b
+</td>
+<td>
+2.2
+</td>
+</tr>
+<tr>
+<th>
+row_2
+</th>
+<td>
+3
+</td>
+<td>
+c
+</td>
+<td>
+3.2
+</td>
+</tr>
+</tbody>
 </table>
 </div>
-
-
-
 <p>但一般而言，更多的时候会采用从列索引名到数据的映射来构造数据框，同时再加上行索引：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">df = pd.DataFrame(data = &#123;<span class="hljs-string">&#x27;col_0&#x27;</span>: [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>],<br>                          <span class="hljs-string">&#x27;col_1&#x27;</span>:<span class="hljs-built_in">list</span>(<span class="hljs-string">&#x27;abc&#x27;</span>),<br>                          <span class="hljs-string">&#x27;col_2&#x27;</span>: [<span class="hljs-number">1.2</span>, <span class="hljs-number">2.2</span>, <span class="hljs-number">3.2</span>]&#125;,<br>                  index = [<span class="hljs-string">&#x27;row_%d&#x27;</span>%i <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>)])<br>df<br></code></pre></td></tr></table></figure>
 <div>
@@ -1001,46 +1456,74 @@ Name: my_name, dtype: object
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>col_0</th>
-      <th>col_1</th>
-      <th>col_2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>row_0</th>
-      <td>1</td>
-      <td>a</td>
-      <td>1.2</td>
-    </tr>
-    <tr>
-      <th>row_1</th>
-      <td>2</td>
-      <td>b</td>
-      <td>2.2</td>
-    </tr>
-    <tr>
-      <th>row_2</th>
-      <td>3</td>
-      <td>c</td>
-      <td>3.2</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+col_0
+</th>
+<th>
+col_1
+</th>
+<th>
+col_2
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+row_0
+</th>
+<td>
+1
+</td>
+<td>
+a
+</td>
+<td>
+1.2
+</td>
+</tr>
+<tr>
+<th>
+row_1
+</th>
+<td>
+2
+</td>
+<td>
+b
+</td>
+<td>
+2.2
+</td>
+</tr>
+<tr>
+<th>
+row_2
+</th>
+<td>
+3
+</td>
+<td>
+c
+</td>
+<td>
+3.2
+</td>
+</tr>
+</tbody>
 </table>
 </div>
-
-
-
 <p>由于这种映射关系，在<code>DataFrame</code>中可以用<code>[col_name]</code>与<code>[col_list]</code>来取出相应的列与由多个列组成的表，结果分别为<code>Series</code>和<code>DataFrame</code>：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df[<span class="hljs-string">&#x27;col_0&#x27;</span>]<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">row_0    1
 row_1    2
 row_2    3
-Name: col_0, dtype: int64
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df[[<span class="hljs-string">&#x27;col_0&#x27;</span>, <span class="hljs-string">&#x27;col_1&#x27;</span>]]<br></code></pre></td></tr></table></figure>
+Name: col_0, dtype: int64</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df[[<span class="hljs-string">&#x27;col_0&#x27;</span>, <span class="hljs-string">&#x27;col_1&#x27;</span>]]<br></code></pre></td></tr></table></figure>
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -1056,52 +1539,72 @@ Name: col_0, dtype: int64
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>col_0</th>
-      <th>col_1</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>row_0</th>
-      <td>1</td>
-      <td>a</td>
-    </tr>
-    <tr>
-      <th>row_1</th>
-      <td>2</td>
-      <td>b</td>
-    </tr>
-    <tr>
-      <th>row_2</th>
-      <td>3</td>
-      <td>c</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+col_0
+</th>
+<th>
+col_1
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+row_0
+</th>
+<td>
+1
+</td>
+<td>
+a
+</td>
+</tr>
+<tr>
+<th>
+row_1
+</th>
+<td>
+2
+</td>
+<td>
+b
+</td>
+</tr>
+<tr>
+<th>
+row_2
+</th>
+<td>
+3
+</td>
+<td>
+c
+</td>
+</tr>
+</tbody>
 </table>
 </div>
-
-
-
 <p>与<code>Series</code>类似，在数据框中同样可以取出相应的属性：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df.values<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">array([[1, &#39;a&#39;, 1.2],
        [2, &#39;b&#39;, 2.2],
-       [3, &#39;c&#39;, 3.2]], dtype=object)
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df.index<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">Index([&#39;row_0&#39;, &#39;row_1&#39;, &#39;row_2&#39;], dtype=&#39;object&#39;)
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df.columns<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">Index([&#39;col_0&#39;, &#39;col_1&#39;, &#39;col_2&#39;], dtype=&#39;object&#39;)
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df.dtypes <span class="hljs-comment"># 返回的是值为相应列数据类型的Series</span><br></code></pre></td></tr></table></figure>
+       [3, &#39;c&#39;, 3.2]], dtype=object)</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df.index<br></code></pre></td></tr></table></figure>
+<pre><code class="hljs">Index([&#39;row_0&#39;, &#39;row_1&#39;, &#39;row_2&#39;], dtype=&#39;object&#39;)</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df.columns<br></code></pre></td></tr></table></figure>
+<pre><code class="hljs">Index([&#39;col_0&#39;, &#39;col_1&#39;, &#39;col_2&#39;], dtype=&#39;object&#39;)</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df.dtypes <span class="hljs-comment"># 返回的是值为相应列数据类型的Series</span><br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">col_0      int64
 col_1     object
 col_2    float64
-dtype: object
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df.shape<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">(3, 3)
-</code></pre><p>通过<code>.T</code>可以把<code>DataFrame</code>进行转置：</p>
+dtype: object</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df.shape<br></code></pre></td></tr></table></figure>
+<pre><code class="hljs">(3, 3)</code></pre>
+<p>通过<code>.T</code>可以把<code>DataFrame</code>进行转置：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df.T<br></code></pre></td></tr></table></figure>
 <div>
 <style scoped>
@@ -1118,47 +1621,77 @@ dtype: object
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>row_0</th>
-      <th>row_1</th>
-      <th>row_2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>col_0</th>
-      <td>1</td>
-      <td>2</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <th>col_1</th>
-      <td>a</td>
-      <td>b</td>
-      <td>c</td>
-    </tr>
-    <tr>
-      <th>col_2</th>
-      <td>1.2</td>
-      <td>2.2</td>
-      <td>3.2</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+row_0
+</th>
+<th>
+row_1
+</th>
+<th>
+row_2
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+col_0
+</th>
+<td>
+1
+</td>
+<td>
+2
+</td>
+<td>
+3
+</td>
+</tr>
+<tr>
+<th>
+col_1
+</th>
+<td>
+a
+</td>
+<td>
+b
+</td>
+<td>
+c
+</td>
+</tr>
+<tr>
+<th>
+col_2
+</th>
+<td>
+1.2
+</td>
+<td>
+2.2
+</td>
+<td>
+3.2
+</td>
+</tr>
+</tbody>
 </table>
 </div>
-
-
-
-<h2 id="三、常用基本函数"><a href="#三、常用基本函数" class="headerlink" title="三、常用基本函数"></a>三、常用基本函数</h2><p>为了进行举例说明，在接下来的部分和其余章节都将会使用一份<code>learn_pandas.csv</code>的虚拟数据集，它记录了四所学校学生的体测个人信息。</p>
+<h2 id="三常用基本函数">三、常用基本函数</h2>
+<p>为了进行举例说明，在接下来的部分和其余章节都将会使用一份<code>learn_pandas.csv</code>的虚拟数据集，它记录了四所学校学生的体测个人信息。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">df = pd.read_csv(<span class="hljs-string">&#x27;../data/learn_pandas.csv&#x27;</span>)<br>df.columns<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">Index([&#39;School&#39;, &#39;Grade&#39;, &#39;Name&#39;, &#39;Gender&#39;, &#39;Height&#39;, &#39;Weight&#39;, &#39;Transfer&#39;,
        &#39;Test_Number&#39;, &#39;Test_Date&#39;, &#39;Time_Record&#39;],
-      dtype=&#39;object&#39;)
-</code></pre><p>上述列名依次代表学校、年级、姓名、性别、身高、体重、是否为转系生、体测场次、测试时间、1000米成绩，本章只需使用其中的前七列。</p>
+      dtype=&#39;object&#39;)</code></pre>
+<p>上述列名依次代表学校、年级、姓名、性别、身高、体重、是否为转系生、体测场次、测试时间、1000米成绩，本章只需使用其中的前七列。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df = df[df.columns[:<span class="hljs-number">7</span>]]<br></code></pre></td></tr></table></figure>
-<h3 id="1-汇总函数"><a href="#1-汇总函数" class="headerlink" title="1. 汇总函数"></a>1. 汇总函数</h3><p><code>head, tail</code>函数分别表示返回表或者序列的前<code>n</code>行和后<code>n</code>行，其中<code>n</code>默认为5：</p>
+<h3 id="汇总函数">1. 汇总函数</h3>
+<p><code>head, tail</code>函数分别表示返回表或者序列的前<code>n</code>行和后<code>n</code>行，其中<code>n</code>默认为5：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df.head(<span class="hljs-number">2</span>)<br></code></pre></td></tr></table></figure>
 <div>
 <style scoped>
@@ -1175,46 +1708,89 @@ dtype: object
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>School</th>
-      <th>Grade</th>
-      <th>Name</th>
-      <th>Gender</th>
-      <th>Height</th>
-      <th>Weight</th>
-      <th>Transfer</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Shanghai Jiao Tong University</td>
-      <td>Freshman</td>
-      <td>Gaopeng Yang</td>
-      <td>Female</td>
-      <td>158.9</td>
-      <td>46.0</td>
-      <td>N</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Peking University</td>
-      <td>Freshman</td>
-      <td>Changqiang You</td>
-      <td>Male</td>
-      <td>166.5</td>
-      <td>70.0</td>
-      <td>N</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+School
+</th>
+<th>
+Grade
+</th>
+<th>
+Name
+</th>
+<th>
+Gender
+</th>
+<th>
+Height
+</th>
+<th>
+Weight
+</th>
+<th>
+Transfer
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+Shanghai Jiao Tong University
+</td>
+<td>
+Freshman
+</td>
+<td>
+Gaopeng Yang
+</td>
+<td>
+Female
+</td>
+<td>
+158.9
+</td>
+<td>
+46.0
+</td>
+<td>
+N
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+Peking University
+</td>
+<td>
+Freshman
+</td>
+<td>
+Changqiang You
+</td>
+<td>
+Male
+</td>
+<td>
+166.5
+</td>
+<td>
+70.0
+</td>
+<td>
+N
+</td>
+</tr>
+</tbody>
 </table>
 </div>
-
-
-
-
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df.tail(<span class="hljs-number">3</span>)<br></code></pre></td></tr></table></figure>
 <div>
 <style scoped>
@@ -1231,56 +1807,117 @@ dtype: object
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>School</th>
-      <th>Grade</th>
-      <th>Name</th>
-      <th>Gender</th>
-      <th>Height</th>
-      <th>Weight</th>
-      <th>Transfer</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>197</th>
-      <td>Shanghai Jiao Tong University</td>
-      <td>Senior</td>
-      <td>Chengqiang Chu</td>
-      <td>Female</td>
-      <td>153.9</td>
-      <td>45.0</td>
-      <td>N</td>
-    </tr>
-    <tr>
-      <th>198</th>
-      <td>Shanghai Jiao Tong University</td>
-      <td>Senior</td>
-      <td>Chengmei Shen</td>
-      <td>Male</td>
-      <td>175.3</td>
-      <td>71.0</td>
-      <td>N</td>
-    </tr>
-    <tr>
-      <th>199</th>
-      <td>Tsinghua University</td>
-      <td>Sophomore</td>
-      <td>Chunpeng Lv</td>
-      <td>Male</td>
-      <td>155.7</td>
-      <td>51.0</td>
-      <td>N</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+School
+</th>
+<th>
+Grade
+</th>
+<th>
+Name
+</th>
+<th>
+Gender
+</th>
+<th>
+Height
+</th>
+<th>
+Weight
+</th>
+<th>
+Transfer
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+197
+</th>
+<td>
+Shanghai Jiao Tong University
+</td>
+<td>
+Senior
+</td>
+<td>
+Chengqiang Chu
+</td>
+<td>
+Female
+</td>
+<td>
+153.9
+</td>
+<td>
+45.0
+</td>
+<td>
+N
+</td>
+</tr>
+<tr>
+<th>
+198
+</th>
+<td>
+Shanghai Jiao Tong University
+</td>
+<td>
+Senior
+</td>
+<td>
+Chengmei Shen
+</td>
+<td>
+Male
+</td>
+<td>
+175.3
+</td>
+<td>
+71.0
+</td>
+<td>
+N
+</td>
+</tr>
+<tr>
+<th>
+199
+</th>
+<td>
+Tsinghua University
+</td>
+<td>
+Sophomore
+</td>
+<td>
+Chunpeng Lv
+</td>
+<td>
+Male
+</td>
+<td>
+155.7
+</td>
+<td>
+51.0
+</td>
+<td>
+N
+</td>
+</tr>
+</tbody>
 </table>
 </div>
-
-
-
-<p><code>info, describe</code>分别返回表的信息概况和表中数值列对应的主要统计量 ：</p>
+<p><code>info, describe</code>分别返回表的信息概况和表中数值列对应的主要统计量
+：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df.info()<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
 RangeIndex: 200 entries, 0 to 199
@@ -1295,8 +1932,8 @@ Data columns (total 7 columns):
  5   Weight    189 non-null    float64
  6   Transfer  188 non-null    object 
 dtypes: float64(2), object(5)
-memory usage: 11.1+ KB
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df.describe()<br></code></pre></td></tr></table></figure>
+memory usage: 11.1+ KB</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df.describe()<br></code></pre></td></tr></table></figure>
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -1312,105 +1949,160 @@ memory usage: 11.1+ KB
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Height</th>
-      <th>Weight</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>count</th>
-      <td>183.000000</td>
-      <td>189.000000</td>
-    </tr>
-    <tr>
-      <th>mean</th>
-      <td>163.218033</td>
-      <td>55.015873</td>
-    </tr>
-    <tr>
-      <th>std</th>
-      <td>8.608879</td>
-      <td>12.824294</td>
-    </tr>
-    <tr>
-      <th>min</th>
-      <td>145.400000</td>
-      <td>34.000000</td>
-    </tr>
-    <tr>
-      <th>25%</th>
-      <td>157.150000</td>
-      <td>46.000000</td>
-    </tr>
-    <tr>
-      <th>50%</th>
-      <td>161.900000</td>
-      <td>51.000000</td>
-    </tr>
-    <tr>
-      <th>75%</th>
-      <td>167.500000</td>
-      <td>65.000000</td>
-    </tr>
-    <tr>
-      <th>max</th>
-      <td>193.900000</td>
-      <td>89.000000</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+Height
+</th>
+<th>
+Weight
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+count
+</th>
+<td>
+183.000000
+</td>
+<td>
+189.000000
+</td>
+</tr>
+<tr>
+<th>
+mean
+</th>
+<td>
+163.218033
+</td>
+<td>
+55.015873
+</td>
+</tr>
+<tr>
+<th>
+std
+</th>
+<td>
+8.608879
+</td>
+<td>
+12.824294
+</td>
+</tr>
+<tr>
+<th>
+min
+</th>
+<td>
+145.400000
+</td>
+<td>
+34.000000
+</td>
+</tr>
+<tr>
+<th>
+25%
+</th>
+<td>
+157.150000
+</td>
+<td>
+46.000000
+</td>
+</tr>
+<tr>
+<th>
+50%
+</th>
+<td>
+161.900000
+</td>
+<td>
+51.000000
+</td>
+</tr>
+<tr>
+<th>
+75%
+</th>
+<td>
+167.500000
+</td>
+<td>
+65.000000
+</td>
+</tr>
+<tr>
+<th>
+max
+</th>
+<td>
+193.900000
+</td>
+<td>
+89.000000
+</td>
+</tr>
+</tbody>
 </table>
 </div>
-
-
-
-<h4 id="【NOTE】更全面的数据汇总"><a href="#【NOTE】更全面的数据汇总" class="headerlink" title="【NOTE】更全面的数据汇总"></a>【NOTE】更全面的数据汇总</h4><p><code>info, describe</code>只能实现较少信息的展示，如果想要对一份数据集进行全面且有效的观察，特别是在列较多的情况下，推荐使用<a target="_blank" rel="noopener" href="https://pandas-profiling.github.io/pandas-profiling/docs/">pandas-profiling</a>包，它将在第十一章被再次提到。</p>
-<h4 id="【END】-2"><a href="#【END】-2" class="headerlink" title="【END】"></a>【END】</h4><h3 id="2-特征统计函数"><a href="#2-特征统计函数" class="headerlink" title="2. 特征统计函数"></a>2. 特征统计函数</h3><p>在<code>Series</code>和<code>DataFrame</code>上定义了许多统计函数，最常见的是<code>sum, mean, median, var, std, max, min</code>。例如，选出身高和体重列进行演示：</p>
+<h4 id="note更全面的数据汇总">【NOTE】更全面的数据汇总</h4>
+<p><code>info, describe</code>只能实现较少信息的展示，如果想要对一份数据集进行全面且有效的观察，特别是在列较多的情况下，推荐使用<a
+target="_blank" rel="noopener" href="https://pandas-profiling.github.io/pandas-profiling/docs/">pandas-profiling</a>包，它将在第十一章被再次提到。</p>
+<h4 id="end-2">【END】</h4>
+<h3 id="特征统计函数">2. 特征统计函数</h3>
+<p>在<code>Series</code>和<code>DataFrame</code>上定义了许多统计函数，最常见的是<code>sum, mean, median, var, std, max, min</code>。例如，选出身高和体重列进行演示：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">df_demo = df[[<span class="hljs-string">&#x27;Height&#x27;</span>, <span class="hljs-string">&#x27;Weight&#x27;</span>]]<br>df_demo.mean()<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">Height    163.218033
 Weight     55.015873
-dtype: float64
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df_demo.<span class="hljs-built_in">max</span>()<br></code></pre></td></tr></table></figure>
+dtype: float64</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df_demo.<span class="hljs-built_in">max</span>()<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">Height    193.9
 Weight     89.0
-dtype: float64
-</code></pre><p>此外，需要介绍的是<code>quantile, count, idxmax</code>这三个函数，它们分别返回的是分位数、非缺失值个数、最大值对应的索引：</p>
+dtype: float64</code></pre>
+<p>此外，需要介绍的是<code>quantile, count, idxmax</code>这三个函数，它们分别返回的是分位数、非缺失值个数、最大值对应的索引：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df_demo.quantile(<span class="hljs-number">0.75</span>)<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">Height    167.5
 Weight     65.0
-Name: 0.75, dtype: float64
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df_demo.count()<br></code></pre></td></tr></table></figure>
+Name: 0.75, dtype: float64</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df_demo.count()<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">Height    183
 Weight    189
-dtype: int64
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df_demo.idxmax() <span class="hljs-comment"># idxmin是对应的函数</span><br></code></pre></td></tr></table></figure>
+dtype: int64</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df_demo.idxmax() <span class="hljs-comment"># idxmin是对应的函数</span><br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">Height    193
 Weight      2
-dtype: int64
-</code></pre><p>上面这些所有的函数，由于操作后返回的是标量，所以又称为聚合函数，它们有一个公共参数<code>axis</code>，默认为0代表逐列聚合，如果设置为1则表示逐行聚合：</p>
+dtype: int64</code></pre>
+<p>上面这些所有的函数，由于操作后返回的是标量，所以又称为聚合函数，它们有一个公共参数<code>axis</code>，默认为0代表逐列聚合，如果设置为1则表示逐行聚合：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df_demo.mean(axis=<span class="hljs-number">1</span>).head() <span class="hljs-comment"># 在这个数据集上体重和身高的均值并没有意义</span><br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">0    102.45
 1    118.25
 2    138.95
 3     41.00
 4    124.00
-dtype: float64
-</code></pre><h3 id="3-唯一值函数"><a href="#3-唯一值函数" class="headerlink" title="3. 唯一值函数"></a>3. 唯一值函数</h3><p>对序列使用<code>unique</code>和<code>nunique</code>可以分别得到其唯一值组成的列表和唯一值的个数：</p>
+dtype: float64</code></pre>
+<h3 id="唯一值函数">3. 唯一值函数</h3>
+<p>对序列使用<code>unique</code>和<code>nunique</code>可以分别得到其唯一值组成的列表和唯一值的个数：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df[<span class="hljs-string">&#x27;School&#x27;</span>].unique()<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">array([&#39;Shanghai Jiao Tong University&#39;, &#39;Peking University&#39;,
-       &#39;Fudan University&#39;, &#39;Tsinghua University&#39;], dtype=object)
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df[<span class="hljs-string">&#x27;School&#x27;</span>].nunique()<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">4
-</code></pre><p><code>value_counts</code>可以得到唯一值和其对应出现的频数：</p>
+       &#39;Fudan University&#39;, &#39;Tsinghua University&#39;], dtype=object)</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df[<span class="hljs-string">&#x27;School&#x27;</span>].nunique()<br></code></pre></td></tr></table></figure>
+<pre><code class="hljs">4</code></pre>
+<p><code>value_counts</code>可以得到唯一值和其对应出现的频数：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df[<span class="hljs-string">&#x27;School&#x27;</span>].value_counts()<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">Tsinghua University              69
 Shanghai Jiao Tong University    57
 Fudan University                 40
 Peking University                34
-Name: School, dtype: int64
-</code></pre><p>如果想要观察多个列组合的唯一值，可以使用<code>drop_duplicates</code>。其中的关键参数是<code>keep</code>，默认值<code>first</code>表示每个组合保留第一次出现的所在行，<code>last</code>表示保留最后一次出现的所在行，<code>False</code>表示把所有重复组合所在的行剔除。</p>
+Name: School, dtype: int64</code></pre>
+<p>如果想要观察多个列组合的唯一值，可以使用<code>drop_duplicates</code>。其中的关键参数是<code>keep</code>，默认值<code>first</code>表示每个组合保留第一次出现的所在行，<code>last</code>表示保留最后一次出现的所在行，<code>False</code>表示把所有重复组合所在的行剔除。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">df_demo = df[[<span class="hljs-string">&#x27;Gender&#x27;</span>,<span class="hljs-string">&#x27;Transfer&#x27;</span>,<span class="hljs-string">&#x27;Name&#x27;</span>]]<br>df_demo.drop_duplicates([<span class="hljs-string">&#x27;Gender&#x27;</span>, <span class="hljs-string">&#x27;Transfer&#x27;</span>])<br></code></pre></td></tr></table></figure>
 <div>
 <style scoped>
@@ -1427,58 +2119,109 @@ Name: School, dtype: int64
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Gender</th>
-      <th>Transfer</th>
-      <th>Name</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Female</td>
-      <td>N</td>
-      <td>Gaopeng Yang</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Male</td>
-      <td>N</td>
-      <td>Changqiang You</td>
-    </tr>
-    <tr>
-      <th>12</th>
-      <td>Female</td>
-      <td>NaN</td>
-      <td>Peng You</td>
-    </tr>
-    <tr>
-      <th>21</th>
-      <td>Male</td>
-      <td>NaN</td>
-      <td>Xiaopeng Shen</td>
-    </tr>
-    <tr>
-      <th>36</th>
-      <td>Male</td>
-      <td>Y</td>
-      <td>Xiaojuan Qin</td>
-    </tr>
-    <tr>
-      <th>43</th>
-      <td>Female</td>
-      <td>Y</td>
-      <td>Gaoli Feng</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+Gender
+</th>
+<th>
+Transfer
+</th>
+<th>
+Name
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+Female
+</td>
+<td>
+N
+</td>
+<td>
+Gaopeng Yang
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+Male
+</td>
+<td>
+N
+</td>
+<td>
+Changqiang You
+</td>
+</tr>
+<tr>
+<th>
+12
+</th>
+<td>
+Female
+</td>
+<td>
+NaN
+</td>
+<td>
+Peng You
+</td>
+</tr>
+<tr>
+<th>
+21
+</th>
+<td>
+Male
+</td>
+<td>
+NaN
+</td>
+<td>
+Xiaopeng Shen
+</td>
+</tr>
+<tr>
+<th>
+36
+</th>
+<td>
+Male
+</td>
+<td>
+Y
+</td>
+<td>
+Xiaojuan Qin
+</td>
+</tr>
+<tr>
+<th>
+43
+</th>
+<td>
+Female
+</td>
+<td>
+Y
+</td>
+<td>
+Gaoli Feng
+</td>
+</tr>
+</tbody>
 </table>
 </div>
-
-
-
-
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df_demo.drop_duplicates([<span class="hljs-string">&#x27;Gender&#x27;</span>, <span class="hljs-string">&#x27;Transfer&#x27;</span>], keep=<span class="hljs-string">&#x27;last&#x27;</span>)<br></code></pre></td></tr></table></figure>
 <div>
 <style scoped>
@@ -1495,58 +2238,109 @@ Name: School, dtype: int64
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Gender</th>
-      <th>Transfer</th>
-      <th>Name</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>147</th>
-      <td>Male</td>
-      <td>NaN</td>
-      <td>Juan You</td>
-    </tr>
-    <tr>
-      <th>150</th>
-      <td>Male</td>
-      <td>Y</td>
-      <td>Chengpeng You</td>
-    </tr>
-    <tr>
-      <th>169</th>
-      <td>Female</td>
-      <td>Y</td>
-      <td>Chengquan Qin</td>
-    </tr>
-    <tr>
-      <th>194</th>
-      <td>Female</td>
-      <td>NaN</td>
-      <td>Yanmei Qian</td>
-    </tr>
-    <tr>
-      <th>197</th>
-      <td>Female</td>
-      <td>N</td>
-      <td>Chengqiang Chu</td>
-    </tr>
-    <tr>
-      <th>199</th>
-      <td>Male</td>
-      <td>N</td>
-      <td>Chunpeng Lv</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+Gender
+</th>
+<th>
+Transfer
+</th>
+<th>
+Name
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+147
+</th>
+<td>
+Male
+</td>
+<td>
+NaN
+</td>
+<td>
+Juan You
+</td>
+</tr>
+<tr>
+<th>
+150
+</th>
+<td>
+Male
+</td>
+<td>
+Y
+</td>
+<td>
+Chengpeng You
+</td>
+</tr>
+<tr>
+<th>
+169
+</th>
+<td>
+Female
+</td>
+<td>
+Y
+</td>
+<td>
+Chengquan Qin
+</td>
+</tr>
+<tr>
+<th>
+194
+</th>
+<td>
+Female
+</td>
+<td>
+NaN
+</td>
+<td>
+Yanmei Qian
+</td>
+</tr>
+<tr>
+<th>
+197
+</th>
+<td>
+Female
+</td>
+<td>
+N
+</td>
+<td>
+Chengqiang Chu
+</td>
+</tr>
+<tr>
+<th>
+199
+</th>
+<td>
+Male
+</td>
+<td>
+N
+</td>
+<td>
+Chunpeng Lv
+</td>
+</tr>
+</tbody>
 </table>
 </div>
-
-
-
-
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df_demo.drop_duplicates([<span class="hljs-string">&#x27;Name&#x27;</span>, <span class="hljs-string">&#x27;Gender&#x27;</span>], keep=<span class="hljs-literal">False</span>).head() <span class="hljs-comment"># 保留只出现过一次的性别和姓名组合</span><br></code></pre></td></tr></table></figure>
 <div>
 <style scoped>
@@ -1563,74 +2357,119 @@ Name: School, dtype: int64
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Gender</th>
-      <th>Transfer</th>
-      <th>Name</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Female</td>
-      <td>N</td>
-      <td>Gaopeng Yang</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Male</td>
-      <td>N</td>
-      <td>Changqiang You</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Male</td>
-      <td>N</td>
-      <td>Mei Sun</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Male</td>
-      <td>N</td>
-      <td>Gaojuan You</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>Female</td>
-      <td>N</td>
-      <td>Xiaoli Qian</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+Gender
+</th>
+<th>
+Transfer
+</th>
+<th>
+Name
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+Female
+</td>
+<td>
+N
+</td>
+<td>
+Gaopeng Yang
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+Male
+</td>
+<td>
+N
+</td>
+<td>
+Changqiang You
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+Male
+</td>
+<td>
+N
+</td>
+<td>
+Mei Sun
+</td>
+</tr>
+<tr>
+<th>
+4
+</th>
+<td>
+Male
+</td>
+<td>
+N
+</td>
+<td>
+Gaojuan You
+</td>
+</tr>
+<tr>
+<th>
+5
+</th>
+<td>
+Female
+</td>
+<td>
+N
+</td>
+<td>
+Xiaoli Qian
+</td>
+</tr>
+</tbody>
 </table>
 </div>
-
-
-
-
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df[<span class="hljs-string">&#x27;School&#x27;</span>].drop_duplicates() <span class="hljs-comment"># 在Series上也可以使用</span><br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">0    Shanghai Jiao Tong University
 1                Peking University
 3                 Fudan University
 5              Tsinghua University
-Name: School, dtype: object
-</code></pre><p>此外，<code>duplicated</code>和<code>drop_duplicates</code>的功能类似，但前者返回了是否为唯一值的布尔列表，其<code>keep</code>参数与后者一致。其返回的序列，把重复元素设为<code>True</code>，否则为<code>False</code>。 <code>drop_duplicates</code>等价于把<code>duplicated</code>为<code>True</code>的对应行剔除。</p>
+Name: School, dtype: object</code></pre>
+<p>此外，<code>duplicated</code>和<code>drop_duplicates</code>的功能类似，但前者返回了是否为唯一值的布尔列表，其<code>keep</code>参数与后者一致。其返回的序列，把重复元素设为<code>True</code>，否则为<code>False</code>。
+<code>drop_duplicates</code>等价于把<code>duplicated</code>为<code>True</code>的对应行剔除。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df_demo.duplicated([<span class="hljs-string">&#x27;Gender&#x27;</span>, <span class="hljs-string">&#x27;Transfer&#x27;</span>]).head()<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">0    False
 1    False
 2     True
 3     True
 4     True
-dtype: bool
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df[<span class="hljs-string">&#x27;School&#x27;</span>].duplicated().head() <span class="hljs-comment"># 在Series上也可以使用</span><br></code></pre></td></tr></table></figure>
+dtype: bool</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df[<span class="hljs-string">&#x27;School&#x27;</span>].duplicated().head() <span class="hljs-comment"># 在Series上也可以使用</span><br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">0    False
 1    False
 2     True
 3    False
 4     True
-Name: School, dtype: bool
-</code></pre><h3 id="4-替换函数"><a href="#4-替换函数" class="headerlink" title="4. 替换函数"></a>4. 替换函数</h3><p>一般而言，替换操作是针对某一个列进行的，因此下面的例子都以<code>Series</code>举例。<code>pandas</code>中的替换函数可以归纳为三类：映射替换、逻辑替换、数值替换。其中映射替换包含<code>replace</code>方法、第八章中的<code>str.replace</code>方法以及第九章中的<code>cat.codes</code>方法，此处介绍<code>replace</code>的用法。</p>
+Name: School, dtype: bool</code></pre>
+<h3 id="替换函数">4. 替换函数</h3>
+<p>一般而言，替换操作是针对某一个列进行的，因此下面的例子都以<code>Series</code>举例。<code>pandas</code>中的替换函数可以归纳为三类：映射替换、逻辑替换、数值替换。其中映射替换包含<code>replace</code>方法、第八章中的<code>str.replace</code>方法以及第九章中的<code>cat.codes</code>方法，此处介绍<code>replace</code>的用法。</p>
 <p>在<code>replace</code>中，可以通过字典构造，或者传入两个列表来进行替换：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df[<span class="hljs-string">&#x27;Gender&#x27;</span>].replace(&#123;<span class="hljs-string">&#x27;Female&#x27;</span>:<span class="hljs-number">0</span>, <span class="hljs-string">&#x27;Male&#x27;</span>:<span class="hljs-number">1</span>&#125;).head()<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">0    0
@@ -1638,15 +2477,15 @@ Name: School, dtype: bool
 2    1
 3    0
 4    1
-Name: Gender, dtype: int64
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df[<span class="hljs-string">&#x27;Gender&#x27;</span>].replace([<span class="hljs-string">&#x27;Female&#x27;</span>, <span class="hljs-string">&#x27;Male&#x27;</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>]).head()<br></code></pre></td></tr></table></figure>
+Name: Gender, dtype: int64</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df[<span class="hljs-string">&#x27;Gender&#x27;</span>].replace([<span class="hljs-string">&#x27;Female&#x27;</span>, <span class="hljs-string">&#x27;Male&#x27;</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>]).head()<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">0    0
 1    1
 2    1
 3    0
 4    1
-Name: Gender, dtype: int64
-</code></pre><p>另外，<code>replace</code>还有一种特殊的方向替换，指定<code>method</code>参数为<code>ffill</code>则为用前面一个最近的未被替换的值进行替换，<code>bfill</code>则使用后面最近的未被替换的值进行替换。从下面的例子可以看到，它们的结果是不同的：</p>
+Name: Gender, dtype: int64</code></pre>
+<p>另外，<code>replace</code>还有一种特殊的方向替换，指定<code>method</code>参数为<code>ffill</code>则为用前面一个最近的未被替换的值进行替换，<code>bfill</code>则使用后面最近的未被替换的值进行替换。从下面的例子可以看到，它们的结果是不同的：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">s = pd.Series([<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-number">1</span>, <span class="hljs-string">&#x27;b&#x27;</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-string">&#x27;a&#x27;</span>])<br>s.replace([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>], method=<span class="hljs-string">&#x27;ffill&#x27;</span>)<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">0    a
 1    a
@@ -1655,8 +2494,8 @@ Name: Gender, dtype: int64
 4    b
 5    b
 6    a
-dtype: object
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.replace([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>], method=<span class="hljs-string">&#x27;bfill&#x27;</span>)<br></code></pre></td></tr></table></figure>
+dtype: object</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.replace([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>], method=<span class="hljs-string">&#x27;bfill&#x27;</span>)<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">0    a
 1    b
 2    b
@@ -1664,61 +2503,68 @@ dtype: object
 4    a
 5    a
 6    a
-dtype: object
-</code></pre><h4 id="【WARNING】正则替换请使用str-replace"><a href="#【WARNING】正则替换请使用str-replace" class="headerlink" title="【WARNING】正则替换请使用str.replace"></a>【WARNING】正则替换请使用<code>str.replace</code></h4><p>虽然对于<code>replace</code>而言可以使用正则替换，但是当前版本下对于<code>string</code>类型的正则替换还存在<code>bug</code>，因此如有此需求，请选择<code>str.replace</code>进行替换操作，具体的方式将在第八章中讲解。</p>
-<h4 id="【END】-3"><a href="#【END】-3" class="headerlink" title="【END】"></a>【END】</h4><p>逻辑替换包括了<code>where</code>和<code>mask</code>，这两个函数是完全对称的：<code>where</code>函数在传入条件为<code>False</code>的对应行进行替换，而<code>mask</code>在传入条件为<code>True</code>的对应行进行替换，当不指定替换值时，替换为缺失值。</p>
+dtype: object</code></pre>
+<h4
+id="warning正则替换请使用str.replace">【WARNING】正则替换请使用<code>str.replace</code></h4>
+<p>虽然对于<code>replace</code>而言可以使用正则替换，但是当前版本下对于<code>string</code>类型的正则替换还存在<code>bug</code>，因此如有此需求，请选择<code>str.replace</code>进行替换操作，具体的方式将在第八章中讲解。</p>
+<h4 id="end-3">【END】</h4>
+<p>逻辑替换包括了<code>where</code>和<code>mask</code>，这两个函数是完全对称的：<code>where</code>函数在传入条件为<code>False</code>的对应行进行替换，而<code>mask</code>在传入条件为<code>True</code>的对应行进行替换，当不指定替换值时，替换为缺失值。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">s = pd.Series([-<span class="hljs-number">1</span>, <span class="hljs-number">1.2345</span>, <span class="hljs-number">100</span>, -<span class="hljs-number">50</span>])<br>s.where(s&lt;<span class="hljs-number">0</span>)<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">0    -1.0
 1     NaN
 2     NaN
 3   -50.0
-dtype: float64
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.where(s&lt;<span class="hljs-number">0</span>, <span class="hljs-number">100</span>)<br></code></pre></td></tr></table></figure>
+dtype: float64</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.where(s&lt;<span class="hljs-number">0</span>, <span class="hljs-number">100</span>)<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">0     -1.0
 1    100.0
 2    100.0
 3    -50.0
-dtype: float64
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.mask(s&lt;<span class="hljs-number">0</span>)<br></code></pre></td></tr></table></figure>
+dtype: float64</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.mask(s&lt;<span class="hljs-number">0</span>)<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">0         NaN
 1      1.2345
 2    100.0000
 3         NaN
-dtype: float64
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.mask(s&lt;<span class="hljs-number">0</span>, -<span class="hljs-number">50</span>)<br></code></pre></td></tr></table></figure>
+dtype: float64</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.mask(s&lt;<span class="hljs-number">0</span>, -<span class="hljs-number">50</span>)<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">0    -50.0000
 1      1.2345
 2    100.0000
 3    -50.0000
-dtype: float64
-</code></pre><p>需要注意的是，传入的条件只需是与被调用的<code>Series</code>索引一致的布尔序列即可：</p>
+dtype: float64</code></pre>
+<p>需要注意的是，传入的条件只需是与被调用的<code>Series</code>索引一致的布尔序列即可：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">s_condition= pd.Series([<span class="hljs-literal">True</span>,<span class="hljs-literal">False</span>,<span class="hljs-literal">False</span>,<span class="hljs-literal">True</span>],index=s.index)<br>s.mask(s_condition, -<span class="hljs-number">50</span>)<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">0    -50.0000
 1      1.2345
 2    100.0000
 3    -50.0000
-dtype: float64
-</code></pre><p>数值替换包含了<code>round, abs, clip</code>方法，它们分别表示按照给定精度四舍五入、取绝对值和截断：</p>
+dtype: float64</code></pre>
+<p>数值替换包含了<code>round, abs, clip</code>方法，它们分别表示按照给定精度四舍五入、取绝对值和截断：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">s = pd.Series([-<span class="hljs-number">1</span>, <span class="hljs-number">1.2345</span>, <span class="hljs-number">100</span>, -<span class="hljs-number">50</span>])<br>s.<span class="hljs-built_in">round</span>(<span class="hljs-number">2</span>)<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">0     -1.00
 1      1.23
 2    100.00
 3    -50.00
-dtype: float64
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.<span class="hljs-built_in">abs</span>()<br></code></pre></td></tr></table></figure>
+dtype: float64</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.<span class="hljs-built_in">abs</span>()<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">0      1.0000
 1      1.2345
 2    100.0000
 3     50.0000
-dtype: float64
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.clip(<span class="hljs-number">0</span>, <span class="hljs-number">2</span>) <span class="hljs-comment"># 前两个数分别表示上下截断边界</span><br></code></pre></td></tr></table></figure>
+dtype: float64</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.clip(<span class="hljs-number">0</span>, <span class="hljs-number">2</span>) <span class="hljs-comment"># 前两个数分别表示上下截断边界</span><br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">0    0.0000
 1    1.2345
 2    2.0000
 3    0.0000
-dtype: float64
-</code></pre><h4 id="【练一练】"><a href="#【练一练】" class="headerlink" title="【练一练】"></a>【练一练】</h4><p>在 clip 中，超过边界的只能截断为边界值，如果要把超出边界的替换为自定义的值，应当如何做？</p>
-<h4 id="【END】-4"><a href="#【END】-4" class="headerlink" title="【END】"></a>【END】</h4><h3 id="5-排序函数"><a href="#5-排序函数" class="headerlink" title="5. 排序函数"></a>5. 排序函数</h3><p>排序共有两种方式，其一为值排序，其二为索引排序，对应的函数是<code>sort_values</code>和<code>sort_index</code>。</p>
+dtype: float64</code></pre>
+<h4 id="练一练">【练一练】</h4>
+<p>在 clip
+中，超过边界的只能截断为边界值，如果要把超出边界的替换为自定义的值，应当如何做？</p>
+<h4 id="end-4">【END】</h4>
+<h3 id="排序函数">5. 排序函数</h3>
+<p>排序共有两种方式，其一为值排序，其二为索引排序，对应的函数是<code>sort_values</code>和<code>sort_index</code>。</p>
 <p>为了演示排序函数，下面先利用<code>set_index</code>方法把年级和姓名两列作为索引，多级索引的内容和索引设置的方法将在第三章进行详细讲解。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">df_demo = df[[<span class="hljs-string">&#x27;Grade&#x27;</span>, <span class="hljs-string">&#x27;Name&#x27;</span>, <span class="hljs-string">&#x27;Height&#x27;</span>, <span class="hljs-string">&#x27;Weight&#x27;</span>]].set_index([<span class="hljs-string">&#x27;Grade&#x27;</span>,<span class="hljs-string">&#x27;Name&#x27;</span>])<br>df_demo.head(<span class="hljs-number">3</span>)<br></code></pre></td></tr></table></figure>
 <div>
@@ -1736,44 +2582,75 @@ dtype: float64
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th></th>
-      <th>Height</th>
-      <th>Weight</th>
-    </tr>
-    <tr>
-      <th>Grade</th>
-      <th>Name</th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th rowspan="2" valign="top">Freshman</th>
-      <th>Gaopeng Yang</th>
-      <td>158.9</td>
-      <td>46.0</td>
-    </tr>
-    <tr>
-      <th>Changqiang You</th>
-      <td>166.5</td>
-      <td>70.0</td>
-    </tr>
-    <tr>
-      <th>Senior</th>
-      <th>Mei Sun</th>
-      <td>188.9</td>
-      <td>89.0</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+</th>
+<th>
+Height
+</th>
+<th>
+Weight
+</th>
+</tr>
+<tr>
+<th>
+Grade
+</th>
+<th>
+Name
+</th>
+<th>
+</th>
+<th>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th rowspan="2" valign="top">
+Freshman
+</th>
+<th>
+Gaopeng Yang
+</th>
+<td>
+158.9
+</td>
+<td>
+46.0
+</td>
+</tr>
+<tr>
+<th>
+Changqiang You
+</th>
+<td>
+166.5
+</td>
+<td>
+70.0
+</td>
+</tr>
+<tr>
+<th>
+Senior
+</th>
+<th>
+Mei Sun
+</th>
+<td>
+188.9
+</td>
+<td>
+89.0
+</td>
+</tr>
+</tbody>
 </table>
 </div>
-
-
-
 <p>对身高进行排序，默认参数<code>ascending=True</code>为升序：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df_demo.sort_values(<span class="hljs-string">&#x27;Height&#x27;</span>).head()<br></code></pre></td></tr></table></figure>
 <div>
@@ -1791,58 +2668,106 @@ dtype: float64
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th></th>
-      <th>Height</th>
-      <th>Weight</th>
-    </tr>
-    <tr>
-      <th>Grade</th>
-      <th>Name</th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>Junior</th>
-      <th>Xiaoli Chu</th>
-      <td>145.4</td>
-      <td>34.0</td>
-    </tr>
-    <tr>
-      <th>Senior</th>
-      <th>Gaomei Lv</th>
-      <td>147.3</td>
-      <td>34.0</td>
-    </tr>
-    <tr>
-      <th>Sophomore</th>
-      <th>Peng Han</th>
-      <td>147.8</td>
-      <td>34.0</td>
-    </tr>
-    <tr>
-      <th>Senior</th>
-      <th>Changli Lv</th>
-      <td>148.7</td>
-      <td>41.0</td>
-    </tr>
-    <tr>
-      <th>Sophomore</th>
-      <th>Changjuan You</th>
-      <td>150.5</td>
-      <td>40.0</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+</th>
+<th>
+Height
+</th>
+<th>
+Weight
+</th>
+</tr>
+<tr>
+<th>
+Grade
+</th>
+<th>
+Name
+</th>
+<th>
+</th>
+<th>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+Junior
+</th>
+<th>
+Xiaoli Chu
+</th>
+<td>
+145.4
+</td>
+<td>
+34.0
+</td>
+</tr>
+<tr>
+<th>
+Senior
+</th>
+<th>
+Gaomei Lv
+</th>
+<td>
+147.3
+</td>
+<td>
+34.0
+</td>
+</tr>
+<tr>
+<th>
+Sophomore
+</th>
+<th>
+Peng Han
+</th>
+<td>
+147.8
+</td>
+<td>
+34.0
+</td>
+</tr>
+<tr>
+<th>
+Senior
+</th>
+<th>
+Changli Lv
+</th>
+<td>
+148.7
+</td>
+<td>
+41.0
+</td>
+</tr>
+<tr>
+<th>
+Sophomore
+</th>
+<th>
+Changjuan You
+</th>
+<td>
+150.5
+</td>
+<td>
+40.0
+</td>
+</tr>
+</tbody>
 </table>
 </div>
-
-
-
-
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df_demo.sort_values(<span class="hljs-string">&#x27;Height&#x27;</span>, ascending=<span class="hljs-literal">False</span>).head()<br></code></pre></td></tr></table></figure>
 <div>
 <style scoped>
@@ -1859,55 +2784,100 @@ dtype: float64
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th></th>
-      <th>Height</th>
-      <th>Weight</th>
-    </tr>
-    <tr>
-      <th>Grade</th>
-      <th>Name</th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th rowspan="3" valign="top">Senior</th>
-      <th>Xiaoqiang Qin</th>
-      <td>193.9</td>
-      <td>79.0</td>
-    </tr>
-    <tr>
-      <th>Mei Sun</th>
-      <td>188.9</td>
-      <td>89.0</td>
-    </tr>
-    <tr>
-      <th>Gaoli Zhao</th>
-      <td>186.5</td>
-      <td>83.0</td>
-    </tr>
-    <tr>
-      <th>Freshman</th>
-      <th>Qiang Han</th>
-      <td>185.3</td>
-      <td>87.0</td>
-    </tr>
-    <tr>
-      <th>Senior</th>
-      <th>Qiang Zheng</th>
-      <td>183.9</td>
-      <td>87.0</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+</th>
+<th>
+Height
+</th>
+<th>
+Weight
+</th>
+</tr>
+<tr>
+<th>
+Grade
+</th>
+<th>
+Name
+</th>
+<th>
+</th>
+<th>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th rowspan="3" valign="top">
+Senior
+</th>
+<th>
+Xiaoqiang Qin
+</th>
+<td>
+193.9
+</td>
+<td>
+79.0
+</td>
+</tr>
+<tr>
+<th>
+Mei Sun
+</th>
+<td>
+188.9
+</td>
+<td>
+89.0
+</td>
+</tr>
+<tr>
+<th>
+Gaoli Zhao
+</th>
+<td>
+186.5
+</td>
+<td>
+83.0
+</td>
+</tr>
+<tr>
+<th>
+Freshman
+</th>
+<th>
+Qiang Han
+</th>
+<td>
+185.3
+</td>
+<td>
+87.0
+</td>
+</tr>
+<tr>
+<th>
+Senior
+</th>
+<th>
+Qiang Zheng
+</th>
+<td>
+183.9
+</td>
+<td>
+87.0
+</td>
+</tr>
+</tbody>
 </table>
 </div>
-
-
-
 <p>在排序中，经常遇到多列排序的问题，比如在体重相同的情况下，对身高进行排序，并且保持身高降序排列，体重升序排列：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df_demo.sort_values([<span class="hljs-string">&#x27;Weight&#x27;</span>,<span class="hljs-string">&#x27;Height&#x27;</span>],ascending=[<span class="hljs-literal">True</span>,<span class="hljs-literal">False</span>]).head()<br></code></pre></td></tr></table></figure>
 <div>
@@ -1925,57 +2895,106 @@ dtype: float64
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th></th>
-      <th>Height</th>
-      <th>Weight</th>
-    </tr>
-    <tr>
-      <th>Grade</th>
-      <th>Name</th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>Sophomore</th>
-      <th>Peng Han</th>
-      <td>147.8</td>
-      <td>34.0</td>
-    </tr>
-    <tr>
-      <th>Senior</th>
-      <th>Gaomei Lv</th>
-      <td>147.3</td>
-      <td>34.0</td>
-    </tr>
-    <tr>
-      <th>Junior</th>
-      <th>Xiaoli Chu</th>
-      <td>145.4</td>
-      <td>34.0</td>
-    </tr>
-    <tr>
-      <th>Sophomore</th>
-      <th>Qiang Zhou</th>
-      <td>150.5</td>
-      <td>36.0</td>
-    </tr>
-    <tr>
-      <th>Freshman</th>
-      <th>Yanqiang Xu</th>
-      <td>152.4</td>
-      <td>38.0</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+</th>
+<th>
+Height
+</th>
+<th>
+Weight
+</th>
+</tr>
+<tr>
+<th>
+Grade
+</th>
+<th>
+Name
+</th>
+<th>
+</th>
+<th>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+Sophomore
+</th>
+<th>
+Peng Han
+</th>
+<td>
+147.8
+</td>
+<td>
+34.0
+</td>
+</tr>
+<tr>
+<th>
+Senior
+</th>
+<th>
+Gaomei Lv
+</th>
+<td>
+147.3
+</td>
+<td>
+34.0
+</td>
+</tr>
+<tr>
+<th>
+Junior
+</th>
+<th>
+Xiaoli Chu
+</th>
+<td>
+145.4
+</td>
+<td>
+34.0
+</td>
+</tr>
+<tr>
+<th>
+Sophomore
+</th>
+<th>
+Qiang Zhou
+</th>
+<td>
+150.5
+</td>
+<td>
+36.0
+</td>
+</tr>
+<tr>
+<th>
+Freshman
+</th>
+<th>
+Yanqiang Xu
+</th>
+<td>
+152.4
+</td>
+<td>
+38.0
+</td>
+</tr>
+</tbody>
 </table>
 </div>
-
-
-
 <p>索引排序的用法和值排序完全一致，只不过元素的值在索引中，此时需要指定索引层的名字或者层号，用参数<code>level</code>表示。另外，需要注意的是字符串的排列顺序由字母顺序决定。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df_demo.sort_index(level=[<span class="hljs-string">&#x27;Grade&#x27;</span>,<span class="hljs-string">&#x27;Name&#x27;</span>],ascending=[<span class="hljs-literal">True</span>,<span class="hljs-literal">False</span>]).head()<br></code></pre></td></tr></table></figure>
 <div>
@@ -1993,198 +3012,251 @@ dtype: float64
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th></th>
-      <th>Height</th>
-      <th>Weight</th>
-    </tr>
-    <tr>
-      <th>Grade</th>
-      <th>Name</th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th rowspan="5" valign="top">Freshman</th>
-      <th>Yanquan Wang</th>
-      <td>163.5</td>
-      <td>55.0</td>
-    </tr>
-    <tr>
-      <th>Yanqiang Xu</th>
-      <td>152.4</td>
-      <td>38.0</td>
-    </tr>
-    <tr>
-      <th>Yanqiang Feng</th>
-      <td>162.3</td>
-      <td>51.0</td>
-    </tr>
-    <tr>
-      <th>Yanpeng Lv</th>
-      <td>NaN</td>
-      <td>65.0</td>
-    </tr>
-    <tr>
-      <th>Yanli Zhang</th>
-      <td>165.1</td>
-      <td>52.0</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+</th>
+<th>
+Height
+</th>
+<th>
+Weight
+</th>
+</tr>
+<tr>
+<th>
+Grade
+</th>
+<th>
+Name
+</th>
+<th>
+</th>
+<th>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th rowspan="5" valign="top">
+Freshman
+</th>
+<th>
+Yanquan Wang
+</th>
+<td>
+163.5
+</td>
+<td>
+55.0
+</td>
+</tr>
+<tr>
+<th>
+Yanqiang Xu
+</th>
+<td>
+152.4
+</td>
+<td>
+38.0
+</td>
+</tr>
+<tr>
+<th>
+Yanqiang Feng
+</th>
+<td>
+162.3
+</td>
+<td>
+51.0
+</td>
+</tr>
+<tr>
+<th>
+Yanpeng Lv
+</th>
+<td>
+NaN
+</td>
+<td>
+65.0
+</td>
+</tr>
+<tr>
+<th>
+Yanli Zhang
+</th>
+<td>
+165.1
+</td>
+<td>
+52.0
+</td>
+</tr>
+</tbody>
 </table>
 </div>
-
-
-
-<h3 id="6-apply方法"><a href="#6-apply方法" class="headerlink" title="6. apply方法"></a>6. apply方法</h3><p><code>apply</code>方法常用于<code>DataFrame</code>的行迭代或者列迭代，它的<code>axis</code>含义与第2小节中的统计聚合函数一致，<code>apply</code>的参数往往是一个以序列为输入的函数。例如对于<code>.mean()</code>，使用<code>apply</code>可以如下地写出：</p>
+<h3 id="apply方法">6. apply方法</h3>
+<p><code>apply</code>方法常用于<code>DataFrame</code>的行迭代或者列迭代，它的<code>axis</code>含义与第2小节中的统计聚合函数一致，<code>apply</code>的参数往往是一个以序列为输入的函数。例如对于<code>.mean()</code>，使用<code>apply</code>可以如下地写出：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">df_demo = df[[<span class="hljs-string">&#x27;Height&#x27;</span>, <span class="hljs-string">&#x27;Weight&#x27;</span>]]<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">my_mean</span>(<span class="hljs-params">x</span>):<br>     res = x.mean()<br>     <span class="hljs-keyword">return</span> res<br>df_demo.apply(my_mean)<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">Height    163.218033
 Weight     55.015873
-dtype: float64
-</code></pre><p>同样的，可以利用<code>lambda</code>表达式使得书写简洁，这里的<code>x</code>就指代被调用的<code>df_demo</code>表中逐个输入的序列：</p>
+dtype: float64</code></pre>
+<p>同样的，可以利用<code>lambda</code>表达式使得书写简洁，这里的<code>x</code>就指代被调用的<code>df_demo</code>表中逐个输入的序列：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df_demo.apply(<span class="hljs-keyword">lambda</span> x:x.mean())<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">Height    163.218033
 Weight     55.015873
-dtype: float64
-</code></pre><p>若指定<code>axis=1</code>，那么每次传入函数的就是行元素组成的<code>Series</code>，其结果与之前的逐行均值结果一致。</p>
+dtype: float64</code></pre>
+<p>若指定<code>axis=1</code>，那么每次传入函数的就是行元素组成的<code>Series</code>，其结果与之前的逐行均值结果一致。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df_demo.apply(<span class="hljs-keyword">lambda</span> x:x.mean(), axis=<span class="hljs-number">1</span>).head()<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">0    102.45
 1    118.25
 2    138.95
 3     41.00
 4    124.00
-dtype: float64
-</code></pre><p>这里再举一个例子：<code>mad</code>函数返回的是一个序列中偏离该序列均值的绝对值大小的均值，例如序列1,3,7,10中，均值为5.25，每一个元素偏离的绝对值为4.25,2.25,1.75,4.75，这个偏离序列的均值为3.25。现在利用<code>apply</code>计算升高和体重的<code>mad</code>指标：</p>
+dtype: float64</code></pre>
+<p>这里再举一个例子：<code>mad</code>函数返回的是一个序列中偏离该序列均值的绝对值大小的均值，例如序列1,3,7,10中，均值为5.25，每一个元素偏离的绝对值为4.25,2.25,1.75,4.75，这个偏离序列的均值为3.25。现在利用<code>apply</code>计算升高和体重的<code>mad</code>指标：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df_demo.apply(<span class="hljs-keyword">lambda</span> x:(x-x.mean()).<span class="hljs-built_in">abs</span>().mean())<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">Height     6.707229
 Weight    10.391870
-dtype: float64
-</code></pre><p>这与使用内置的<code>mad</code>函数计算结果一致：</p>
+dtype: float64</code></pre>
+<p>这与使用内置的<code>mad</code>函数计算结果一致：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df_demo.mad()<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">Height     6.707229
 Weight    10.391870
-dtype: float64
-</code></pre><h4 id="【WARNING】谨慎使用apply"><a href="#【WARNING】谨慎使用apply" class="headerlink" title="【WARNING】谨慎使用apply"></a>【WARNING】谨慎使用<code>apply</code></h4><p>得益于传入自定义函数的处理，<code>apply</code>的自由度很高，但这是以性能为代价的。一般而言，使用<code>pandas</code>的内置函数处理和<code>apply</code>来处理同一个任务，其速度会相差较多，因此只有在确实存在自定义需求的情境下才考虑使用<code>apply</code>。</p>
-<h4 id="【END】-5"><a href="#【END】-5" class="headerlink" title="【END】"></a>【END】</h4><h2 id="四、窗口对象"><a href="#四、窗口对象" class="headerlink" title="四、窗口对象"></a>四、窗口对象</h2><p><code>pandas</code>中有3类窗口，分别是滑动窗口<code>rolling</code>、扩张窗口<code>expanding</code>以及指数加权窗口<code>ewm</code>。需要说明的是，以日期偏置为窗口大小的滑动窗口将在第十章讨论，指数加权窗口见本章练习。</p>
-<h3 id="1-滑窗对象"><a href="#1-滑窗对象" class="headerlink" title="1. 滑窗对象"></a>1. 滑窗对象</h3><p>要使用滑窗函数，就必须先要对一个序列使用<code>.rolling</code>得到滑窗对象，其最重要的参数为窗口大小<code>window</code>。</p>
+dtype: float64</code></pre>
+<h4 id="warning谨慎使用apply">【WARNING】谨慎使用<code>apply</code></h4>
+<p>得益于传入自定义函数的处理，<code>apply</code>的自由度很高，但这是以性能为代价的。一般而言，使用<code>pandas</code>的内置函数处理和<code>apply</code>来处理同一个任务，其速度会相差较多，因此只有在确实存在自定义需求的情境下才考虑使用<code>apply</code>。</p>
+<h4 id="end-5">【END】</h4>
+<h2 id="四窗口对象">四、窗口对象</h2>
+<p><code>pandas</code>中有3类窗口，分别是滑动窗口<code>rolling</code>、扩张窗口<code>expanding</code>以及指数加权窗口<code>ewm</code>。需要说明的是，以日期偏置为窗口大小的滑动窗口将在第十章讨论，指数加权窗口见本章练习。</p>
+<h3 id="滑窗对象">1. 滑窗对象</h3>
+<p>要使用滑窗函数，就必须先要对一个序列使用<code>.rolling</code>得到滑窗对象，其最重要的参数为窗口大小<code>window</code>。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">s = pd.Series([<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>])<br>roller = s.rolling(window = <span class="hljs-number">3</span>)<br>roller<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">Rolling [window=3,center=False,axis=0]
-</code></pre><p>在得到了滑窗对象后，能够使用相应的聚合函数进行计算，需要注意的是窗口包含当前行所在的元素，例如在第四个位置进行均值运算时，应当计算(2+3+4)/3，而不是(1+2+3)/3：</p>
+<pre><code class="hljs">Rolling [window=3,center=False,axis=0]</code></pre>
+<p>在得到了滑窗对象后，能够使用相应的聚合函数进行计算，需要注意的是窗口包含当前行所在的元素，例如在第四个位置进行均值运算时，应当计算(2+3+4)/3，而不是(1+2+3)/3：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">roller.mean()<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">0    NaN
 1    NaN
 2    2.0
 3    3.0
 4    4.0
-dtype: float64
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">roller.<span class="hljs-built_in">sum</span>()<br></code></pre></td></tr></table></figure>
+dtype: float64</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">roller.<span class="hljs-built_in">sum</span>()<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">0     NaN
 1     NaN
 2     6.0
 3     9.0
 4    12.0
-dtype: float64
-</code></pre><p>对于滑动相关系数或滑动协方差的计算，可以如下写出：</p>
+dtype: float64</code></pre>
+<p>对于滑动相关系数或滑动协方差的计算，可以如下写出：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">s2 = pd.Series([<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">6</span>,<span class="hljs-number">16</span>,<span class="hljs-number">30</span>])<br>roller.cov(s2)<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">0     NaN
 1     NaN
 2     2.5
 3     7.0
 4    12.0
-dtype: float64
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">roller.corr(s2)<br></code></pre></td></tr></table></figure>
+dtype: float64</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">roller.corr(s2)<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">0         NaN
 1         NaN
 2    0.944911
 3    0.970725
 4    0.995402
-dtype: float64
-</code></pre><p>此外，还支持使用<code>apply</code>传入自定义函数，其传入值是对应窗口的<code>Series</code>，例如上述的均值函数可以等效表示：</p>
+dtype: float64</code></pre>
+<p>此外，还支持使用<code>apply</code>传入自定义函数，其传入值是对应窗口的<code>Series</code>，例如上述的均值函数可以等效表示：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">roller.apply(<span class="hljs-keyword">lambda</span> x:x.mean())<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">0    NaN
 1    NaN
 2    2.0
 3    3.0
 4    4.0
-dtype: float64
-</code></pre><p><code>shift, diff, pct_change</code>是一组类滑窗函数，它们的公共参数为<code>periods=n</code>，默认为1，分别表示取向前第<code>n</code>个元素的值、与向前第<code>n</code>个元素做差（与<code>Numpy</code>中不同，后者表示<code>n</code>阶差分）、与向前第<code>n</code>个元素相比计算增长率。这里的<code>n</code>可以为负，表示反方向的类似操作。</p>
+dtype: float64</code></pre>
+<p><code>shift, diff, pct_change</code>是一组类滑窗函数，它们的公共参数为<code>periods=n</code>，默认为1，分别表示取向前第<code>n</code>个元素的值、与向前第<code>n</code>个元素做差（与<code>Numpy</code>中不同，后者表示<code>n</code>阶差分）、与向前第<code>n</code>个元素相比计算增长率。这里的<code>n</code>可以为负，表示反方向的类似操作。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">s = pd.Series([<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,<span class="hljs-number">6</span>,<span class="hljs-number">10</span>,<span class="hljs-number">15</span>])<br>s.shift(<span class="hljs-number">2</span>)<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">0    NaN
 1    NaN
 2    1.0
 3    3.0
 4    6.0
-dtype: float64
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.diff(<span class="hljs-number">3</span>)<br></code></pre></td></tr></table></figure>
+dtype: float64</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.diff(<span class="hljs-number">3</span>)<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">0     NaN
 1     NaN
 2     NaN
 3     9.0
 4    12.0
-dtype: float64
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.pct_change()<br></code></pre></td></tr></table></figure>
+dtype: float64</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.pct_change()<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">0         NaN
 1    2.000000
 2    1.000000
 3    0.666667
 4    0.500000
-dtype: float64
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.shift(-<span class="hljs-number">1</span>)<br></code></pre></td></tr></table></figure>
+dtype: float64</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.shift(-<span class="hljs-number">1</span>)<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">0     3.0
 1     6.0
 2    10.0
 3    15.0
 4     NaN
-dtype: float64
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.diff(-<span class="hljs-number">2</span>)<br></code></pre></td></tr></table></figure>
+dtype: float64</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.diff(-<span class="hljs-number">2</span>)<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">0   -5.0
 1   -7.0
 2   -9.0
 3    NaN
 4    NaN
-dtype: float64
-</code></pre><p>将其视作类滑窗函数的原因是，它们的功能可以用窗口大小为<code>n+1</code>的<code>rolling</code>方法等价代替：</p>
+dtype: float64</code></pre>
+<p>将其视作类滑窗函数的原因是，它们的功能可以用窗口大小为<code>n+1</code>的<code>rolling</code>方法等价代替：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.rolling(<span class="hljs-number">3</span>).apply(<span class="hljs-keyword">lambda</span> x:<span class="hljs-built_in">list</span>(x)[<span class="hljs-number">0</span>]) <span class="hljs-comment"># s.shift(2)</span><br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">0    NaN
 1    NaN
 2    1.0
 3    3.0
 4    6.0
-dtype: float64
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.rolling(<span class="hljs-number">4</span>).apply(<span class="hljs-keyword">lambda</span> x:<span class="hljs-built_in">list</span>(x)[-<span class="hljs-number">1</span>]-<span class="hljs-built_in">list</span>(x)[<span class="hljs-number">0</span>]) <span class="hljs-comment"># s.diff(3)</span><br></code></pre></td></tr></table></figure>
+dtype: float64</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.rolling(<span class="hljs-number">4</span>).apply(<span class="hljs-keyword">lambda</span> x:<span class="hljs-built_in">list</span>(x)[-<span class="hljs-number">1</span>]-<span class="hljs-built_in">list</span>(x)[<span class="hljs-number">0</span>]) <span class="hljs-comment"># s.diff(3)</span><br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">0     NaN
 1     NaN
 2     NaN
 3     9.0
 4    12.0
-dtype: float64
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">my_pct</span>(<span class="hljs-params">x</span>):<br>     L = <span class="hljs-built_in">list</span>(x)<br>     <span class="hljs-keyword">return</span> L[-<span class="hljs-number">1</span>]/L[<span class="hljs-number">0</span>]-<span class="hljs-number">1</span><br>s.rolling(<span class="hljs-number">2</span>).apply(my_pct) <span class="hljs-comment"># s.pct_change()</span><br></code></pre></td></tr></table></figure>
+dtype: float64</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">my_pct</span>(<span class="hljs-params">x</span>):<br>     L = <span class="hljs-built_in">list</span>(x)<br>     <span class="hljs-keyword">return</span> L[-<span class="hljs-number">1</span>]/L[<span class="hljs-number">0</span>]-<span class="hljs-number">1</span><br>s.rolling(<span class="hljs-number">2</span>).apply(my_pct) <span class="hljs-comment"># s.pct_change()</span><br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">0         NaN
 1    2.000000
 2    1.000000
 3    0.666667
 4    0.500000
-dtype: float64
-</code></pre><h4 id="【练一练】-1"><a href="#【练一练】-1" class="headerlink" title="【练一练】"></a>【练一练】</h4><p><code>rolling</code>对象的默认窗口方向都是向前的，某些情况下用户需要向后的窗口，例如对1,2,3设定向后窗口为2的<code>sum</code>操作，结果为3,5,NaN，此时应该如何实现向后的滑窗操作？</p>
-<h4 id="【END】-6"><a href="#【END】-6" class="headerlink" title="【END】"></a>【END】</h4><h3 id="2-扩张窗口"><a href="#2-扩张窗口" class="headerlink" title="2. 扩张窗口"></a>2. 扩张窗口</h3><p>扩张窗口又称累计窗口，可以理解为一个动态长度的窗口，其窗口的大小就是从序列开始处到具体操作的对应位置，其使用的聚合函数会作用于这些逐步扩张的窗口上。具体地说，设序列为a1, a2, a3, a4，则其每个位置对应的窗口即[a1]、[a1, a2]、[a1, a2, a3]、[a1, a2, a3, a4]。</p>
+dtype: float64</code></pre>
+<h4 id="练一练-1">【练一练】</h4>
+<p><code>rolling</code>对象的默认窗口方向都是向前的，某些情况下用户需要向后的窗口，例如对1,2,3设定向后窗口为2的<code>sum</code>操作，结果为3,5,NaN，此时应该如何实现向后的滑窗操作？</p>
+<h4 id="end-6">【END】</h4>
+<h3 id="扩张窗口">2. 扩张窗口</h3>
+<p>扩张窗口又称累计窗口，可以理解为一个动态长度的窗口，其窗口的大小就是从序列开始处到具体操作的对应位置，其使用的聚合函数会作用于这些逐步扩张的窗口上。具体地说，设序列为a1,
+a2, a3, a4，则其每个位置对应的窗口即[a1]、[a1, a2]、[a1, a2, a3]、[a1,
+a2, a3, a4]。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">s = pd.Series([<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">6</span>, <span class="hljs-number">10</span>])<br>s.expanding().mean()<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">0    1.000000
 1    2.000000
 2    3.333333
 3    5.000000
-dtype: float64
-</code></pre><h4 id="【练一练】-2"><a href="#【练一练】-2" class="headerlink" title="【练一练】"></a>【练一练】</h4><p><code>cummax, cumsum, cumprod</code>函数是典型的类扩张窗口函数，请使用<code>expanding</code>对象依次实现它们。</p>
-<h4 id="【END】-7"><a href="#【END】-7" class="headerlink" title="【END】"></a>【END】</h4><h2 id="五、练习"><a href="#五、练习" class="headerlink" title="五、练习"></a>五、练习</h2><h3 id="Ex1：口袋妖怪数据集"><a href="#Ex1：口袋妖怪数据集" class="headerlink" title="Ex1：口袋妖怪数据集"></a>Ex1：口袋妖怪数据集</h3><p>现有一份口袋妖怪的数据集，下面进行一些背景说明：</p>
+dtype: float64</code></pre>
+<h4 id="练一练-2">【练一练】</h4>
+<p><code>cummax, cumsum, cumprod</code>函数是典型的类扩张窗口函数，请使用<code>expanding</code>对象依次实现它们。</p>
+<h4 id="end-7">【END】</h4>
+<h2 id="五练习">五、练习</h2>
+<h3 id="ex1口袋妖怪数据集">Ex1：口袋妖怪数据集</h3>
+<p>现有一份口袋妖怪的数据集，下面进行一些背景说明：</p>
 <ul>
-<li><p><code>#</code>代表全国图鉴编号，不同行存在相同数字则表示为该妖怪的不同状态</p>
-</li>
-<li><p>妖怪具有单属性和双属性两种，对于单属性的妖怪，<code>Type 2</code>为缺失值</p>
-</li>
-<li><code>Total, HP, Attack, Defense, Sp. Atk, Sp. Def, Speed</code>分别代表种族值、体力、物攻、防御、特攻、特防、速度，其中种族值为后6项之和</li>
+<li><p><code>#</code>代表全国图鉴编号，不同行存在相同数字则表示为该妖怪的不同状态</p></li>
+<li><p>妖怪具有单属性和双属性两种，对于单属性的妖怪，<code>Type 2</code>为缺失值</p></li>
+<li><p><code>Total, HP, Attack, Defense, Sp. Atk, Sp. Def, Speed</code>分别代表种族值、体力、物攻、防御、特攻、特防、速度，其中种族值为后6项之和</p></li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">df = pd.read_csv(<span class="hljs-string">&#x27;../data/pokemon.csv&#x27;</span>)<br>df.head(<span class="hljs-number">3</span>)<br></code></pre></td></tr></table></figure>
 <div>
@@ -2202,83 +3274,173 @@ dtype: float64
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>#</th>
-      <th>Name</th>
-      <th>Type 1</th>
-      <th>Type 2</th>
-      <th>Total</th>
-      <th>HP</th>
-      <th>Attack</th>
-      <th>Defense</th>
-      <th>Sp. Atk</th>
-      <th>Sp. Def</th>
-      <th>Speed</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>1</td>
-      <td>Bulbasaur</td>
-      <td>Grass</td>
-      <td>Poison</td>
-      <td>318</td>
-      <td>45</td>
-      <td>49</td>
-      <td>49</td>
-      <td>65</td>
-      <td>65</td>
-      <td>45</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>2</td>
-      <td>Ivysaur</td>
-      <td>Grass</td>
-      <td>Poison</td>
-      <td>405</td>
-      <td>60</td>
-      <td>62</td>
-      <td>63</td>
-      <td>80</td>
-      <td>80</td>
-      <td>60</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>3</td>
-      <td>Venusaur</td>
-      <td>Grass</td>
-      <td>Poison</td>
-      <td>525</td>
-      <td>80</td>
-      <td>82</td>
-      <td>83</td>
-      <td>100</td>
-      <td>100</td>
-      <td>80</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+#
+</th>
+<th>
+Name
+</th>
+<th>
+Type 1
+</th>
+<th>
+Type 2
+</th>
+<th>
+Total
+</th>
+<th>
+HP
+</th>
+<th>
+Attack
+</th>
+<th>
+Defense
+</th>
+<th>
+Sp. Atk
+</th>
+<th>
+Sp. Def
+</th>
+<th>
+Speed
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+1
+</td>
+<td>
+Bulbasaur
+</td>
+<td>
+Grass
+</td>
+<td>
+Poison
+</td>
+<td>
+318
+</td>
+<td>
+45
+</td>
+<td>
+49
+</td>
+<td>
+49
+</td>
+<td>
+65
+</td>
+<td>
+65
+</td>
+<td>
+45
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+2
+</td>
+<td>
+Ivysaur
+</td>
+<td>
+Grass
+</td>
+<td>
+Poison
+</td>
+<td>
+405
+</td>
+<td>
+60
+</td>
+<td>
+62
+</td>
+<td>
+63
+</td>
+<td>
+80
+</td>
+<td>
+80
+</td>
+<td>
+60
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+3
+</td>
+<td>
+Venusaur
+</td>
+<td>
+Grass
+</td>
+<td>
+Poison
+</td>
+<td>
+525
+</td>
+<td>
+80
+</td>
+<td>
+82
+</td>
+<td>
+83
+</td>
+<td>
+100
+</td>
+<td>
+100
+</td>
+<td>
+80
+</td>
+</tr>
+</tbody>
 </table>
 </div>
-
-
-
-<ol>
-<li><p>对<code>HP, Attack, Defense, Sp. Atk, Sp. Def, Speed</code>进行加总，验证是否为<code>Total</code>值。</p>
-</li>
-<li><p>对于<code>#</code>重复的妖怪只保留第一条记录，解决以下问题：</p>
-</li>
+<ol type="1">
+<li><p>对<code>HP, Attack, Defense, Sp. Atk, Sp. Def, Speed</code>进行加总，验证是否为<code>Total</code>值。</p></li>
+<li><p>对于<code>#</code>重复的妖怪只保留第一条记录，解决以下问题：</p></li>
 </ol>
 <ul>
 <li>求第一属性的种类数量和前三多数量对应的种类</li>
 <li>求第一属性和第二属性的组合种类</li>
 <li>求尚未出现过的属性组合</li>
 </ul>
-<ol>
+<ol start="3" type="1">
 <li>按照下述要求，构造<code>Series</code>：</li>
 </ol>
 <ul>
@@ -2286,33 +3448,42 @@ dtype: float64
 <li>取出第一属性，分别用<code>replace</code>和<code>apply</code>替换所有字母为大写</li>
 <li>求每个妖怪六项能力的离差，即所有能力中偏离中位数最大的值，添加到<code>df</code>并从大到小排序</li>
 </ul>
-<h3 id="Ex2：指数加权窗口"><a href="#Ex2：指数加权窗口" class="headerlink" title="Ex2：指数加权窗口"></a>Ex2：指数加权窗口</h3><ol>
+<h3 id="ex2指数加权窗口">Ex2：指数加权窗口</h3>
+<ol type="1">
 <li>作为扩张窗口的<code>ewm</code>窗口</li>
 </ol>
 <p>在扩张窗口中，用户可以使用各类函数进行历史的累计指标统计，但这些内置的统计函数往往把窗口中的所有元素赋予了同样的权重。事实上，可以给出不同的权重来赋给窗口中的元素，指数加权窗口就是这样一种特殊的扩张窗口。</p>
-<p>其中，最重要的参数是<code>alpha</code>，它决定了默认情况下的窗口权重为$w_i=(1−\alpha)^i,i\in{0,1,…,t}$，其中$i=t$表示当前元素，$i=0$表示序列的第一个元素。</p>
-<p>从权重公式可以看出，离开当前值越远则权重越小，若记原序列为$x$，更新后的当前元素为$y_t$，此时通过加权公式归一化后可知：</p>
-<script type="math/tex; mode=display">
-\begin{split}y_t &=\frac{\sum_{i=0}^{t} w_i x_{t-i}}{\sum_{i=0}^{t} w_i} \\
-&=\frac{x_t + (1 - \alpha)x_{t-1} + (1 - \alpha)^2 x_{t-2} + ...
+<p>其中，最重要的参数是<code>alpha</code>，它决定了默认情况下的窗口权重为<span
+class="math inline">\(w_i=(1−\alpha)^i,i\in\{0,1,...,t\}\)</span>，其中<span
+class="math inline">\(i=t\)</span>表示当前元素，<span
+class="math inline">\(i=0\)</span>表示序列的第一个元素。</p>
+<p>从权重公式可以看出，离开当前值越远则权重越小，若记原序列为<span
+class="math inline">\(x\)</span>，更新后的当前元素为<span
+class="math inline">\(y_t\)</span>，此时通过加权公式归一化后可知：</p>
+<p><span class="math display">\[
+\begin{split}y_t &amp;=\frac{\sum_{i=0}^{t} w_i x_{t-i}}{\sum_{i=0}^{t}
+w_i} \\
+&amp;=\frac{x_t + (1 - \alpha)x_{t-1} + (1 - \alpha)^2 x_{t-2} + ...
 + (1 - \alpha)^{t} x_{0}}{1 + (1 - \alpha) + (1 - \alpha)^2 + ...
-+ (1 - \alpha)^{t}}\\\end{split}</script><p>对于<code>Series</code>而言，可以用<code>ewm</code>对象如下计算指数平滑后的序列：</p>
++ (1 - \alpha)^{t}}\\\end{split}
+\]</span></p>
+<p>对于<code>Series</code>而言，可以用<code>ewm</code>对象如下计算指数平滑后的序列：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">np.random.seed(<span class="hljs-number">0</span>)<br>s = pd.Series(np.random.randint(-<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">30</span>).cumsum())<br>s.head()<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">0   -1
 1   -1
 2   -2
 3   -2
 4   -2
-dtype: int32
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.ewm(alpha=<span class="hljs-number">0.2</span>).mean().head()<br></code></pre></td></tr></table></figure>
+dtype: int32</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.ewm(alpha=<span class="hljs-number">0.2</span>).mean().head()<br></code></pre></td></tr></table></figure>
 <pre><code class="hljs">0   -1.000000
 1   -1.000000
 2   -1.409836
 3   -1.609756
 4   -1.725845
-dtype: float64
-</code></pre><p>请用<code>expanding</code>窗口实现。</p>
-<ol>
+dtype: float64</code></pre>
+<p>请用<code>expanding</code>窗口实现。</p>
+<ol start="2" type="1">
 <li>作为滑动窗口的<code>ewm</code>窗口</li>
 </ol>
 <p>从第1问中可以看到，<code>ewm</code>作为一种扩张窗口的特例，只能从序列的第一个元素开始加权。现在希望给定一个限制窗口<code>n</code>，只对包含自身的最近的<code>n</code>个元素作为窗口进行滑动加权平滑。请根据滑窗函数，给出新的<code>wi</code>与<code>yt</code>的更新公式，并通过<code>rolling</code>窗口实现这一功能。</p>
