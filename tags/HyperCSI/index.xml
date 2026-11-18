@@ -5,4 +5,4 @@
 <p>Unmixing,</p>
 <p>HU)就是分析高光谱数据,识别图像中的端元(endmembers)及其对应的丰度(abundances)的信号处理过程。其中Craig的最小体积外接单纯形准则是一种经典有效的盲解混方法,即将包围数据点云的最小体积单纯形的顶点视为端元估计。但相关算法由于涉及复杂的体积计算而计算效率低下。但是HyperCSI(Hyperplane-based</p>
         
-        <hr><p>本文2024-03-24首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-24</p>]]></description><category>Remote Sensing, Algorithm</category></item></channel></rss>
+        <hr><p>本文2024-03-24首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-24</p>]]></description><category>Remote Sensing</category><category>Algorithm</category></item></channel></rss>
