@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Deep Learning on 热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/tags/Deep-Learning/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>zh-CN</language><copyright>本博客所有文章除特别声明外，均采用 BY 许可协议。转载请注明出处！</copyright><lastBuildDate>Thu, 28 Mar 2024 23:53:20 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/tags/Deep-Learning/index.xml" rel="self" type="application/rss+xml"/><item><title>Transformer中的多头自注意力机制</title><link>https://www.jingmengzhiyue.tech/2024/03/28/MSA/</link><pubDate>Thu, 28 Mar 2024 23:47:31 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/28/MSA/</guid><description>
+<![CDATA[<h1>Transformer中的多头自注意力机制</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>在自然语言处理和其他序列数据建模任务中,Transformer模型凭借其优异的性能成为了研究的热点。其中,多头自注意力(Multi-Head</p>
+<p>Self-Attention)是Transformer的核心组件之一，接下来将深入了解它的运作原理和实现细节。</p>
+        
+        <hr><p>本文2024-03-28首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-28</p>]]></description><category>Deep Learning</category></item></channel></rss>

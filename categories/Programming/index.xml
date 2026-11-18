@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Programming on 热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/categories/Programming/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>zh-CN</language><copyright>本博客所有文章除特别声明外，均采用 BY 许可协议。转载请注明出处！</copyright><lastBuildDate>Sat, 16 Mar 2024 16:38:25 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/categories/Programming/index.xml" rel="self" type="application/rss+xml"/><item><title>Using OpenCV C++ on Windows Subsystem for Linux (WSL)</title><link>https://www.jingmengzhiyue.tech/2024/03/16/OpenCV-WSL/</link><pubDate>Sat, 16 Mar 2024 16:37:10 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/16/OpenCV-WSL/</guid><description>
+<![CDATA[<h1>Using OpenCV C++ on Windows Subsystem for Linux (WSL)</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>Setting up OpenCV C++ on Windows Subsystem for Linux (WSL) involves</p>
+<p>several steps, including installing WSL, installing necessary</p>
+<p>dependencies, downloading the OpenCV source code, and compiling and</p>
+<p>installing OpenCV. This blog post provides a step-by-step guide to help</p>
+<p>you through the process.</p>
+<h2 id="summary">
+<a class="header-anchor" href="#summary"></a>
+Summary
+</h2><p>The process of using OpenCV C++ on Windows Subsystem for Linux (WSL)</p>
+<p>involves enabling WSL on your Windows system, installing a Linux</p>
+<p>distribution (like Ubuntu), updating and installing required</p>
+        
+        <hr><p>本文2024-03-16首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-16</p>]]></description><category>Programming</category></item><item><title>OpenCV Basics</title><link>https://www.jingmengzhiyue.tech/2024/03/14/OpenCV-Basics/</link><pubDate>Thu, 14 Mar 2024 19:35:59 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/14/OpenCV-Basics/</guid><description>
+<![CDATA[<h1>OpenCV Basics</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>This blog post covers the basics of OpenCV, a popular computer vision library. It explains how to load, display, and save images using OpenCV functions. Additionally, it delves into the Mat class, which is used to represent images in OpenCV as matrices. The post demonstrates how to create Mat objects, access their properties, and traverse and manipulate pixel values using both array-based and pointer-based methods.</p>
+<h2 id="hello-world">
+<a class="header-anchor" href="#hello-world"></a>
+Hello World
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;opencv2/opencv.hpp&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="n">using</span> <span class="n">namespace</span> <span class="n">cv</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">using</span> <span class="n">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;start</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Read an image
+</span></span></span><span class="line"><span class="cl">    <span class="n">Mat</span> <span class="n">src</span> <span class="o">=</span> <span class="nf">imread</span><span class="p">(</span><span class="s">&#34;E:</span><span class="se">\\</span><span class="s">Datum</span><span class="se">\\</span><span class="s">Code</span><span class="se">\\</span><span class="s">CV4</span><span class="se">\\</span><span class="s">CV4</span><span class="se">\\</span><span class="s">a.png&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">src</span><span class="p">.</span><span class="nf">empty</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;could not open&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">namedWindow</span><span class="p">(</span><span class="s">&#34;input&#34;</span><span class="p">,</span> <span class="n">WINDOW_AUTOSIZE</span><span class="p">);</span> <span class="c1">// Create a window with the given title and automatic image size
+</span></span></span><span class="line"><span class="cl">    <span class="c1">// In OpenCV 3, use namedWindow(&#34;input&#34;, CV_WINDOW_AUTOSIZE)
+</span></span></span><span class="line"><span class="cl">    <span class="nf">imshow</span><span class="p">(</span><span class="s">&#34;input&#34;</span><span class="p">,</span> <span class="n">src</span><span class="p">);</span> <span class="c1">// Display the image in the &#34;input&#34; window
+</span></span></span><span class="line"><span class="cl">    <span class="nf">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="c1">// Prevent the window from closing immediately, wait for user input
+</span></span></span><span class="line"><span class="cl">    <span class="nf">destroyAllWindows</span><span class="p">();</span> <span class="c1">// Destroy all windows
+</span></span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol>
+<li>In OpenCV 4, you can directly use <code>#include &lt;opencv2/opencv.hpp&gt;</code> to import all OpenCV functions.</li>
+<li><code>using namespace cv;</code> uses the OpenCV namespace.</li>
+<li>Define a <code>Mat</code> variable <code>src</code> and read an image into it.</li>
+<li>Perform robustness check; if the loaded image is not empty, display it.</li>
+<li>Use <code>namedWindow(&quot;input&quot;, WINDOW_AUTOSIZE);</code> to create a window. The first parameter is the window name, and the second parameter is the window size, which in OpenCV 4 is defined as automatic window size. In OpenCV 3, use <code>nameWindow(&quot;input&quot;, CV_WINDOW_AUTOSIZE)</code> to define the window.</li>
+<li>Use <code>imshow(&quot;input&quot;, src)</code> to display the image. The first parameter is the window to display in, and the second parameter is the image to display.</li>
+<li>To prevent the displayed image from disappearing immediately, use <code>waitKey(0)</code> to wait for user input.</li>
+<li>Use <code>destroyAllWindows()</code> to destroy all windows.</li>
+</ol>
+<h2 id="image-file-loading-displaying-and-saving">
+<a class="header-anchor" href="#image-file-loading-displaying-and-saving"></a>
+Image File Loading, Displaying, and Saving
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;opencv2/opencv.hpp&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="n">using</span> <span class="n">namespace</span> <span class="n">cv</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Mat src = imread(&#34;./lenna.tiff&#34;, IMREAD_COLOR); // Load as a color image, default mode, transparency channel will be discarded
+</span></span></span><span class="line"><span class="cl">    <span class="c1">// Mat src = imread(&#34;./lenna.tiff&#34;, IMREAD_GRAYSCALE); // Load as a grayscale image
+</span></span></span><span class="line"><span class="cl">    <span class="c1">// Mat src = imread(&#34;./lenna.tiff&#34;, IMREAD_ANYCOLOR); // Load with any color format
+</span></span></span><span class="line"><span class="cl">    <span class="n">Mat</span> <span class="n">src</span> <span class="o">=</span> <span class="nf">imread</span><span class="p">(</span><span class="s">&#34;./test.png&#34;</span><span class="p">,</span> <span class="n">IMREAD_UNCHANGED</span><span class="p">);</span> <span class="c1">// Do not change the number of channels, supports loading PNG transparency channel
+</span></span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">src</span><span class="p">.</span><span class="nf">empty</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;can not open&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// namedWindow(&#34;input&#34;, WINDOW_AUTOSIZE); // Automatically fit image size, cannot be changed
+</span></span></span><span class="line"><span class="cl">    <span class="c1">// namedWindow(&#34;input&#34;, WINDOW_FREERATIO); // Freely change image display size
+</span></span></span><span class="line"><span class="cl">    <span class="nf">namedWindow</span><span class="p">(</span><span class="s">&#34;input&#34;</span><span class="p">,</span> <span class="n">WINDOW_NORMAL</span><span class="p">);</span> <span class="c1">// Can change image display size
+</span></span></span><span class="line"><span class="cl">    <span class="nf">imshow</span><span class="p">(</span><span class="s">&#34;input&#34;</span><span class="p">,</span> <span class="n">src</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">destroyAllWindows</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">imwrite</span><span class="p">(</span><span class="s">&#34;./test.png&#34;</span><span class="p">,</span> <span class="n">src</span><span class="p">);</span> <span class="c1">// Save as the corresponding format based on the file extension
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="image-file-loading">
+<a class="header-anchor" href="#image-file-loading"></a>
+Image File Loading
+</h3><p>The <code>imread(&quot;filename&quot;, load_mode)</code> function:</p>
+        
+        <hr><p>本文2024-03-14首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-14</p>]]></description><category>Programming</category></item><item><title>Python基础</title><link>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86/</guid><description>
+<![CDATA[<h1>Python基础</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="预备知识">
+<a class="header-anchor" href="#%e9%a2%84%e5%a4%87%e7%9f%a5%e8%af%86"></a>
+预备知识
+</h1><h2 id="一python基础">
+<a class="header-anchor" href="#%e4%b8%80python%e5%9f%ba%e7%a1%80"></a>
+一、Python基础
+</h2><h3 id="1-列表推导式与条件赋值">
+<a class="header-anchor" href="#1-%e5%88%97%e8%a1%a8%e6%8e%a8%e5%af%bc%e5%bc%8f%e4%b8%8e%e6%9d%a1%e4%bb%b6%e8%b5%8b%e5%80%bc"></a>
+1. 列表推导式与条件赋值
+</h3><p>在生成一个数字序列的时候，在<code>Python</code>中可以如下写出：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">L</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">my_func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">L</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">my_func</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">L</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><pre><code>[0, 2, 4, 6, 8]
+</code></pre>
+<p>事实上可以利用列表推导式进行写法上的简化：<code>[* for i in *]</code>。其中，第一个<code>*</code>为映射函数，其输入为后面<code>i</code>指代的内容，第二个<code>*</code>表示迭代的对象。</p>
+        
+        <hr><p>本文2023-10-01首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-10-01</p>]]></description><category>Programming</category></item><item><title>CPP泛型编程</title><link>https://www.jingmengzhiyue.tech/2023/03/31/CPP%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/</link><pubDate>Fri, 31 Mar 2023 18:38:53 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/03/31/CPP%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/</guid><description>
+<![CDATA[<h1>CPP泛型编程</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="c泛型编程">
+<a class="header-anchor" href="#c%e6%b3%9b%e5%9e%8b%e7%bc%96%e7%a8%8b"></a>
+C++泛型编程
+</h1><ul>
+<li>本阶段主要针对C++==泛型编程==和==STL==技术做详细讲解，探讨C++更深层的使用</li>
+</ul>
+<h2 id="1-模板">
+<a class="header-anchor" href="#1-%e6%a8%a1%e6%9d%bf"></a>
+1 模板
+</h2><h3 id="11-模板的概念">
+<a class="header-anchor" href="#11-%e6%a8%a1%e6%9d%bf%e7%9a%84%e6%a6%82%e5%bf%b5"></a>
+1.1 模板的概念
+</h3><p>模板就是建立<strong>通用的模具</strong>，大大<strong>提高复用性</strong></p>
+        
+        <hr><p>本文2023-03-31首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-03-31</p>]]></description><category>Programming</category></item><item><title>CPP核心编程</title><link>https://www.jingmengzhiyue.tech/2023/03/31/CPP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B/</link><pubDate>Fri, 31 Mar 2023 18:19:51 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/03/31/CPP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B/</guid><description>
+<![CDATA[<h1>CPP核心编程</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="c核心编程">
+<a class="header-anchor" href="#c%e6%a0%b8%e5%bf%83%e7%bc%96%e7%a8%8b"></a>
+C++核心编程
+</h1><p>本阶段主要针对C++==面向对象==编程技术做详细讲解，探讨C++中的核心和精髓。</p>
+<h2 id="1-内存分区模型">
+<a class="header-anchor" href="#1-%e5%86%85%e5%ad%98%e5%88%86%e5%8c%ba%e6%a8%a1%e5%9e%8b"></a>
+1 内存分区模型
+</h2><p>C++程序在执行时，将内存大方向划分为<strong>4个区域</strong></p>
+        
+        <hr><p>本文2023-03-31首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-03-31</p>]]></description><category>Programming</category></item><item><title>CPP基本语法</title><link>https://www.jingmengzhiyue.tech/2023/03/31/CPP%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/</link><pubDate>Fri, 31 Mar 2023 17:56:42 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/03/31/CPP%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/</guid><description>
+<![CDATA[<h1>CPP基本语法</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h2 id="1-c初识">
+<a class="header-anchor" href="#1-c%e5%88%9d%e8%af%86"></a>
+1 C++初识
+</h2><h3 id="11--第一个c程序">
+<a class="header-anchor" href="#11--%e7%ac%ac%e4%b8%80%e4%b8%aac%e7%a8%8b%e5%ba%8f"></a>
+1.1  第一个C++程序
+</h3><p>编写一个C++程序总共分为4个步骤</p>
+<ul>
+<li>创建项目</li>
+<li>创建文件</li>
+<li>编写代码</li>
+<li>运行程序</li>
+</ul>
+<h4 id="111-创建项目">
+<a class="header-anchor" href="#111-%e5%88%9b%e5%bb%ba%e9%a1%b9%e7%9b%ae"></a>
+1.1.1 创建项目
+</h4><pre><code>Visual Studio是我们用来编写C++程序的主要工具，我们先将它打开
+</code></pre>
+<p><img src="/img/1541383178746.png" alt="1541383178746"></p>
+        
+        <hr><p>本文2023-03-31首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-03-31</p>]]></description><category>Programming</category></item></channel></rss>

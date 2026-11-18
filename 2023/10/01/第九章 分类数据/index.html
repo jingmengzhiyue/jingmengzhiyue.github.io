@@ -1,1579 +1,338 @@
-
-
-<!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=auto>
-
-
-
-<head>
-  <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
-  <link rel="icon" href="/img/fluid.png">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  
-  <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="Jingmengzhiyue">
-  <meta name="keywords" content="">
-  
-    <meta name="description" content="数据挖掘中pandas的使用，Pandas分类数据">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Pandas分类数据">
-<meta property="og:url" content="http://jingmengzhiyue.top/2023/10/01/%E7%AC%AC%E4%B9%9D%E7%AB%A0%20%E5%88%86%E7%B1%BB%E6%95%B0%E6%8D%AE/index.html">
-<meta property="og:site_name" content="热爱可抵万难">
-<meta property="og:description" content="数据挖掘中pandas的使用，Pandas分类数据">
-<meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-10-01T13:13:43.000Z">
-<meta property="article:modified_time" content="2024-03-14T12:18:54.345Z">
-<meta property="article:author" content="Jingmengzhiyue">
-<meta property="article:tag" content="Pandas">
-<meta name="twitter:card" content="summary_large_image">
-  
-  
-  
-  <title>Pandas分类数据 - 热爱可抵万难</title>
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
-
-
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-<!-- Do not modify the link that theme dependent icons -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
-
-
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
-
-
-<link  rel="stylesheet" href="/css/main.css" />
-
-
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
-  
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
-  
-
-
-
-
-  <script id="fluid-configs">
-    var Fluid = window.Fluid || {};
-    Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"jingmengzhiyue.top","root":"/","version":"1.9.5-a","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"eZ6fNr2wGbxSreDqCc24Ik6y-gzGzoHsz","app_key":"I1HMoNZO5iKmmCSzqE0wTpGr","server_url":"https://ez6fnr2w.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false},"gtag":null},"search_path":"/local-search.xml","include_content_in_search":true};
-
-    if (CONFIG.web_analytics.follow_dnt) {
-      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
-      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
-    }
-  </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
-  
-
-
-  
-  
-    <script>
-        (function(){
-            var bp = document.createElement('script');
-            var curProtocol = window.location.protocol.split(':')[0];
-            if (curProtocol === 'https') {
-                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
-            }
-            else {
-                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-            }
-            var s = document.getElementsByTagName("script")[0];
-            s.parentNode.insertBefore(bp, s);
-        })();
-    </script>
-   
-
-
-<meta name="generator" content="Hexo 6.3.0"></head>
-
-
-<body>
-  
-
-  <header>
-    
-
-<div class="header-inner" style="height: 70vh;">
-  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      <strong>热爱可抵万难</strong>
-    </a>
-
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
-
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/">
-                <i class="iconfont icon-home-fill"></i>
-                <span>首页</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/">
-                <i class="iconfont icon-archive-fill"></i>
-                <span>归档</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/">
-                <i class="iconfont icon-category-fill"></i>
-                <span>分类</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/">
-                <i class="iconfont icon-tags-fill"></i>
-                <span>标签</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/">
-                <i class="iconfont icon-user-fill"></i>
-                <span>关于</span>
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              <i class="iconfont icon-search"></i>
-            </a>
-          </li>
-          
-        
-        
-          <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
-              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
-            </a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-</nav>
-
-  
-
-<div id="banner" class="banner" parallax=true
-     style="background: url('https://t.mwm.moe/fj/') no-repeat center center; background-size: cover;">
-  <div class="full-bg-img">
-    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-      <div class="banner-text text-center fade-in-up">
-        <div class="h2">
-          
-            <span id="subtitle" data-typed-text="Pandas分类数据"></span>
-          
-        </div>
-
-        
-          
-  <div class="mt-3">
-    
-    
-      <span class="post-meta">
-        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-10-01 21:13" pubdate>
-          2023年10月1日 晚上
-        </time>
-      </span>
-    
-  </div>
-
-  <div class="mt-1">
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-chart"></i>
-        
-          12k 字
-        
-      </span>
-    
-
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-clock-fill"></i>
-        
-        
-        
-          98 分钟
-        
-      </span>
-    
-
-    
-    
-  </div>
-
-
-        
-      </div>
-
-      
-    </div>
-  </div>
-</div>
-
-</div>
-
-  </header>
-
-  <main>
-    
-      
-
-<div class="container-fluid nopadding-x">
-  <div class="row nomargin-x">
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-
-    </div>
-
-    <div class="col-lg-8 nopadding-x-md">
-      <div class="container nopadding-x-md" id="board-ctn">
-        <div id="board">
-          <article class="post-content mx-auto">
-            <h1 id="seo-header">Pandas分类数据</h1>
-            
-            
-              <div class="markdown-body">
-                
-                <h1 id="pandas分类数据">Pandas分类数据</h1>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br></code></pre></td></tr></table></figure>
-<h2 id="一cat对象">一、cat对象</h2>
-<h3 id="cat对象的属性">1. cat对象的属性</h3>
-<p>在<code>pandas</code>中提供了<code>category</code>类型，使用户能够处理分类类型的变量，将一个普通序列转换成分类变量可以使用<code>astype</code>方法。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">df = pd.read_csv(<span class="hljs-string">&#x27;../data/learn_pandas.csv&#x27;</span>, usecols = [<span class="hljs-string">&#x27;Grade&#x27;</span>, <span class="hljs-string">&#x27;Name&#x27;</span>, <span class="hljs-string">&#x27;Gender&#x27;</span>, <span class="hljs-string">&#x27;Height&#x27;</span>, <span class="hljs-string">&#x27;Weight&#x27;</span>])<br>s = df.Grade.astype(<span class="hljs-string">&#x27;category&#x27;</span>)<br>s.head()<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">0     Freshman
+<!doctype html><html lang=zh-CN data-theme-mode=auto><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><title>Pandas分类数据 | Jingmengzhiyue</title><meta name=description content="数据挖掘中pandas的使用，Pandas分类数据"><script>window.siteConfig=JSON.parse('{"anchor":{"auto":{"enable":false,"length":60},"explicit":{"enable":false,"marker":"{#anchor-","prefix":"anchor-"}},"anchor_icon":null,"base":"https://www.jingmengzhiyue.tech/","clipboard":{"copyright":{"count":50,"enable":false,"license_type":"by-nc-sa"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-br":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ","zh-cn":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-tw":"複製失敗 (ﾟ⊿ﾟ)ﾂ"},"success":{"en":"Copy successfully (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-br":"Copiado com sucesso (*^▽^*)","zh-cn":"复制成功 (*^▽^*)","zh-tw":"複製成功 (*^▽^*)"}},"code_block":{"expand":true},"dark_mode":{"button":true,"mode":"auto"},"icon_font":"4552607_ex15nbittbh","outdate":{"daysago":180,"enable":false,"message":{"en":"This article was last updated on {time}. Please note that the content may no longer be applicable.","ja":"この記事は最終更新日：{time}。記載内容が現在有効でない可能性がありますのでご注意ください。","pt-br":"Este artigo foi atualizado pela última vez em {time}. Observe que o conteúdo pode não ser mais aplicável.","zh-cn":"本文最后更新于 {time}，请注意文中内容可能已不适用。","zh-tw":"本文最後更新於 {time}，請注意文中內容可能已不適用。"}}}')</script><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap" media=print onload='this.media="all"'><link rel=preload href=//at.alicdn.com/t/c/font_4552607_ex15nbittbh.woff2 as=font type=font/woff2 crossorigin=anonymous><link rel=stylesheet href=/css/loader.min.ac746e154f756f8220326eeb52a719f142ab038be5a8ddf30ea5ef15ef2356ea.css><meta property="og:type" content="website"><meta property="og:title" content="Pandas分类数据 | Jingmengzhiyue"><meta property="og:description" content="数据挖掘中pandas的使用，Pandas分类数据"><meta property="og:url" content="https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E4%B9%9D%E7%AB%A0%20%E5%88%86%E7%B1%BB%E6%95%B0%E6%8D%AE/"><meta property="og:site_name" content="热爱可抵万难"><meta property="og:image" content="https://www.jingmengzhiyue.tech/img/24.jpg"><meta property="article:author" content="Jingmengzhiyue"><meta property="article:published_time" content="2023-10-01T21:13:43+08:00"><meta property="article:modified_time" content="2023-10-01T21:13:43+08:00"><meta property="article:tag" content="Pandas"><meta name=twitter:card content="summary"><meta name=twitter:image content="https://www.jingmengzhiyue.tech/img/24.jpg"><link rel="shortcut icon" href=/favicon.ico><link rel=stylesheet href=/css/main.min.e741704bd4ce29d0b6db17b8ff17abf1aa8fad02fa440697765f231c07813893.css><link rel=preload as=style href=https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css integrity=sha384-IfxC36XL/toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx/1oA/0l8ysE crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><link rel=preload as=style href=https://npm.webcache.cn/katex@0.16.47/dist/katex.min.css integrity=sha384-nH0MfJ44wi1dd7w6jinlyBgljjS8EJAh2JBoRad8a3VDw2K69vfaaqm4WnR+gXtA crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><script src=https://npm.webcache.cn/pace-js@1.2.4/pace.min.js integrity=sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8 crossorigin=anonymous></script><link rel=stylesheet href=https://npm.webcache.cn/@reimujs/aos@0.1.3/dist/aos.css integrity=sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa crossorigin=anonymous><link rel=icon href=/img/fluid.png type=image/png><link rel=apple-touch-icon href=/img/fluid.png><link rel=stylesheet href=/css/custom.css></head><body><div id=loader><div class="loading-left-bg loading-bg"></div><div class="loading-right-bg loading-bg"></div><div class=spinner-box><div class="loading-taichi rotate"><svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" shape-rendering="geometricPrecision"><path d="M303.5 432a80 80 0 01-12 160 80 80 0 0112-160z" fill="var(--red-1, #ff5252)"/><path d="M512 65a447 447 0 010 894V929a417 417 0 000-834 417 417 0 000 834v30a447 447 0 010-894zm0 30A417 417 0 01929 512 208.5 208.5.0 01720.5 720.5V592a80 80 0 000-160 80 80 0 000 160V720.5A208.5 208.5.0 01512 512 208.5 208.5.0 00303.5 303.5 208.5 208.5.0 0095 512 417 417 0 01512 95z" fill="var(--red-1, #ff5252)"/></svg></div><div class=loading-word>少女祈祷中...</div></div></div></div><script>var time=null,loaderEl=document.getElementById("loader"),startLoading=()=>{time=Date.now(),loaderEl.classList.remove("loading")},hideLoader=()=>{document.body.style.overflow="auto",loader.classList.add("loading")},endLoading=()=>{time?Date.now()-time>500?(time=null,hideLoader()):(setTimeout(endLoading,500-(Date.now()-time)),time=null):hideLoader()};window.addEventListener("DOMContentLoaded",endLoading),loaderEl.addEventListener("click",endLoading)</script><div id=copy-tooltip></div><div id=lang-tooltip>本文章没有找到对应的语言版本</div><div id=heatmap-tooltip></div><div id=container><div id=wrap><div id=header-nav><nav id=main-nav aria-label="Primary navigation"><a class=main-nav-link-wrap href=/><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>首页</span>
+</a><a class=main-nav-link-wrap href=/archives><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>归档</span>
+</a><a class=main-nav-link-wrap href=/categories><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>目录</span>
+</a><a class=main-nav-link-wrap href=/tags><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>标签</span>
+</a><a class=main-nav-link-wrap href=/about><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>关于</span>
+</a><a id=main-nav-toggle class=nav-icon aria-label="Toggle navigation" role=button></a></nav><nav id=sub-nav aria-label="Secondary navigation"></nav></div><header id=header aria-label="Site header"><picture></picture><img fetchpriority=high src=/img/24.jpg alt=Pandas分类数据><div id=header-outer><div id=header-title><span id=logo><h1 data-aos=slide-up>Pandas分类数据</h1></span><h2 id=subtitle-wrap data-aos=slide-down></h2></div></div></header><div id=content aria-label="Page content" class=sidebar-right><aside id=sidebar aria-label=Sidebar><div class="sidebar-wrapper-container sticky"><div class=sidebar-wrapper><div class=sidebar-wrap data-aos=fade-up><div class=sidebar-toc-sidebar><h3 class=toc-title>文章目录</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#一cat对象>一、cat对象</a><ul><li><a href=#1-cat对象的属性>1. cat对象的属性</a></li><li><a href=#2-类别的增加删除和修改>2. 类别的增加、删除和修改</a></li></ul></li><li><a href=#二有序分类>二、有序分类</a><ul><li><a href=#1-序的建立>1. 序的建立</a></li><li><a href=#2-排序和比较>2. 排序和比较</a></li></ul></li><li><a href=#三区间类别>三、区间类别</a><ul><li><a href=#1-利用cut和qcut进行区间构造>1. 利用cut和qcut进行区间构造</a></li><li><a href=#2-一般区间的构造>2. 一般区间的构造</a></li><li><a href=#3-区间的属性与方法>3. 区间的属性与方法</a></li></ul></li><li><a href=#四练习>四、练习</a><ul><li><a href=#ex1统计未出现的类别>Ex1：统计未出现的类别</a></li><li><a href=#ex2钻石数据集>Ex2：钻石数据集</a></li></ul></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/avatar.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>文章</div><div class=sidebar-state-number>57</div></div><a class=sidebar-state-category href=/categories/ aria-label=sidebar-state-category-link><div>分类</div><div class=sidebar-state-number>10</div></a><a class=sidebar-state-tag href=/tags/ aria-label=sidebar-state-tag-link><div>标签</div><div class=sidebar-state-number>26</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/ aria-label=首页></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>首页</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/archives aria-label=归档></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>归档</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/categories aria-label=目录></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>目录</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/tags aria-label=标签></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>标签</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/about aria-label=关于></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>关于</div></div></div></div><div class=sidebar-btn-wrapper style=position:static><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></div></div><div class=sidebar-widget></div></div></aside><section id=main aria-label="Main content"><article class="h-entry article" itemscope itemtype=https://schema.org/BlogPosting><div class=article-inner data-aos=fade-up><div class=article-meta><div class=article-date><span class="article-date-link icon-calendar" data-aos=zoom-in><time datetime="2023-10-01 21:13:43 +0800 +0800" itemprop=datePublished>2023-10-01</time>
+<time style=display:none id=post-update-time>2023-10-01</time></span></div></div><div class=hr-line></div><div class="e-content article-entry" itemprop=articleBody><h1 id=pandas分类数据><a class=header-anchor href=#pandas%e5%88%86%e7%b1%bb%e6%95%b0%e6%8d%ae></a>Pandas分类数据</h1><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>numpy</span> <span class=k>as</span> <span class=nn>np</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>pandas</span> <span class=k>as</span> <span class=nn>pd</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=一cat对象><a class=header-anchor href=#%e4%b8%80cat%e5%af%b9%e8%b1%a1></a>一、cat对象</h2><h3 id=1-cat对象的属性><a class=header-anchor href=#1-cat%e5%af%b9%e8%b1%a1%e7%9a%84%e5%b1%9e%e6%80%a7></a>1. cat对象的属性</h3><p>在<code>pandas</code>中提供了<code>category</code>类型，使用户能够处理分类类型的变量，将一个普通序列转换成分类变量可以使用<code>astype</code>方法。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>df</span> <span class=o>=</span> <span class=n>pd</span><span class=o>.</span><span class=n>read_csv</span><span class=p>(</span><span class=s1>&#39;../data/learn_pandas.csv&#39;</span><span class=p>,</span> <span class=n>usecols</span> <span class=o>=</span> <span class=p>[</span><span class=s1>&#39;Grade&#39;</span><span class=p>,</span> <span class=s1>&#39;Name&#39;</span><span class=p>,</span> <span class=s1>&#39;Gender&#39;</span><span class=p>,</span> <span class=s1>&#39;Height&#39;</span><span class=p>,</span> <span class=s1>&#39;Weight&#39;</span><span class=p>])</span>
+</span></span><span class=line><span class=cl><span class=n>s</span> <span class=o>=</span> <span class=n>df</span><span class=o>.</span><span class=n>Grade</span><span class=o>.</span><span class=n>astype</span><span class=p>(</span><span class=s1>&#39;category&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>s</span><span class=o>.</span><span class=n>head</span><span class=p>()</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>0     Freshman
 1     Freshman
 2       Senior
 3    Sophomore
 4    Sophomore
 Name: Grade, dtype: category
-Categories (4, object): [&#39;Freshman&#39;, &#39;Junior&#39;, &#39;Senior&#39;, &#39;Sophomore&#39;]</code></pre>
-<p>在一个分类类型的<code>Series</code>中定义了<code>cat</code>对象，它和上一章中介绍的<code>str</code>对象类似，定义了一些属性和方法来进行分类类别的操作。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.cat<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">&lt;pandas.core.arrays.categorical.CategoricalAccessor object at 0x0000020F9B7A7108&gt;</code></pre>
-<p>对于一个具体的分类，有两个组成部分，其一为类别的本身，它以<code>Index</code>类型存储，其二为是否有序，它们都可以通过<code>cat</code>的属性被访问：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.cat.categories<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">Index([&#39;Freshman&#39;, &#39;Junior&#39;, &#39;Senior&#39;, &#39;Sophomore&#39;], dtype=&#39;object&#39;)</code></pre>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.cat.ordered<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">False</code></pre>
-<p>另外，每一个序列的类别会被赋予唯一的整数编号，它们的编号取决于<code>cat.categories</code>中的顺序，该属性可以通过<code>codes</code>访问：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.cat.codes.head()<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">0    0
+Categories (4, object): ['Freshman', 'Junior', 'Senior', 'Sophomore']
+</code></pre><p>在一个分类类型的<code>Series</code>中定义了<code>cat</code>对象，它和上一章中介绍的<code>str</code>对象类似，定义了一些属性和方法来进行分类类别的操作。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>s</span><span class=o>.</span><span class=n>cat</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>&lt;pandas.core.arrays.categorical.CategoricalAccessor object at 0x0000020F9B7A7108&gt;
+</code></pre><p>对于一个具体的分类，有两个组成部分，其一为类别的本身，它以<code>Index</code>类型存储，其二为是否有序，它们都可以通过<code>cat</code>的属性被访问：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>s</span><span class=o>.</span><span class=n>cat</span><span class=o>.</span><span class=n>categories</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>Index(['Freshman', 'Junior', 'Senior', 'Sophomore'], dtype='object')
+</code></pre><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>s</span><span class=o>.</span><span class=n>cat</span><span class=o>.</span><span class=n>ordered</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>False
+</code></pre><p>另外，每一个序列的类别会被赋予唯一的整数编号，它们的编号取决于<code>cat.categories</code>中的顺序，该属性可以通过<code>codes</code>访问：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>s</span><span class=o>.</span><span class=n>cat</span><span class=o>.</span><span class=n>codes</span><span class=o>.</span><span class=n>head</span><span class=p>()</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>0    0
 1    0
 2    2
 3    3
 4    3
-dtype: int8</code></pre>
-<h3 id="类别的增加删除和修改">2. 类别的增加、删除和修改</h3>
-<p>通过<code>cat</code>对象的<code>categories</code>属性能够完成对类别的查询，那么应该如何进行“增改查删”的其他三个操作呢？</p>
-<h4 id="note类别不得直接修改">【NOTE】类别不得直接修改</h4>
-<p>在第三章中曾提到，索引 <code>Index</code> 类型是无法用
-<code>index_obj[0] = item</code> 来修改的，而 <code>categories</code>
-被存储在 <code>Index</code> 中，因此 <code>pandas</code> 在
-<code>cat</code> 属性上定义了若干方法来达到相同的目的。 #### 【END】</p>
-<p>首先，对于类别的增加可以使用<code>add_categories</code>：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">s = s.cat.add_categories(<span class="hljs-string">&#x27;Graduate&#x27;</span>) <span class="hljs-comment"># 增加一个毕业生类别</span><br>s.cat.categories<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">Index([&#39;Freshman&#39;, &#39;Junior&#39;, &#39;Senior&#39;, &#39;Sophomore&#39;, &#39;Graduate&#39;], dtype=&#39;object&#39;)</code></pre>
-<p>若要删除某一个类别可以使用<code>remove_categories</code>，同时所有原来序列中的该类会被设置为缺失。例如，删除大一的类别：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">s = s.cat.remove_categories(<span class="hljs-string">&#x27;Freshman&#x27;</span>)<br>s.cat.categories<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">Index([&#39;Junior&#39;, &#39;Senior&#39;, &#39;Sophomore&#39;, &#39;Graduate&#39;], dtype=&#39;object&#39;)</code></pre>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.head()<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">0          NaN
+dtype: int8
+</code></pre><h3 id=2-类别的增加删除和修改><a class=header-anchor href=#2-%e7%b1%bb%e5%88%ab%e7%9a%84%e5%a2%9e%e5%8a%a0%e5%88%a0%e9%99%a4%e5%92%8c%e4%bf%ae%e6%94%b9></a>2. 类别的增加、删除和修改</h3><p>通过<code>cat</code>对象的<code>categories</code>属性能够完成对类别的查询，那么应该如何进行“增改查删”的其他三个操作呢？</p><h4 id=note类别不得直接修改><a class=header-anchor href=#note%e7%b1%bb%e5%88%ab%e4%b8%8d%e5%be%97%e7%9b%b4%e6%8e%a5%e4%bf%ae%e6%94%b9></a>【NOTE】类别不得直接修改</h4><p>在第三章中曾提到，索引 <code>Index</code> 类型是无法用 <code>index_obj[0] = item</code> 来修改的，而 <code>categories</code> 被存储在 <code>Index</code> 中，因此 <code>pandas</code> 在 <code>cat</code> 属性上定义了若干方法来达到相同的目的。</p><h4 id=end><a class=header-anchor href=#end></a>【END】</h4><p>首先，对于类别的增加可以使用<code>add_categories</code>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>s</span> <span class=o>=</span> <span class=n>s</span><span class=o>.</span><span class=n>cat</span><span class=o>.</span><span class=n>add_categories</span><span class=p>(</span><span class=s1>&#39;Graduate&#39;</span><span class=p>)</span> <span class=c1># 增加一个毕业生类别</span>
+</span></span><span class=line><span class=cl><span class=n>s</span><span class=o>.</span><span class=n>cat</span><span class=o>.</span><span class=n>categories</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>Index(['Freshman', 'Junior', 'Senior', 'Sophomore', 'Graduate'], dtype='object')
+</code></pre><p>若要删除某一个类别可以使用<code>remove_categories</code>，同时所有原来序列中的该类会被设置为缺失。例如，删除大一的类别：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>s</span> <span class=o>=</span> <span class=n>s</span><span class=o>.</span><span class=n>cat</span><span class=o>.</span><span class=n>remove_categories</span><span class=p>(</span><span class=s1>&#39;Freshman&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>s</span><span class=o>.</span><span class=n>cat</span><span class=o>.</span><span class=n>categories</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>Index(['Junior', 'Senior', 'Sophomore', 'Graduate'], dtype='object')
+</code></pre><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>s</span><span class=o>.</span><span class=n>head</span><span class=p>()</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>0          NaN
 1          NaN
 2       Senior
 3    Sophomore
 4    Sophomore
 Name: Grade, dtype: category
-Categories (4, object): [&#39;Junior&#39;, &#39;Senior&#39;, &#39;Sophomore&#39;, &#39;Graduate&#39;]</code></pre>
-<p>此外可以使用<code>set_categories</code>直接设置序列的新类别，原来的类别中如果存在元素不属于新类别，那么会被设置为缺失。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">s = s.cat.set_categories([<span class="hljs-string">&#x27;Sophomore&#x27;</span>,<span class="hljs-string">&#x27;PhD&#x27;</span>]) <span class="hljs-comment"># 新类别为大二学生和博士</span><br>s.cat.categories<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">Index([&#39;Sophomore&#39;, &#39;PhD&#39;], dtype=&#39;object&#39;)</code></pre>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.head()<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">0          NaN
+Categories (4, object): ['Junior', 'Senior', 'Sophomore', 'Graduate']
+</code></pre><p>此外可以使用<code>set_categories</code>直接设置序列的新类别，原来的类别中如果存在元素不属于新类别，那么会被设置为缺失。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>s</span> <span class=o>=</span> <span class=n>s</span><span class=o>.</span><span class=n>cat</span><span class=o>.</span><span class=n>set_categories</span><span class=p>([</span><span class=s1>&#39;Sophomore&#39;</span><span class=p>,</span><span class=s1>&#39;PhD&#39;</span><span class=p>])</span> <span class=c1># 新类别为大二学生和博士</span>
+</span></span><span class=line><span class=cl><span class=n>s</span><span class=o>.</span><span class=n>cat</span><span class=o>.</span><span class=n>categories</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>Index(['Sophomore', 'PhD'], dtype='object')
+</code></pre><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>s</span><span class=o>.</span><span class=n>head</span><span class=p>()</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>0          NaN
 1          NaN
 2          NaN
 3    Sophomore
 4    Sophomore
 Name: Grade, dtype: category
-Categories (2, object): [&#39;Sophomore&#39;, &#39;PhD&#39;]</code></pre>
-<p>如果想要删除未出现在序列中的类别，可以使用<code>remove_unused_categories</code>来实现：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">s = s.cat.remove_unused_categories() <span class="hljs-comment"># 移除了未出现的博士生类别</span><br>s.cat.categories<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">Index([&#39;Sophomore&#39;], dtype=&#39;object&#39;)</code></pre>
-<p>最后，“增改查删”中还剩下修改的操作，这可以通过<code>rename_categories</code>方法完成，同时需要注意的是，这个方法会对原序列的对应值也进行相应修改。例如，现在把<code>Sophomore</code>改成中文的<code>本科二年级学生</code>：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">s = s.cat.rename_categories(&#123;<span class="hljs-string">&#x27;Sophomore&#x27;</span>:<span class="hljs-string">&#x27;本科二年级学生&#x27;</span>&#125;)<br>s.head()<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">0        NaN
+Categories (2, object): ['Sophomore', 'PhD']
+</code></pre><p>如果想要删除未出现在序列中的类别，可以使用<code>remove_unused_categories</code>来实现：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>s</span> <span class=o>=</span> <span class=n>s</span><span class=o>.</span><span class=n>cat</span><span class=o>.</span><span class=n>remove_unused_categories</span><span class=p>()</span> <span class=c1># 移除了未出现的博士生类别</span>
+</span></span><span class=line><span class=cl><span class=n>s</span><span class=o>.</span><span class=n>cat</span><span class=o>.</span><span class=n>categories</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>Index(['Sophomore'], dtype='object')
+</code></pre><p>最后，“增改查删”中还剩下修改的操作，这可以通过<code>rename_categories</code>方法完成，同时需要注意的是，这个方法会对原序列的对应值也进行相应修改。例如，现在把<code>Sophomore</code>改成中文的<code>本科二年级学生</code>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>s</span> <span class=o>=</span> <span class=n>s</span><span class=o>.</span><span class=n>cat</span><span class=o>.</span><span class=n>rename_categories</span><span class=p>({</span><span class=s1>&#39;Sophomore&#39;</span><span class=p>:</span><span class=s1>&#39;本科二年级学生&#39;</span><span class=p>})</span>
+</span></span><span class=line><span class=cl><span class=n>s</span><span class=o>.</span><span class=n>head</span><span class=p>()</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>0        NaN
 1        NaN
 2        NaN
 3    本科二年级学生
 4    本科二年级学生
 Name: Grade, dtype: category
-Categories (1, object): [&#39;本科二年级学生&#39;]</code></pre>
-<h2 id="二有序分类">二、有序分类</h2>
-<h3 id="序的建立">1. 序的建立</h3>
-<p>有序类别和无序类别可以通过<code>as_unordered</code>和<code>reorder_categories</code>互相转化，需要注意的是后者传入的参数必须是由当前序列的无序类别构成的列表，不能够增加新的类别，也不能缺少原来的类别，并且必须指定参数<code>ordered=True</code>，否则方法无效。例如，对年级高低进行相对大小的类别划分，然后再恢复无序状态：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">s = df.Grade.astype(<span class="hljs-string">&#x27;category&#x27;</span>)<br>s = s.cat.reorder_categories([<span class="hljs-string">&#x27;Freshman&#x27;</span>, <span class="hljs-string">&#x27;Sophomore&#x27;</span>, <span class="hljs-string">&#x27;Junior&#x27;</span>, <span class="hljs-string">&#x27;Senior&#x27;</span>],ordered=<span class="hljs-literal">True</span>)<br>s.head()<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">0     Freshman
+Categories (1, object): ['本科二年级学生']
+</code></pre><h2 id=二有序分类><a class=header-anchor href=#%e4%ba%8c%e6%9c%89%e5%ba%8f%e5%88%86%e7%b1%bb></a>二、有序分类</h2><h3 id=1-序的建立><a class=header-anchor href=#1-%e5%ba%8f%e7%9a%84%e5%bb%ba%e7%ab%8b></a>1. 序的建立</h3><p>有序类别和无序类别可以通过<code>as_unordered</code>和<code>reorder_categories</code>互相转化，需要注意的是后者传入的参数必须是由当前序列的无序类别构成的列表，不能够增加新的类别，也不能缺少原来的类别，并且必须指定参数<code>ordered=True</code>，否则方法无效。例如，对年级高低进行相对大小的类别划分，然后再恢复无序状态：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>s</span> <span class=o>=</span> <span class=n>df</span><span class=o>.</span><span class=n>Grade</span><span class=o>.</span><span class=n>astype</span><span class=p>(</span><span class=s1>&#39;category&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>s</span> <span class=o>=</span> <span class=n>s</span><span class=o>.</span><span class=n>cat</span><span class=o>.</span><span class=n>reorder_categories</span><span class=p>([</span><span class=s1>&#39;Freshman&#39;</span><span class=p>,</span> <span class=s1>&#39;Sophomore&#39;</span><span class=p>,</span> <span class=s1>&#39;Junior&#39;</span><span class=p>,</span> <span class=s1>&#39;Senior&#39;</span><span class=p>],</span><span class=n>ordered</span><span class=o>=</span><span class=kc>True</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>s</span><span class=o>.</span><span class=n>head</span><span class=p>()</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>0     Freshman
 1     Freshman
 2       Senior
 3    Sophomore
 4    Sophomore
 Name: Grade, dtype: category
-Categories (4, object): [&#39;Freshman&#39; &lt; &#39;Sophomore&#39; &lt; &#39;Junior&#39; &lt; &#39;Senior&#39;]</code></pre>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s.cat.as_unordered().head()<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">0     Freshman
+Categories (4, object): ['Freshman' &lt; 'Sophomore' &lt; 'Junior' &lt; 'Senior']
+</code></pre><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>s</span><span class=o>.</span><span class=n>cat</span><span class=o>.</span><span class=n>as_unordered</span><span class=p>()</span><span class=o>.</span><span class=n>head</span><span class=p>()</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>0     Freshman
 1     Freshman
 2       Senior
 3    Sophomore
 4    Sophomore
 Name: Grade, dtype: category
-Categories (4, object): [&#39;Freshman&#39;, &#39;Sophomore&#39;, &#39;Junior&#39;, &#39;Senior&#39;]</code></pre>
-<h4 id="note类别不得直接修改-1">【NOTE】类别不得直接修改</h4>
-<p>如果不想指定<code>ordered=True</code>参数，那么可以先用<code>s.cat.as_ordered()</code>转化为有序类别，再利用<code>reorder_categories</code>进行具体的相对大小调整。
-#### 【END】 ### 2. 排序和比较</p>
-<p>在第二章中，曾提到了字符串和数值类型序列的排序，此时就要说明分类变量的排序：只需把列的类型修改为<code>category</code>后，再赋予相应的大小关系，就能正常地使用<code>sort_index</code>和<code>sort_values</code>。例如，对年级进行排序：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">df.Grade = df.Grade.astype(<span class="hljs-string">&#x27;category&#x27;</span>)<br>df.Grade = df.Grade.cat.reorder_categories([<span class="hljs-string">&#x27;Freshman&#x27;</span>, <span class="hljs-string">&#x27;Sophomore&#x27;</span>, <span class="hljs-string">&#x27;Junior&#x27;</span>, <span class="hljs-string">&#x27;Senior&#x27;</span>],ordered=<span class="hljs-literal">True</span>)<br>df.sort_values(<span class="hljs-string">&#x27;Grade&#x27;</span>).head() <span class="hljs-comment"># 值排序</span><br></code></pre></td></tr></table></figure>
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>
-</th>
-<th>
-Grade
-</th>
-<th>
-Name
-</th>
-<th>
-Gender
-</th>
-<th>
-Height
-</th>
-<th>
-Weight
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>
-0
-</th>
-<td>
-Freshman
-</td>
-<td>
-Gaopeng Yang
-</td>
-<td>
-Female
-</td>
-<td>
-158.9
-</td>
-<td>
-46.0
-</td>
-</tr>
-<tr>
-<th>
-105
-</th>
-<td>
-Freshman
-</td>
-<td>
-Qiang Shi
-</td>
-<td>
-Female
-</td>
-<td>
-164.5
-</td>
-<td>
-52.0
-</td>
-</tr>
-<tr>
-<th>
-96
-</th>
-<td>
-Freshman
-</td>
-<td>
-Changmei Feng
-</td>
-<td>
-Female
-</td>
-<td>
-163.8
-</td>
-<td>
-56.0
-</td>
-</tr>
-<tr>
-<th>
-88
-</th>
-<td>
-Freshman
-</td>
-<td>
-Xiaopeng Han
-</td>
-<td>
-Female
-</td>
-<td>
-164.1
-</td>
-<td>
-53.0
-</td>
-</tr>
-<tr>
-<th>
-81
-</th>
-<td>
-Freshman
-</td>
-<td>
-Yanli Zhang
-</td>
-<td>
-Female
-</td>
-<td>
-165.1
-</td>
-<td>
-52.0
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df.set_index(<span class="hljs-string">&#x27;Grade&#x27;</span>).sort_index().head() <span class="hljs-comment"># 索引排序</span><br></code></pre></td></tr></table></figure>
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>
-</th>
-<th>
-Name
-</th>
-<th>
-Gender
-</th>
-<th>
-Height
-</th>
-<th>
-Weight
-</th>
-</tr>
-<tr>
-<th>
-Grade
-</th>
-<th>
-</th>
-<th>
-</th>
-<th>
-</th>
-<th>
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>
-Freshman
-</th>
-<td>
-Gaopeng Yang
-</td>
-<td>
-Female
-</td>
-<td>
-158.9
-</td>
-<td>
-46.0
-</td>
-</tr>
-<tr>
-<th>
-Freshman
-</th>
-<td>
-Qiang Shi
-</td>
-<td>
-Female
-</td>
-<td>
-164.5
-</td>
-<td>
-52.0
-</td>
-</tr>
-<tr>
-<th>
-Freshman
-</th>
-<td>
-Changmei Feng
-</td>
-<td>
-Female
-</td>
-<td>
-163.8
-</td>
-<td>
-56.0
-</td>
-</tr>
-<tr>
-<th>
-Freshman
-</th>
-<td>
-Xiaopeng Han
-</td>
-<td>
-Female
-</td>
-<td>
-164.1
-</td>
-<td>
-53.0
-</td>
-</tr>
-<tr>
-<th>
-Freshman
-</th>
-<td>
-Yanli Zhang
-</td>
-<td>
-Female
-</td>
-<td>
-165.1
-</td>
-<td>
-52.0
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>由于序的建立，因此就可以进行比较操作。分类变量的比较操作分为两类，第一种是<code>==</code>或<code>!=</code>关系的比较，比较的对象可以是标量或者同长度的<code>Series</code>（或<code>list</code>），第二种是<code>&gt;,&gt;=,&lt;,&lt;=</code>四类大小关系的比较，比较的对象和第一种类似，但是所有参与比较的元素必须属于原序列的<code>categories</code>，同时要和原序列具有相同的索引。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">res1 = df.Grade == <span class="hljs-string">&#x27;Sophomore&#x27;</span><br>res1.head()<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">0    False
+Categories (4, object): ['Freshman', 'Sophomore', 'Junior', 'Senior']
+</code></pre><h4 id=note类别不得直接修改-1><a class=header-anchor href=#note%e7%b1%bb%e5%88%ab%e4%b8%8d%e5%be%97%e7%9b%b4%e6%8e%a5%e4%bf%ae%e6%94%b9-1></a>【NOTE】类别不得直接修改</h4><p>如果不想指定<code>ordered=True</code>参数，那么可以先用<code>s.cat.as_ordered()</code>转化为有序类别，再利用<code>reorder_categories</code>进行具体的相对大小调整。</p><h4 id=end-1><a class=header-anchor href=#end-1></a>【END】</h4><h3 id=2-排序和比较><a class=header-anchor href=#2-%e6%8e%92%e5%ba%8f%e5%92%8c%e6%af%94%e8%be%83></a>2. 排序和比较</h3><p>在第二章中，曾提到了字符串和数值类型序列的排序，此时就要说明分类变量的排序：只需把列的类型修改为<code>category</code>后，再赋予相应的大小关系，就能正常地使用<code>sort_index</code>和<code>sort_values</code>。例如，对年级进行排序：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>df</span><span class=o>.</span><span class=n>Grade</span> <span class=o>=</span> <span class=n>df</span><span class=o>.</span><span class=n>Grade</span><span class=o>.</span><span class=n>astype</span><span class=p>(</span><span class=s1>&#39;category&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>df</span><span class=o>.</span><span class=n>Grade</span> <span class=o>=</span> <span class=n>df</span><span class=o>.</span><span class=n>Grade</span><span class=o>.</span><span class=n>cat</span><span class=o>.</span><span class=n>reorder_categories</span><span class=p>([</span><span class=s1>&#39;Freshman&#39;</span><span class=p>,</span> <span class=s1>&#39;Sophomore&#39;</span><span class=p>,</span> <span class=s1>&#39;Junior&#39;</span><span class=p>,</span> <span class=s1>&#39;Senior&#39;</span><span class=p>],</span><span class=n>ordered</span><span class=o>=</span><span class=kc>True</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>df</span><span class=o>.</span><span class=n>sort_values</span><span class=p>(</span><span class=s1>&#39;Grade&#39;</span><span class=p>)</span><span class=o>.</span><span class=n>head</span><span class=p>()</span> <span class=c1># 值排序</span>
+</span></span></code></pre></td></tr></table></div></div><div><style scoped>.dataframe tbody tr th:only-of-type{vertical-align:middle}<pre><code>.dataframe tbody tr th{vertical-align:top}.dataframe thead th{text-align:right}</code></pre><p></style></p><table border=1 class=dataframe><thead><tr style=text-align:right><th></th><th>Grade</th><th>Name</th><th>Gender</th><th>Height</th><th>Weight</th></tr></thead><tbody><tr><th>0</th><td>Freshman</td><td>Gaopeng Yang</td><td>Female</td><td>158.9</td><td>46.0</td></tr><tr><th>105</th><td>Freshman</td><td>Qiang Shi</td><td>Female</td><td>164.5</td><td>52.0</td></tr><tr><th>96</th><td>Freshman</td><td>Changmei Feng</td><td>Female</td><td>163.8</td><td>56.0</td></tr><tr><th>88</th><td>Freshman</td><td>Xiaopeng Han</td><td>Female</td><td>164.1</td><td>53.0</td></tr><tr><th>81</th><td>Freshman</td><td>Yanli Zhang</td><td>Female</td><td>165.1</td><td>52.0</td></tr></tbody></table></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>df</span><span class=o>.</span><span class=n>set_index</span><span class=p>(</span><span class=s1>&#39;Grade&#39;</span><span class=p>)</span><span class=o>.</span><span class=n>sort_index</span><span class=p>()</span><span class=o>.</span><span class=n>head</span><span class=p>()</span> <span class=c1># 索引排序</span>
+</span></span></code></pre></td></tr></table></div></div><div><style scoped>.dataframe tbody tr th:only-of-type{vertical-align:middle}<pre><code>.dataframe tbody tr th{vertical-align:top}.dataframe thead th{text-align:right}</code></pre><p></style></p><table border=1 class=dataframe><thead><tr style=text-align:right><th></th><th>Name</th><th>Gender</th><th>Height</th><th>Weight</th></tr><tr><th>Grade</th><th></th><th></th><th></th><th></th></tr></thead><tbody><tr><th>Freshman</th><td>Gaopeng Yang</td><td>Female</td><td>158.9</td><td>46.0</td></tr><tr><th>Freshman</th><td>Qiang Shi</td><td>Female</td><td>164.5</td><td>52.0</td></tr><tr><th>Freshman</th><td>Changmei Feng</td><td>Female</td><td>163.8</td><td>56.0</td></tr><tr><th>Freshman</th><td>Xiaopeng Han</td><td>Female</td><td>164.1</td><td>53.0</td></tr><tr><th>Freshman</th><td>Yanli Zhang</td><td>Female</td><td>165.1</td><td>52.0</td></tr></tbody></table></div><p>由于序的建立，因此就可以进行比较操作。分类变量的比较操作分为两类，第一种是<code>==</code>或<code>!=</code>关系的比较，比较的对象可以是标量或者同长度的<code>Series</code>（或<code>list</code>），第二种是<code>>,>=,&lt;,&lt;=</code>四类大小关系的比较，比较的对象和第一种类似，但是所有参与比较的元素必须属于原序列的<code>categories</code>，同时要和原序列具有相同的索引。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>res1</span> <span class=o>=</span> <span class=n>df</span><span class=o>.</span><span class=n>Grade</span> <span class=o>==</span> <span class=s1>&#39;Sophomore&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>res1</span><span class=o>.</span><span class=n>head</span><span class=p>()</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>0    False
 1    False
 2    False
 3     True
 4     True
-Name: Grade, dtype: bool</code></pre>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">res2 = df.Grade == [<span class="hljs-string">&#x27;PhD&#x27;</span>]*df.shape[<span class="hljs-number">0</span>]<br>res2.head()<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">0    False
+Name: Grade, dtype: bool
+</code></pre><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>res2</span> <span class=o>=</span> <span class=n>df</span><span class=o>.</span><span class=n>Grade</span> <span class=o>==</span> <span class=p>[</span><span class=s1>&#39;PhD&#39;</span><span class=p>]</span><span class=o>*</span><span class=n>df</span><span class=o>.</span><span class=n>shape</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=n>res2</span><span class=o>.</span><span class=n>head</span><span class=p>()</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>0    False
 1    False
 2    False
 3    False
 4    False
-Name: Grade, dtype: bool</code></pre>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">res3 = df.Grade &lt;= <span class="hljs-string">&#x27;Sophomore&#x27;</span><br>res3.head()<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">0     True
+Name: Grade, dtype: bool
+</code></pre><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>res3</span> <span class=o>=</span> <span class=n>df</span><span class=o>.</span><span class=n>Grade</span> <span class=o>&lt;=</span> <span class=s1>&#39;Sophomore&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>res3</span><span class=o>.</span><span class=n>head</span><span class=p>()</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>0     True
 1     True
 2    False
 3     True
 4     True
-Name: Grade, dtype: bool</code></pre>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">res4 = df.Grade &lt;= df.Grade.sample(frac=<span class="hljs-number">1</span>).reset_index(drop=<span class="hljs-literal">True</span>) <span class="hljs-comment"># 打乱后比较</span><br>res4.head()<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">0     True
+Name: Grade, dtype: bool
+</code></pre><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>res4</span> <span class=o>=</span> <span class=n>df</span><span class=o>.</span><span class=n>Grade</span> <span class=o>&lt;=</span> <span class=n>df</span><span class=o>.</span><span class=n>Grade</span><span class=o>.</span><span class=n>sample</span><span class=p>(</span><span class=n>frac</span><span class=o>=</span><span class=mi>1</span><span class=p>)</span><span class=o>.</span><span class=n>reset_index</span><span class=p>(</span><span class=n>drop</span><span class=o>=</span><span class=kc>True</span><span class=p>)</span> <span class=c1># 打乱后比较</span>
+</span></span><span class=line><span class=cl><span class=n>res4</span><span class=o>.</span><span class=n>head</span><span class=p>()</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>0     True
 1     True
 2    False
 3     True
 4     True
-Name: Grade, dtype: bool</code></pre>
-<h2 id="三区间类别">三、区间类别</h2>
-<h3 id="利用cut和qcut进行区间构造">1. 利用cut和qcut进行区间构造</h3>
-<p>区间是一种特殊的类别，在实际数据分析中，区间序列往往是通过<code>cut</code>和<code>qcut</code>方法进行构造的，这两个函数能够把原序列的数值特征进行装箱，即用区间位置来代替原来的具体数值。</p>
-<p>首先介绍<code>cut</code>的常见用法：</p>
-<p>其中，最重要的参数是<code>bins</code>，如果传入整数<code>n</code>，则代表把整个传入数组的按照最大和最小值等间距地分为<code>n</code>段。由于区间默认是左开右闭，需要在调整时把最小值包含进去，在<code>pandas</code>中的解决方案是在值最小的区间左端点再减去<code>0.001*(max-min)</code>，因此如果对序列<code>[1,2]</code>划分为2个箱子时，第一个箱子的范围<code>(0.999,1.5]</code>，第二个箱子的范围是<code>(1.5,2]</code>。如果需要指定左闭右开时，需要把<code>right</code>参数设置为<code>False</code>，相应的区间调整方法是在值最大的区间右端点再加上<code>0.001*(max-min)</code>。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">s = pd.Series([<span class="hljs-number">1</span>,<span class="hljs-number">2</span>])<br>pd.cut(s, bins=<span class="hljs-number">2</span>)<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">0    (0.999, 1.5]
+Name: Grade, dtype: bool
+</code></pre><h2 id=三区间类别><a class=header-anchor href=#%e4%b8%89%e5%8c%ba%e9%97%b4%e7%b1%bb%e5%88%ab></a>三、区间类别</h2><h3 id=1-利用cut和qcut进行区间构造><a class=header-anchor href=#1-%e5%88%a9%e7%94%a8cut%e5%92%8cqcut%e8%bf%9b%e8%a1%8c%e5%8c%ba%e9%97%b4%e6%9e%84%e9%80%a0></a>1. 利用cut和qcut进行区间构造</h3><p>区间是一种特殊的类别，在实际数据分析中，区间序列往往是通过<code>cut</code>和<code>qcut</code>方法进行构造的，这两个函数能够把原序列的数值特征进行装箱，即用区间位置来代替原来的具体数值。</p><p>首先介绍<code>cut</code>的常见用法：</p><p>其中，最重要的参数是<code>bins</code>，如果传入整数<code>n</code>，则代表把整个传入数组的按照最大和最小值等间距地分为<code>n</code>段。由于区间默认是左开右闭，需要在调整时把最小值包含进去，在<code>pandas</code>中的解决方案是在值最小的区间左端点再减去<code>0.001*(max-min)</code>，因此如果对序列<code>[1,2]</code>划分为2个箱子时，第一个箱子的范围<code>(0.999,1.5]</code>，第二个箱子的范围是<code>(1.5,2]</code>。如果需要指定左闭右开时，需要把<code>right</code>参数设置为<code>False</code>，相应的区间调整方法是在值最大的区间右端点再加上<code>0.001*(max-min)</code>。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>s</span> <span class=o>=</span> <span class=n>pd</span><span class=o>.</span><span class=n>Series</span><span class=p>([</span><span class=mi>1</span><span class=p>,</span><span class=mi>2</span><span class=p>])</span>
+</span></span><span class=line><span class=cl><span class=n>pd</span><span class=o>.</span><span class=n>cut</span><span class=p>(</span><span class=n>s</span><span class=p>,</span> <span class=n>bins</span><span class=o>=</span><span class=mi>2</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>0    (0.999, 1.5]
 1      (1.5, 2.0]
 dtype: category
-Categories (2, interval[float64]): [(0.999, 1.5] &lt; (1.5, 2.0]]</code></pre>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pd.cut(s, bins=<span class="hljs-number">2</span>, right=<span class="hljs-literal">False</span>)<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">0      [1.0, 1.5)
+Categories (2, interval[float64]): [(0.999, 1.5] &lt; (1.5, 2.0]]
+</code></pre><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>pd</span><span class=o>.</span><span class=n>cut</span><span class=p>(</span><span class=n>s</span><span class=p>,</span> <span class=n>bins</span><span class=o>=</span><span class=mi>2</span><span class=p>,</span> <span class=n>right</span><span class=o>=</span><span class=kc>False</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>0      [1.0, 1.5)
 1    [1.5, 2.001)
 dtype: category
-Categories (2, interval[float64]): [[1.0, 1.5) &lt; [1.5, 2.001)]</code></pre>
-<p><code>bins</code>的另一个常见用法是指定区间分割点的列表（使用<code>np.infty</code>可以表示无穷大）：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pd.cut(s, bins=[-np.infty, <span class="hljs-number">1.2</span>, <span class="hljs-number">1.8</span>, <span class="hljs-number">2.2</span>, np.infty])<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">0    (-inf, 1.2]
+Categories (2, interval[float64]): [[1.0, 1.5) &lt; [1.5, 2.001)]
+</code></pre><p><code>bins</code>的另一个常见用法是指定区间分割点的列表（使用<code>np.infty</code>可以表示无穷大）：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>pd</span><span class=o>.</span><span class=n>cut</span><span class=p>(</span><span class=n>s</span><span class=p>,</span> <span class=n>bins</span><span class=o>=</span><span class=p>[</span><span class=o>-</span><span class=n>np</span><span class=o>.</span><span class=n>infty</span><span class=p>,</span> <span class=mf>1.2</span><span class=p>,</span> <span class=mf>1.8</span><span class=p>,</span> <span class=mf>2.2</span><span class=p>,</span> <span class=n>np</span><span class=o>.</span><span class=n>infty</span><span class=p>])</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>0    (-inf, 1.2]
 1     (1.8, 2.2]
 dtype: category
-Categories (4, interval[float64]): [(-inf, 1.2] &lt; (1.2, 1.8] &lt; (1.8, 2.2] &lt; (2.2, inf]]</code></pre>
-<p>另外两个常用参数为<code>labels</code>和<code>retbins</code>，分别代表了区间的名字和是否返回分割点（默认不返回）：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">s = pd.Series([<span class="hljs-number">1</span>,<span class="hljs-number">2</span>])<br>res = pd.cut(s, bins=<span class="hljs-number">2</span>, labels=[<span class="hljs-string">&#x27;small&#x27;</span>, <span class="hljs-string">&#x27;big&#x27;</span>], retbins=<span class="hljs-literal">True</span>)<br>res[<span class="hljs-number">0</span>]<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">0    small
+Categories (4, interval[float64]): [(-inf, 1.2] &lt; (1.2, 1.8] &lt; (1.8, 2.2] &lt; (2.2, inf]]
+</code></pre><p>另外两个常用参数为<code>labels</code>和<code>retbins</code>，分别代表了区间的名字和是否返回分割点（默认不返回）：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>s</span> <span class=o>=</span> <span class=n>pd</span><span class=o>.</span><span class=n>Series</span><span class=p>([</span><span class=mi>1</span><span class=p>,</span><span class=mi>2</span><span class=p>])</span>
+</span></span><span class=line><span class=cl><span class=n>res</span> <span class=o>=</span> <span class=n>pd</span><span class=o>.</span><span class=n>cut</span><span class=p>(</span><span class=n>s</span><span class=p>,</span> <span class=n>bins</span><span class=o>=</span><span class=mi>2</span><span class=p>,</span> <span class=n>labels</span><span class=o>=</span><span class=p>[</span><span class=s1>&#39;small&#39;</span><span class=p>,</span> <span class=s1>&#39;big&#39;</span><span class=p>],</span> <span class=n>retbins</span><span class=o>=</span><span class=kc>True</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>res</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>0    small
 1      big
 dtype: category
-Categories (2, object): [&#39;small&#39; &lt; &#39;big&#39;]</code></pre>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">res[<span class="hljs-number">1</span>] <span class="hljs-comment"># 该元素为返回的分割点</span><br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">array([0.999, 1.5  , 2.   ])</code></pre>
-<p>从用法上来说，<code>qcut</code>和<code>cut</code>几乎没有差别，只是把<code>bins</code>参数变成的<code>q</code>参数，<code>qcut</code>中的<code>q</code>是指<code>quantile</code>。这里的<code>q</code>为整数<code>n</code>时，指按照<code>n</code>等分位数把数据分箱，还可以传入浮点列表指代相应的分位数分割点。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">s = df.Weight<br>pd.qcut(s, q=<span class="hljs-number">3</span>).head()<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">0    (33.999, 48.0]
+Categories (2, object): ['small' &lt; 'big']
+</code></pre><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>res</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=c1># 该元素为返回的分割点</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>array([0.999, 1.5  , 2.   ])
+</code></pre><p>从用法上来说，<code>qcut</code>和<code>cut</code>几乎没有差别，只是把<code>bins</code>参数变成的<code>q</code>参数，<code>qcut</code>中的<code>q</code>是指<code>quantile</code>。这里的<code>q</code>为整数<code>n</code>时，指按照<code>n</code>等分位数把数据分箱，还可以传入浮点列表指代相应的分位数分割点。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>s</span> <span class=o>=</span> <span class=n>df</span><span class=o>.</span><span class=n>Weight</span>
+</span></span><span class=line><span class=cl><span class=n>pd</span><span class=o>.</span><span class=n>qcut</span><span class=p>(</span><span class=n>s</span><span class=p>,</span> <span class=n>q</span><span class=o>=</span><span class=mi>3</span><span class=p>)</span><span class=o>.</span><span class=n>head</span><span class=p>()</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>0    (33.999, 48.0]
 1      (55.0, 89.0]
 2      (55.0, 89.0]
 3    (33.999, 48.0]
 4      (55.0, 89.0]
 Name: Weight, dtype: category
-Categories (3, interval[float64]): [(33.999, 48.0] &lt; (48.0, 55.0] &lt; (55.0, 89.0]]</code></pre>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pd.qcut(s, q=[<span class="hljs-number">0</span>,<span class="hljs-number">0.2</span>,<span class="hljs-number">0.8</span>,<span class="hljs-number">1</span>]).head()<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">0      (44.0, 69.4]
+Categories (3, interval[float64]): [(33.999, 48.0] &lt; (48.0, 55.0] &lt; (55.0, 89.0]]
+</code></pre><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>pd</span><span class=o>.</span><span class=n>qcut</span><span class=p>(</span><span class=n>s</span><span class=p>,</span> <span class=n>q</span><span class=o>=</span><span class=p>[</span><span class=mi>0</span><span class=p>,</span><span class=mf>0.2</span><span class=p>,</span><span class=mf>0.8</span><span class=p>,</span><span class=mi>1</span><span class=p>])</span><span class=o>.</span><span class=n>head</span><span class=p>()</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>0      (44.0, 69.4]
 1      (69.4, 89.0]
 2      (69.4, 89.0]
 3    (33.999, 44.0]
 4      (69.4, 89.0]
 Name: Weight, dtype: category
-Categories (3, interval[float64]): [(33.999, 44.0] &lt; (44.0, 69.4] &lt; (69.4, 89.0]]</code></pre>
-<h3 id="一般区间的构造">2. 一般区间的构造</h3>
-<p>对于某一个具体的区间而言，其具备三个要素，即左端点、右端点和端点的开闭状态，其中开闭状态可以指定<code>right, left, both, neither</code>中的一类：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">my_interval = pd.Interval(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-string">&#x27;right&#x27;</span>)<br>my_interval<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">Interval(0, 1, closed=&#39;right&#39;)</code></pre>
-<p>其属性包含了<code>mid, length, right, left, closed,</code>，分别表示中点、长度、右端点、左端点和开闭状态。</p>
-<p>使用<code>in</code>可以判断元素是否属于区间：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-number">0.5</span> <span class="hljs-keyword">in</span> my_interval<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">True</code></pre>
-<p>使用<code>overlaps</code>可以判断两个区间是否有交集：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">my_interval_2 = pd.Interval(<span class="hljs-number">0.5</span>, <span class="hljs-number">1.5</span>, <span class="hljs-string">&#x27;left&#x27;</span>)<br>my_interval.overlaps(my_interval_2)<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">True</code></pre>
-<p>一般而言，<code>pd.IntervalIndex</code>对象有四类方法生成，分别是<code>from_breaks, from_arrays, from_tuples, interval_range</code>，它们分别应用于不同的情况：</p>
-<p><code>from_breaks</code>的功能类似于<code>cut</code>或<code>qcut</code>函数，只不过后两个是通过计算得到的分割点，而前者是直接传入自定义的分割点：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pd.IntervalIndex.from_breaks([<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,<span class="hljs-number">6</span>,<span class="hljs-number">10</span>], closed=<span class="hljs-string">&#x27;both&#x27;</span>)<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">IntervalIndex([[1, 3], [3, 6], [6, 10]],
-              closed=&#39;both&#39;,
-              dtype=&#39;interval[int64]&#39;)</code></pre>
-<p><code>from_arrays</code>是分别传入左端点和右端点的列表，适用于有交集并且知道起点和终点的情况：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pd.IntervalIndex.from_arrays(left = [<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,<span class="hljs-number">6</span>,<span class="hljs-number">10</span>], right = [<span class="hljs-number">5</span>,<span class="hljs-number">4</span>,<span class="hljs-number">9</span>,<span class="hljs-number">11</span>], closed = <span class="hljs-string">&#x27;neither&#x27;</span>)<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">IntervalIndex([(1, 5), (3, 4), (6, 9), (10, 11)],
-              closed=&#39;neither&#39;,
-              dtype=&#39;interval[int64]&#39;)</code></pre>
-<p><code>from_tuples</code>传入的是起点和终点元组构成的列表：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pd.IntervalIndex.from_tuples([(<span class="hljs-number">1</span>,<span class="hljs-number">5</span>),(<span class="hljs-number">3</span>,<span class="hljs-number">4</span>),(<span class="hljs-number">6</span>,<span class="hljs-number">9</span>),(<span class="hljs-number">10</span>,<span class="hljs-number">11</span>)], closed=<span class="hljs-string">&#x27;neither&#x27;</span>)<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">IntervalIndex([(1, 5), (3, 4), (6, 9), (10, 11)],
-              closed=&#39;neither&#39;,
-              dtype=&#39;interval[int64]&#39;)</code></pre>
-<p>一个等差的区间序列由起点、终点、区间个数和区间长度决定，其中三个量确定的情况下，剩下一个量就确定了，<code>interval_range</code>中的<code>start, end, periods, freq</code>参数就对应了这四个量，从而就能构造出相应的区间：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pd.interval_range(start=<span class="hljs-number">1</span>,end=<span class="hljs-number">5</span>,periods=<span class="hljs-number">8</span>)<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">IntervalIndex([(1.0, 1.5], (1.5, 2.0], (2.0, 2.5], (2.5, 3.0], (3.0, 3.5], (3.5, 4.0], (4.0, 4.5], (4.5, 5.0]],
-              closed=&#39;right&#39;,
-              dtype=&#39;interval[float64]&#39;)</code></pre>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pd.interval_range(end=<span class="hljs-number">5</span>,periods=<span class="hljs-number">8</span>,freq=<span class="hljs-number">0.5</span>)<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">IntervalIndex([(1.0, 1.5], (1.5, 2.0], (2.0, 2.5], (2.5, 3.0], (3.0, 3.5], (3.5, 4.0], (4.0, 4.5], (4.5, 5.0]],
-              closed=&#39;right&#39;,
-              dtype=&#39;interval[float64]&#39;)</code></pre>
-<h4 id="练一练">【练一练】</h4>
-<p>无论是<code>interval_range</code>还是下一章时间序列中的<code>date_range</code>都是给定了等差序列中四要素中的三个，从而确定整个序列。请回顾等差数列中的首项、末项、项数和公差的联系，写出<code>interval_range</code>中四个参数之间的恒等关系。
-#### 【END】
-除此之外，如果直接使用<code>pd.IntervalIndex([...], closed=...)</code>，把<code>Interval</code>类型的列表组成传入其中转为区间索引，那么所有的区间会被强制转为指定的<code>closed</code>类型，因为<code>pd.IntervalIndex</code>只允许存放同一种开闭区间的<code>Interval</code>对象。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">my_interval<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">Interval(0, 1, closed=&#39;right&#39;)</code></pre>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">my_interval_2<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">Interval(0.5, 1.5, closed=&#39;left&#39;)</code></pre>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pd.IntervalIndex([my_interval, my_interval_2], closed=<span class="hljs-string">&#x27;left&#x27;</span>)<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">IntervalIndex([[0.0, 1.0), [0.5, 1.5)],
-              closed=&#39;left&#39;,
-              dtype=&#39;interval[float64]&#39;)</code></pre>
-<h3 id="区间的属性与方法">3. 区间的属性与方法</h3>
-<p><code>IntervalIndex</code>上也定义了一些有用的属性和方法。同时，如果想要具体利用<code>cut</code>或者<code>qcut</code>的结果进行分析，那么需要先将其转为该种索引类型：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">id_interval = pd.IntervalIndex(pd.cut(s, <span class="hljs-number">3</span>))<br>id_interval[:<span class="hljs-number">3</span>]<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">IntervalIndex([(33.945, 52.333], (52.333, 70.667], (70.667, 89.0]],
-              closed=&#39;right&#39;,
-              name=&#39;Weight&#39;,
-              dtype=&#39;interval[float64]&#39;)</code></pre>
-<p>与单个<code>Interval</code>类型相似，<code>IntervalIndex</code>有若干常用属性：<code>left, right, mid, length</code>，分别表示左右端点、两端点均值和区间长度。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">id_demo = id_interval[:<span class="hljs-number">5</span>] <span class="hljs-comment"># 选出前5个展示</span><br>id_demo<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">IntervalIndex([(33.945, 52.333], (52.333, 70.667], (70.667, 89.0], (33.945, 52.333], (70.667, 89.0]],
-              closed=&#39;right&#39;,
-              name=&#39;Weight&#39;,
-              dtype=&#39;interval[float64]&#39;)</code></pre>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">id_demo.left<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">Float64Index([33.945, 52.333, 70.667, 33.945, 70.667], dtype=&#39;float64&#39;)</code></pre>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">id_demo.right<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">Float64Index([52.333, 70.667, 89.0, 52.333, 89.0], dtype=&#39;float64&#39;)</code></pre>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">id_demo.mid<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">Float64Index([43.138999999999996, 61.5, 79.8335, 43.138999999999996, 79.8335], dtype=&#39;float64&#39;)</code></pre>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">id_demo.length<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">Float64Index([18.387999999999998, 18.334000000000003, 18.333,
+Categories (3, interval[float64]): [(33.999, 44.0] &lt; (44.0, 69.4] &lt; (69.4, 89.0]]
+</code></pre><h3 id=2-一般区间的构造><a class=header-anchor href=#2-%e4%b8%80%e8%88%ac%e5%8c%ba%e9%97%b4%e7%9a%84%e6%9e%84%e9%80%a0></a>2. 一般区间的构造</h3><p>对于某一个具体的区间而言，其具备三个要素，即左端点、右端点和端点的开闭状态，其中开闭状态可以指定<code>right, left, both, neither</code>中的一类：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>my_interval</span> <span class=o>=</span> <span class=n>pd</span><span class=o>.</span><span class=n>Interval</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=s1>&#39;right&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>my_interval</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>Interval(0, 1, closed='right')
+</code></pre><p>其属性包含了<code>mid, length, right, left, closed,</code>，分别表示中点、长度、右端点、左端点和开闭状态。</p><p>使用<code>in</code>可以判断元素是否属于区间：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=mf>0.5</span> <span class=ow>in</span> <span class=n>my_interval</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>True
+</code></pre><p>使用<code>overlaps</code>可以判断两个区间是否有交集：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>my_interval_2</span> <span class=o>=</span> <span class=n>pd</span><span class=o>.</span><span class=n>Interval</span><span class=p>(</span><span class=mf>0.5</span><span class=p>,</span> <span class=mf>1.5</span><span class=p>,</span> <span class=s1>&#39;left&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>my_interval</span><span class=o>.</span><span class=n>overlaps</span><span class=p>(</span><span class=n>my_interval_2</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>True
+</code></pre><p>一般而言，<code>pd.IntervalIndex</code>对象有四类方法生成，分别是<code>from_breaks, from_arrays, from_tuples, interval_range</code>，它们分别应用于不同的情况：</p><p><code>from_breaks</code>的功能类似于<code>cut</code>或<code>qcut</code>函数，只不过后两个是通过计算得到的分割点，而前者是直接传入自定义的分割点：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>pd</span><span class=o>.</span><span class=n>IntervalIndex</span><span class=o>.</span><span class=n>from_breaks</span><span class=p>([</span><span class=mi>1</span><span class=p>,</span><span class=mi>3</span><span class=p>,</span><span class=mi>6</span><span class=p>,</span><span class=mi>10</span><span class=p>],</span> <span class=n>closed</span><span class=o>=</span><span class=s1>&#39;both&#39;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>IntervalIndex([[1, 3], [3, 6], [6, 10]],
+              closed='both',
+              dtype='interval[int64]')
+</code></pre><p><code>from_arrays</code>是分别传入左端点和右端点的列表，适用于有交集并且知道起点和终点的情况：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>pd</span><span class=o>.</span><span class=n>IntervalIndex</span><span class=o>.</span><span class=n>from_arrays</span><span class=p>(</span><span class=n>left</span> <span class=o>=</span> <span class=p>[</span><span class=mi>1</span><span class=p>,</span><span class=mi>3</span><span class=p>,</span><span class=mi>6</span><span class=p>,</span><span class=mi>10</span><span class=p>],</span> <span class=n>right</span> <span class=o>=</span> <span class=p>[</span><span class=mi>5</span><span class=p>,</span><span class=mi>4</span><span class=p>,</span><span class=mi>9</span><span class=p>,</span><span class=mi>11</span><span class=p>],</span> <span class=n>closed</span> <span class=o>=</span> <span class=s1>&#39;neither&#39;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>IntervalIndex([(1, 5), (3, 4), (6, 9), (10, 11)],
+              closed='neither',
+              dtype='interval[int64]')
+</code></pre><p><code>from_tuples</code>传入的是起点和终点元组构成的列表：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>pd</span><span class=o>.</span><span class=n>IntervalIndex</span><span class=o>.</span><span class=n>from_tuples</span><span class=p>([(</span><span class=mi>1</span><span class=p>,</span><span class=mi>5</span><span class=p>),(</span><span class=mi>3</span><span class=p>,</span><span class=mi>4</span><span class=p>),(</span><span class=mi>6</span><span class=p>,</span><span class=mi>9</span><span class=p>),(</span><span class=mi>10</span><span class=p>,</span><span class=mi>11</span><span class=p>)],</span> <span class=n>closed</span><span class=o>=</span><span class=s1>&#39;neither&#39;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>IntervalIndex([(1, 5), (3, 4), (6, 9), (10, 11)],
+              closed='neither',
+              dtype='interval[int64]')
+</code></pre><p>一个等差的区间序列由起点、终点、区间个数和区间长度决定，其中三个量确定的情况下，剩下一个量就确定了，<code>interval_range</code>中的<code>start, end, periods, freq</code>参数就对应了这四个量，从而就能构造出相应的区间：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>pd</span><span class=o>.</span><span class=n>interval_range</span><span class=p>(</span><span class=n>start</span><span class=o>=</span><span class=mi>1</span><span class=p>,</span><span class=n>end</span><span class=o>=</span><span class=mi>5</span><span class=p>,</span><span class=n>periods</span><span class=o>=</span><span class=mi>8</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>IntervalIndex([(1.0, 1.5], (1.5, 2.0], (2.0, 2.5], (2.5, 3.0], (3.0, 3.5], (3.5, 4.0], (4.0, 4.5], (4.5, 5.0]],
+              closed='right',
+              dtype='interval[float64]')
+</code></pre><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>pd</span><span class=o>.</span><span class=n>interval_range</span><span class=p>(</span><span class=n>end</span><span class=o>=</span><span class=mi>5</span><span class=p>,</span><span class=n>periods</span><span class=o>=</span><span class=mi>8</span><span class=p>,</span><span class=n>freq</span><span class=o>=</span><span class=mf>0.5</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>IntervalIndex([(1.0, 1.5], (1.5, 2.0], (2.0, 2.5], (2.5, 3.0], (3.0, 3.5], (3.5, 4.0], (4.0, 4.5], (4.5, 5.0]],
+              closed='right',
+              dtype='interval[float64]')
+</code></pre><h4 id=练一练><a class=header-anchor href=#%e7%bb%83%e4%b8%80%e7%bb%83></a>【练一练】</h4><p>无论是<code>interval_range</code>还是下一章时间序列中的<code>date_range</code>都是给定了等差序列中四要素中的三个，从而确定整个序列。请回顾等差数列中的首项、末项、项数和公差的联系，写出<code>interval_range</code>中四个参数之间的恒等关系。</p><h4 id=end-2><a class=header-anchor href=#end-2></a>【END】</h4><p>除此之外，如果直接使用<code>pd.IntervalIndex([...], closed=...)</code>，把<code>Interval</code>类型的列表组成传入其中转为区间索引，那么所有的区间会被强制转为指定的<code>closed</code>类型，因为<code>pd.IntervalIndex</code>只允许存放同一种开闭区间的<code>Interval</code>对象。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>my_interval</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>Interval(0, 1, closed='right')
+</code></pre><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>my_interval_2</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>Interval(0.5, 1.5, closed='left')
+</code></pre><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>pd</span><span class=o>.</span><span class=n>IntervalIndex</span><span class=p>([</span><span class=n>my_interval</span><span class=p>,</span> <span class=n>my_interval_2</span><span class=p>],</span> <span class=n>closed</span><span class=o>=</span><span class=s1>&#39;left&#39;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>IntervalIndex([[0.0, 1.0), [0.5, 1.5)],
+              closed='left',
+              dtype='interval[float64]')
+</code></pre><h3 id=3-区间的属性与方法><a class=header-anchor href=#3-%e5%8c%ba%e9%97%b4%e7%9a%84%e5%b1%9e%e6%80%a7%e4%b8%8e%e6%96%b9%e6%b3%95></a>3. 区间的属性与方法</h3><p><code>IntervalIndex</code>上也定义了一些有用的属性和方法。同时，如果想要具体利用<code>cut</code>或者<code>qcut</code>的结果进行分析，那么需要先将其转为该种索引类型：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>id_interval</span> <span class=o>=</span> <span class=n>pd</span><span class=o>.</span><span class=n>IntervalIndex</span><span class=p>(</span><span class=n>pd</span><span class=o>.</span><span class=n>cut</span><span class=p>(</span><span class=n>s</span><span class=p>,</span> <span class=mi>3</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=n>id_interval</span><span class=p>[:</span><span class=mi>3</span><span class=p>]</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>IntervalIndex([(33.945, 52.333], (52.333, 70.667], (70.667, 89.0]],
+              closed='right',
+              name='Weight',
+              dtype='interval[float64]')
+</code></pre><p>与单个<code>Interval</code>类型相似，<code>IntervalIndex</code>有若干常用属性：<code>left, right, mid, length</code>，分别表示左右端点、两端点均值和区间长度。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>id_demo</span> <span class=o>=</span> <span class=n>id_interval</span><span class=p>[:</span><span class=mi>5</span><span class=p>]</span> <span class=c1># 选出前5个展示</span>
+</span></span><span class=line><span class=cl><span class=n>id_demo</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>IntervalIndex([(33.945, 52.333], (52.333, 70.667], (70.667, 89.0], (33.945, 52.333], (70.667, 89.0]],
+              closed='right',
+              name='Weight',
+              dtype='interval[float64]')
+</code></pre><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>id_demo</span><span class=o>.</span><span class=n>left</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>Float64Index([33.945, 52.333, 70.667, 33.945, 70.667], dtype='float64')
+</code></pre><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>id_demo</span><span class=o>.</span><span class=n>right</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>Float64Index([52.333, 70.667, 89.0, 52.333, 89.0], dtype='float64')
+</code></pre><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>id_demo</span><span class=o>.</span><span class=n>mid</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>Float64Index([43.138999999999996, 61.5, 79.8335, 43.138999999999996, 79.8335], dtype='float64')
+</code></pre><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>id_demo</span><span class=o>.</span><span class=n>length</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>Float64Index([18.387999999999998, 18.334000000000003, 18.333,
               18.387999999999998, 18.333],
-             dtype=&#39;float64&#39;)</code></pre>
-<p><code>IntervalIndex</code>还有两个常用方法，包括<code>contains</code>和<code>overlaps</code>，分别指逐个判断每个区间是否包含某元素，以及是否和一个<code>pd.Interval</code>对象有交集。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">id_demo.contains(<span class="hljs-number">4</span>)<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">array([False, False, False, False, False])</code></pre>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">id_demo.overlaps(pd.Interval(<span class="hljs-number">40</span>,<span class="hljs-number">60</span>))<br></code></pre></td></tr></table></figure>
-<pre><code class="hljs">array([ True,  True, False,  True, False])</code></pre>
-<h2 id="四练习">四、练习</h2>
-<h3 id="ex1统计未出现的类别">Ex1：统计未出现的类别</h3>
-<p>在第五章中介绍了<code>crosstab</code>函数，在默认参数下它能够对两个列的组合出现的频数进行统计汇总：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">df = pd.DataFrame(&#123;<span class="hljs-string">&#x27;A&#x27;</span>:[<span class="hljs-string">&#x27;a&#x27;</span>,<span class="hljs-string">&#x27;b&#x27;</span>,<span class="hljs-string">&#x27;c&#x27;</span>,<span class="hljs-string">&#x27;a&#x27;</span>], <span class="hljs-string">&#x27;B&#x27;</span>:[<span class="hljs-string">&#x27;cat&#x27;</span>,<span class="hljs-string">&#x27;cat&#x27;</span>,<span class="hljs-string">&#x27;dog&#x27;</span>,<span class="hljs-string">&#x27;cat&#x27;</span>]&#125;)<br>pd.crosstab(df.A, df.B)<br></code></pre></td></tr></table></figure>
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>
-B
-</th>
-<th>
-cat
-</th>
-<th>
-dog
-</th>
-</tr>
-<tr>
-<th>
-A
-</th>
-<th>
-</th>
-<th>
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>
-a
-</th>
-<td>
-2
-</td>
-<td>
-0
-</td>
-</tr>
-<tr>
-<th>
-b
-</th>
-<td>
-1
-</td>
-<td>
-0
-</td>
-</tr>
-<tr>
-<th>
-c
-</th>
-<td>
-0
-</td>
-<td>
-1
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>但事实上有些列存储的是分类变量，列中并不一定包含所有的类别，此时如果想要对这些未出现的类别在<code>crosstab</code>结果中也进行汇总，则可以指定<code>dropna</code>参数为<code>False</code>：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">df.B = df.B.astype(<span class="hljs-string">&#x27;category&#x27;</span>).cat.add_categories(<span class="hljs-string">&#x27;sheep&#x27;</span>)<br>pd.crosstab(df.A, df.B, dropna=<span class="hljs-literal">False</span>)<br></code></pre></td></tr></table></figure>
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>
-B
-</th>
-<th>
-cat
-</th>
-<th>
-dog
-</th>
-<th>
-sheep
-</th>
-</tr>
-<tr>
-<th>
-A
-</th>
-<th>
-</th>
-<th>
-</th>
-<th>
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>
-a
-</th>
-<td>
-2
-</td>
-<td>
-0
-</td>
-<td>
-0
-</td>
-</tr>
-<tr>
-<th>
-b
-</th>
-<td>
-1
-</td>
-<td>
-0
-</td>
-<td>
-0
-</td>
-</tr>
-<tr>
-<th>
-c
-</th>
-<td>
-0
-</td>
-<td>
-1
-</td>
-<td>
-0
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>请实现一个带有<code>dropna</code>参数的<code>my_crosstab</code>函数来完成上面的功能。</p>
-<h3 id="ex2钻石数据集">Ex2：钻石数据集</h3>
-<p>现有一份关于钻石的数据集，其中<code>carat, cut, clarity, price</code>分别表示克拉重量、切割质量、纯净度和价格，样例如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">df = pd.read_csv(<span class="hljs-string">&#x27;../data/diamonds.csv&#x27;</span>) <br>df.head(<span class="hljs-number">3</span>)<br></code></pre></td></tr></table></figure>
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>
-</th>
-<th>
-carat
-</th>
-<th>
-cut
-</th>
-<th>
-clarity
-</th>
-<th>
-price
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>
-0
-</th>
-<td>
-0.23
-</td>
-<td>
-Ideal
-</td>
-<td>
-SI2
-</td>
-<td>
-326
-</td>
-</tr>
-<tr>
-<th>
-1
-</th>
-<td>
-0.21
-</td>
-<td>
-Premium
-</td>
-<td>
-SI1
-</td>
-<td>
-326
-</td>
-</tr>
-<tr>
-<th>
-2
-</th>
-<td>
-0.23
-</td>
-<td>
-Good
-</td>
-<td>
-VS1
-</td>
-<td>
-327
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-<ol type="1">
-<li>分别对<code>df.cut</code>在<code>object</code>类型和<code>category</code>类型下使用<code>nunique</code>函数，并比较它们的性能。</li>
-<li>钻石的切割质量可以分为五个等级，由次到好分别是<code>Fair, Good, Very Good, Premium, Ideal</code>，纯净度有八个等级，由次到好分别是<code>I1, SI2, SI1, VS2, VS1, VVS2, VVS1, IF</code>，请对切割质量按照<strong>由好到次</strong>的顺序排序，相同切割质量的钻石，按照纯净度进行<strong>由次到好</strong>的排序。</li>
-<li>分别采用两种不同的方法，把<code>cut, clarity</code>这两列按照<strong>由好到次</strong>的顺序，映射到从0到n-1的整数，其中n表示类别的个数。</li>
-<li>对每克拉的价格分别按照分位数（q=[0.2, 0.4, 0.6, 0.8]）与[1000, 3500,
-5500,
-18000]割点进行分箱得到五个类别<code>Very Low, Low, Mid, High, Very High</code>，并把按这两种分箱方法得到的<code>category</code>序列依次添加到原表中。</li>
-<li>第4问中按照整数分箱得到的序列中，是否出现了所有的类别？如果存在没有出现的类别请把该类别删除。</li>
-<li>对第4问中按照分位数分箱得到的序列，求每个样本对应所在区间的左右端点值和长度。</li>
-</ol>
-
-                
-              </div>
-            
-            <hr/>
-            <div>
-              <div class="post-metas my-3">
-  
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Machine-Learning/" class="category-chain-item">Machine Learning</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
-  
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/Pandas/" class="print-no-link">#Pandas</a>
-      
-    </div>
-  
-</div>
-
-
-              
-  
-
-  <div class="license-box my-3">
-    <div class="license-title">
-      <div>Pandas分类数据</div>
-      <div>http://jingmengzhiyue.top/2023/10/01/第九章 分类数据/</div>
-    </div>
-    <div class="license-meta">
-      
-        <div class="license-meta-item">
-          <div>作者</div>
-          <div>Jingmengzhiyue</div>
-        </div>
-      
-      
-        <div class="license-meta-item license-meta-date">
-          <div>发布于</div>
-          <div>2023年10月1日</div>
-        </div>
-      
-      
-      
-        <div class="license-meta-item">
-          <div>许可协议</div>
-          <div>
-            
-              
-              
-                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
-                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
-                    <i class="iconfont icon-by"></i>
-                  </span>
-                </a>
-              
-            
-          </div>
-        </div>
-      
-    </div>
-    <div class="license-icon iconfont"></div>
-  </div>
-
-
-
-              
-                <div class="post-prevnext my-3">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2023/10/01/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E7%BC%BA%E5%A4%B1%E6%95%B0%E6%8D%AE/" title="Pandas处理缺失数据">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Pandas处理缺失数据</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2023/10/01/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E7%B4%A2%E5%BC%95/" title="Pandas索引">
-                        <span class="hidden-mobile">Pandas索引</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
-              
-            </div>
-
-            
-  
-  
-    <article id="comments" lazyload>
-      
-  <div id="valine"></div>
-  <script type="text/javascript">
-    Fluid.utils.loadComments('#valine', function() {
-      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
-        var options = Object.assign(
-          {"appId":"eZ6fNr2wGbxSreDqCc24Ik6y-gzGzoHsz","appKey":"I1HMoNZO5iKmmCSzqE0wTpGr","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
-          {
-            el: "#valine",
-            path: window.location.pathname
+             dtype='float64')
+</code></pre><p><code>IntervalIndex</code>还有两个常用方法，包括<code>contains</code>和<code>overlaps</code>，分别指逐个判断每个区间是否包含某元素，以及是否和一个<code>pd.Interval</code>对象有交集。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>id_demo</span><span class=o>.</span><span class=n>contains</span><span class=p>(</span><span class=mi>4</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>array([False, False, False, False, False])
+</code></pre><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>id_demo</span><span class=o>.</span><span class=n>overlaps</span><span class=p>(</span><span class=n>pd</span><span class=o>.</span><span class=n>Interval</span><span class=p>(</span><span class=mi>40</span><span class=p>,</span><span class=mi>60</span><span class=p>))</span>
+</span></span></code></pre></td></tr></table></div></div><pre><code>array([ True,  True, False,  True, False])
+</code></pre><h2 id=四练习><a class=header-anchor href=#%e5%9b%9b%e7%bb%83%e4%b9%a0></a>四、练习</h2><h3 id=ex1统计未出现的类别><a class=header-anchor href=#ex1%e7%bb%9f%e8%ae%a1%e6%9c%aa%e5%87%ba%e7%8e%b0%e7%9a%84%e7%b1%bb%e5%88%ab></a>Ex1：统计未出现的类别</h3><p>在第五章中介绍了<code>crosstab</code>函数，在默认参数下它能够对两个列的组合出现的频数进行统计汇总：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>df</span> <span class=o>=</span> <span class=n>pd</span><span class=o>.</span><span class=n>DataFrame</span><span class=p>({</span><span class=s1>&#39;A&#39;</span><span class=p>:[</span><span class=s1>&#39;a&#39;</span><span class=p>,</span><span class=s1>&#39;b&#39;</span><span class=p>,</span><span class=s1>&#39;c&#39;</span><span class=p>,</span><span class=s1>&#39;a&#39;</span><span class=p>],</span> <span class=s1>&#39;B&#39;</span><span class=p>:[</span><span class=s1>&#39;cat&#39;</span><span class=p>,</span><span class=s1>&#39;cat&#39;</span><span class=p>,</span><span class=s1>&#39;dog&#39;</span><span class=p>,</span><span class=s1>&#39;cat&#39;</span><span class=p>]})</span>
+</span></span><span class=line><span class=cl><span class=n>pd</span><span class=o>.</span><span class=n>crosstab</span><span class=p>(</span><span class=n>df</span><span class=o>.</span><span class=n>A</span><span class=p>,</span> <span class=n>df</span><span class=o>.</span><span class=n>B</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><div><style scoped>.dataframe tbody tr th:only-of-type{vertical-align:middle}<pre><code>.dataframe tbody tr th{vertical-align:top}.dataframe thead th{text-align:right}</code></pre><p></style></p><table border=1 class=dataframe><thead><tr style=text-align:right><th>B</th><th>cat</th><th>dog</th></tr><tr><th>A</th><th></th><th></th></tr></thead><tbody><tr><th>a</th><td>2</td><td>0</td></tr><tr><th>b</th><td>1</td><td>0</td></tr><tr><th>c</th><td>0</td><td>1</td></tr></tbody></table></div><p>但事实上有些列存储的是分类变量，列中并不一定包含所有的类别，此时如果想要对这些未出现的类别在<code>crosstab</code>结果中也进行汇总，则可以指定<code>dropna</code>参数为<code>False</code>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>df</span><span class=o>.</span><span class=n>B</span> <span class=o>=</span> <span class=n>df</span><span class=o>.</span><span class=n>B</span><span class=o>.</span><span class=n>astype</span><span class=p>(</span><span class=s1>&#39;category&#39;</span><span class=p>)</span><span class=o>.</span><span class=n>cat</span><span class=o>.</span><span class=n>add_categories</span><span class=p>(</span><span class=s1>&#39;sheep&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>pd</span><span class=o>.</span><span class=n>crosstab</span><span class=p>(</span><span class=n>df</span><span class=o>.</span><span class=n>A</span><span class=p>,</span> <span class=n>df</span><span class=o>.</span><span class=n>B</span><span class=p>,</span> <span class=n>dropna</span><span class=o>=</span><span class=kc>False</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><div><style scoped>.dataframe tbody tr th:only-of-type{vertical-align:middle}<pre><code>.dataframe tbody tr th{vertical-align:top}.dataframe thead th{text-align:right}</code></pre><p></style></p><table border=1 class=dataframe><thead><tr style=text-align:right><th>B</th><th>cat</th><th>dog</th><th>sheep</th></tr><tr><th>A</th><th></th><th></th><th></th></tr></thead><tbody><tr><th>a</th><td>2</td><td>0</td><td>0</td></tr><tr><th>b</th><td>1</td><td>0</td><td>0</td></tr><tr><th>c</th><td>0</td><td>1</td><td>0</td></tr></tbody></table></div><p>请实现一个带有<code>dropna</code>参数的<code>my_crosstab</code>函数来完成上面的功能。</p><h3 id=ex2钻石数据集><a class=header-anchor href=#ex2%e9%92%bb%e7%9f%b3%e6%95%b0%e6%8d%ae%e9%9b%86></a>Ex2：钻石数据集</h3><p>现有一份关于钻石的数据集，其中<code>carat, cut, clarity, price</code>分别表示克拉重量、切割质量、纯净度和价格，样例如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>df</span> <span class=o>=</span> <span class=n>pd</span><span class=o>.</span><span class=n>read_csv</span><span class=p>(</span><span class=s1>&#39;../data/diamonds.csv&#39;</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl><span class=n>df</span><span class=o>.</span><span class=n>head</span><span class=p>(</span><span class=mi>3</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><div><style scoped>.dataframe tbody tr th:only-of-type{vertical-align:middle}<pre><code>.dataframe tbody tr th{vertical-align:top}.dataframe thead th{text-align:right}</code></pre><p></style></p><table border=1 class=dataframe><thead><tr style=text-align:right><th></th><th>carat</th><th>cut</th><th>clarity</th><th>price</th></tr></thead><tbody><tr><th>0</th><td>0.23</td><td>Ideal</td><td>SI2</td><td>326</td></tr><tr><th>1</th><td>0.21</td><td>Premium</td><td>SI1</td><td>326</td></tr><tr><th>2</th><td>0.23</td><td>Good</td><td>VS1</td><td>327</td></tr></tbody></table></div><ol><li>分别对<code>df.cut</code>在<code>object</code>类型和<code>category</code>类型下使用<code>nunique</code>函数，并比较它们的性能。</li><li>钻石的切割质量可以分为五个等级，由次到好分别是<code>Fair, Good, Very Good, Premium, Ideal</code>，纯净度有八个等级，由次到好分别是<code>I1, SI2, SI1, VS2, VS1, VVS2, VVS1, IF</code>，请对切割质量按照<strong>由好到次</strong>的顺序排序，相同切割质量的钻石，按照纯净度进行<strong>由次到好</strong>的排序。</li><li>分别采用两种不同的方法，把<code>cut, clarity</code>这两列按照<strong>由好到次</strong>的顺序，映射到从0到n-1的整数，其中n表示类别的个数。</li><li>对每克拉的价格分别按照分位数（q=
+\[0.2, 0.4, 0.6, 0.8\]）与
+\[1000, 3500, 5500, 18000\]割点进行分箱得到五个类别<code>Very Low, Low, Mid, High, Very High</code>，并把按这两种分箱方法得到的<code>category</code>序列依次添加到原表中。</li><li>第4问中按照整数分箱得到的序列中，是否出现了所有的类别？如果存在没有出现的类别请把该类别删除。</li><li>对第4问中按照分位数分箱得到的序列，求每个样本对应所在区间的左右端点值和长度。</li></ol></div><footer class=article-footer><blockquote class=article-copyright><p><strong><span class="icon-user icon"></span>本文作者：</strong>Jingmengzhiyue</p><p><strong><span class="icon-link icon"></span>本文链接：</strong><a href=https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E4%B9%9D%E7%AB%A0%20%E5%88%86%E7%B1%BB%E6%95%B0%E6%8D%AE/>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E4%B9%9D%E7%AB%A0%20%E5%88%86%E7%B1%BB%E6%95%B0%E6%8D%AE/</a></p><p><strong><span class="icon-pencil icon"></span>本文标题：</strong>Pandas分类数据</p><p><strong><span class="icon-calendar icon"></span>本文发布时间：</strong>2023-10-01 21:13:43</p><p><strong><span class="icon-copyright icon"></span>本文版权：</strong>
+本博客所有文章除特别声明外，均采用 <a href=https://creativecommons.org/licenses/by/4.0/deed.zh rel="noopener nofollow noreferrer" target=_blank><span class=icon-creative-commons></span>BY</a> 许可协议。转载请注明出处！</p><span class="icon-creative-commons article-copyright-bg"></span></blockquote><ul class=article-category-list><li class=article-tag-list-item data-aos=zoom-in><a class=article-category-link href=/categories/Machine-Learning/ data-aos=zoom-in>Machine Learning</a></li></ul><ul class=article-tag-list itemprop=keywords><li class=article-tag-list-item data-aos=zoom-in><a class=article-tag-list-link href=/tags/Pandas/ rel=tag>Pandas</a></li></ul></footer></div><nav id=article-nav aria-label="Article navigation" data-aos=fade-up><div class="article-nav-link-wrap left"><img data-src=/img/24.jpg data-sizes=auto alt=Pandas分组 class=lazyload><a href=/2023/10/01/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E5%88%86%E7%BB%84/ aria-label=前一篇:Pandas分组 title=前一篇:Pandas分组></a><div class=article-nav-caption>前一篇</div><h3 class=article-nav-title>Pandas分组</h3></div><div class="article-nav-link-wrap right"><img data-src=/img/17.jpg data-sizes=auto alt=Pandas处理文本数据 class=lazyload><a href=/2023/10/01/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E6%96%87%E6%9C%AC%E6%95%B0%E6%8D%AE/ aria-label=后一篇:Pandas处理文本数据 title=后一篇:Pandas处理文本数据></a><div class=article-nav-caption>后一篇</div><h3 class=article-nav-title>Pandas处理文本数据</h3></div></nav></article></section></div><footer id=footer aria-label="Site footer"><div style=width:100%;overflow:hidden><div class=footer-line></div></div><div id=footer-info><div><span class=icon-copyright></span>2023-2026<span class="footer-info-sep rotate"></span>Jingmengzhiyue</div><div>基于&nbsp;<a href=https://gohugo.io/ target=_blank rel="noopener nofollow noreferrer">Hugo</a>&nbsp;Theme.<a href=https://github.com/D-Sketon/hugo-theme-reimu target=_blank rel="noopener nofollow noreferrer">Reimu</a></div><div><span class=icon-brush>&nbsp;301.2k</span>
+&nbsp;|&nbsp;
+<span class=icon-coffee>&nbsp;10:40</span></div><div><span class=icon-eye></span>
+<span id=busuanzi_container_site_pv>总访问量&nbsp;<span id=busuanzi_value_site_pv></span></span>
+&nbsp;|&nbsp;
+<span class=icon-user></span>
+<span id=busuanzi_container_site_uv>总访客量&nbsp;<span id=busuanzi_value_site_uv></span></span></div></div></footer><div class=sidebar-top><div class="sidebar-top-taichi rotate"></div><div class=arrow-up></div></div><div id=mask class=hide></div></div><nav id=mobile-nav aria-label="Mobile navigation"><div class=sidebar-wrap><div class=sidebar-toc-sidebar><h3 class=toc-title>文章目录</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#一cat对象>一、cat对象</a><ul><li><a href=#1-cat对象的属性>1. cat对象的属性</a></li><li><a href=#2-类别的增加删除和修改>2. 类别的增加、删除和修改</a></li></ul></li><li><a href=#二有序分类>二、有序分类</a><ul><li><a href=#1-序的建立>1. 序的建立</a></li><li><a href=#2-排序和比较>2. 排序和比较</a></li></ul></li><li><a href=#三区间类别>三、区间类别</a><ul><li><a href=#1-利用cut和qcut进行区间构造>1. 利用cut和qcut进行区间构造</a></li><li><a href=#2-一般区间的构造>2. 一般区间的构造</a></li><li><a href=#3-区间的属性与方法>3. 区间的属性与方法</a></li></ul></li><li><a href=#四练习>四、练习</a><ul><li><a href=#ex1统计未出现的类别>Ex1：统计未出现的类别</a></li><li><a href=#ex2钻石数据集>Ex2：钻石数据集</a></li></ul></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/avatar.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>文章</div><div class=sidebar-state-number>57</div></div><a class=sidebar-state-category href=/categories/ aria-label=sidebar-state-category-link><div>分类</div><div class=sidebar-state-number>10</div></a><a class=sidebar-state-tag href=/tags/ aria-label=sidebar-state-tag-link><div>标签</div><div class=sidebar-state-number>26</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/ aria-label=首页></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>首页</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/archives aria-label=归档></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>归档</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/categories aria-label=目录></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>目录</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/tags aria-label=标签></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>标签</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/about aria-label=关于></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>关于</div></div></div></div></div><div class=sidebar-btn-wrapper><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></nav></div><script src=https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js integrity=sha384-3gT/vsepWkfz/ff7PpWNUeMzeWoH3cDhm/A8jM7ouoAK0/fP/9bcHHR5kHq2nf+e crossorigin=anonymous></script><script src=https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js integrity=sha384-J08i8An/QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q crossorigin=anonymous></script><script src=/js/main.js integrity crossorigin=anonymous></script><script src=/js/aos.js integrity crossorigin=anonymous></script><script>var aosInit=()=>{AOS.init({duration:1e3,easing:"ease",once:!0,offset:50})};document.readyState==="loading"?document.addEventListener("DOMContentLoaded",aosInit):aosInit()</script><script src=/js/pjax_main.js integrity crossorigin=anonymous data-pjax></script><div id=lazy-script><div><script data-pjax>window.REIMU_POST={author:"Jingmengzhiyue",title:"Pandas分类数据",url:"https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E4%B9%9D%E7%AB%A0%20%E5%88%86%E7%B1%BB%E6%95%B0%E6%8D%AE/",description:"数据挖掘中pandas的使用，Pandas分类数据",cover:"https://www.jingmengzhiyue.tech/img/24.jpg"}</script><script src=/js/insert_highlight.js integrity crossorigin=anonymous data-pjax></script><script src=/js/tabs.js integrity crossorigin=anonymous data-pjax defer></script><script type=module data-pjax>const PhotoSwipeLightbox = (await safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js", "sha384-DiL6M\/gG\u002bwmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF\/N6lrZi\/")).default;const initPswp = (gallery, children) => {
+          if (_$$(`${gallery} ${children}`).length > 0) {
+            new PhotoSwipeLightbox({
+              gallery,
+              children,pswpModule: () => safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8\u002boTJ7m3DfYEWX1fu1scuS4\u002bs")}).init();
           }
-        )
-        new Valine(options);
-        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
-          var imgSelector = '#valine .vcontent img:not(.vemoji)';
-          Fluid.plugins.imageCaption(imgSelector);
-          Fluid.plugins.fancyBox(imgSelector);
-        })
-      });
-    });
-  </script>
-  <noscript>Please enable JavaScript to view the comments</noscript>
-
-
-    </article>
-  
-
-
-          </article>
-        </div>
-      </div>
-    </div>
-
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-  <aside class="sidebar" style="margin-left: -1rem">
-    <div id="toc">
-  <p class="toc-header">
-    <i class="iconfont icon-list"></i>
-    <span>目录</span>
-  </p>
-  <div class="toc-body" id="toc-body"></div>
-</div>
-
-
-
-  </aside>
-
-
-    </div>
-  </div>
-</div>
-
-
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-  
-  
-
-
-
-
-
-  <script>
-  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
-    mermaid.initialize({"theme":"default"});
-
-    Fluid.utils.listenDOMLoaded(function() {
-      Fluid.events.registerRefreshCallback(function() {
-        if ('mermaid' in window) {
-          mermaid.init();
         }
-      });
-    });
-  });
-</script>
-
-
-
-
-
-
-    
-
-    
-      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
-        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-      </a>
-    
-
-    
-      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
-        </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-    
-
-    
-  </main>
-
-  <footer>
-    <div class="footer-inner">
-  
-    <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
-    </div>
-  
-  
-    <div class="statistics">
-  
-  
-
-  
-    
-      <span id="leancloud-site-pv-container" style="display: none">
-        总访问量 18954 
-        <span id="leancloud-site-pv"></span>
-         次
-      </span>
-    
-    
-      <span id="leancloud-site-uv-container" style="display: none">
-        总访客数 9873 
-        <span id="leancloud-site-uv"></span>
-         人
-      </span>
-    
-    
-
-  
-</div>
-
-  
-  
-  
-</div>
-
-  </footer>
-
-  <!-- Scripts -->
-  
-  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
-
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
-    })
-  </script>
-
-
-<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
-<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
-
-
-  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
-      
-        typing(text);
-      
-    })(window, document);
-  </script>
-
-
-
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
-
-
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
-    var toc = jQuery('#toc');
-    if (toc.length === 0 || !window.tocbot) { return; }
-    var boardCtn = jQuery('#board-ctn');
-    var boardTop = boardCtn.offset().top;
-
-    window.tocbot.init(Object.assign({
-      tocSelector     : '#toc-body',
-      contentSelector : '.markdown-body',
-      linkClass       : 'tocbot-link',
-      activeLinkClass : 'tocbot-active-link',
-      listClass       : 'tocbot-list',
-      isCollapsedClass: 'tocbot-is-collapsed',
-      collapsibleClass: 'tocbot-is-collapsible',
-      scrollSmooth    : true,
-      includeTitleTags: true,
-      headingsOffset  : -boardTop,
-    }, CONFIG.toc));
-    if (toc.find('.toc-list-item').length > 0) {
-      toc.css('visibility', 'visible');
-    }
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('tocbot' in window) {
-        tocbot.refresh();
-        var toc = jQuery('#toc');
-        if (toc.length === 0 || !tocbot) {
-          return;
+        const pswp = () => {
+          initPswp('.article-entry', 'a.article-gallery-item');
+          initPswp('.article-gallery', 'a.article-gallery-item');
         }
-        if (toc.find('.toc-list-item').length > 0) {
-          toc.css('visibility', 'visible');
-        }
-      }
-    });
-  });
-</script>
-
-
-  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
-
-  <script>Fluid.plugins.codeWidget();</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
-    window.anchors.options = {
-      placement: CONFIG.anchorjs.placement,
-      visible  : CONFIG.anchorjs.visible
-    };
-    if (CONFIG.anchorjs.icon) {
-      window.anchors.options.icon = CONFIG.anchorjs.icon;
-    }
-    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-    var res = [];
-    for (var item of el) {
-      res.push('.markdown-body > ' + item.trim());
-    }
-    if (CONFIG.anchorjs.placement === 'left') {
-      window.anchors.options.class = 'anchorjs-link-left';
-    }
-    window.anchors.add(res.join(', '));
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('anchors' in window) {
-        anchors.removeAll();
-        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-        var res = [];
-        for (var item of el) {
-          res.push('.markdown-body > ' + item.trim());
-        }
-        if (CONFIG.anchorjs.placement === 'left') {
-          anchors.options.class = 'anchorjs-link-left';
-        }
-        anchors.add(res.join(', '));
-      }
-    });
-  });
-</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
-    Fluid.plugins.fancyBox();
-  });
-</script>
-
-
-  <script>Fluid.plugins.imageCaption();</script>
-
-  
-      <script>
-        if (!window.MathJax) {
-          window.MathJax = {
-            tex    : {
-              inlineMath: { '[+]': [['$', '$']] }
-            },
-            loader : {
-              load: ['ui/lazy']
-            },
-            options: {
-              renderActions: {
-                insertedScript: [200, () => {
-                  document.querySelectorAll('mjx-container').forEach(node => {
-                    let target = node.parentNode;
-                    if (target.nodeName.toLowerCase() === 'li') {
-                      target.parentNode.classList.add('has-jax');
-                    }
-                  });
-                }, '', false]
-              }
-            }
-          };
-        } else {
-          MathJax.startup.document.state(0);
-          MathJax.texReset();
-          MathJax.typeset();
-          MathJax.typesetPromise();
-        }
-
-        Fluid.events.registerRefreshCallback(function() {
-          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
-            MathJax.startup.document.state(0);
-            MathJax.texReset();
-            MathJax.typeset();
-            MathJax.typesetPromise();
-          }
-        });
-      </script>
-    
-
-  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
-
-  <script  src="/js/local-search.js" ></script>
-
-  <script defer src="/js/leancloud.js" ></script>
-
-
-
-
-
-<!-- 主题的启动项，将它保持在最底部 -->
-<!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
-
-
-  
-
-  <noscript>
-    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript>
-</body>
-</html>
+        pswp()
+      </script><script data-pjax>window.MathJax=JSON.parse('[{"loader":{"load":["input/asciimath","[tex]/noerrors"]},"options":{"ignoreHtmlClass":"tex2jax_ignore","processHtmlClass":"tex2jax_process","skipHtmlTags":["script","noscript","style","textarea","pre","code"]},"tex":{"autoload":{"color":[],"colorv2":["color"]},"displayMath":[["$$","$$"],["\\\\[","\\\\]"]],"inlineMath":[["$","$"],["\\\\(","\\\\)"]],"packages":{"[+]":["noerrors"]},"processEnvironments":true,"processEscapes":true,"tags":"ams","useLabelIds":true}}]')[0]</script><script src=https://npm.webcache.cn/mathjax@3.2.2/es5/tex-mml-chtml.js defer data-pjax integrity=sha384-Wuix6BuhrWbjDBs24bXrjf4ZQ5aFeFWBuKkFekO2t8xFU0iNaLQfp2K6/1Nxveei crossorigin=anonymous></script></div></div><script src=https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js async integrity=sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S crossorigin=anonymous></script><script>"serviceWorker"in navigator&&navigator.serviceWorker.getRegistrations().then(e=>{for(let t of e)t.unregister()})</script><script>const reimuCopyright=String.raw`
+   ______     ______     __     __    __     __  __    
+  /\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+  \ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+   \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+    \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                    
+  `;console.log(String.raw`%c ${reimuCopyright}`,"color: #ff5252;"),console.log("%c Theme.Reimu %c https://github.com/D-Sketon/hugo-theme-reimu ","color: white; background: #ff5252; padding:5px 0;","padding:4px;border:1px solid #ff5252;")</script></body></html>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Python on 热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/tags/Python/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>zh-CN</language><copyright>本博客所有文章除特别声明外，均采用 BY 许可协议。转载请注明出处！</copyright><lastBuildDate>Sun, 01 Oct 2023 21:13:43 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/tags/Python/index.xml" rel="self" type="application/rss+xml"/><item><title>Python基础</title><link>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86/</guid><description>
+<![CDATA[<h1>Python基础</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="预备知识">
+<a class="header-anchor" href="#%e9%a2%84%e5%a4%87%e7%9f%a5%e8%af%86"></a>
+预备知识
+</h1><h2 id="一python基础">
+<a class="header-anchor" href="#%e4%b8%80python%e5%9f%ba%e7%a1%80"></a>
+一、Python基础
+</h2><h3 id="1-列表推导式与条件赋值">
+<a class="header-anchor" href="#1-%e5%88%97%e8%a1%a8%e6%8e%a8%e5%af%bc%e5%bc%8f%e4%b8%8e%e6%9d%a1%e4%bb%b6%e8%b5%8b%e5%80%bc"></a>
+1. 列表推导式与条件赋值
+</h3><p>在生成一个数字序列的时候，在<code>Python</code>中可以如下写出：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">L</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">my_func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">L</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">my_func</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">L</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><pre><code>[0, 2, 4, 6, 8]
+</code></pre>
+<p>事实上可以利用列表推导式进行写法上的简化：<code>[* for i in *]</code>。其中，第一个<code>*</code>为映射函数，其输入为后面<code>i</code>指代的内容，第二个<code>*</code>表示迭代的对象。</p>
+        
+        <hr><p>本文2023-10-01首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-10-01</p>]]></description><category>Programming</category></item></channel></rss>

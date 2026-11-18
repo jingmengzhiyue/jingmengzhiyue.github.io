@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Non-Negative Matrix Factorization on 热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/tags/Non-Negative-Matrix-Factorization/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>zh-CN</language><copyright>本博客所有文章除特别声明外，均采用 BY 许可协议。转载请注明出处！</copyright><lastBuildDate>Mon, 25 Mar 2024 22:35:45 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/tags/Non-Negative-Matrix-Factorization/index.xml" rel="self" type="application/rss+xml"/><item><title>基于耦合非负矩阵分解的高光谱图像超分辨率算法</title><link>https://www.jingmengzhiyue.tech/2024/03/24/NSSR/</link><pubDate>Sun, 24 Mar 2024 16:30:33 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/24/NSSR/</guid><description>
+<![CDATA[<h1>基于耦合非负矩阵分解的高光谱图像超分辨率算法</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h2 id="问题定义">
+<a class="header-anchor" href="#%e9%97%ae%e9%a2%98%e5%ae%9a%e4%b9%89"></a>
+问题定义
+</h2><p>高光谱成像能同时在多个不同波长获取同一场景的图像,在农业、天文、监视和矿物学等领域具有广泛应用。然而,由于各种硬件限制,获得高分辨率(HR)高光谱图像仍然是一个挑战。下面将介绍如何利用低分辨率(LR)高光谱图像和同一场景的高分辨率(HR)多光谱或RGB图像,来重建HR高光谱图像。</p>
+        
+        <hr><p>本文2024-03-24首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-25</p>]]></description><category>Remote Sensing</category></item></channel></rss>

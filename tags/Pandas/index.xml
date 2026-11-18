@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Pandas on 热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/tags/Pandas/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>zh-CN</language><copyright>本博客所有文章除特别声明外，均采用 BY 许可协议。转载请注明出处！</copyright><lastBuildDate>Sun, 01 Oct 2023 21:13:43 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/tags/Pandas/index.xml" rel="self" type="application/rss+xml"/><item><title>Pandas索引</title><link>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E7%B4%A2%E5%BC%95/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E7%B4%A2%E5%BC%95/</guid><description>
+<![CDATA[<h1>Pandas索引</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="pandas索引">
+<a class="header-anchor" href="#pandas%e7%b4%a2%e5%bc%95"></a>
+Pandas索引
+</h1><h2 id="一索引器">
+<a class="header-anchor" href="#%e4%b8%80%e7%b4%a2%e5%bc%95%e5%99%a8"></a>
+一、索引器
+</h2><h3 id="1-表的列索引">
+<a class="header-anchor" href="#1-%e8%a1%a8%e7%9a%84%e5%88%97%e7%b4%a2%e5%bc%95"></a>
+1. 表的列索引
+</h3><p>列索引是最常见的索引形式，一般通过<code>[]</code>来实现。通过<code>[列名]</code>可以从<code>DataFrame</code>中取出相应的列，返回值为<code>Series</code>，例如从表中取出姓名一列：</p>
+        
+        <hr><p>本文2023-10-01首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-10-01</p>]]></description><category>Machine Learning</category></item><item><title>Pandas时序数据</title><link>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%97%B6%E5%BA%8F%E6%95%B0%E6%8D%AE/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%97%B6%E5%BA%8F%E6%95%B0%E6%8D%AE/</guid><description>
+<![CDATA[<h1>Pandas时序数据</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="pandas时序数据">
+<a class="header-anchor" href="#pandas%e6%97%b6%e5%ba%8f%e6%95%b0%e6%8d%ae"></a>
+Pandas时序数据
+</h1><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="一时序中的基本对象">
+<a class="header-anchor" href="#%e4%b8%80%e6%97%b6%e5%ba%8f%e4%b8%ad%e7%9a%84%e5%9f%ba%e6%9c%ac%e5%af%b9%e8%b1%a1"></a>
+一、时序中的基本对象
+</h2><p>时间序列的概念在日常生活中十分常见，但对于一个具体的时序事件而言，可以从多个时间对象的角度来描述。例如2020年9月7日周一早上8点整需要到教室上课，这个课会在当天早上10点结束，其中包含了哪些时间概念？</p>
+        
+        <hr><p>本文2023-10-01首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-10-01</p>]]></description><category>Machine Learning</category></item><item><title>Pandas连接</title><link>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E8%BF%9E%E6%8E%A5/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E8%BF%9E%E6%8E%A5/</guid><description>
+<![CDATA[<h1>Pandas连接</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="pandas连接">
+<a class="header-anchor" href="#pandas%e8%bf%9e%e6%8e%a5"></a>
+Pandas连接
+</h1><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="一关系型连接">
+<a class="header-anchor" href="#%e4%b8%80%e5%85%b3%e7%b3%bb%e5%9e%8b%e8%bf%9e%e6%8e%a5"></a>
+一、关系型连接
+</h2><h3 id="1-连接的基本概念">
+<a class="header-anchor" href="#1-%e8%bf%9e%e6%8e%a5%e7%9a%84%e5%9f%ba%e6%9c%ac%e6%a6%82%e5%bf%b5"></a>
+1. 连接的基本概念
+</h3><p>把两张相关的表按照某一个或某一组键连接起来是一种常见操作，例如学生期末考试各个科目的成绩表按照$\color{red}{姓名}$和$\color{red}{班级}$连接成总的成绩表，又例如对企业员工的各类信息表按照$\color{red}{员工ID号}$进行连接汇总。由此可以看出，在关系型连接中，$\color{red}{键}$是十分重要的，往往用<code>on</code>参数表示。</p>
+        
+        <hr><p>本文2023-10-01首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-10-01</p>]]></description><category>Machine Learning</category></item><item><title>Pandas基础</title><link>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20pandas%E5%9F%BA%E7%A1%80/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20pandas%E5%9F%BA%E7%A1%80/</guid><description>
+<![CDATA[<h1>Pandas基础</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="pandas基础">
+<a class="header-anchor" href="#pandas%e5%9f%ba%e7%a1%80"></a>
+Pandas基础
+</h1><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>请保证<code>pandas</code>的版本号不低于如下所示的版本，否则请务必升级！请确认已经安装了<code>xlrd, xlwt, openpyxl</code>这三个包，其中<code>xlrd</code>版本不得高于<code>2.0.0</code>。</p>
+        
+        <hr><p>本文2023-10-01首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-10-01</p>]]></description><category>Machine Learning</category></item><item><title>Pandas分组</title><link>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E5%88%86%E7%BB%84/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E5%88%86%E7%BB%84/</guid><description>
+<![CDATA[<h1>Pandas分组</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="pandas-分组">
+<a class="header-anchor" href="#pandas-%e5%88%86%e7%bb%84"></a>
+Pandas 分组
+</h1><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="一分组模式及其对象">
+<a class="header-anchor" href="#%e4%b8%80%e5%88%86%e7%bb%84%e6%a8%a1%e5%bc%8f%e5%8f%8a%e5%85%b6%e5%af%b9%e8%b1%a1"></a>
+一、分组模式及其对象
+</h2><h3 id="1-分组的一般模式">
+<a class="header-anchor" href="#1-%e5%88%86%e7%bb%84%e7%9a%84%e4%b8%80%e8%88%ac%e6%a8%a1%e5%bc%8f"></a>
+1. 分组的一般模式
+</h3><p>分组操作在日常生活中使用极其广泛，例如：</p>
+<ul>
+<li>依据性别分组，统计全国人口寿命的平均值</li>
+<li>依据季节分组，对每一个季节的温度进行组内标准化</li>
+<li>依据班级筛选出组内数学分数的平均值超过80分的班级</li>
+</ul>
+<p>从上述的几个例子中不难看出，想要实现分组操作，必须明确三个要素：分组依据、数据来源、操作及其返回结果。同时从充分性的角度来说，如果明确了这三方面，就能确定一个分组操作，从而分组代码的一般模式即：</p>
+        
+        <hr><p>本文2023-10-01首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-10-01</p>]]></description><category>Machine Learning</category></item><item><title>Pandas分类数据</title><link>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E4%B9%9D%E7%AB%A0%20%E5%88%86%E7%B1%BB%E6%95%B0%E6%8D%AE/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E4%B9%9D%E7%AB%A0%20%E5%88%86%E7%B1%BB%E6%95%B0%E6%8D%AE/</guid><description>
+<![CDATA[<h1>Pandas分类数据</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="pandas分类数据">
+<a class="header-anchor" href="#pandas%e5%88%86%e7%b1%bb%e6%95%b0%e6%8d%ae"></a>
+Pandas分类数据
+</h1><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="一cat对象">
+<a class="header-anchor" href="#%e4%b8%80cat%e5%af%b9%e8%b1%a1"></a>
+一、cat对象
+</h2><h3 id="1-cat对象的属性">
+<a class="header-anchor" href="#1-cat%e5%af%b9%e8%b1%a1%e7%9a%84%e5%b1%9e%e6%80%a7"></a>
+1. cat对象的属性
+</h3><p>在<code>pandas</code>中提供了<code>category</code>类型，使用户能够处理分类类型的变量，将一个普通序列转换成分类变量可以使用<code>astype</code>方法。</p>
+        
+        <hr><p>本文2023-10-01首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-10-01</p>]]></description><category>Machine Learning</category></item><item><title>Pandas处理文本数据</title><link>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E6%96%87%E6%9C%AC%E6%95%B0%E6%8D%AE/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E6%96%87%E6%9C%AC%E6%95%B0%E6%8D%AE/</guid><description>
+<![CDATA[<h1>Pandas处理文本数据</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="pandas处理文本数据">
+<a class="header-anchor" href="#pandas%e5%a4%84%e7%90%86%e6%96%87%e6%9c%ac%e6%95%b0%e6%8d%ae"></a>
+Pandas处理文本数据
+</h1><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="一str对象">
+<a class="header-anchor" href="#%e4%b8%80str%e5%af%b9%e8%b1%a1"></a>
+一、str对象
+</h2><h3 id="1-str对象的设计意图">
+<a class="header-anchor" href="#1-str%e5%af%b9%e8%b1%a1%e7%9a%84%e8%ae%be%e8%ae%a1%e6%84%8f%e5%9b%be"></a>
+1. str对象的设计意图
+</h3><p><code>str</code>对象是定义在<code>Index</code>或<code>Series</code>上的属性，专门用于处理每个元素的文本内容，其内部定义了大量方法，因此对一个序列进行文本处理，首先需要获取其<code>str</code>对象。在Python标准库中也有<code>str</code>模块，为了使用上的便利，有许多函数的用法<code>pandas</code>照搬了它的设计，例如字母转为大写的操作：</p>
+        
+        <hr><p>本文2023-10-01首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-10-01</p>]]></description><category>Machine Learning</category></item><item><title>Pandas处理缺失数据</title><link>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E7%BC%BA%E5%A4%B1%E6%95%B0%E6%8D%AE/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E7%BC%BA%E5%A4%B1%E6%95%B0%E6%8D%AE/</guid><description>
+<![CDATA[<h1>Pandas处理缺失数据</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="pandas处理缺失数据">
+<a class="header-anchor" href="#pandas%e5%a4%84%e7%90%86%e7%bc%ba%e5%a4%b1%e6%95%b0%e6%8d%ae"></a>
+Pandas处理缺失数据
+</h1><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="一缺失值的统计和删除">
+<a class="header-anchor" href="#%e4%b8%80%e7%bc%ba%e5%a4%b1%e5%80%bc%e7%9a%84%e7%bb%9f%e8%ae%a1%e5%92%8c%e5%88%a0%e9%99%a4"></a>
+一、缺失值的统计和删除
+</h2><h3 id="1-缺失信息的统计">
+<a class="header-anchor" href="#1-%e7%bc%ba%e5%a4%b1%e4%bf%a1%e6%81%af%e7%9a%84%e7%bb%9f%e8%ae%a1"></a>
+1. 缺失信息的统计
+</h3><p>缺失数据可以使用<code>isna</code>或<code>isnull</code>（两个函数没有区别）来查看每个单元格是否缺失，结合<code>mean</code>可以计算出每列缺失值的比例：</p>
+        
+        <hr><p>本文2023-10-01首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-10-01</p>]]></description><category>Machine Learning</category></item><item><title>Pandas变形</title><link>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%8F%98%E5%BD%A2/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%8F%98%E5%BD%A2/</guid><description>
+<![CDATA[<h1>Pandas变形</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="pandas变形">
+<a class="header-anchor" href="#pandas%e5%8f%98%e5%bd%a2"></a>
+Pandas变形
+</h1><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="一长宽表的变形">
+<a class="header-anchor" href="#%e4%b8%80%e9%95%bf%e5%ae%bd%e8%a1%a8%e7%9a%84%e5%8f%98%e5%bd%a2"></a>
+一、长宽表的变形
+</h2><p>什么是长表？什么是宽表？这个概念是对于某一个特征而言的。例如：一个表中把性别存储在某一个列中，那么它就是关于性别的长表；如果把性别作为列名，列中的元素是某一其他的相关特征数值，那么这个表是关于性别的宽表。下面的两张表就分别是关于性别的长表和宽表：</p>
+        
+        <hr><p>本文2023-10-01首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-10-01</p>]]></description><category>Machine Learning</category></item></channel></rss>

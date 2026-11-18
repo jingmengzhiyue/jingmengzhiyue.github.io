@@ -1,0 +1,49 @@
+/* 站点自己的阅读样式。只覆盖主题，不修改 themes/reimu。 */
+
+/* 长公式可以横向滚动，避免被文章容器裁切。 */
+.article-entry {
+  overflow-x: auto;
+}
+
+.article-entry mjx-container {
+  color: inherit;
+  max-width: 100%;
+}
+
+.article-entry mjx-container[display="true"] {
+  margin: 1em 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 0.2em;
+}
+
+/* 代码保持等宽和不换行，长行横向滚动。 */
+.article-entry div.highlight pre,
+.article-entry div.highlight pre code,
+.article-entry pre code {
+  word-break: normal;
+  overflow-wrap: normal;
+  white-space: pre;
+}
+
+.article-entry table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.article-entry img {
+  max-width: 100%;
+  height: auto;
+}
+
+@media screen and (max-width: 767px) {
+  .article-entry {
+    font-size: 16px;
+  }
+
+  .article-entry pre,
+  .article-entry code {
+    font-size: 13px;
+  }
+}

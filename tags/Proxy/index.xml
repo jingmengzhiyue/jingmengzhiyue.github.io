@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>proxy on 热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/tags/Proxy/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>zh-CN</language><copyright>本博客所有文章除特别声明外，均采用 BY 许可协议。转载请注明出处！</copyright><lastBuildDate>Mon, 11 Mar 2024 23:22:42 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/tags/Proxy/index.xml" rel="self" type="application/rss+xml"/><item><title>Using Windows Proxy Settings in WSL2</title><link>https://www.jingmengzhiyue.tech/2024/03/11/WSL2-proxy/</link><pubDate>Mon, 11 Mar 2024 23:22:42 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/11/WSL2-proxy/</guid><description>
+<![CDATA[<h1>Using Windows Proxy Settings in WSL2</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="setting-up-a-proxy-for-wsl2">
+<a class="header-anchor" href="#setting-up-a-proxy-for-wsl2"></a>
+Setting up a Proxy for WSL2
+</h1><p>WSL2 (Windows Subsystem for Linux 2) utilizes a virtual machine approach, separating its network from Windows. This means that network traffic no longer shares the same subnet as the Windows host, making it more challenging to use the host&rsquo;s proxy settings.</p>
+<h2 id="obtaining-the-host-ip-in-wsl">
+<a class="header-anchor" href="#obtaining-the-host-ip-in-wsl"></a>
+Obtaining the Host IP in WSL
+</h2><p>In WSL, the IP address changes with each reboot, so you cannot set a static proxy. WSL2 writes the IP address to <code>/etc/resolv.conf</code>, allowing you to retrieve the host&rsquo;s IP using the following command:</p>
+        
+        <hr><p>本文2024-03-11首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-11</p>]]></description><category>Environment Configuration</category></item></channel></rss>

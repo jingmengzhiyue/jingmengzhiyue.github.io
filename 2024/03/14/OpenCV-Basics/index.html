@@ -1,868 +1,352 @@
-
-
-<!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=auto>
-
-
-
-<head>
-  <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
-  <link rel="icon" href="/img/fluid.png">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  
-  <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="Jingmengzhiyue">
-  <meta name="keywords" content="">
-  
-    <meta name="description" content="This blog post covers the basics of OpenCV, a popular computer vision library. It explains how to load, display, and save images using OpenCV functions. Additionally, it delves into the Mat class, w">
-<meta property="og:type" content="article">
-<meta property="og:title" content="OpenCV Basics">
-<meta property="og:url" content="http://jingmengzhiyue.top/2024/03/14/OpenCV-Basics/index.html">
-<meta property="og:site_name" content="热爱可抵万难">
-<meta property="og:description" content="This blog post covers the basics of OpenCV, a popular computer vision library. It explains how to load, display, and save images using OpenCV functions. Additionally, it delves into the Mat class, w">
-<meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-03-14T11:35:59.000Z">
-<meta property="article:modified_time" content="2024-03-16T08:33:11.763Z">
-<meta property="article:author" content="Jingmengzhiyue">
-<meta property="article:tag" content="OpenCV">
-<meta name="twitter:card" content="summary_large_image">
-  
-  
-  
-  <title>OpenCV Basics - 热爱可抵万难</title>
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
-
-
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-<!-- Do not modify the link that theme dependent icons -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
-
-
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
-
-
-<link  rel="stylesheet" href="/css/main.css" />
-
-
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
-  
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
-  
-
-
-
-
-  <script id="fluid-configs">
-    var Fluid = window.Fluid || {};
-    Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"jingmengzhiyue.top","root":"/","version":"1.9.5-a","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"eZ6fNr2wGbxSreDqCc24Ik6y-gzGzoHsz","app_key":"I1HMoNZO5iKmmCSzqE0wTpGr","server_url":"https://ez6fnr2w.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false},"gtag":null},"search_path":"/local-search.xml","include_content_in_search":true};
-
-    if (CONFIG.web_analytics.follow_dnt) {
-      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
-      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
-    }
-  </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
-  
-
-
-  
-  
-    <script>
-        (function(){
-            var bp = document.createElement('script');
-            var curProtocol = window.location.protocol.split(':')[0];
-            if (curProtocol === 'https') {
-                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
-            }
-            else {
-                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-            }
-            var s = document.getElementsByTagName("script")[0];
-            s.parentNode.insertBefore(bp, s);
-        })();
-    </script>
-   
-
-
-<meta name="generator" content="Hexo 6.3.0"></head>
-
-
-<body>
-  
-
-  <header>
-    
-
-<div class="header-inner" style="height: 70vh;">
-  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      <strong>热爱可抵万难</strong>
-    </a>
-
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
-
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/">
-                <i class="iconfont icon-home-fill"></i>
-                <span>首页</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/">
-                <i class="iconfont icon-archive-fill"></i>
-                <span>归档</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/">
-                <i class="iconfont icon-category-fill"></i>
-                <span>分类</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/">
-                <i class="iconfont icon-tags-fill"></i>
-                <span>标签</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/">
-                <i class="iconfont icon-user-fill"></i>
-                <span>关于</span>
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              <i class="iconfont icon-search"></i>
-            </a>
-          </li>
-          
-        
-        
-          <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
-              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
-            </a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-</nav>
-
-  
-
-<div id="banner" class="banner" parallax=true
-     style="background: url('https://t.mwm.moe/fj/') no-repeat center center; background-size: cover;">
-  <div class="full-bg-img">
-    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-      <div class="banner-text text-center fade-in-up">
-        <div class="h2">
-          
-            <span id="subtitle" data-typed-text="OpenCV Basics"></span>
-          
-        </div>
-
-        
-          
-  <div class="mt-3">
-    
-    
-      <span class="post-meta">
-        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-03-14 19:35" pubdate>
-          2024年3月14日 晚上
-        </time>
-      </span>
-    
-  </div>
-
-  <div class="mt-1">
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-chart"></i>
-        
-          9.2k 字
-        
-      </span>
-    
-
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-clock-fill"></i>
-        
-        
-        
-          77 分钟
-        
-      </span>
-    
-
-    
-    
-  </div>
-
-
-        
-      </div>
-
-      
-    </div>
-  </div>
-</div>
-
-</div>
-
-  </header>
-
-  <main>
-    
-      
-
-<div class="container-fluid nopadding-x">
-  <div class="row nomargin-x">
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-
-    </div>
-
-    <div class="col-lg-8 nopadding-x-md">
-      <div class="container nopadding-x-md" id="board-ctn">
-        <div id="board">
-          <article class="post-content mx-auto">
-            <h1 id="seo-header">OpenCV Basics</h1>
-            
-            
-              <div class="markdown-body">
-                
-                <p>This blog post covers the basics of OpenCV, a popular computer vision
-library. It explains how to load, display, and save images using OpenCV
-functions. Additionally, it delves into the Mat class, which is used to
-represent images in OpenCV as matrices. The post demonstrates how to
-create Mat objects, access their properties, and traverse and manipulate
-pixel values using both array-based and pointer-based methods. ## Hello
-World</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;opencv2/opencv.hpp&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br>using namespace cv;<br>using namespace <span class="hljs-built_in">std</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span>** argv)</span><br>&#123;<br>    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;start\n&quot;</span>;<br>    <span class="hljs-comment">// Read an image</span><br>    Mat src = imread(<span class="hljs-string">&quot;E:\\Datum\\Code\\CV4\\CV4\\a.png&quot;</span>);<br>    <span class="hljs-keyword">if</span> (src.empty()) &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;could not open&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br>    namedWindow(<span class="hljs-string">&quot;input&quot;</span>, WINDOW_AUTOSIZE); <span class="hljs-comment">// Create a window with the given title and automatic image size</span><br>    <span class="hljs-comment">// In OpenCV 3, use namedWindow(&quot;input&quot;, CV_WINDOW_AUTOSIZE)</span><br>    imshow(<span class="hljs-string">&quot;input&quot;</span>, src); <span class="hljs-comment">// Display the image in the &quot;input&quot; window</span><br>    waitKey(<span class="hljs-number">0</span>); <span class="hljs-comment">// Prevent the window from closing immediately, wait for user input</span><br>    destroyAllWindows(); <span class="hljs-comment">// Destroy all windows</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-<ol type="1">
-<li>In OpenCV 4, you can directly use
-<code>#include &lt;opencv2/opencv.hpp&gt;</code> to import all OpenCV
-functions.</li>
-<li><code>using namespace cv;</code> uses the OpenCV namespace.</li>
-<li>Define a <code>Mat</code> variable <code>src</code> and read an
-image into it.</li>
-<li>Perform robustness check; if the loaded image is not empty, display
-it.</li>
-<li>Use <code>namedWindow("input", WINDOW_AUTOSIZE);</code> to create a
-window. The first parameter is the window name, and the second parameter
-is the window size, which in OpenCV 4 is defined as automatic window
-size. In OpenCV 3, use
-<code>nameWindow("input", CV_WINDOW_AUTOSIZE)</code> to define the
-window.</li>
-<li>Use <code>imshow("input", src)</code> to display the image. The
-first parameter is the window to display in, and the second parameter is
-the image to display.</li>
-<li>To prevent the displayed image from disappearing immediately, use
-<code>waitKey(0)</code> to wait for user input.</li>
-<li>Use <code>destroyAllWindows()</code> to destroy all windows.</li>
-</ol>
-<h2 id="image-file-loading-displaying-and-saving">Image File Loading,
-Displaying, and Saving</h2>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;opencv2/opencv.hpp&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br>using namespace cv;<br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-comment">// Mat src = imread(&quot;./lenna.tiff&quot;, IMREAD_COLOR); // Load as a color image, default mode, transparency channel will be discarded</span><br>    <span class="hljs-comment">// Mat src = imread(&quot;./lenna.tiff&quot;, IMREAD_GRAYSCALE); // Load as a grayscale image</span><br>    <span class="hljs-comment">// Mat src = imread(&quot;./lenna.tiff&quot;, IMREAD_ANYCOLOR); // Load with any color format</span><br>    Mat src = imread(<span class="hljs-string">&quot;./test.png&quot;</span>, IMREAD_UNCHANGED); <span class="hljs-comment">// Do not change the number of channels, supports loading PNG transparency channel</span><br>    <span class="hljs-keyword">if</span> (src.empty()) &#123;<br>        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;can not open&quot;</span> &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;<br>    &#125;<br>    <span class="hljs-comment">// namedWindow(&quot;input&quot;, WINDOW_AUTOSIZE); // Automatically fit image size, cannot be changed</span><br>    <span class="hljs-comment">// namedWindow(&quot;input&quot;, WINDOW_FREERATIO); // Freely change image display size</span><br>    namedWindow(<span class="hljs-string">&quot;input&quot;</span>, WINDOW_NORMAL); <span class="hljs-comment">// Can change image display size</span><br>    imshow(<span class="hljs-string">&quot;input&quot;</span>, src);<br>    waitKey(<span class="hljs-number">0</span>);<br>    destroyAllWindows();<br>    imwrite(<span class="hljs-string">&quot;./test.png&quot;</span>, src); <span class="hljs-comment">// Save as the corresponding format based on the file extension</span><br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-<h3 id="image-file-loading">Image File Loading</h3>
-<p>The <code>imread("filename", load_mode)</code> function: 1. By
-default, loads a BGR color image. 2. Supports grayscale and any color
-format images.</p>
-<p>Common load modes include: 1. <code>IMREAD_COLOR</code>: Load as a
-color image, the default mode, transparency channel will be discarded.
-2. <code>IMREAD_GRAYSCALE</code>: Load as a grayscale image. 3.
-<code>IMREAD_ANYCOLOR</code>: Load with any color format. 4.
-<code>IMREAD_UNCHANGED</code>: Do not change the number of channels,
-supports loading PNG transparency channel.</p>
-<h3 id="window-and-display">Window and Display</h3>
-<p>The <code>imshow("window_name", display_mode)</code> function:</p>
-<p>Display modes include: 1. <code>WINDOW_AUTOSIZE</code>: Automatically
-fit the image size, cannot be changed. 2. <code>WINDOW_FREERATIO</code>:
-Freely change the image display size. 3. <code>WINDOW_NORMAL</code>: Can
-change the image display size.</p>
-<h3 id="image-file-saving">Image File Saving</h3>
-<p>The <code>imwrite("save_address", variable)</code> function: Saves
-the image in the corresponding format based on the file extension.</p>
-<h2 id="mat-class">Mat Class</h2>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// Image object Mat</span><br><span class="hljs-comment">// An image is a matrix, Mat is an object that stores matrices</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;opencv2/opencv.hpp&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br>using namespace cv;<br>using namespace <span class="hljs-built_in">std</span>;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    Mat src = imread(<span class="hljs-string">&quot;./lenna.tiff&quot;</span>);<br>    <span class="hljs-keyword">if</span> (src.empty()) &#123;<br>        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;cannot open&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;<br>    &#125;<br>    namedWindow(<span class="hljs-string">&quot;input&quot;</span>, WINDOW_FREERATIO);<br>    imshow(<span class="hljs-string">&quot;input&quot;</span>, src);<br>    <span class="hljs-type">int</span> width = src.cols; <span class="hljs-comment">// Get the image width</span><br>    <span class="hljs-type">int</span> height = src.rows; <span class="hljs-comment">// Get the image height</span><br>    <span class="hljs-type">int</span> dim = src.channels(); <span class="hljs-comment">// Get the number of image channels</span><br>    <span class="hljs-type">int</span> d = src.depth(); <span class="hljs-comment">// Image depth, enum type</span><br>    <span class="hljs-type">int</span> t = src.type(); <span class="hljs-comment">// Image type, enum type</span><br>    <span class="hljs-keyword">if</span> (t == CV_8UC3) &#123;<br>        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;ok&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;<br>    &#125;<br>    <span class="hljs-built_in">cout</span> &lt;&lt; width &lt;&lt; <span class="hljs-built_in">endl</span> &lt;&lt; height &lt;&lt; <span class="hljs-built_in">endl</span> &lt;&lt; dim &lt;&lt; <span class="hljs-built_in">endl</span> &lt;&lt; d &lt;&lt; <span class="hljs-built_in">endl</span> &lt;&lt; t &lt;&lt; <span class="hljs-built_in">endl</span>;<br>    waitKey(<span class="hljs-number">0</span>);<br>    destroyAllWindows();<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-<p>An image is essentially a matrix, so in OpenCV, images are stored in
-matrix form, i.e., Mat. Common attributes of Mat include:</p>
-<ol type="1">
-<li><code>src.cols;</code> // Get the image width.</li>
-<li><code>src.rows;</code> // Get the image height.</li>
-<li><code>src.channels();</code> // Get the number of image
-channels.</li>
-<li><code>src.depth();</code> // Image depth, enum type, returns the
-depth of each pixel element. Common values include <code>CV_8U</code>
-(8-bit unsigned integer), <code>CV_16U</code> (16-bit unsigned integer),
-<code>CV_32F</code> (32-bit float), etc.</li>
-<li><code>src.type();</code> // Image type, enum type. Common types
-include <code>CV_8U</code> (8-bit unsigned integer), <code>CV_8S</code>
-(8-bit signed integer), <code>CV_16U</code> (16-bit unsigned integer),
-<code>CV_16S</code> (16-bit signed integer), <code>CV_32F</code> (32-bit
-float), <code>CV_64F</code> (64-bit float), etc.</li>
-<li><code>src.size</code> // Returns a tuple containing the number of
-rows and columns of the image.</li>
-<li><code>src.empty()</code>: Check if the Mat object is empty.</li>
-<li><code>src.total()</code>: Returns the total number of elements in
-the Mat object.</li>
-</ol>
-<h2 id="creating-and-using-mat-objects">Creating and Using Mat
-Objects</h2>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;opencv2/opencv.hpp&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><br>using namespace cv;<br>using namespace <span class="hljs-built_in">std</span>;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    Mat src = imread(<span class="hljs-string">&quot;./lenna.tiff&quot;</span>);<br>    Mat t1 = Mat(<span class="hljs-number">256</span>, <span class="hljs-number">256</span>, CV_8UC3); <span class="hljs-comment">// Create a 256x256 grayscale image</span><br>    t1 = Scalar(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">256</span>); <span class="hljs-comment">// Assign values to the image matrix</span><br>    imshow(<span class="hljs-string">&quot;t1&quot;</span>, t1);<br>    Mat t2 = Mat(Size(<span class="hljs-number">512</span>, <span class="hljs-number">512</span>), CV_8UC3); <span class="hljs-comment">// Create a 512x512 grayscale image</span><br>    t2 = Scalar(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">256</span>); <span class="hljs-comment">// Assign values to the image matrix</span><br>    imshow(<span class="hljs-string">&quot;t2&quot;</span>, t2);<br>    Mat t3 = Mat::zeros(Size(<span class="hljs-number">256</span>, <span class="hljs-number">256</span>), CV_8SC3); <span class="hljs-comment">// Directly create a 256x256 all-black image during creation</span><br>    imshow(<span class="hljs-string">&quot;t3&quot;</span>, t3);<br>    <span class="hljs-comment">// Create from an existing image</span><br>    Mat t4 = src;<br>    <span class="hljs-comment">// t4 = Scalar(0, 255, 255); // Assigning values to t4 will also change t5</span><br>    imshow(<span class="hljs-string">&quot;t4&quot;</span>, t4);<br>    <span class="hljs-comment">// Create using the clone method</span><br>    Mat t5 = src.clone();<br>    t5 = Scalar(<span class="hljs-number">0</span>, <span class="hljs-number">255</span>, <span class="hljs-number">255</span>); <span class="hljs-comment">// Assigning values to t5 will not change t4</span><br>    imshow(<span class="hljs-string">&quot;t5&quot;</span>, t5);<br>    Mat t6;<br>    src.copyTo(t6);<br>    imshow(<span class="hljs-string">&quot;t6&quot;</span>, t6);<br>    Mat t7 = Mat::zeros(src.size(), src.type()); <span class="hljs-comment">// Create an all-zero image with the same size as src</span><br>    waitKey(<span class="hljs-number">0</span>);<br>    destroyAllWindows();<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-<h3 id="creating-mat-objects">Creating Mat Objects</h3>
-<ol type="1">
-<li>Use <code>Mat t1 = Mat(256, 256, CV_8UC3);</code> to create a
-256x256 grayscale image. The type represents an unsigned 3-channel
-image.</li>
-<li><code>t1 = Scalar(0, 0, 256);</code> assigns constant values to the
-image matrix.</li>
-<li><code>Mat t2 = Mat(Size(512, 512), CV_8UC3);</code> creates a
-512x512 grayscale image.</li>
-<li><code>Mat t3 = Mat::zeros(Size(256, 256), CV_8SC3);</code> directly
-creates a 256x256 all-black image with an unsigned 3-channel type during
-creation.</li>
-<li><code>Mat t4 = src;</code> creates <code>t4</code> directly from
-<code>src</code>.</li>
-<li><code>Mat t5 = src.clone();</code> creates a clone of
-<code>src</code>.</li>
-<li><code>Mat t6; src.copyTo(t6);</code> copies <code>src</code> to
-<code>t6</code>.</li>
-<li><code>Mat t7 = Mat::zeros(src.size(), src.type());</code> creates an
-all-zero image with the same size and type as <code>src</code>.</li>
-</ol>
-<h3 id="traversing-and-accessing-pixel-values">Traversing and Accessing
-Pixel Values</h3>
-<p>OpenCV provides several methods to access and manipulate individual
-pixels in an image. Here's a concise overview of the different
-techniques:</p>
-<h4 id="array-based-pixel-access-with-at">1. Array-based Pixel Access
-with <code>at</code></h4>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;opencv2/opencv.hpp&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> cv;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">methodAt</span><span class="hljs-params">(Mat&amp; image)</span> </span>&#123;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> y = <span class="hljs-number">0</span>; y &lt; image.rows; y++) &#123;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> x = <span class="hljs-number">0</span>; x &lt; image.cols; x++) &#123;<br>            <span class="hljs-comment">// For grayscale images</span><br>            <span class="hljs-comment">// uchar&amp; pixel = image.at&lt;uchar&gt;(y, x);</span><br>            <span class="hljs-comment">// pixel = ...;</span><br><br>            <span class="hljs-comment">// For color (BGR) images</span><br>            Vec3b&amp; color = image.<span class="hljs-built_in">at</span>&lt;Vec3b&gt;(y, x);<br>            <span class="hljs-comment">// Operate on pixel, e.g., invert color</span><br>            color[<span class="hljs-number">0</span>] = <span class="hljs-number">255</span> - color[<span class="hljs-number">0</span>]; <span class="hljs-comment">// B</span><br>            color[<span class="hljs-number">1</span>] = <span class="hljs-number">255</span> - color[<span class="hljs-number">1</span>]; <span class="hljs-comment">// G</span><br>            color[<span class="hljs-number">2</span>] = <span class="hljs-number">255</span> - color[<span class="hljs-number">2</span>]; <span class="hljs-comment">// R</span><br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-<ul>
-<li>Use nested loops to iterate over every row and column of the
-image</li>
-<li>Access color pixels with
-<code>image.at&lt;Vec3b&gt;(y, x)</code></li>
-<li>Access grayscale pixels with
-<code>image.at&lt;uchar&gt;(y, x)</code></li>
-<li>Directly read and write pixel values, e.g.,
-<code>pixel[0] = 255 - blue</code></li>
-<li>Requires obtaining the image's height, width, and number of
-channels</li>
-</ul>
-<h4 id="pointer-based-pixel-access">2. Pointer-based Pixel Access</h4>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">methodPointer</span><span class="hljs-params">(Mat&amp; image)</span> </span>&#123;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> y = <span class="hljs-number">0</span>; y &lt; image.rows; y++) &#123;<br>        <span class="hljs-comment">// Get a pointer to the start of the y-th row</span><br>        uchar* row = image.<span class="hljs-built_in">ptr</span>&lt;uchar&gt;(y);<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> x = <span class="hljs-number">0</span>; x &lt; image.cols; x++) &#123;<br>            <span class="hljs-comment">// For grayscale images</span><br>            <span class="hljs-comment">// uchar&amp; pixel = row[x];</span><br>            <span class="hljs-comment">// pixel = ...;</span><br><br>            <span class="hljs-comment">// For color (BGR) images</span><br>            <span class="hljs-comment">// BGR format, each pixel occupies 3 uchars</span><br>            uchar&amp; blue = row[x * <span class="hljs-number">3</span>];<br>            uchar&amp; green = row[x * <span class="hljs-number">3</span> + <span class="hljs-number">1</span>];<br>            uchar&amp; red = row[x * <span class="hljs-number">3</span> + <span class="hljs-number">2</span>];<br>            <span class="hljs-comment">// Operate on pixel</span><br>            blue = <span class="hljs-number">255</span> - blue;<br>            green = <span class="hljs-number">255</span> - green;<br>            red = <span class="hljs-number">255</span> - red;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-<ul>
-<li>Use nested loops to iterate over every row and column of the
-image</li>
-<li>Get a pointer to the start of each row with
-<code>image.ptr&lt;uchar&gt;(y)</code></li>
-<li>Access color pixels by incrementing the pointer by
-<code>x * 3</code> for each channel</li>
-<li>Access grayscale pixels by incrementing the pointer by
-<code>x</code></li>
-</ul>
-<h4 id="iterator-based-pixel-access">3. Iterator-based Pixel Access</h4>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">methodIterator</span><span class="hljs-params">(Mat&amp; image)</span> </span>&#123;<br>    <span class="hljs-comment">// cv::Mat_&lt;Vec3b&gt; is the iterator type for color images</span><br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> it = image.<span class="hljs-built_in">begin</span>&lt;Vec3b&gt;(); it != image.<span class="hljs-built_in">end</span>&lt;Vec3b&gt;(); it++) &#123;<br>        <span class="hljs-comment">// Invert color</span><br>        (*it)[<span class="hljs-number">0</span>] = <span class="hljs-number">255</span> - (*it)[<span class="hljs-number">0</span>]; <span class="hljs-comment">// B</span><br>        (*it)[<span class="hljs-number">1</span>] = <span class="hljs-number">255</span> - (*it)[<span class="hljs-number">1</span>]; <span class="hljs-comment">// G</span><br>        (*it)[<span class="hljs-number">2</span>] = <span class="hljs-number">255</span> - (*it)[<span class="hljs-number">2</span>]; <span class="hljs-comment">// R</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-<ul>
-<li>Use iterators to traverse the image pixels</li>
-<li><code>image.begin&lt;Vec3b&gt;()</code> returns an iterator to the
-first pixel in the image</li>
-<li><code>image.end&lt;Vec3b&gt;()</code> returns an iterator to the
-position after the last pixel</li>
-<li>Directly access and modify pixel values using the iterator
-dereferencing operator <code>*it</code></li>
-</ul>
-<p>These techniques provide different ways to access and manipulate
-pixel data in OpenCV images. The choice depends on personal preference,
-code readability, and performance considerations for the specific use
-case.</p>
-
-                
-              </div>
-            
-            <hr/>
-            <div>
-              <div class="post-metas my-3">
-  
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Programming/" class="category-chain-item">Programming</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
-  
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/OpenCV/" class="print-no-link">#OpenCV</a>
-      
-    </div>
-  
-</div>
-
-
-              
-  
-
-  <div class="license-box my-3">
-    <div class="license-title">
-      <div>OpenCV Basics</div>
-      <div>http://jingmengzhiyue.top/2024/03/14/OpenCV-Basics/</div>
-    </div>
-    <div class="license-meta">
-      
-        <div class="license-meta-item">
-          <div>作者</div>
-          <div>Jingmengzhiyue</div>
-        </div>
-      
-      
-        <div class="license-meta-item license-meta-date">
-          <div>发布于</div>
-          <div>2024年3月14日</div>
-        </div>
-      
-      
-      
-        <div class="license-meta-item">
-          <div>许可协议</div>
-          <div>
-            
-              
-              
-                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
-                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
-                    <i class="iconfont icon-by"></i>
-                  </span>
-                </a>
-              
-            
-          </div>
-        </div>
-      
-    </div>
-    <div class="license-icon iconfont"></div>
-  </div>
-
-
-
-              
-                <div class="post-prevnext my-3">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2024/03/16/OpenCV-WSL/" title="Using OpenCV C++ on Windows Subsystem for Linux (WSL)">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Using OpenCV C++ on Windows Subsystem for Linux (WSL)</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2024/03/11/rust-wal2-vscode/" title="Windows 11 + WSL + VS Code + Rust Environment Setup">
-                        <span class="hidden-mobile">Windows 11 + WSL + VS Code + Rust Environment Setup</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
-              
-            </div>
-
-            
-  
-  
-    <article id="comments" lazyload>
-      
-  <div id="valine"></div>
-  <script type="text/javascript">
-    Fluid.utils.loadComments('#valine', function() {
-      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
-        var options = Object.assign(
-          {"appId":"eZ6fNr2wGbxSreDqCc24Ik6y-gzGzoHsz","appKey":"I1HMoNZO5iKmmCSzqE0wTpGr","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
-          {
-            el: "#valine",
-            path: window.location.pathname
+<!doctype html><html lang=zh-CN data-theme-mode=auto><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><title>OpenCV Basics | Jingmengzhiyue</title><meta name=description content="This blog post covers the basics of OpenCV, a popular computer vision library. It explains how to load, display, and save images using OpenCV functions. Additi…"><script>window.siteConfig=JSON.parse('{"anchor":{"auto":{"enable":false,"length":60},"explicit":{"enable":false,"marker":"{#anchor-","prefix":"anchor-"}},"anchor_icon":null,"base":"https://www.jingmengzhiyue.tech/","clipboard":{"copyright":{"count":50,"enable":false,"license_type":"by-nc-sa"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-br":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ","zh-cn":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-tw":"複製失敗 (ﾟ⊿ﾟ)ﾂ"},"success":{"en":"Copy successfully (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-br":"Copiado com sucesso (*^▽^*)","zh-cn":"复制成功 (*^▽^*)","zh-tw":"複製成功 (*^▽^*)"}},"code_block":{"expand":true},"dark_mode":{"button":true,"mode":"auto"},"icon_font":"4552607_ex15nbittbh","outdate":{"daysago":180,"enable":false,"message":{"en":"This article was last updated on {time}. Please note that the content may no longer be applicable.","ja":"この記事は最終更新日：{time}。記載内容が現在有効でない可能性がありますのでご注意ください。","pt-br":"Este artigo foi atualizado pela última vez em {time}. Observe que o conteúdo pode não ser mais aplicável.","zh-cn":"本文最后更新于 {time}，请注意文中内容可能已不适用。","zh-tw":"本文最後更新於 {time}，請注意文中內容可能已不適用。"}}}')</script><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap" media=print onload='this.media="all"'><link rel=preload href=//at.alicdn.com/t/c/font_4552607_ex15nbittbh.woff2 as=font type=font/woff2 crossorigin=anonymous><link rel=stylesheet href=/css/loader.min.ac746e154f756f8220326eeb52a719f142ab038be5a8ddf30ea5ef15ef2356ea.css><meta property="og:type" content="website"><meta property="og:title" content="OpenCV Basics | Jingmengzhiyue"><meta property="og:description" content="This blog post covers the basics of OpenCV, a popular computer vision library. It explains how to load, display, and save images using OpenCV functions. Additi…"><meta property="og:url" content="https://www.jingmengzhiyue.tech/2024/03/14/OpenCV-Basics/"><meta property="og:site_name" content="热爱可抵万难"><meta property="og:image" content="https://www.jingmengzhiyue.tech/img/24.jpg"><meta property="article:author" content="Jingmengzhiyue"><meta property="article:published_time" content="2024-03-14T19:35:59+08:00"><meta property="article:modified_time" content="2024-03-14T19:35:59+08:00"><meta property="article:tag" content="OpenCV"><meta name=twitter:card content="summary"><meta name=twitter:image content="https://www.jingmengzhiyue.tech/img/24.jpg"><link rel="shortcut icon" href=/favicon.ico><link rel=stylesheet href=/css/main.min.e741704bd4ce29d0b6db17b8ff17abf1aa8fad02fa440697765f231c07813893.css><link rel=preload as=style href=https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css integrity=sha384-IfxC36XL/toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx/1oA/0l8ysE crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><link rel=preload as=style href=https://npm.webcache.cn/katex@0.16.47/dist/katex.min.css integrity=sha384-nH0MfJ44wi1dd7w6jinlyBgljjS8EJAh2JBoRad8a3VDw2K69vfaaqm4WnR+gXtA crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><script src=https://npm.webcache.cn/pace-js@1.2.4/pace.min.js integrity=sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8 crossorigin=anonymous></script><link rel=stylesheet href=https://npm.webcache.cn/@reimujs/aos@0.1.3/dist/aos.css integrity=sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa crossorigin=anonymous><link rel=icon href=/img/fluid.png type=image/png><link rel=apple-touch-icon href=/img/fluid.png><link rel=stylesheet href=/css/custom.css></head><body><div id=loader><div class="loading-left-bg loading-bg"></div><div class="loading-right-bg loading-bg"></div><div class=spinner-box><div class="loading-taichi rotate"><svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" shape-rendering="geometricPrecision"><path d="M303.5 432a80 80 0 01-12 160 80 80 0 0112-160z" fill="var(--red-1, #ff5252)"/><path d="M512 65a447 447 0 010 894V929a417 417 0 000-834 417 417 0 000 834v30a447 447 0 010-894zm0 30A417 417 0 01929 512 208.5 208.5.0 01720.5 720.5V592a80 80 0 000-160 80 80 0 000 160V720.5A208.5 208.5.0 01512 512 208.5 208.5.0 00303.5 303.5 208.5 208.5.0 0095 512 417 417 0 01512 95z" fill="var(--red-1, #ff5252)"/></svg></div><div class=loading-word>少女祈祷中...</div></div></div></div><script>var time=null,loaderEl=document.getElementById("loader"),startLoading=()=>{time=Date.now(),loaderEl.classList.remove("loading")},hideLoader=()=>{document.body.style.overflow="auto",loader.classList.add("loading")},endLoading=()=>{time?Date.now()-time>500?(time=null,hideLoader()):(setTimeout(endLoading,500-(Date.now()-time)),time=null):hideLoader()};window.addEventListener("DOMContentLoaded",endLoading),loaderEl.addEventListener("click",endLoading)</script><div id=copy-tooltip></div><div id=lang-tooltip>本文章没有找到对应的语言版本</div><div id=heatmap-tooltip></div><div id=container><div id=wrap><div id=header-nav><nav id=main-nav aria-label="Primary navigation"><a class=main-nav-link-wrap href=/><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>首页</span>
+</a><a class=main-nav-link-wrap href=/archives><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>归档</span>
+</a><a class=main-nav-link-wrap href=/categories><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>目录</span>
+</a><a class=main-nav-link-wrap href=/tags><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>标签</span>
+</a><a class=main-nav-link-wrap href=/about><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>关于</span>
+</a><a id=main-nav-toggle class=nav-icon aria-label="Toggle navigation" role=button></a></nav><nav id=sub-nav aria-label="Secondary navigation"></nav></div><header id=header aria-label="Site header"><picture></picture><img fetchpriority=high src=/img/24.jpg alt="OpenCV Basics"><div id=header-outer><div id=header-title><span id=logo><h1 data-aos=slide-up>OpenCV Basics</h1></span><h2 id=subtitle-wrap data-aos=slide-down></h2></div></div></header><div id=content aria-label="Page content" class=sidebar-right><aside id=sidebar aria-label=Sidebar><div class="sidebar-wrapper-container sticky"><div class=sidebar-wrapper><div class=sidebar-wrap data-aos=fade-up><div class=sidebar-toc-sidebar><h3 class=toc-title>文章目录</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#hello-world>Hello World</a></li><li><a href=#image-file-loading-displaying-and-saving>Image File Loading, Displaying, and Saving</a><ul><li><a href=#image-file-loading>Image File Loading</a></li><li><a href=#window-and-display>Window and Display</a></li><li><a href=#image-file-saving>Image File Saving</a></li></ul></li><li><a href=#mat-class>Mat Class</a></li><li><a href=#creating-and-using-mat-objects>Creating and Using Mat Objects</a><ul><li><a href=#creating-mat-objects>Creating Mat Objects</a></li><li><a href=#traversing-and-accessing-pixel-values>Traversing and Accessing Pixel Values</a></li></ul></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/avatar.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>文章</div><div class=sidebar-state-number>57</div></div><a class=sidebar-state-category href=/categories/ aria-label=sidebar-state-category-link><div>分类</div><div class=sidebar-state-number>10</div></a><a class=sidebar-state-tag href=/tags/ aria-label=sidebar-state-tag-link><div>标签</div><div class=sidebar-state-number>26</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/ aria-label=首页></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>首页</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/archives aria-label=归档></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>归档</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/categories aria-label=目录></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>目录</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/tags aria-label=标签></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>标签</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/about aria-label=关于></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>关于</div></div></div></div><div class=sidebar-btn-wrapper style=position:static><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></div></div><div class=sidebar-widget></div></div></aside><section id=main aria-label="Main content"><article class="h-entry article" itemscope itemtype=https://schema.org/BlogPosting><div class=article-inner data-aos=fade-up><div class=article-meta><div class=article-date><span class="article-date-link icon-calendar" data-aos=zoom-in><time datetime="2024-03-14 19:35:59 +0800 +0800" itemprop=datePublished>2024-03-14</time>
+<time style=display:none id=post-update-time>2024-03-14</time></span></div></div><div class=hr-line></div><div class="e-content article-entry" itemprop=articleBody><p>This blog post covers the basics of OpenCV, a popular computer vision library. It explains how to load, display, and save images using OpenCV functions. Additionally, it delves into the Mat class, which is used to represent images in OpenCV as matrices. The post demonstrates how to create Mat objects, access their properties, and traverse and manipulate pixel values using both array-based and pointer-based methods.</p><h2 id=hello-world><a class=header-anchor href=#hello-world></a>Hello World</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;opencv2/opencv.hpp&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=n>using</span> <span class=n>namespace</span> <span class=n>cv</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>using</span> <span class=n>namespace</span> <span class=n>std</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>(</span><span class=kt>int</span> <span class=n>argc</span><span class=p>,</span> <span class=kt>char</span><span class=o>**</span> <span class=n>argv</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;start</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// Read an image
+</span></span></span><span class=line><span class=cl>    <span class=n>Mat</span> <span class=n>src</span> <span class=o>=</span> <span class=nf>imread</span><span class=p>(</span><span class=s>&#34;E:</span><span class=se>\\</span><span class=s>Datum</span><span class=se>\\</span><span class=s>Code</span><span class=se>\\</span><span class=s>CV4</span><span class=se>\\</span><span class=s>CV4</span><span class=se>\\</span><span class=s>a.png&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>src</span><span class=p>.</span><span class=nf>empty</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nf>printf</span><span class=p>(</span><span class=s>&#34;could not open&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=o>-</span><span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=nf>namedWindow</span><span class=p>(</span><span class=s>&#34;input&#34;</span><span class=p>,</span> <span class=n>WINDOW_AUTOSIZE</span><span class=p>);</span> <span class=c1>// Create a window with the given title and automatic image size
+</span></span></span><span class=line><span class=cl>    <span class=c1>// In OpenCV 3, use namedWindow(&#34;input&#34;, CV_WINDOW_AUTOSIZE)
+</span></span></span><span class=line><span class=cl>    <span class=nf>imshow</span><span class=p>(</span><span class=s>&#34;input&#34;</span><span class=p>,</span> <span class=n>src</span><span class=p>);</span> <span class=c1>// Display the image in the &#34;input&#34; window
+</span></span></span><span class=line><span class=cl>    <span class=nf>waitKey</span><span class=p>(</span><span class=mi>0</span><span class=p>);</span> <span class=c1>// Prevent the window from closing immediately, wait for user input
+</span></span></span><span class=line><span class=cl>    <span class=nf>destroyAllWindows</span><span class=p>();</span> <span class=c1>// Destroy all windows
+</span></span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><ol><li>In OpenCV 4, you can directly use <code>#include &lt;opencv2/opencv.hpp></code> to import all OpenCV functions.</li><li><code>using namespace cv;</code> uses the OpenCV namespace.</li><li>Define a <code>Mat</code> variable <code>src</code> and read an image into it.</li><li>Perform robustness check; if the loaded image is not empty, display it.</li><li>Use <code>namedWindow("input", WINDOW_AUTOSIZE);</code> to create a window. The first parameter is the window name, and the second parameter is the window size, which in OpenCV 4 is defined as automatic window size. In OpenCV 3, use <code>nameWindow("input", CV_WINDOW_AUTOSIZE)</code> to define the window.</li><li>Use <code>imshow("input", src)</code> to display the image. The first parameter is the window to display in, and the second parameter is the image to display.</li><li>To prevent the displayed image from disappearing immediately, use <code>waitKey(0)</code> to wait for user input.</li><li>Use <code>destroyAllWindows()</code> to destroy all windows.</li></ol><h2 id=image-file-loading-displaying-and-saving><a class=header-anchor href=#image-file-loading-displaying-and-saving></a>Image File Loading, Displaying, and Saving</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;opencv2/opencv.hpp&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=n>using</span> <span class=n>namespace</span> <span class=n>cv</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// Mat src = imread(&#34;./lenna.tiff&#34;, IMREAD_COLOR); // Load as a color image, default mode, transparency channel will be discarded
+</span></span></span><span class=line><span class=cl>    <span class=c1>// Mat src = imread(&#34;./lenna.tiff&#34;, IMREAD_GRAYSCALE); // Load as a grayscale image
+</span></span></span><span class=line><span class=cl>    <span class=c1>// Mat src = imread(&#34;./lenna.tiff&#34;, IMREAD_ANYCOLOR); // Load with any color format
+</span></span></span><span class=line><span class=cl>    <span class=n>Mat</span> <span class=n>src</span> <span class=o>=</span> <span class=nf>imread</span><span class=p>(</span><span class=s>&#34;./test.png&#34;</span><span class=p>,</span> <span class=n>IMREAD_UNCHANGED</span><span class=p>);</span> <span class=c1>// Do not change the number of channels, supports loading PNG transparency channel
+</span></span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>src</span><span class=p>.</span><span class=nf>empty</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;can not open&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// namedWindow(&#34;input&#34;, WINDOW_AUTOSIZE); // Automatically fit image size, cannot be changed
+</span></span></span><span class=line><span class=cl>    <span class=c1>// namedWindow(&#34;input&#34;, WINDOW_FREERATIO); // Freely change image display size
+</span></span></span><span class=line><span class=cl>    <span class=nf>namedWindow</span><span class=p>(</span><span class=s>&#34;input&#34;</span><span class=p>,</span> <span class=n>WINDOW_NORMAL</span><span class=p>);</span> <span class=c1>// Can change image display size
+</span></span></span><span class=line><span class=cl>    <span class=nf>imshow</span><span class=p>(</span><span class=s>&#34;input&#34;</span><span class=p>,</span> <span class=n>src</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nf>waitKey</span><span class=p>(</span><span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nf>destroyAllWindows</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=nf>imwrite</span><span class=p>(</span><span class=s>&#34;./test.png&#34;</span><span class=p>,</span> <span class=n>src</span><span class=p>);</span> <span class=c1>// Save as the corresponding format based on the file extension
+</span></span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=image-file-loading><a class=header-anchor href=#image-file-loading></a>Image File Loading</h3><p>The <code>imread("filename", load_mode)</code> function:</p><ol><li>By default, loads a BGR color image.</li><li>Supports grayscale and any color format images.</li></ol><p>Common load modes include:</p><ol><li><code>IMREAD_COLOR</code>: Load as a color image, the default mode, transparency channel will be discarded.</li><li><code>IMREAD_GRAYSCALE</code>: Load as a grayscale image.</li><li><code>IMREAD_ANYCOLOR</code>: Load with any color format.</li><li><code>IMREAD_UNCHANGED</code>: Do not change the number of channels, supports loading PNG transparency channel.</li></ol><h3 id=window-and-display><a class=header-anchor href=#window-and-display></a>Window and Display</h3><p>The <code>imshow("window_name", display_mode)</code> function:</p><p>Display modes include:</p><ol><li><code>WINDOW_AUTOSIZE</code>: Automatically fit the image size, cannot be changed.</li><li><code>WINDOW_FREERATIO</code>: Freely change the image display size.</li><li><code>WINDOW_NORMAL</code>: Can change the image display size.</li></ol><h3 id=image-file-saving><a class=header-anchor href=#image-file-saving></a>Image File Saving</h3><p>The <code>imwrite("save_address", variable)</code> function:
+Saves the image in the corresponding format based on the file extension.</p><h2 id=mat-class><a class=header-anchor href=#mat-class></a>Mat Class</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=c1>// Image object Mat
+</span></span></span><span class=line><span class=cl><span class=c1>// An image is a matrix, Mat is an object that stores matrices
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;opencv2/opencv.hpp&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=n>using</span> <span class=n>namespace</span> <span class=n>cv</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>using</span> <span class=n>namespace</span> <span class=n>std</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>Mat</span> <span class=n>src</span> <span class=o>=</span> <span class=nf>imread</span><span class=p>(</span><span class=s>&#34;./lenna.tiff&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>src</span><span class=p>.</span><span class=nf>empty</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;cannot open&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=nf>namedWindow</span><span class=p>(</span><span class=s>&#34;input&#34;</span><span class=p>,</span> <span class=n>WINDOW_FREERATIO</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nf>imshow</span><span class=p>(</span><span class=s>&#34;input&#34;</span><span class=p>,</span> <span class=n>src</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>width</span> <span class=o>=</span> <span class=n>src</span><span class=p>.</span><span class=n>cols</span><span class=p>;</span> <span class=c1>// Get the image width
+</span></span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>height</span> <span class=o>=</span> <span class=n>src</span><span class=p>.</span><span class=n>rows</span><span class=p>;</span> <span class=c1>// Get the image height
+</span></span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>dim</span> <span class=o>=</span> <span class=n>src</span><span class=p>.</span><span class=nf>channels</span><span class=p>();</span> <span class=c1>// Get the number of image channels
+</span></span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>d</span> <span class=o>=</span> <span class=n>src</span><span class=p>.</span><span class=nf>depth</span><span class=p>();</span> <span class=c1>// Image depth, enum type
+</span></span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>t</span> <span class=o>=</span> <span class=n>src</span><span class=p>.</span><span class=nf>type</span><span class=p>();</span> <span class=c1>// Image type, enum type
+</span></span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>t</span> <span class=o>==</span> <span class=n>CV_8UC3</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;ok&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>width</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span> <span class=o>&lt;&lt;</span> <span class=n>height</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span> <span class=o>&lt;&lt;</span> <span class=n>dim</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span> <span class=o>&lt;&lt;</span> <span class=n>d</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span> <span class=o>&lt;&lt;</span> <span class=n>t</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=nf>waitKey</span><span class=p>(</span><span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nf>destroyAllWindows</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>An image is essentially a matrix, so in OpenCV, images are stored in matrix form, i.e., Mat. Common attributes of Mat include:</p><ol><li><code>src.cols;</code> // Get the image width.</li><li><code>src.rows;</code> // Get the image height.</li><li><code>src.channels();</code> // Get the number of image channels.</li><li><code>src.depth();</code> // Image depth, enum type, returns the depth of each pixel element. Common values include <code>CV_8U</code> (8-bit unsigned integer), <code>CV_16U</code> (16-bit unsigned integer), <code>CV_32F</code> (32-bit float), etc.</li><li><code>src.type();</code> // Image type, enum type. Common types include <code>CV_8U</code> (8-bit unsigned integer), <code>CV_8S</code> (8-bit signed integer), <code>CV_16U</code> (16-bit unsigned integer), <code>CV_16S</code> (16-bit signed integer), <code>CV_32F</code> (32-bit float), <code>CV_64F</code> (64-bit float), etc.</li><li><code>src.size</code> // Returns a tuple containing the number of rows and columns of the image.</li><li><code>src.empty()</code>: Check if the Mat object is empty.</li><li><code>src.total()</code>: Returns the total number of elements in the Mat object.</li></ol><h2 id=creating-and-using-mat-objects><a class=header-anchor href=#creating-and-using-mat-objects></a>Creating and Using Mat Objects</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;opencv2/opencv.hpp&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>using</span> <span class=n>namespace</span> <span class=n>cv</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>using</span> <span class=n>namespace</span> <span class=n>std</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>Mat</span> <span class=n>src</span> <span class=o>=</span> <span class=nf>imread</span><span class=p>(</span><span class=s>&#34;./lenna.tiff&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>Mat</span> <span class=n>t1</span> <span class=o>=</span> <span class=nf>Mat</span><span class=p>(</span><span class=mi>256</span><span class=p>,</span> <span class=mi>256</span><span class=p>,</span> <span class=n>CV_8UC3</span><span class=p>);</span> <span class=c1>// Create a 256x256 grayscale image
+</span></span></span><span class=line><span class=cl>    <span class=n>t1</span> <span class=o>=</span> <span class=nf>Scalar</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=mi>256</span><span class=p>);</span> <span class=c1>// Assign values to the image matrix
+</span></span></span><span class=line><span class=cl>    <span class=nf>imshow</span><span class=p>(</span><span class=s>&#34;t1&#34;</span><span class=p>,</span> <span class=n>t1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>Mat</span> <span class=n>t2</span> <span class=o>=</span> <span class=nf>Mat</span><span class=p>(</span><span class=nf>Size</span><span class=p>(</span><span class=mi>512</span><span class=p>,</span> <span class=mi>512</span><span class=p>),</span> <span class=n>CV_8UC3</span><span class=p>);</span> <span class=c1>// Create a 512x512 grayscale image
+</span></span></span><span class=line><span class=cl>    <span class=n>t2</span> <span class=o>=</span> <span class=nf>Scalar</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=mi>256</span><span class=p>);</span> <span class=c1>// Assign values to the image matrix
+</span></span></span><span class=line><span class=cl>    <span class=nf>imshow</span><span class=p>(</span><span class=s>&#34;t2&#34;</span><span class=p>,</span> <span class=n>t2</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>Mat</span> <span class=n>t3</span> <span class=o>=</span> <span class=n>Mat</span><span class=o>::</span><span class=nf>zeros</span><span class=p>(</span><span class=nf>Size</span><span class=p>(</span><span class=mi>256</span><span class=p>,</span> <span class=mi>256</span><span class=p>),</span> <span class=n>CV_8SC3</span><span class=p>);</span> <span class=c1>// Directly create a 256x256 all-black image during creation
+</span></span></span><span class=line><span class=cl>    <span class=nf>imshow</span><span class=p>(</span><span class=s>&#34;t3&#34;</span><span class=p>,</span> <span class=n>t3</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// Create from an existing image
+</span></span></span><span class=line><span class=cl>    <span class=n>Mat</span> <span class=n>t4</span> <span class=o>=</span> <span class=n>src</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// t4 = Scalar(0, 255, 255); // Assigning values to t4 will also change t5
+</span></span></span><span class=line><span class=cl>    <span class=nf>imshow</span><span class=p>(</span><span class=s>&#34;t4&#34;</span><span class=p>,</span> <span class=n>t4</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// Create using the clone method
+</span></span></span><span class=line><span class=cl>    <span class=n>Mat</span> <span class=n>t5</span> <span class=o>=</span> <span class=n>src</span><span class=p>.</span><span class=nf>clone</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=n>t5</span> <span class=o>=</span> <span class=nf>Scalar</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span> <span class=mi>255</span><span class=p>,</span> <span class=mi>255</span><span class=p>);</span> <span class=c1>// Assigning values to t5 will not change t4
+</span></span></span><span class=line><span class=cl>    <span class=nf>imshow</span><span class=p>(</span><span class=s>&#34;t5&#34;</span><span class=p>,</span> <span class=n>t5</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>Mat</span> <span class=n>t6</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>src</span><span class=p>.</span><span class=nf>copyTo</span><span class=p>(</span><span class=n>t6</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nf>imshow</span><span class=p>(</span><span class=s>&#34;t6&#34;</span><span class=p>,</span> <span class=n>t6</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>Mat</span> <span class=n>t7</span> <span class=o>=</span> <span class=n>Mat</span><span class=o>::</span><span class=nf>zeros</span><span class=p>(</span><span class=n>src</span><span class=p>.</span><span class=nf>size</span><span class=p>(),</span> <span class=n>src</span><span class=p>.</span><span class=nf>type</span><span class=p>());</span> <span class=c1>// Create an all-zero image with the same size as src
+</span></span></span><span class=line><span class=cl>    <span class=nf>waitKey</span><span class=p>(</span><span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nf>destroyAllWindows</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=creating-mat-objects><a class=header-anchor href=#creating-mat-objects></a>Creating Mat Objects</h3><ol><li>Use <code>Mat t1 = Mat(256, 256, CV_8UC3);</code> to create a 256x256 grayscale image. The type represents an unsigned 3-channel image.</li><li><code>t1 = Scalar(0, 0, 256);</code> assigns constant values to the image matrix.</li><li><code>Mat t2 = Mat(Size(512, 512), CV_8UC3);</code> creates a 512x512 grayscale image.</li><li><code>Mat t3 = Mat::zeros(Size(256, 256), CV_8SC3);</code> directly creates a 256x256 all-black image with an unsigned 3-channel type during creation.</li><li><code>Mat t4 = src;</code> creates <code>t4</code> directly from <code>src</code>.</li><li><code>Mat t5 = src.clone();</code> creates a clone of <code>src</code>.</li><li><code>Mat t6; src.copyTo(t6);</code> copies <code>src</code> to <code>t6</code>.</li><li><code>Mat t7 = Mat::zeros(src.size(), src.type());</code> creates an all-zero image with the same size and type as <code>src</code>.</li></ol><h3 id=traversing-and-accessing-pixel-values><a class=header-anchor href=#traversing-and-accessing-pixel-values></a>Traversing and Accessing Pixel Values</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;opencv2/opencv.hpp&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>using</span> <span class=n>namespace</span> <span class=n>cv</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>using</span> <span class=n>namespace</span> <span class=n>std</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>Mat</span> <span class=n>src</span> <span class=o>=</span> <span class=nf>imread</span><span class=p>(</span><span class=s>&#34;./lenna.tiff&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>Mat</span> <span class=n>t1</span> <span class=o>=</span> <span class=nf>Mat</span><span class=p>(</span><span class=mi>256</span><span class=p>,</span> <span class=mi>256</span><span class=p>,</span> <span class=n>CV_8UC3</span><span class=p>);</span> <span class=c1>// Create a 256x256 grayscale image
+</span></span></span><span class=line><span class=cl>    <span class=n>t1</span> <span class=o>=</span> <span class=nf>Scalar</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=mi>256</span><span class=p>);</span> <span class=c1>// Assign values to the image matrix
+</span></span></span><span class=line><span class=cl>    <span class=nf>imshow</span><span class=p>(</span><span class=s>&#34;t1&#34;</span><span class=p>,</span> <span class=n>t1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// Traverse each pixel value -- array-based
+</span></span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>height</span> <span class=o>=</span> <span class=n>src</span><span class=p>.</span><span class=n>rows</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>width</span> <span class=o>=</span> <span class=n>src</span><span class=p>.</span><span class=n>cols</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>ch</span> <span class=o>=</span> <span class=n>src</span><span class=p>.</span><span class=nf>channels</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>row</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>row</span> <span class=o>&lt;</span> <span class=n>height</span><span class=p>;</span> <span class=n>row</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>col</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>col</span> <span class=o>&lt;</span> <span class=n>width</span><span class=p>;</span> <span class=n>col</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=n>ch</span> <span class=o>==</span> <span class=mi>3</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=n>Vec3b</span> <span class=n>pixel</span> <span class=o>=</span> <span class=n>src</span><span class=p>.</span><span class=n>at</span><span class=o>&lt;</span><span class=n>Vec3b</span><span class=o>&gt;</span><span class=p>(</span><span class=n>row</span><span class=p>,</span> <span class=n>col</span><span class=p>);</span> <span class=c1>// Vec3b represents byte-type 3-channel data; Vec3i is int-type 3-channel data, Vec3f is float-type 3-channel data
+</span></span></span><span class=line><span class=cl>                <span class=kt>int</span> <span class=n>blue</span> <span class=o>=</span> <span class=n>pixel</span><span class=p>[</span><span class=mi>0</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>                <span class=kt>int</span> <span class=n>green</span> <span class=o>=</span> <span class=n>pixel</span><span class=p>[</span><span class=mi>1</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>                <span class=kt>int</span> <span class=n>red</span> <span class=o>=</span> <span class=n>pixel</span><span class=p>[</span><span class=mi>2</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>                <span class=n>src</span><span class=p>.</span><span class=n>at</span><span class=o>&lt;</span><span class=n>Vec3b</span><span class=o>&gt;</span><span class=p>(</span><span class=n>row</span><span class=p>,</span> <span class=n>col</span><span class=p>)[</span><span class=mi>0</span><span class=p>]</span> <span class=o>=</span> <span class=mi>255</span> <span class=o>-</span> <span class=n>blue</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>                <span class=n>src</span><span class=p>.</span><span class=n>at</span><span class=o>&lt;</span><span class=n>Vec3b</span><span class=o>&gt;</span><span class=p>(</span><span class=n>row</span><span class=p>,</span> <span class=n>col</span><span class=p>)[</span><span class=mi>1</span><span class=p>]</span> <span class=o>=</span> <span class=mi>255</span> <span class=o>-</span> <span class=n>green</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>                <span class=n>src</span><span class=p>.</span><span class=n>at</span><span class=o>&lt;</span><span class=n>Vec3b</span><span class=o>&gt;</span><span class=p>(</span><span class=n>row</span><span class=p>,</span> <span class=n>col</span><span class=p>)[</span><span class=mi>2</span><span class=p>]</span> <span class=o>=</span> <span class=mi>255</span> <span class=o>-</span> <span class=n>red</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=n>ch</span> <span class=o>==</span> <span class=mi>1</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=kt>int</span> <span class=n>pv</span> <span class=o>=</span> <span class=n>src</span><span class=p>.</span><span class=n>at</span><span class=o>&lt;</span><span class=n>uchar</span><span class=o>&gt;</span><span class=p>(</span><span class=n>row</span><span class=p>,</span> <span class=n>col</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>                <span class=n>src</span><span class=p>.</span><span class=n>at</span><span class=o>&lt;</span><span class=n>uchar</span><span class=o>&gt;</span><span class=p>(</span><span class=n>row</span><span class=p>,</span> <span class=n>col</span><span class=p>)</span> <span class=o>=</span> <span class=p>(</span><span class=mi>255</span> <span class=o>-</span> <span class=n>pv</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// Pointer-based traversal method
+</span></span></span><span class=line><span class=cl>    <span class=n>Mat</span> <span class=n>result</span> <span class=o>=</span> <span class=n>Mat</span><span class=o>::</span><span class=nf>zeros</span><span class=p>(</span><span class=n>src</span><span class=p>.</span><span class=nf>size</span><span class=p>(),</span> <span class=n>src</span><span class=p>.</span><span class=nf>type</span><span class=p>());</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>row</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>row</span> <span class=o>&lt;</span> <span class=n>height</span><span class=p>;</span> <span class=n>row</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>uchar</span><span class=o>*</span> <span class=n>curr_row</span> <span class=o>=</span> <span class=n>src</span><span class=p>.</span><span class=n>ptr</span><span class=o>&lt;</span><span class=n>uchar</span><span class=o>&gt;</span><span class=p>(</span><span class=n>row</span><span class=p>);</span> <span class=c1>// Use .ptr to get the pointer of the current row
+</span></span></span><span class=line><span class=cl>        <span class=n>uchar</span><span class=o>*</span> <span class=n>result_row</span> <span class=o>=</span> <span class=n>result</span><span class=p>.</span><span class=n>ptr</span><span class=o>&lt;</span><span class=n>uchar</span><span class=o>&gt;</span><span class=p>(</span><span class=n>row</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>col</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>col</span> <span class=o>&lt;</span> <span class=n>width</span><span class=p>;</span> <span class=n>col</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=n>ch</span> <span class=o>==</span> <span class=mi>3</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=kt>int</span> <span class=n>blue</span> <span class=o>=</span> <span class=o>*</span><span class=n>curr_row</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>                <span class=kt>int</span> <span class=n>green</span> <span class=o>=</span> <span class=o>*</span><span class=n>curr_row</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>                <span class=kt>int</span> <span class=n>red</span> <span class=o>=</span> <span class=o>*</span><span class=n>curr_row</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>                <span class=o>*</span><span class=n>result_row</span><span class=o>++</span> <span class=o>=</span> <span class=mi>255</span> <span class=o>-</span> <span class=n>blue</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>                <span class=o>*</span><span class=n>result_row</span><span class=o>++</span> <span class=o>=</span> <span class=mi>255</span> <span class=o>-</span> <span class=n>green</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>                <span class=o>*</span><span class=n>result_row</span><span class=o>++</span> <span class=o>=</span> <span class=mi>255</span> <span class=o>-</span> <span class=n>red</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=n>ch</span> <span class=o>==</span> <span class=mi>1</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=kt>int</span> <span class=n>pv</span> <span class=o>=</span> <span class=o>*</span><span class=n>curr_row</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>                <span class=o>*</span><span class=n>result_row</span><span class=o>++</span> <span class=o>=</span> <span class=mi>255</span> <span class=o>-</span> <span class=n>pv</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=nf>imshow</span><span class=p>(</span><span class=s>&#34;t1&#34;</span><span class=p>,</span> <span class=n>src</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nf>imshow</span><span class=p>(</span><span class=s>&#34;t2&#34;</span><span class=p>,</span> <span class=n>result</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nf>waitKey</span><span class=p>(</span><span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nf>destroyAllWindows</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>This code demonstrates how to traverse and access pixel values in OpenCV using two different methods: array-based and pointer-based. The array-based method uses <code>src.at&lt;Vec3b>(row, col)</code> to access the pixel values directly, while the pointer-based method uses <code>src.ptr&lt;uchar>(row)</code> to get a pointer to the current row and then traverses the row using pointer arithmetic.</p><p>Overall, this blog post serves as a comprehensive introduction to the fundamental concepts and techniques in OpenCV, making it a valuable resource for anyone interested in computer vision and image processing.</p></div><footer class=article-footer><blockquote class=article-copyright><p><strong><span class="icon-user icon"></span>本文作者：</strong>Jingmengzhiyue</p><p><strong><span class="icon-link icon"></span>本文链接：</strong><a href=https://www.jingmengzhiyue.tech/2024/03/14/OpenCV-Basics/>https://www.jingmengzhiyue.tech/2024/03/14/OpenCV-Basics/</a></p><p><strong><span class="icon-pencil icon"></span>本文标题：</strong>OpenCV Basics</p><p><strong><span class="icon-calendar icon"></span>本文发布时间：</strong>2024-03-14 19:35:59</p><p><strong><span class="icon-copyright icon"></span>本文版权：</strong>
+本博客所有文章除特别声明外，均采用 <a href=https://creativecommons.org/licenses/by/4.0/deed.zh rel="noopener nofollow noreferrer" target=_blank><span class=icon-creative-commons></span>BY</a> 许可协议。转载请注明出处！</p><span class="icon-creative-commons article-copyright-bg"></span></blockquote><ul class=article-category-list><li class=article-tag-list-item data-aos=zoom-in><a class=article-category-link href=/categories/Programming/ data-aos=zoom-in>Programming</a></li></ul><ul class=article-tag-list itemprop=keywords><li class=article-tag-list-item data-aos=zoom-in><a class=article-tag-list-link href=/tags/OpenCV/ rel=tag>OpenCV</a></li></ul></footer></div><nav id=article-nav aria-label="Article navigation" data-aos=fade-up><div class="article-nav-link-wrap left"><img data-src=/img/17.jpg data-sizes=auto alt="Windows 11 + WSL + VS Code + Rust Environment Setup" class=lazyload><a href=/2024/03/11/rust-wal2-vscode/ aria-label="前一篇:Windows 11 + WSL + VS Code + Rust Environment Setup" title="前一篇:Windows 11 + WSL + VS Code + Rust Environment Setup"></a><div class=article-nav-caption>前一篇</div><h3 class=article-nav-title>Windows 11 + WSL + VS Code + Rust Environment Setup</h3></div><div class="article-nav-link-wrap right"><img data-src=/img/19.jpg data-sizes=auto alt="Using OpenCV C++ on Windows Subsystem for Linux (WSL)" class=lazyload><a href=/2024/03/16/OpenCV-WSL/ aria-label="后一篇:Using OpenCV C++ on Windows Subsystem for Linux (WSL)" title="后一篇:Using OpenCV C++ on Windows Subsystem for Linux (WSL)"></a><div class=article-nav-caption>后一篇</div><h3 class=article-nav-title>Using OpenCV C++ on Windows Subsystem for Linux (WSL)</h3></div></nav></article></section></div><footer id=footer aria-label="Site footer"><div style=width:100%;overflow:hidden><div class=footer-line></div></div><div id=footer-info><div><span class=icon-copyright></span>2023-2026<span class="footer-info-sep rotate"></span>Jingmengzhiyue</div><div>基于&nbsp;<a href=https://gohugo.io/ target=_blank rel="noopener nofollow noreferrer">Hugo</a>&nbsp;Theme.<a href=https://github.com/D-Sketon/hugo-theme-reimu target=_blank rel="noopener nofollow noreferrer">Reimu</a></div><div><span class=icon-brush>&nbsp;301.2k</span>
+&nbsp;|&nbsp;
+<span class=icon-coffee>&nbsp;10:40</span></div><div><span class=icon-eye></span>
+<span id=busuanzi_container_site_pv>总访问量&nbsp;<span id=busuanzi_value_site_pv></span></span>
+&nbsp;|&nbsp;
+<span class=icon-user></span>
+<span id=busuanzi_container_site_uv>总访客量&nbsp;<span id=busuanzi_value_site_uv></span></span></div></div></footer><div class=sidebar-top><div class="sidebar-top-taichi rotate"></div><div class=arrow-up></div></div><div id=mask class=hide></div></div><nav id=mobile-nav aria-label="Mobile navigation"><div class=sidebar-wrap><div class=sidebar-toc-sidebar><h3 class=toc-title>文章目录</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#hello-world>Hello World</a></li><li><a href=#image-file-loading-displaying-and-saving>Image File Loading, Displaying, and Saving</a><ul><li><a href=#image-file-loading>Image File Loading</a></li><li><a href=#window-and-display>Window and Display</a></li><li><a href=#image-file-saving>Image File Saving</a></li></ul></li><li><a href=#mat-class>Mat Class</a></li><li><a href=#creating-and-using-mat-objects>Creating and Using Mat Objects</a><ul><li><a href=#creating-mat-objects>Creating Mat Objects</a></li><li><a href=#traversing-and-accessing-pixel-values>Traversing and Accessing Pixel Values</a></li></ul></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/avatar.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>文章</div><div class=sidebar-state-number>57</div></div><a class=sidebar-state-category href=/categories/ aria-label=sidebar-state-category-link><div>分类</div><div class=sidebar-state-number>10</div></a><a class=sidebar-state-tag href=/tags/ aria-label=sidebar-state-tag-link><div>标签</div><div class=sidebar-state-number>26</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/ aria-label=首页></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>首页</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/archives aria-label=归档></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>归档</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/categories aria-label=目录></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>目录</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/tags aria-label=标签></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>标签</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/about aria-label=关于></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>关于</div></div></div></div></div><div class=sidebar-btn-wrapper><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></nav></div><script src=https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js integrity=sha384-3gT/vsepWkfz/ff7PpWNUeMzeWoH3cDhm/A8jM7ouoAK0/fP/9bcHHR5kHq2nf+e crossorigin=anonymous></script><script src=https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js integrity=sha384-J08i8An/QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q crossorigin=anonymous></script><script src=/js/main.js integrity crossorigin=anonymous></script><script src=/js/aos.js integrity crossorigin=anonymous></script><script>var aosInit=()=>{AOS.init({duration:1e3,easing:"ease",once:!0,offset:50})};document.readyState==="loading"?document.addEventListener("DOMContentLoaded",aosInit):aosInit()</script><script src=/js/pjax_main.js integrity crossorigin=anonymous data-pjax></script><div id=lazy-script><div><script data-pjax>window.REIMU_POST={author:"Jingmengzhiyue",title:"OpenCV Basics",url:"https://www.jingmengzhiyue.tech/2024/03/14/OpenCV-Basics/",description:"This blog post covers the basics of OpenCV, a popular computer vision library. It explains how to load, display, and save images using OpenCV functions. Additi…",cover:"https://www.jingmengzhiyue.tech/img/24.jpg"}</script><script src=/js/insert_highlight.js integrity crossorigin=anonymous data-pjax></script><script src=/js/tabs.js integrity crossorigin=anonymous data-pjax defer></script><script type=module data-pjax>const PhotoSwipeLightbox = (await safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js", "sha384-DiL6M\/gG\u002bwmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF\/N6lrZi\/")).default;const initPswp = (gallery, children) => {
+          if (_$$(`${gallery} ${children}`).length > 0) {
+            new PhotoSwipeLightbox({
+              gallery,
+              children,pswpModule: () => safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8\u002boTJ7m3DfYEWX1fu1scuS4\u002bs")}).init();
           }
-        )
-        new Valine(options);
-        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
-          var imgSelector = '#valine .vcontent img:not(.vemoji)';
-          Fluid.plugins.imageCaption(imgSelector);
-          Fluid.plugins.fancyBox(imgSelector);
-        })
-      });
-    });
-  </script>
-  <noscript>Please enable JavaScript to view the comments</noscript>
-
-
-    </article>
-  
-
-
-          </article>
-        </div>
-      </div>
-    </div>
-
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-  <aside class="sidebar" style="margin-left: -1rem">
-    <div id="toc">
-  <p class="toc-header">
-    <i class="iconfont icon-list"></i>
-    <span>目录</span>
-  </p>
-  <div class="toc-body" id="toc-body"></div>
-</div>
-
-
-
-  </aside>
-
-
-    </div>
-  </div>
-</div>
-
-
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-
-
-
-
-    
-
-    
-      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
-        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-      </a>
-    
-
-    
-      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
-        </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-    
-
-    
-  </main>
-
-  <footer>
-    <div class="footer-inner">
-  
-    <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
-    </div>
-  
-  
-    <div class="statistics">
-  
-  
-
-  
-    
-      <span id="leancloud-site-pv-container" style="display: none">
-        总访问量 18954 
-        <span id="leancloud-site-pv"></span>
-         次
-      </span>
-    
-    
-      <span id="leancloud-site-uv-container" style="display: none">
-        总访客数 9873 
-        <span id="leancloud-site-uv"></span>
-         人
-      </span>
-    
-    
-
-  
-</div>
-
-  
-  
-  
-</div>
-
-  </footer>
-
-  <!-- Scripts -->
-  
-  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
-
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
-    })
-  </script>
-
-
-<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
-<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
-
-
-  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
-      
-        typing(text);
-      
-    })(window, document);
-  </script>
-
-
-
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
-
-
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
-    var toc = jQuery('#toc');
-    if (toc.length === 0 || !window.tocbot) { return; }
-    var boardCtn = jQuery('#board-ctn');
-    var boardTop = boardCtn.offset().top;
-
-    window.tocbot.init(Object.assign({
-      tocSelector     : '#toc-body',
-      contentSelector : '.markdown-body',
-      linkClass       : 'tocbot-link',
-      activeLinkClass : 'tocbot-active-link',
-      listClass       : 'tocbot-list',
-      isCollapsedClass: 'tocbot-is-collapsed',
-      collapsibleClass: 'tocbot-is-collapsible',
-      scrollSmooth    : true,
-      includeTitleTags: true,
-      headingsOffset  : -boardTop,
-    }, CONFIG.toc));
-    if (toc.find('.toc-list-item').length > 0) {
-      toc.css('visibility', 'visible');
-    }
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('tocbot' in window) {
-        tocbot.refresh();
-        var toc = jQuery('#toc');
-        if (toc.length === 0 || !tocbot) {
-          return;
         }
-        if (toc.find('.toc-list-item').length > 0) {
-          toc.css('visibility', 'visible');
+        const pswp = () => {
+          initPswp('.article-entry', 'a.article-gallery-item');
+          initPswp('.article-gallery', 'a.article-gallery-item');
         }
-      }
-    });
-  });
-</script>
-
-
-  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
-
-  <script>Fluid.plugins.codeWidget();</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
-    window.anchors.options = {
-      placement: CONFIG.anchorjs.placement,
-      visible  : CONFIG.anchorjs.visible
-    };
-    if (CONFIG.anchorjs.icon) {
-      window.anchors.options.icon = CONFIG.anchorjs.icon;
-    }
-    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-    var res = [];
-    for (var item of el) {
-      res.push('.markdown-body > ' + item.trim());
-    }
-    if (CONFIG.anchorjs.placement === 'left') {
-      window.anchors.options.class = 'anchorjs-link-left';
-    }
-    window.anchors.add(res.join(', '));
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('anchors' in window) {
-        anchors.removeAll();
-        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-        var res = [];
-        for (var item of el) {
-          res.push('.markdown-body > ' + item.trim());
-        }
-        if (CONFIG.anchorjs.placement === 'left') {
-          anchors.options.class = 'anchorjs-link-left';
-        }
-        anchors.add(res.join(', '));
-      }
-    });
-  });
-</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
-    Fluid.plugins.fancyBox();
-  });
-</script>
-
-
-  <script>Fluid.plugins.imageCaption();</script>
-
-  <script  src="/js/local-search.js" ></script>
-
-  <script defer src="/js/leancloud.js" ></script>
-
-
-
-
-
-<!-- 主题的启动项，将它保持在最底部 -->
-<!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
-
-
-  
-
-  <noscript>
-    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript>
-</body>
-</html>
+        pswp()
+      </script></div></div><script src=https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js async integrity=sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S crossorigin=anonymous></script><script>"serviceWorker"in navigator&&navigator.serviceWorker.getRegistrations().then(e=>{for(let t of e)t.unregister()})</script><script>const reimuCopyright=String.raw`
+   ______     ______     __     __    __     __  __    
+  /\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+  \ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+   \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+    \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                    
+  `;console.log(String.raw`%c ${reimuCopyright}`,"color: #ff5252;"),console.log("%c Theme.Reimu %c https://github.com/D-Sketon/hugo-theme-reimu ","color: white; background: #ff5252; padding:5px 0;","padding:4px;border:1px solid #ff5252;")</script></body></html>

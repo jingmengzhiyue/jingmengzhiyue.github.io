@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Remote Sensing on 热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/tags/Remote-Sensing/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>zh-CN</language><copyright>本博客所有文章除特别声明外，均采用 BY 许可协议。转载请注明出处！</copyright><lastBuildDate>Mon, 25 Mar 2024 22:35:53 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/tags/Remote-Sensing/index.xml" rel="self" type="application/rss+xml"/><item><title>基于原型分析的高光谱图像处理</title><link>https://www.jingmengzhiyue.tech/2024/03/25/%E5%8E%9F%E5%9E%8B%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95/</link><pubDate>Mon, 25 Mar 2024 21:35:21 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/25/%E5%8E%9F%E5%9E%8B%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95/</guid><description>
+<![CDATA[<h1>基于原型分析的高光谱图像处理</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h2 id="原型分析简介">
+<a class="header-anchor" href="#%e5%8e%9f%e5%9e%8b%e5%88%86%e6%9e%90%e7%ae%80%e4%bb%8b"></a>
+原型分析简介
+</h2><p>在高光谱图像处理中,原型分析(Archetypal Analysis,</p>
+<p>AA)是一种无监督的端元提取和丰度估计方法。与传统的端元提取方法不同,原型分析并不假设端元位于单纯形的顶点,而是寻找原始数据点的最小凸包。</p>
+        
+        <hr><p>本文2024-03-25首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-25</p>]]></description><category>Remote Sensing</category></item><item><title>基于耦合非负矩阵分解的高光谱图像超分辨率算法</title><link>https://www.jingmengzhiyue.tech/2024/03/24/NSSR/</link><pubDate>Sun, 24 Mar 2024 16:30:33 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/24/NSSR/</guid><description>
+<![CDATA[<h1>基于耦合非负矩阵分解的高光谱图像超分辨率算法</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h2 id="问题定义">
+<a class="header-anchor" href="#%e9%97%ae%e9%a2%98%e5%ae%9a%e4%b9%89"></a>
+问题定义
+</h2><p>高光谱成像能同时在多个不同波长获取同一场景的图像,在农业、天文、监视和矿物学等领域具有广泛应用。然而,由于各种硬件限制,获得高分辨率(HR)高光谱图像仍然是一个挑战。下面将介绍如何利用低分辨率(LR)高光谱图像和同一场景的高分辨率(HR)多光谱或RGB图像,来重建HR高光谱图像。</p>
+        
+        <hr><p>本文2024-03-24首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-25</p>]]></description><category>Remote Sensing</category></item><item><title>顶点成分分析算法(VCA)的原理与求解</title><link>https://www.jingmengzhiyue.tech/2024/03/25/VCA/</link><pubDate>Mon, 25 Mar 2024 21:35:21 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/25/VCA/</guid><description>
+<![CDATA[<h1>顶点成分分析算法(VCA)的原理与求解</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>顶点成分分析算法(Vertex Component Analysis,</p>
+<p>VCA)是一种快速无监督提取高光谱图像端元的算法。该算法的主要思想是利用端元在高维特征空间中形成数据云的顶点的性质,通过迭代寻找位于数据云边界的端元,从而实现端元提取。下面将详细介绍该算法的数学原理和求解过程。</p>
+        
+        <hr><p>本文2024-03-25首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-25</p>]]></description><category>Remote Sensing</category></item><item><title>最大距离(MaxD)算法提取高光谱图像端元</title><link>https://www.jingmengzhiyue.tech/2024/03/25/MaxD/</link><pubDate>Mon, 25 Mar 2024 21:35:21 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/25/MaxD/</guid><description>
+<![CDATA[<h1>最大距离(MaxD)算法提取高光谱图像端元</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>最大距离(MaxD)算法是一种无监督的端元提取算法,用于从高光谱图像数据中识别出纯净的端元光谱。本文将详细介绍MaxD算法的数学原理和MATLAB实现。</p>
+        
+        <hr><p>本文2024-03-25首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-25</p>]]></description><category>Remote Sensing</category></item><item><title>基于 N-FINDER 的端元提取算法</title><link>https://www.jingmengzhiyue.tech/2024/03/25/FINDER/</link><pubDate>Mon, 25 Mar 2024 21:35:21 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/25/FINDER/</guid><description>
+<![CDATA[<h1>基于 N-FINDER 的端元提取算法</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>N-FINDER</p>
+<p>算法是一种用于从高光谱数据立方体中提取端元特征的算法。该算法的核心思想是在数据集中寻找表示最大体积的单纯形,其顶点即为所需的端元特征。算法的数学原理和具体步骤如下:</p>
+        
+        <hr><p>本文2024-03-25首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-25</p>]]></description><category>Remote Sensing</category></item><item><title>改进的快速迭代纯像素指数提取端元特征</title><link>https://www.jingmengzhiyue.tech/2024/03/25/FIPPI/</link><pubDate>Mon, 25 Mar 2024 21:26:16 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/25/FIPPI/</guid><description>
+<![CDATA[<h1>改进的快速迭代纯像素指数提取端元特征</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="fippi算法简介">
+<a class="header-anchor" href="#fippi%e7%ae%97%e6%b3%95%e7%ae%80%e4%bb%8b"></a>
+FIPPI算法简介
+</h1><p>改进的快速迭代纯像素指数(FIPPI)算法是一种从高光谱遥感数据中提取端元谱签的有效方法。它是基于纯像素指数(PPI)算法的迭代改进版本,旨在通过合理的终止条件和精心设计的迭代规则,提高计算效率并获得更好的端元估计结果。</p>
+        
+        <hr><p>本文2024-03-25首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-25</p>]]></description><category>Remote Sensing</category></item><item><title>基于子空间的高光谱图像变化检测方法</title><link>https://www.jingmengzhiyue.tech/2024/03/24/change-detection/</link><pubDate>Sun, 24 Mar 2024 17:41:32 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/24/change-detection/</guid><description>
+<![CDATA[<h1>基于子空间的高光谱图像变化检测方法</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>准确及时地检测地表特征的变化对于环境监测和资源管理至关重要。相较于传统的单波段或多光谱遥感影像，高光谱影像由于包含大量光谱信息，在变化检测中表现出更优异的性能。本文将介绍一种基于子空间的变化检测(SCD)方法，该方法适用于高光谱图像。</p>
+        
+        <hr><p>本文2024-03-24首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-24</p>]]></description><category>Remote Sensing</category></item><item><title>基于最小体积单纯形的快速高光谱图像解混算法</title><link>https://www.jingmengzhiyue.tech/2024/03/24/HyperCSI/</link><pubDate>Sun, 24 Mar 2024 11:37:14 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/24/HyperCSI/</guid><description>
+<![CDATA[<h1>基于最小体积单纯形的快速高光谱图像解混算法</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>高光谱遥感技术是识别目标区域内端元成分及其比例的关键技术,在地物分类、环境监测等领域有广泛应用。高光谱图像解混(Hyperspectral</p>
+<p>Unmixing,</p>
+<p>HU)就是分析高光谱数据,识别图像中的端元(endmembers)及其对应的丰度(abundances)的信号处理过程。其中Craig的最小体积外接单纯形准则是一种经典有效的盲解混方法,即将包围数据点云的最小体积单纯形的顶点视为端元估计。但相关算法由于涉及复杂的体积计算而计算效率低下。但是HyperCSI(Hyperplane-based</p>
+        
+        <hr><p>本文2024-03-24首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-24</p>]]></description><category>Remote Sensing, Algorithm</category></item><item><title>基于纯像元指数(PPI)的端元提取算法</title><link>https://www.jingmengzhiyue.tech/2024/03/19/ppi/</link><pubDate>Tue, 19 Mar 2024 22:12:45 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/19/ppi/</guid><description>
+<![CDATA[<h1>基于纯像元指数(PPI)的端元提取算法</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>PPI算法用于从高光谱数据立方体中提取端元光谱。该算法通过在降维后的数据上投影随机生成的单位向量,来识别出表现出最大投影值的端元像元。</p>
+<h2 id="算法原理">
+<a class="header-anchor" href="#%e7%ae%97%e6%b3%95%e5%8e%9f%e7%90%86"></a>
+算法原理
+</h2><ol>
+<li>
+<p>对高光谱数据立方体进行降维处理,可选择PCA(主成分分析)、MNF(最大噪声分数)或不降维三种方式。</p>
+</li>
+<li>
+<p>生成一定数量的随机单位向量(默认10000个)。</p>
+</li>
+<li>
+<p>将降维后的数据投影到每个随机单位向量上,记录每个像元点获得的最大投影值。</p>
+</li>
+<li>
+<p>根据最大投影值对像元点排序,选取投影值最大的N个像元点作为端元光谱。</p>
+</li>
+</ol>
+        
+        <hr><p>本文2024-03-19首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-24</p>]]></description><category>Remote Sensing</category></item><item><title>Endmember Extraction Using the Pixel Purity Index (PPI) Algorithm</title><link>https://www.jingmengzhiyue.tech/2024/03/19/ppi-en/</link><pubDate>Tue, 19 Mar 2024 22:12:45 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/19/ppi-en/</guid><description>
+<![CDATA[<h1>Endmember Extraction Using the Pixel Purity Index (PPI) Algorithm</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>Endmember Extraction Using the Pixel Purity Index (PPI) Algorithm The</p>
+<p>Pixel Purity Index (PPI) algorithm is used to extract endmember</p>
+<p>signatures from hyperspectral data cubes. The algorithm identifies</p>
+<p>endmember pixels by projecting dimensionality-reduced data onto randomly</p>
+<p>generated unit vectors and finding the pixels with the maximum</p>
+<p>projection values.</p>
+<h2 id="algorithm-principle">
+<a class="header-anchor" href="#algorithm-principle"></a>
+Algorithm Principle
+</h2><p>Perform dimensionality reduction on the hyperspectral data cube using</p>
+<p>Principal Component Analysis (PCA), Maximum Noise Fraction (MNF), or no</p>
+        
+        <hr><p>本文2024-03-19首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-24</p>]]></description><category>Remote Sensing</category></item><item><title>Endmember Number Estimation Using Eigenvalue Thresholding</title><link>https://www.jingmengzhiyue.tech/2024/03/19/est-endnum-en/</link><pubDate>Tue, 19 Mar 2024 22:01:49 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/19/est-endnum-en/</guid><description>
+<![CDATA[<h1>Endmember Number Estimation Using Eigenvalue Thresholding</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>In hyperspectral image analysis, estimating the number of endmembers</p>
+<p>is a crucial step that affects the accuracy and efficiency of subsequent</p>
+<p>processing. This post introduces an eigenvalue thresholding approach for</p>
+<p>estimating the number of endmembers in hyperspectral data through noise</p>
+<p>whitening and eigenvalue analysis.</p>
+<h2 id="noise-whitening-of">
+<a class="header-anchor" href="#noise-whitening-of"></a>
+Noise Whitening of
+</h2><p>Hyperspectral Image</p>
+<p>Let&rsquo;s consider a hyperspectral image \(\mathbf{X} \in \mathbb{R}^{M \times B}\),</p>
+<p>where \(M\) is the number of spatial</p>
+<p>pixels and \(B\) is the number of</p>
+        
+        <hr><p>本文2024-03-19首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-24</p>]]></description><category>Remote Sensing</category></item><item><title>端元初始化</title><link>https://www.jingmengzhiyue.tech/2024/03/19/endmember/</link><pubDate>Tue, 19 Mar 2024 21:08:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/19/endmember/</guid><description>
+<![CDATA[<h1>端元初始化</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="端元估计在高光谱图像处理中的重要性">
+<a class="header-anchor" href="#%e7%ab%af%e5%85%83%e4%bc%b0%e8%ae%a1%e5%9c%a8%e9%ab%98%e5%85%89%e8%b0%b1%e5%9b%be%e5%83%8f%e5%a4%84%e7%90%86%e4%b8%ad%e7%9a%84%e9%87%8d%e8%a6%81%e6%80%a7"></a>
+端元估计在高光谱图像处理中的重要性
+</h1><p>高光谱图像处理领域经常会遇到端元矩阵初始化的问题，而端元矩阵的准确估计对于最终处理结果的性能有着重要的影响。在处理凸优化问题时，初始值的选择对最终结果的影响相对较小。然而，面对非凸优化问题，一个接近全局最优解的初始值能够显著提升算法的性能。</p>
+        
+        <hr><p>本文2024-03-19首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-24</p>]]></description><category>Remote Sensing</category></item><item><title>基于特征值阈值的端元数估计方法</title><link>https://www.jingmengzhiyue.tech/2024/03/19/est-endnum/</link><pubDate>Tue, 19 Mar 2024 22:01:49 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/19/est-endnum/</guid><description>
+<![CDATA[<h1>基于特征值阈值的端元数估计方法</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>在高光谱图像分析中，端元数估计是一个关键步骤，它关系到后续处理的准确性和效率。本文介绍了一种基于特征值阈值的端元数估计方法，该方法通过噪声白化和特征值分析来确定高光谱数据中的端元数量。</p>
+        
+        <hr><p>本文2024-03-19首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-24</p>]]></description><category>Remote Sensing</category></item></channel></rss>

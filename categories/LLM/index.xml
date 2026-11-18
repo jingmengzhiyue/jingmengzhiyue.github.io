@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>LLM on 热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/categories/LLM/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>zh-CN</language><copyright>本博客所有文章除特别声明外，均采用 BY 许可协议。转载请注明出处！</copyright><lastBuildDate>Mon, 06 Mar 2023 15:13:59 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/categories/LLM/index.xml" rel="self" type="application/rss+xml"/><item><title>ChatGPT</title><link>https://www.jingmengzhiyue.tech/2023/03/06/ChatGPT/</link><pubDate>Mon, 06 Mar 2023 15:13:59 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/03/06/ChatGPT/</guid><description>
+<![CDATA[<h1>ChatGPT</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>ChatGPT是由InstructGPT演变而来的，
+<img src="/img/ChatGPT_Diagram.png" alt="ChatGPT训练流程图"></p>
+<h2 id="简介">
+<a class="header-anchor" href="#%e7%ae%80%e4%bb%8b"></a>
+简介
+</h2><p>它的训练可以分为四个阶段：</p>
+<ol>
+<li>基于Mask的自监督训练</li>
+<li>人工标注的监督QA训练</li>
+<li>利用人工对答案优先级的标注数据进行监督训练</li>
+<li>利用学习到的人类喜好通过强化学习训练判别模型</li>
+</ol>
+<h2 id="自监督训练">
+<a class="header-anchor" href="#%e8%87%aa%e7%9b%91%e7%9d%a3%e8%ae%ad%e7%bb%83"></a>
+自监督训练
+</h2><p><img src="/img/Hello.png" alt="基于采样的自监督训练"></p>
+        
+        <hr><p>本文2023-03-06首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-03-06</p>]]></description><category>LLM</category></item><item><title>Openai_api</title><link>https://www.jingmengzhiyue.tech/2023/03/05/Openai-api/</link><pubDate>Sun, 05 Mar 2023 19:38:17 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/03/05/Openai-api/</guid><description>
+<![CDATA[<h1>Openai_api</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="使用openai以及ynmt创建论文">
+<a class="header-anchor" href="#%e4%bd%bf%e7%94%a8openai%e4%bb%a5%e5%8f%8aynmt%e5%88%9b%e5%bb%ba%e8%ae%ba%e6%96%87"></a>
+使用OpenAI以及YNMT创建论文
+</h1><pre class="mermaid">
+  graph TB
+    id1(开始)-->id2[访问YNMT/ChatGPT翻译模型]
+    subgraph  
+        id2==鉴权==>id3(向数据中心发送API与token)
+        id3-->id4[鉴权通过]
+        id3-->id5((结束))
+        end
+    subgraph 翻译
+    	id4-->id6(按段落读取文章)
+    	id6-->id7(送入翻译模型)
+    	id7-->id8(获取返回值)
+    	id8-->id9((创建TeX文档))
+  
+  
+    end
+</pre><h2 id="代码实现">
+<a class="header-anchor" href="#%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0"></a>
+代码实现
+</h2><p>main.py</p>
+        
+        <hr><p>本文2023-03-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-03-05</p>]]></description><category>LLM</category></item></channel></rss>

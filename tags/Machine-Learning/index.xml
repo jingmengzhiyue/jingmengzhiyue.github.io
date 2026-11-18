@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Machine Learning on 热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/tags/Machine-Learning/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>zh-CN</language><copyright>本博客所有文章除特别声明外，均采用 BY 许可协议。转载请注明出处！</copyright><lastBuildDate>Tue, 01 Aug 2023 21:22:28 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/tags/Machine-Learning/index.xml" rel="self" type="application/rss+xml"/><item><title>机器学习----学习理论</title><link>https://www.jingmengzhiyue.tech/2023/08/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0----%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA/</link><pubDate>Tue, 01 Aug 2023 21:22:28 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/08/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0----%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA/</guid><description>
+<![CDATA[<h1>机器学习----学习理论</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="第四章">
+<a class="header-anchor" href="#%e7%ac%ac%e5%9b%9b%e7%ab%a0"></a>
+第四章
+</h1><h3 id="第六部分--学习理论learning-theory">
+<a class="header-anchor" href="#%e7%ac%ac%e5%85%ad%e9%83%a8%e5%88%86--%e5%ad%a6%e4%b9%a0%e7%90%86%e8%ae%balearning-theory"></a>
+第六部分  学习理论（Learning Theory）
+</h3><h4 id="1-偏差方差的权衡biasvariance-tradeoff-">
+<a class="header-anchor" href="#1-%e5%81%8f%e5%b7%ae%e6%96%b9%e5%b7%ae%e7%9a%84%e6%9d%83%e8%a1%a1biasvariance-tradeoff-"></a>
+1 偏差/方差的权衡（Bias/variance tradeoff ）
+</h4><p>在讲线性回归的时候，我们讨论过这样的问题：拟合数据的时候，选择线性的“$y = \theta_0 +\theta_1x$”这样的“简单”模型，还是选择多项式的“$y= \theta_0 + \theta_1x+ ...+\theta_5x^5$”这种“复杂”模型。如下图所示：</p>
+        
+        <hr><p>本文2023-08-01首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-08-01</p>]]></description><category>Machine Learning</category></item><item><title>机器学习----支持向量机</title><link>https://www.jingmengzhiyue.tech/2023/08/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0----%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/</link><pubDate>Tue, 01 Aug 2023 21:18:39 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/08/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0----%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/</guid><description>
+<![CDATA[<h1>机器学习----支持向量机</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="第三章">
+<a class="header-anchor" href="#%e7%ac%ac%e4%b8%89%e7%ab%a0"></a>
+第三章
+</h1><h3 id="第五部分-支持向量机support-vector-machines">
+<a class="header-anchor" href="#%e7%ac%ac%e4%ba%94%e9%83%a8%e5%88%86-%e6%94%af%e6%8c%81%e5%90%91%e9%87%8f%e6%9c%basupport-vector-machines"></a>
+第五部分 支持向量机(Support Vector Machines)
+</h3><p>本章的讲义主要讲述的是 支持向量机（Support Vector Machine ，缩写为 SVM） 学习算法。SVM 算得上是现有的最好的现成的(“off-the-shelf”)监督学习算法之一，很多人实际上认为这里没有“之一”这两个字的必要，认为 SVM 就是最好的现成的监督学习算法。讲这个 SVM 的来龙去脉之前，我们需要先讲一些关于边界的内容，以及对数据进行分割成大的区块（gap）的思路。接下来，我们要讲一下最优边界分类器(optimal margin classifier,)，其中还会引入一些关于拉格朗日对偶(Lagrange duality)的内容。然后我们还会接触到核(Kernels)，这提供了一种在非常高的维度(例如无穷维度)中进行 SVM 学习的高效率方法，最终本章结尾部分会讲 SMO 算法，也就是 SVM 算法的一个有效实现方法。</p>
+        
+        <hr><p>本文2023-08-01首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-08-01</p>]]></description><category>Machine Learning</category></item><item><title>机器学习----生成模型</title><link>https://www.jingmengzhiyue.tech/2023/08/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0----%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/</link><pubDate>Tue, 01 Aug 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/08/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0----%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/</guid><description>
+<![CDATA[<h1>机器学习----生成模型</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="第二章">
+<a class="header-anchor" href="#%e7%ac%ac%e4%ba%8c%e7%ab%a0"></a>
+第二章
+</h1><h3 id="第四部分-生成学习算法generative-learning-algorithms">
+<a class="header-anchor" href="#%e7%ac%ac%e5%9b%9b%e9%83%a8%e5%88%86-%e7%94%9f%e6%88%90%e5%ad%a6%e4%b9%a0%e7%ae%97%e6%b3%95generative-learning-algorithms"></a>
+第四部分 生成学习算法(Generative Learning algorithms)
+</h3><p>目前为止，我们讲过的学习算法的模型都是$p (y|x;\theta)$，也就是给定 $x$ 下 $y$ 的条件分布，以  $\theta$  为参数。例如，逻辑回归中就是以 $h_\theta(x) = g(\theta^T x)$ 作为 $p (y|x;\theta)$ 的模型，这里的 $g$ 是一个 $S$型函数（sigmoid function）。接下来，咱们要讲一下一种不同类型的学习算法。</p>
+        
+        <hr><p>本文2023-08-01首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-08-01</p>]]></description><category>Machine Learning</category></item><item><title>机器学习----线性模型</title><link>https://www.jingmengzhiyue.tech/2023/08/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0----%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B/</link><pubDate>Tue, 01 Aug 2023 20:59:58 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/08/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0----%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B/</guid><description>
+<![CDATA[<h1>机器学习----线性模型</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="第一章">
+<a class="header-anchor" href="#%e7%ac%ac%e4%b8%80%e7%ab%a0"></a>
+第一章
+</h1><h2 id="监督学习supervised-learning">
+<a class="header-anchor" href="#%e7%9b%91%e7%9d%a3%e5%ad%a6%e4%b9%a0supervised-learning"></a>
+监督学习（Supervised learning）
+</h2><p>咱们先来聊几个使用监督学习来解决问题的实例。假如咱们有一个数据集，里面的数据是俄勒冈州波特兰市的 $47$ 套房屋的面积和价格：</p>
+        
+        <hr><p>本文2023-08-01首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-08-01</p>]]></description><category>Machine Learning</category></item><item><title>LDA</title><link>https://www.jingmengzhiyue.tech/2023/03/07/LDA/</link><pubDate>Tue, 07 Mar 2023 16:22:38 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/03/07/LDA/</guid><description>
+<![CDATA[<h1>LDA</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h2 id="lda-原理">
+<a class="header-anchor" href="#lda-%e5%8e%9f%e7%90%86"></a>
+LDA 原理
+</h2><p>给定数据$\mathbf{X}\in \mathbb{R}^{N\times p}$，以及$\mathbf{y}\in \{0,1\}$，构成输入与输出训练数据对$D=\{(\mathbf{x}_1,\mathbf{y}_1),...,(\mathbf{x}_N,\mathbf{y}_N)\}$。训练集$D$表示整个训练数据集有$N$条数据，每一条数据的维度为$p$维，所有数据只有两个类别分别对应于输出$\mathbf{y}$取值为0或者1。</p>
+        
+        <hr><p>本文2023-03-07首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-03-07</p>]]></description><category>machine learning</category></item><item><title>LinearRegression</title><link>https://www.jingmengzhiyue.tech/2023/03/05/LinearRegression/</link><pubDate>Sun, 05 Mar 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/03/05/LinearRegression/</guid><description>
+<![CDATA[<h1>LinearRegression</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="linearregression">
+<a class="header-anchor" href="#linearregression"></a>
+LinearRegression
+</h1><h2 id="简介">
+<a class="header-anchor" href="#%e7%ae%80%e4%bb%8b"></a>
+简介
+</h2><p>线性回归（linear regression）是线性模型的一种典型方法。</p>
+<h2 id="基本原理">
+<a class="header-anchor" href="#%e5%9f%ba%e6%9c%ac%e5%8e%9f%e7%90%86"></a>
+基本原理
+</h2><p>给定一组输入$x$和输出$y$构成的数据集$D = \{(x_1,y_1),...,(x_m,y_m) \}$，其中$y_{i}\in \mathbb{R}$。线性回归模型假设数据线性分布，因此想要学习一个线性模型使得预测值和真实值之间的误差最小。假设线性回归中输出和输入有如下的关系
+</p>
+        
+        <hr><p>本文2023-03-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-03-05</p>]]></description><category>machine learning</category></item></channel></rss>

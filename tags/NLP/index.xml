@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>NLP on 热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/tags/NLP/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>zh-CN</language><copyright>本博客所有文章除特别声明外，均采用 BY 许可协议。转载请注明出处！</copyright><lastBuildDate>Sun, 05 Mar 2023 17:09:55 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/tags/NLP/index.xml" rel="self" type="application/rss+xml"/><item><title>Word2Vec</title><link>https://www.jingmengzhiyue.tech/2023/03/05/Word2Vec/</link><pubDate>Sun, 05 Mar 2023 17:09:55 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/03/05/Word2Vec/</guid><description>
+<![CDATA[<h1>Word2Vec</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="word2vec">
+<a class="header-anchor" href="#word2vec"></a>
+Word2Vec
+</h1><p>由于深度神经网络无法向人类一样理解单词或者句子，因此需要将单词或者句子表达成网络可以理解的形式。</p>
+<p>假设有一个词表$\mathbf{V}=\{w_1,...,w_{|v|}\}$，对每一个单词$w_i$来说，有两种表达方式，首先是独热码，其次是分布式表示。</p>
+        
+        <hr><p>本文2023-03-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-03-05</p>]]></description><category>Deep Learning</category></item></channel></rss>

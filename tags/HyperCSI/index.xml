@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HyperCSI on 热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/tags/HyperCSI/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>zh-CN</language><copyright>本博客所有文章除特别声明外，均采用 BY 许可协议。转载请注明出处！</copyright><lastBuildDate>Sun, 24 Mar 2024 12:14:07 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/tags/HyperCSI/index.xml" rel="self" type="application/rss+xml"/><item><title>基于最小体积单纯形的快速高光谱图像解混算法</title><link>https://www.jingmengzhiyue.tech/2024/03/24/HyperCSI/</link><pubDate>Sun, 24 Mar 2024 11:37:14 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/24/HyperCSI/</guid><description>
+<![CDATA[<h1>基于最小体积单纯形的快速高光谱图像解混算法</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>高光谱遥感技术是识别目标区域内端元成分及其比例的关键技术,在地物分类、环境监测等领域有广泛应用。高光谱图像解混(Hyperspectral</p>
+<p>Unmixing,</p>
+<p>HU)就是分析高光谱数据,识别图像中的端元(endmembers)及其对应的丰度(abundances)的信号处理过程。其中Craig的最小体积外接单纯形准则是一种经典有效的盲解混方法,即将包围数据点云的最小体积单纯形的顶点视为端元估计。但相关算法由于涉及复杂的体积计算而计算效率低下。但是HyperCSI(Hyperplane-based</p>
+        
+        <hr><p>本文2024-03-24首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-24</p>]]></description><category>Remote Sensing, Algorithm</category></item></channel></rss>

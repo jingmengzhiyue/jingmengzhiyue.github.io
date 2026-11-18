@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>C++ on 热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/tags/c++/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>zh-CN</language><copyright>本博客所有文章除特别声明外，均采用 BY 许可协议。转载请注明出处！</copyright><lastBuildDate>Fri, 31 Mar 2023 18:38:53 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/tags/c++/index.xml" rel="self" type="application/rss+xml"/><item><title>CPP泛型编程</title><link>https://www.jingmengzhiyue.tech/2023/03/31/CPP%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/</link><pubDate>Fri, 31 Mar 2023 18:38:53 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/03/31/CPP%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/</guid><description>
+<![CDATA[<h1>CPP泛型编程</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="c泛型编程">
+<a class="header-anchor" href="#c%e6%b3%9b%e5%9e%8b%e7%bc%96%e7%a8%8b"></a>
+C++泛型编程
+</h1><ul>
+<li>本阶段主要针对C++==泛型编程==和==STL==技术做详细讲解，探讨C++更深层的使用</li>
+</ul>
+<h2 id="1-模板">
+<a class="header-anchor" href="#1-%e6%a8%a1%e6%9d%bf"></a>
+1 模板
+</h2><h3 id="11-模板的概念">
+<a class="header-anchor" href="#11-%e6%a8%a1%e6%9d%bf%e7%9a%84%e6%a6%82%e5%bf%b5"></a>
+1.1 模板的概念
+</h3><p>模板就是建立<strong>通用的模具</strong>，大大<strong>提高复用性</strong></p>
+        
+        <hr><p>本文2023-03-31首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-03-31</p>]]></description><category>Programming</category></item><item><title>CPP核心编程</title><link>https://www.jingmengzhiyue.tech/2023/03/31/CPP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B/</link><pubDate>Fri, 31 Mar 2023 18:19:51 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/03/31/CPP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B/</guid><description>
+<![CDATA[<h1>CPP核心编程</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="c核心编程">
+<a class="header-anchor" href="#c%e6%a0%b8%e5%bf%83%e7%bc%96%e7%a8%8b"></a>
+C++核心编程
+</h1><p>本阶段主要针对C++==面向对象==编程技术做详细讲解，探讨C++中的核心和精髓。</p>
+<h2 id="1-内存分区模型">
+<a class="header-anchor" href="#1-%e5%86%85%e5%ad%98%e5%88%86%e5%8c%ba%e6%a8%a1%e5%9e%8b"></a>
+1 内存分区模型
+</h2><p>C++程序在执行时，将内存大方向划分为<strong>4个区域</strong></p>
+        
+        <hr><p>本文2023-03-31首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-03-31</p>]]></description><category>Programming</category></item><item><title>CPP基本语法</title><link>https://www.jingmengzhiyue.tech/2023/03/31/CPP%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/</link><pubDate>Fri, 31 Mar 2023 17:56:42 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/03/31/CPP%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/</guid><description>
+<![CDATA[<h1>CPP基本语法</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h2 id="1-c初识">
+<a class="header-anchor" href="#1-c%e5%88%9d%e8%af%86"></a>
+1 C++初识
+</h2><h3 id="11--第一个c程序">
+<a class="header-anchor" href="#11--%e7%ac%ac%e4%b8%80%e4%b8%aac%e7%a8%8b%e5%ba%8f"></a>
+1.1  第一个C++程序
+</h3><p>编写一个C++程序总共分为4个步骤</p>
+<ul>
+<li>创建项目</li>
+<li>创建文件</li>
+<li>编写代码</li>
+<li>运行程序</li>
+</ul>
+<h4 id="111-创建项目">
+<a class="header-anchor" href="#111-%e5%88%9b%e5%bb%ba%e9%a1%b9%e7%9b%ae"></a>
+1.1.1 创建项目
+</h4><pre><code>Visual Studio是我们用来编写C++程序的主要工具，我们先将它打开
+</code></pre>
+<p><img src="/img/1541383178746.png" alt="1541383178746"></p>
+        
+        <hr><p>本文2023-03-31首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-03-31</p>]]></description><category>Programming</category></item></channel></rss>

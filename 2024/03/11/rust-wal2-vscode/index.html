@@ -1,897 +1,143 @@
-
-
-<!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=auto>
-
-
-
-<head>
-  <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
-  <link rel="icon" href="/img/fluid.png">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  
-  <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="Jingmengzhiyue">
-  <meta name="keywords" content="">
-  
-    <meta name="description" content="Introduction You can set up a Rust environment on either Windows or Linux. After searching online, I found that setting up a Rust environment on Linux is much quicker than on Windows, but I still u">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Windows 11 + WSL + VS Code + Rust Environment Setup">
-<meta property="og:url" content="http://jingmengzhiyue.top/2024/03/11/rust-wal2-vscode/index.html">
-<meta property="og:site_name" content="热爱可抵万难">
-<meta property="og:description" content="Introduction You can set up a Rust environment on either Windows or Linux. After searching online, I found that setting up a Rust environment on Linux is much quicker than on Windows, but I still u">
-<meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://jingmengzhiyue.top/img/%E5%9B%BE%E7%89%8740.png">
-<meta property="og:image" content="http://jingmengzhiyue.top/img/%E5%9B%BE%E7%89%8731.png">
-<meta property="og:image" content="http://jingmengzhiyue.top/img/%E5%9B%BE%E7%89%8732.png">
-<meta property="og:image" content="http://jingmengzhiyue.top/img/%E5%9B%BE%E7%89%8733.png">
-<meta property="og:image" content="http://jingmengzhiyue.top/img/%E5%9B%BE%E7%89%8734.png">
-<meta property="og:image" content="http://jingmengzhiyue.top/img/%E5%9B%BE%E7%89%8735.png">
-<meta property="og:image" content="http://jingmengzhiyue.top/img/%E5%9B%BE%E7%89%8736.png">
-<meta property="og:image" content="http://jingmengzhiyue.top/img/%E5%9B%BE%E7%89%8737.png">
-<meta property="og:image" content="http://jingmengzhiyue.top/img/%E5%9B%BE%E7%89%8738.png">
-<meta property="og:image" content="http://jingmengzhiyue.top/img/%E5%9B%BE%E7%89%8739.png">
-<meta property="article:published_time" content="2024-03-11T15:29:33.000Z">
-<meta property="article:modified_time" content="2024-03-16T12:36:13.851Z">
-<meta property="article:author" content="Jingmengzhiyue">
-<meta property="article:tag" content="WSL">
-<meta property="article:tag" content="Rust">
-<meta property="article:tag" content="VS Code">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://jingmengzhiyue.top/img/%E5%9B%BE%E7%89%8740.png">
-  
-  
-  
-  <title>Windows 11 + WSL + VS Code + Rust Environment Setup - 热爱可抵万难</title>
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
-
-
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-<!-- Do not modify the link that theme dependent icons -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
-
-
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
-
-
-<link  rel="stylesheet" href="/css/main.css" />
-
-
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
-  
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
-  
-
-
-
-
-  <script id="fluid-configs">
-    var Fluid = window.Fluid || {};
-    Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"jingmengzhiyue.top","root":"/","version":"1.9.5-a","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"eZ6fNr2wGbxSreDqCc24Ik6y-gzGzoHsz","app_key":"I1HMoNZO5iKmmCSzqE0wTpGr","server_url":"https://ez6fnr2w.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false},"gtag":null},"search_path":"/local-search.xml","include_content_in_search":true};
-
-    if (CONFIG.web_analytics.follow_dnt) {
-      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
-      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
-    }
-  </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
-  
-
-
-  
-  
-    <script>
-        (function(){
-            var bp = document.createElement('script');
-            var curProtocol = window.location.protocol.split(':')[0];
-            if (curProtocol === 'https') {
-                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
-            }
-            else {
-                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-            }
-            var s = document.getElementsByTagName("script")[0];
-            s.parentNode.insertBefore(bp, s);
-        })();
-    </script>
-   
-
-
-<meta name="generator" content="Hexo 6.3.0"></head>
-
-
-<body>
-  
-
-  <header>
-    
-
-<div class="header-inner" style="height: 70vh;">
-  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      <strong>热爱可抵万难</strong>
-    </a>
-
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
-
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/">
-                <i class="iconfont icon-home-fill"></i>
-                <span>首页</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/">
-                <i class="iconfont icon-archive-fill"></i>
-                <span>归档</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/">
-                <i class="iconfont icon-category-fill"></i>
-                <span>分类</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/">
-                <i class="iconfont icon-tags-fill"></i>
-                <span>标签</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/">
-                <i class="iconfont icon-user-fill"></i>
-                <span>关于</span>
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              <i class="iconfont icon-search"></i>
-            </a>
-          </li>
-          
-        
-        
-          <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
-              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
-            </a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-</nav>
-
-  
-
-<div id="banner" class="banner" parallax=true
-     style="background: url('https://t.mwm.moe/fj/') no-repeat center center; background-size: cover;">
-  <div class="full-bg-img">
-    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-      <div class="banner-text text-center fade-in-up">
-        <div class="h2">
-          
-            <span id="subtitle" data-typed-text="Windows 11 + WSL + VS Code + Rust Environment Setup"></span>
-          
-        </div>
-
-        
-          
-  <div class="mt-3">
-    
-    
-      <span class="post-meta">
-        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-03-11 23:29" pubdate>
-          2024年3月11日 晚上
-        </time>
-      </span>
-    
-  </div>
-
-  <div class="mt-1">
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-chart"></i>
-        
-          7.7k 字
-        
-      </span>
-    
-
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-clock-fill"></i>
-        
-        
-        
-          65 分钟
-        
-      </span>
-    
-
-    
-    
-  </div>
-
-
-        
-      </div>
-
-      
-    </div>
-  </div>
-</div>
-
-</div>
-
-  </header>
-
-  <main>
-    
-      
-
-<div class="container-fluid nopadding-x">
-  <div class="row nomargin-x">
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-
-    </div>
-
-    <div class="col-lg-8 nopadding-x-md">
-      <div class="container nopadding-x-md" id="board-ctn">
-        <div id="board">
-          <article class="post-content mx-auto">
-            <h1 id="seo-header">Windows 11 + WSL + VS Code + Rust Environment Setup</h1>
-            
-            
-              <div class="markdown-body">
-                
-                <h2 id="introduction">Introduction</h2>
-<p>You can set up a Rust environment on either Windows or Linux. After
-searching online, I found that setting up a Rust environment on Linux is
-much quicker than on Windows, but I still use the Windows system on a
-daily basis.</p>
-<p>Therefore, I ultimately chose to set up the Rust environment in the
-WSL2 of Windows 11, and then use VS Code to connect to WSL.</p>
-<h2 id="overall-steps">Overall Steps</h2>
-<ol type="1">
-<li>Install WSL on Windows 11</li>
-<li>Change the source on WSL in Windows 11</li>
-<li>Install gcc on WSL in Windows 11</li>
-<li>Install Rust on WSL in Windows 11</li>
-<li>Install Remote-WSL on VS Code in Windows 11</li>
-<li>Install rust-analyzer on VS Code in Windows 11</li>
-<li>Simple verification</li>
-<li>Run and debug</li>
-</ol>
-<h2 id="install-wsl-on-windows-11">Install WSL on Windows 11</h2>
-<p>Reference: <a
-target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/windows/wsl/about">https://learn.microsoft.com/en-us/windows/wsl/about</a></p>
-<p><a
-target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/windows/wsl/install">https://learn.microsoft.com/en-us/windows/wsl/install</a></p>
-<p>Prerequisites:</p>
-<figure>
-<img src="/img/图片40.png" srcset="/img/loading.gif" lazyload alt="image-20231126161500760" />
-<figcaption aria-hidden="true">image-20231126161500760</figcaption>
-</figure>
-<p>Open PowerShell or Windows Command Prompt as an administrator, and
-enter the <code>wsl --install</code> command to start installing WSL. By
-default, this will install the latest stable version of Ubuntu. You can
-manually choose other versions; see the <a
-target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/windows/wsl/install">Microsoft
-tutorial</a> for specific instructions.</p>
-<p>After the installation is complete, you need to restart your computer
-for the configuration to take effect.</p>
-<p>PS: It might be because I had a VPN running all the time, but during
-the WSL installation, it kept prompting "wsl: Localhost proxy
-configuration detected, but not mirrored to WSL. Localhost proxy is not
-supported in NAT mode for WSL."</p>
-<p>I'm not sure if this would affect the network of WSL, but to be safe,
-I followed the <a
-target="_blank" rel="noopener" href="https://github.com/microsoft/WSL/issues/10753">instructions</a> to
-make some configurations.</p>
-<p>In WSL, there is a configuration file used to configure advanced
-setting options, which is <a
-target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/windows/wsl/wsl-config">.wslconfig</a>.
-This file doesn't exist by default; if you want to configure it, you
-need to create it manually.</p>
-<p>This file is located at
-<code>C:\Users\&lt;UserName&gt;\.wslconfig</code>.</p>
-<p>After creating the file, enter the following content and save it:</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-section">[experimental]</span><br><span class="hljs-attr">autoMemoryReclaim</span>=gradual <span class="hljs-comment"># gradual | dropcache | disabled</span><br><span class="hljs-attr">networkingMode</span>=mirrored<br><span class="hljs-attr">dnsTunneling</span>=<span class="hljs-literal">true</span><br><span class="hljs-attr">firewall</span>=<span class="hljs-literal">true</span><br><span class="hljs-attr">autoProxy</span>=<span class="hljs-literal">true</span><br></code></pre></td></tr></table></figure>
-<p>Then, open PowerShell and enter <code>wsl --shutdown</code>, and
-reopen WSL. The previous prompt should be gone.</p>
-<h2 id="change-the-source-on-wsl-in-windows-11">Change the Source on WSL
-in Windows 11</h2>
-<p>Just like a normal Ubuntu system, WSL uses foreign sources by
-default, which are inconvenient for us to use. Therefore, we can change
-to domestic sources, and the method is the same as in the Ubuntu
-system.</p>
-<p>PS: Make sure to confirm the system version installed in WSL first.
-Here, the default installation is Ubuntu 22.04.3 LTS.</p>
-<p><strong>Domestic Sources</strong></p>
-<p>Tsinghua University:</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment"># Default commented out source code mirror to improve apt update speed, uncomment if needed</span><br>deb https:<span class="hljs-regexp">//mi</span>rrors.tuna.tsinghua.edu.cn<span class="hljs-regexp">/ubuntu/</span> jammy main restricted universe multiverse<br><span class="hljs-comment"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy main restricted universe multiverse</span><br>deb https:<span class="hljs-regexp">//mi</span>rrors.tuna.tsinghua.edu.cn<span class="hljs-regexp">/ubuntu/</span> jammy-updates main restricted universe multiverse<br><span class="hljs-comment"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse</span><br>deb https:<span class="hljs-regexp">//mi</span>rrors.tuna.tsinghua.edu.cn<span class="hljs-regexp">/ubuntu/</span> jammy-backports main restricted universe multiverse<br><span class="hljs-comment"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-backports main restricted universe multiverse</span><br>deb https:<span class="hljs-regexp">//mi</span>rrors.tuna.tsinghua.edu.cn<span class="hljs-regexp">/ubuntu/</span> jammy-security main restricted universe multiverse<br><span class="hljs-comment"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-security main restricted universe multiverse</span><br><br><span class="hljs-comment"># Prerelease software source, not recommended to enable</span><br><span class="hljs-comment"># deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-proposed main restricted universe multiverse</span><br><span class="hljs-comment"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-proposed main restricted universe multiverse</span><br></code></pre></td></tr></table></figure>
-<p>Alibaba Cloud:</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs awk">deb http:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/ubuntu/</span> jammy main restricted universe multiverse<br>deb-src http:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/ubuntu/</span> jammy main restricted universe multiverse<br>deb http:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/ubuntu/</span> jammy-security main restricted universe multiverse<br>deb-src http:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/ubuntu/</span> jammy-security main restricted universe multiverse<br>deb http:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/ubuntu/</span> jammy-updates main restricted universe multiverse<br>deb-src http:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/ubuntu/</span> jammy-updates main restricted universe multiverse<br>deb http:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/ubuntu/</span> jammy-proposed main restricted universe multiverse<br>deb-src http:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/ubuntu/</span> jammy-proposed main restricted universe multiverse<br>deb http:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/ubuntu/</span> jammy-backports main restricted universe multiverse<br>deb-src http:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/ubuntu/</span> jammy-backports main restricted universe multiverse<br></code></pre></td></tr></table></figure>
-<p>University of Science and Technology of China:</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs awk">deb https:<span class="hljs-regexp">//mi</span>rrors.ustc.edu.cn<span class="hljs-regexp">/ubuntu/</span> jammy main restricted universe multiverse<br>deb-src https:<span class="hljs-regexp">//mi</span>rrors.ustc.edu.cn<span class="hljs-regexp">/ubuntu/</span> jammy main restricted universe multiverse<br>deb https:<span class="hljs-regexp">//mi</span>rrors.ustc.edu.cn<span class="hljs-regexp">/ubuntu/</span> jammy-updates main restricted universe multiverse<br>deb-src https:<span class="hljs-regexp">//mi</span>rrors.ustc.edu.cn<span class="hljs-regexp">/ubuntu/</span> jammy-updates main restricted universe multiverse<br>deb https:<span class="hljs-regexp">//mi</span>rrors.ustc.edu.cn<span class="hljs-regexp">/ubuntu/</span> jammy-backports main restricted universe multiverse<br>deb-src https:<span class="hljs-regexp">//mi</span>rrors.ustc.edu.cn<span class="hljs-regexp">/ubuntu/</span> jammy-backports main restricted universe multiverse<br>deb https:<span class="hljs-regexp">//mi</span>rrors.ustc.edu.cn<span class="hljs-regexp">/ubuntu/</span> jammy-security main restricted universe multiverse<br>deb-src https:<span class="hljs-regexp">//mi</span>rrors.ustc.edu.cn<span class="hljs-regexp">/ubuntu/</span> jammy-security main restricted universe multiverse<br>deb https:<span class="hljs-regexp">//mi</span>rrors.ustc.edu.cn<span class="hljs-regexp">/ubuntu/</span> jammy-proposed main restricted universe multiverse<br>deb-src https:<span class="hljs-regexp">//mi</span>rrors.ustc.edu.cn<span class="hljs-regexp">/ubuntu/</span> jammy-proposed main restricted universe multiverse<br></code></pre></td></tr></table></figure>
-<p>NetEase:</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs awk">deb http:<span class="hljs-regexp">//mi</span>rrors.<span class="hljs-number">163</span>.com<span class="hljs-regexp">/ubuntu/</span> jammy main restricted universe multiverse<br>deb http:<span class="hljs-regexp">//mi</span>rrors.<span class="hljs-number">163</span>.com<span class="hljs-regexp">/ubuntu/</span> jammy-security main restricted universe multiverse<br>deb http:<span class="hljs-regexp">//mi</span>rrors.<span class="hljs-number">163</span>.com<span class="hljs-regexp">/ubuntu/</span> jammy-updates main restricted universe multiverse<br>deb http:<span class="hljs-regexp">//mi</span>rrors.<span class="hljs-number">163</span>.com<span class="hljs-regexp">/ubuntu/</span> jammy-proposed main restricted universe multiverse<br>deb http:<span class="hljs-regexp">//mi</span>rrors.<span class="hljs-number">163</span>.com<span class="hljs-regexp">/ubuntu/</span> jammy-backports main restricted universe multiverse<br>deb-src http:<span class="hljs-regexp">//mi</span>rrors.<span class="hljs-number">163</span>.com<span class="hljs-regexp">/ubuntu/</span> jammy main restricted universe multiverse<br>deb-src http:<span class="hljs-regexp">//mi</span>rrors.<span class="hljs-number">163</span>.com<span class="hljs-regexp">/ubuntu/</span> jammy-security main restricted universe multiverse<br>deb-src http:<span class="hljs-regexp">//mi</span>rrors.<span class="hljs-number">163</span>.com<span class="hljs-regexp">/ubuntu/</span> jammy-updates main restricted universe multiverse<br>deb-src http:<span class="hljs-regexp">//mi</span>rrors.<span class="hljs-number">163</span>.com<span class="hljs-regexp">/ubuntu/</span> jammy-proposed main restricted universe multiverse<br>deb-src http:<span class="hljs-regexp">//mi</span>rrors.<span class="hljs-number">163</span>.com<span class="hljs-regexp">/ubuntu/</span> jammy-backports main restricted universe multiverse<br></code></pre></td></tr></table></figure>
-<p>After choosing a domestic source, execute the following commands:</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs routeros">sudo apt-<span class="hljs-built_in">get</span> update<br>sudo apt-<span class="hljs-built_in">get</span> upgrade<br></code></pre></td></tr></table></figure>
-<h2 id="install-gcc-on-wsl-in-windows-11">Install gcc on WSL in Windows
-11</h2>
-<p>Open WSL and run the following commands:</p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">apt-<span class="hljs-keyword">get</span> <span class="hljs-keyword">update</span> # Make sure apt-<span class="hljs-keyword">get</span> <span class="hljs-keyword">is</span> up-<span class="hljs-keyword">to</span>-<span class="hljs-type">date</span>, <span class="hljs-keyword">as</span> it may report an error <span class="hljs-keyword">when</span> installing gcc<br>sudo apt install gcc<br></code></pre></td></tr></table></figure>
-<h2 id="install-rust-on-wsl-in-windows-11">Install Rust on WSL in
-Windows 11</h2>
-<p>Two commands are enough:</p>
-<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmake">sudo apt <span class="hljs-keyword">install</span> rustc<br></code></pre></td></tr></table></figure>
-<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmake">sudo apt <span class="hljs-keyword">install</span> cargo<br></code></pre></td></tr></table></figure>
-<p>After the installation is complete, run <code>cargo version</code> in
-the terminal.</p>
-<p>If you see the following output, it means Rust has been installed
-successfully.</p>
-<figure>
-<img src="/img/图片31.png" srcset="/img/loading.gif" lazyload alt="image-20231126163636737" />
-<figcaption aria-hidden="true">image-20231126163636737</figcaption>
-</figure>
-<h2 id="install-remote-wsl-on-vs-code-in-windows-11">Install Remote-WSL
-on VS Code in Windows 11</h2>
-<p>Currently, VS Code provides a plugin that allows you to connect to
-WSL2 from the Windows version of VS Code. This plugin is called
-Remote-WSL.</p>
-<figure>
-<img src="/img/图片32.png" srcset="/img/loading.gif" lazyload alt="image-20231126163800014" />
-<figcaption aria-hidden="true">image-20231126163800014</figcaption>
-</figure>
-<p>So, as long as you install this plugin in the Windows version of VS
-Code, you can connect to WSL2.</p>
-<p>The first time you connect, you may need to wait for some time, as it
-needs to perform some initialization work.</p>
-<p>After the initialization is complete, click "Open Folder" to select a
-folder in WSL2.</p>
-<figure>
-<img src="/img/图片33.png" srcset="/img/loading.gif" lazyload alt="image-20231126163942891" />
-<figcaption aria-hidden="true">image-20231126163942891</figcaption>
-</figure>
-<h2 id="install-rust-analyzer-on-vs-code-in-windows-11">Install
-rust-analyzer on VS Code in Windows 11</h2>
-<p>After connecting VS Code to WSL, the installed plugins have two
-"versions": one for use on Windows, and one installed in WSL.</p>
-<figure>
-<img src="/img/图片34.png" srcset="/img/loading.gif" lazyload alt="image-20231126164254143" />
-<figcaption aria-hidden="true">image-20231126164254143</figcaption>
-</figure>
-<p>Here, we only need one for now, which is rust-analyzer.</p>
-<p>In the VS Code window connected to WSL, search for rust-analyzer and
-install the plugin.</p>
-<h2 id="simple-verification">Simple Verification</h2>
-<p>In WSL, navigate to any directory and enter
-<code>cargo init hello-world</code>.</p>
-<p>Then, enter <code>code .</code> to open the Rust project in VS
-Code.</p>
-<figure>
-<img src="/img/图片35.png" srcset="/img/loading.gif" lazyload alt="image-20231126164600855" />
-<figcaption aria-hidden="true">image-20231126164600855</figcaption>
-</figure>
-<p>In the VS Code terminal, run <code>cargo run</code> to verify if the
-environment is configured successfully. If successful, the output should
-look like the following:</p>
-<figure>
-<img src="/img/图片36.png" srcset="/img/loading.gif" lazyload alt="image-20231126164727968" />
-<figcaption aria-hidden="true">image-20231126164727968</figcaption>
-</figure>
-<p>At this point, the basic Rust environment has been set up
-successfully.</p>
-<h2 id="run-and-debug">Run and Debug</h2>
-<figure>
-<img src="/img/图片37.png" srcset="/img/loading.gif" lazyload alt="image-20231126170853688" />
-<figcaption aria-hidden="true">image-20231126170853688</figcaption>
-</figure>
-<p>After entering <code>code .</code> in WSL to open VS Code, click the
-"Run" button in the top-left corner of the code editor to execute the
-program.</p>
-<p>To debug, you need to install the CodeLLDB plugin.</p>
-<p>After installing the plugin, you can use the debugging
-functionality.</p>
-<figure>
-<img src="/img/图片38.png" srcset="/img/loading.gif" lazyload alt="image-20231126171239141" />
-<figcaption aria-hidden="true">image-20231126171239141</figcaption>
-</figure>
-<p>Currently, the plugins installed on WSL are as follows:</p>
-<figure>
-<img src="/img/图片39.png" srcset="/img/loading.gif" lazyload alt="image-20231126171146275" />
-<figcaption aria-hidden="true">image-20231126171146275</figcaption>
-</figure>
-
-                
-              </div>
-            
-            <hr/>
-            <div>
-              <div class="post-metas my-3">
-  
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Environment-Configuration/" class="category-chain-item">Environment Configuration</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
-  
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/WSL/" class="print-no-link">#WSL</a>
-      
-        <a href="/tags/Rust/" class="print-no-link">#Rust</a>
-      
-        <a href="/tags/VS-Code/" class="print-no-link">#VS Code</a>
-      
-    </div>
-  
-</div>
-
-
-              
-  
-
-  <div class="license-box my-3">
-    <div class="license-title">
-      <div>Windows 11 + WSL + VS Code + Rust Environment Setup</div>
-      <div>http://jingmengzhiyue.top/2024/03/11/rust-wal2-vscode/</div>
-    </div>
-    <div class="license-meta">
-      
-        <div class="license-meta-item">
-          <div>作者</div>
-          <div>Jingmengzhiyue</div>
-        </div>
-      
-      
-        <div class="license-meta-item license-meta-date">
-          <div>发布于</div>
-          <div>2024年3月11日</div>
-        </div>
-      
-      
-      
-        <div class="license-meta-item">
-          <div>许可协议</div>
-          <div>
-            
-              
-              
-                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
-                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
-                    <i class="iconfont icon-by"></i>
-                  </span>
-                </a>
-              
-            
-          </div>
-        </div>
-      
-    </div>
-    <div class="license-icon iconfont"></div>
-  </div>
-
-
-
-              
-                <div class="post-prevnext my-3">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2024/03/14/OpenCV-Basics/" title="OpenCV Basics">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">OpenCV Basics</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2024/03/11/WSL2-proxy/" title="Using Windows Proxy Settings in WSL2">
-                        <span class="hidden-mobile">Using Windows Proxy Settings in WSL2</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
-              
-            </div>
-
-            
-  
-  
-    <article id="comments" lazyload>
-      
-  <div id="valine"></div>
-  <script type="text/javascript">
-    Fluid.utils.loadComments('#valine', function() {
-      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
-        var options = Object.assign(
-          {"appId":"eZ6fNr2wGbxSreDqCc24Ik6y-gzGzoHsz","appKey":"I1HMoNZO5iKmmCSzqE0wTpGr","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
-          {
-            el: "#valine",
-            path: window.location.pathname
+<!doctype html><html lang=zh-CN data-theme-mode=auto><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><title>Windows 11 + WSL + VS Code + Rust Environment Setup | Jingmengzhiyue</title><meta name=description content="Introduction You can set up a Rust environment on either Windows or Linux. After searching online, I found that setting up a Rust environment on Linux is much…"><script>window.siteConfig=JSON.parse('{"anchor":{"auto":{"enable":false,"length":60},"explicit":{"enable":false,"marker":"{#anchor-","prefix":"anchor-"}},"anchor_icon":null,"base":"https://www.jingmengzhiyue.tech/","clipboard":{"copyright":{"count":50,"enable":false,"license_type":"by-nc-sa"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-br":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ","zh-cn":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-tw":"複製失敗 (ﾟ⊿ﾟ)ﾂ"},"success":{"en":"Copy successfully (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-br":"Copiado com sucesso (*^▽^*)","zh-cn":"复制成功 (*^▽^*)","zh-tw":"複製成功 (*^▽^*)"}},"code_block":{"expand":true},"dark_mode":{"button":true,"mode":"auto"},"icon_font":"4552607_ex15nbittbh","outdate":{"daysago":180,"enable":false,"message":{"en":"This article was last updated on {time}. Please note that the content may no longer be applicable.","ja":"この記事は最終更新日：{time}。記載内容が現在有効でない可能性がありますのでご注意ください。","pt-br":"Este artigo foi atualizado pela última vez em {time}. Observe que o conteúdo pode não ser mais aplicável.","zh-cn":"本文最后更新于 {time}，请注意文中内容可能已不适用。","zh-tw":"本文最後更新於 {time}，請注意文中內容可能已不適用。"}}}')</script><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap" media=print onload='this.media="all"'><link rel=preload href=//at.alicdn.com/t/c/font_4552607_ex15nbittbh.woff2 as=font type=font/woff2 crossorigin=anonymous><link rel=stylesheet href=/css/loader.min.ac746e154f756f8220326eeb52a719f142ab038be5a8ddf30ea5ef15ef2356ea.css><meta property="og:type" content="website"><meta property="og:title" content="Windows 11 + WSL + VS Code + Rust Environment Setup | Jingmengzhiyue"><meta property="og:description" content="Introduction You can set up a Rust environment on either Windows or Linux. After searching online, I found that setting up a Rust environment on Linux is much…"><meta property="og:url" content="https://www.jingmengzhiyue.tech/2024/03/11/rust-wal2-vscode/"><meta property="og:site_name" content="热爱可抵万难"><meta property="og:image" content="https://www.jingmengzhiyue.tech/img/24.jpg"><meta property="article:author" content="Jingmengzhiyue"><meta property="article:published_time" content="2024-03-11T23:29:33+08:00"><meta property="article:modified_time" content="2024-03-11T23:29:33+08:00"><meta property="article:tag" content="WSL, Rust, VS Code"><meta name=twitter:card content="summary"><meta name=twitter:image content="https://www.jingmengzhiyue.tech/img/24.jpg"><link rel="shortcut icon" href=/favicon.ico><link rel=stylesheet href=/css/main.min.e741704bd4ce29d0b6db17b8ff17abf1aa8fad02fa440697765f231c07813893.css><link rel=preload as=style href=https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css integrity=sha384-IfxC36XL/toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx/1oA/0l8ysE crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><link rel=preload as=style href=https://npm.webcache.cn/katex@0.16.47/dist/katex.min.css integrity=sha384-nH0MfJ44wi1dd7w6jinlyBgljjS8EJAh2JBoRad8a3VDw2K69vfaaqm4WnR+gXtA crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><script src=https://npm.webcache.cn/pace-js@1.2.4/pace.min.js integrity=sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8 crossorigin=anonymous></script><link rel=stylesheet href=https://npm.webcache.cn/@reimujs/aos@0.1.3/dist/aos.css integrity=sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa crossorigin=anonymous><link rel=icon href=/img/fluid.png type=image/png><link rel=apple-touch-icon href=/img/fluid.png><link rel=stylesheet href=/css/custom.css></head><body><div id=loader><div class="loading-left-bg loading-bg"></div><div class="loading-right-bg loading-bg"></div><div class=spinner-box><div class="loading-taichi rotate"><svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" shape-rendering="geometricPrecision"><path d="M303.5 432a80 80 0 01-12 160 80 80 0 0112-160z" fill="var(--red-1, #ff5252)"/><path d="M512 65a447 447 0 010 894V929a417 417 0 000-834 417 417 0 000 834v30a447 447 0 010-894zm0 30A417 417 0 01929 512 208.5 208.5.0 01720.5 720.5V592a80 80 0 000-160 80 80 0 000 160V720.5A208.5 208.5.0 01512 512 208.5 208.5.0 00303.5 303.5 208.5 208.5.0 0095 512 417 417 0 01512 95z" fill="var(--red-1, #ff5252)"/></svg></div><div class=loading-word>少女祈祷中...</div></div></div></div><script>var time=null,loaderEl=document.getElementById("loader"),startLoading=()=>{time=Date.now(),loaderEl.classList.remove("loading")},hideLoader=()=>{document.body.style.overflow="auto",loader.classList.add("loading")},endLoading=()=>{time?Date.now()-time>500?(time=null,hideLoader()):(setTimeout(endLoading,500-(Date.now()-time)),time=null):hideLoader()};window.addEventListener("DOMContentLoaded",endLoading),loaderEl.addEventListener("click",endLoading)</script><div id=copy-tooltip></div><div id=lang-tooltip>本文章没有找到对应的语言版本</div><div id=heatmap-tooltip></div><div id=container><div id=wrap><div id=header-nav><nav id=main-nav aria-label="Primary navigation"><a class=main-nav-link-wrap href=/><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>首页</span>
+</a><a class=main-nav-link-wrap href=/archives><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>归档</span>
+</a><a class=main-nav-link-wrap href=/categories><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>目录</span>
+</a><a class=main-nav-link-wrap href=/tags><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>标签</span>
+</a><a class=main-nav-link-wrap href=/about><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>关于</span>
+</a><a id=main-nav-toggle class=nav-icon aria-label="Toggle navigation" role=button></a></nav><nav id=sub-nav aria-label="Secondary navigation"></nav></div><header id=header aria-label="Site header"><picture></picture><img fetchpriority=high src=/img/24.jpg alt="Windows 11 + WSL + VS Code + Rust Environment Setup"><div id=header-outer><div id=header-title><span id=logo><h1 data-aos=slide-up>Windows 11 + WSL + VS Code + Rust Environment Setup</h1></span><h2 id=subtitle-wrap data-aos=slide-down></h2></div></div></header><div id=content aria-label="Page content" class=sidebar-right><aside id=sidebar aria-label=Sidebar><div class="sidebar-wrapper-container sticky"><div class=sidebar-wrapper><div class=sidebar-wrap data-aos=fade-up><div class=sidebar-toc-sidebar><h3 class=toc-title>文章目录</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#introduction>Introduction</a></li><li><a href=#overall-steps>Overall Steps</a></li><li><a href=#install-wsl-on-windows-11>Install WSL on Windows 11</a></li><li><a href=#change-the-source-on-wsl-in-windows-11>Change the Source on WSL in Windows 11</a></li><li><a href=#install-gcc-on-wsl-in-windows-11>Install gcc on WSL in Windows 11</a></li><li><a href=#install-rust-on-wsl-in-windows-11>Install Rust on WSL in Windows 11</a></li><li><a href=#install-remote-wsl-on-vs-code-in-windows-11>Install Remote-WSL on VS Code in Windows 11</a></li><li><a href=#install-rust-analyzer-on-vs-code-in-windows-11>Install rust-analyzer on VS Code in Windows 11</a></li><li><a href=#simple-verification>Simple Verification</a></li><li><a href=#run-and-debug>Run and Debug</a></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/avatar.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>文章</div><div class=sidebar-state-number>57</div></div><a class=sidebar-state-category href=/categories/ aria-label=sidebar-state-category-link><div>分类</div><div class=sidebar-state-number>10</div></a><a class=sidebar-state-tag href=/tags/ aria-label=sidebar-state-tag-link><div>标签</div><div class=sidebar-state-number>26</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/ aria-label=首页></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>首页</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/archives aria-label=归档></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>归档</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/categories aria-label=目录></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>目录</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/tags aria-label=标签></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>标签</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/about aria-label=关于></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>关于</div></div></div></div><div class=sidebar-btn-wrapper style=position:static><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></div></div><div class=sidebar-widget></div></div></aside><section id=main aria-label="Main content"><article class="h-entry article" itemscope itemtype=https://schema.org/BlogPosting><div class=article-inner data-aos=fade-up><div class=article-meta><div class=article-date><span class="article-date-link icon-calendar" data-aos=zoom-in><time datetime="2024-03-11 23:29:33 +0800 +0800" itemprop=datePublished>2024-03-11</time>
+<time style=display:none id=post-update-time>2024-03-11</time></span></div></div><div class=hr-line></div><div class="e-content article-entry" itemprop=articleBody><h2 id=introduction><a class=header-anchor href=#introduction></a>Introduction</h2><p>You can set up a Rust environment on either Windows or Linux. After searching online, I found that setting up a Rust environment on Linux is much quicker than on Windows, but I still use the Windows system on a daily basis.</p><p>Therefore, I ultimately chose to set up the Rust environment in the WSL2 of Windows 11, and then use VS Code to connect to WSL.</p><h2 id=overall-steps><a class=header-anchor href=#overall-steps></a>Overall Steps</h2><ol><li>Install WSL on Windows 11</li><li>Change the source on WSL in Windows 11</li><li>Install gcc on WSL in Windows 11</li><li>Install Rust on WSL in Windows 11</li><li>Install Remote-WSL on VS Code in Windows 11</li><li>Install rust-analyzer on VS Code in Windows 11</li><li>Simple verification</li><li>Run and debug</li></ol><h2 id=install-wsl-on-windows-11><a class=header-anchor href=#install-wsl-on-windows-11></a>Install WSL on Windows 11</h2><p>Reference: <a href=https://learn.microsoft.com/en-us/windows/wsl/about>https://learn.microsoft.com/en-us/windows/wsl/about</a></p><p><a href=https://learn.microsoft.com/en-us/windows/wsl/install>https://learn.microsoft.com/en-us/windows/wsl/install</a></p><p>Prerequisites:</p><p><img src=/img/%E5%9B%BE%E7%89%8740.png alt=image-20231126161500760></p><p>Open PowerShell or Windows Command Prompt as an administrator, and enter the <code>wsl --install</code> command to start installing WSL. By default, this will install the latest stable version of Ubuntu. You can manually choose other versions; see the <a href=https://learn.microsoft.com/en-us/windows/wsl/install>Microsoft tutorial</a> for specific instructions.</p><p>After the installation is complete, you need to restart your computer for the configuration to take effect.</p><p>PS: It might be because I had a VPN running all the time, but during the WSL installation, it kept prompting &ldquo;wsl: Localhost proxy configuration detected, but not mirrored to WSL. Localhost proxy is not supported in NAT mode for WSL.&rdquo;</p><p>I&rsquo;m not sure if this would affect the network of WSL, but to be safe, I followed the <a href=https://github.com/microsoft/WSL/issues/10753>instructions</a> to make some configurations.</p><p>In WSL, there is a configuration file used to configure advanced setting options, which is <a href=https://learn.microsoft.com/en-us/windows/wsl/wsl-config>.wslconfig</a>. This file doesn&rsquo;t exist by default; if you want to configure it, you need to create it manually.</p><p>This file is located at <code>C:\Users\&lt;UserName>\.wslconfig</code>.</p><p>After creating the file, enter the following content and save it:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>[experimental]
+</span></span><span class=line><span class=cl>autoMemoryReclaim=gradual # gradual | dropcache | disabled
+</span></span><span class=line><span class=cl>networkingMode=mirrored
+</span></span><span class=line><span class=cl>dnsTunneling=true
+</span></span><span class=line><span class=cl>firewall=true
+</span></span><span class=line><span class=cl>autoProxy=true
+</span></span></code></pre></td></tr></table></div></div><p>Then, open PowerShell and enter <code>wsl --shutdown</code>, and reopen WSL. The previous prompt should be gone.</p><h2 id=change-the-source-on-wsl-in-windows-11><a class=header-anchor href=#change-the-source-on-wsl-in-windows-11></a>Change the Source on WSL in Windows 11</h2><p>Just like a normal Ubuntu system, WSL uses foreign sources by default, which are inconvenient for us to use. Therefore, we can change to domestic sources, and the method is the same as in the Ubuntu system.</p><p>PS: Make sure to confirm the system version installed in WSL first. Here, the default installation is Ubuntu 22.04.3 LTS.</p><p><strong>Domestic Sources</strong></p><p>Tsinghua University:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># Default commented out source code mirror to improve apt update speed, uncomment if needed
+</span></span><span class=line><span class=cl>deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy main restricted universe multiverse
+</span></span><span class=line><span class=cl># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy main restricted universe multiverse
+</span></span><span class=line><span class=cl>deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse
+</span></span><span class=line><span class=cl># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse
+</span></span><span class=line><span class=cl>deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-backports main restricted universe multiverse
+</span></span><span class=line><span class=cl># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-backports main restricted universe multiverse
+</span></span><span class=line><span class=cl>deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-security main restricted universe multiverse
+</span></span><span class=line><span class=cl># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-security main restricted universe multiverse
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># Prerelease software source, not recommended to enable
+</span></span><span class=line><span class=cl># deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-proposed main restricted universe multiverse
+</span></span><span class=line><span class=cl># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-proposed main restricted universe multiverse
+</span></span></code></pre></td></tr></table></div></div><p>Alibaba Cloud:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>deb http://mirrors.aliyun.com/ubuntu/ jammy main restricted universe multiverse
+</span></span><span class=line><span class=cl>deb-src http://mirrors.aliyun.com/ubuntu/ jammy main restricted universe multiverse
+</span></span><span class=line><span class=cl>deb http://mirrors.aliyun.com/ubuntu/ jammy-security main restricted universe multiverse
+</span></span><span class=line><span class=cl>deb-src http://mirrors.aliyun.com/ubuntu/ jammy-security main restricted universe multiverse
+</span></span><span class=line><span class=cl>deb http://mirrors.aliyun.com/ubuntu/ jammy-updates main restricted universe multiverse
+</span></span><span class=line><span class=cl>deb-src http://mirrors.aliyun.com/ubuntu/ jammy-updates main restricted universe multiverse
+</span></span><span class=line><span class=cl>deb http://mirrors.aliyun.com/ubuntu/ jammy-proposed main restricted universe multiverse
+</span></span><span class=line><span class=cl>deb-src http://mirrors.aliyun.com/ubuntu/ jammy-proposed main restricted universe multiverse
+</span></span><span class=line><span class=cl>deb http://mirrors.aliyun.com/ubuntu/ jammy-backports main restricted universe multiverse
+</span></span><span class=line><span class=cl>deb-src http://mirrors.aliyun.com/ubuntu/ jammy-backports main restricted universe multiverse
+</span></span></code></pre></td></tr></table></div></div><p>University of Science and Technology of China:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>deb https://mirrors.ustc.edu.cn/ubuntu/ jammy main restricted universe multiverse
+</span></span><span class=line><span class=cl>deb-src https://mirrors.ustc.edu.cn/ubuntu/ jammy main restricted universe multiverse
+</span></span><span class=line><span class=cl>deb https://mirrors.ustc.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse
+</span></span><span class=line><span class=cl>deb-src https://mirrors.ustc.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse
+</span></span><span class=line><span class=cl>deb https://mirrors.ustc.edu.cn/ubuntu/ jammy-backports main restricted universe multiverse
+</span></span><span class=line><span class=cl>deb-src https://mirrors.ustc.edu.cn/ubuntu/ jammy-backports main restricted universe multiverse
+</span></span><span class=line><span class=cl>deb https://mirrors.ustc.edu.cn/ubuntu/ jammy-security main restricted universe multiverse
+</span></span><span class=line><span class=cl>deb-src https://mirrors.ustc.edu.cn/ubuntu/ jammy-security main restricted universe multiverse
+</span></span><span class=line><span class=cl>deb https://mirrors.ustc.edu.cn/ubuntu/ jammy-proposed main restricted universe multiverse
+</span></span><span class=line><span class=cl>deb-src https://mirrors.ustc.edu.cn/ubuntu/ jammy-proposed main restricted universe multiverse
+</span></span></code></pre></td></tr></table></div></div><p>NetEase:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>deb http://mirrors.163.com/ubuntu/ jammy main restricted universe multiverse
+</span></span><span class=line><span class=cl>deb http://mirrors.163.com/ubuntu/ jammy-security main restricted universe multiverse
+</span></span><span class=line><span class=cl>deb http://mirrors.163.com/ubuntu/ jammy-updates main restricted universe multiverse
+</span></span><span class=line><span class=cl>deb http://mirrors.163.com/ubuntu/ jammy-proposed main restricted universe multiverse
+</span></span><span class=line><span class=cl>deb http://mirrors.163.com/ubuntu/ jammy-backports main restricted universe multiverse
+</span></span><span class=line><span class=cl>deb-src http://mirrors.163.com/ubuntu/ jammy main restricted universe multiverse
+</span></span><span class=line><span class=cl>deb-src http://mirrors.163.com/ubuntu/ jammy-security main restricted universe multiverse
+</span></span><span class=line><span class=cl>deb-src http://mirrors.163.com/ubuntu/ jammy-updates main restricted universe multiverse
+</span></span><span class=line><span class=cl>deb-src http://mirrors.163.com/ubuntu/ jammy-proposed main restricted universe multiverse
+</span></span><span class=line><span class=cl>deb-src http://mirrors.163.com/ubuntu/ jammy-backports main restricted universe multiverse
+</span></span></code></pre></td></tr></table></div></div><p>After choosing a domestic source, execute the following commands:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>sudo apt-get update
+</span></span><span class=line><span class=cl>sudo apt-get upgrade
+</span></span></code></pre></td></tr></table></div></div><h2 id=install-gcc-on-wsl-in-windows-11><a class=header-anchor href=#install-gcc-on-wsl-in-windows-11></a>Install gcc on WSL in Windows 11</h2><p>Open WSL and run the following commands:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>apt-get update # Make sure apt-get is up-to-date, as it may report an error when installing gcc
+</span></span><span class=line><span class=cl>sudo apt install gcc
+</span></span></code></pre></td></tr></table></div></div><h2 id=install-rust-on-wsl-in-windows-11><a class=header-anchor href=#install-rust-on-wsl-in-windows-11></a>Install Rust on WSL in Windows 11</h2><p>Two commands are enough:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>sudo apt install rustc
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>sudo apt install cargo
+</span></span></code></pre></td></tr></table></div></div><p>After the installation is complete, run <code>cargo version</code> in the terminal.</p><p>If you see the following output, it means Rust has been installed successfully.</p><p><img src=/img/%E5%9B%BE%E7%89%8731.png alt=image-20231126163636737></p><h2 id=install-remote-wsl-on-vs-code-in-windows-11><a class=header-anchor href=#install-remote-wsl-on-vs-code-in-windows-11></a>Install Remote-WSL on VS Code in Windows 11</h2><p>Currently, VS Code provides a plugin that allows you to connect to WSL2 from the Windows version of VS Code. This plugin is called Remote-WSL.</p><p><img src=/img/%E5%9B%BE%E7%89%8732.png alt=image-20231126163800014></p><p>So, as long as you install this plugin in the Windows version of VS Code, you can connect to WSL2.</p><p>The first time you connect, you may need to wait for some time, as it needs to perform some initialization work.</p><p>After the initialization is complete, click &ldquo;Open Folder&rdquo; to select a folder in WSL2.</p><p><img src=/img/%E5%9B%BE%E7%89%8733.png alt=image-20231126163942891></p><h2 id=install-rust-analyzer-on-vs-code-in-windows-11><a class=header-anchor href=#install-rust-analyzer-on-vs-code-in-windows-11></a>Install rust-analyzer on VS Code in Windows 11</h2><p>After connecting VS Code to WSL, the installed plugins have two &ldquo;versions&rdquo;: one for use on Windows, and one installed in WSL.</p><p><img src=/img/%E5%9B%BE%E7%89%8734.png alt=image-20231126164254143></p><p>Here, we only need one for now, which is rust-analyzer.</p><p>In the VS Code window connected to WSL, search for rust-analyzer and install the plugin.</p><h2 id=simple-verification><a class=header-anchor href=#simple-verification></a>Simple Verification</h2><p>In WSL, navigate to any directory and enter <code>cargo init hello-world</code>.</p><p>Then, enter <code>code .</code> to open the Rust project in VS Code.</p><p><img src=/img/%E5%9B%BE%E7%89%8735.png alt=image-20231126164600855></p><p>In the VS Code terminal, run <code>cargo run</code> to verify if the environment is configured successfully. If successful, the output should look like the following:</p><p><img src=/img/%E5%9B%BE%E7%89%8736.png alt=image-20231126164727968></p><p>At this point, the basic Rust environment has been set up successfully.</p><h2 id=run-and-debug><a class=header-anchor href=#run-and-debug></a>Run and Debug</h2><p><img src=/img/%E5%9B%BE%E7%89%8737.png alt=image-20231126170853688></p><p>After entering <code>code .</code> in WSL to open VS Code, click the &ldquo;Run&rdquo; button in the top-left corner of the code editor to execute the program.</p><p>To debug, you need to install the CodeLLDB plugin.</p><p>After installing the plugin, you can use the debugging functionality.</p><p><img src=/img/%E5%9B%BE%E7%89%8738.png alt=image-20231126171239141></p><p>Currently, the plugins installed on WSL are as follows:</p><p><img src=/img/%E5%9B%BE%E7%89%8739.png alt=image-20231126171146275></p></div><footer class=article-footer><blockquote class=article-copyright><p><strong><span class="icon-user icon"></span>本文作者：</strong>Jingmengzhiyue</p><p><strong><span class="icon-link icon"></span>本文链接：</strong><a href=https://www.jingmengzhiyue.tech/2024/03/11/rust-wal2-vscode/>https://www.jingmengzhiyue.tech/2024/03/11/rust-wal2-vscode/</a></p><p><strong><span class="icon-pencil icon"></span>本文标题：</strong>Windows 11 + WSL + VS Code + Rust Environment Setup</p><p><strong><span class="icon-calendar icon"></span>本文发布时间：</strong>2024-03-11 23:29:33</p><p><strong><span class="icon-copyright icon"></span>本文版权：</strong>
+本博客所有文章除特别声明外，均采用 <a href=https://creativecommons.org/licenses/by/4.0/deed.zh rel="noopener nofollow noreferrer" target=_blank><span class=icon-creative-commons></span>BY</a> 许可协议。转载请注明出处！</p><span class="icon-creative-commons article-copyright-bg"></span></blockquote><ul class=article-category-list><li class=article-tag-list-item data-aos=zoom-in><a class=article-category-link href=/categories/Environment-Configuration/ data-aos=zoom-in>Environment Configuration</a></li></ul><ul class=article-tag-list itemprop=keywords><li class=article-tag-list-item data-aos=zoom-in><a class=article-tag-list-link href=/tags/WSL/ rel=tag>WSL</a></li><li class=article-tag-list-item data-aos=zoom-in><a class=article-tag-list-link href=/tags/Rust/ rel=tag>Rust</a></li><li class=article-tag-list-item data-aos=zoom-in><a class=article-tag-list-link href=/tags/VS-Code/ rel=tag>VS Code</a></li></ul></footer></div><nav id=article-nav aria-label="Article navigation" data-aos=fade-up><div class="article-nav-link-wrap left"><img data-src=/img/23.jpg data-sizes=auto alt="Using Windows Proxy Settings in WSL2" class=lazyload><a href=/2024/03/11/WSL2-proxy/ aria-label="前一篇:Using Windows Proxy Settings in WSL2" title="前一篇:Using Windows Proxy Settings in WSL2"></a><div class=article-nav-caption>前一篇</div><h3 class=article-nav-title>Using Windows Proxy Settings in WSL2</h3></div><div class="article-nav-link-wrap right"><img data-src=/img/21.jpg data-sizes=auto alt="OpenCV Basics" class=lazyload><a href=/2024/03/14/OpenCV-Basics/ aria-label="后一篇:OpenCV Basics" title="后一篇:OpenCV Basics"></a><div class=article-nav-caption>后一篇</div><h3 class=article-nav-title>OpenCV Basics</h3></div></nav></article></section></div><footer id=footer aria-label="Site footer"><div style=width:100%;overflow:hidden><div class=footer-line></div></div><div id=footer-info><div><span class=icon-copyright></span>2023-2026<span class="footer-info-sep rotate"></span>Jingmengzhiyue</div><div>基于&nbsp;<a href=https://gohugo.io/ target=_blank rel="noopener nofollow noreferrer">Hugo</a>&nbsp;Theme.<a href=https://github.com/D-Sketon/hugo-theme-reimu target=_blank rel="noopener nofollow noreferrer">Reimu</a></div><div><span class=icon-brush>&nbsp;301.2k</span>
+&nbsp;|&nbsp;
+<span class=icon-coffee>&nbsp;10:40</span></div><div><span class=icon-eye></span>
+<span id=busuanzi_container_site_pv>总访问量&nbsp;<span id=busuanzi_value_site_pv></span></span>
+&nbsp;|&nbsp;
+<span class=icon-user></span>
+<span id=busuanzi_container_site_uv>总访客量&nbsp;<span id=busuanzi_value_site_uv></span></span></div></div></footer><div class=sidebar-top><div class="sidebar-top-taichi rotate"></div><div class=arrow-up></div></div><div id=mask class=hide></div></div><nav id=mobile-nav aria-label="Mobile navigation"><div class=sidebar-wrap><div class=sidebar-toc-sidebar><h3 class=toc-title>文章目录</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#introduction>Introduction</a></li><li><a href=#overall-steps>Overall Steps</a></li><li><a href=#install-wsl-on-windows-11>Install WSL on Windows 11</a></li><li><a href=#change-the-source-on-wsl-in-windows-11>Change the Source on WSL in Windows 11</a></li><li><a href=#install-gcc-on-wsl-in-windows-11>Install gcc on WSL in Windows 11</a></li><li><a href=#install-rust-on-wsl-in-windows-11>Install Rust on WSL in Windows 11</a></li><li><a href=#install-remote-wsl-on-vs-code-in-windows-11>Install Remote-WSL on VS Code in Windows 11</a></li><li><a href=#install-rust-analyzer-on-vs-code-in-windows-11>Install rust-analyzer on VS Code in Windows 11</a></li><li><a href=#simple-verification>Simple Verification</a></li><li><a href=#run-and-debug>Run and Debug</a></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/avatar.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>文章</div><div class=sidebar-state-number>57</div></div><a class=sidebar-state-category href=/categories/ aria-label=sidebar-state-category-link><div>分类</div><div class=sidebar-state-number>10</div></a><a class=sidebar-state-tag href=/tags/ aria-label=sidebar-state-tag-link><div>标签</div><div class=sidebar-state-number>26</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/ aria-label=首页></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>首页</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/archives aria-label=归档></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>归档</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/categories aria-label=目录></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>目录</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/tags aria-label=标签></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>标签</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/about aria-label=关于></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>关于</div></div></div></div></div><div class=sidebar-btn-wrapper><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></nav></div><script src=https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js integrity=sha384-3gT/vsepWkfz/ff7PpWNUeMzeWoH3cDhm/A8jM7ouoAK0/fP/9bcHHR5kHq2nf+e crossorigin=anonymous></script><script src=https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js integrity=sha384-J08i8An/QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q crossorigin=anonymous></script><script src=/js/main.js integrity crossorigin=anonymous></script><script src=/js/aos.js integrity crossorigin=anonymous></script><script>var aosInit=()=>{AOS.init({duration:1e3,easing:"ease",once:!0,offset:50})};document.readyState==="loading"?document.addEventListener("DOMContentLoaded",aosInit):aosInit()</script><script src=/js/pjax_main.js integrity crossorigin=anonymous data-pjax></script><div id=lazy-script><div><script data-pjax>window.REIMU_POST={author:"Jingmengzhiyue",title:"Windows 11 + WSL + VS Code + Rust Environment Setup",url:"https://www.jingmengzhiyue.tech/2024/03/11/rust-wal2-vscode/",description:"Introduction You can set up a Rust environment on either Windows or Linux. After searching online, I found that setting up a Rust environment on Linux is much…",cover:"https://www.jingmengzhiyue.tech/img/24.jpg"}</script><script src=/js/insert_highlight.js integrity crossorigin=anonymous data-pjax></script><script src=/js/tabs.js integrity crossorigin=anonymous data-pjax defer></script><script type=module data-pjax>const PhotoSwipeLightbox = (await safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js", "sha384-DiL6M\/gG\u002bwmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF\/N6lrZi\/")).default;const initPswp = (gallery, children) => {
+          if (_$$(`${gallery} ${children}`).length > 0) {
+            new PhotoSwipeLightbox({
+              gallery,
+              children,pswpModule: () => safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8\u002boTJ7m3DfYEWX1fu1scuS4\u002bs")}).init();
           }
-        )
-        new Valine(options);
-        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
-          var imgSelector = '#valine .vcontent img:not(.vemoji)';
-          Fluid.plugins.imageCaption(imgSelector);
-          Fluid.plugins.fancyBox(imgSelector);
-        })
-      });
-    });
-  </script>
-  <noscript>Please enable JavaScript to view the comments</noscript>
-
-
-    </article>
-  
-
-
-          </article>
-        </div>
-      </div>
-    </div>
-
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-  <aside class="sidebar" style="margin-left: -1rem">
-    <div id="toc">
-  <p class="toc-header">
-    <i class="iconfont icon-list"></i>
-    <span>目录</span>
-  </p>
-  <div class="toc-body" id="toc-body"></div>
-</div>
-
-
-
-  </aside>
-
-
-    </div>
-  </div>
-</div>
-
-
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-
-
-
-
-    
-
-    
-      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
-        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-      </a>
-    
-
-    
-      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
-        </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-    
-
-    
-  </main>
-
-  <footer>
-    <div class="footer-inner">
-  
-    <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
-    </div>
-  
-  
-    <div class="statistics">
-  
-  
-
-  
-    
-      <span id="leancloud-site-pv-container" style="display: none">
-        总访问量 18954 
-        <span id="leancloud-site-pv"></span>
-         次
-      </span>
-    
-    
-      <span id="leancloud-site-uv-container" style="display: none">
-        总访客数 9873 
-        <span id="leancloud-site-uv"></span>
-         人
-      </span>
-    
-    
-
-  
-</div>
-
-  
-  
-  
-</div>
-
-  </footer>
-
-  <!-- Scripts -->
-  
-  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
-
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
-    })
-  </script>
-
-
-<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
-<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
-
-
-  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
-      
-        typing(text);
-      
-    })(window, document);
-  </script>
-
-
-
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
-
-
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
-    var toc = jQuery('#toc');
-    if (toc.length === 0 || !window.tocbot) { return; }
-    var boardCtn = jQuery('#board-ctn');
-    var boardTop = boardCtn.offset().top;
-
-    window.tocbot.init(Object.assign({
-      tocSelector     : '#toc-body',
-      contentSelector : '.markdown-body',
-      linkClass       : 'tocbot-link',
-      activeLinkClass : 'tocbot-active-link',
-      listClass       : 'tocbot-list',
-      isCollapsedClass: 'tocbot-is-collapsed',
-      collapsibleClass: 'tocbot-is-collapsible',
-      scrollSmooth    : true,
-      includeTitleTags: true,
-      headingsOffset  : -boardTop,
-    }, CONFIG.toc));
-    if (toc.find('.toc-list-item').length > 0) {
-      toc.css('visibility', 'visible');
-    }
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('tocbot' in window) {
-        tocbot.refresh();
-        var toc = jQuery('#toc');
-        if (toc.length === 0 || !tocbot) {
-          return;
         }
-        if (toc.find('.toc-list-item').length > 0) {
-          toc.css('visibility', 'visible');
+        const pswp = () => {
+          initPswp('.article-entry', 'a.article-gallery-item');
+          initPswp('.article-gallery', 'a.article-gallery-item');
         }
-      }
-    });
-  });
-</script>
-
-
-  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
-
-  <script>Fluid.plugins.codeWidget();</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
-    window.anchors.options = {
-      placement: CONFIG.anchorjs.placement,
-      visible  : CONFIG.anchorjs.visible
-    };
-    if (CONFIG.anchorjs.icon) {
-      window.anchors.options.icon = CONFIG.anchorjs.icon;
-    }
-    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-    var res = [];
-    for (var item of el) {
-      res.push('.markdown-body > ' + item.trim());
-    }
-    if (CONFIG.anchorjs.placement === 'left') {
-      window.anchors.options.class = 'anchorjs-link-left';
-    }
-    window.anchors.add(res.join(', '));
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('anchors' in window) {
-        anchors.removeAll();
-        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-        var res = [];
-        for (var item of el) {
-          res.push('.markdown-body > ' + item.trim());
-        }
-        if (CONFIG.anchorjs.placement === 'left') {
-          anchors.options.class = 'anchorjs-link-left';
-        }
-        anchors.add(res.join(', '));
-      }
-    });
-  });
-</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
-    Fluid.plugins.fancyBox();
-  });
-</script>
-
-
-  <script>Fluid.plugins.imageCaption();</script>
-
-  <script  src="/js/local-search.js" ></script>
-
-  <script defer src="/js/leancloud.js" ></script>
-
-
-
-
-
-<!-- 主题的启动项，将它保持在最底部 -->
-<!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
-
-
-  
-
-  <noscript>
-    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript>
-</body>
-</html>
+        pswp()
+      </script></div></div><script src=https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js async integrity=sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S crossorigin=anonymous></script><script>"serviceWorker"in navigator&&navigator.serviceWorker.getRegistrations().then(e=>{for(let t of e)t.unregister()})</script><script>const reimuCopyright=String.raw`
+   ______     ______     __     __    __     __  __    
+  /\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+  \ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+   \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+    \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                    
+  `;console.log(String.raw`%c ${reimuCopyright}`,"color: #ff5252;"),console.log("%c Theme.Reimu %c https://github.com/D-Sketon/hugo-theme-reimu ","color: white; background: #ff5252; padding:5px 0;","padding:4px;border:1px solid #ff5252;")</script></body></html>

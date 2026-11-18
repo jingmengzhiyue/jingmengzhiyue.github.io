@@ -1,0 +1,901 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>zh-CN</language><copyright>本博客所有文章除特别声明外，均采用 BY 许可协议。转载请注明出处！</copyright><lastBuildDate>Thu, 28 Mar 2024 23:53:20 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/index.xml" rel="self" type="application/rss+xml"/><item><title>Transformer中的多头自注意力机制</title><link>https://www.jingmengzhiyue.tech/2024/03/28/MSA/</link><pubDate>Thu, 28 Mar 2024 23:47:31 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/28/MSA/</guid><description>
+<![CDATA[<h1>Transformer中的多头自注意力机制</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>在自然语言处理和其他序列数据建模任务中,Transformer模型凭借其优异的性能成为了研究的热点。其中,多头自注意力(Multi-Head</p>
+<p>Self-Attention)是Transformer的核心组件之一，接下来将深入了解它的运作原理和实现细节。</p>
+        
+        <hr><p>本文2024-03-28首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-28</p>]]></description><category>Deep Learning</category></item><item><title>基于原型分析的高光谱图像处理</title><link>https://www.jingmengzhiyue.tech/2024/03/25/%E5%8E%9F%E5%9E%8B%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95/</link><pubDate>Mon, 25 Mar 2024 21:35:21 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/25/%E5%8E%9F%E5%9E%8B%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95/</guid><description>
+<![CDATA[<h1>基于原型分析的高光谱图像处理</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h2 id="原型分析简介">
+<a class="header-anchor" href="#%e5%8e%9f%e5%9e%8b%e5%88%86%e6%9e%90%e7%ae%80%e4%bb%8b"></a>
+原型分析简介
+</h2><p>在高光谱图像处理中,原型分析(Archetypal Analysis,</p>
+<p>AA)是一种无监督的端元提取和丰度估计方法。与传统的端元提取方法不同,原型分析并不假设端元位于单纯形的顶点,而是寻找原始数据点的最小凸包。</p>
+        
+        <hr><p>本文2024-03-25首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-25</p>]]></description><category>Remote Sensing</category></item><item><title>基于耦合非负矩阵分解的高光谱图像超分辨率算法</title><link>https://www.jingmengzhiyue.tech/2024/03/24/NSSR/</link><pubDate>Sun, 24 Mar 2024 16:30:33 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/24/NSSR/</guid><description>
+<![CDATA[<h1>基于耦合非负矩阵分解的高光谱图像超分辨率算法</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h2 id="问题定义">
+<a class="header-anchor" href="#%e9%97%ae%e9%a2%98%e5%ae%9a%e4%b9%89"></a>
+问题定义
+</h2><p>高光谱成像能同时在多个不同波长获取同一场景的图像,在农业、天文、监视和矿物学等领域具有广泛应用。然而,由于各种硬件限制,获得高分辨率(HR)高光谱图像仍然是一个挑战。下面将介绍如何利用低分辨率(LR)高光谱图像和同一场景的高分辨率(HR)多光谱或RGB图像,来重建HR高光谱图像。</p>
+        
+        <hr><p>本文2024-03-24首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-25</p>]]></description><category>Remote Sensing</category></item><item><title>顶点成分分析算法(VCA)的原理与求解</title><link>https://www.jingmengzhiyue.tech/2024/03/25/VCA/</link><pubDate>Mon, 25 Mar 2024 21:35:21 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/25/VCA/</guid><description>
+<![CDATA[<h1>顶点成分分析算法(VCA)的原理与求解</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>顶点成分分析算法(Vertex Component Analysis,</p>
+<p>VCA)是一种快速无监督提取高光谱图像端元的算法。该算法的主要思想是利用端元在高维特征空间中形成数据云的顶点的性质,通过迭代寻找位于数据云边界的端元,从而实现端元提取。下面将详细介绍该算法的数学原理和求解过程。</p>
+        
+        <hr><p>本文2024-03-25首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-25</p>]]></description><category>Remote Sensing</category></item><item><title>最大距离(MaxD)算法提取高光谱图像端元</title><link>https://www.jingmengzhiyue.tech/2024/03/25/MaxD/</link><pubDate>Mon, 25 Mar 2024 21:35:21 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/25/MaxD/</guid><description>
+<![CDATA[<h1>最大距离(MaxD)算法提取高光谱图像端元</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>最大距离(MaxD)算法是一种无监督的端元提取算法,用于从高光谱图像数据中识别出纯净的端元光谱。本文将详细介绍MaxD算法的数学原理和MATLAB实现。</p>
+        
+        <hr><p>本文2024-03-25首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-25</p>]]></description><category>Remote Sensing</category></item><item><title>基于 N-FINDER 的端元提取算法</title><link>https://www.jingmengzhiyue.tech/2024/03/25/FINDER/</link><pubDate>Mon, 25 Mar 2024 21:35:21 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/25/FINDER/</guid><description>
+<![CDATA[<h1>基于 N-FINDER 的端元提取算法</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>N-FINDER</p>
+<p>算法是一种用于从高光谱数据立方体中提取端元特征的算法。该算法的核心思想是在数据集中寻找表示最大体积的单纯形,其顶点即为所需的端元特征。算法的数学原理和具体步骤如下:</p>
+        
+        <hr><p>本文2024-03-25首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-25</p>]]></description><category>Remote Sensing</category></item><item><title>改进的快速迭代纯像素指数提取端元特征</title><link>https://www.jingmengzhiyue.tech/2024/03/25/FIPPI/</link><pubDate>Mon, 25 Mar 2024 21:26:16 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/25/FIPPI/</guid><description>
+<![CDATA[<h1>改进的快速迭代纯像素指数提取端元特征</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="fippi算法简介">
+<a class="header-anchor" href="#fippi%e7%ae%97%e6%b3%95%e7%ae%80%e4%bb%8b"></a>
+FIPPI算法简介
+</h1><p>改进的快速迭代纯像素指数(FIPPI)算法是一种从高光谱遥感数据中提取端元谱签的有效方法。它是基于纯像素指数(PPI)算法的迭代改进版本,旨在通过合理的终止条件和精心设计的迭代规则,提高计算效率并获得更好的端元估计结果。</p>
+        
+        <hr><p>本文2024-03-25首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-25</p>]]></description><category>Remote Sensing</category></item><item><title>基于子空间的高光谱图像变化检测方法</title><link>https://www.jingmengzhiyue.tech/2024/03/24/change-detection/</link><pubDate>Sun, 24 Mar 2024 17:41:32 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/24/change-detection/</guid><description>
+<![CDATA[<h1>基于子空间的高光谱图像变化检测方法</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>准确及时地检测地表特征的变化对于环境监测和资源管理至关重要。相较于传统的单波段或多光谱遥感影像，高光谱影像由于包含大量光谱信息，在变化检测中表现出更优异的性能。本文将介绍一种基于子空间的变化检测(SCD)方法，该方法适用于高光谱图像。</p>
+        
+        <hr><p>本文2024-03-24首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-24</p>]]></description><category>Remote Sensing</category></item><item><title>基于最小体积单纯形的快速高光谱图像解混算法</title><link>https://www.jingmengzhiyue.tech/2024/03/24/HyperCSI/</link><pubDate>Sun, 24 Mar 2024 11:37:14 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/24/HyperCSI/</guid><description>
+<![CDATA[<h1>基于最小体积单纯形的快速高光谱图像解混算法</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>高光谱遥感技术是识别目标区域内端元成分及其比例的关键技术,在地物分类、环境监测等领域有广泛应用。高光谱图像解混(Hyperspectral</p>
+<p>Unmixing,</p>
+<p>HU)就是分析高光谱数据,识别图像中的端元(endmembers)及其对应的丰度(abundances)的信号处理过程。其中Craig的最小体积外接单纯形准则是一种经典有效的盲解混方法,即将包围数据点云的最小体积单纯形的顶点视为端元估计。但相关算法由于涉及复杂的体积计算而计算效率低下。但是HyperCSI(Hyperplane-based</p>
+        
+        <hr><p>本文2024-03-24首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-24</p>]]></description><category>Remote Sensing, Algorithm</category></item><item><title>基于纯像元指数(PPI)的端元提取算法</title><link>https://www.jingmengzhiyue.tech/2024/03/19/ppi/</link><pubDate>Tue, 19 Mar 2024 22:12:45 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/19/ppi/</guid><description>
+<![CDATA[<h1>基于纯像元指数(PPI)的端元提取算法</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>PPI算法用于从高光谱数据立方体中提取端元光谱。该算法通过在降维后的数据上投影随机生成的单位向量,来识别出表现出最大投影值的端元像元。</p>
+<h2 id="算法原理">
+<a class="header-anchor" href="#%e7%ae%97%e6%b3%95%e5%8e%9f%e7%90%86"></a>
+算法原理
+</h2><ol>
+<li>
+<p>对高光谱数据立方体进行降维处理,可选择PCA(主成分分析)、MNF(最大噪声分数)或不降维三种方式。</p>
+</li>
+<li>
+<p>生成一定数量的随机单位向量(默认10000个)。</p>
+</li>
+<li>
+<p>将降维后的数据投影到每个随机单位向量上,记录每个像元点获得的最大投影值。</p>
+</li>
+<li>
+<p>根据最大投影值对像元点排序,选取投影值最大的N个像元点作为端元光谱。</p>
+</li>
+</ol>
+        
+        <hr><p>本文2024-03-19首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-24</p>]]></description><category>Remote Sensing</category></item><item><title>Endmember Extraction Using the Pixel Purity Index (PPI) Algorithm</title><link>https://www.jingmengzhiyue.tech/2024/03/19/ppi-en/</link><pubDate>Tue, 19 Mar 2024 22:12:45 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/19/ppi-en/</guid><description>
+<![CDATA[<h1>Endmember Extraction Using the Pixel Purity Index (PPI) Algorithm</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>Endmember Extraction Using the Pixel Purity Index (PPI) Algorithm The</p>
+<p>Pixel Purity Index (PPI) algorithm is used to extract endmember</p>
+<p>signatures from hyperspectral data cubes. The algorithm identifies</p>
+<p>endmember pixels by projecting dimensionality-reduced data onto randomly</p>
+<p>generated unit vectors and finding the pixels with the maximum</p>
+<p>projection values.</p>
+<h2 id="algorithm-principle">
+<a class="header-anchor" href="#algorithm-principle"></a>
+Algorithm Principle
+</h2><p>Perform dimensionality reduction on the hyperspectral data cube using</p>
+<p>Principal Component Analysis (PCA), Maximum Noise Fraction (MNF), or no</p>
+        
+        <hr><p>本文2024-03-19首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-24</p>]]></description><category>Remote Sensing</category></item><item><title>Endmember Number Estimation Using Eigenvalue Thresholding</title><link>https://www.jingmengzhiyue.tech/2024/03/19/est-endnum-en/</link><pubDate>Tue, 19 Mar 2024 22:01:49 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/19/est-endnum-en/</guid><description>
+<![CDATA[<h1>Endmember Number Estimation Using Eigenvalue Thresholding</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>In hyperspectral image analysis, estimating the number of endmembers</p>
+<p>is a crucial step that affects the accuracy and efficiency of subsequent</p>
+<p>processing. This post introduces an eigenvalue thresholding approach for</p>
+<p>estimating the number of endmembers in hyperspectral data through noise</p>
+<p>whitening and eigenvalue analysis.</p>
+<h2 id="noise-whitening-of">
+<a class="header-anchor" href="#noise-whitening-of"></a>
+Noise Whitening of
+</h2><p>Hyperspectral Image</p>
+<p>Let&rsquo;s consider a hyperspectral image \(\mathbf{X} \in \mathbb{R}^{M \times B}\),</p>
+<p>where \(M\) is the number of spatial</p>
+<p>pixels and \(B\) is the number of</p>
+        
+        <hr><p>本文2024-03-19首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-24</p>]]></description><category>Remote Sensing</category></item><item><title>端元初始化</title><link>https://www.jingmengzhiyue.tech/2024/03/19/endmember/</link><pubDate>Tue, 19 Mar 2024 21:08:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/19/endmember/</guid><description>
+<![CDATA[<h1>端元初始化</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="端元估计在高光谱图像处理中的重要性">
+<a class="header-anchor" href="#%e7%ab%af%e5%85%83%e4%bc%b0%e8%ae%a1%e5%9c%a8%e9%ab%98%e5%85%89%e8%b0%b1%e5%9b%be%e5%83%8f%e5%a4%84%e7%90%86%e4%b8%ad%e7%9a%84%e9%87%8d%e8%a6%81%e6%80%a7"></a>
+端元估计在高光谱图像处理中的重要性
+</h1><p>高光谱图像处理领域经常会遇到端元矩阵初始化的问题，而端元矩阵的准确估计对于最终处理结果的性能有着重要的影响。在处理凸优化问题时，初始值的选择对最终结果的影响相对较小。然而，面对非凸优化问题，一个接近全局最优解的初始值能够显著提升算法的性能。</p>
+        
+        <hr><p>本文2024-03-19首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-24</p>]]></description><category>Remote Sensing</category></item><item><title>基于特征值阈值的端元数估计方法</title><link>https://www.jingmengzhiyue.tech/2024/03/19/est-endnum/</link><pubDate>Tue, 19 Mar 2024 22:01:49 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/19/est-endnum/</guid><description>
+<![CDATA[<h1>基于特征值阈值的端元数估计方法</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>在高光谱图像分析中，端元数估计是一个关键步骤，它关系到后续处理的准确性和效率。本文介绍了一种基于特征值阈值的端元数估计方法，该方法通过噪声白化和特征值分析来确定高光谱数据中的端元数量。</p>
+        
+        <hr><p>本文2024-03-19首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-24</p>]]></description><category>Remote Sensing</category></item><item><title>Using OpenCV C++ on Windows Subsystem for Linux (WSL)</title><link>https://www.jingmengzhiyue.tech/2024/03/16/OpenCV-WSL/</link><pubDate>Sat, 16 Mar 2024 16:37:10 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/16/OpenCV-WSL/</guid><description>
+<![CDATA[<h1>Using OpenCV C++ on Windows Subsystem for Linux (WSL)</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>Setting up OpenCV C++ on Windows Subsystem for Linux (WSL) involves</p>
+<p>several steps, including installing WSL, installing necessary</p>
+<p>dependencies, downloading the OpenCV source code, and compiling and</p>
+<p>installing OpenCV. This blog post provides a step-by-step guide to help</p>
+<p>you through the process.</p>
+<h2 id="summary">
+<a class="header-anchor" href="#summary"></a>
+Summary
+</h2><p>The process of using OpenCV C++ on Windows Subsystem for Linux (WSL)</p>
+<p>involves enabling WSL on your Windows system, installing a Linux</p>
+<p>distribution (like Ubuntu), updating and installing required</p>
+        
+        <hr><p>本文2024-03-16首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-16</p>]]></description><category>Programming</category></item><item><title>OpenCV Basics</title><link>https://www.jingmengzhiyue.tech/2024/03/14/OpenCV-Basics/</link><pubDate>Thu, 14 Mar 2024 19:35:59 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/14/OpenCV-Basics/</guid><description>
+<![CDATA[<h1>OpenCV Basics</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>This blog post covers the basics of OpenCV, a popular computer vision library. It explains how to load, display, and save images using OpenCV functions. Additionally, it delves into the Mat class, which is used to represent images in OpenCV as matrices. The post demonstrates how to create Mat objects, access their properties, and traverse and manipulate pixel values using both array-based and pointer-based methods.</p>
+<h2 id="hello-world">
+<a class="header-anchor" href="#hello-world"></a>
+Hello World
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;opencv2/opencv.hpp&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="n">using</span> <span class="n">namespace</span> <span class="n">cv</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">using</span> <span class="n">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;start</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Read an image
+</span></span></span><span class="line"><span class="cl">    <span class="n">Mat</span> <span class="n">src</span> <span class="o">=</span> <span class="nf">imread</span><span class="p">(</span><span class="s">&#34;E:</span><span class="se">\\</span><span class="s">Datum</span><span class="se">\\</span><span class="s">Code</span><span class="se">\\</span><span class="s">CV4</span><span class="se">\\</span><span class="s">CV4</span><span class="se">\\</span><span class="s">a.png&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">src</span><span class="p">.</span><span class="nf">empty</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;could not open&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">namedWindow</span><span class="p">(</span><span class="s">&#34;input&#34;</span><span class="p">,</span> <span class="n">WINDOW_AUTOSIZE</span><span class="p">);</span> <span class="c1">// Create a window with the given title and automatic image size
+</span></span></span><span class="line"><span class="cl">    <span class="c1">// In OpenCV 3, use namedWindow(&#34;input&#34;, CV_WINDOW_AUTOSIZE)
+</span></span></span><span class="line"><span class="cl">    <span class="nf">imshow</span><span class="p">(</span><span class="s">&#34;input&#34;</span><span class="p">,</span> <span class="n">src</span><span class="p">);</span> <span class="c1">// Display the image in the &#34;input&#34; window
+</span></span></span><span class="line"><span class="cl">    <span class="nf">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="c1">// Prevent the window from closing immediately, wait for user input
+</span></span></span><span class="line"><span class="cl">    <span class="nf">destroyAllWindows</span><span class="p">();</span> <span class="c1">// Destroy all windows
+</span></span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol>
+<li>In OpenCV 4, you can directly use <code>#include &lt;opencv2/opencv.hpp&gt;</code> to import all OpenCV functions.</li>
+<li><code>using namespace cv;</code> uses the OpenCV namespace.</li>
+<li>Define a <code>Mat</code> variable <code>src</code> and read an image into it.</li>
+<li>Perform robustness check; if the loaded image is not empty, display it.</li>
+<li>Use <code>namedWindow(&quot;input&quot;, WINDOW_AUTOSIZE);</code> to create a window. The first parameter is the window name, and the second parameter is the window size, which in OpenCV 4 is defined as automatic window size. In OpenCV 3, use <code>nameWindow(&quot;input&quot;, CV_WINDOW_AUTOSIZE)</code> to define the window.</li>
+<li>Use <code>imshow(&quot;input&quot;, src)</code> to display the image. The first parameter is the window to display in, and the second parameter is the image to display.</li>
+<li>To prevent the displayed image from disappearing immediately, use <code>waitKey(0)</code> to wait for user input.</li>
+<li>Use <code>destroyAllWindows()</code> to destroy all windows.</li>
+</ol>
+<h2 id="image-file-loading-displaying-and-saving">
+<a class="header-anchor" href="#image-file-loading-displaying-and-saving"></a>
+Image File Loading, Displaying, and Saving
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;opencv2/opencv.hpp&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="n">using</span> <span class="n">namespace</span> <span class="n">cv</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Mat src = imread(&#34;./lenna.tiff&#34;, IMREAD_COLOR); // Load as a color image, default mode, transparency channel will be discarded
+</span></span></span><span class="line"><span class="cl">    <span class="c1">// Mat src = imread(&#34;./lenna.tiff&#34;, IMREAD_GRAYSCALE); // Load as a grayscale image
+</span></span></span><span class="line"><span class="cl">    <span class="c1">// Mat src = imread(&#34;./lenna.tiff&#34;, IMREAD_ANYCOLOR); // Load with any color format
+</span></span></span><span class="line"><span class="cl">    <span class="n">Mat</span> <span class="n">src</span> <span class="o">=</span> <span class="nf">imread</span><span class="p">(</span><span class="s">&#34;./test.png&#34;</span><span class="p">,</span> <span class="n">IMREAD_UNCHANGED</span><span class="p">);</span> <span class="c1">// Do not change the number of channels, supports loading PNG transparency channel
+</span></span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">src</span><span class="p">.</span><span class="nf">empty</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;can not open&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// namedWindow(&#34;input&#34;, WINDOW_AUTOSIZE); // Automatically fit image size, cannot be changed
+</span></span></span><span class="line"><span class="cl">    <span class="c1">// namedWindow(&#34;input&#34;, WINDOW_FREERATIO); // Freely change image display size
+</span></span></span><span class="line"><span class="cl">    <span class="nf">namedWindow</span><span class="p">(</span><span class="s">&#34;input&#34;</span><span class="p">,</span> <span class="n">WINDOW_NORMAL</span><span class="p">);</span> <span class="c1">// Can change image display size
+</span></span></span><span class="line"><span class="cl">    <span class="nf">imshow</span><span class="p">(</span><span class="s">&#34;input&#34;</span><span class="p">,</span> <span class="n">src</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">destroyAllWindows</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">imwrite</span><span class="p">(</span><span class="s">&#34;./test.png&#34;</span><span class="p">,</span> <span class="n">src</span><span class="p">);</span> <span class="c1">// Save as the corresponding format based on the file extension
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="image-file-loading">
+<a class="header-anchor" href="#image-file-loading"></a>
+Image File Loading
+</h3><p>The <code>imread(&quot;filename&quot;, load_mode)</code> function:</p>
+        
+        <hr><p>本文2024-03-14首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-14</p>]]></description><category>Programming</category></item><item><title>Windows 11 + WSL + VS Code + Rust Environment Setup</title><link>https://www.jingmengzhiyue.tech/2024/03/11/rust-wal2-vscode/</link><pubDate>Mon, 11 Mar 2024 23:29:33 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/11/rust-wal2-vscode/</guid><description>
+<![CDATA[<h1>Windows 11 + WSL + VS Code + Rust Environment Setup</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h2 id="introduction">
+<a class="header-anchor" href="#introduction"></a>
+Introduction
+</h2><p>You can set up a Rust environment on either Windows or Linux. After searching online, I found that setting up a Rust environment on Linux is much quicker than on Windows, but I still use the Windows system on a daily basis.</p>
+<p>Therefore, I ultimately chose to set up the Rust environment in the WSL2 of Windows 11, and then use VS Code to connect to WSL.</p>
+<h2 id="overall-steps">
+<a class="header-anchor" href="#overall-steps"></a>
+Overall Steps
+</h2><ol>
+<li>Install WSL on Windows 11</li>
+<li>Change the source on WSL in Windows 11</li>
+<li>Install gcc on WSL in Windows 11</li>
+<li>Install Rust on WSL in Windows 11</li>
+<li>Install Remote-WSL on VS Code in Windows 11</li>
+<li>Install rust-analyzer on VS Code in Windows 11</li>
+<li>Simple verification</li>
+<li>Run and debug</li>
+</ol>
+<h2 id="install-wsl-on-windows-11">
+<a class="header-anchor" href="#install-wsl-on-windows-11"></a>
+Install WSL on Windows 11
+</h2><p>Reference: <a href="https://learn.microsoft.com/en-us/windows/wsl/about">https://learn.microsoft.com/en-us/windows/wsl/about</a></p>
+        
+        <hr><p>本文2024-03-11首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-11</p>]]></description><category>Environment Configuration</category></item><item><title>Using Windows Proxy Settings in WSL2</title><link>https://www.jingmengzhiyue.tech/2024/03/11/WSL2-proxy/</link><pubDate>Mon, 11 Mar 2024 23:22:42 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/11/WSL2-proxy/</guid><description>
+<![CDATA[<h1>Using Windows Proxy Settings in WSL2</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="setting-up-a-proxy-for-wsl2">
+<a class="header-anchor" href="#setting-up-a-proxy-for-wsl2"></a>
+Setting up a Proxy for WSL2
+</h1><p>WSL2 (Windows Subsystem for Linux 2) utilizes a virtual machine approach, separating its network from Windows. This means that network traffic no longer shares the same subnet as the Windows host, making it more challenging to use the host&rsquo;s proxy settings.</p>
+<h2 id="obtaining-the-host-ip-in-wsl">
+<a class="header-anchor" href="#obtaining-the-host-ip-in-wsl"></a>
+Obtaining the Host IP in WSL
+</h2><p>In WSL, the IP address changes with each reboot, so you cannot set a static proxy. WSL2 writes the IP address to <code>/etc/resolv.conf</code>, allowing you to retrieve the host&rsquo;s IP using the following command:</p>
+        
+        <hr><p>本文2024-03-11首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-11</p>]]></description><category>Environment Configuration</category></item><item><title>Installing Windows &amp; Linux Dual Boot System</title><link>https://www.jingmengzhiyue.tech/2024/03/11/Dual-System/</link><pubDate>Mon, 11 Mar 2024 22:58:03 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/11/Dual-System/</guid><description>
+<![CDATA[<h1>Installing Windows & Linux Dual Boot System</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>Ever found yourself torn between the sleek, user-friendly experience of Windows and the robustness and open-source allure of Linux? Fret not, for you can have the best of both worlds with a seamless dual-boot setup. In this comprehensive guide, we&rsquo;ll walk you through the intricate process of installing Windows and Linux on the same machine, unlocking a realm of endless possibilities and flexibility.</p>
+<p>Imagine being able to seamlessly transition between operating systems, harnessing the power of Linux for development, server management, or simply embracing its customizable nature, while still having access to the familiarity and compatibility of Windows for daily tasks or gaming. With a dual-boot configuration, you&rsquo;ll no longer have to compromise; instead, you&rsquo;ll wield the ultimate computing experience tailored to your needs.</p>
+        
+        <hr><p>本文2024-03-11首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-11</p>]]></description><category>Environment Configuration</category></item><item><title>dotfiles多端同步</title><link>https://www.jingmengzhiyue.tech/2024/03/11/dotfiles%E5%A4%9A%E7%AB%AF%E5%90%8C%E6%AD%A5/</link><pubDate>Mon, 11 Mar 2024 20:45:01 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/11/dotfiles%E5%A4%9A%E7%AB%AF%E5%90%8C%E6%AD%A5/</guid><description>
+<![CDATA[<h1>dotfiles多端同步</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>在多台设备上管理dotfiles和应用程序(如Vim和Tmux)的配置可能是一项艰巨的任务。然而,通过以下几个简单步骤,您可以简化这一流程,在任何机器上实现一键配置。</p>
+        
+        <hr><p>本文2024-03-11首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-11</p>]]></description><category>Environment Configuration</category></item><item><title>Effortless Cross-Device Configuration with Dotfiles and Plugins</title><link>https://www.jingmengzhiyue.tech/2024/03/11/config-dotfile/</link><pubDate>Mon, 11 Mar 2024 20:40:27 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/11/config-dotfile/</guid><description>
+<![CDATA[<h1>Effortless Cross-Device Configuration with Dotfiles and Plugins</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>Managing dotfiles and configurations for applications like Vim and Tmux across multiple devices can be a daunting task. However, with a few simple steps, you can streamline the process and achieve seamless one-click configuration on any machine.</p>
+<ol>
+<li>
+<p><strong>Version Control:</strong> Use Git to track your dotfiles. Create a Git repository and store your configuration files within it. This allows you to manage file versions and sync your setup across different machines.</p>
+</li>
+<li>
+<p><strong>Symbolic Links:</strong> Clone your dotfiles repository on a new machine and create symbolic links pointing to these files. This way, you can maintain the file locations within the repository while the system uses the symbolic links.</p>
+</li>
+<li>
+<p><strong>Automation Script:</strong> Write an installation script that, when you clone the repository on a new machine, automatically creates symbolic links and installs necessary software (like Vim and Tmux plugin managers).</p>
+</li>
+<li>
+<p><strong>Plugin Managers:</strong> For Vim, you can use a plugin manager like <code>vim-plug</code>, and for Tmux, you can use a tool like <code>tpm</code> (Tmux Plugin Manager). This way, you only need to specify the required plugins in your configuration files, and then run the corresponding commands to automatically install them.</p>
+</li>
+</ol>
+        
+        <hr><p>本文2024-03-11首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-11</p>]]></description><category>Environment Configuration</category></item><item><title>Hello, welcome.</title><link>https://www.jingmengzhiyue.tech/2023/10/02/hello-world/</link><pubDate>Mon, 02 Oct 2023 00:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/10/02/hello-world/</guid><description>
+<![CDATA[<h1>Hello, welcome.</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>Hello, my name is Huoshuai. I hold a Master&rsquo;s degree in Signal and Information Processing. My primary research area is remote sensing image processing, particularly the application of optimization theories to fuse hyperspectral and multispectral images. Additionally, I have scholarly interests in computer vision within the frameworks of machine learning and deep learning. I am also intrigued by natural language processing and deep reinforcement learning, with a dedicated focus on improving the interpretability of deep learning models.</p>
+        
+        <hr><p>本文2023-10-02首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-10-02</p>]]></description></item><item><title>Python基础</title><link>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86/</guid><description>
+<![CDATA[<h1>Python基础</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="预备知识">
+<a class="header-anchor" href="#%e9%a2%84%e5%a4%87%e7%9f%a5%e8%af%86"></a>
+预备知识
+</h1><h2 id="一python基础">
+<a class="header-anchor" href="#%e4%b8%80python%e5%9f%ba%e7%a1%80"></a>
+一、Python基础
+</h2><h3 id="1-列表推导式与条件赋值">
+<a class="header-anchor" href="#1-%e5%88%97%e8%a1%a8%e6%8e%a8%e5%af%bc%e5%bc%8f%e4%b8%8e%e6%9d%a1%e4%bb%b6%e8%b5%8b%e5%80%bc"></a>
+1. 列表推导式与条件赋值
+</h3><p>在生成一个数字序列的时候，在<code>Python</code>中可以如下写出：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">L</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">my_func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">L</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">my_func</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">L</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><pre><code>[0, 2, 4, 6, 8]
+</code></pre>
+<p>事实上可以利用列表推导式进行写法上的简化：<code>[* for i in *]</code>。其中，第一个<code>*</code>为映射函数，其输入为后面<code>i</code>指代的内容，第二个<code>*</code>表示迭代的对象。</p>
+        
+        <hr><p>本文2023-10-01首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-10-01</p>]]></description><category>Programming</category></item><item><title>Pandas索引</title><link>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E7%B4%A2%E5%BC%95/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E7%B4%A2%E5%BC%95/</guid><description>
+<![CDATA[<h1>Pandas索引</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="pandas索引">
+<a class="header-anchor" href="#pandas%e7%b4%a2%e5%bc%95"></a>
+Pandas索引
+</h1><h2 id="一索引器">
+<a class="header-anchor" href="#%e4%b8%80%e7%b4%a2%e5%bc%95%e5%99%a8"></a>
+一、索引器
+</h2><h3 id="1-表的列索引">
+<a class="header-anchor" href="#1-%e8%a1%a8%e7%9a%84%e5%88%97%e7%b4%a2%e5%bc%95"></a>
+1. 表的列索引
+</h3><p>列索引是最常见的索引形式，一般通过<code>[]</code>来实现。通过<code>[列名]</code>可以从<code>DataFrame</code>中取出相应的列，返回值为<code>Series</code>，例如从表中取出姓名一列：</p>
+        
+        <hr><p>本文2023-10-01首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-10-01</p>]]></description><category>Machine Learning</category></item><item><title>Pandas时序数据</title><link>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%97%B6%E5%BA%8F%E6%95%B0%E6%8D%AE/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%97%B6%E5%BA%8F%E6%95%B0%E6%8D%AE/</guid><description>
+<![CDATA[<h1>Pandas时序数据</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="pandas时序数据">
+<a class="header-anchor" href="#pandas%e6%97%b6%e5%ba%8f%e6%95%b0%e6%8d%ae"></a>
+Pandas时序数据
+</h1><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="一时序中的基本对象">
+<a class="header-anchor" href="#%e4%b8%80%e6%97%b6%e5%ba%8f%e4%b8%ad%e7%9a%84%e5%9f%ba%e6%9c%ac%e5%af%b9%e8%b1%a1"></a>
+一、时序中的基本对象
+</h2><p>时间序列的概念在日常生活中十分常见，但对于一个具体的时序事件而言，可以从多个时间对象的角度来描述。例如2020年9月7日周一早上8点整需要到教室上课，这个课会在当天早上10点结束，其中包含了哪些时间概念？</p>
+        
+        <hr><p>本文2023-10-01首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-10-01</p>]]></description><category>Machine Learning</category></item><item><title>Pandas连接</title><link>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E8%BF%9E%E6%8E%A5/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E8%BF%9E%E6%8E%A5/</guid><description>
+<![CDATA[<h1>Pandas连接</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="pandas连接">
+<a class="header-anchor" href="#pandas%e8%bf%9e%e6%8e%a5"></a>
+Pandas连接
+</h1><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="一关系型连接">
+<a class="header-anchor" href="#%e4%b8%80%e5%85%b3%e7%b3%bb%e5%9e%8b%e8%bf%9e%e6%8e%a5"></a>
+一、关系型连接
+</h2><h3 id="1-连接的基本概念">
+<a class="header-anchor" href="#1-%e8%bf%9e%e6%8e%a5%e7%9a%84%e5%9f%ba%e6%9c%ac%e6%a6%82%e5%bf%b5"></a>
+1. 连接的基本概念
+</h3><p>把两张相关的表按照某一个或某一组键连接起来是一种常见操作，例如学生期末考试各个科目的成绩表按照$\color{red}{姓名}$和$\color{red}{班级}$连接成总的成绩表，又例如对企业员工的各类信息表按照$\color{red}{员工ID号}$进行连接汇总。由此可以看出，在关系型连接中，$\color{red}{键}$是十分重要的，往往用<code>on</code>参数表示。</p>
+        
+        <hr><p>本文2023-10-01首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-10-01</p>]]></description><category>Machine Learning</category></item><item><title>Pandas基础</title><link>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20pandas%E5%9F%BA%E7%A1%80/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20pandas%E5%9F%BA%E7%A1%80/</guid><description>
+<![CDATA[<h1>Pandas基础</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="pandas基础">
+<a class="header-anchor" href="#pandas%e5%9f%ba%e7%a1%80"></a>
+Pandas基础
+</h1><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>请保证<code>pandas</code>的版本号不低于如下所示的版本，否则请务必升级！请确认已经安装了<code>xlrd, xlwt, openpyxl</code>这三个包，其中<code>xlrd</code>版本不得高于<code>2.0.0</code>。</p>
+        
+        <hr><p>本文2023-10-01首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-10-01</p>]]></description><category>Machine Learning</category></item><item><title>Pandas分组</title><link>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E5%88%86%E7%BB%84/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E5%88%86%E7%BB%84/</guid><description>
+<![CDATA[<h1>Pandas分组</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="pandas-分组">
+<a class="header-anchor" href="#pandas-%e5%88%86%e7%bb%84"></a>
+Pandas 分组
+</h1><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="一分组模式及其对象">
+<a class="header-anchor" href="#%e4%b8%80%e5%88%86%e7%bb%84%e6%a8%a1%e5%bc%8f%e5%8f%8a%e5%85%b6%e5%af%b9%e8%b1%a1"></a>
+一、分组模式及其对象
+</h2><h3 id="1-分组的一般模式">
+<a class="header-anchor" href="#1-%e5%88%86%e7%bb%84%e7%9a%84%e4%b8%80%e8%88%ac%e6%a8%a1%e5%bc%8f"></a>
+1. 分组的一般模式
+</h3><p>分组操作在日常生活中使用极其广泛，例如：</p>
+<ul>
+<li>依据性别分组，统计全国人口寿命的平均值</li>
+<li>依据季节分组，对每一个季节的温度进行组内标准化</li>
+<li>依据班级筛选出组内数学分数的平均值超过80分的班级</li>
+</ul>
+<p>从上述的几个例子中不难看出，想要实现分组操作，必须明确三个要素：分组依据、数据来源、操作及其返回结果。同时从充分性的角度来说，如果明确了这三方面，就能确定一个分组操作，从而分组代码的一般模式即：</p>
+        
+        <hr><p>本文2023-10-01首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-10-01</p>]]></description><category>Machine Learning</category></item><item><title>Pandas分类数据</title><link>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E4%B9%9D%E7%AB%A0%20%E5%88%86%E7%B1%BB%E6%95%B0%E6%8D%AE/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E4%B9%9D%E7%AB%A0%20%E5%88%86%E7%B1%BB%E6%95%B0%E6%8D%AE/</guid><description>
+<![CDATA[<h1>Pandas分类数据</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="pandas分类数据">
+<a class="header-anchor" href="#pandas%e5%88%86%e7%b1%bb%e6%95%b0%e6%8d%ae"></a>
+Pandas分类数据
+</h1><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="一cat对象">
+<a class="header-anchor" href="#%e4%b8%80cat%e5%af%b9%e8%b1%a1"></a>
+一、cat对象
+</h2><h3 id="1-cat对象的属性">
+<a class="header-anchor" href="#1-cat%e5%af%b9%e8%b1%a1%e7%9a%84%e5%b1%9e%e6%80%a7"></a>
+1. cat对象的属性
+</h3><p>在<code>pandas</code>中提供了<code>category</code>类型，使用户能够处理分类类型的变量，将一个普通序列转换成分类变量可以使用<code>astype</code>方法。</p>
+        
+        <hr><p>本文2023-10-01首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-10-01</p>]]></description><category>Machine Learning</category></item><item><title>Pandas处理文本数据</title><link>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E6%96%87%E6%9C%AC%E6%95%B0%E6%8D%AE/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E6%96%87%E6%9C%AC%E6%95%B0%E6%8D%AE/</guid><description>
+<![CDATA[<h1>Pandas处理文本数据</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="pandas处理文本数据">
+<a class="header-anchor" href="#pandas%e5%a4%84%e7%90%86%e6%96%87%e6%9c%ac%e6%95%b0%e6%8d%ae"></a>
+Pandas处理文本数据
+</h1><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="一str对象">
+<a class="header-anchor" href="#%e4%b8%80str%e5%af%b9%e8%b1%a1"></a>
+一、str对象
+</h2><h3 id="1-str对象的设计意图">
+<a class="header-anchor" href="#1-str%e5%af%b9%e8%b1%a1%e7%9a%84%e8%ae%be%e8%ae%a1%e6%84%8f%e5%9b%be"></a>
+1. str对象的设计意图
+</h3><p><code>str</code>对象是定义在<code>Index</code>或<code>Series</code>上的属性，专门用于处理每个元素的文本内容，其内部定义了大量方法，因此对一个序列进行文本处理，首先需要获取其<code>str</code>对象。在Python标准库中也有<code>str</code>模块，为了使用上的便利，有许多函数的用法<code>pandas</code>照搬了它的设计，例如字母转为大写的操作：</p>
+        
+        <hr><p>本文2023-10-01首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-10-01</p>]]></description><category>Machine Learning</category></item><item><title>Pandas处理缺失数据</title><link>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E7%BC%BA%E5%A4%B1%E6%95%B0%E6%8D%AE/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E7%BC%BA%E5%A4%B1%E6%95%B0%E6%8D%AE/</guid><description>
+<![CDATA[<h1>Pandas处理缺失数据</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="pandas处理缺失数据">
+<a class="header-anchor" href="#pandas%e5%a4%84%e7%90%86%e7%bc%ba%e5%a4%b1%e6%95%b0%e6%8d%ae"></a>
+Pandas处理缺失数据
+</h1><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="一缺失值的统计和删除">
+<a class="header-anchor" href="#%e4%b8%80%e7%bc%ba%e5%a4%b1%e5%80%bc%e7%9a%84%e7%bb%9f%e8%ae%a1%e5%92%8c%e5%88%a0%e9%99%a4"></a>
+一、缺失值的统计和删除
+</h2><h3 id="1-缺失信息的统计">
+<a class="header-anchor" href="#1-%e7%bc%ba%e5%a4%b1%e4%bf%a1%e6%81%af%e7%9a%84%e7%bb%9f%e8%ae%a1"></a>
+1. 缺失信息的统计
+</h3><p>缺失数据可以使用<code>isna</code>或<code>isnull</code>（两个函数没有区别）来查看每个单元格是否缺失，结合<code>mean</code>可以计算出每列缺失值的比例：</p>
+        
+        <hr><p>本文2023-10-01首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-10-01</p>]]></description><category>Machine Learning</category></item><item><title>Pandas变形</title><link>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%8F%98%E5%BD%A2/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%8F%98%E5%BD%A2/</guid><description>
+<![CDATA[<h1>Pandas变形</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="pandas变形">
+<a class="header-anchor" href="#pandas%e5%8f%98%e5%bd%a2"></a>
+Pandas变形
+</h1><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="一长宽表的变形">
+<a class="header-anchor" href="#%e4%b8%80%e9%95%bf%e5%ae%bd%e8%a1%a8%e7%9a%84%e5%8f%98%e5%bd%a2"></a>
+一、长宽表的变形
+</h2><p>什么是长表？什么是宽表？这个概念是对于某一个特征而言的。例如：一个表中把性别存储在某一个列中，那么它就是关于性别的长表；如果把性别作为列名，列中的元素是某一其他的相关特征数值，那么这个表是关于性别的宽表。下面的两张表就分别是关于性别的长表和宽表：</p>
+        
+        <hr><p>本文2023-10-01首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-10-01</p>]]></description><category>Machine Learning</category></item><item><title>机器学习----学习理论</title><link>https://www.jingmengzhiyue.tech/2023/08/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0----%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA/</link><pubDate>Tue, 01 Aug 2023 21:22:28 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/08/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0----%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA/</guid><description>
+<![CDATA[<h1>机器学习----学习理论</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="第四章">
+<a class="header-anchor" href="#%e7%ac%ac%e5%9b%9b%e7%ab%a0"></a>
+第四章
+</h1><h3 id="第六部分--学习理论learning-theory">
+<a class="header-anchor" href="#%e7%ac%ac%e5%85%ad%e9%83%a8%e5%88%86--%e5%ad%a6%e4%b9%a0%e7%90%86%e8%ae%balearning-theory"></a>
+第六部分  学习理论（Learning Theory）
+</h3><h4 id="1-偏差方差的权衡biasvariance-tradeoff-">
+<a class="header-anchor" href="#1-%e5%81%8f%e5%b7%ae%e6%96%b9%e5%b7%ae%e7%9a%84%e6%9d%83%e8%a1%a1biasvariance-tradeoff-"></a>
+1 偏差/方差的权衡（Bias/variance tradeoff ）
+</h4><p>在讲线性回归的时候，我们讨论过这样的问题：拟合数据的时候，选择线性的“$y = \theta_0 +\theta_1x$”这样的“简单”模型，还是选择多项式的“$y= \theta_0 + \theta_1x+ ...+\theta_5x^5$”这种“复杂”模型。如下图所示：</p>
+        
+        <hr><p>本文2023-08-01首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-08-01</p>]]></description><category>Machine Learning</category></item><item><title>机器学习----支持向量机</title><link>https://www.jingmengzhiyue.tech/2023/08/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0----%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/</link><pubDate>Tue, 01 Aug 2023 21:18:39 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/08/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0----%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/</guid><description>
+<![CDATA[<h1>机器学习----支持向量机</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="第三章">
+<a class="header-anchor" href="#%e7%ac%ac%e4%b8%89%e7%ab%a0"></a>
+第三章
+</h1><h3 id="第五部分-支持向量机support-vector-machines">
+<a class="header-anchor" href="#%e7%ac%ac%e4%ba%94%e9%83%a8%e5%88%86-%e6%94%af%e6%8c%81%e5%90%91%e9%87%8f%e6%9c%basupport-vector-machines"></a>
+第五部分 支持向量机(Support Vector Machines)
+</h3><p>本章的讲义主要讲述的是 支持向量机（Support Vector Machine ，缩写为 SVM） 学习算法。SVM 算得上是现有的最好的现成的(“off-the-shelf”)监督学习算法之一，很多人实际上认为这里没有“之一”这两个字的必要，认为 SVM 就是最好的现成的监督学习算法。讲这个 SVM 的来龙去脉之前，我们需要先讲一些关于边界的内容，以及对数据进行分割成大的区块（gap）的思路。接下来，我们要讲一下最优边界分类器(optimal margin classifier,)，其中还会引入一些关于拉格朗日对偶(Lagrange duality)的内容。然后我们还会接触到核(Kernels)，这提供了一种在非常高的维度(例如无穷维度)中进行 SVM 学习的高效率方法，最终本章结尾部分会讲 SMO 算法，也就是 SVM 算法的一个有效实现方法。</p>
+        
+        <hr><p>本文2023-08-01首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-08-01</p>]]></description><category>Machine Learning</category></item><item><title>机器学习----生成模型</title><link>https://www.jingmengzhiyue.tech/2023/08/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0----%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/</link><pubDate>Tue, 01 Aug 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/08/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0----%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/</guid><description>
+<![CDATA[<h1>机器学习----生成模型</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="第二章">
+<a class="header-anchor" href="#%e7%ac%ac%e4%ba%8c%e7%ab%a0"></a>
+第二章
+</h1><h3 id="第四部分-生成学习算法generative-learning-algorithms">
+<a class="header-anchor" href="#%e7%ac%ac%e5%9b%9b%e9%83%a8%e5%88%86-%e7%94%9f%e6%88%90%e5%ad%a6%e4%b9%a0%e7%ae%97%e6%b3%95generative-learning-algorithms"></a>
+第四部分 生成学习算法(Generative Learning algorithms)
+</h3><p>目前为止，我们讲过的学习算法的模型都是$p (y|x;\theta)$，也就是给定 $x$ 下 $y$ 的条件分布，以  $\theta$  为参数。例如，逻辑回归中就是以 $h_\theta(x) = g(\theta^T x)$ 作为 $p (y|x;\theta)$ 的模型，这里的 $g$ 是一个 $S$型函数（sigmoid function）。接下来，咱们要讲一下一种不同类型的学习算法。</p>
+        
+        <hr><p>本文2023-08-01首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-08-01</p>]]></description><category>Machine Learning</category></item><item><title>机器学习----线性模型</title><link>https://www.jingmengzhiyue.tech/2023/08/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0----%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B/</link><pubDate>Tue, 01 Aug 2023 20:59:58 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/08/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0----%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B/</guid><description>
+<![CDATA[<h1>机器学习----线性模型</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="第一章">
+<a class="header-anchor" href="#%e7%ac%ac%e4%b8%80%e7%ab%a0"></a>
+第一章
+</h1><h2 id="监督学习supervised-learning">
+<a class="header-anchor" href="#%e7%9b%91%e7%9d%a3%e5%ad%a6%e4%b9%a0supervised-learning"></a>
+监督学习（Supervised learning）
+</h2><p>咱们先来聊几个使用监督学习来解决问题的实例。假如咱们有一个数据集，里面的数据是俄勒冈州波特兰市的 $47$ 套房屋的面积和价格：</p>
+        
+        <hr><p>本文2023-08-01首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-08-01</p>]]></description><category>Machine Learning</category></item><item><title>DTW (Dynamic Time Warping)</title><link>https://www.jingmengzhiyue.tech/2023/06/24/DTW/</link><pubDate>Sat, 24 Jun 2023 14:47:16 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/24/DTW/</guid><description>
+<![CDATA[<h1>DTW (Dynamic Time Warping)</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>DTW最初用于识别语音的相似性，当前DTW算法常用于计算两个时间序列的相似性，<strong>尤其适用于不同长度、不同节奏的时间序列</strong></p>
+<h2 id="算法流程">
+<a class="header-anchor" href="#%e7%ae%97%e6%b3%95%e6%b5%81%e7%a8%8b"></a>
+算法流程
+</h2><p>假设有两个序列
+</p>
+        
+        <hr><p>本文2023-06-24首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-06-24</p>]]></description><category>Algorithm</category></item><item><title>version-control</title><link>https://www.jingmengzhiyue.tech/2023/06/05/version-control/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/05/version-control/</guid><description>
+<![CDATA[<h1>version-control</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>版本控制系统 (VCSs) 是一类用于追踪源代码（或其他文件、文件夹）改动的工具。顾名思义，这些工具可以帮助我们管理代码的修改历史；不仅如此，它还可以让协作编码变得更方便。VCS通过一系列的快照将某个文件夹及其内容保存了起来，每个快照都包含了文件或文件夹的完整状态。同时它还维护了快照创建者的信息以及每个快照的相关信息等等。</p>
+        
+        <hr><p>本文2023-06-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>shell-tools</title><link>https://www.jingmengzhiyue.tech/2023/06/05/shell-tools/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/05/shell-tools/</guid><description>
+<![CDATA[<h1>shell-tools</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>在这节课中，我们将会展示 bash 作为脚本语言的一些基础操作，以及几种最常用的 shell 工具。</p>
+<h1 id="shell-脚本">
+<a class="header-anchor" href="#shell-%e8%84%9a%e6%9c%ac"></a>
+Shell 脚本
+</h1><p>到目前为止，我们已经学习来如何在 shell 中执行命令，并使用管道将命令组合使用。但是，很多情况下我们需要执行一系列的操作并使用条件或循环这样的控制流。</p>
+        
+        <hr><p>本文2023-06-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>security</title><link>https://www.jingmengzhiyue.tech/2023/06/05/security/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/05/security/</guid><description>
+<![CDATA[<h1>security</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>去年的<a href="/2023/06/05/security/">这节课</a>我们从计算机 <em>用户</em> 的角度探讨了增强隐私保护和安全的方法。
+今年我们将关注比如散列函数、密钥生成函数、对称/非对称密码体系这些安全和密码学的概念是如何应用于前几节课所学到的工具（Git和SSH）中的。</p>
+        
+        <hr><p>本文2023-06-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>QA</title><link>https://www.jingmengzhiyue.tech/2023/06/05/qa/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/05/qa/</guid><description>
+<![CDATA[<h1>QA</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>最后一节课，我们回答学生提出的问题:</p>
+<ul>
+<li><a href="/2023/06/05/qa/#%e5%ad%a6%e4%b9%a0%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e7%9b%b8%e5%85%b3%e5%86%85%e5%ae%b9%e7%9a%84%e6%8e%a8%e8%8d%90%e6%af%94%e5%a6%82%e8%bf%9b%e7%a8%8b%e8%99%9a%e6%8b%9f%e5%86%85%e5%ad%98%e4%b8%ad%e6%96%ad%e5%86%85%e5%ad%98%e7%ae%a1%e7%90%86%e7%ad%89">学习操作系统相关内容的推荐，比如进程，虚拟内存，中断，内存管理等</a></li>
+<li><a href="/2023/06/05/qa/#%e4%bd%a0%e4%bc%9a%e4%bc%98%e5%85%88%e5%ad%a6%e4%b9%a0%e7%9a%84%e5%b7%a5%e5%85%b7%e6%9c%89%e9%82%a3%e4%ba%9b">你会优先学习的工具有那些？</a></li>
+<li><a href="/2023/06/05/qa/#%e4%bd%bf%e7%94%a8-python-vs-bash%e8%84%9a%e6%9c%ac-vs-%e5%85%b6%e4%bb%96%e8%af%ad%e8%a8%80">使用 Python VS Bash脚本 VS 其他语言?</a></li>
+<li><a href="/2023/06/05/qa/#source-scriptsh-%e5%92%8c-scriptsh-%e6%9c%89%e4%bb%80%e4%b9%88%e5%8c%ba%e5%88%ab"><code>source script.sh</code> 和 <code>./script.sh</code> 有什么区别?</a></li>
+<li><a href="/2023/06/05/qa/#%e5%90%84%e7%a7%8d%e8%bd%af%e4%bb%b6%e5%8c%85%e5%92%8c%e5%b7%a5%e5%85%b7%e5%ad%98%e5%82%a8%e5%9c%a8%e5%93%aa%e9%87%8c%e5%bc%95%e7%94%a8%e8%bf%87%e7%a8%8b%e6%98%af%e6%80%8e%e6%a0%b7%e7%9a%84-bin-%e6%88%96-lib-%e6%98%af%e4%bb%80%e4%b9%88">各种软件包和工具存储在哪里？引用过程是怎样的? <code>/bin</code> 或 <code>/lib</code> 是什么？</a></li>
+<li><a href="/2023/06/05/qa/#%e6%88%91%e5%ba%94%e8%af%a5%e7%94%a8-apt-get-install-%e8%bf%98%e6%98%af-pip-install-%e5%8e%bb%e4%b8%8b%e8%bd%bd%e8%bd%af%e4%bb%b6%e5%8c%85%e5%91%a2">我应该用 <code>apt-get install</code> 还是 <code>pip install</code> 去下载软件包呢?</a></li>
+<li><a href="/2023/06/05/qa/#%e7%94%a8%e4%ba%8e%e6%8f%90%e9%ab%98%e4%bb%a3%e7%a0%81%e6%80%a7%e8%83%bd%e7%ae%80%e5%8d%95%e5%a5%bd%e7%94%a8%e7%9a%84%e6%80%a7%e8%83%bd%e5%88%86%e6%9e%90%e5%b7%a5%e5%85%b7%e6%9c%89%e5%93%aa%e4%ba%9b">用于提高代码性能，简单好用的性能分析工具有哪些?</a></li>
+<li><a href="/2023/06/05/qa/#%e4%bd%a0%e4%bd%bf%e7%94%a8%e9%82%a3%e4%ba%9b%e6%b5%8f%e8%a7%88%e5%99%a8%e6%8f%92%e4%bb%b6">你使用那些浏览器插件?</a></li>
+<li><a href="/2023/06/05/qa/#%e6%9c%89%e5%93%aa%e4%ba%9b%e6%9c%89%e7%94%a8%e7%9a%84%e6%95%b0%e6%8d%ae%e6%95%b4%e7%90%86%e5%b7%a5%e5%85%b7">有哪些有用的数据整理工具？</a></li>
+<li><a href="/2023/06/05/qa/#docker%e5%92%8c%e8%99%9a%e6%8b%9f%e6%9c%ba%e6%9c%89%e4%bb%80%e4%b9%88%e5%8c%ba%e5%88%ab">Docker和虚拟机有什么区别?</a></li>
+<li><a href="/2023/06/05/qa/#%e4%b8%8d%e5%90%8c%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e7%9a%84%e4%bc%98%e7%bc%ba%e7%82%b9%e6%98%af%e4%bb%80%e4%b9%88%e6%88%91%e4%bb%ac%e5%a6%82%e4%bd%95%e9%80%89%e6%8b%a9%e6%af%94%e5%a6%82%e9%80%89%e6%8b%a9%e6%9c%80%e9%80%82%e7%94%a8%e4%ba%8e%e6%88%91%e4%bb%ac%e9%9c%80%e6%b1%82%e7%9a%84linux%e5%8f%91%e8%a1%8c%e7%89%88">不同操作系统的优缺点是什么，我们如何选择（比如选择最适用于我们需求的Linux发行版)?</a></li>
+<li><a href="/2023/06/05/qa/#%e4%bd%bf%e7%94%a8-vim-%e7%bc%96%e8%be%91%e5%99%a8-vs-emacs-%e7%bc%96%e8%be%91%e5%99%a8">使用 Vim 编辑器 VS Emacs 编辑器?</a></li>
+<li><a href="/2023/06/05/qa/#%e6%9c%ba%e5%99%a8%e5%ad%a6%e4%b9%a0%e5%ba%94%e7%94%a8%e7%9a%84%e6%8f%90%e7%a4%ba%e6%88%96%e6%8a%80%e5%b7%a7">机器学习应用的提示或技巧?</a></li>
+<li><a href="/2023/06/05/qa/#%e8%bf%98%e6%9c%89%e6%9b%b4%e5%a4%9a%e7%9a%84-vim-%e5%b0%8f%e7%aa%8d%e9%97%a8%e5%90%97">还有更多的 Vim 小窍门吗？</a></li>
+<li><a href="/2023/06/05/qa/#2fa%e6%98%af%e4%bb%80%e4%b9%88%e4%b8%ba%e4%bb%80%e4%b9%88%e6%88%91%e9%9c%80%e8%a6%81%e4%bd%bf%e7%94%a8%e5%ae%83">2FA是什么，为什么我需要使用它?</a></li>
+<li><a href="/2023/06/05/qa/#%e5%af%b9%e4%ba%8e%e4%b8%8d%e5%90%8c%e7%9a%84-web-%e6%b5%8f%e8%a7%88%e5%99%a8%e6%9c%89%e4%bb%80%e4%b9%88%e8%af%84%e4%bb%b7">对于不同的 Web 浏览器有什么评价?</a></li>
+</ul>
+<h2 id="学习操作系统相关内容的推荐比如进程虚拟内存中断内存管理等">
+<a class="header-anchor" href="#%e5%ad%a6%e4%b9%a0%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e7%9b%b8%e5%85%b3%e5%86%85%e5%ae%b9%e7%9a%84%e6%8e%a8%e8%8d%90%e6%af%94%e5%a6%82%e8%bf%9b%e7%a8%8b%e8%99%9a%e6%8b%9f%e5%86%85%e5%ad%98%e4%b8%ad%e6%96%ad%e5%86%85%e5%ad%98%e7%ae%a1%e7%90%86%e7%ad%89"></a>
+学习操作系统相关内容的推荐，比如进程，虚拟内存，中断，内存管理等
+</h2><p>首先，不清楚你是不是真的需要了解这些更底层的话题。
+当你开始编写更加底层的代码，比如实现或修改内核的时候，这些内容是很重要的。除了其他课程中简要介绍过的进程和信号量之外，大部分话题都不相关。</p>
+        
+        <hr><p>本文2023-06-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>potpourri</title><link>https://www.jingmengzhiyue.tech/2023/06/05/potpourri/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/05/potpourri/</guid><description>
+<![CDATA[<h1>potpourri</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h2 id="目录">
+<a class="header-anchor" href="#%e7%9b%ae%e5%bd%95"></a>
+目录
+</h2><ul>
+<li><a href="/2023/06/05/potpourri/#%e4%bf%ae%e6%94%b9%e9%94%ae%e4%bd%8d%e6%98%a0%e5%b0%84">修改键位映射</a></li>
+<li><a href="/2023/06/05/potpourri/#%e5%ae%88%e6%8a%a4%e8%bf%9b%e7%a8%8b">守护进程</a></li>
+<li><a href="/2023/06/05/potpourri/#fuse">FUSE</a></li>
+<li><a href="/2023/06/05/potpourri/#%e5%a4%87%e4%bb%bd">备份</a></li>
+<li><a href="/2023/06/05/potpourri/#API%ef%bc%88%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f%e6%8e%a5%e5%8f%a3%ef%bc%89">API（应用程序接口）</a></li>
+<li><a href="/2023/06/05/potpourri/#%e5%b8%b8%e8%a7%81%e5%91%bd%e4%bb%a4%e8%a1%8c%e6%a0%87%e5%bf%97%e5%8f%82%e6%95%b0%e5%8f%8a%e6%a8%a1%e5%bc%8f">常见命令行标志参数及模式</a></li>
+<li><a href="/2023/06/05/potpourri/#%e7%aa%97%e5%8f%a3%e7%ae%a1%e7%90%86%e5%99%a8">窗口管理器</a></li>
+<li><a href="/2023/06/05/potpourri/#vpn">VPN</a></li>
+<li><a href="/2023/06/05/potpourri/#markdown">Markdown</a></li>
+<li><a href="/2023/06/05/potpourri/#Hammerspoon%20%28macOS%e6%a1%8c%e9%9d%a2%e8%87%aa%e5%8a%a8%e5%8c%96%29">Hammerspoon (macOS桌面自动化)</a>
+<ul>
+<li><a href="/2023/06/05/potpourri/#%e8%b5%84%e6%ba%90">资源</a></li>
+</ul>
+</li>
+<li><a href="/2023/06/05/potpourri/#%e5%bc%80%e6%9c%ba%e5%bc%95%e5%af%bc%e4%bb%a5%e5%8f%8a%20Live%20USB">开机引导以及 Live USB</a></li>
+<li><a href="/2023/06/05/potpourri/#docker-vagrant-vms-cloud-openstack">Docker, Vagrant, VMs, Cloud, OpenStack</a></li>
+<li><a href="/2023/06/05/potpourri/#%e4%ba%a4%e4%ba%92%e5%bc%8f%e8%ae%b0%e4%ba%8b%e6%9c%ac%e7%bc%96%e7%a8%8b">交互式记事本编程</a></li>
+<li><a href="/2023/06/05/potpourri/#github">GitHub</a></li>
+</ul>
+<h2 id="修改键位映射">
+<a class="header-anchor" href="#%e4%bf%ae%e6%94%b9%e9%94%ae%e4%bd%8d%e6%98%a0%e5%b0%84"></a>
+修改键位映射
+</h2><p>作为一名程序员，键盘是你的主要输入工具。它像计算机里的其他部件一样是可配置的，而且值得你在这上面花时间。</p>
+        
+        <hr><p>本文2023-06-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>metaprogramming</title><link>https://www.jingmengzhiyue.tech/2023/06/05/metaprogramming/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/05/metaprogramming/</guid><description>
+<![CDATA[<h1>metaprogramming</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>我们这里说的 “元编程（metaprogramming）” 是什么意思呢？好吧，对于本文要介绍的这些内容，这是我们能够想到的最能概括它们的词。因为我们今天要讲的东西，更多是关于 <em>流程</em> ，而不是写代码或更高效的工作。本节课我们会学习构建系统、代码测试以及依赖管理。在您还是学生的时候，这些东西看上去似乎对您来说没那么重要，不过当您开始实习或走进社会的时候，您将会接触到大型的代码库，本节课讲授的这些东西也会变得随处可见。必须要指出的是，“元编程” 也有<a href="https://en.wikipedia.org/wiki/Metaprogramming">用于操作程序的程序</a>&quot; 之含义，这和我们今天讲座所介绍的概念是完全不同的。</p>
+        
+        <hr><p>本文2023-06-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>editors</title><link>https://www.jingmengzhiyue.tech/2023/06/05/editors/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/05/editors/</guid><description>
+<![CDATA[<h1>editors</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>写作和写代码其实是两项非常不同的活动。当我们编程的时候，会经常在文件间进行切换、阅读、浏览和修改代码，而不是连续编写一大段的文字。因此代码编辑器和文本编辑器是很不同的两种工具（例如微软的 Word 与 Visual Studio Code）。</p>
+        
+        <hr><p>本文2023-06-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>debugging</title><link>https://www.jingmengzhiyue.tech/2023/06/05/debugging-profiling/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/05/debugging-profiling/</guid><description>
+<![CDATA[<h1>debugging</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>代码不能完全按照您的想法运行，它只能完全按照您的写法运行，这是编程界的一条金科玉律。</p>
+<p>让您的写法符合您的想法是非常困难的。在这节课中，我们会传授给您一些非常有用技术，帮您处理代码中的 bug 和程序性能问题。</p>
+        
+        <hr><p>本文2023-06-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>data-wrangling</title><link>https://www.jingmengzhiyue.tech/2023/06/05/data-wrangling/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/05/data-wrangling/</guid><description>
+<![CDATA[<h1>data-wrangling</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>您是否曾经有过这样的需求，将某种格式存储的数据转换成另外一种格式? 肯定有过，对吧！
+这也正是我们这节课所要讲授的主要内容。具体来讲，我们需要不断地对数据进行处理，直到得到我们想要的最终结果。</p>
+        
+        <hr><p>本文2023-06-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>course-shell</title><link>https://www.jingmengzhiyue.tech/2023/06/05/course-shell/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/05/course-shell/</guid><description>
+<![CDATA[<h1>course-shell</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="动机">
+<a class="header-anchor" href="#%e5%8a%a8%e6%9c%ba"></a>
+动机
+</h1><p>作为计算机科学家，我们都知道计算机最擅长帮助我们完成重复性的工作。但是我们却常常忘记这一点也适用于我们使用计算机的方式，而不仅仅是利用计算机程序去帮我们求解问题。在从事与计算机相关的工作时，我们有很多触手可及的工具可以帮助我们更高效的解决问题。但是我们中的大多数人实际上只利用了这些工具中的很少一部分，我们常常只是死记硬背一些如咒语般的命令，或是当我们卡住的时候，盲目地从网上复制粘贴一些命令。</p>
+        
+        <hr><p>本文2023-06-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>Command-line</title><link>https://www.jingmengzhiyue.tech/2023/06/05/Command-line/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/05/Command-line/</guid><description>
+<![CDATA[<h1>Command-line</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>当您使用 shell 进行工作时，可以使用一些方法改善您的工作流，本节课我们就来讨论这些方法。</p>
+<p>我们已经使用 shell 一段时间了，但是到目前为止我们的关注点主要集中在使用不同的命令上面。现在，我们将会学习如何同时执行多个不同的进程并追踪它们的状态、如何停止或暂停某个进程以及如何使进程在后台运行。</p>
+        
+        <hr><p>本文2023-06-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>CPP泛型编程</title><link>https://www.jingmengzhiyue.tech/2023/03/31/CPP%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/</link><pubDate>Fri, 31 Mar 2023 18:38:53 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/03/31/CPP%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/</guid><description>
+<![CDATA[<h1>CPP泛型编程</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="c泛型编程">
+<a class="header-anchor" href="#c%e6%b3%9b%e5%9e%8b%e7%bc%96%e7%a8%8b"></a>
+C++泛型编程
+</h1><ul>
+<li>本阶段主要针对C++==泛型编程==和==STL==技术做详细讲解，探讨C++更深层的使用</li>
+</ul>
+<h2 id="1-模板">
+<a class="header-anchor" href="#1-%e6%a8%a1%e6%9d%bf"></a>
+1 模板
+</h2><h3 id="11-模板的概念">
+<a class="header-anchor" href="#11-%e6%a8%a1%e6%9d%bf%e7%9a%84%e6%a6%82%e5%bf%b5"></a>
+1.1 模板的概念
+</h3><p>模板就是建立<strong>通用的模具</strong>，大大<strong>提高复用性</strong></p>
+        
+        <hr><p>本文2023-03-31首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-03-31</p>]]></description><category>Programming</category></item><item><title>CPP核心编程</title><link>https://www.jingmengzhiyue.tech/2023/03/31/CPP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B/</link><pubDate>Fri, 31 Mar 2023 18:19:51 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/03/31/CPP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B/</guid><description>
+<![CDATA[<h1>CPP核心编程</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="c核心编程">
+<a class="header-anchor" href="#c%e6%a0%b8%e5%bf%83%e7%bc%96%e7%a8%8b"></a>
+C++核心编程
+</h1><p>本阶段主要针对C++==面向对象==编程技术做详细讲解，探讨C++中的核心和精髓。</p>
+<h2 id="1-内存分区模型">
+<a class="header-anchor" href="#1-%e5%86%85%e5%ad%98%e5%88%86%e5%8c%ba%e6%a8%a1%e5%9e%8b"></a>
+1 内存分区模型
+</h2><p>C++程序在执行时，将内存大方向划分为<strong>4个区域</strong></p>
+        
+        <hr><p>本文2023-03-31首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-03-31</p>]]></description><category>Programming</category></item><item><title>CPP基本语法</title><link>https://www.jingmengzhiyue.tech/2023/03/31/CPP%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/</link><pubDate>Fri, 31 Mar 2023 17:56:42 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/03/31/CPP%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/</guid><description>
+<![CDATA[<h1>CPP基本语法</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h2 id="1-c初识">
+<a class="header-anchor" href="#1-c%e5%88%9d%e8%af%86"></a>
+1 C++初识
+</h2><h3 id="11--第一个c程序">
+<a class="header-anchor" href="#11--%e7%ac%ac%e4%b8%80%e4%b8%aac%e7%a8%8b%e5%ba%8f"></a>
+1.1  第一个C++程序
+</h3><p>编写一个C++程序总共分为4个步骤</p>
+<ul>
+<li>创建项目</li>
+<li>创建文件</li>
+<li>编写代码</li>
+<li>运行程序</li>
+</ul>
+<h4 id="111-创建项目">
+<a class="header-anchor" href="#111-%e5%88%9b%e5%bb%ba%e9%a1%b9%e7%9b%ae"></a>
+1.1.1 创建项目
+</h4><pre><code>Visual Studio是我们用来编写C++程序的主要工具，我们先将它打开
+</code></pre>
+<p><img src="/img/1541383178746.png" alt="1541383178746"></p>
+        
+        <hr><p>本文2023-03-31首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-03-31</p>]]></description><category>Programming</category></item><item><title>LDA</title><link>https://www.jingmengzhiyue.tech/2023/03/07/LDA/</link><pubDate>Tue, 07 Mar 2023 16:22:38 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/03/07/LDA/</guid><description>
+<![CDATA[<h1>LDA</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h2 id="lda-原理">
+<a class="header-anchor" href="#lda-%e5%8e%9f%e7%90%86"></a>
+LDA 原理
+</h2><p>给定数据$\mathbf{X}\in \mathbb{R}^{N\times p}$，以及$\mathbf{y}\in \{0,1\}$，构成输入与输出训练数据对$D=\{(\mathbf{x}_1,\mathbf{y}_1),...,(\mathbf{x}_N,\mathbf{y}_N)\}$。训练集$D$表示整个训练数据集有$N$条数据，每一条数据的维度为$p$维，所有数据只有两个类别分别对应于输出$\mathbf{y}$取值为0或者1。</p>
+        
+        <hr><p>本文2023-03-07首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-03-07</p>]]></description><category>machine learning</category></item><item><title>ChatGPT</title><link>https://www.jingmengzhiyue.tech/2023/03/06/ChatGPT/</link><pubDate>Mon, 06 Mar 2023 15:13:59 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/03/06/ChatGPT/</guid><description>
+<![CDATA[<h1>ChatGPT</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>ChatGPT是由InstructGPT演变而来的，
+<img src="/img/ChatGPT_Diagram.png" alt="ChatGPT训练流程图"></p>
+<h2 id="简介">
+<a class="header-anchor" href="#%e7%ae%80%e4%bb%8b"></a>
+简介
+</h2><p>它的训练可以分为四个阶段：</p>
+<ol>
+<li>基于Mask的自监督训练</li>
+<li>人工标注的监督QA训练</li>
+<li>利用人工对答案优先级的标注数据进行监督训练</li>
+<li>利用学习到的人类喜好通过强化学习训练判别模型</li>
+</ol>
+<h2 id="自监督训练">
+<a class="header-anchor" href="#%e8%87%aa%e7%9b%91%e7%9d%a3%e8%ae%ad%e7%bb%83"></a>
+自监督训练
+</h2><p><img src="/img/Hello.png" alt="基于采样的自监督训练"></p>
+        
+        <hr><p>本文2023-03-06首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-03-06</p>]]></description><category>LLM</category></item><item><title>Openai_api</title><link>https://www.jingmengzhiyue.tech/2023/03/05/Openai-api/</link><pubDate>Sun, 05 Mar 2023 19:38:17 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/03/05/Openai-api/</guid><description>
+<![CDATA[<h1>Openai_api</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="使用openai以及ynmt创建论文">
+<a class="header-anchor" href="#%e4%bd%bf%e7%94%a8openai%e4%bb%a5%e5%8f%8aynmt%e5%88%9b%e5%bb%ba%e8%ae%ba%e6%96%87"></a>
+使用OpenAI以及YNMT创建论文
+</h1><pre class="mermaid">
+  graph TB
+    id1(开始)-->id2[访问YNMT/ChatGPT翻译模型]
+    subgraph  
+        id2==鉴权==>id3(向数据中心发送API与token)
+        id3-->id4[鉴权通过]
+        id3-->id5((结束))
+        end
+    subgraph 翻译
+    	id4-->id6(按段落读取文章)
+    	id6-->id7(送入翻译模型)
+    	id7-->id8(获取返回值)
+    	id8-->id9((创建TeX文档))
+  
+  
+    end
+</pre><h2 id="代码实现">
+<a class="header-anchor" href="#%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0"></a>
+代码实现
+</h2><p>main.py</p>
+        
+        <hr><p>本文2023-03-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-03-05</p>]]></description><category>LLM</category></item><item><title>Word2Vec</title><link>https://www.jingmengzhiyue.tech/2023/03/05/Word2Vec/</link><pubDate>Sun, 05 Mar 2023 17:09:55 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/03/05/Word2Vec/</guid><description>
+<![CDATA[<h1>Word2Vec</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="word2vec">
+<a class="header-anchor" href="#word2vec"></a>
+Word2Vec
+</h1><p>由于深度神经网络无法向人类一样理解单词或者句子，因此需要将单词或者句子表达成网络可以理解的形式。</p>
+<p>假设有一个词表$\mathbf{V}=\{w_1,...,w_{|v|}\}$，对每一个单词$w_i$来说，有两种表达方式，首先是独热码，其次是分布式表示。</p>
+        
+        <hr><p>本文2023-03-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-03-05</p>]]></description><category>Deep Learning</category></item><item><title>LinearRegression</title><link>https://www.jingmengzhiyue.tech/2023/03/05/LinearRegression/</link><pubDate>Sun, 05 Mar 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/03/05/LinearRegression/</guid><description>
+<![CDATA[<h1>LinearRegression</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="linearregression">
+<a class="header-anchor" href="#linearregression"></a>
+LinearRegression
+</h1><h2 id="简介">
+<a class="header-anchor" href="#%e7%ae%80%e4%bb%8b"></a>
+简介
+</h2><p>线性回归（linear regression）是线性模型的一种典型方法。</p>
+<h2 id="基本原理">
+<a class="header-anchor" href="#%e5%9f%ba%e6%9c%ac%e5%8e%9f%e7%90%86"></a>
+基本原理
+</h2><p>给定一组输入$x$和输出$y$构成的数据集$D = \{(x_1,y_1),...,(x_m,y_m) \}$，其中$y_{i}\in \mathbb{R}$。线性回归模型假设数据线性分布，因此想要学习一个线性模型使得预测值和真实值之间的误差最小。假设线性回归中输出和输入有如下的关系
+</p>
+        
+        <hr><p>本文2023-03-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-03-05</p>]]></description><category>machine learning</category></item><item><title>广义西尔维斯特方程的求解</title><link>https://www.jingmengzhiyue.tech/2023/01/29/%E5%B9%BF%E4%B9%89%E8%A5%BF%E5%B0%94%E7%BB%B4%E6%96%AF%E7%89%B9%E6%96%B9%E7%A8%8B%E7%9A%84%E6%B1%82%E8%A7%A3/</link><pubDate>Sun, 29 Jan 2023 17:43:04 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/01/29/%E5%B9%BF%E4%B9%89%E8%A5%BF%E5%B0%94%E7%BB%B4%E6%96%AF%E7%89%B9%E6%96%B9%E7%A8%8B%E7%9A%84%E6%B1%82%E8%A7%A3/</guid><description>
+<![CDATA[<h1>广义西尔维斯特方程的求解</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="广义西尔维斯特方程的求解">
+<a class="header-anchor" href="#%e5%b9%bf%e4%b9%89%e8%a5%bf%e5%b0%94%e7%bb%b4%e6%96%af%e7%89%b9%e6%96%b9%e7%a8%8b%e7%9a%84%e6%b1%82%e8%a7%a3"></a>
+广义西尔维斯特方程的求解
+</h1><h2 id="常见的西尔维斯特方程">
+<a class="header-anchor" href="#%e5%b8%b8%e8%a7%81%e7%9a%84%e8%a5%bf%e5%b0%94%e7%bb%b4%e6%96%af%e7%89%b9%e6%96%b9%e7%a8%8b"></a>
+常见的西尔维斯特方程
+</h2><p>西尔维斯特方程</p>
+$$
+\mathbf{AX}+\mathbf{XD} = \mathbf{E}
+$$<hr>
+<p>广义西尔维斯特方程</p>
+$$
+\mathbf{AXB}+\mathbf{CXD} = \mathbf{E}
+$$<p>式中$\mathbf{X}\in \mathbb{R}^{n\times r}$, $\mathbf{A}\in \mathbb{R}^{m\times n}$, $\mathbf{B}\in \mathbb{R}^{r\times p}$, $\mathbf{C}\in \mathbb{R}^{m\times n}$, $\mathbf{D}\in \mathbb{R}^{r\times p}$, $\mathbf{E}\in \mathbb{R}^{m\times p}$。</p>
+        
+        <hr><p>本文2023-01-29首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-01-29</p>]]></description><category>Optimization</category></item></channel></rss>

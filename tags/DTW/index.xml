@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DTW on 热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/tags/DTW/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>zh-CN</language><copyright>本博客所有文章除特别声明外，均采用 BY 许可协议。转载请注明出处！</copyright><lastBuildDate>Sat, 24 Jun 2023 14:47:16 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/tags/DTW/index.xml" rel="self" type="application/rss+xml"/><item><title>DTW (Dynamic Time Warping)</title><link>https://www.jingmengzhiyue.tech/2023/06/24/DTW/</link><pubDate>Sat, 24 Jun 2023 14:47:16 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/24/DTW/</guid><description>
+<![CDATA[<h1>DTW (Dynamic Time Warping)</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>DTW最初用于识别语音的相似性，当前DTW算法常用于计算两个时间序列的相似性，<strong>尤其适用于不同长度、不同节奏的时间序列</strong></p>
+<h2 id="算法流程">
+<a class="header-anchor" href="#%e7%ae%97%e6%b3%95%e6%b5%81%e7%a8%8b"></a>
+算法流程
+</h2><p>假设有两个序列
+</p>
+        
+        <hr><p>本文2023-06-24首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-06-24</p>]]></description><category>Algorithm</category></item></channel></rss>

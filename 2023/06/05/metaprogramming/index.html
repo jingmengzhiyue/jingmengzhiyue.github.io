@@ -1,906 +1,127 @@
-
-
-<!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=auto>
-
-
-
-<head>
-  <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
-  <link rel="icon" href="/img/fluid.png">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  
-  <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="Jingmengzhiyue">
-  <meta name="keywords" content="">
-  
-    <meta name="description" content="计算机科学中的元编程">
-<meta property="og:type" content="article">
-<meta property="og:title" content="metaprogramming">
-<meta property="og:url" content="http://jingmengzhiyue.top/2023/06/05/metaprogramming/index.html">
-<meta property="og:site_name" content="热爱可抵万难">
-<meta property="og:description" content="计算机科学中的元编程">
-<meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-06-05T08:37:29.000Z">
-<meta property="article:modified_time" content="2024-03-14T12:15:39.317Z">
-<meta property="article:author" content="Jingmengzhiyue">
-<meta property="article:tag" content="The Missing Semester of Your CS Education">
-<meta name="twitter:card" content="summary_large_image">
-  
-  
-  
-  <title>metaprogramming - 热爱可抵万难</title>
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
-
-
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-<!-- Do not modify the link that theme dependent icons -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
-
-
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
-
-
-<link  rel="stylesheet" href="/css/main.css" />
-
-
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
-  
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
-  
-
-
-
-
-  <script id="fluid-configs">
-    var Fluid = window.Fluid || {};
-    Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"jingmengzhiyue.top","root":"/","version":"1.9.5-a","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"eZ6fNr2wGbxSreDqCc24Ik6y-gzGzoHsz","app_key":"I1HMoNZO5iKmmCSzqE0wTpGr","server_url":"https://ez6fnr2w.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false},"gtag":null},"search_path":"/local-search.xml","include_content_in_search":true};
-
-    if (CONFIG.web_analytics.follow_dnt) {
-      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
-      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
-    }
-  </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
-  
-
-
-  
-  
-    <script>
-        (function(){
-            var bp = document.createElement('script');
-            var curProtocol = window.location.protocol.split(':')[0];
-            if (curProtocol === 'https') {
-                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
-            }
-            else {
-                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-            }
-            var s = document.getElementsByTagName("script")[0];
-            s.parentNode.insertBefore(bp, s);
-        })();
-    </script>
-   
-
-
-<meta name="generator" content="Hexo 6.3.0"></head>
-
-
-<body>
-  
-
-  <header>
-    
-
-<div class="header-inner" style="height: 70vh;">
-  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      <strong>热爱可抵万难</strong>
-    </a>
-
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
-
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/">
-                <i class="iconfont icon-home-fill"></i>
-                <span>首页</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/">
-                <i class="iconfont icon-archive-fill"></i>
-                <span>归档</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/">
-                <i class="iconfont icon-category-fill"></i>
-                <span>分类</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/">
-                <i class="iconfont icon-tags-fill"></i>
-                <span>标签</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/">
-                <i class="iconfont icon-user-fill"></i>
-                <span>关于</span>
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              <i class="iconfont icon-search"></i>
-            </a>
-          </li>
-          
-        
-        
-          <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
-              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
-            </a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-</nav>
-
-  
-
-<div id="banner" class="banner" parallax=true
-     style="background: url('https://t.mwm.moe/fj/') no-repeat center center; background-size: cover;">
-  <div class="full-bg-img">
-    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-      <div class="banner-text text-center fade-in-up">
-        <div class="h2">
-          
-            <span id="subtitle" data-typed-text="metaprogramming"></span>
-          
-        </div>
-
-        
-          
-  <div class="mt-3">
-    
-    
-      <span class="post-meta">
-        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-06-05 16:37" pubdate>
-          2023年6月5日 下午
-        </time>
-      </span>
-    
-  </div>
-
-  <div class="mt-1">
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-chart"></i>
-        
-          5.5k 字
-        
-      </span>
-    
-
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-clock-fill"></i>
-        
-        
-        
-          47 分钟
-        
-      </span>
-    
-
-    
-    
-  </div>
-
-
-        
-      </div>
-
-      
-    </div>
-  </div>
-</div>
-
-</div>
-
-  </header>
-
-  <main>
-    
-      
-
-<div class="container-fluid nopadding-x">
-  <div class="row nomargin-x">
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-
-    </div>
-
-    <div class="col-lg-8 nopadding-x-md">
-      <div class="container nopadding-x-md" id="board-ctn">
-        <div id="board">
-          <article class="post-content mx-auto">
-            <h1 id="seo-header">metaprogramming</h1>
-            
-            
-              <div class="markdown-body">
-                
-                <p>我们这里说的 “元编程（metaprogramming）”
-是什么意思呢？好吧，对于本文要介绍的这些内容，这是我们能够想到的最能概括它们的词。因为我们今天要讲的东西，更多是关于
-<em>流程</em>
-，而不是写代码或更高效的工作。本节课我们会学习构建系统、代码测试以及依赖管理。在您还是学生的时候，这些东西看上去似乎对您来说没那么重要，不过当您开始实习或走进社会的时候，您将会接触到大型的代码库，本节课讲授的这些东西也会变得随处可见。必须要指出的是，“元编程”
-也有<a
-target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Metaprogramming">用于操作程序的程序</a>"
-之含义，这和我们今天讲座所介绍的概念是完全不同的。</p>
-<h1 id="构建系统">构建系统</h1>
-<p>如果您使用 LaTeX
-来编写论文，您需要执行哪些命令才能编译出您想要的论文呢？执行基准测试、绘制图表然后将其插入论文的命令又有哪些？或者，如何编译本课程提供的代码并执行测试呢？</p>
-<p>对于大多数系统来说，不论其是否包含代码，都会包含一个“构建过程”。有时，您需要执行一系列操作。通常，这一过程包含了很多步骤，很多分支。执行一些命令来生成图表，然后执行另外的一些命令生成结果，然后再执行其他的命令来生成最终的论文。有很多事情需要我们完成，您并不是第一个因此感到苦恼的人，幸运的是，有很多工具可以帮助我们完成这些操作。</p>
-<p>这些工具通常被称为
-"构建系统"，而且这些工具还不少。如何选择工具完全取决于您当前手头上要完成的任务以及项目的规模。从本质上讲，这些工具都是非常类似的。您需要定义<em>依赖</em>、<em>目标</em>和<em>规则</em>。您必须告诉构建系统您具体的构建目标，系统的任务则是找到构建这些目标所需要的依赖，并根据规则构建所需的中间产物，直到最终目标被构建出来。理想的情况下，如果目标的依赖没有发生改动，并且我们可以从之前的构建中复用这些依赖，那么与其相关的构建规则并不会被执行。</p>
-<p><code>make</code>
-是最常用的构建系统之一，您会发现它通常被安装到了几乎所有基于UNIX的系统中。<code>make</code>并不完美，但是对于中小型项目来说，它已经足够好了。当您执行
-<code>make</code> 时，它会去参考当前目录下名为 <code>Makefile</code>
-的文件。所有构建目标、相关依赖和规则都需要在该文件中定义，它看上去是这样的：</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs make"><span class="hljs-section">paper.pdf: paper.tex plot-data.png</span><br>	pdflatex paper.tex<br><br><span class="hljs-section">plot-%.png: %.dat plot.py</span><br>	./plot.py -i <span class="hljs-variable">$*</span>.dat -o <span class="hljs-variable">$@</span><br></code></pre></td></tr></table></figure>
-<p>这个文件中的指令，即如何使用右侧文件构建左侧文件的规则。或者，换句话说，冒号左侧的是构建目标，冒号右侧的是构建它所需的依赖。缩进的部分是从依赖构建目标时需要用到的一段程序。在
-<code>make</code> 中，第一条指令还指明了构建的目的，如果您使用不带参数的
-<code>make</code>，这便是我们最终的构建结果。或者，您可以使用这样的命令来构建其他目标：<code>make plot-data.png</code>。</p>
-<p>规则中的 <code>%</code>
-是一种模式，它会匹配其左右两侧相同的字符串。例如，如果目标是
-<code>plot-foo.png</code>， <code>make</code> 会去寻找
-<code>foo.dat</code> 和 <code>plot.py</code>
-作为依赖。现在，让我们看看如果在一个空的源码目录中执行<code>make</code>
-会发生什么？</p>
-<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs console"><span class="hljs-meta prompt_">$ </span><span class="language-bash">make</span><br>make: *** No rule to make target &#x27;paper.tex&#x27;, needed by &#x27;paper.pdf&#x27;.  Stop.<br></code></pre></td></tr></table></figure>
-<p><code>make</code>
-会告诉我们，为了构建出<code>paper.pdf</code>，它需要
-<code>paper.tex</code>，但是并没有一条规则能够告诉它如何构建该文件。让我们构建它吧！</p>
-<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs console"><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">touch</span> paper.tex</span><br><span class="hljs-meta prompt_">$ </span><span class="language-bash">make</span><br>make: *** No rule to make target &#x27;plot-data.png&#x27;, needed by &#x27;paper.pdf&#x27;.  Stop.<br></code></pre></td></tr></table></figure>
-<p>哟，有意思，我们是<strong>有</strong>构建 <code>plot-data.png</code>
-的规则的，但是这是一条模式规则。因为源文件<code>data.dat</code>
-并不存在，因此 <code>make</code> 就会告诉您它不能构建
-<code>plot-data.png</code>，让我们创建这些文件：</p>
-<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs console"><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">cat</span> paper.tex</span><br>\documentclass&#123;article&#125;<br>\usepackage&#123;graphicx&#125;<br>\begin&#123;document&#125;<br>\includegraphics[scale=0.65]&#123;plot-data.png&#125;<br>\end&#123;document&#125;<br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">cat</span> plot.py</span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">!/usr/bin/env python</span><br>import matplotlib<br>import matplotlib.pyplot as plt<br>import numpy as np<br>import argparse<br><br>parser = argparse.ArgumentParser()<br>parser.add_argument(&#x27;-i&#x27;, type=argparse.FileType(&#x27;r&#x27;))<br>parser.add_argument(&#x27;-o&#x27;)<br>args = parser.parse_args()<br><br>data = np.loadtxt(args.i)<br>plt.plot(data[:, 0], data[:, 1])<br>plt.savefig(args.o)<br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">cat</span> data.dat</span><br>1 1<br>2 2<br>3 3<br>4 4<br>5 8<br></code></pre></td></tr></table></figure>
-<p>当我们执行 <code>make</code> 时会发生什么？</p>
-<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs console"><span class="hljs-meta prompt_">$ </span><span class="language-bash">make</span><br>./plot.py -i data.dat -o plot-data.png<br>pdflatex paper.tex<br>... lots of output ...<br></code></pre></td></tr></table></figure>
-<p>看！PDF ！</p>
-<p>如果再次执行 <code>make</code> 会怎样？</p>
-<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs console"><span class="hljs-meta prompt_">$ </span><span class="language-bash">make</span><br>make: &#x27;paper.pdf&#x27; is up to date.<br></code></pre></td></tr></table></figure>
-<p>什么事情都没做！为什么？好吧，因为它什么都不需要做。make回去检查之前的构建是因其依赖改变而需要被更新。让我们试试修改
-<code>paper.tex</code> 在重新执行 <code>make</code>：</p>
-<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs console"><span class="hljs-meta prompt_">$ </span><span class="language-bash">vim paper.tex</span><br><span class="hljs-meta prompt_">$ </span><span class="language-bash">make</span><br>pdflatex paper.tex<br>...<br></code></pre></td></tr></table></figure>
-<p>注意 <code>make</code> 并<strong>没有</strong>重新构建
-<code>plot.py</code>，因为没必要；<code>plot-data.png</code>
-的所有依赖都没有发生改变。</p>
-<h1 id="依赖管理">依赖管理</h1>
-<p>就您的项目来说，它的依赖可能本身也是其他的项目。您也许会依赖某些程序(例如
-<code>python</code>)、系统包 (例如
-<code>openssl</code>)或相关编程语言的库(例如 <code>matplotlib</code>)。
-现在，大多数的依赖可以通过某些<strong>软件仓库</strong>来获取，这些仓库会在一个地方托管大量的依赖，我们则可以通过一套非常简单的机制来安装依赖。例如
-Ubuntu 系统下面有Ubuntu软件包仓库，您可以通过<code>apt</code>
-这个工具来访问， RubyGems 则包含了 Ruby 的相关库，PyPi 包含了 Python
-库， Arch Linux 用户贡献的库则可以在 Arch User Repository 中找到。</p>
-<p>由于每个仓库、每种工具的运行机制都不太一样，因此我们并不会在本节课深入讲解具体的细节。我们会介绍一些通用的术语，例如<em>版本控制</em>。大多数被其他项目所依赖的项目都会在每次发布新版本时创建一个<em>版本号</em>。通常看上去像
-8.1.3 或
-64.1.20192004。版本号一般是数字构成的，但也并不绝对。版本号有很多用途，其中最重要的作用是保证软件能够运行。试想一下，假如我的库要发布一个新版本，在这个版本里面我重命名了某个函数。如果有人在我的库升级版本后，仍希望基于它构建新的软件，那么很可能构建会失败，因为它希望调用的函数已经不复存在了。有了版本控制就可以很好的解决这个问题，我们可以指定当前项目需要基于某个版本，甚至某个范围内的版本，或是某些项目来构建。这么做的话，即使某个被依赖的库发生了变化，依赖它的软件可以基于其之前的版本进行构建。</p>
-<p>这样还并不理想！如果我们发布了一项和安全相关的升级，它并<em>没有</em>影响到任何公开接口（API），但是处于安全的考虑，依赖它的项目都应该立即升级，那应该怎么做呢？这也是版本号包含多个部分的原因。不同项目所用的版本号其具体含义并不完全相同，但是一个相对比较常用的标准是<a
-target="_blank" rel="noopener" href="https://semver.org/">语义版本号</a>，这种版本号具有不同的语义，它的格式是这样的：主版本号.次版本号.补丁号。相关规则有：</p>
-<ul>
-<li>如果新的版本没有改变 API，请将补丁号递增；</li>
-<li>如果您添加了 API 并且该改动是向后兼容的，请将次版本号递增；</li>
-<li>如果您修改了 API 但是它并不向后兼容，请将主版本号递增。</li>
-</ul>
-<p>这么做有很多好处。现在如果我们的项目是基于您的项目构建的，那么只要最新版本的主版本号只要没变就是安全的
-，次版本号不低于之前我们使用的版本即可。换句话说，如果我依赖的版本是<code>1.3.7</code>，那么使用<code>1.3.8</code>、<code>1.6.1</code>，甚至是<code>1.3.0</code>都是可以的。如果版本号是
-<code>2.2.4</code> 就不一定能用了，因为它的主版本号增加了。我们可以将
-Python 的版本号作为语义版本号的一个实例。您应该知道，Python 2 和 Python
-3 的代码是不兼容的，这也是为什么 Python
-的主版本号改变的原因。类似的，使用 Python 3.5 编写的代码在 3.7
-上可以运行，但是在 3.4 上可能会不行。</p>
-<p>使用依赖管理系统的时候，您可能会遇到锁文件（<em>lock
-files</em>）这一概念。锁文件列出了您当前每个依赖所对应的具体版本号。通常，您需要执行升级程序才能更新依赖的版本。这么做的原因有很多，例如避免不必要的重新编译、创建可复现的软件版本或禁止自动升级到最新版本（可能会包含
-bug）。还有一种极端的依赖锁定叫做
-<em>vendoring</em>，它会把您的依赖中的所有代码直接拷贝到您的项目中，这样您就能够完全掌控代码的任何修改，同时您也可以将自己的修改添加进去，不过这也意味着如果该依赖的维护者更新了某些代码，您也必须要自己去拉取这些更新。</p>
-<h1 id="持续集成系统">持续集成系统</h1>
-<p>随着您接触到的项目规模越来越大，您会发现修改代码之后还有很多额外的工作要做。您可能需要上传一份新版本的文档、上传编译后的文件到某处、发布代码到
-pypi，执行测试套件等等。或许您希望每次有人提交代码到 GitHub
-的时候，他们的代码风格被检查过并执行过某些基准测试？如果您有这方面的需求，那么请花些时间了解一下持续集成。</p>
-<p>持续集成，或者叫做 CI 是一种雨伞术语（umbrella
-term，涵盖了一组术语的术语），它指的是那些“当您的代码变动时，自动运行的东西”，市场上有很多提供各式各样
-CI 工具的公司，这些工具大部分都是免费或开源的。比较大的有 Travis
-CI、Azure Pipelines 和 GitHub
-Actions。它们的工作原理都是类似的：您需要在代码仓库中添加一个文件，描述当前仓库发生任何修改时，应该如何应对。目前为止，最常见的规则是：如果有人提交代码，执行测试套件。当这个事件被触发时，CI
-提供方会启动一个（或多个）虚拟机，执行您制定的规则，并且通常会记录下相关的执行结果。您可以进行某些设置，这样当测试套件失败时您能够收到通知或者当测试全部通过时，您的仓库主页会显示一个徽标。</p>
-<p>本课程的网站基于 GitHub Pages 构建，这就是一个很好的例子。Pages
-在每次<code>master</code>有代码更新时，会执行 Jekyll
-博客软件，然后使您的站点可以通过某个 GitHub
-域名来访问。对于我们来说这些事情太琐碎了，我现在我们只需要在本地进行修改，然后使用
-git 提交代码，发布到远端。CI 会自动帮我们处理后续的事情。</p>
-<h2 id="测试简介">测试简介</h2>
-<p>多数的大型软件都有“测试套件”。您可能已经对测试的相关概念有所了解，但是我们觉得有些测试方法和测试术语还是应该再次提醒一下：</p>
-<ul>
-<li>测试套件：所有测试的统称。</li>
-<li>单元测试：一种“微型测试”，用于对某个封装的特性进行测试。</li>
-<li>集成测试：一种“宏观测试”，针对系统的某一大部分进行，测试其不同的特性或组件是否能<em>协同</em>工作。</li>
-<li>回归测试：一种实现特定模式的测试，用于保证之前引起问题的 bug
-不会再次出现。</li>
-<li>模拟（Mocking）:
-使用一个假的实现来替换函数、模块或类型，屏蔽那些和测试不相关的内容。例如，您可能会“模拟网络连接”
-或 “模拟硬盘”。</li>
-</ul>
-<h1 id="课后练习">课后练习</h1>
-<p>[习题解答](//) 1. 大多数的
-makefiles 都提供了 一个名为 <code>clean</code>
-的构建目标，这并不是说我们会生成一个名为<code>clean</code>的文件，而是我们可以使用它清理文件，让
-make 重新构建。您可以理解为它的作用是“撤销”所有构建步骤。在上面的
-makefile 中为<code>paper.pdf</code>实现一个<code>clean</code>
-目标。您需要将构建目标设置为<a
-target="_blank" rel="noopener" href="https://www.gnu.org/software/make/manual/html_node/Phony-Targets.html">phony</a>。您也许会发现
-<a
-target="_blank" rel="noopener" href="https://git-scm.com/docs/git-ls-files"><code>git ls-files</code></a>
-子命令很有用。其他一些有用的 make 构建目标可以在<a
-target="_blank" rel="noopener" href="https://www.gnu.org/software/make/manual/html_node/Standard-Targets.html#Standard-Targets">这里</a>找到；</p>
-<ol start="2" type="1">
-<li><p>指定版本要求的方法很多，让我们学习一下 <a
-target="_blank" rel="noopener" href="https://doc.rust-lang.org/cargo/reference/specifying-dependencies.html">Rust的构建系统</a>的依赖管理。大多数的包管理仓库都支持类似的语法。对于每种语法(尖号、波浪号、通配符、比较、乘积)，构建一种场景使其具有实际意义；</p></li>
-<li><p>Git 可以作为一个简单的 CI 系统来使用，在任何 git 仓库中的
-<code>.git/hooks</code>
-目录中，您可以找到一些文件（当前处于未激活状态），它们的作用和脚本一样，当某些事件发生时便可以自动执行。请编写一个<a
-target="_blank" rel="noopener" href="https://git-scm.com/docs/githooks#_pre_commit"><code>pre-commit</code></a>
-钩子，它会在提交前执行
-<code>make paper.pdf</code>并在出现构建失败的情况拒绝您的提交。这样做可以避免产生包含不可构建版本的提交信息；</p></li>
-<li><p>基于 <a target="_blank" rel="noopener" href="https://pages.github.com/">GitHub Pages</a>
-创建任意一个可以自动发布的页面。添加一个<a
-target="_blank" rel="noopener" href="https://github.com/features/actions">GitHub Action</a>
-到该仓库，对仓库中的所有 shell 文件执行 <code>shellcheck</code>(<a
-target="_blank" rel="noopener" href="https://github.com/marketplace/actions/shellcheck">方法之一</a>)；</p></li>
-<li><p><a
-target="_blank" rel="noopener" href="https://help.github.com/en/actions/automating-your-workflow-with-github-actions/building-actions">构建属于您的</a>
-GitHub action，对仓库中所有的<code>.md</code>文件执行<a
-target="_blank" rel="noopener" href="http://proselint.com/"><code>proselint</code></a> 或 <a
-target="_blank" rel="noopener" href="https://github.com/btford/write-good"><code>write-good</code></a>，在您的仓库中开启这一功能，提交一个包含错误的文件看看该功能是否生效。</p></li>
-</ol>
-
-                
-              </div>
-            
-            <hr/>
-            <div>
-              <div class="post-metas my-3">
-  
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Computer-Science/" class="category-chain-item">Computer Science</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
-  
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/The-Missing-Semester-of-Your-CS-Education/" class="print-no-link">#The Missing Semester of Your CS Education</a>
-      
-    </div>
-  
-</div>
-
-
-              
-  
-
-  <div class="license-box my-3">
-    <div class="license-title">
-      <div>metaprogramming</div>
-      <div>http://jingmengzhiyue.top/2023/06/05/metaprogramming/</div>
-    </div>
-    <div class="license-meta">
-      
-        <div class="license-meta-item">
-          <div>作者</div>
-          <div>Jingmengzhiyue</div>
-        </div>
-      
-      
-        <div class="license-meta-item license-meta-date">
-          <div>发布于</div>
-          <div>2023年6月5日</div>
-        </div>
-      
-      
-      
-        <div class="license-meta-item">
-          <div>许可协议</div>
-          <div>
-            
-              
-              
-                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
-                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
-                    <i class="iconfont icon-by"></i>
-                  </span>
-                </a>
-              
-            
-          </div>
-        </div>
-      
-    </div>
-    <div class="license-icon iconfont"></div>
-  </div>
-
-
-
-              
-                <div class="post-prevnext my-3">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2023/06/05/debugging-profiling/" title="debugging">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">debugging</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2023/06/05/potpourri/" title="potpourri">
-                        <span class="hidden-mobile">potpourri</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
-              
-            </div>
-
-            
-  
-  
-    <article id="comments" lazyload>
-      
-  <div id="valine"></div>
-  <script type="text/javascript">
-    Fluid.utils.loadComments('#valine', function() {
-      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
-        var options = Object.assign(
-          {"appId":"eZ6fNr2wGbxSreDqCc24Ik6y-gzGzoHsz","appKey":"I1HMoNZO5iKmmCSzqE0wTpGr","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
-          {
-            el: "#valine",
-            path: window.location.pathname
+<!doctype html><html lang=zh-CN data-theme-mode=auto><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><title>metaprogramming | Jingmengzhiyue</title><meta name=description content="计算机科学中的元编程"><script>window.siteConfig=JSON.parse('{"anchor":{"auto":{"enable":false,"length":60},"explicit":{"enable":false,"marker":"{#anchor-","prefix":"anchor-"}},"anchor_icon":null,"base":"https://www.jingmengzhiyue.tech/","clipboard":{"copyright":{"count":50,"enable":false,"license_type":"by-nc-sa"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-br":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ","zh-cn":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-tw":"複製失敗 (ﾟ⊿ﾟ)ﾂ"},"success":{"en":"Copy successfully (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-br":"Copiado com sucesso (*^▽^*)","zh-cn":"复制成功 (*^▽^*)","zh-tw":"複製成功 (*^▽^*)"}},"code_block":{"expand":true},"dark_mode":{"button":true,"mode":"auto"},"icon_font":"4552607_ex15nbittbh","outdate":{"daysago":180,"enable":false,"message":{"en":"This article was last updated on {time}. Please note that the content may no longer be applicable.","ja":"この記事は最終更新日：{time}。記載内容が現在有効でない可能性がありますのでご注意ください。","pt-br":"Este artigo foi atualizado pela última vez em {time}. Observe que o conteúdo pode não ser mais aplicável.","zh-cn":"本文最后更新于 {time}，请注意文中内容可能已不适用。","zh-tw":"本文最後更新於 {time}，請注意文中內容可能已不適用。"}}}')</script><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap" media=print onload='this.media="all"'><link rel=preload href=//at.alicdn.com/t/c/font_4552607_ex15nbittbh.woff2 as=font type=font/woff2 crossorigin=anonymous><link rel=stylesheet href=/css/loader.min.ac746e154f756f8220326eeb52a719f142ab038be5a8ddf30ea5ef15ef2356ea.css><meta property="og:type" content="website"><meta property="og:title" content="metaprogramming | Jingmengzhiyue"><meta property="og:description" content="计算机科学中的元编程"><meta property="og:url" content="https://www.jingmengzhiyue.tech/2023/06/05/metaprogramming/"><meta property="og:site_name" content="热爱可抵万难"><meta property="og:image" content="https://www.jingmengzhiyue.tech/img/24.jpg"><meta property="article:author" content="Jingmengzhiyue"><meta property="article:published_time" content="2023-06-05T16:37:29+08:00"><meta property="article:modified_time" content="2023-06-05T16:37:29+08:00"><meta property="article:tag" content="The Missing Semester of Your CS Education"><meta name=twitter:card content="summary"><meta name=twitter:image content="https://www.jingmengzhiyue.tech/img/24.jpg"><link rel="shortcut icon" href=/favicon.ico><link rel=stylesheet href=/css/main.min.e741704bd4ce29d0b6db17b8ff17abf1aa8fad02fa440697765f231c07813893.css><link rel=preload as=style href=https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css integrity=sha384-IfxC36XL/toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx/1oA/0l8ysE crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><link rel=preload as=style href=https://npm.webcache.cn/katex@0.16.47/dist/katex.min.css integrity=sha384-nH0MfJ44wi1dd7w6jinlyBgljjS8EJAh2JBoRad8a3VDw2K69vfaaqm4WnR+gXtA crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><script src=https://npm.webcache.cn/pace-js@1.2.4/pace.min.js integrity=sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8 crossorigin=anonymous></script><link rel=stylesheet href=https://npm.webcache.cn/@reimujs/aos@0.1.3/dist/aos.css integrity=sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa crossorigin=anonymous><link rel=icon href=/img/fluid.png type=image/png><link rel=apple-touch-icon href=/img/fluid.png><link rel=stylesheet href=/css/custom.css></head><body><div id=loader><div class="loading-left-bg loading-bg"></div><div class="loading-right-bg loading-bg"></div><div class=spinner-box><div class="loading-taichi rotate"><svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" shape-rendering="geometricPrecision"><path d="M303.5 432a80 80 0 01-12 160 80 80 0 0112-160z" fill="var(--red-1, #ff5252)"/><path d="M512 65a447 447 0 010 894V929a417 417 0 000-834 417 417 0 000 834v30a447 447 0 010-894zm0 30A417 417 0 01929 512 208.5 208.5.0 01720.5 720.5V592a80 80 0 000-160 80 80 0 000 160V720.5A208.5 208.5.0 01512 512 208.5 208.5.0 00303.5 303.5 208.5 208.5.0 0095 512 417 417 0 01512 95z" fill="var(--red-1, #ff5252)"/></svg></div><div class=loading-word>少女祈祷中...</div></div></div></div><script>var time=null,loaderEl=document.getElementById("loader"),startLoading=()=>{time=Date.now(),loaderEl.classList.remove("loading")},hideLoader=()=>{document.body.style.overflow="auto",loader.classList.add("loading")},endLoading=()=>{time?Date.now()-time>500?(time=null,hideLoader()):(setTimeout(endLoading,500-(Date.now()-time)),time=null):hideLoader()};window.addEventListener("DOMContentLoaded",endLoading),loaderEl.addEventListener("click",endLoading)</script><div id=copy-tooltip></div><div id=lang-tooltip>本文章没有找到对应的语言版本</div><div id=heatmap-tooltip></div><div id=container><div id=wrap><div id=header-nav><nav id=main-nav aria-label="Primary navigation"><a class=main-nav-link-wrap href=/><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>首页</span>
+</a><a class=main-nav-link-wrap href=/archives><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>归档</span>
+</a><a class=main-nav-link-wrap href=/categories><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>目录</span>
+</a><a class=main-nav-link-wrap href=/tags><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>标签</span>
+</a><a class=main-nav-link-wrap href=/about><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>关于</span>
+</a><a id=main-nav-toggle class=nav-icon aria-label="Toggle navigation" role=button></a></nav><nav id=sub-nav aria-label="Secondary navigation"></nav></div><header id=header aria-label="Site header"><picture></picture><img fetchpriority=high src=/img/24.jpg alt=metaprogramming><div id=header-outer><div id=header-title><span id=logo><h1 data-aos=slide-up>metaprogramming</h1></span><h2 id=subtitle-wrap data-aos=slide-down></h2></div></div></header><div id=content aria-label="Page content" class=sidebar-right><aside id=sidebar aria-label=Sidebar><div class="sidebar-wrapper-container sticky"><div class=sidebar-wrapper><div class=sidebar-wrap data-aos=fade-up><div class=sidebar-toc-sidebar><h3 class=toc-title>文章目录</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#测试简介>测试简介</a></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/avatar.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>文章</div><div class=sidebar-state-number>57</div></div><a class=sidebar-state-category href=/categories/ aria-label=sidebar-state-category-link><div>分类</div><div class=sidebar-state-number>10</div></a><a class=sidebar-state-tag href=/tags/ aria-label=sidebar-state-tag-link><div>标签</div><div class=sidebar-state-number>26</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/ aria-label=首页></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>首页</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/archives aria-label=归档></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>归档</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/categories aria-label=目录></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>目录</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/tags aria-label=标签></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>标签</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/about aria-label=关于></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>关于</div></div></div></div><div class=sidebar-btn-wrapper style=position:static><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></div></div><div class=sidebar-widget></div></div></aside><section id=main aria-label="Main content"><article class="h-entry article" itemscope itemtype=https://schema.org/BlogPosting><div class=article-inner data-aos=fade-up><div class=article-meta><div class=article-date><span class="article-date-link icon-calendar" data-aos=zoom-in><time datetime="2023-06-05 16:37:29 +0800 +0800" itemprop=datePublished>2023-06-05</time>
+<time style=display:none id=post-update-time>2023-06-05</time></span></div></div><div class=hr-line></div><div class="e-content article-entry" itemprop=articleBody><p>我们这里说的 “元编程（metaprogramming）” 是什么意思呢？好吧，对于本文要介绍的这些内容，这是我们能够想到的最能概括它们的词。因为我们今天要讲的东西，更多是关于 <em>流程</em> ，而不是写代码或更高效的工作。本节课我们会学习构建系统、代码测试以及依赖管理。在您还是学生的时候，这些东西看上去似乎对您来说没那么重要，不过当您开始实习或走进社会的时候，您将会接触到大型的代码库，本节课讲授的这些东西也会变得随处可见。必须要指出的是，“元编程” 也有<a href=https://en.wikipedia.org/wiki/Metaprogramming>用于操作程序的程序</a>" 之含义，这和我们今天讲座所介绍的概念是完全不同的。</p><h1 id=构建系统><a class=header-anchor href=#%e6%9e%84%e5%bb%ba%e7%b3%bb%e7%bb%9f></a>构建系统</h1><p>如果您使用 LaTeX 来编写论文，您需要执行哪些命令才能编译出您想要的论文呢？执行基准测试、绘制图表然后将其插入论文的命令又有哪些？或者，如何编译本课程提供的代码并执行测试呢？</p><p>对于大多数系统来说，不论其是否包含代码，都会包含一个“构建过程”。有时，您需要执行一系列操作。通常，这一过程包含了很多步骤，很多分支。执行一些命令来生成图表，然后执行另外的一些命令生成结果，然后再执行其他的命令来生成最终的论文。有很多事情需要我们完成，您并不是第一个因此感到苦恼的人，幸运的是，有很多工具可以帮助我们完成这些操作。</p><p>这些工具通常被称为 &ldquo;构建系统&rdquo;，而且这些工具还不少。如何选择工具完全取决于您当前手头上要完成的任务以及项目的规模。从本质上讲，这些工具都是非常类似的。您需要定义<em>依赖</em>、<em>目标</em>和<em>规则</em>。您必须告诉构建系统您具体的构建目标，系统的任务则是找到构建这些目标所需要的依赖，并根据规则构建所需的中间产物，直到最终目标被构建出来。理想的情况下，如果目标的依赖没有发生改动，并且我们可以从之前的构建中复用这些依赖，那么与其相关的构建规则并不会被执行。</p><p><code>make</code> 是最常用的构建系统之一，您会发现它通常被安装到了几乎所有基于UNIX的系统中。<code>make</code>并不完美，但是对于中小型项目来说，它已经足够好了。当您执行 <code>make</code> 时，它会去参考当前目录下名为 <code>Makefile</code> 的文件。所有构建目标、相关依赖和规则都需要在该文件中定义，它看上去是这样的：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-make data-lang=make><span class=line><span class=cl><span class=nf>paper.pdf</span><span class=o>:</span> <span class=n>paper</span>.<span class=n>tex</span> <span class=n>plot</span>-<span class=n>data</span>.<span class=n>png</span>
+</span></span><span class=line><span class=cl>	pdflatex paper.tex
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nf>plot-%.png</span><span class=o>:</span> %.<span class=n>dat</span> <span class=n>plot</span>.<span class=n>py</span>
+</span></span><span class=line><span class=cl>	./plot.py -i <span class=nv>$*</span>.dat -o <span class=nv>$@</span>
+</span></span></code></pre></td></tr></table></div></div><p>这个文件中的指令，即如何使用右侧文件构建左侧文件的规则。或者，换句话说，冒号左侧的是构建目标，冒号右侧的是构建它所需的依赖。缩进的部分是从依赖构建目标时需要用到的一段程序。在 <code>make</code> 中，第一条指令还指明了构建的目的，如果您使用不带参数的 <code>make</code>，这便是我们最终的构建结果。或者，您可以使用这样的命令来构建其他目标：<code>make plot-data.png</code>。</p><p>规则中的 <code>%</code> 是一种模式，它会匹配其左右两侧相同的字符串。例如，如果目标是 <code>plot-foo.png</code>， <code>make</code> 会去寻找 <code>foo.dat</code> 和 <code>plot.py</code> 作为依赖。现在，让我们看看如果在一个空的源码目录中执行<code>make</code> 会发生什么？</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-console data-lang=console><span class=line><span class=cl><span class=gp>$</span> make
+</span></span><span class=line><span class=cl><span class=go>make: *** No rule to make target &#39;paper.tex&#39;, needed by &#39;paper.pdf&#39;.  Stop.
+</span></span></span></code></pre></td></tr></table></div></div><p><code>make</code> 会告诉我们，为了构建出<code>paper.pdf</code>，它需要 <code>paper.tex</code>，但是并没有一条规则能够告诉它如何构建该文件。让我们构建它吧！</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-console data-lang=console><span class=line><span class=cl><span class=gp>$</span> touch paper.tex
+</span></span><span class=line><span class=cl><span class=gp>$</span> make
+</span></span><span class=line><span class=cl><span class=go>make: *** No rule to make target &#39;plot-data.png&#39;, needed by &#39;paper.pdf&#39;.  Stop.
+</span></span></span></code></pre></td></tr></table></div></div><p>哟，有意思，我们是<strong>有</strong>构建 <code>plot-data.png</code> 的规则的，但是这是一条模式规则。因为源文件<code>data.dat</code> 并不存在，因此 <code>make</code> 就会告诉您它不能构建 <code>plot-data.png</code>，让我们创建这些文件：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-console data-lang=console><span class=line><span class=cl><span class=gp>$</span> cat paper.tex
+</span></span><span class=line><span class=cl><span class=go>\documentclass{article}
+</span></span></span><span class=line><span class=cl><span class=go>\usepackage{graphicx}
+</span></span></span><span class=line><span class=cl><span class=go>\begin{document}
+</span></span></span><span class=line><span class=cl><span class=go>\includegraphics[scale=0.65]{plot-data.png}
+</span></span></span><span class=line><span class=cl><span class=go>\end{document}
+</span></span></span><span class=line><span class=cl><span class=gp>$</span> cat plot.py
+</span></span><span class=line><span class=cl><span class=gp>#</span>!/usr/bin/env python
+</span></span><span class=line><span class=cl><span class=go>import matplotlib
+</span></span></span><span class=line><span class=cl><span class=go>import matplotlib.pyplot as plt
+</span></span></span><span class=line><span class=cl><span class=go>import numpy as np
+</span></span></span><span class=line><span class=cl><span class=go>import argparse
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=go>parser = argparse.ArgumentParser()
+</span></span></span><span class=line><span class=cl><span class=go>parser.add_argument(&#39;-i&#39;, type=argparse.FileType(&#39;r&#39;))
+</span></span></span><span class=line><span class=cl><span class=go>parser.add_argument(&#39;-o&#39;)
+</span></span></span><span class=line><span class=cl><span class=go>args = parser.parse_args()
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=go>data = np.loadtxt(args.i)
+</span></span></span><span class=line><span class=cl><span class=go>plt.plot(data[:, 0], data[:, 1])
+</span></span></span><span class=line><span class=cl><span class=go>plt.savefig(args.o)
+</span></span></span><span class=line><span class=cl><span class=gp>$</span> cat data.dat
+</span></span><span class=line><span class=cl><span class=go>1 1
+</span></span></span><span class=line><span class=cl><span class=go>2 2
+</span></span></span><span class=line><span class=cl><span class=go>3 3
+</span></span></span><span class=line><span class=cl><span class=go>4 4
+</span></span></span><span class=line><span class=cl><span class=go>5 8
+</span></span></span></code></pre></td></tr></table></div></div><p>当我们执行 <code>make</code> 时会发生什么？</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-console data-lang=console><span class=line><span class=cl><span class=gp>$</span> make
+</span></span><span class=line><span class=cl><span class=go>./plot.py -i data.dat -o plot-data.png
+</span></span></span><span class=line><span class=cl><span class=go>pdflatex paper.tex
+</span></span></span><span class=line><span class=cl><span class=go>... lots of output ...
+</span></span></span></code></pre></td></tr></table></div></div><p>看！PDF ！</p><p>如果再次执行 <code>make</code> 会怎样？</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-console data-lang=console><span class=line><span class=cl><span class=gp>$</span> make
+</span></span><span class=line><span class=cl><span class=go>make: &#39;paper.pdf&#39; is up to date.
+</span></span></span></code></pre></td></tr></table></div></div><p>什么事情都没做！为什么？好吧，因为它什么都不需要做。make回去检查之前的构建是因其依赖改变而需要被更新。让我们试试修改 <code>paper.tex</code> 在重新执行 <code>make</code>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-console data-lang=console><span class=line><span class=cl><span class=gp>$</span> vim paper.tex
+</span></span><span class=line><span class=cl><span class=gp>$</span> make
+</span></span><span class=line><span class=cl><span class=go>pdflatex paper.tex
+</span></span></span><span class=line><span class=cl><span class=go>...
+</span></span></span></code></pre></td></tr></table></div></div><p>注意 <code>make</code> 并<strong>没有</strong>重新构建 <code>plot.py</code>，因为没必要；<code>plot-data.png</code> 的所有依赖都没有发生改变。</p><h1 id=依赖管理><a class=header-anchor href=#%e4%be%9d%e8%b5%96%e7%ae%a1%e7%90%86></a>依赖管理</h1><p>就您的项目来说，它的依赖可能本身也是其他的项目。您也许会依赖某些程序(例如 <code>python</code>)、系统包 (例如 <code>openssl</code>)或相关编程语言的库(例如 <code>matplotlib</code>)。 现在，大多数的依赖可以通过某些<strong>软件仓库</strong>来获取，这些仓库会在一个地方托管大量的依赖，我们则可以通过一套非常简单的机制来安装依赖。例如 Ubuntu 系统下面有Ubuntu软件包仓库，您可以通过<code>apt</code> 这个工具来访问， RubyGems 则包含了 Ruby 的相关库，PyPi 包含了 Python 库， Arch Linux 用户贡献的库则可以在 Arch User Repository 中找到。</p><p>由于每个仓库、每种工具的运行机制都不太一样，因此我们并不会在本节课深入讲解具体的细节。我们会介绍一些通用的术语，例如<em>版本控制</em>。大多数被其他项目所依赖的项目都会在每次发布新版本时创建一个<em>版本号</em>。通常看上去像 8.1.3 或 64.1.20192004。版本号一般是数字构成的，但也并不绝对。版本号有很多用途，其中最重要的作用是保证软件能够运行。试想一下，假如我的库要发布一个新版本，在这个版本里面我重命名了某个函数。如果有人在我的库升级版本后，仍希望基于它构建新的软件，那么很可能构建会失败，因为它希望调用的函数已经不复存在了。有了版本控制就可以很好的解决这个问题，我们可以指定当前项目需要基于某个版本，甚至某个范围内的版本，或是某些项目来构建。这么做的话，即使某个被依赖的库发生了变化，依赖它的软件可以基于其之前的版本进行构建。</p><p>这样还并不理想！如果我们发布了一项和安全相关的升级，它并<em>没有</em>影响到任何公开接口（API），但是处于安全的考虑，依赖它的项目都应该立即升级，那应该怎么做呢？这也是版本号包含多个部分的原因。不同项目所用的版本号其具体含义并不完全相同，但是一个相对比较常用的标准是<a href=https://semver.org/>语义版本号</a>，这种版本号具有不同的语义，它的格式是这样的：主版本号.次版本号.补丁号。相关规则有：</p><ul><li>如果新的版本没有改变 API，请将补丁号递增；</li><li>如果您添加了 API 并且该改动是向后兼容的，请将次版本号递增；</li><li>如果您修改了 API 但是它并不向后兼容，请将主版本号递增。</li></ul><p>这么做有很多好处。现在如果我们的项目是基于您的项目构建的，那么只要最新版本的主版本号只要没变就是安全的 ，次版本号不低于之前我们使用的版本即可。换句话说，如果我依赖的版本是<code>1.3.7</code>，那么使用<code>1.3.8</code>、<code>1.6.1</code>，甚至是<code>1.3.0</code>都是可以的。如果版本号是 <code>2.2.4</code> 就不一定能用了，因为它的主版本号增加了。我们可以将 Python 的版本号作为语义版本号的一个实例。您应该知道，Python 2 和 Python 3 的代码是不兼容的，这也是为什么 Python 的主版本号改变的原因。类似的，使用 Python 3.5 编写的代码在 3.7 上可以运行，但是在 3.4 上可能会不行。</p><p>使用依赖管理系统的时候，您可能会遇到锁文件（<em>lock files</em>）这一概念。锁文件列出了您当前每个依赖所对应的具体版本号。通常，您需要执行升级程序才能更新依赖的版本。这么做的原因有很多，例如避免不必要的重新编译、创建可复现的软件版本或禁止自动升级到最新版本（可能会包含 bug）。还有一种极端的依赖锁定叫做 <em>vendoring</em>，它会把您的依赖中的所有代码直接拷贝到您的项目中，这样您就能够完全掌控代码的任何修改，同时您也可以将自己的修改添加进去，不过这也意味着如果该依赖的维护者更新了某些代码，您也必须要自己去拉取这些更新。</p><h1 id=持续集成系统><a class=header-anchor href=#%e6%8c%81%e7%bb%ad%e9%9b%86%e6%88%90%e7%b3%bb%e7%bb%9f></a>持续集成系统</h1><p>随着您接触到的项目规模越来越大，您会发现修改代码之后还有很多额外的工作要做。您可能需要上传一份新版本的文档、上传编译后的文件到某处、发布代码到 pypi，执行测试套件等等。或许您希望每次有人提交代码到 GitHub 的时候，他们的代码风格被检查过并执行过某些基准测试？如果您有这方面的需求，那么请花些时间了解一下持续集成。</p><p>持续集成，或者叫做 CI 是一种雨伞术语（umbrella term，涵盖了一组术语的术语），它指的是那些“当您的代码变动时，自动运行的东西”，市场上有很多提供各式各样 CI 工具的公司，这些工具大部分都是免费或开源的。比较大的有 Travis CI、Azure Pipelines 和 GitHub Actions。它们的工作原理都是类似的：您需要在代码仓库中添加一个文件，描述当前仓库发生任何修改时，应该如何应对。目前为止，最常见的规则是：如果有人提交代码，执行测试套件。当这个事件被触发时，CI 提供方会启动一个（或多个）虚拟机，执行您制定的规则，并且通常会记录下相关的执行结果。您可以进行某些设置，这样当测试套件失败时您能够收到通知或者当测试全部通过时，您的仓库主页会显示一个徽标。</p><p>本课程的网站基于 GitHub Pages 构建，这就是一个很好的例子。Pages 在每次<code>master</code>有代码更新时，会执行 Jekyll 博客软件，然后使您的站点可以通过某个 GitHub 域名来访问。对于我们来说这些事情太琐碎了，我现在我们只需要在本地进行修改，然后使用 git 提交代码，发布到远端。CI 会自动帮我们处理后续的事情。</p><h2 id=测试简介><a class=header-anchor href=#%e6%b5%8b%e8%af%95%e7%ae%80%e4%bb%8b></a>测试简介</h2><p>多数的大型软件都有“测试套件”。您可能已经对测试的相关概念有所了解，但是我们觉得有些测试方法和测试术语还是应该再次提醒一下：</p><ul><li>测试套件：所有测试的统称。</li><li>单元测试：一种“微型测试”，用于对某个封装的特性进行测试。</li><li>集成测试：一种“宏观测试”，针对系统的某一大部分进行，测试其不同的特性或组件是否能<em>协同</em>工作。</li><li>回归测试：一种实现特定模式的测试，用于保证之前引起问题的 bug 不会再次出现。</li><li>模拟（Mocking）: 使用一个假的实现来替换函数、模块或类型，屏蔽那些和测试不相关的内容。例如，您可能会“模拟网络连接” 或 “模拟硬盘”。</li></ul><h1 id=课后练习><a class=header-anchor href=#%e8%af%be%e5%90%8e%e7%bb%83%e4%b9%a0></a>课后练习</h1><p><a href=https://missing-semester-cn.github.io/missing-notes-and-solutions/2020/solutions/metaprogramming-solution/>习题解答</a></p><ol><li><p>大多数的 makefiles 都提供了 一个名为 <code>clean</code> 的构建目标，这并不是说我们会生成一个名为<code>clean</code>的文件，而是我们可以使用它清理文件，让 make 重新构建。您可以理解为它的作用是“撤销”所有构建步骤。在上面的 makefile 中为<code>paper.pdf</code>实现一个<code>clean</code> 目标。您需要将构建目标设置为<a href=https://www.gnu.org/software/make/manual/html_node/Phony-Targets.html>phony</a>。您也许会发现 <a href=https://git-scm.com/docs/git-ls-files><code>git ls-files</code></a> 子命令很有用。其他一些有用的 make 构建目标可以在<a href=https://www.gnu.org/software/make/manual/html_node/Standard-Targets.html#Standard-Targets>这里</a>找到；</p></li><li><p>指定版本要求的方法很多，让我们学习一下 <a href=https://doc.rust-lang.org/cargo/reference/specifying-dependencies.html>Rust的构建系统</a>的依赖管理。大多数的包管理仓库都支持类似的语法。对于每种语法(尖号、波浪号、通配符、比较、乘积)，构建一种场景使其具有实际意义；</p></li><li><p>Git 可以作为一个简单的 CI 系统来使用，在任何 git 仓库中的 <code>.git/hooks</code> 目录中，您可以找到一些文件（当前处于未激活状态），它们的作用和脚本一样，当某些事件发生时便可以自动执行。请编写一个<a href=https://git-scm.com/docs/githooks#_pre_commit><code>pre-commit</code></a> 钩子，它会在提交前执行 <code>make paper.pdf</code>并在出现构建失败的情况拒绝您的提交。这样做可以避免产生包含不可构建版本的提交信息；</p></li><li><p>基于 <a href=https://pages.github.com/>GitHub Pages</a> 创建任意一个可以自动发布的页面。添加一个<a href=https://github.com/features/actions>GitHub Action</a> 到该仓库，对仓库中的所有 shell 文件执行 <code>shellcheck</code>(<a href=https://github.com/marketplace/actions/shellcheck>方法之一</a>)；</p></li><li><p><a href=https://help.github.com/en/actions/automating-your-workflow-with-github-actions/building-actions>构建属于您的</a> GitHub action，对仓库中所有的<code>.md</code>文件执行<a href=http://proselint.com/><code>proselint</code></a> 或 <a href=https://github.com/btford/write-good><code>write-good</code></a>，在您的仓库中开启这一功能，提交一个包含错误的文件看看该功能是否生效。</p></li></ol></div><footer class=article-footer><blockquote class=article-copyright><p><strong><span class="icon-user icon"></span>本文作者：</strong>Jingmengzhiyue</p><p><strong><span class="icon-link icon"></span>本文链接：</strong><a href=https://www.jingmengzhiyue.tech/2023/06/05/metaprogramming/>https://www.jingmengzhiyue.tech/2023/06/05/metaprogramming/</a></p><p><strong><span class="icon-pencil icon"></span>本文标题：</strong>metaprogramming</p><p><strong><span class="icon-calendar icon"></span>本文发布时间：</strong>2023-06-05 16:37:29</p><p><strong><span class="icon-copyright icon"></span>本文版权：</strong>
+本博客所有文章除特别声明外，均采用 <a href=https://creativecommons.org/licenses/by/4.0/deed.zh rel="noopener nofollow noreferrer" target=_blank><span class=icon-creative-commons></span>BY</a> 许可协议。转载请注明出处！</p><span class="icon-creative-commons article-copyright-bg"></span></blockquote><ul class=article-category-list><li class=article-tag-list-item data-aos=zoom-in><a class=article-category-link href=/categories/Computer-Science/ data-aos=zoom-in>Computer Science</a></li></ul><ul class=article-tag-list itemprop=keywords><li class=article-tag-list-item data-aos=zoom-in><a class=article-tag-list-link href=/tags/The-Missing-Semester-of-Your-CS-Education/ rel=tag>The Missing Semester of Your CS Education</a></li></ul></footer></div><nav id=article-nav aria-label="Article navigation" data-aos=fade-up><div class="article-nav-link-wrap left"><img data-src=/img/21.jpg data-sizes=auto alt=potpourri class=lazyload><a href=/2023/06/05/potpourri/ aria-label=前一篇:potpourri title=前一篇:potpourri></a><div class=article-nav-caption>前一篇</div><h3 class=article-nav-title>potpourri</h3></div><div class="article-nav-link-wrap right"><img data-src=/img/26.jpg data-sizes=auto alt=editors class=lazyload><a href=/2023/06/05/editors/ aria-label=后一篇:editors title=后一篇:editors></a><div class=article-nav-caption>后一篇</div><h3 class=article-nav-title>editors</h3></div></nav></article></section></div><footer id=footer aria-label="Site footer"><div style=width:100%;overflow:hidden><div class=footer-line></div></div><div id=footer-info><div><span class=icon-copyright></span>2023-2026<span class="footer-info-sep rotate"></span>Jingmengzhiyue</div><div>基于&nbsp;<a href=https://gohugo.io/ target=_blank rel="noopener nofollow noreferrer">Hugo</a>&nbsp;Theme.<a href=https://github.com/D-Sketon/hugo-theme-reimu target=_blank rel="noopener nofollow noreferrer">Reimu</a></div><div><span class=icon-brush>&nbsp;301.2k</span>
+&nbsp;|&nbsp;
+<span class=icon-coffee>&nbsp;10:40</span></div><div><span class=icon-eye></span>
+<span id=busuanzi_container_site_pv>总访问量&nbsp;<span id=busuanzi_value_site_pv></span></span>
+&nbsp;|&nbsp;
+<span class=icon-user></span>
+<span id=busuanzi_container_site_uv>总访客量&nbsp;<span id=busuanzi_value_site_uv></span></span></div></div></footer><div class=sidebar-top><div class="sidebar-top-taichi rotate"></div><div class=arrow-up></div></div><div id=mask class=hide></div></div><nav id=mobile-nav aria-label="Mobile navigation"><div class=sidebar-wrap><div class=sidebar-toc-sidebar><h3 class=toc-title>文章目录</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#测试简介>测试简介</a></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/avatar.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>文章</div><div class=sidebar-state-number>57</div></div><a class=sidebar-state-category href=/categories/ aria-label=sidebar-state-category-link><div>分类</div><div class=sidebar-state-number>10</div></a><a class=sidebar-state-tag href=/tags/ aria-label=sidebar-state-tag-link><div>标签</div><div class=sidebar-state-number>26</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/ aria-label=首页></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>首页</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/archives aria-label=归档></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>归档</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/categories aria-label=目录></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>目录</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/tags aria-label=标签></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>标签</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/about aria-label=关于></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>关于</div></div></div></div></div><div class=sidebar-btn-wrapper><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></nav></div><script src=https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js integrity=sha384-3gT/vsepWkfz/ff7PpWNUeMzeWoH3cDhm/A8jM7ouoAK0/fP/9bcHHR5kHq2nf+e crossorigin=anonymous></script><script src=https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js integrity=sha384-J08i8An/QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q crossorigin=anonymous></script><script src=/js/main.js integrity crossorigin=anonymous></script><script src=/js/aos.js integrity crossorigin=anonymous></script><script>var aosInit=()=>{AOS.init({duration:1e3,easing:"ease",once:!0,offset:50})};document.readyState==="loading"?document.addEventListener("DOMContentLoaded",aosInit):aosInit()</script><script src=/js/pjax_main.js integrity crossorigin=anonymous data-pjax></script><div id=lazy-script><div><script data-pjax>window.REIMU_POST={author:"Jingmengzhiyue",title:"metaprogramming",url:"https://www.jingmengzhiyue.tech/2023/06/05/metaprogramming/",description:"计算机科学中的元编程",cover:"https://www.jingmengzhiyue.tech/img/24.jpg"}</script><script src=/js/insert_highlight.js integrity crossorigin=anonymous data-pjax></script><script src=/js/tabs.js integrity crossorigin=anonymous data-pjax defer></script><script type=module data-pjax>const PhotoSwipeLightbox = (await safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js", "sha384-DiL6M\/gG\u002bwmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF\/N6lrZi\/")).default;const initPswp = (gallery, children) => {
+          if (_$$(`${gallery} ${children}`).length > 0) {
+            new PhotoSwipeLightbox({
+              gallery,
+              children,pswpModule: () => safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8\u002boTJ7m3DfYEWX1fu1scuS4\u002bs")}).init();
           }
-        )
-        new Valine(options);
-        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
-          var imgSelector = '#valine .vcontent img:not(.vemoji)';
-          Fluid.plugins.imageCaption(imgSelector);
-          Fluid.plugins.fancyBox(imgSelector);
-        })
-      });
-    });
-  </script>
-  <noscript>Please enable JavaScript to view the comments</noscript>
-
-
-    </article>
-  
-
-
-          </article>
-        </div>
-      </div>
-    </div>
-
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-  <aside class="sidebar" style="margin-left: -1rem">
-    <div id="toc">
-  <p class="toc-header">
-    <i class="iconfont icon-list"></i>
-    <span>目录</span>
-  </p>
-  <div class="toc-body" id="toc-body"></div>
-</div>
-
-
-
-  </aside>
-
-
-    </div>
-  </div>
-</div>
-
-
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-  
-  
-
-
-
-
-
-
-
-
-
-    
-
-    
-      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
-        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-      </a>
-    
-
-    
-      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
-        </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-    
-
-    
-  </main>
-
-  <footer>
-    <div class="footer-inner">
-  
-    <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
-    </div>
-  
-  
-    <div class="statistics">
-  
-  
-
-  
-    
-      <span id="leancloud-site-pv-container" style="display: none">
-        总访问量 18954 
-        <span id="leancloud-site-pv"></span>
-         次
-      </span>
-    
-    
-      <span id="leancloud-site-uv-container" style="display: none">
-        总访客数 9873 
-        <span id="leancloud-site-uv"></span>
-         人
-      </span>
-    
-    
-
-  
-</div>
-
-  
-  
-  
-</div>
-
-  </footer>
-
-  <!-- Scripts -->
-  
-  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
-
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
-    })
-  </script>
-
-
-<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
-<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
-
-
-  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
-      
-        typing(text);
-      
-    })(window, document);
-  </script>
-
-
-
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
-
-
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
-    var toc = jQuery('#toc');
-    if (toc.length === 0 || !window.tocbot) { return; }
-    var boardCtn = jQuery('#board-ctn');
-    var boardTop = boardCtn.offset().top;
-
-    window.tocbot.init(Object.assign({
-      tocSelector     : '#toc-body',
-      contentSelector : '.markdown-body',
-      linkClass       : 'tocbot-link',
-      activeLinkClass : 'tocbot-active-link',
-      listClass       : 'tocbot-list',
-      isCollapsedClass: 'tocbot-is-collapsed',
-      collapsibleClass: 'tocbot-is-collapsible',
-      scrollSmooth    : true,
-      includeTitleTags: true,
-      headingsOffset  : -boardTop,
-    }, CONFIG.toc));
-    if (toc.find('.toc-list-item').length > 0) {
-      toc.css('visibility', 'visible');
-    }
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('tocbot' in window) {
-        tocbot.refresh();
-        var toc = jQuery('#toc');
-        if (toc.length === 0 || !tocbot) {
-          return;
         }
-        if (toc.find('.toc-list-item').length > 0) {
-          toc.css('visibility', 'visible');
+        const pswp = () => {
+          initPswp('.article-entry', 'a.article-gallery-item');
+          initPswp('.article-gallery', 'a.article-gallery-item');
         }
-      }
-    });
-  });
-</script>
-
-
-  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
-
-  <script>Fluid.plugins.codeWidget();</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
-    window.anchors.options = {
-      placement: CONFIG.anchorjs.placement,
-      visible  : CONFIG.anchorjs.visible
-    };
-    if (CONFIG.anchorjs.icon) {
-      window.anchors.options.icon = CONFIG.anchorjs.icon;
-    }
-    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-    var res = [];
-    for (var item of el) {
-      res.push('.markdown-body > ' + item.trim());
-    }
-    if (CONFIG.anchorjs.placement === 'left') {
-      window.anchors.options.class = 'anchorjs-link-left';
-    }
-    window.anchors.add(res.join(', '));
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('anchors' in window) {
-        anchors.removeAll();
-        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-        var res = [];
-        for (var item of el) {
-          res.push('.markdown-body > ' + item.trim());
-        }
-        if (CONFIG.anchorjs.placement === 'left') {
-          anchors.options.class = 'anchorjs-link-left';
-        }
-        anchors.add(res.join(', '));
-      }
-    });
-  });
-</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
-    Fluid.plugins.fancyBox();
-  });
-</script>
-
-
-  <script>Fluid.plugins.imageCaption();</script>
-
-  
-      <script>
-        if (!window.MathJax) {
-          window.MathJax = {
-            tex    : {
-              inlineMath: { '[+]': [['$', '$']] }
-            },
-            loader : {
-              load: ['ui/lazy']
-            },
-            options: {
-              renderActions: {
-                insertedScript: [200, () => {
-                  document.querySelectorAll('mjx-container').forEach(node => {
-                    let target = node.parentNode;
-                    if (target.nodeName.toLowerCase() === 'li') {
-                      target.parentNode.classList.add('has-jax');
-                    }
-                  });
-                }, '', false]
-              }
-            }
-          };
-        } else {
-          MathJax.startup.document.state(0);
-          MathJax.texReset();
-          MathJax.typeset();
-          MathJax.typesetPromise();
-        }
-
-        Fluid.events.registerRefreshCallback(function() {
-          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
-            MathJax.startup.document.state(0);
-            MathJax.texReset();
-            MathJax.typeset();
-            MathJax.typesetPromise();
-          }
-        });
-      </script>
-    
-
-  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
-
-  <script  src="/js/local-search.js" ></script>
-
-  <script defer src="/js/leancloud.js" ></script>
-
-
-
-
-
-<!-- 主题的启动项，将它保持在最底部 -->
-<!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
-
-
-  
-
-  <noscript>
-    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript>
-</body>
-</html>
+        pswp()
+      </script><script data-pjax>window.MathJax=JSON.parse('[{"loader":{"load":["input/asciimath","[tex]/noerrors"]},"options":{"ignoreHtmlClass":"tex2jax_ignore","processHtmlClass":"tex2jax_process","skipHtmlTags":["script","noscript","style","textarea","pre","code"]},"tex":{"autoload":{"color":[],"colorv2":["color"]},"displayMath":[["$$","$$"],["\\\\[","\\\\]"]],"inlineMath":[["$","$"],["\\\\(","\\\\)"]],"packages":{"[+]":["noerrors"]},"processEnvironments":true,"processEscapes":true,"tags":"ams","useLabelIds":true}}]')[0]</script><script src=https://npm.webcache.cn/mathjax@3.2.2/es5/tex-mml-chtml.js defer data-pjax integrity=sha384-Wuix6BuhrWbjDBs24bXrjf4ZQ5aFeFWBuKkFekO2t8xFU0iNaLQfp2K6/1Nxveei crossorigin=anonymous></script></div></div><script src=https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js async integrity=sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S crossorigin=anonymous></script><script>"serviceWorker"in navigator&&navigator.serviceWorker.getRegistrations().then(e=>{for(let t of e)t.unregister()})</script><script>const reimuCopyright=String.raw`
+   ______     ______     __     __    __     __  __    
+  /\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+  \ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+   \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+    \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                    
+  `;console.log(String.raw`%c ${reimuCopyright}`,"color: #ff5252;"),console.log("%c Theme.Reimu %c https://github.com/D-Sketon/hugo-theme-reimu ","color: white; background: #ff5252; padding:5px 0;","padding:4px;border:1px solid #ff5252;")</script></body></html>
