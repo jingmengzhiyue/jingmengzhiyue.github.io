@@ -1,4 +1,59 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Machine Learning on 热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/categories/Machine-Learning/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>zh-CN</language><copyright>本博客所有文章除特别声明外，均采用 BY 许可协议。转载请注明出处！</copyright><lastBuildDate>Sun, 01 Oct 2023 21:13:43 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/categories/Machine-Learning/index.xml" rel="self" type="application/rss+xml"/><item><title>Pandas索引</title><link>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E7%B4%A2%E5%BC%95/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E7%B4%A2%E5%BC%95/</guid><description>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Machine Learning on 热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/categories/Machine-Learning/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>zh-CN</language><copyright>本博客所有文章除特别声明外，均采用 BY 许可协议。转载请注明出处！</copyright><lastBuildDate>Tue, 12 Aug 2025 09:00:00 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/categories/Machine-Learning/index.xml" rel="self" type="application/rss+xml"/><item><title>扩散模型（四）：跨模态扩散与实现实践</title><link>https://www.jingmengzhiyue.tech/2025/08/12/diffusion-model-cross-modal-and-practice/</link><pubDate>Tue, 12 Aug 2025 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2025/08/12/diffusion-model-cross-modal-and-practice/</guid><description>
+<![CDATA[<h1>扩散模型（四）：跨模态扩散与实现实践</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="第7章跨模态扩散视频3d音频与离散数据">
+<a class="header-anchor" href="#%e7%ac%ac7%e7%ab%a0%e8%b7%a8%e6%a8%a1%e6%80%81%e6%89%a9%e6%95%a3%e8%a7%86%e9%a2%913d%e9%9f%b3%e9%a2%91%e4%b8%8e%e7%a6%bb%e6%95%a3%e6%95%b0%e6%8d%ae"></a>
+第7章：跨模态扩散——视频、3D、音频与离散数据
+</h1><p>扩散模型最初在图像生成领域取得突破，但它的核心思想——<strong>从简单分布出发，通过迭代去噪逼近复杂的数据分布</strong>——并不局限于二维像素。近年来，研究者把扩散框架拓展到视频、三维几何、音频以及离散符号序列等多种模态，形成了跨模态扩散（Cross-Modal Diffusion）这一活跃前沿。本章逐一梳理这些方向，重点回答三个问题：每种模态<strong>难在哪里</strong>、主流方法<strong>改了扩散框架的哪一部分</strong>、以及各方法之间的<strong>共性与取舍</strong>。</p>
+        
+        <hr><p>本文2025-08-12首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2025-08-12</p>]]></description><category>Machine Learning</category></item><item><title>扩散模型（三）：采样加速与前沿方法</title><link>https://www.jingmengzhiyue.tech/2025/07/25/diffusion-model-sampling-and-frontiers/</link><pubDate>Fri, 25 Jul 2025 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2025/07/25/diffusion-model-sampling-and-frontiers/</guid><description>
+<![CDATA[<h1>扩散模型（三）：采样加速与前沿方法</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="第5章采样算法与加速策略">
+<a class="header-anchor" href="#%e7%ac%ac5%e7%ab%a0%e9%87%87%e6%a0%b7%e7%ae%97%e6%b3%95%e4%b8%8e%e5%8a%a0%e9%80%9f%e7%ad%96%e7%95%a5"></a>
+第5章：采样算法与加速策略
+</h1><p>扩散模型（Diffusion Models）的采样，本质上是在数值求解一个反向随机微分方程（SDE）或与之对应的概率流常微分方程（Probability Flow ODE，见 §1.7）。原始 DDPM 需要数百到上千次网络前向计算（NFE, Number of Function Evaluations）才能得到高质量样本，这严重限制了它在实时场景中的部署。本章按&quot;由浅入深&quot;的顺序梳理采样加速的完整技术谱系：</p>
+        
+        <hr><p>本文2025-07-25首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2025-07-25</p>]]></description><category>Machine Learning</category></item><item><title>扩散模型（二）：潜空间扩散与可控生成</title><link>https://www.jingmengzhiyue.tech/2025/07/07/diffusion-model-latent-and-control/</link><pubDate>Mon, 07 Jul 2025 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2025/07/07/diffusion-model-latent-and-control/</guid><description>
+<![CDATA[<h1>扩散模型（二）：潜空间扩散与可控生成</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="第3章条件生成与-latent-diffusion-models">
+<a class="header-anchor" href="#%e7%ac%ac3%e7%ab%a0%e6%9d%a1%e4%bb%b6%e7%94%9f%e6%88%90%e4%b8%8e-latent-diffusion-models"></a>
+第3章：条件生成与 Latent Diffusion Models
+</h1><h2 id="31-从无条件生成到条件生成">
+<a class="header-anchor" href="#31-%e4%bb%8e%e6%97%a0%e6%9d%a1%e4%bb%b6%e7%94%9f%e6%88%90%e5%88%b0%e6%9d%a1%e4%bb%b6%e7%94%9f%e6%88%90"></a>
+3.1 从无条件生成到条件生成
+</h2><p>扩散模型最初以无条件生成（unconditional generation）的形式出现，即学习一个数据分布 $p(x)$，从噪声中采样得到与训练数据相似的新样本。然而，在实际应用中，用户需要更精细的控制：指定类别、文本描述、风格参考等。条件生成（conditional generation）的目标是学习一个条件分布 $p(x \mid c)$，其中 $c$ 为条件信息（conditioning signal），可以是类别标签、文本嵌入、图像掩码或空间结构图等。</p>
+        
+        <hr><p>本文2025-07-07首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2025-07-07</p>]]></description><category>Machine Learning</category></item><item><title>扩散模型（一）：基础与经典模型</title><link>https://www.jingmengzhiyue.tech/2025/06/19/diffusion-model-foundations/</link><pubDate>Thu, 19 Jun 2025 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2025/06/19/diffusion-model-foundations/</guid><description>
+<![CDATA[<h1>扩散模型（一）：基础与经典模型</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="深度学习扩散模型基础与经典">
+<a class="header-anchor" href="#%e6%b7%b1%e5%ba%a6%e5%ad%a6%e4%b9%a0%e6%89%a9%e6%95%a3%e6%a8%a1%e5%9e%8b%e5%9f%ba%e7%a1%80%e4%b8%8e%e7%bb%8f%e5%85%b8"></a>
+深度学习扩散模型：基础与经典
+</h1><blockquote>
+<p>作者：ResearchWriter_基础与经典
+生成时间：2026-07-02</p>
+</blockquote>
+<hr>
+<h2 id="第1章扩散模型数学基础与核心概念">
+<a class="header-anchor" href="#%e7%ac%ac1%e7%ab%a0%e6%89%a9%e6%95%a3%e6%a8%a1%e5%9e%8b%e6%95%b0%e5%ad%a6%e5%9f%ba%e7%a1%80%e4%b8%8e%e6%a0%b8%e5%bf%83%e6%a6%82%e5%bf%b5"></a>
+第1章：扩散模型数学基础与核心概念
+</h2><h3 id="11-引言与历史脉络">
+<a class="header-anchor" href="#11-%e5%bc%95%e8%a8%80%e4%b8%8e%e5%8e%86%e5%8f%b2%e8%84%89%e7%bb%9c"></a>
+1.1 引言与历史脉络
+</h3><p>扩散模型（Diffusion Models）作为当前生成式人工智能领域最重要的技术范式之一，其理论根基横跨统计物理、随机过程和变分推断。2015年，Sohl-Dickstein等人<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>首次受非平衡统计力学启发，提出了通过前向扩散过程逐步破坏数据结构、再通过反向扩散过程恢复数据的生成模型框架。随后，Song &amp; Ermon（2019）<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>从<strong>分数匹配（Score Matching）<strong>的角度重新审视这一问题，提出了噪声条件分数网络（NCSN）；Ho等人（2020）<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>则发展了</strong>去噪扩散概率模型（DDPM）</strong>，通过变分推断和简化的训练目标将扩散模型推向实用化。2021年，Song等人<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>进一步提出了基于<strong>随机微分方程（SDE）<strong>的统一框架，指出 NCSN 和 DDPM 分别是 VE-SDE 与 VP-SDE 这两类连续时间扩散过程的离散化，二者可以在同一套“分数 + SDE”的语言下描述。2022年，Karras等人<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup>的</strong>EDM</strong>工作则系统阐明了扩散模型的设计空间，统一了预处理、损失权重和采样器的选择。本章将从数学基础出发，系统建立扩散模型的核心概念体系。</p>
+        
+        <hr><p>本文2025-06-19首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2025-06-19</p>]]></description><category>Machine Learning</category></item><item><title>扩散模型全景综述</title><link>https://www.jingmengzhiyue.tech/2025/06/01/diffusion-model-landscape/</link><pubDate>Sun, 01 Jun 2025 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2025/06/01/diffusion-model-landscape/</guid><description>
+<![CDATA[<h1>扩散模型全景综述</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="扩散模型全景扫描结果-landscape-scan">
+<a class="header-anchor" href="#%e6%89%a9%e6%95%a3%e6%a8%a1%e5%9e%8b%e5%85%a8%e6%99%af%e6%89%ab%e6%8f%8f%e7%bb%93%e6%9e%9c-landscape-scan"></a>
+扩散模型全景扫描结果 (Landscape Scan)
+</h1><p><strong>日期</strong>: 2026-07-02（2026-11-19 修订：核对论文年份与出处，补充缺失分支）
+<strong>搜索策略</strong>: 由粗到细，5次搜索覆盖宏观、结构、前沿</p>
+        
+        <hr><p>本文2025-06-01首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2025-06-01</p>]]></description><category>Machine Learning</category></item><item><title>Pandas索引</title><link>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E7%B4%A2%E5%BC%95/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/10/01/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E7%B4%A2%E5%BC%95/</guid><description>
 <![CDATA[<h1>Pandas索引</h1><p>作者：Jingmengzhiyue（）</p>
         
           <div class="highlight"><div class="chroma">

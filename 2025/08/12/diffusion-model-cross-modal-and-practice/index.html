@@ -1,0 +1,800 @@
+<!doctype html><html lang=zh-CN data-theme-mode=auto><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><title>扩散模型（四）：跨模态扩散与实现实践 | Jingmengzhiyue</title><meta name=description content="介绍视频、三维、音频和离散数据中的扩散模型及其实现要点。"><script>window.siteConfig=JSON.parse('{"anchor":{"auto":{"enable":false,"length":60},"explicit":{"enable":false,"marker":"{#anchor-","prefix":"anchor-"}},"anchor_icon":null,"base":"https://www.jingmengzhiyue.tech/","clipboard":{"copyright":{"count":50,"enable":false,"license_type":"by-nc-sa"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-br":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ","zh-cn":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-tw":"複製失敗 (ﾟ⊿ﾟ)ﾂ"},"success":{"en":"Copy successfully (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-br":"Copiado com sucesso (*^▽^*)","zh-cn":"复制成功 (*^▽^*)","zh-tw":"複製成功 (*^▽^*)"}},"code_block":{"expand":true},"dark_mode":{"button":true,"mode":"auto"},"i18n_languages":[{"label":"简体中文","lang":"zh-cn"},{"label":"English","lang":"en"}],"icon_font":"4552607_ex15nbittbh","outdate":{"daysago":180,"enable":false,"message":{"en":"This article was last updated on {time}. Please note that the content may no longer be applicable.","ja":"この記事は最終更新日：{time}。記載内容が現在有効でない可能性がありますのでご注意ください。","pt-br":"Este artigo foi atualizado pela última vez em {time}. Observe que o conteúdo pode não ser mais aplicável.","zh-cn":"本文最后更新于 {time}，请注意文中内容可能已不适用。","zh-tw":"本文最後更新於 {time}，請注意文中內容可能已不適用。"}}}')</script><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap" media=print onload='this.media="all"'><link rel=preload href=//at.alicdn.com/t/c/font_4552607_ex15nbittbh.woff2 as=font type=font/woff2 crossorigin=anonymous><link rel=stylesheet href=/css/loader.min.ac746e154f756f8220326eeb52a719f142ab038be5a8ddf30ea5ef15ef2356ea.css><meta property="og:type" content="website"><meta property="og:title" content="扩散模型（四）：跨模态扩散与实现实践 | Jingmengzhiyue"><meta property="og:description" content="介绍视频、三维、音频和离散数据中的扩散模型及其实现要点。"><meta property="og:url" content="https://www.jingmengzhiyue.tech/2025/08/12/diffusion-model-cross-modal-and-practice/"><meta property="og:site_name" content="热爱可抵万难"><meta property="og:image" content="https://www.jingmengzhiyue.tech/img/24.jpg"><meta property="article:author" content="Jingmengzhiyue"><meta property="article:published_time" content="2025-08-12T09:00:00+08:00"><meta property="article:modified_time" content="2025-08-12T09:00:00+08:00"><meta property="article:tag" content="Machine Learning"><meta name=twitter:card content="summary"><meta name=twitter:image content="https://www.jingmengzhiyue.tech/img/24.jpg"><link rel="shortcut icon" href=/favicon.ico><link rel=stylesheet href=/css/main.min.c69028af04cc11392739edc48eeb60465879b00de4286e0147bbc470f8f39418.css><link rel=preload as=style href=https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css integrity=sha384-IfxC36XL/toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx/1oA/0l8ysE crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><link rel=preload as=style href=https://npm.webcache.cn/katex@0.16.47/dist/katex.min.css integrity=sha384-nH0MfJ44wi1dd7w6jinlyBgljjS8EJAh2JBoRad8a3VDw2K69vfaaqm4WnR+gXtA crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><script src=https://npm.webcache.cn/pace-js@1.2.4/pace.min.js integrity=sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8 crossorigin=anonymous></script><link rel=stylesheet href=https://npm.webcache.cn/@reimujs/aos@0.1.3/dist/aos.css integrity=sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa crossorigin=anonymous><link rel=stylesheet href=https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.css integrity=sha384-tLMkTWh2pfXNWGFlUS0w1TFtRG5xZ9lPWFOooj+vDDLIL+xBGQU/voDBY5XE2lVh crossorigin=anonymous><link rel=icon href=/img/fluid.png type=image/png><link rel=apple-touch-icon href=/img/fluid.png><link rel=stylesheet href=/css/custom.css></head><body><div id=loader><div class="loading-left-bg loading-bg"></div><div class="loading-right-bg loading-bg"></div><div class=spinner-box><div class="loading-taichi rotate"><svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" shape-rendering="geometricPrecision"><path d="M303.5 432a80 80 0 01-12 160 80 80 0 0112-160z" fill="var(--red-1, #ff5252)"/><path d="M512 65a447 447 0 010 894V929a417 417 0 000-834 417 417 0 000 834v30a447 447 0 010-894zm0 30A417 417 0 01929 512 208.5 208.5.0 01720.5 720.5V592a80 80 0 000-160 80 80 0 000 160V720.5A208.5 208.5.0 01512 512 208.5 208.5.0 00303.5 303.5 208.5 208.5.0 0095 512 417 417 0 01512 95z" fill="var(--red-1, #ff5252)"/></svg></div><div class=loading-word>加载中...</div></div></div></div><script>var time=null,loaderEl=document.getElementById("loader"),startLoading=()=>{time=Date.now(),loaderEl.classList.remove("loading")},hideLoader=()=>{document.body.style.overflow="auto",loader.classList.add("loading")},endLoading=()=>{time?Date.now()-time>500?(time=null,hideLoader()):(setTimeout(endLoading,500-(Date.now()-time)),time=null):hideLoader()};window.addEventListener("DOMContentLoaded",endLoading),loaderEl.addEventListener("click",endLoading)</script><div id=copy-tooltip></div><div id=lang-tooltip>本文章没有找到对应的语言版本</div><div id=heatmap-tooltip></div><div id=container><div id=wrap><div id=header-nav><nav id=main-nav aria-label="Primary navigation"><a class=main-nav-link-wrap href=/><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>首页</span>
+</a><a class=main-nav-link-wrap href=/archives><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>归档</span>
+</a><a class=main-nav-link-wrap href=/categories><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>目录</span>
+</a><a class=main-nav-link-wrap href=/tags><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>标签</span>
+</a><a class=main-nav-link-wrap href=/about><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>关于</span>
+</a><a id=main-nav-toggle class=nav-icon aria-label="Toggle navigation" role=button></a></nav><nav id=sub-nav aria-label="Secondary navigation"></nav><nav id=i18n-nav aria-label="Language selection"><div class=custom-dropdown><div class=select-selected id=select-selected role=button aria-haspopup=listbox aria-expanded=false aria-label="Language menu"><span id=nav-language-btn class=nav-icon style="padding:0 20px 0 0"></span>
+<span id=selected-lang>简体中文</span></div><ul class=select-items id=select-items role=listbox aria-label=Languages><li data-value=zh-cn role=option class=selected aria-selected=true>简体中文</li><li data-value=en role=option aria-selected=false>English</li></ul></div><script>var selectSelected=document.getElementById("select-selected"),selectedLang=document.getElementById("selected-lang"),selectItems=document.getElementById("select-items"),selectOptions=selectItems.querySelectorAll("li");selectSelected.addEventListener("click",()=>{selectItems.classList.toggle("show");var e=selectSelected.getAttribute("aria-expanded")==="true";selectSelected.setAttribute("aria-expanded",(!e).toString())}),selectOptions.forEach(e=>{e.addEventListener("click",()=>{const t={};if(t.en="/en/diffusion-model-cross-modal-and-practice/",selectedLang.textContent=e.textContent,selectItems.classList.remove("show"),selectOptions.forEach(e=>{e.classList.remove("selected")}),e.classList.add("selected"),e.dataset.value==="zh-cn")return;if(!t[e.dataset.value]){_$("#lang-tooltip").style.opacity="1",setTimeout(()=>{_$("#lang-tooltip").style.opacity="0"},1e3);return}window.location=t[e.dataset.value]})}),document.addEventListener("click",e=>{e.target.closest(".custom-dropdown")||(selectItems.classList.remove("show"),selectSelected.setAttribute("aria-expanded","false"))})</script></nav></div><header id=header aria-label="Site header"><picture></picture><img fetchpriority=high src=/img/24.jpg alt=扩散模型（四）：跨模态扩散与实现实践><div id=header-outer><div id=header-title><span id=logo><h1 data-aos=slide-up>扩散模型（四）：跨模态扩散与实现实践</h1></span><h2 id=subtitle-wrap data-aos=slide-down></h2></div></div></header><div id=content aria-label="Page content" class=sidebar-right><aside id=sidebar aria-label=Sidebar><div class="sidebar-wrapper-container sticky"><div class=sidebar-wrapper><div class=sidebar-wrap data-aos=fade-up><div class=sidebar-toc-sidebar><h3 class=toc-title>文章目录</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#71-视频扩散模型>7.1 视频扩散模型</a><ul><li><a href=#711-视频生成的时序建模框架>7.1.1 视频生成的时序建模框架</a></li><li><a href=#712-video-ldm对齐潜变量的视频生成>7.1.2 Video LDM：对齐潜变量的视频生成</a></li><li><a href=#713-stable-video-diffusionsvd规模化视频扩散>7.1.3 Stable Video Diffusion（SVD）：规模化视频扩散</a></li><li><a href=#714-animatediff即插即用的运动模块>7.1.4 AnimateDiff：即插即用的运动模块</a></li><li><a href=#715-latte潜在扩散-transformer>7.1.5 Latte：潜在扩散 Transformer</a></li><li><a href=#716-sora时空统一的-dit-范式>7.1.6 Sora：时空统一的 DiT 范式</a></li><li><a href=#717-cogvideocogvideox-与开源生态>7.1.7 CogVideo、CogVideoX 与开源生态</a></li><li><a href=#718-长视频与自回归式视频扩散>7.1.8 长视频与自回归式视频扩散</a></li></ul></li><li><a href=#72-三维扩散模型>7.2 三维扩散模型</a><ul><li><a href=#721-直接三维表示扩散>7.2.1 直接三维表示扩散</a></li><li><a href=#722-score-distillation-samplingsds用-2d-先验生成-3d>7.2.2 Score Distillation Sampling（SDS）：用 2D 先验生成 3D</a></li><li><a href=#723-多视角一致性扩散与-3d-重建>7.2.3 多视角一致性扩散与 3D 重建</a></li><li><a href=#724-3d-生成方法对比>7.2.4 3D 生成方法对比</a></li></ul></li><li><a href=#73-音频扩散模型>7.3 音频扩散模型</a><ul><li><a href=#731-频谱图潜扩散范式>7.3.1 频谱图潜扩散范式</a></li><li><a href=#732-音频生成模型谱系>7.3.2 音频生成模型谱系</a></li><li><a href=#733-音频编辑与风格转换>7.3.3 音频编辑与风格转换</a></li></ul></li><li><a href=#74-离散数据扩散模型>7.4 离散数据扩散模型</a><ul><li><a href=#741-多类别离散扩散d3pm>7.4.1 多类别离散扩散（D3PM）</a></li><li><a href=#742-自回归扩散模型ardm>7.4.2 自回归扩散模型（ARDM）</a></li><li><a href=#743-连续时间与掩码扩散语言模型>7.4.3 连续时间与掩码扩散语言模型</a></li><li><a href=#744-连续松弛与嵌入空间扩散>7.4.4 连续松弛与嵌入空间扩散</a></li><li><a href=#745-离散扩散方法对比>7.4.5 离散扩散方法对比</a></li></ul></li><li><a href=#75-科学应用分子蛋白质与材料生成>7.5 科学应用：分子、蛋白质与材料生成</a><ul><li><a href=#751-分子生成与基于结构的药物设计>7.5.1 分子生成与基于结构的药物设计</a></li><li><a href=#752-蛋白质结构生成>7.5.2 蛋白质结构生成</a></li><li><a href=#753-材料设计与晶体结构生成>7.5.3 材料设计与晶体结构生成</a></li></ul></li></ul><ul><li><a href=#81-方法选择决策树>8.1 方法选择决策树</a></li><li><a href=#82-关键超参数对比与推荐>8.2 关键超参数对比与推荐</a><ul><li><a href=#821-通用训练超参数>8.2.1 通用训练超参数</a></li><li><a href=#822-采样超参数>8.2.2 采样超参数</a></li><li><a href=#823-各模态特殊参数>8.2.3 各模态特殊参数</a></li></ul></li><li><a href=#83-评估指标>8.3 评估指标</a></li><li><a href=#84-常见陷阱与排雷指南>8.4 常见陷阱与排雷指南</a><ul><li><a href=#841-训练不稳定>8.4.1 训练不稳定</a></li><li><a href=#842-多样性下降与条件失效>8.4.2 多样性下降与条件失效</a></li><li><a href=#843-内存溢出oom>8.4.3 内存溢出（OOM）</a></li><li><a href=#844-采样质量差>8.4.4 采样质量差</a></li></ul></li><li><a href=#85-计算资源需求对比>8.5 计算资源需求对比</a></li><li><a href=#86-pytorch-核心代码实现>8.6 PyTorch 核心代码实现</a><ul><li><a href=#861-ddpm-训练循环>8.6.1 DDPM 训练循环</a></li><li><a href=#862-ddpm-采样循环含-cfg>8.6.2 DDPM 采样循环（含 CFG）</a></li><li><a href=#863-flow-matching-训练rectified-flow>8.6.3 Flow Matching 训练（Rectified Flow）</a></li><li><a href=#864-完整训练脚本框架>8.6.4 完整训练脚本框架</a></li></ul></li><li><a href=#87-质量检查清单>8.7 质量检查清单</a></li><li><a href=#参考文献>参考文献</a></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/profile_picture.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>文章</div><div class=sidebar-state-number>61</div></div><a class=sidebar-state-category href=/categories/ aria-label=sidebar-state-category-link><div>分类</div><div class=sidebar-state-number>9</div></a><a class=sidebar-state-tag href=/tags/ aria-label=sidebar-state-tag-link><div>标签</div><div class=sidebar-state-number>27</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/ aria-label=首页></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>首页</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/archives aria-label=归档></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>归档</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/categories aria-label=目录></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>目录</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/tags aria-label=标签></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>标签</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/about aria-label=关于></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>关于</div></div></div></div><div class=sidebar-btn-wrapper style=position:static><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></div></div><div class=sidebar-widget></div></div></aside><section id=main aria-label="Main content"><nav aria-label=文章语言><a href=/en/diffusion-model-cross-modal-and-practice/ hreflang=en lang=en>English</a></nav><article class="h-entry article" itemscope itemtype=https://schema.org/BlogPosting><div class=article-inner data-aos=fade-up><div class=article-meta><div class=article-date><span class="article-date-link icon-calendar" data-aos=zoom-in><time datetime="2025-08-12 09:00:00 +0800 +0800" itemprop=datePublished>2025-08-12</time>
+<time style=display:none id=post-update-time>2025-08-12</time></span></div></div><div class=hr-line></div><div class="e-content article-entry" itemprop=articleBody><h1 id=第7章跨模态扩散视频3d音频与离散数据><a class=header-anchor href=#%e7%ac%ac7%e7%ab%a0%e8%b7%a8%e6%a8%a1%e6%80%81%e6%89%a9%e6%95%a3%e8%a7%86%e9%a2%913d%e9%9f%b3%e9%a2%91%e4%b8%8e%e7%a6%bb%e6%95%a3%e6%95%b0%e6%8d%ae></a>第7章：跨模态扩散——视频、3D、音频与离散数据</h1><p>扩散模型最初在图像生成领域取得突破，但它的核心思想——<strong>从简单分布出发，通过迭代去噪逼近复杂的数据分布</strong>——并不局限于二维像素。近年来，研究者把扩散框架拓展到视频、三维几何、音频以及离散符号序列等多种模态，形成了跨模态扩散（Cross-Modal Diffusion）这一活跃前沿。本章逐一梳理这些方向，重点回答三个问题：每种模态<strong>难在哪里</strong>、主流方法<strong>改了扩散框架的哪一部分</strong>、以及各方法之间的<strong>共性与取舍</strong>。</p><blockquote class="alert-blockquote note"><p class=alert-heading>Note</p><p><p>本章沿用前几章的记号：$t$ 表示<strong>扩散时间步</strong>，$T$ 表示扩散总步数，$\epsilon_\theta$ 为噪声预测网络。为避免混淆，视频的<strong>帧数</strong>记为 $N_f$，而不是 $T$。</p></p></blockquote><h2 id=71-视频扩散模型><a class=header-anchor href=#71-%e8%a7%86%e9%a2%91%e6%89%a9%e6%95%a3%e6%a8%a1%e5%9e%8b></a>7.1 视频扩散模型</h2><p>视频在图像之外多了一个时间维度，生成的核心挑战是<strong>时序一致性</strong>（temporal coherence）：物体在帧与帧之间应当保持形状、颜色和位置的连续变化，而不是像逐帧独立采样那样出现闪烁与变形。视频扩散模型必须在保留空间细节的同时，有效建模时间上的动态。</p><h3 id=711-视频生成的时序建模框架><a class=header-anchor href=#711-%e8%a7%86%e9%a2%91%e7%94%9f%e6%88%90%e7%9a%84%e6%97%b6%e5%ba%8f%e5%bb%ba%e6%a8%a1%e6%a1%86%e6%9e%b6></a>7.1.1 视频生成的时序建模框架</h3><p>视频可以表示为张量 $v \in \mathbb{R}^{N_f \times C \times H \times W}$。视频扩散模型通常在预训练图像模型的基础上做"时序扩展"（temporal inflation），即在 U-Net 或 Transformer 中插入负责跨帧交互的时序层。主要的架构选择包括：</p><table><thead><tr><th>架构</th><th>时序建模方式</th><th>代表模型</th><th>特点</th></tr></thead><tbody><tr><td>3D U-Net（分解式卷积 + 时序注意力）</td><td>把 2D 卷积扩展为只作用于空间的 3D 卷积（$1 \times 3 \times 3$），再插入时序注意力</td><td>VDM（Ho et al. 2022）</td><td>最早的视频扩散模型之一，图像与视频可联合训练</td></tr><tr><td>时序注意力 / 时序卷积插件</td><td>在预训练图像模型的空间层之后插入跨帧注意力或 1D 时序卷积</td><td>Video LDM、SVD</td><td>复用图像先验，灵活捕捉长程时序依赖</td></tr><tr><td>可插拔运动模块</td><td>冻结图像模型，只训练独立的时序模块</td><td>AnimateDiff</td><td>训练成本低，可迁移到个性化模型</td></tr><tr><td>时空 Transformer</td><td>把视频切成时空块作为 token，做（分解或联合的）时空注意力</td><td>Latte、W.A.L.T、Sora、CogVideoX</td><td>扩展性强，支持变长输入</td></tr></tbody></table><p><strong>符号说明：</strong></p><table><thead><tr><th>符号</th><th>含义</th></tr></thead><tbody><tr><td>$v$</td><td>视频张量</td></tr><tr><td>$N_f$</td><td>视频帧数（时间维度长度）</td></tr><tr><td>$C$</td><td>通道数（像素空间为 3，即 RGB）</td></tr><tr><td>$H, W$</td><td>空间高度与宽度</td></tr><tr><td>$\epsilon_\theta$</td><td>参数为 $\theta$ 的噪声预测网络</td></tr></tbody></table><h3 id=712-video-ldm对齐潜变量的视频生成><a class=header-anchor href=#712-video-ldm%e5%af%b9%e9%bd%90%e6%bd%9c%e5%8f%98%e9%87%8f%e7%9a%84%e8%a7%86%e9%a2%91%e7%94%9f%e6%88%90></a>7.1.2 Video LDM：对齐潜变量的视频生成</h3><p>Video LDM（Blattmann et al., CVPR 2023）<sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup> 是把潜在扩散模型（LDM，§3.4）从图像扩展到视频的开创性工作。核心思路是：复用预训练图像 LDM 的自编码器与去噪网络，只额外学习"时间对齐"——在 U-Net 中插入时序层（时序注意力与 3D 卷积，并与原空间层的输出可学习地混合），同时在 VAE 解码器中加入时序层以保证帧间连贯。</p><p>Video LDM 的前向加噪过程与图像 LDM 一致，只是作用在逐帧编码得到的潜变量序列 $z \in \mathbb{R}^{N_f \times C' \times H' \times W'}$ 上：</p>$$
+q(z_t \mid z_{t-1}) = \mathcal{N}\left(z_t; \sqrt{1 - \beta_t}\, z_{t-1}, \beta_t \mathbf{I}\right)
+$$<p>其中 $z_0 = \mathcal{E}(v)$ 为 VAE 编码器（逐帧）输出，$\beta_t$ 为噪声调度参数。</p><p><strong>符号说明：</strong></p><table><thead><tr><th>符号</th><th>含义</th></tr></thead><tbody><tr><td>$z_t$</td><td>扩散时间步 $t$ 的潜变量（包含所有帧）</td></tr><tr><td>$\mathcal{E}$</td><td>VAE 编码器</td></tr><tr><td>$\beta_t$</td><td>第 $t$ 步的噪声方差参数</td></tr><tr><td>$\mathcal{N}(\mu, \Sigma)$</td><td>均值为 $\mu$、协方差为 $\Sigma$ 的高斯分布</td></tr></tbody></table><p>Video LDM 的另一项关键设计是<strong>解码器时序微调</strong>。图像 VAE 的解码器从未见过视频，逐帧独立解码会导致闪烁。因此 Video LDM 在解码器中插入时序层，并用一个基于 3D 卷积的、按 patch 判别的视频判别器进行对抗微调，使解码结果在帧间保持连贯。编码器保持冻结，确保潜空间与原图像 LDM 兼容（因而可以直接复用图像模型）。</p><h3 id=713-stable-video-diffusionsvd规模化视频扩散><a class=header-anchor href=#713-stable-video-diffusionsvd%e8%a7%84%e6%a8%a1%e5%8c%96%e8%a7%86%e9%a2%91%e6%89%a9%e6%95%a3></a>7.1.3 Stable Video Diffusion（SVD）：规模化视频扩散</h3><p>Stable Video Diffusion（Blattmann et al., 2023）<sup id=fnref:2><a href=#fn:2 class=footnote-ref role=doc-noteref>2</a></sup> 在 Video LDM 的基础上做了系统性的训练扩展研究，提出并验证了三阶段训练范式：</p><ol><li><strong>文本到图像预训练</strong>：基于 Stable Diffusion 2.1，奠定视觉质量与语义理解的基础；</li><li><strong>大规模视频预训练</strong>：在经过系统筛选（含自动标注与过滤）的大规模视频数据集上训练，学习运动先验；</li><li><strong>高质量视频微调</strong>：在规模更小但质量更高的视频子集上精调，提升生成保真度。</li></ol><p>论文的一个重要结论是：<strong>精心筛选的预训练数据</strong>对最终视频质量至关重要。SVD 沿用 Video LDM 的设置，在每个空间卷积层和注意力层之后插入<strong>时序卷积</strong>和<strong>时序注意力</strong>，共新增约 6.56 亿（656M）参数，使 U-Net 总参数量达到约 15.2 亿（1521M）<sup id=fnref1:2><a href=#fn:2 class=footnote-ref role=doc-noteref>2</a></sup>。模型通过 <code>motion_bucket_id</code> 等微条件（micro-conditioning）控制运动幅度，并通过帧率微条件控制帧率。</p><p>公开发布的 SVD 权重主要是<strong>图像到视频</strong>（image-to-video）模型：SVD 生成 14 帧、SVD-XT 生成 25 帧，分辨率均为 576×1024。它们采用 EDM 框架（§2.4）训练，并使用无分类器引导（CFG）。</p><h3 id=714-animatediff即插即用的运动模块><a class=header-anchor href=#714-animatediff%e5%8d%b3%e6%8f%92%e5%8d%b3%e7%94%a8%e7%9a%84%e8%bf%90%e5%8a%a8%e6%a8%a1%e5%9d%97></a>7.1.4 AnimateDiff：即插即用的运动模块</h3><p>AnimateDiff（Guo et al., ICLR 2024）<sup id=fnref:3><a href=#fn:3 class=footnote-ref role=doc-noteref>3</a></sup> 采取了更轻量的策略：<strong>不修改</strong>预训练文本到图像扩散模型的权重，而是引入一个独立的<strong>运动模块</strong>（Motion Module），只在视频数据上训练这个模块。</p><p>运动模块本质上是一组沿时间轴做自注意力的 Transformer 层（带时序位置编码，输出投影零初始化），插入 Stable Diffusion U-Net 的各个分辨率层级。训练时图像骨干冻结，只更新运动模块。这种设计最大的优势是<strong>可迁移性</strong>：训练好的运动模块可以直接插入任何源自同一基座、经过微调或个性化（如 DreamBooth、LoRA，§4.5）的 Stable Diffusion 模型，让它"动起来"，无需针对每个模型重新训练。论文还提出了 <strong>MotionLoRA</strong>，用少量数据和计算把运动模块适配到新的运动模式（如不同的镜头运动）。</p><p>AnimateDiff 的去噪网络可以写成"冻结的图像参数 + 可训练的运动参数"：</p>$$
+\hat{\epsilon} = \epsilon_{\theta_{\text{img}}, \theta_{\text{motion}}}\left( z_t, t, c_{\text{text}} \right), \qquad \theta_{\text{img}} \text{ 冻结，仅 } \theta_{\text{motion}} \text{ 可训练}
+$$<p>采样时照常迭代去噪得到 $z_0$，再逐帧解码得到视频 $v_{\text{gen}} = \mathcal{D}(z_0)$。训练目标仍是标准的噪声预测损失 $\left\lVert \epsilon - \hat{\epsilon} \right\rVert_2^2$。</p><p><strong>符号说明：</strong></p><table><thead><tr><th>符号</th><th>含义</th></tr></thead><tbody><tr><td>$v_{\text{gen}}$</td><td>生成的视频</td></tr><tr><td>$z_t$</td><td>扩散时间步 $t$ 的潜变量（所有帧）</td></tr><tr><td>$c_{\text{text}}$</td><td>文本条件嵌入</td></tr><tr><td>$\theta_{\text{img}}$</td><td>冻结的图像 U-Net 参数（可替换为任意个性化版本）</td></tr><tr><td>$\theta_{\text{motion}}$</td><td>运动模块的可训练参数</td></tr><tr><td>$\mathcal{D}$</td><td>VAE 解码器</td></tr></tbody></table><h3 id=715-latte潜在扩散-transformer><a class=header-anchor href=#715-latte%e6%bd%9c%e5%9c%a8%e6%89%a9%e6%95%a3-transformer></a>7.1.5 Latte：潜在扩散 Transformer</h3><p>Latte（Ma et al., 2024）<sup id=fnref:4><a href=#fn:4 class=footnote-ref role=doc-noteref>4</a></sup> 把视频扩散的主干从 U-Net 换成 Transformer，验证了 DiT（§6.1）架构在视频生成中的有效性。Latte 先从视频潜变量中提取<strong>时空 token</strong>，再用一系列 Transformer 块建模视频分布。为了应对视频 token 数量巨大的问题，论文从"如何分解空间维与时间维"的角度设计了四种高效变体：</p><ul><li><strong>变体 1（交错融合）</strong>：空间 Transformer 块（只在同一帧内做注意力）与时间 Transformer 块（只在同一空间位置的不同帧之间做注意力）交替堆叠；</li><li><strong>变体 2（后期融合）</strong>：块数相同，但先堆叠全部空间块，再堆叠全部时间块；</li><li><strong>变体 3（分解注意力）</strong>：在每个 Transformer 块内部，先做空间自注意力、再做时间自注意力；</li><li><strong>变体 4（分解注意力头）</strong>：把多头注意力的头分成两组，一组负责空间、一组负责时间，最后合并。</li></ul><p>论文还系统比较了视频 patch 嵌入方式（逐帧切块 vs 跨帧的时空管道切块）、时间步 / 类别信息的注入方式、时序位置编码和训练策略，实验中变体 1 表现最好。Latte 在 FaceForensics、SkyTimelapse、UCF101、Taichi-HD 四个标准数据集上取得了当时最优的结果，并可扩展到文本到视频生成<sup id=fnref1:4><a href=#fn:4 class=footnote-ref role=doc-noteref>4</a></sup>。</p><h3 id=716-sora时空统一的-dit-范式><a class=header-anchor href=#716-sora%e6%97%b6%e7%a9%ba%e7%bb%9f%e4%b8%80%e7%9a%84-dit-%e8%8c%83%e5%bc%8f></a>7.1.6 Sora：时空统一的 DiT 范式</h3><p>Sora（OpenAI, 2024）<sup id=fnref:5><a href=#fn:5 class=footnote-ref role=doc-noteref>5</a></sup> 是视频生成领域的标志性工作。其技术报告只公开了高层方法，可以概括为：</p><ol><li><p><strong>视频压缩网络</strong>：不同于逐帧编码，Sora 训练了一个<strong>同时在时间和空间上压缩</strong>的自编码器，把视频映射为分辨率更低、时间维也更短的潜变量，再在这个潜空间中训练和生成。</p></li><li><p><strong>时空 patch 与扩散 Transformer</strong>：把压缩后的潜变量切成时空 patch（spacetime patches）作为 Transformer 的 token。由于图像就是只有一帧的视频，这种表示可以统一处理图像和视频。Sora 直接在<strong>原始分辨率、时长和宽高比</strong>的数据上训练，而不是把视频裁剪成固定尺寸；生成时通过排布不同大小的噪声 patch 网格来控制输出尺寸。报告指出 Sora 是一个扩散 Transformer，训练目标是从带噪 patch 预测原始的"干净" patch。</p></li><li><p><strong>重新标注（re-captioning）</strong>：沿用 DALL·E 3 的方法，先训练一个高描述性的视频字幕模型，为所有训练视频生成详细字幕；推理时再用 GPT 把用户的简短提示扩写成详细描述，从而显著提升对复杂文本指令的遵循能力。</p></li></ol><p>由于实现细节未公开，下面只用通用的扩散反向过程<strong>示意</strong> Sora 这类模型的去噪步骤：</p>$$
+p_\theta(z_{t-1} \mid z_t, c) = \mathcal{N}\left(z_{t-1};\, \mu_\theta(z_t, t, c),\, \Sigma_\theta(t)\right)
+$$<p>其中 $z_t$ 为压缩后的时空潜变量，$c$ 为文本条件，$\mu_\theta$ 由 Transformer 网络给出。</p><p><strong>符号说明：</strong></p><table><thead><tr><th>符号</th><th>含义</th></tr></thead><tbody><tr><td>$z_t$</td><td>时空压缩潜变量</td></tr><tr><td>$c$</td><td>文本条件 / 提示</td></tr><tr><td>$\mu_\theta$</td><td>神经网络预测的去噪均值</td></tr><tr><td>$\Sigma_\theta(t)$</td><td>预设或预测的时间相关协方差</td></tr></tbody></table><h3 id=717-cogvideocogvideox-与开源生态><a class=header-anchor href=#717-cogvideocogvideox-%e4%b8%8e%e5%bc%80%e6%ba%90%e7%94%9f%e6%80%81></a>7.1.7 CogVideo、CogVideoX 与开源生态</h3><p><strong>CogVideo</strong>（Hong et al., 2022）是较早的开源大规模文本到视频模型，但它<strong>不是扩散模型</strong>：它基于预训练的文本到图像模型 CogView2，用<strong>自回归 Transformer</strong> 生成视频 token，并采用分层生成策略——先生成低帧率的关键帧，再通过插帧生成中间帧。其后继 <strong>CogVideoX</strong>（Yang et al., ICLR 2025）<sup id=fnref:6><a href=#fn:6 class=footnote-ref role=doc-noteref>6</a></sup> 转向扩散框架，引入 <strong>3D 因果 VAE</strong>（在时空上同时压缩，且时间方向因果，使首帧可以独立编码为图像）和带"专家自适应 LayerNorm"的 Transformer，并采用 <strong>3D 全注意力</strong>，提升了生成质量与长视频能力。近年的开源视频扩散模型（如 HunyuanVideo、Wan 等）也普遍采用"3D 因果 VAE + 时空 DiT + 流匹配训练"的技术路线。</p><p>时序建模的核心权衡在于计算量。设潜空间中每帧有 $h \times w$ 个 token、共 $N_f$ 帧：</p><ul><li><strong>3D 全注意力</strong>把所有 $N_f h w$ 个 token 放在一起做注意力，表达能力最强，但计算量为 $O\left( (N_f h w)^2 \right)$；</li><li><strong>分解式时空注意力</strong>（先帧内、再跨帧，如 Latte 变体 3）的计算量为 $O\left( N_f h w \cdot (h w + N_f) \right)$，在高分辨率、长视频下要便宜得多，但跨帧、跨位置的信息只能间接交换。</li></ul><h3 id=718-长视频与自回归式视频扩散><a class=header-anchor href=#718-%e9%95%bf%e8%a7%86%e9%a2%91%e4%b8%8e%e8%87%aa%e5%9b%9e%e5%bd%92%e5%bc%8f%e8%a7%86%e9%a2%91%e6%89%a9%e6%95%a3></a>7.1.8 长视频与自回归式视频扩散</h3><p>上述模型一次生成固定长度的片段。要生成更长的视频，常见做法有：</p><ul><li><strong>分段生成 + 重叠</strong>：以前一段的最后几帧为条件生成下一段（SVD 等模型的常见用法）；</li><li><strong>Diffusion Forcing</strong><sup id=fnref:7><a href=#fn:7 class=footnote-ref role=doc-noteref>7</a></sup>：训练时为序列中的<strong>每个 token（帧）独立采样噪声水平</strong>，使模型既能像扩散模型一样整体去噪，又能像自回归模型一样"已知前文、生成后文"，从而支持变长、可持续延展的序列生成。这类"逐帧不同噪声水平"的思想已成为自回归视频扩散与世界模型的重要基础。</li></ul><h2 id=72-三维扩散模型><a class=header-anchor href=#72-%e4%b8%89%e7%bb%b4%e6%89%a9%e6%95%a3%e6%a8%a1%e5%9e%8b></a>7.2 三维扩散模型</h2><p>三维生成要求模型输出具有空间结构的数据（点云、网格、体素、隐式场、3D 高斯或多视角图像），核心挑战是<strong>多视角一致性</strong>和<strong>几何 / 拓扑的有效性</strong>。同时，高质量 3D 训练数据远少于图像数据。因此出现了两大类范式：<strong>直接 3D 扩散</strong>（在某种 3D 表示上训练扩散模型）与<strong>借助 2D 先验的 3D 生成</strong>（用预训练的 2D 扩散模型指导 3D 表示的优化或重建）。</p><h3 id=721-直接三维表示扩散><a class=header-anchor href=#721-%e7%9b%b4%e6%8e%a5%e4%b8%89%e7%bb%b4%e8%a1%a8%e7%a4%ba%e6%89%a9%e6%95%a3></a>7.2.1 直接三维表示扩散</h3><h4 id=point-e三阶段点云生成><a class=header-anchor href=#point-e%e4%b8%89%e9%98%b6%e6%ae%b5%e7%82%b9%e4%ba%91%e7%94%9f%e6%88%90></a>Point-E：三阶段点云生成</h4><p>Point-E（Nichol et al., OpenAI, 2022）<sup id=fnref:8><a href=#fn:8 class=footnote-ref role=doc-noteref>8</a></sup> 把文本到 3D 生成分解为级联的三步：</p><ol><li><strong>文本到图像</strong>：用在 3D 渲染图上微调过的 GLIDE 文本到图像扩散模型，生成一张合成视角图像；</li><li><strong>图像到粗点云</strong>：以该图像为条件，用扩散模型生成 1024 个点的粗点云（含颜色）；</li><li><strong>点云上采样</strong>：再用一个以低分辨率点云为条件的扩散模型，把点云细化到 4096 个点。</li></ol><p>如需网格，Point-E 额外训练一个回归模型从点云预测 SDF，再用 Marching Cubes 提取表面。Point-E 生成很快（单卡一两分钟），但保真度有限，因为点云本身缺乏表面拓扑信息。</p><h4 id=shap-e隐式函数的条件扩散><a class=header-anchor href=#shap-e%e9%9a%90%e5%bc%8f%e5%87%bd%e6%95%b0%e7%9a%84%e6%9d%a1%e4%bb%b6%e6%89%a9%e6%95%a3></a>Shap-E：隐式函数的条件扩散</h4><p>Shap-E（Jun & Nichol, OpenAI, 2023）<sup id=fnref:9><a href=#fn:9 class=footnote-ref role=doc-noteref>9</a></sup> 改为生成<strong>隐式函数的参数</strong>，这些参数既可以渲染为纹理网格，也可以渲染为神经辐射场（NeRF）。训练分两个阶段：</p><ol><li><strong>编码器训练</strong>：训练一个编码器，把 3D 资产确定性地映射为隐式函数（MLP）的参数；</li><li><strong>条件扩散</strong>：在编码器输出的参数上训练条件扩散模型，以文本或图像为条件生成新的隐式函数参数。</li></ol><p>论文发现，尽管 Shap-E 要建模的输出空间维度更高、还要同时支持多种表示，它仍比 Point-E <strong>收敛更快</strong>，且样本质量相当或更好，并能直接得到可渲染的纹理网格。</p><h4 id=体素点云与三平面扩散><a class=header-anchor href=#%e4%bd%93%e7%b4%a0%e7%82%b9%e4%ba%91%e4%b8%8e%e4%b8%89%e5%b9%b3%e9%9d%a2%e6%89%a9%e6%95%a3></a>体素、点云与三平面扩散</h4><p>其他代表性表示包括：</p><ul><li><strong>点云扩散</strong>：如 PVD（Point-Voxel Diffusion），用点-体素混合网络直接对点坐标去噪；</li><li><strong>隐式场 / 体素扩散</strong>：如 Diffusion-SDF，在符号距离场（SDF）等隐式或体素化表示上做扩散；</li><li><strong>三平面扩散</strong>（如 NFD）：把 3D 形状编码为三个正交平面的 2D 特征图，再对这些特征图做扩散，既能复用 2D 扩散架构，又能显著降低计算复杂度。</li></ul><h3 id=722-score-distillation-samplingsds用-2d-先验生成-3d><a class=header-anchor href=#722-score-distillation-samplingsds%e7%94%a8-2d-%e5%85%88%e9%aa%8c%e7%94%9f%e6%88%90-3d></a>7.2.2 Score Distillation Sampling（SDS）：用 2D 先验生成 3D</h3><p>DreamFusion（Poole et al., Google, ICLR 2023 杰出论文）<sup id=fnref:10><a href=#fn:10 class=footnote-ref role=doc-noteref>10</a></sup> 提出了一种全新的 3D 生成范式：<strong>不训练任何 3D 扩散模型</strong>，而是把预训练的 2D 文本到图像扩散模型当作"评委"，通过<strong>分数蒸馏采样</strong>（Score Distillation Sampling, SDS）优化一个可微的 3D 表示（如 NeRF），使它从任意视角渲染出的图像都"像"符合文本描述的真实图片。</p><h4 id=sds-核心公式><a class=header-anchor href=#sds-%e6%a0%b8%e5%bf%83%e5%85%ac%e5%bc%8f></a>SDS 核心公式</h4><p>给定可微 3D 表示的参数 $\phi$（如 NeRF 的 MLP 权重），以及从视角 $\pi$ 渲染出的图像 $x = g(\phi, \pi)$。SDS 用下面的梯度迭代更新 $\phi$：</p>$$
+\nabla_\phi \mathcal{L}_{\text{SDS}} = \mathbb{E}_{t, \pi, \epsilon} \left[ w(t) \left( \epsilon_\theta(x_t; t, c) - \epsilon \right) \frac{\partial x}{\partial \phi} \right]
+$$<p>其中 $x_t = \alpha_t x + \sigma_t \epsilon$ 为渲染图像的前向加噪结果（连续时间记号，同 §5.1.3），$\epsilon_\theta$ 为冻结的预训练 2D 扩散模型的噪声预测，$c$ 为文本条件，$w(t)$ 为时间步权重。</p><p><strong>这个梯度从哪里来？</strong> 如果直接对扩散模型的训练损失 $w(t) \lVert \epsilon_\theta(x_t; t, c) - \epsilon \rVert^2$ 关于 $\phi$ 求导，链式法则会产生一项 U-Net 的雅可比矩阵 $\partial \epsilon_\theta / \partial x_t$，计算昂贵且不稳定。DreamFusion 发现<strong>直接省略这一项</strong>效果反而更好，得到上面的简洁形式。由于 $\epsilon_\theta - \epsilon$ 正比于（负的）分数差，SDS 可以理解为：用 2D 扩散模型提供的分数，把每个视角的渲染图推向"给定文本下的高概率图像区域"。</p><p><strong>符号说明：</strong></p><table><thead><tr><th>符号</th><th>含义</th></tr></thead><tbody><tr><td>$\phi$</td><td>3D 表示（如 NeRF）的可训练参数</td></tr><tr><td>$g(\phi, \pi)$</td><td>从视角 $\pi$ 渲染图像的可微渲染函数</td></tr><tr><td>$x$</td><td>渲染出的 2D 图像</td></tr><tr><td>$x_t$</td><td>对 $x$ 加噪后的图像</td></tr><tr><td>$\epsilon_\theta$</td><td>冻结的预训练 2D 扩散模型的噪声预测网络</td></tr><tr><td>$c$</td><td>文本条件 / 提示</td></tr><tr><td>$w(t)$</td><td>时间步相关的权重系数</td></tr><tr><td>$\alpha_t, \sigma_t$</td><td>信号与噪声系数</td></tr></tbody></table><h4 id=变体与改进><a class=header-anchor href=#%e5%8f%98%e4%bd%93%e4%b8%8e%e6%94%b9%e8%bf%9b></a>变体与改进</h4><p>SDS 存在过饱和、过度平滑、多样性差以及"多面体 / Janus 问题"（物体从多个方向看都长出正脸）等缺陷，并且需要很大的 CFG 尺度（DreamFusion 使用 100）。后续改进包括：</p><ul><li><strong>Magic3D</strong>（Lin et al., NVIDIA, CVPR 2023）：coarse-to-fine 两阶段——先用低分辨率扩散先验优化粗糙的神经场，再提取 DMTet 网格，用高分辨率潜扩散模型精调；</li><li><strong>Fantasia3D</strong>（Chen et al., ICCV 2023）：解耦几何与外观（材质），分别优化；</li><li><strong>ProlificDreamer / VSD</strong>（Wang et al., NeurIPS 2023）<sup id=fnref:11><a href=#fn:11 class=footnote-ref role=doc-noteref>11</a></sup>：提出<strong>变分分数蒸馏</strong>（Variational Score Distillation），把 3D 参数视为一个分布而非单点，用一个在当前渲染图上在线微调的 LoRA 扩散模型 $\epsilon_\psi$ 替代 SDS 中的随机噪声 $\epsilon$：</li></ul>$$
+\nabla_\phi \mathcal{L}_{\text{VSD}} = \mathbb{E}_{t, \pi, \epsilon} \left[ w(t) \left( \epsilon_\theta(x_t; t, c) - \epsilon_\psi(x_t; t, c, \pi) \right) \frac{\partial x}{\partial \phi} \right]
+$$<p>VSD 能在正常的 CFG 尺度（如 7.5）下工作，显著缓解过饱和与过平滑，细节与多样性更好。它与第 5 章的分布匹配蒸馏（DMD，§5.3.4）是同一类"两个分数之差"的思想；</p><ul><li><strong>MVDream</strong>（Shi et al., ICLR 2024）：训练能一次生成多个一致视角的多视角扩散模型，用它替代单视角 2D 先验做 SDS，显著缓解 Janus 问题。</li></ul><h3 id=723-多视角一致性扩散与-3d-重建><a class=header-anchor href=#723-%e5%a4%9a%e8%a7%86%e8%a7%92%e4%b8%80%e8%87%b4%e6%80%a7%e6%89%a9%e6%95%a3%e4%b8%8e-3d-%e9%87%8d%e5%bb%ba></a>7.2.3 多视角一致性扩散与 3D 重建</h3><h4 id=sv3d从视频扩散到多视角合成><a class=header-anchor href=#sv3d%e4%bb%8e%e8%a7%86%e9%a2%91%e6%89%a9%e6%95%a3%e5%88%b0%e5%a4%9a%e8%a7%86%e8%a7%92%e5%90%88%e6%88%90></a>SV3D：从视频扩散到多视角合成</h4><p>SV3D（Voleti et al., Stability AI, ECCV 2024）<sup id=fnref:12><a href=#fn:12 class=footnote-ref role=doc-noteref>12</a></sup> 巧妙地把视频扩散模型改造为<strong>多视角扩散模型</strong>：围绕物体旋转一周拍摄的"轨道视频"本身就是一组多视角图像，视频中的每一帧对应一个视角。SV3D 在 Stable Video Diffusion 的基础上加入相机位姿条件（仰角 elevation 与方位角 azimuth），实现了从单张图像出发、相机可控的多视角合成。</p><p>它的 3D 生成流程也是 coarse-to-fine：先用生成的多视角图像监督优化 NeRF，再提取 DMTet 网格做精调。对于生成视角之外的不可见区域，SV3D 引入 <strong>Masked SDS 损失</strong>，只在不可见区域施加分数蒸馏；并联合优化一个解耦的光照模型，减少光照被"烘焙"进纹理的问题。</p><h4 id=consistent123-与-free3d><a class=header-anchor href=#consistent123-%e4%b8%8e-free3d></a>Consistent123 与 Free3D</h4><ul><li><strong>Consistent123</strong>（Weng et al., 2023）<sup id=fnref:13><a href=#fn:13 class=footnote-ref role=doc-noteref>13</a></sup>：同时合成多个新视角，通过跨视角注意力与共享自注意力在视角之间传递信息，并采用渐进式无分类器引导，提升单图到 3D 的多视角一致性；</li><li><strong>Free3D</strong>（Zheng & Vedaldi, CVPR 2024）<sup id=fnref:14><a href=#fn:14 class=footnote-ref role=doc-noteref>14</a></sup>：与 Zero-1-to-3 类似，从预训练 2D 图像生成器出发微调做新视角合成，但<strong>不使用任何显式 3D 表示</strong>，也不额外训练 3D 重建网络。其关键是射线条件归一化层（Ray Conditioning Normalization, RCN），告诉每个像素自己的观察方向；再配合轻量的多视角注意力和<strong>多视角共享噪声</strong>，提升视角间的一致性。</li></ul><h4 id=3d-gaussian-splatting-与扩散的结合><a class=header-anchor href=#3d-gaussian-splatting-%e4%b8%8e%e6%89%a9%e6%95%a3%e7%9a%84%e7%bb%93%e5%90%88></a>3D Gaussian Splatting 与扩散的结合</h4><p>3D Gaussian Splatting（3DGS）因其可微、渲染极快的特点，成为 3D 生成的新载体：</p><ul><li><strong>DreamGaussian</strong>（Tang et al., ICLR 2024）：把 SDS 与 3DGS 结合，用 3D 高斯的渐进致密化替代 NeRF 的占用剪枝，收敛快得多；再把高斯转换为纹理网格并在 UV 空间精调。从单张图像生成高质量纹理网格只需约 2 分钟，比当时已有方法快约 10 倍；</li><li><strong>直接在 3D 高斯参数上扩散</strong>：把每个高斯的位置、协方差、颜色和不透明度作为扩散对象，是当前活跃的研究方向；</li><li><strong>前馈式重建</strong>：如 Splatter Image（Szymanowicz et al., CVPR 2024）用网络一次前向就从单张图像回归出 3D 高斯参数（它本身是回归模型，不是扩散模型）。实践中常见的高效流程是"<strong>多视角扩散模型生成多视角图像 + 前馈式大重建模型（LRM 类）重建 3D</strong>"，在秒级到分钟级完成单图 / 文本到 3D。</li></ul><h3 id=724-3d-生成方法对比><a class=header-anchor href=#724-3d-%e7%94%9f%e6%88%90%e6%96%b9%e6%b3%95%e5%af%b9%e6%af%94></a>7.2.4 3D 生成方法对比</h3><table><thead><tr><th>方法</th><th>表示形式</th><th>条件</th><th>优点</th><th>缺点</th><th>关键参数</th></tr></thead><tbody><tr><td>Point-E</td><td>点云</td><td>文本 / 图像</td><td>生成速度快</td><td>无拓扑，细节差</td><td>点数量、扩散步数</td></tr><tr><td>Shap-E</td><td>隐式函数参数</td><td>文本 / 图像</td><td>直接输出可渲染网格 / NeRF</td><td>训练流程复杂</td><td>隐式函数参数维度</td></tr><tr><td>DreamFusion（SDS）</td><td>NeRF / 网格</td><td>文本</td><td>无需 3D 数据，利用强大 2D 先验</td><td>过饱和、Janus 问题、逐样本优化慢</td><td>guidance scale、学习率</td></tr><tr><td>ProlificDreamer（VSD）</td><td>NeRF / 网格</td><td>文本</td><td>细节与多样性更好</td><td>优化更慢</td><td>LoRA 学习率、CFG</td></tr><tr><td>SV3D</td><td>多视角图像 → NeRF / 网格</td><td>单图像 + 位姿</td><td>多视角一致性强，相机可控</td><td>依赖预训练视频模型</td><td>相机位姿范围</td></tr><tr><td>Free3D</td><td>无显式 3D</td><td>单图像</td><td>无需重建，直接新视角合成</td><td>不直接得到 3D 模型</td><td>位姿编码、视角数</td></tr><tr><td>3DGS + 扩散</td><td>3D 高斯</td><td>文本 / 图像</td><td>渲染极快</td><td>高斯数量可能膨胀</td><td>高斯数、球谐（SH）阶数</td></tr></tbody></table><h2 id=73-音频扩散模型><a class=header-anchor href=#73-%e9%9f%b3%e9%a2%91%e6%89%a9%e6%95%a3%e6%a8%a1%e5%9e%8b></a>7.3 音频扩散模型</h2><p>音频信号是随时间变化的一维波形 $a(t) \in \mathbb{R}$（这里的 $t$ 是物理时间），具有很强的时间结构和频率特性。由于原始波形采样率高（16–48 kHz）、序列极长，音频扩散模型通常不直接在波形上生成，而是先在<strong>时频域</strong>（如梅尔频谱图）或<strong>学习到的潜空间</strong>中进行扩散，再用声码器（vocoder）或解码器还原波形。</p><h3 id=731-频谱图潜扩散范式><a class=header-anchor href=#731-%e9%a2%91%e8%b0%b1%e5%9b%be%e6%bd%9c%e6%89%a9%e6%95%a3%e8%8c%83%e5%bc%8f></a>7.3.1 频谱图潜扩散范式</h3><p>AudioLDM（Liu et al., ICML 2023）<sup id=fnref:15><a href=#fn:15 class=footnote-ref role=doc-noteref>15</a></sup> 是将 LDM 框架应用于文本到音频生成的代表性工作。其流程为：</p><ol><li>将音频波形通过 STFT 转换为梅尔频谱图 $X \in \mathbb{R}^{L \times F}$；</li><li>用在梅尔频谱图上训练的 VAE 将其压缩为潜变量 $z \in \mathbb{R}^{C \times L' \times F'}$；</li><li>在潜空间中训练扩散模型。<strong>训练时</strong>以 CLAP 的<strong>音频</strong>嵌入 $E^{x}$ 为条件，<strong>采样时</strong>换成 CLAP 的<strong>文本</strong>嵌入 $E^{y}$——由于 CLAP 把音频和文本对齐到同一个嵌入空间，模型无需成对的"文本-音频"数据也能实现文本到音频生成；</li><li>生成后通过 VAE 解码器还原梅尔频谱图，再用 HiFi-GAN 声码器还原为波形。</li></ol><p>AudioLDM 的前向过程与图像 LDM 一致（用 $n$ 表示扩散步，以免与频谱的时间轴混淆）：</p>$$
+q(z_n \mid z_{n-1}) = \mathcal{N}\left(z_n; \sqrt{1 - \beta_n}\, z_{n-1}, \beta_n \mathbf{I}\right)
+$$<p>训练目标为噪声预测（训练时条件为音频嵌入 $E^{x}$）：</p>$$
+\mathcal{L}(\theta) = \mathbb{E}_{z_0, \epsilon, n} \left[ \left\lVert \epsilon - \epsilon_\theta(z_n, n, E^{x}) \right\rVert_2^2 \right]
+$$<p><strong>符号说明：</strong></p><table><thead><tr><th>符号</th><th>含义</th></tr></thead><tbody><tr><td>$X$</td><td>梅尔频谱图（$L$ 个时间帧、$F$ 个梅尔频带）</td></tr><tr><td>$z$</td><td>VAE 压缩后的音频潜变量</td></tr><tr><td>$E^{x}$ / $E^{y}$</td><td>CLAP 音频嵌入（训练时） / CLAP 文本嵌入（采样时）</td></tr><tr><td>$\epsilon$</td><td>注入的高斯噪声</td></tr><tr><td>$n$</td><td>离散扩散时间步</td></tr><tr><td>$\epsilon_\theta$</td><td>噪声预测网络（U-Net）</td></tr></tbody></table><p>AudioLDM 的关键配置：AudioLDM-S 约 1.81 亿参数、AudioLDM-L 约 7.39 亿参数；扩散步数 $N = 1000$，线性噪声调度从 $\beta_1 = 0.0015$ 到 $\beta_N = 0.0195$；采样使用 DDIM 200 步，CFG 尺度 $w = 2.0$（按 AudioLDM 原文的 CFG 写法）<sup id=fnref1:15><a href=#fn:15 class=footnote-ref role=doc-noteref>15</a></sup>。</p><h3 id=732-音频生成模型谱系><a class=header-anchor href=#732-%e9%9f%b3%e9%a2%91%e7%94%9f%e6%88%90%e6%a8%a1%e5%9e%8b%e8%b0%b1%e7%b3%bb></a>7.3.2 音频生成模型谱系</h3><table><thead><tr><th>模型</th><th>表示</th><th>条件</th><th>核心特点</th><th>适用场景</th></tr></thead><tbody><tr><td>AudioGen（Meta）</td><td>离散音频 token</td><td>文本</td><td><strong>自回归</strong>生成（非扩散），作为对照</td><td>通用音效、环境音</td></tr><tr><td>AudioLDM</td><td>连续潜变量</td><td>文本 / 音频</td><td>用 CLAP 实现无需配对数据的文本到音频，支持零样本编辑</td><td>音效、音乐、语音</td></tr><tr><td>MusicLDM</td><td>连续潜变量</td><td>文本</td><td>在 AudioLDM / SD 架构上为音乐重新训练 CLAP 与 HiFi-GAN，提出节拍同步 mixup 以提升新颖性、减少抄袭</td><td>音乐生成</td></tr><tr><td>VoiceFlow</td><td>梅尔频谱图</td><td>文本</td><td>用 Rectified Flow 流匹配替代扩散，少步即可高质量合成</td><td>语音合成（TTS）</td></tr><tr><td>Stable Audio</td><td>连续潜变量</td><td>文本 + 时长</td><td>基于全卷积 VAE 的潜扩散，以时间嵌入控制时长；可生成最长约 95 秒的 44.1 kHz 立体声</td><td>音乐与音效制作</td></tr></tbody></table><p>频谱图 / 潜空间扩散的优势在于：梅尔频谱图把高采样率波形整理成结构规整、类似图像的二维表示（例如 16 kHz 音频、hop length 为 160、64 个梅尔频带时，每秒为 $100 \times 64 = 6400$ 个数值，约为原始波形的 $1/2.5$），再经 VAE 压缩后维度会进一步大幅降低，便于直接复用图像扩散架构。不过梅尔频谱图丢失了相位信息，需要高质量声码器（如 HiFi-GAN、BigVGAN）重建波形；STFT 的固定窗长也让瞬态声音（如打击乐的起音）的重建不够精确。</p><p>值得一提的是，扩散模型也被用作<strong>声码器</strong>本身：DiffWave、WaveGrad 等直接在波形上做条件扩散，把梅尔频谱图还原为波形。在语音合成中，基于流匹配的非自回归 TTS（如 VoiceFlow、Voicebox）也已成为主流方向之一。</p><h3 id=733-音频编辑与风格转换><a class=header-anchor href=#733-%e9%9f%b3%e9%a2%91%e7%bc%96%e8%be%91%e4%b8%8e%e9%a3%8e%e6%a0%bc%e8%bd%ac%e6%8d%a2></a>7.3.3 音频编辑与风格转换</h3><p>训练好的音频扩散模型支持多种零样本编辑任务（与图像中的 SDEdit、inpainting 思路相同，见 §4.4）：</p><ul><li><strong>音频修复</strong>（Inpainting）：对潜变量中特定的时间-频率区域做掩码，让模型填充缺失内容；</li><li><strong>风格转换</strong>：对已有音频加噪到中间时刻，再以新的文本条件（如把 &ldquo;calm music&rdquo; 换成 &ldquo;energetic music&rdquo;）去噪，在保留整体结构的同时改变风格；</li><li><strong>超分辨率</strong>：以低频部分为已知条件，生成缺失的高频细节。</li></ul><h2 id=74-离散数据扩散模型><a class=header-anchor href=#74-%e7%a6%bb%e6%95%a3%e6%95%b0%e6%8d%ae%e6%89%a9%e6%95%a3%e6%a8%a1%e5%9e%8b></a>7.4 离散数据扩散模型</h2><p>标准扩散模型假设数据位于连续空间 $\mathbb{R}^d$，通过高斯噪声进行前向加噪。但文本、分子图、类别数据等本质上是<strong>离散的</strong>，&ldquo;给一个单词加 0.1 的高斯噪声"没有意义。把扩散框架拓展到离散域，需要重新定义"加噪&rdquo;——用<strong>状态之间的随机转移</strong>来逐步破坏数据。</p><h3 id=741-多类别离散扩散d3pm><a class=header-anchor href=#741-%e5%a4%9a%e7%b1%bb%e5%88%ab%e7%a6%bb%e6%95%a3%e6%89%a9%e6%95%a3d3pm></a>7.4.1 多类别离散扩散（D3PM）</h3><p>D3PM（Discrete Denoising Diffusion Probabilistic Models; Austin et al., NeurIPS 2021）<sup id=fnref:16><a href=#fn:16 class=footnote-ref role=doc-noteref>16</a></sup> 把高斯扩散推广到离散状态空间。设每个变量有 $K$ 个可能取值，用 one-hot 行向量 $x_t$ 表示，前向过程通过<strong>转移矩阵</strong> $Q_t$ 实现状态间的概率转移：</p>$$
+q(x_t \mid x_{t-1}) = \mathrm{Cat}\left(x_t;\, p = x_{t-1} Q_t\right)
+$$<p>其中 $[Q_t]_{ij} = q(x_t = j \mid x_{t-1} = i)$，$Q_t \in \mathbb{R}^{K \times K}$ 的每一行之和为 1。与高斯情形类似，多步转移可以直接合成，得到任意时刻的闭式边际分布和前向后验：</p>$$
+q(x_t \mid x_0) = \mathrm{Cat}\left(x_t;\, p = x_0 \bar{Q}_t\right), \quad \bar{Q}_t = Q_1 Q_2 \cdots Q_t; \qquad q(x_{t-1} \mid x_t, x_0) = \mathrm{Cat}\left(x_{t-1};\, p = \frac{x_t Q_t^{\top} \odot x_0 \bar{Q}_{t-1}}{x_0 \bar{Q}_t x_t^{\top}}\right)
+$$<p>因此训练时可以一步采样出 $x_t$，反向网络则学习预测 $x_0$（或直接预测后验）。对于多维数据 $x \in \{1, \dots, K\}^{D}$，各维度独立转移：</p>$$
+q(x_t \mid x_{t-1}) = \prod_{d=1}^{D} \mathrm{Cat}\left(x_t^{d};\, p = x_{t-1}^{d} Q_t\right)
+$$<p><strong>符号说明：</strong></p><table><thead><tr><th>符号</th><th>含义</th></tr></thead><tbody><tr><td>$x_t$</td><td>时间步 $t$ 的离散状态（one-hot 行向量）</td></tr><tr><td>$K$</td><td>每维的类别数</td></tr><tr><td>$D$</td><td>数据维度（如序列长度）</td></tr><tr><td>$Q_t$, $\bar{Q}_t$</td><td>单步 / 累积转移概率矩阵</td></tr><tr><td>$\mathrm{Cat}(\cdot\,; p)$</td><td>以概率向量 $p$ 为参数的类别分布</td></tr><tr><td>$\odot$</td><td>逐元素相乘</td></tr></tbody></table><p>D3PM 探索了多种转移矩阵设计：</p><ul><li><strong>Uniform（均匀扩散）</strong>：以一定概率把当前值均匀随机地重采样为任意类别；</li><li><strong>Absorbing（吸收态扩散）</strong>：以一定概率转移到特殊的 <code>[MASK]</code> 吸收态，一旦被掩码就不再变化，类似 BERT 的掩码语言建模；</li><li><strong>Discretized Gaussian（离散高斯）</strong>：适用于有序类别（如像素值），更倾向于转移到相邻取值，模拟高斯扩散的局部性；</li><li><strong>Token embedding 近邻</strong>：按词嵌入空间中的相似度定义转移，使单词更可能变成语义相近的词。</li></ul><p>实验表明，<strong>吸收态扩散</strong>在文本上表现最好：模型从完全掩码的状态出发，逐步"揭开"原始文本，与自回归语言模型形成有趣的对照。</p><h3 id=742-自回归扩散模型ardm><a class=header-anchor href=#742-%e8%87%aa%e5%9b%9e%e5%bd%92%e6%89%a9%e6%95%a3%e6%a8%a1%e5%9e%8bardm></a>7.4.2 自回归扩散模型（ARDM）</h3><p>ARDM（Autoregressive Diffusion Models; Hoogeboom et al., ICLR 2022）<sup id=fnref:17><a href=#fn:17 class=footnote-ref role=doc-noteref>17</a></sup> 揭示了吸收态扩散与"任意顺序自回归模型"（order-agnostic ARM）之间的联系：在连续时间极限下，每个变量在某个随机时刻被吸收进掩码态，前向过程因此等价于<strong>在所有变量排列中均匀选择一个"掩码顺序"</strong>；反向过程按相反顺序"解掩码"，相当于以随机顺序逐个生成变量。ARDM 的优势在于：</p><ul><li><strong>并行生成</strong>：与必须按固定顺序逐 token 生成的标准自回归模型不同，ARDM 可以在一步中并行预测多个尚未生成的变量；</li><li><strong>动态规划分组</strong>：可以用动态规划为给定的步数预算选择最优的"每步生成多少个变量"，在网络调用次数与似然之间做权衡，从而用远少于数据维度的步数完成生成；</li><li><strong>似然</strong>：在 Text8 上达到 $\le 1.43$ BPC（bits per character，越低越好）。</li></ul><h3 id=743-连续时间与掩码扩散语言模型><a class=header-anchor href=#743-%e8%bf%9e%e7%bb%ad%e6%97%b6%e9%97%b4%e4%b8%8e%e6%8e%a9%e7%a0%81%e6%89%a9%e6%95%a3%e8%af%ad%e8%a8%80%e6%a8%a1%e5%9e%8b></a>7.4.3 连续时间与掩码扩散语言模型</h3><p><strong>SEDD</strong>（Score Entropy Discrete Diffusion; Lou et al., ICML 2024）把"分数"的概念推广到离散空间：学习不同状态之间的<strong>概率比</strong> $p_t(y)/p_t(x)$（称为具体分数，concrete score），并提出 score entropy 损失，显著缩小了扩散语言模型与自回归模型之间的困惑度差距。</p><p><strong>MDLM</strong>（Masked Diffusion Language Models; Sahoo et al., NeurIPS 2024）<sup id=fnref:18><a href=#fn:18 class=footnote-ref role=doc-noteref>18</a></sup> 则表明，<strong>简单的掩码扩散</strong>配合现代训练技巧就非常强大。在连续时间下，它的负 ELBO 可以化简为一个简洁的形式：</p>$$
+\mathcal{L}_{\text{NELBO}}^{\infty} = \mathbb{E}_{q} \int_{0}^{1} \frac{\alpha_t'}{1 - \alpha_t} \sum_{\ell} \log \left\langle x_\theta^{\ell}(z_t, t),\, x^{\ell} \right\rangle \mathrm{d}t
+$$<table><thead><tr><th>符号</th><th>含义</th></tr></thead><tbody><tr><td>$\alpha_t$</td><td>$t$ 时刻 token <strong>未被</strong>掩码的概率，从 $\alpha_0 \approx 1$ 单调递减到 $\alpha_1 \approx 0$</td></tr><tr><td>$\alpha_t'$</td><td>$\alpha_t$ 对 $t$ 的导数（为负，故整体为正的损失）</td></tr><tr><td>$z_t$</td><td>部分被掩码的序列</td></tr><tr><td>$x_\theta^{\ell}(z_t, t)$</td><td>网络对第 $\ell$ 个位置原始 token 的预测分布</td></tr><tr><td>$\left\langle \cdot, x^{\ell} \right\rangle$</td><td>取出真实 token $x^{\ell}$ 对应的预测概率（求和只对被掩码的位置非零）</td></tr></tbody></table><p><strong>直觉</strong>：这个目标就是"<strong>不同掩码率下的 BERT 式掩码语言建模损失的加权平均</strong>"，它在生成式扩散模型与仅编码器的 BERT 之间架起了桥梁。沿着这条路线，<strong>LLaDA</strong>（Nie et al., 2025）<sup id=fnref:19><a href=#fn:19 class=footnote-ref role=doc-noteref>19</a></sup> 从头训练了 80 亿参数的掩码扩散语言模型，在预训练 + 监督微调范式下与同规模自回归基线（如 LLaMA3 8B）表现相当，并在"逆转诅咒"类任务（如反向补全诗句）上表现突出，表明扩散模型在大规模语言建模上同样可行。</p><h3 id=744-连续松弛与嵌入空间扩散><a class=header-anchor href=#744-%e8%bf%9e%e7%bb%ad%e6%9d%be%e5%bc%9b%e4%b8%8e%e5%b5%8c%e5%85%a5%e7%a9%ba%e9%97%b4%e6%89%a9%e6%95%a3></a>7.4.4 连续松弛与嵌入空间扩散</h3><p>另一类策略不修改高斯扩散本身，而是把离散数据放到连续空间里扩散：</p><ul><li><strong>Bit Diffusion / Analog Bits</strong>（Chen et al., ICLR 2023）：把整数数据表示为二进制位，在实数化的位上做连续扩散，生成后再阈值化回离散值；</li><li><strong>Plaid</strong>（Gulrajani & Hashimoto, NeurIPS 2023）：把离散 token 映射到连续嵌入空间，在嵌入上做高斯扩散，并通过似然训练与缩放规律研究缩小与自回归模型的差距；</li><li><strong>RDLM</strong>（Riemannian Diffusion Language Model; Jo & Hwang, NeurIPS 2025）<sup id=fnref:20><a href=#fn:20 class=footnote-ref role=doc-noteref>20</a></sup>：利用类别分布的几何结构，在<strong>统计流形</strong>上定义连续扩散，建立离散扩散与流形上连续流之间的联系，并结合径向对称性实现免模拟训练；在 Text8 上达到 $\le 1.32$ BPC，超过此前所有扩散模型。</li></ul><h3 id=745-离散扩散方法对比><a class=header-anchor href=#745-%e7%a6%bb%e6%95%a3%e6%89%a9%e6%95%a3%e6%96%b9%e6%b3%95%e5%af%b9%e6%af%94></a>7.4.5 离散扩散方法对比</h3><table><thead><tr><th>方法</th><th>噪声 / 建模方式</th><th>Text8 BPC（越低越好）</th><th>关键特点</th></tr></thead><tbody><tr><td>Multinomial Diffusion</td><td>均匀转移</td><td>$\le 1.72$</td><td>最早的离散扩散之一</td></tr><tr><td>D3PM Uniform</td><td>均匀转移</td><td>$\le 1.61$</td><td>系统探索多种转移矩阵</td></tr><tr><td>D3PM Absorb</td><td>吸收态（掩码）</td><td>$\le 1.45$</td><td>离散转移中文本表现最佳</td></tr><tr><td>ARDM</td><td>连续时间吸收 / 任意顺序自回归</td><td>$\le 1.43$</td><td>可并行生成</td></tr><tr><td>SEDD Absorb</td><td>连续时间，具体分数</td><td>$\le 1.39$</td><td>基于分数的离散扩散</td></tr><tr><td>MDLM</td><td>连续时间掩码扩散</td><td>$\le 1.40$</td><td>目标简洁，可扩展到大模型（LLaDA）</td></tr><tr><td>RDLM</td><td>统计流形上的连续扩散</td><td>$\le 1.32$</td><td>截至该论文发表时 Text8 上最优的扩散模型</td></tr></tbody></table><p><em>数值引自 RDLM 论文汇总的各方法原始结果（均为似然上界）<sup id=fnref1:20><a href=#fn:20 class=footnote-ref role=doc-noteref>20</a></sup>。</em></p><h2 id=75-科学应用分子蛋白质与材料生成><a class=header-anchor href=#75-%e7%a7%91%e5%ad%a6%e5%ba%94%e7%94%a8%e5%88%86%e5%ad%90%e8%9b%8b%e7%99%bd%e8%b4%a8%e4%b8%8e%e6%9d%90%e6%96%99%e7%94%9f%e6%88%90></a>7.5 科学应用：分子、蛋白质与材料生成</h2><p>扩散模型在自然科学中的应用正快速增长，尤其是需要生成<strong>满足物理化学约束的三维结构</strong>时。这类数据的共同特点是：结构在旋转、平移（有时还有反射）下不变，因此网络通常需要是 <strong>E(3) / SE(3) 等变</strong>的——把输入分子整体旋转，预测的噪声或速度也应随之同样旋转。</p><h3 id=751-分子生成与基于结构的药物设计><a class=header-anchor href=#751-%e5%88%86%e5%ad%90%e7%94%9f%e6%88%90%e4%b8%8e%e5%9f%ba%e4%ba%8e%e7%bb%93%e6%9e%84%e7%9a%84%e8%8d%af%e7%89%a9%e8%ae%be%e8%ae%a1></a>7.5.1 分子生成与基于结构的药物设计</h3><p><strong>FlowSBDD</strong>（Zhang et al., 2024）<sup id=fnref:21><a href=#fn:21 class=footnote-ref role=doc-noteref>21</a></sup> 把 Rectified Flow（§6.5）引入基于结构的药物设计（SBDD）：给定蛋白质口袋，生成能与之结合的三维配体分子。论文指出，传统扩散模型受限于其固定的学习目标，难以灵活地加入额外优化目标或条件；FlowSBDD 基于 Rectified Flow 框架（时间约定同 §6.4，$x_0$ 为噪声、$x_1$ 为分子）：</p>$$
+\frac{\mathrm{d}x_t}{\mathrm{d}t} = v_\theta\left(x_t, t, c_{\text{pocket}}\right), \quad x_0 \sim p_0, \; x_1 \sim p_1
+$$<p>其中 $x_t$ 为分子的原子坐标与原子类型，$v_\theta$ 为速度场网络，$c_{\text{pocket}}$ 为蛋白质口袋条件。由于训练目标只是在线性插值路径上回归速度，FlowSBDD 可以：</p><ul><li>灵活加入额外损失（如键长损失）以改善化学有效性；</li><li>把额外条件作为输入，或用其他分布替换初始高斯分布；</li><li>在 CrossDocked2020 上达到平均 Vina Dock 分数 −8.50 和 75.0% 的多样性<sup id=fnref1:21><a href=#fn:21 class=footnote-ref role=doc-noteref>21</a></sup>。</li></ul><p><strong>符号说明：</strong></p><table><thead><tr><th>符号</th><th>含义</th></tr></thead><tbody><tr><td>$x_t$</td><td>时间 $t$ 的分子状态（坐标 + 原子类型）</td></tr><tr><td>$v_\theta$</td><td>神经网络参数化的速度场</td></tr><tr><td>$c_{\text{pocket}}$</td><td>蛋白质口袋的条件特征</td></tr><tr><td>$p_0, p_1$</td><td>初始分布（噪声）和目标分布（真实分子）</td></tr></tbody></table><p>其他代表性工作包括：</p><ul><li><strong>EDM（E(3) Equivariant Diffusion Model; Hoogeboom et al., ICML 2022）</strong>：用 E(3) 等变图网络同时对原子坐标（连续）与原子类型去噪，生成三维分子。<strong>注意</strong>它与第 2 章 Karras 等人的 EDM（Elucidating the Design space of diffusion Models）同名但完全不同；</li><li><strong>GeoDiff</strong>（Xu et al., ICLR 2022）：给定分子图，生成其三维构象，保证旋转平移不变性；</li><li><strong>TargetDiff</strong>（Guan et al., ICLR 2023）：口袋条件下的 SE(3) 等变扩散，联合生成配体的原子位置与类型；</li><li><strong>DiffSBDD</strong>（Schneuing et al., 2022 / 2024）<sup id=fnref:22><a href=#fn:22 class=footnote-ref role=doc-noteref>22</a></sup>：E(3) 等变的三维条件扩散，直接在口袋中生成配体分子。</li></ul><h3 id=752-蛋白质结构生成><a class=header-anchor href=#752-%e8%9b%8b%e7%99%bd%e8%b4%a8%e7%bb%93%e6%9e%84%e7%94%9f%e6%88%90></a>7.5.2 蛋白质结构生成</h3><p>蛋白质骨架生成要求输出物理上可折叠、可设计的氨基酸链结构。主要方法包括：</p><ul><li><strong>ProteinSGM</strong>：基于分数的生成模型，在残基间的距离与角度矩阵上扩散，再用 Rosetta 重建三维坐标；</li><li><strong>FoldingDiff</strong>：把蛋白质骨架表示为一串内部角（扭转角与键角），在角度上用 DDPM 生成，天然具有旋转平移不变性，避免直接建模三维坐标的复杂性；</li><li><strong>Chroma</strong>（Ingraham et al., Nature 2023）：直接在骨架原子坐标上扩散，使用符合高分子统计规律的相关噪声，并支持多种可组合的条件约束；</li><li><strong>RFdiffusion</strong>（Watson et al., Nature 2023）：在结构预测网络 RoseTTAFold 的基础上微调得到的扩散模型，支持无条件骨架生成以及功能位点支架（motif scaffolding）、结合物设计等条件任务，并经过大量实验验证；</li><li><strong>Protpardelle</strong>：全原子（含侧链）的蛋白质扩散模型，同时生成序列与结构；</li><li><strong>AlphaFold 3</strong>（Abramson et al., Nature 2024）：在结构<strong>预测</strong>任务中用扩散模块直接生成所有原子的坐标，取代了 AlphaFold 2 的结构模块，可预测蛋白质、核酸、小分子等复合物结构。</li></ul><h3 id=753-材料设计与晶体结构生成><a class=header-anchor href=#753-%e6%9d%90%e6%96%99%e8%ae%be%e8%ae%a1%e4%b8%8e%e6%99%b6%e4%bd%93%e7%bb%93%e6%9e%84%e7%94%9f%e6%88%90></a>7.5.3 材料设计与晶体结构生成</h3><p>扩散模型在材料科学中的应用包括：</p><ul><li><strong>晶体结构生成</strong>：CDVAE、DiffCSP 等模型在晶格的周期性约束下进行扩散，生成满足特定化学计量比的晶体结构；</li><li><strong>MatterGen</strong>（Zeni et al.）<sup id=fnref:23><a href=#fn:23 class=footnote-ref role=doc-noteref>23</a></sup>：提出一种同时逐步细化<strong>原子类型、坐标和周期晶格</strong>的扩散过程，可生成覆盖整个元素周期表的稳定、多样的无机材料；并通过适配器模块在带标签的数据上微调，按目标性质（如化学组成、对称性、磁性、电子和力学性质）引导生成。论文报告其生成结构"新颖且稳定"的比例是以往生成模型的两倍以上，且更接近局部能量极小值；</li><li><strong>性质导向生成</strong>：通过分类器引导或无分类器引导（§3.2–§3.3），生成具有目标带隙、离子电导率等性质的新材料。</li></ul><hr><pre class=mermaid>
+  graph TD
+    A[跨模态扩散模型] --> B[视频扩散]
+    A --> C[3D扩散]
+    A --> D[音频扩散]
+    A --> E[离散扩散]
+    A --> F[科学应用]
+    
+    B --> B1[Latent Video: VideoLDM/SVD]
+    B --> B2[Motion Adapter: AnimateDiff]
+    B --> B3[Video DiT: Latte/Sora/CogVideoX]
+    B --> B4[长视频: Diffusion Forcing]
+    
+    C --> C1[直接3D: Point-E/Shap-E]
+    C --> C2[2D提升3D: DreamFusion/SDS/VSD]
+    C --> C3[多视角: SV3D/Consistent123]
+    C --> C4[3DGS: DreamGaussian]
+    
+    D --> D1[AudioLDM]
+    D --> D2[MusicLDM/Stable Audio]
+    D --> D3[VoiceFlow]
+    
+    E --> E1[D3PM]
+    E --> E2[ARDM/SEDD/MDLM]
+    E --> E3[连续松弛: Plaid/RDLM]
+    
+    F --> F1[FlowSBDD]
+    F --> F2[TargetDiff/E3-EDM]
+    F --> F3[RFdiffusion/AlphaFold3]
+    F --> F4[晶体生成: MatterGen]
+</pre><hr><h1 id=第8章实践指南参数选择代码实现与陷阱><a class=header-anchor href=#%e7%ac%ac8%e7%ab%a0%e5%ae%9e%e8%b7%b5%e6%8c%87%e5%8d%97%e5%8f%82%e6%95%b0%e9%80%89%e6%8b%a9%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0%e4%b8%8e%e9%99%b7%e9%98%b1></a>第8章：实践指南——参数选择、代码实现与陷阱</h1><p>从理论到一个真正能跑、能出好结果的扩散模型，还要跨过工程实现、超参数调优和训练稳定性等多道门槛。本章提供面向实践的选型框架、可复用的代码模板、评估方法和常见问题的排查指南。</p><blockquote class="alert-blockquote warning"><p class=alert-heading>Warning</p><p><p>本章表格中的超参数和资源数字，除特别标注出处的以外，都是<strong>经验范围或数量级估计</strong>，用于帮助建立直觉；具体项目应以所用模型的官方配置和自己的实验为准。</p></p></blockquote><h2 id=81-方法选择决策树><a class=header-anchor href=#81-%e6%96%b9%e6%b3%95%e9%80%89%e6%8b%a9%e5%86%b3%e7%ad%96%e6%a0%91></a>8.1 方法选择决策树</h2><p>面对不同的生成任务，如何选择合适的扩散模型架构和训练策略？下面的决策树给出一套系统的选型逻辑。</p><pre class=mermaid>
+  graph TD
+    Q1{数据类型?} -->|图像| Q2
+    Q1 -->|视频| V1[VideoLDM/SVD/Latte/CogVideoX]
+    Q1 -->|3D| Q3
+    Q1 -->|音频| A1[AudioLDM/Stable Audio]
+    Q1 -->|文本/离散| D1[MDLM/SEDD/LLaDA]
+    Q1 -->|分子/蛋白质| S1[E3-EDM/FlowSBDD/RFdiffusion]
+    
+    Q2{分辨率/质量要求?} -->|高分辨率| Q4
+    Q2 -->|快速原型| Q5
+    
+    Q3{是否有3D训练数据?} -->|是| C1[直接3D扩散: Shap-E/Point-E]
+    Q3 -->|否| C2[2D提升3D: DreamFusion/SDS/VSD]
+    Q3 -->|单图生成3D| C3[SV3D/多视角扩散+重建]
+    
+    Q4{计算预算?} -->|充足| I1[训练LDM/DiT from scratch]
+    Q4 -->|有限| I2[微调Stable Diffusion/Flux]
+    
+    Q5{条件类型?} -->|文本| I3[SD + LoRA/DreamBooth]
+    Q5 -->|类别| I4[DiT/ADM]
+    
+    V1 --> V2{是否已有图像模型?} -->|是| V3[AnimateDiff Motion Module]
+    V2 -->|否| V4[端到端视频LDM训练]
+</pre><p><strong>决策要点：</strong></p><table><thead><tr><th>场景</th><th>推荐方案</th><th>理由</th></tr></thead><tbody><tr><td>快速文本到图像</td><td>微调 Stable Diffusion + LoRA</td><td>训练成本最低，可复用社区生态</td></tr><tr><td>高分辨率图像</td><td>LDM / 潜空间 DiT，或级联扩散</td><td>潜空间计算高效；级联方案在像素空间保证细节</td></tr><tr><td>视频动画</td><td>AnimateDiff + 个性化 SD</td><td>无需训练完整视频模型，即插即用</td></tr><tr><td>可控长视频</td><td>SVD-XT / 分段生成 + 重叠，或 Diffusion Forcing 类方法</td><td>平衡质量与显存限制</td></tr><tr><td>文本到 3D（无 3D 数据）</td><td>SDS / VSD + 多视角先验（如 MVDream）</td><td>利用 2D 先验，零样本 3D 生成</td></tr><tr><td>单图到 3D</td><td>SV3D，或多视角扩散 + 前馈重建</td><td>多视角一致性强，相机可控</td></tr><tr><td>音效 / 环境音</td><td>AudioLDM</td><td>潜空间高效，支持零样本文本编辑</td></tr><tr><td>音乐生成</td><td>MusicLDM / Stable Audio</td><td>音乐专用训练，支持长音频与时长控制</td></tr><tr><td>分子设计</td><td>FlowSBDD / TargetDiff</td><td>等变性保证，口袋条件灵活</td></tr><tr><td>蛋白质骨架</td><td>RFdiffusion / Chroma</td><td>结构先验强，支持条件生成</td></tr><tr><td>离散文本</td><td>MDLM / SEDD（研究），LLaDA（大规模）</td><td>并行生成，扩散模型中困惑度领先</td></tr></tbody></table><h2 id=82-关键超参数对比与推荐><a class=header-anchor href=#82-%e5%85%b3%e9%94%ae%e8%b6%85%e5%8f%82%e6%95%b0%e5%af%b9%e6%af%94%e4%b8%8e%e6%8e%a8%e8%8d%90></a>8.2 关键超参数对比与推荐</h2><p>超参数对扩散模型的训练稳定性和生成质量影响很大。下表汇总了不同模态下的经验值。</p><h3 id=821-通用训练超参数><a class=header-anchor href=#821-%e9%80%9a%e7%94%a8%e8%ae%ad%e7%bb%83%e8%b6%85%e5%8f%82%e6%95%b0></a>8.2.1 通用训练超参数</h3><table><thead><tr><th>超参数</th><th>图像 LDM</th><th>视频 LDM</th><th>音频 LDM</th><th>3D 扩散</th><th>离散扩散</th><th>说明</th></tr></thead><tbody><tr><td>学习率</td><td>$1 \times 10^{-4}$ ~ $5 \times 10^{-4}$</td><td>$5 \times 10^{-5}$ ~ $1 \times 10^{-4}$</td><td>$3 \times 10^{-5}$ ~ $1 \times 10^{-4}$</td><td>$1 \times 10^{-4}$ ~ $2 \times 10^{-4}$</td><td>$1 \times 10^{-4}$ ~ $3 \times 10^{-4}$</td><td>视频 / 微调通常更低；DiT 原文使用恒定 $1 \times 10^{-4}$</td></tr><tr><td>Batch Size</td><td>256~2048</td><td>64~256</td><td>96~512</td><td>64~256</td><td>128~512</td><td>受显存严格限制，可用梯度累积</td></tr><tr><td>训练步数</td><td>300k~1M</td><td>100k~500k</td><td>100k~500k</td><td>200k~1M</td><td>300k~1M</td><td>视数据规模而定</td></tr><tr><td>扩散步数 $T$</td><td>1000</td><td>1000</td><td>1000</td><td>1000</td><td>1000 / 连续时间</td><td>采样时可用 DDIM / DPM-Solver 减少到 20~200</td></tr><tr><td>噪声调度</td><td>Linear / Cosine / 流匹配</td><td>Linear / EDM / 流匹配</td><td>Linear</td><td>Cosine</td><td>掩码率调度</td><td>高分辨率需注意调度偏移（见 §8.4.4）</td></tr><tr><td>EMA decay</td><td>0.9999</td><td>0.9999</td><td>0.9999</td><td>0.9999</td><td>0.9999</td><td>强烈建议启用，采样用 EMA 权重</td></tr><tr><td>梯度裁剪</td><td>1.0</td><td>1.0</td><td>1.0</td><td>1.0</td><td>1.0</td><td>防止梯度爆炸</td></tr><tr><td>混合精度</td><td>FP16 / BF16</td><td>BF16</td><td>FP16 / BF16</td><td>FP32 / FP16</td><td>BF16 / FP32</td><td>BF16 数值范围更大，更不易溢出</td></tr><tr><td>CFG 条件丢弃率</td><td>0.1</td><td>0.1</td><td>0.1</td><td>0.1</td><td>0.1~0.15</td><td>训练时随机丢弃条件（§3.3.1）</td></tr></tbody></table><p>EMA（指数移动平均）权重按下式更新，采样时使用 $\theta_{\text{EMA}}$ 而不是训练中的 $\theta$：</p>$$
+\theta_{\text{EMA}} \leftarrow \mu\, \theta_{\text{EMA}} + (1 - \mu)\, \theta
+$$<p>其中 $\mu$ 为衰减率（如 0.9999）。直观上，它相当于对最近约 $1/(1 - \mu)$ 步（这里约 1 万步）的参数取平均，能平滑掉训练噪声。</p><h3 id=822-采样超参数><a class=header-anchor href=#822-%e9%87%87%e6%a0%b7%e8%b6%85%e5%8f%82%e6%95%b0></a>8.2.2 采样超参数</h3><table><thead><tr><th>超参数</th><th>图像生成</th><th>视频生成</th><th>音频生成</th><th>3D（SDS）</th><th>推荐值</th></tr></thead><tbody><tr><td>Guidance Scale（$w$）</td><td>3~7.5</td><td>1.5~3.0（图生视频）</td><td>2.0~3.0</td><td>约 100（SDS）；约 7.5（VSD）</td><td>SD 系列默认 7.5</td></tr><tr><td>采样步数</td><td>20~50</td><td>25~50</td><td>20~200</td><td>优化迭代 10k~100k</td><td>步数与质量非线性相关</td></tr><tr><td>采样器</td><td>DDIM / DPM++ / Euler</td><td>DDIM / DPM-Solver / EDM-Euler</td><td>DDIM</td><td>—</td><td>DPM++ 2M 是常用的稳妥选择</td></tr><tr><td>分辨率</td><td>512~1024</td><td>576~1024</td><td>由频谱图尺寸决定</td><td>渲染 64~512</td><td>需匹配训练分辨率</td></tr><tr><td>随机种子</td><td>固定 / 变化</td><td>固定</td><td>固定</td><td>每步随机视角</td><td>固定种子用于复现</td></tr></tbody></table><blockquote class="alert-blockquote note"><p class=alert-heading>Note</p><p><p>本表的 $w$ 采用 diffusers 的约定 $\hat{\epsilon} = \epsilon_{\text{uncond}} + w\left(\epsilon_{\text{cond}} - \epsilon_{\text{uncond}}\right)$，$w = 1$ 等于不使用引导。有些论文写成 $\hat{\epsilon} = \epsilon_{\text{cond}} + w'\left(\epsilon_{\text{cond}} - \epsilon_{\text{uncond}}\right)$，两者关系为 $w = 1 + w'$。比较不同来源的数值时要先确认写法。</p></p></blockquote><h3 id=823-各模态特殊参数><a class=header-anchor href=#823-%e5%90%84%e6%a8%a1%e6%80%81%e7%89%b9%e6%ae%8a%e5%8f%82%e6%95%b0></a>8.2.3 各模态特殊参数</h3><table><thead><tr><th>模态</th><th>特殊参数</th><th>典型值</th><th>影响</th></tr></thead><tbody><tr><td>视频</td><td><code>motion_bucket_id</code></td><td>0~255（SVD 默认 127）</td><td>控制运动幅度，越大运动越剧烈</td></tr><tr><td>视频</td><td><code>fps</code> 微条件</td><td>5~30</td><td>影响生成视频的帧率感</td></tr><tr><td>视频</td><td>帧数 $N_f$</td><td>14 / 25（SVD / SVD-XT）</td><td>显存至少随 $N_f$ 线性增长，3D 全注意力下计算量约随 $N_f^2$ 增长</td></tr><tr><td>音频</td><td>梅尔频带数</td><td>64~128</td><td>影响频率分辨率</td></tr><tr><td>音频</td><td>hop length / window</td><td>160 / 1024（16 kHz）</td><td>决定时间-频率分辨率的权衡</td></tr><tr><td>3D SDS</td><td>guidance scale</td><td>约 100</td><td>远高于图像生成：SDS 具有"寻找众数"（mode-seeking）的特性，小 CFG 时结果模糊、过平滑</td></tr><tr><td>3D SDS</td><td>学习率</td><td>$1 \times 10^{-3}$ 量级</td><td>NeRF / 3DGS 参数优化通常需要较高的学习率</td></tr><tr><td>离散</td><td>转移矩阵类型</td><td>absorb / uniform</td><td>吸收态（掩码）对文本效果最好</td></tr><tr><td>离散</td><td>采样步数</td><td>数十 ~ 1000</td><td>掩码扩散可在步数与质量之间灵活权衡</td></tr></tbody></table><h2 id=83-评估指标><a class=header-anchor href=#83-%e8%af%84%e4%bc%b0%e6%8c%87%e6%a0%87></a>8.3 评估指标</h2><p>生成模型没有"标准答案"，需要用一组互补的指标衡量<strong>保真度</strong>（像不像真实数据）、<strong>多样性</strong>（是否覆盖数据分布）和<strong>条件一致性</strong>（是否遵循提示）。</p><p><strong>FID（Fréchet Inception Distance）</strong>：把真实样本与生成样本分别送入 Inception-v3 网络，取特征并各自拟合一个高斯分布 $\mathcal{N}(\mu_r, \Sigma_r)$ 和 $\mathcal{N}(\mu_g, \Sigma_g)$，计算两个高斯之间的 Fréchet 距离：</p>$$
+\mathrm{FID} = \left\lVert \mu_r - \mu_g \right\rVert_2^2 + \operatorname{Tr}\left( \Sigma_r + \Sigma_g - 2 \left( \Sigma_r \Sigma_g \right)^{1/2} \right)
+$$<p>FID 越低越好，同时反映保真度与多样性。它对样本数量和实现细节都很敏感，比较时必须使用相同的样本数（常用 5 万张，即 FID-50K）、相同的参考集和相同的评测代码。</p><p><strong>其他常用指标：</strong></p><table><thead><tr><th>指标</th><th>衡量内容</th><th>适用模态</th><th>备注</th></tr></thead><tbody><tr><td>IS（Inception Score）</td><td>保真度与类别多样性</td><td>图像</td><td>越高越好，不与真实数据比较</td></tr><tr><td>Precision / Recall</td><td>分别衡量保真度与覆盖度</td><td>图像</td><td>可把 FID 的两种失败模式拆开看</td></tr><tr><td>CLIP Score</td><td>图文一致性（CLIP 嵌入的余弦相似度）</td><td>文生图</td><td>越高越好；常与 FID 一起画权衡曲线</td></tr><tr><td>FVD（Fréchet Video Distance）</td><td>视频版 FID，使用视频特征网络（I3D）</td><td>视频</td><td>同时衡量单帧质量与时序一致性</td></tr><tr><td>FAD / FD（Fréchet Audio Distance）</td><td>音频版 FID，使用音频特征网络</td><td>音频</td><td>AudioLDM 等使用</td></tr><tr><td>BPC / 困惑度（PPL）</td><td>似然（或其上界）</td><td>文本 / 离散</td><td>扩散模型通常报告 ELBO 给出的上界</td></tr><tr><td>人类偏好评测</td><td>主观质量与提示遵循</td><td>全部</td><td>大模型时代越来越重要</td></tr></tbody></table><h2 id=84-常见陷阱与排雷指南><a class=header-anchor href=#84-%e5%b8%b8%e8%a7%81%e9%99%b7%e9%98%b1%e4%b8%8e%e6%8e%92%e9%9b%b7%e6%8c%87%e5%8d%97></a>8.4 常见陷阱与排雷指南</h2><h3 id=841-训练不稳定><a class=header-anchor href=#841-%e8%ae%ad%e7%bb%83%e4%b8%8d%e7%a8%b3%e5%ae%9a></a>8.4.1 训练不稳定</h3><p><strong>症状</strong>：损失发散、出现 NaN 梯度、生成样本崩溃为纯色或噪声。</p><p><strong>根因与对策</strong>：</p><table><thead><tr><th>根因</th><th>诊断</th><th>解决方案</th></tr></thead><tbody><tr><td>学习率过高</td><td>前 1000 步损失震荡后发散</td><td>降低学习率至 $1 \times 10^{-4}$ 左右，并使用 warmup</td></tr><tr><td>噪声调度不当</td><td>训练后期损失不降，或高 / 低噪声段质量差</td><td>改用 cosine 调度、EDM 框架或流匹配，检查时间步采样分布</td></tr><tr><td>梯度爆炸</td><td>梯度范数远大于正常水平</td><td>启用梯度裁剪（<code>max_norm=1.0</code>），检查初始化</td></tr><tr><td>数值溢出</td><td>FP16 下出现 Inf / NaN</td><td>改用 BF16，或在 FP32 中计算损失与归一化层</td></tr><tr><td>VAE 数值问题</td><td>潜变量数值过大或溢出</td><td>按官方的缩放因子（如 SD 的 0.18215）缩放潜变量，检查 VAE 版本</td></tr><tr><td>时序层训练不当</td><td>视频训练发散</td><td>先冻结空间层、单独训练时序层，再联合微调</td></tr></tbody></table><p><strong>关键公式</strong>：一种常见的带 warmup 的学习率调度（Transformer 原论文的"逆平方根"调度），记第 $k$ 个训练步的学习率为：</p>$$
+\mathrm{lr}(k) = \mathrm{lr}_{\text{base}} \cdot \min\left( \frac{k}{k_{\text{warmup}}},\; \left( \frac{k}{k_{\text{warmup}}} \right)^{-1/2} \right)
+$$<p>前 $k_{\text{warmup}}$ 步线性升到 $\mathrm{lr}_{\text{base}}$，之后按 $1/\sqrt{k}$ 衰减。§8.6.4 的训练脚本使用的是另一种同样常见的"线性 warmup + 余弦衰减"。</p><p><strong>符号说明：</strong></p><table><thead><tr><th>符号</th><th>含义</th></tr></thead><tbody><tr><td>$\mathrm{lr}(k)$</td><td>第 $k$ 步的学习率</td></tr><tr><td>$\mathrm{lr}_{\text{base}}$</td><td>基础（峰值）学习率</td></tr><tr><td>$k$</td><td>当前训练步数（用 $k$ 而不是 $t$，以免与扩散时间步混淆）</td></tr><tr><td>$k_{\text{warmup}}$</td><td>预热步数（通常 1000~10000）</td></tr></tbody></table><h3 id=842-多样性下降与条件失效><a class=header-anchor href=#842-%e5%a4%9a%e6%a0%b7%e6%80%a7%e4%b8%8b%e9%99%8d%e4%b8%8e%e6%9d%a1%e4%bb%b6%e5%a4%b1%e6%95%88></a>8.4.2 多样性下降与条件失效</h3><p><strong>症状</strong>：生成样本多样性不足，总是输出相似的几种结果；或条件生成忽略文本 / 类别提示。严格意义上的"模式坍塌"在扩散模型中较少见，更常见的是引导和数据带来的多样性损失。</p><p><strong>根因与对策</strong>：</p><table><thead><tr><th>根因</th><th>解决方案</th></tr></thead><tbody><tr><td>条件丢弃率设置不当</td><td>过低时无条件分支学不好、CFG 效果差；过高时条件遵循变弱。一般取 10%~15%</td></tr><tr><td>训练数据分布偏斜</td><td>对数据重采样，平衡各类别 / 文本长度，改进标注质量</td></tr><tr><td>Guidance Scale 过高</td><td>采样时降低 $w$（图像一般 &lt; 10，视频一般 &lt; 3），或使用 CFG 重缩放 / 引导区间等技巧</td></tr><tr><td>模型容量不足</td><td>增加通道数或网络深度</td></tr><tr><td>过拟合小数据集</td><td>使用 Dropout（0.1~0.2）、数据增强、提前停止；微调时注意记忆训练样本的风险</td></tr><tr><td>未使用 EMA</td><td>始终使用 EMA 权重采样，避免参数振荡</td></tr></tbody></table><h3 id=843-内存溢出oom><a class=header-anchor href=#843-%e5%86%85%e5%ad%98%e6%ba%a2%e5%87%baoom></a>8.4.3 内存溢出（OOM）</h3><p><strong>症状</strong>：CUDA out of memory，无法完成训练或采样。</p><p><strong>优化策略（按推荐尝试顺序）</strong>：</p><ol><li><strong>混合精度训练</strong>：FP16 / BF16 让激活显存大约减半（FP16 需配合梯度缩放）；</li><li><strong>梯度检查点</strong>（Gradient Checkpointing）：以时间换空间，可显著减少激活显存（常见为 30%~50%，取决于模型）；</li><li><strong>降低 Batch Size</strong>：配合梯度累积保持等效 batch size；</li><li><strong>高效注意力</strong>：使用 FlashAttention / xFormers 等显存高效的注意力实现；</li><li><strong>降低分辨率</strong>：对图像 / 视频 / 频谱图下采样，或先低分辨率训练再高分辨率微调；</li><li><strong>分布式策略</strong>：大模型使用 FSDP、DeepSpeed ZeRO 等切分参数与优化器状态；</li><li><strong>视频特定</strong>：减少帧数 $N_f$、降低空间分辨率，或分段生成长视频。</li></ol><h3 id=844-采样质量差><a class=header-anchor href=#844-%e9%87%87%e6%a0%b7%e8%b4%a8%e9%87%8f%e5%b7%ae></a>8.4.4 采样质量差</h3><p><strong>症状</strong>：生成模糊、结构错误、文字不可读、视频闪烁。</p><p><strong>排查清单</strong>：</p><ul><li><input disabled type=checkbox> 是否使用了 EMA 模型，而不是训练中的原始权重；</li><li><input disabled type=checkbox> CFG 尺度是否过高（图像 $w > 15$ 常导致过饱和）；</li><li><input disabled type=checkbox> 采样步数是否足够（DDIM 通常需要 20 步以上）；</li><li><input disabled type=checkbox> 条件编码是否正确（文本 tokenizer、CLIP / T5 模型版本是否与训练一致）；</li><li><input disabled type=checkbox> VAE 解码器是否匹配（视频需要时序 VAE，否则容易闪烁）；</li><li><input disabled type=checkbox> 噪声调度和预测类型（$\epsilon$ / $v$ / 速度）是否与训练一致（如训练用 linear 调度，采样就不能按 cosine 计算系数）；</li><li><input disabled type=checkbox> <strong>终端 SNR 与起始时间步</strong>：常见调度在 $t = T$ 时并非纯噪声（终端 SNR 不为 0），部分采样器实现也不从最后一个时间步开始，导致训练与推理不一致，例如 Stable Diffusion 难以生成很亮或很暗的图像。Lin 等人<sup id=fnref:24><a href=#fn:24 class=footnote-ref role=doc-noteref>24</a></sup> 建议把调度重缩放为零终端 SNR、改用 $v$-预测、让采样器总是从最后一个时间步开始，并对 CFG 做重缩放以防止过曝；</li><li><input disabled type=checkbox> <strong>分辨率与噪声调度偏移</strong>：分辨率越高，相邻像素越相关，同样的噪声水平"破坏"的信息越少，因此高分辨率模型通常需要把时间步 / 噪声调度往高噪声方向偏移（如 SD3 的分辨率相关时间步偏移）。</li></ul><h2 id=85-计算资源需求对比><a class=header-anchor href=#85-%e8%ae%a1%e7%ae%97%e8%b5%84%e6%ba%90%e9%9c%80%e6%b1%82%e5%af%b9%e6%af%94></a>8.5 计算资源需求对比</h2><table><thead><tr><th>任务</th><th>模型规模</th><th>训练显存（单卡）</th><th>训练时间</th><th>推理显存</th><th>备注</th></tr></thead><tbody><tr><td>图像 LDM（512×512）</td><td>约 1B 参数</td><td>40GB+</td><td>数天（微调）~ 数周（从头）</td><td>8GB</td><td>从头训练需多卡与大规模数据</td></tr><tr><td>图像 DiT（256×256）</td><td>约 675M（XL/2）</td><td>32GB+</td><td>数天 ~ 2 周</td><td>6GB</td><td>扩展性优于 U-Net</td></tr><tr><td>视频 SVD（25 帧）</td><td>约 1.5B</td><td>80GB</td><td>数周</td><td>约 16–24GB</td><td>需要多卡训练</td></tr><tr><td>AnimateDiff</td><td>SD1.5 U-Net（约 0.86B）+ 运动模块（数亿参数）</td><td>24GB+</td><td>数天</td><td>12GB</td><td>只训练运动模块</td></tr><tr><td>AudioLDM-L</td><td>约 0.74B</td><td>32GB</td><td>数天</td><td>8GB</td><td>另含 VAE 与 HiFi-GAN 声码器</td></tr><tr><td>DreamFusion 类（SDS）</td><td>2D 扩散模型 + NeRF</td><td>16GB+</td><td>每个样本约数十分钟 ~ 数小时</td><td>16GB</td><td>逐样本优化，而非训练模型</td></tr><tr><td>SV3D 多视角</td><td>约 1.5B</td><td>—</td><td>使用预训练模型</td><td>16GB+</td><td>多视角生成 + 3D 优化</td></tr><tr><td>3DGS + SDS</td><td>2D 扩散模型 + 3DGS</td><td>16GB</td><td>数分钟（如 DreamGaussian 约 2 分钟）</td><td>16GB</td><td>比 NeRF 快得多</td></tr><tr><td>分子 FlowSBDD</td><td>千万级参数</td><td>16GB</td><td>数天</td><td>4GB</td><td>等变网络参数量较小</td></tr><tr><td>蛋白质 RFdiffusion</td><td>—</td><td>—</td><td>使用预训练模型</td><td>16GB</td><td>需要结构数据库</td></tr><tr><td>离散文本 MDLM 类</td><td>约 100M~1B</td><td>24GB+</td><td>数天</td><td>8GB</td><td>扩散 Transformer</td></tr></tbody></table><p><em>训练时间按单台 8×A100 粗略估计（"—&ldquo;表示未查到可靠数字），实际取决于数据规模、分辨率与并行策略。</em></p><h2 id=86-pytorch-核心代码实现><a class=header-anchor href=#86-pytorch-%e6%a0%b8%e5%bf%83%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0></a>8.6 PyTorch 核心代码实现</h2><h3 id=861-ddpm-训练循环><a class=header-anchor href=#861-ddpm-%e8%ae%ad%e7%bb%83%e5%be%aa%e7%8e%af></a>8.6.1 DDPM 训练循环</h3><p>下面的代码展示了一个完整的 DDPM 训练前向过程，包含时间步采样、前向加噪、条件丢弃（为 CFG 做准备）和噪声预测损失：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span><span class=lnt>79
+</span><span class=lnt>80
+</span><span class=lnt>81
+</span><span class=lnt>82
+</span><span class=lnt>83
+</span><span class=lnt>84
+</span><span class=lnt>85
+</span><span class=lnt>86
+</span><span class=lnt>87
+</span><span class=lnt>88
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>torch</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>torch.nn</span> <span class=k>as</span> <span class=nn>nn</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>torch.utils.data</span> <span class=kn>import</span> <span class=n>DataLoader</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>DDPM</span><span class=p>(</span><span class=n>nn</span><span class=o>.</span><span class=n>Module</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;&#34;&#34;
+</span></span></span><span class=line><span class=cl><span class=s2>    去噪扩散概率模型（DDPM）训练框架。
+</span></span></span><span class=line><span class=cl><span class=s2>    
+</span></span></span><span class=line><span class=cl><span class=s2>    参数:
+</span></span></span><span class=line><span class=cl><span class=s2>        nn_model: 噪声预测网络（如UNet），输入(x_t, t, c)输出预测的噪声
+</span></span></span><span class=line><span class=cl><span class=s2>        betas: (beta1, beta2) 噪声调度范围，默认(1e-4, 0.02)
+</span></span></span><span class=line><span class=cl><span class=s2>        n_T: 扩散总步数，默认1000
+</span></span></span><span class=line><span class=cl><span class=s2>        drop_prob: CFG训练时条件丢弃概率，默认0.1
+</span></span></span><span class=line><span class=cl><span class=s2>    &#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>nn_model</span><span class=p>,</span> <span class=n>betas</span><span class=o>=</span><span class=p>(</span><span class=mf>1e-4</span><span class=p>,</span> <span class=mf>0.02</span><span class=p>),</span> <span class=n>n_T</span><span class=o>=</span><span class=mi>1000</span><span class=p>,</span> <span class=n>drop_prob</span><span class=o>=</span><span class=mf>0.1</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=nb>super</span><span class=p>(</span><span class=n>DDPM</span><span class=p>,</span> <span class=bp>self</span><span class=p>)</span><span class=o>.</span><span class=fm>__init__</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>nn_model</span> <span class=o>=</span> <span class=n>nn_model</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>n_T</span> <span class=o>=</span> <span class=n>n_T</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>drop_prob</span> <span class=o>=</span> <span class=n>drop_prob</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=c1># 预计算DDPM调度参数</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=n>k</span><span class=p>,</span> <span class=n>v</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>ddpm_schedules</span><span class=p>(</span><span class=n>betas</span><span class=p>[</span><span class=mi>0</span><span class=p>],</span> <span class=n>betas</span><span class=p>[</span><span class=mi>1</span><span class=p>],</span> <span class=n>n_T</span><span class=p>)</span><span class=o>.</span><span class=n>items</span><span class=p>():</span>
+</span></span><span class=line><span class=cl>            <span class=bp>self</span><span class=o>.</span><span class=n>register_buffer</span><span class=p>(</span><span class=n>k</span><span class=p>,</span> <span class=n>v</span><span class=p>)</span>  <span class=c1># 注册为buffer，不参与优化但随模型保存</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>loss_mse</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>MSELoss</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>ddpm_schedules</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>beta1</span><span class=p>,</span> <span class=n>beta2</span><span class=p>,</span> <span class=n>T</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;&#34;&#34;
+</span></span></span><span class=line><span class=cl><span class=s2>        预计算DDPM所需的所有中间变量，避免训练时重复计算。
+</span></span></span><span class=line><span class=cl><span class=s2>        
+</span></span></span><span class=line><span class=cl><span class=s2>        参数:
+</span></span></span><span class=line><span class=cl><span class=s2>            beta1, beta2: 噪声调度的起始和终止值
+</span></span></span><span class=line><span class=cl><span class=s2>            T: 总扩散步数
+</span></span></span><span class=line><span class=cl><span class=s2>        
+</span></span></span><span class=line><span class=cl><span class=s2>        返回:
+</span></span></span><span class=line><span class=cl><span class=s2>            dict: 包含alpha_t, alphabar_t, sqrtab等张量的字典
+</span></span></span><span class=line><span class=cl><span class=s2>        &#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=k>assert</span> <span class=n>beta1</span> <span class=o>&lt;</span> <span class=n>beta2</span> <span class=o>&lt;</span> <span class=mf>1.0</span><span class=p>,</span> <span class=s2>&#34;beta必须在(0,1)内且单调递增&#34;</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=n>beta_t</span> <span class=o>=</span> <span class=p>(</span><span class=n>beta2</span> <span class=o>-</span> <span class=n>beta1</span><span class=p>)</span> <span class=o>*</span> <span class=n>torch</span><span class=o>.</span><span class=n>arange</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span> <span class=n>T</span> <span class=o>+</span> <span class=mi>1</span><span class=p>,</span> <span class=n>dtype</span><span class=o>=</span><span class=n>torch</span><span class=o>.</span><span class=n>float32</span><span class=p>)</span> <span class=o>/</span> <span class=n>T</span> <span class=o>+</span> <span class=n>beta1</span>
+</span></span><span class=line><span class=cl>        <span class=n>sqrt_beta_t</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>sqrt</span><span class=p>(</span><span class=n>beta_t</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>alpha_t</span> <span class=o>=</span> <span class=mf>1.0</span> <span class=o>-</span> <span class=n>beta_t</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=n>log_alpha_t</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>log</span><span class=p>(</span><span class=n>alpha_t</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>alphabar_t</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>cumsum</span><span class=p>(</span><span class=n>log_alpha_t</span><span class=p>,</span> <span class=n>dim</span><span class=o>=</span><span class=mi>0</span><span class=p>)</span><span class=o>.</span><span class=n>exp</span><span class=p>()</span>  <span class=c1># \bar{\alpha}_t = \prod_{s=1}^t \alpha_s</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=n>sqrtab</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>sqrt</span><span class=p>(</span><span class=n>alphabar_t</span><span class=p>)</span>               <span class=c1># \sqrt{\bar{\alpha}_t}</span>
+</span></span><span class=line><span class=cl>        <span class=n>sqrtmab</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>sqrt</span><span class=p>(</span><span class=mf>1.0</span> <span class=o>-</span> <span class=n>alphabar_t</span><span class=p>)</span>         <span class=c1># \sqrt{1 - \bar{\alpha}_t}</span>
+</span></span><span class=line><span class=cl>        <span class=n>oneover_sqrta</span> <span class=o>=</span> <span class=mf>1.0</span> <span class=o>/</span> <span class=n>torch</span><span class=o>.</span><span class=n>sqrt</span><span class=p>(</span><span class=n>alpha_t</span><span class=p>)</span>      <span class=c1># 1 / \sqrt{\alpha_t}</span>
+</span></span><span class=line><span class=cl>        <span class=n>mab_over_sqrtmab</span> <span class=o>=</span> <span class=p>(</span><span class=mf>1.0</span> <span class=o>-</span> <span class=n>alpha_t</span><span class=p>)</span> <span class=o>/</span> <span class=n>sqrtmab</span> <span class=c1># (1 - \alpha_t) / \sqrt{1 - \bar{\alpha}_t}</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=s2>&#34;alpha_t&#34;</span><span class=p>:</span> <span class=n>alpha_t</span><span class=p>,</span>               <span class=c1># \alpha_t</span>
+</span></span><span class=line><span class=cl>            <span class=s2>&#34;oneover_sqrta&#34;</span><span class=p>:</span> <span class=n>oneover_sqrta</span><span class=p>,</span>   <span class=c1># 1/\sqrt{\alpha_t}</span>
+</span></span><span class=line><span class=cl>            <span class=s2>&#34;sqrt_beta_t&#34;</span><span class=p>:</span> <span class=n>sqrt_beta_t</span><span class=p>,</span>       <span class=c1># \sqrt{\beta_t}</span>
+</span></span><span class=line><span class=cl>            <span class=s2>&#34;alphabar_t&#34;</span><span class=p>:</span> <span class=n>alphabar_t</span><span class=p>,</span>         <span class=c1># \bar{\alpha}_t</span>
+</span></span><span class=line><span class=cl>            <span class=s2>&#34;sqrtab&#34;</span><span class=p>:</span> <span class=n>sqrtab</span><span class=p>,</span>                 <span class=c1># \sqrt{\bar{\alpha}_t}</span>
+</span></span><span class=line><span class=cl>            <span class=s2>&#34;sqrtmab&#34;</span><span class=p>:</span> <span class=n>sqrtmab</span><span class=p>,</span>               <span class=c1># \sqrt{1 - \bar{\alpha}_t}</span>
+</span></span><span class=line><span class=cl>            <span class=s2>&#34;mab_over_sqrtmab&#34;</span><span class=p>:</span> <span class=n>mab_over_sqrtmab</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>forward</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>x</span><span class=p>,</span> <span class=n>c</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;&#34;&#34;
+</span></span></span><span class=line><span class=cl><span class=s2>        前向传播用于训练。随机采样时间步和噪声，计算加噪后预测损失。
+</span></span></span><span class=line><span class=cl><span class=s2>        
+</span></span></span><span class=line><span class=cl><span class=s2>        参数:
+</span></span></span><span class=line><span class=cl><span class=s2>            x: 干净数据 batch，形状 (B, C, H, W)
+</span></span></span><span class=line><span class=cl><span class=s2>            c: 条件（如类别标签或文本嵌入），形状 (B, ...)
+</span></span></span><span class=line><span class=cl><span class=s2>        
+</span></span></span><span class=line><span class=cl><span class=s2>        返回:
+</span></span></span><span class=line><span class=cl><span class=s2>            loss: MSE噪声预测损失
+</span></span></span><span class=line><span class=cl><span class=s2>        &#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=n>_ts</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>randint</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>n_T</span> <span class=o>+</span> <span class=mi>1</span><span class=p>,</span> <span class=p>(</span><span class=n>x</span><span class=o>.</span><span class=n>shape</span><span class=p>[</span><span class=mi>0</span><span class=p>],),</span> <span class=n>device</span><span class=o>=</span><span class=n>x</span><span class=o>.</span><span class=n>device</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>noise</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>randn_like</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>  <span class=c1># \epsilon ~ N(0, I)</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=c1># 前向加噪: x_t = sqrt(\bar{\alpha}_t) * x_0 + sqrt(1 - \bar{\alpha}_t) * \epsilon</span>
+</span></span><span class=line><span class=cl>        <span class=n>x_t</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>sqrtab</span><span class=p>[</span><span class=n>_ts</span><span class=p>]</span><span class=o>.</span><span class=n>view</span><span class=p>(</span><span class=o>-</span><span class=mi>1</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>1</span><span class=p>)</span> <span class=o>*</span> <span class=n>x</span> <span class=o>+</span> \
+</span></span><span class=line><span class=cl>              <span class=bp>self</span><span class=o>.</span><span class=n>sqrtmab</span><span class=p>[</span><span class=n>_ts</span><span class=p>]</span><span class=o>.</span><span class=n>view</span><span class=p>(</span><span class=o>-</span><span class=mi>1</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>1</span><span class=p>)</span> <span class=o>*</span> <span class=n>noise</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=c1># CFG: 以drop_prob概率丢弃条件（将条件置零或替换为null嵌入）</span>
+</span></span><span class=line><span class=cl>        <span class=n>context_mask</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>bernoulli</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>            <span class=n>torch</span><span class=o>.</span><span class=n>zeros</span><span class=p>(</span><span class=n>x</span><span class=o>.</span><span class=n>shape</span><span class=p>[</span><span class=mi>0</span><span class=p>],</span> <span class=mi>1</span><span class=p>,</span> <span class=n>device</span><span class=o>=</span><span class=n>x</span><span class=o>.</span><span class=n>device</span><span class=p>)</span> <span class=o>+</span> <span class=bp>self</span><span class=o>.</span><span class=n>drop_prob</span>
+</span></span><span class=line><span class=cl>        <span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>c</span> <span class=o>=</span> <span class=n>c</span> <span class=o>*</span> <span class=p>(</span><span class=mf>1.0</span> <span class=o>-</span> <span class=n>context_mask</span><span class=p>)</span>  <span class=c1># 若被丢弃，条件乘以0</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=c1># 预测噪声并与真实噪声比较</span>
+</span></span><span class=line><span class=cl>        <span class=n>noise_pred</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>nn_model</span><span class=p>(</span><span class=n>x_t</span><span class=p>,</span> <span class=n>_ts</span> <span class=o>/</span> <span class=bp>self</span><span class=o>.</span><span class=n>n_T</span><span class=p>,</span> <span class=n>c</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>loss_mse</span><span class=p>(</span><span class=n>noise</span><span class=p>,</span> <span class=n>noise_pred</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=862-ddpm-采样循环含-cfg><a class=header-anchor href=#862-ddpm-%e9%87%87%e6%a0%b7%e5%be%aa%e7%8e%af%e5%90%ab-cfg></a>8.6.2 DDPM 采样循环（含 CFG）</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl>    <span class=nd>@torch.no_grad</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>sample</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>n_sample</span><span class=p>,</span> <span class=n>size</span><span class=p>,</span> <span class=n>device</span><span class=p>,</span> <span class=n>guide_w</span><span class=o>=</span><span class=mf>0.0</span><span class=p>,</span> <span class=n>c</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;&#34;&#34;
+</span></span></span><span class=line><span class=cl><span class=s2>        DDPM采样，支持分类器自由引导（CFG）。
+</span></span></span><span class=line><span class=cl><span class=s2>        
+</span></span></span><span class=line><span class=cl><span class=s2>        参数:
+</span></span></span><span class=line><span class=cl><span class=s2>            n_sample: 采样数量
+</span></span></span><span class=line><span class=cl><span class=s2>            size: 每个样本的尺寸，如 (C, H, W)
+</span></span></span><span class=line><span class=cl><span class=s2>            device: 计算设备
+</span></span></span><span class=line><span class=cl><span class=s2>            guide_w: CFG引导强度，0表示无条件
+</span></span></span><span class=line><span class=cl><span class=s2>            c: 条件张量，形状 (n_sample, ...) 或 None
+</span></span></span><span class=line><span class=cl><span class=s2>        
+</span></span></span><span class=line><span class=cl><span class=s2>        返回:
+</span></span></span><span class=line><span class=cl><span class=s2>            x_i: 生成的样本，形状 (n_sample, C, H, W)
+</span></span></span><span class=line><span class=cl><span class=s2>        &#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=c1># 从纯噪声初始化 x_T ~ N(0, I)</span>
+</span></span><span class=line><span class=cl>        <span class=n>x_i</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>randn</span><span class=p>(</span><span class=n>n_sample</span><span class=p>,</span> <span class=o>*</span><span class=n>size</span><span class=p>,</span> <span class=n>device</span><span class=o>=</span><span class=n>device</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=n>c</span> <span class=ow>is</span> <span class=kc>None</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=n>c</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>zeros</span><span class=p>(</span><span class=n>n_sample</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=n>device</span><span class=o>=</span><span class=n>device</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>else</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=n>c</span> <span class=o>=</span> <span class=n>c</span><span class=o>.</span><span class=n>to</span><span class=p>(</span><span class=n>device</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=c1># 为CFG准备双份条件：前半有条件，后半无条件（null）</span>
+</span></span><span class=line><span class=cl>        <span class=n>c_i</span> <span class=o>=</span> <span class=n>c</span><span class=o>.</span><span class=n>repeat</span><span class=p>(</span><span class=mi>2</span><span class=p>,</span> <span class=mi>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>context_mask</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>zeros</span><span class=p>(</span><span class=mi>2</span> <span class=o>*</span> <span class=n>n_sample</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=n>device</span><span class=o>=</span><span class=n>device</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>context_mask</span><span class=p>[</span><span class=n>n_sample</span><span class=p>:]</span> <span class=o>=</span> <span class=mf>1.0</span>  <span class=c1># 后半部分为无条件</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=c1># 从T到1逐步去噪</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>n_T</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=o>-</span><span class=mi>1</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>            <span class=n>t_is</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>tensor</span><span class=p>([</span><span class=n>i</span> <span class=o>/</span> <span class=bp>self</span><span class=o>.</span><span class=n>n_T</span><span class=p>],</span> <span class=n>device</span><span class=o>=</span><span class=n>device</span><span class=p>)</span><span class=o>.</span><span class=n>repeat</span><span class=p>(</span><span class=mi>2</span> <span class=o>*</span> <span class=n>n_sample</span><span class=p>,</span> <span class=mi>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            
+</span></span><span class=line><span class=cl>            <span class=c1># 双份输入以提高效率（单次前向计算条件和无条件）</span>
+</span></span><span class=line><span class=cl>            <span class=n>x_i_in</span> <span class=o>=</span> <span class=n>x_i</span><span class=o>.</span><span class=n>repeat</span><span class=p>(</span><span class=mi>2</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=n>noise_pred</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>nn_model</span><span class=p>(</span><span class=n>x_i_in</span><span class=p>,</span> <span class=n>t_is</span><span class=p>[:,</span> <span class=mi>0</span><span class=p>],</span> <span class=n>c_i</span><span class=p>,</span> <span class=n>context_mask</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            
+</span></span><span class=line><span class=cl>            <span class=c1># 分割条件和无条件预测</span>
+</span></span><span class=line><span class=cl>            <span class=n>eps_cond</span> <span class=o>=</span> <span class=n>noise_pred</span><span class=p>[:</span><span class=n>n_sample</span><span class=p>]</span>      <span class=c1># 有条件预测 \epsilon(x_t, t, c)</span>
+</span></span><span class=line><span class=cl>            <span class=n>eps_uncond</span> <span class=o>=</span> <span class=n>noise_pred</span><span class=p>[</span><span class=n>n_sample</span><span class=p>:]</span>    <span class=c1># 无条件预测 \epsilon(x_t, t, \emptyset)</span>
+</span></span><span class=line><span class=cl>            
+</span></span><span class=line><span class=cl>            <span class=c1># CFG公式: \epsilon_guided = \epsilon_uncond + w * (\epsilon_cond - \epsilon_uncond)</span>
+</span></span><span class=line><span class=cl>            <span class=c1># 等价于: (1 + w) * \epsilon_cond - w * \epsilon_uncond</span>
+</span></span><span class=line><span class=cl>            <span class=n>eps</span> <span class=o>=</span> <span class=n>eps_uncond</span> <span class=o>+</span> <span class=n>guide_w</span> <span class=o>*</span> <span class=p>(</span><span class=n>eps_cond</span> <span class=o>-</span> <span class=n>eps_uncond</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            
+</span></span><span class=line><span class=cl>            <span class=c1># DDPM反向采样更新 (简化版，不含学习方差)</span>
+</span></span><span class=line><span class=cl>            <span class=n>x_i</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>oneover_sqrta</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>*</span> <span class=p>(</span><span class=n>x_i</span> <span class=o>-</span> <span class=n>eps</span> <span class=o>*</span> <span class=bp>self</span><span class=o>.</span><span class=n>mab_over_sqrtmab</span><span class=p>[</span><span class=n>i</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>            
+</span></span><span class=line><span class=cl>            <span class=c1># 添加随机噪声（最后一步不加）</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=n>i</span> <span class=o>&gt;</span> <span class=mi>1</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>                <span class=n>z</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>randn_like</span><span class=p>(</span><span class=n>x_i</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>                <span class=n>x_i</span> <span class=o>=</span> <span class=n>x_i</span> <span class=o>+</span> <span class=bp>self</span><span class=o>.</span><span class=n>sqrt_beta_t</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>*</span> <span class=n>z</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>x_i</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote class="alert-blockquote warning"><p class=alert-heading>Warning</p><p><p>代码使用 $\hat{\epsilon} = \epsilon_{\text{uncond}} + w\left(\epsilon_{\text{cond}} - \epsilon_{\text{uncond}}\right)$，它展开后等于 $w\, \epsilon_{\text{cond}} + (1 - w)\, \epsilon_{\text{uncond}}$。注释中写的"等价于 $(1 + w)\, \epsilon_{\text{cond}} - w\, \epsilon_{\text{uncond}}$&ldquo;并不成立——后者对应的是另一种写法 $\epsilon_{\text{cond}} + w\left(\epsilon_{\text{cond}} - \epsilon_{\text{uncond}}\right)$（见 §8.2.2 的说明）。按这段代码的写法，<code>guide_w=0</code> 是纯无条件生成，<code>guide_w=1</code> 是普通条件生成，<code>guide_w>1</code> 才是增强引导。</p></p></blockquote><h3 id=863-flow-matching-训练rectified-flow><a class=header-anchor href=#863-flow-matching-%e8%ae%ad%e7%bb%83rectified-flow></a>8.6.3 Flow Matching 训练（Rectified Flow）</h3><p>Flow Matching 直接在噪声与数据之间学习线性插值的速度场，训练稳定、采样路径更直（原理见 §6.4–§6.5）。下面的代码采用 §6.4 的时间约定（$x_0$ 为噪声、$x_1$ 为数据）：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span><span class=lnt>79
+</span><span class=lnt>80
+</span><span class=lnt>81
+</span><span class=lnt>82
+</span><span class=lnt>83
+</span><span class=lnt>84
+</span><span class=lnt>85
+</span><span class=lnt>86
+</span><span class=lnt>87
+</span><span class=lnt>88
+</span><span class=lnt>89
+</span><span class=lnt>90
+</span><span class=lnt>91
+</span><span class=lnt>92
+</span><span class=lnt>93
+</span><span class=lnt>94
+</span><span class=lnt>95
+</span><span class=lnt>96
+</span><span class=lnt>97
+</span><span class=lnt>98
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>torch</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>torch.nn</span> <span class=k>as</span> <span class=nn>nn</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>FlowMatchingTrainer</span><span class=p>(</span><span class=n>nn</span><span class=o>.</span><span class=n>Module</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;&#34;&#34;
+</span></span></span><span class=line><span class=cl><span class=s2>    流匹配训练器（Rectified Flow / OT-CFM）。
+</span></span></span><span class=line><span class=cl><span class=s2>    
+</span></span></span><span class=line><span class=cl><span class=s2>    假设数据分布为 p_1（干净数据），先验分布为 p_0（标准高斯噪声）。
+</span></span></span><span class=line><span class=cl><span class=s2>    在 x_0 和 x_1 之间构建线性插值: x_t = (1-t) * x_0 + t * x_1
+</span></span></span><span class=line><span class=cl><span class=s2>    网络学习速度场 v_theta(x_t, t, c)，目标是匹配真实速度 x_1 - x_0。
+</span></span></span><span class=line><span class=cl><span class=s2>    &#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>velocity_net</span><span class=p>,</span> <span class=n>sigma_min</span><span class=o>=</span><span class=mf>1e-4</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__init__</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>velocity_net</span> <span class=o>=</span> <span class=n>velocity_net</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>sigma_min</span> <span class=o>=</span> <span class=n>sigma_min</span>  <span class=c1># 最小噪声水平，数值稳定性</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>forward</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>x1</span><span class=p>,</span> <span class=n>c</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;&#34;&#34;
+</span></span></span><span class=line><span class=cl><span class=s2>        Flow Matching训练前向。
+</span></span></span><span class=line><span class=cl><span class=s2>        
+</span></span></span><span class=line><span class=cl><span class=s2>        参数:
+</span></span></span><span class=line><span class=cl><span class=s2>            x1: 干净数据，形状 (B, C, H, W)
+</span></span></span><span class=line><span class=cl><span class=s2>            c: 条件
+</span></span></span><span class=line><span class=cl><span class=s2>        
+</span></span></span><span class=line><span class=cl><span class=s2>        返回:
+</span></span></span><span class=line><span class=cl><span class=s2>            loss: 均方速度匹配损失
+</span></span></span><span class=line><span class=cl><span class=s2>        &#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=n>B</span> <span class=o>=</span> <span class=n>x1</span><span class=o>.</span><span class=n>shape</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>        <span class=n>device</span> <span class=o>=</span> <span class=n>x1</span><span class=o>.</span><span class=n>device</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=c1># 从先验采样 x_0 ~ N(0, I)</span>
+</span></span><span class=line><span class=cl>        <span class=n>x0</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>randn_like</span><span class=p>(</span><span class=n>x1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=c1># 采样时间步 t ~ Uniform(0, 1)</span>
+</span></span><span class=line><span class=cl>        <span class=n>t</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>rand</span><span class=p>(</span><span class=n>B</span><span class=p>,</span> <span class=n>device</span><span class=o>=</span><span class=n>device</span><span class=p>)</span> <span class=o>*</span> <span class=p>(</span><span class=mi>1</span> <span class=o>-</span> <span class=bp>self</span><span class=o>.</span><span class=n>sigma_min</span><span class=p>)</span> <span class=o>+</span> <span class=bp>self</span><span class=o>.</span><span class=n>sigma_min</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=c1># 线性插值构造 x_t = (1-t) * x_0 + t * x_1</span>
+</span></span><span class=line><span class=cl>        <span class=c1># 注意t需要广播到数据维度</span>
+</span></span><span class=line><span class=cl>        <span class=n>t_expanded</span> <span class=o>=</span> <span class=n>t</span><span class=o>.</span><span class=n>view</span><span class=p>(</span><span class=o>-</span><span class=mi>1</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>xt</span> <span class=o>=</span> <span class=p>(</span><span class=mi>1</span> <span class=o>-</span> <span class=n>t_expanded</span><span class=p>)</span> <span class=o>*</span> <span class=n>x0</span> <span class=o>+</span> <span class=n>t_expanded</span> <span class=o>*</span> <span class=n>x1</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=c1># 真实速度场: dx_t/dt = x_1 - x_0</span>
+</span></span><span class=line><span class=cl>        <span class=n>target_velocity</span> <span class=o>=</span> <span class=n>x1</span> <span class=o>-</span> <span class=n>x0</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=c1># 网络预测速度场</span>
+</span></span><span class=line><span class=cl>        <span class=n>pred_velocity</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>velocity_net</span><span class=p>(</span><span class=n>xt</span><span class=p>,</span> <span class=n>t</span><span class=p>,</span> <span class=n>c</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=c1># 损失: 预测速度与目标速度的差异</span>
+</span></span><span class=line><span class=cl>        <span class=n>loss</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>functional</span><span class=o>.</span><span class=n>mse_loss</span><span class=p>(</span><span class=n>pred_velocity</span><span class=p>,</span> <span class=n>target_velocity</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>loss</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nd>@torch.no_grad</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>sample</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>n_sample</span><span class=p>,</span> <span class=n>size</span><span class=p>,</span> <span class=n>device</span><span class=p>,</span> <span class=n>c</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>n_steps</span><span class=o>=</span><span class=mi>50</span><span class=p>,</span> <span class=n>cfg_scale</span><span class=o>=</span><span class=mf>1.0</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;&#34;&#34;
+</span></span></span><span class=line><span class=cl><span class=s2>        使用Euler积分采样Flow Matching模型。
+</span></span></span><span class=line><span class=cl><span class=s2>        
+</span></span></span><span class=line><span class=cl><span class=s2>        参数:
+</span></span></span><span class=line><span class=cl><span class=s2>            n_sample: 采样数量
+</span></span></span><span class=line><span class=cl><span class=s2>            size: 数据尺寸
+</span></span></span><span class=line><span class=cl><span class=s2>            device: 设备
+</span></span></span><span class=line><span class=cl><span class=s2>            c: 条件
+</span></span></span><span class=line><span class=cl><span class=s2>            n_steps: ODE积分步数（n_steps=1为单步生成）
+</span></span></span><span class=line><span class=cl><span class=s2>            cfg_scale: CFG强度
+</span></span></span><span class=line><span class=cl><span class=s2>        
+</span></span></span><span class=line><span class=cl><span class=s2>        返回:
+</span></span></span><span class=line><span class=cl><span class=s2>            x: 生成的样本
+</span></span></span><span class=line><span class=cl><span class=s2>        &#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=c1># 初始化 x_0 ~ N(0, I)</span>
+</span></span><span class=line><span class=cl>        <span class=n>x</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>randn</span><span class=p>(</span><span class=n>n_sample</span><span class=p>,</span> <span class=o>*</span><span class=n>size</span><span class=p>,</span> <span class=n>device</span><span class=o>=</span><span class=n>device</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=n>c</span> <span class=ow>is</span> <span class=ow>not</span> <span class=kc>None</span> <span class=ow>and</span> <span class=n>cfg_scale</span> <span class=o>!=</span> <span class=mf>1.0</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=c1># CFG: 合并条件和无条件输入</span>
+</span></span><span class=line><span class=cl>            <span class=n>c_in</span> <span class=o>=</span> <span class=n>c</span><span class=o>.</span><span class=n>repeat</span><span class=p>(</span><span class=mi>2</span><span class=p>,</span> <span class=mi>1</span><span class=p>)</span> <span class=k>if</span> <span class=n>c</span><span class=o>.</span><span class=n>dim</span><span class=p>()</span> <span class=o>==</span> <span class=mi>2</span> <span class=k>else</span> <span class=n>c</span><span class=o>.</span><span class=n>repeat</span><span class=p>(</span><span class=mi>2</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=n>context_mask</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>zeros</span><span class=p>(</span><span class=mi>2</span> <span class=o>*</span> <span class=n>n_sample</span><span class=p>,</span> <span class=n>device</span><span class=o>=</span><span class=n>device</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=n>context_mask</span><span class=p>[</span><span class=n>n_sample</span><span class=p>:]</span> <span class=o>=</span> <span class=mf>1.0</span>
+</span></span><span class=line><span class=cl>        <span class=k>else</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=n>c_in</span> <span class=o>=</span> <span class=n>c</span>
+</span></span><span class=line><span class=cl>            <span class=n>context_mask</span> <span class=o>=</span> <span class=kc>None</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=n>dt</span> <span class=o>=</span> <span class=mf>1.0</span> <span class=o>/</span> <span class=n>n_steps</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>n_steps</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>            <span class=n>t</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>ones</span><span class=p>(</span><span class=n>n_sample</span><span class=p>,</span> <span class=n>device</span><span class=o>=</span><span class=n>device</span><span class=p>)</span> <span class=o>*</span> <span class=p>(</span><span class=n>i</span> <span class=o>*</span> <span class=n>dt</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=n>c_in</span> <span class=ow>is</span> <span class=ow>not</span> <span class=kc>None</span> <span class=ow>and</span> <span class=n>cfg_scale</span> <span class=o>!=</span> <span class=mf>1.0</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>                <span class=n>x_in</span> <span class=o>=</span> <span class=n>x</span><span class=o>.</span><span class=n>repeat</span><span class=p>(</span><span class=mi>2</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>                <span class=n>t_in</span> <span class=o>=</span> <span class=n>t</span><span class=o>.</span><span class=n>repeat</span><span class=p>(</span><span class=mi>2</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>                <span class=n>v_pred</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>velocity_net</span><span class=p>(</span><span class=n>x_in</span><span class=p>,</span> <span class=n>t_in</span><span class=p>,</span> <span class=n>c_in</span><span class=p>,</span> <span class=n>context_mask</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>                <span class=n>v_cond</span> <span class=o>=</span> <span class=n>v_pred</span><span class=p>[:</span><span class=n>n_sample</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>                <span class=n>v_uncond</span> <span class=o>=</span> <span class=n>v_pred</span><span class=p>[</span><span class=n>n_sample</span><span class=p>:]</span>
+</span></span><span class=line><span class=cl>                <span class=n>v</span> <span class=o>=</span> <span class=n>v_uncond</span> <span class=o>+</span> <span class=n>cfg_scale</span> <span class=o>*</span> <span class=p>(</span><span class=n>v_cond</span> <span class=o>-</span> <span class=n>v_uncond</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=k>else</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>                <span class=n>v</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>velocity_net</span><span class=p>(</span><span class=n>x</span><span class=p>,</span> <span class=n>t</span><span class=p>,</span> <span class=n>c_in</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            
+</span></span><span class=line><span class=cl>            <span class=c1># Euler步进: x_{t+dt} = x_t + dt * v(x_t, t)</span>
+</span></span><span class=line><span class=cl>            <span class=n>x</span> <span class=o>=</span> <span class=n>x</span> <span class=o>+</span> <span class=n>dt</span> <span class=o>*</span> <span class=n>v</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>x</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=864-完整训练脚本框架><a class=header-anchor href=#864-%e5%ae%8c%e6%95%b4%e8%ae%ad%e7%bb%83%e8%84%9a%e6%9c%ac%e6%a1%86%e6%9e%b6></a>8.6.4 完整训练脚本框架</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=s2>&#34;&#34;&#34;
+</span></span></span><span class=line><span class=cl><span class=s2>可运行的完整训练脚本框架（需要配合数据集和模型定义）。
+</span></span></span><span class=line><span class=cl><span class=s2>&#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>torch</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>torch.utils.data</span> <span class=kn>import</span> <span class=n>DataLoader</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>torch.optim</span> <span class=kn>import</span> <span class=n>AdamW</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>torch.optim.lr_scheduler</span> <span class=kn>import</span> <span class=n>LambdaLR</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>math</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>train_diffusion_model</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>model</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>dataset</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>n_epochs</span><span class=o>=</span><span class=mi>100</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>batch_size</span><span class=o>=</span><span class=mi>128</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>lr</span><span class=o>=</span><span class=mf>1e-4</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>warmup_steps</span><span class=o>=</span><span class=mi>5000</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>device</span><span class=o>=</span><span class=s2>&#34;cuda&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>use_amp</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>grad_clip</span><span class=o>=</span><span class=mf>1.0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>save_every</span><span class=o>=</span><span class=mi>10</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;&#34;&#34;
+</span></span></span><span class=line><span class=cl><span class=s2>    通用扩散模型训练循环。
+</span></span></span><span class=line><span class=cl><span class=s2>    
+</span></span></span><span class=line><span class=cl><span class=s2>    参数:
+</span></span></span><span class=line><span class=cl><span class=s2>        model: DDPM或FlowMatching训练模块
+</span></span></span><span class=line><span class=cl><span class=s2>        dataset: PyTorch Dataset
+</span></span></span><span class=line><span class=cl><span class=s2>        n_epochs: 训练轮数
+</span></span></span><span class=line><span class=cl><span class=s2>        batch_size: 批次大小
+</span></span></span><span class=line><span class=cl><span class=s2>        lr: 基础学习率
+</span></span></span><span class=line><span class=cl><span class=s2>        warmup_steps: 预热步数
+</span></span></span><span class=line><span class=cl><span class=s2>        device: 训练设备
+</span></span></span><span class=line><span class=cl><span class=s2>        use_amp: 是否使用混合精度
+</span></span></span><span class=line><span class=cl><span class=s2>        grad_clip: 梯度裁剪阈值
+</span></span></span><span class=line><span class=cl><span class=s2>        save_every: 每隔多少epoch保存
+</span></span></span><span class=line><span class=cl><span class=s2>    &#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=n>dataloader</span> <span class=o>=</span> <span class=n>DataLoader</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=n>dataset</span><span class=p>,</span> <span class=n>batch_size</span><span class=o>=</span><span class=n>batch_size</span><span class=p>,</span> <span class=n>shuffle</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>        <span class=n>num_workers</span><span class=o>=</span><span class=mi>4</span><span class=p>,</span> <span class=n>pin_memory</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span> <span class=n>drop_last</span><span class=o>=</span><span class=kc>True</span>
+</span></span><span class=line><span class=cl>    <span class=p>)</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=n>model</span> <span class=o>=</span> <span class=n>model</span><span class=o>.</span><span class=n>to</span><span class=p>(</span><span class=n>device</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>optimizer</span> <span class=o>=</span> <span class=n>AdamW</span><span class=p>(</span><span class=n>model</span><span class=o>.</span><span class=n>parameters</span><span class=p>(),</span> <span class=n>lr</span><span class=o>=</span><span class=n>lr</span><span class=p>,</span> <span class=n>weight_decay</span><span class=o>=</span><span class=mf>0.01</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=c1># 学习率预热+余弦衰减</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>lr_lambda</span><span class=p>(</span><span class=n>step</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=n>step</span> <span class=o>&lt;</span> <span class=n>warmup_steps</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=n>step</span> <span class=o>/</span> <span class=n>warmup_steps</span>
+</span></span><span class=line><span class=cl>        <span class=k>else</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=n>progress</span> <span class=o>=</span> <span class=p>(</span><span class=n>step</span> <span class=o>-</span> <span class=n>warmup_steps</span><span class=p>)</span> <span class=o>/</span> <span class=nb>max</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=nb>len</span><span class=p>(</span><span class=n>dataloader</span><span class=p>)</span> <span class=o>*</span> <span class=n>n_epochs</span> <span class=o>-</span> <span class=n>warmup_steps</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=mf>0.5</span> <span class=o>*</span> <span class=p>(</span><span class=mf>1.0</span> <span class=o>+</span> <span class=n>math</span><span class=o>.</span><span class=n>cos</span><span class=p>(</span><span class=n>math</span><span class=o>.</span><span class=n>pi</span> <span class=o>*</span> <span class=n>progress</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=n>scheduler</span> <span class=o>=</span> <span class=n>LambdaLR</span><span class=p>(</span><span class=n>optimizer</span><span class=p>,</span> <span class=n>lr_lambda</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=c1># 混合精度训练</span>
+</span></span><span class=line><span class=cl>    <span class=n>scaler</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>cuda</span><span class=o>.</span><span class=n>amp</span><span class=o>.</span><span class=n>GradScaler</span><span class=p>()</span> <span class=k>if</span> <span class=n>use_amp</span> <span class=k>else</span> <span class=kc>None</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=n>model</span><span class=o>.</span><span class=n>train</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=n>global_step</span> <span class=o>=</span> <span class=mi>0</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=n>epoch</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>n_epochs</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=n>epoch_loss</span> <span class=o>=</span> <span class=mf>0.0</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=n>batch_idx</span><span class=p>,</span> <span class=p>(</span><span class=n>x</span><span class=p>,</span> <span class=n>c</span><span class=p>)</span> <span class=ow>in</span> <span class=nb>enumerate</span><span class=p>(</span><span class=n>dataloader</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>            <span class=n>x</span><span class=p>,</span> <span class=n>c</span> <span class=o>=</span> <span class=n>x</span><span class=o>.</span><span class=n>to</span><span class=p>(</span><span class=n>device</span><span class=p>),</span> <span class=n>c</span><span class=o>.</span><span class=n>to</span><span class=p>(</span><span class=n>device</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            
+</span></span><span class=line><span class=cl>            <span class=n>optimizer</span><span class=o>.</span><span class=n>zero_grad</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>            
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=n>use_amp</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>                <span class=k>with</span> <span class=n>torch</span><span class=o>.</span><span class=n>cuda</span><span class=o>.</span><span class=n>amp</span><span class=o>.</span><span class=n>autocast</span><span class=p>():</span>
+</span></span><span class=line><span class=cl>                    <span class=n>loss</span> <span class=o>=</span> <span class=n>model</span><span class=p>(</span><span class=n>x</span><span class=p>,</span> <span class=n>c</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>                <span class=n>scaler</span><span class=o>.</span><span class=n>scale</span><span class=p>(</span><span class=n>loss</span><span class=p>)</span><span class=o>.</span><span class=n>backward</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>                <span class=n>scaler</span><span class=o>.</span><span class=n>unscale_</span><span class=p>(</span><span class=n>optimizer</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>                <span class=n>torch</span><span class=o>.</span><span class=n>nn</span><span class=o>.</span><span class=n>utils</span><span class=o>.</span><span class=n>clip_grad_norm_</span><span class=p>(</span><span class=n>model</span><span class=o>.</span><span class=n>parameters</span><span class=p>(),</span> <span class=n>grad_clip</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>                <span class=n>scaler</span><span class=o>.</span><span class=n>step</span><span class=p>(</span><span class=n>optimizer</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>                <span class=n>scaler</span><span class=o>.</span><span class=n>update</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>            <span class=k>else</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>                <span class=n>loss</span> <span class=o>=</span> <span class=n>model</span><span class=p>(</span><span class=n>x</span><span class=p>,</span> <span class=n>c</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>                <span class=n>loss</span><span class=o>.</span><span class=n>backward</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>                <span class=n>torch</span><span class=o>.</span><span class=n>nn</span><span class=o>.</span><span class=n>utils</span><span class=o>.</span><span class=n>clip_grad_norm_</span><span class=p>(</span><span class=n>model</span><span class=o>.</span><span class=n>parameters</span><span class=p>(),</span> <span class=n>grad_clip</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>                <span class=n>optimizer</span><span class=o>.</span><span class=n>step</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>            
+</span></span><span class=line><span class=cl>            <span class=n>scheduler</span><span class=o>.</span><span class=n>step</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>            <span class=n>global_step</span> <span class=o>+=</span> <span class=mi>1</span>
+</span></span><span class=line><span class=cl>            <span class=n>epoch_loss</span> <span class=o>+=</span> <span class=n>loss</span><span class=o>.</span><span class=n>item</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>            
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=n>batch_idx</span> <span class=o>%</span> <span class=mi>100</span> <span class=o>==</span> <span class=mi>0</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>                <span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;Epoch </span><span class=si>{</span><span class=n>epoch</span><span class=si>}</span><span class=s2>, Step </span><span class=si>{</span><span class=n>global_step</span><span class=si>}</span><span class=s2>, Loss: </span><span class=si>{</span><span class=n>loss</span><span class=o>.</span><span class=n>item</span><span class=p>()</span><span class=si>:</span><span class=s2>.4f</span><span class=si>}</span><span class=s2>, LR: </span><span class=si>{</span><span class=n>scheduler</span><span class=o>.</span><span class=n>get_last_lr</span><span class=p>()[</span><span class=mi>0</span><span class=p>]</span><span class=si>:</span><span class=s2>.6f</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=n>avg_loss</span> <span class=o>=</span> <span class=n>epoch_loss</span> <span class=o>/</span> <span class=nb>len</span><span class=p>(</span><span class=n>dataloader</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;=== Epoch </span><span class=si>{</span><span class=n>epoch</span><span class=si>}</span><span class=s2> completed. Average Loss: </span><span class=si>{</span><span class=n>avg_loss</span><span class=si>:</span><span class=s2>.4f</span><span class=si>}</span><span class=s2> ===&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>epoch</span> <span class=o>+</span> <span class=mi>1</span><span class=p>)</span> <span class=o>%</span> <span class=n>save_every</span> <span class=o>==</span> <span class=mi>0</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=n>torch</span><span class=o>.</span><span class=n>save</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>                <span class=s1>&#39;epoch&#39;</span><span class=p>:</span> <span class=n>epoch</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=s1>&#39;model_state_dict&#39;</span><span class=p>:</span> <span class=n>model</span><span class=o>.</span><span class=n>state_dict</span><span class=p>(),</span>
+</span></span><span class=line><span class=cl>                <span class=s1>&#39;optimizer_state_dict&#39;</span><span class=p>:</span> <span class=n>optimizer</span><span class=o>.</span><span class=n>state_dict</span><span class=p>(),</span>
+</span></span><span class=line><span class=cl>                <span class=s1>&#39;scheduler_state_dict&#39;</span><span class=p>:</span> <span class=n>scheduler</span><span class=o>.</span><span class=n>state_dict</span><span class=p>(),</span>
+</span></span><span class=line><span class=cl>                <span class=s1>&#39;loss&#39;</span><span class=p>:</span> <span class=n>avg_loss</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=p>},</span> <span class=sa>f</span><span class=s2>&#34;checkpoint_epoch_</span><span class=si>{</span><span class=n>epoch</span><span class=si>}</span><span class=s2>.pt&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>model</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote class="alert-blockquote tip"><p class=alert-heading>Tip</p><p><p>这个框架省略了 EMA。实际训练时应额外维护一份 EMA 权重（按 §8.2.1 的公式在每次 <code>optimizer.step()</code> 之后更新），保存检查点和采样时都使用 EMA 权重；PyTorch 的 <code>torch.optim.swa_utils.AveragedModel</code> 或 diffusers 的 <code>EMAModel</code> 都可以直接使用。</p></p></blockquote><h2 id=87-质量检查清单><a class=header-anchor href=#87-%e8%b4%a8%e9%87%8f%e6%a3%80%e6%9f%a5%e6%b8%85%e5%8d%95></a>8.7 质量检查清单</h2><p>在部署扩散模型前，可以用以下清单验证实现的正确性：</p><ul><li><input disabled type=checkbox> <strong>公式正确性</strong>：训练目标是否为 $\lVert \epsilon - \epsilon_\theta \rVert^2$（DDPM 噪声预测）或 $\lVert v - v_\theta \rVert^2$（Flow Matching）？时间方向约定（哪一端是数据）是否前后一致？</li><li><input disabled type=checkbox> <strong>符号一致性</strong>：所有公式中的变量是否都在正文中定义？</li><li><input disabled type=checkbox> <strong>CFG 实现</strong>：训练时是否以约 10% 的概率丢弃条件？采样时是否同时计算有条件和无条件预测，且引导公式的写法与所用 $w$ 的约定一致？</li><li><input disabled type=checkbox> <strong>EMA 使用</strong>：训练时是否维护 EMA 模型？采样时是否使用 EMA 权重？</li><li><input disabled type=checkbox> <strong>噪声调度</strong>：训练与采样的噪声调度是否一致？在 DDIM / DDPM 之间切换时，$\alpha$ 与 $\bar{\alpha}$ 的计算是否匹配？</li><li><input disabled type=checkbox> <strong>时间编码</strong>：时间步 $t$ 是否按训练时的方式（如 $t/T$ 或连续时间）输入网络？</li><li><input disabled type=checkbox> <strong>梯度检查</strong>：是否启用梯度裁剪？FP16 混合精度是否配合 GradScaler？</li><li><input disabled type=checkbox> <strong>维度检查</strong>：条件嵌入的广播维度是否与数据维度匹配？</li><li><input disabled type=checkbox> <strong>评估</strong>：FID 等指标是否使用固定的样本数、参考集与评测代码？</li><li><input disabled type=checkbox> <strong>复现测试</strong>：固定随机种子后，相同输入是否产生相同输出？</li><li><input disabled type=checkbox> <strong>显存监控</strong>：训练脚本是否记录峰值显存？</li></ul><hr><h2 id=参考文献><a class=header-anchor href=#%e5%8f%82%e8%80%83%e6%96%87%e7%8c%ae></a>参考文献</h2><hr><p><em>文档生成日期：2026-07-02（2026-11-19 修订）</em></p><div class=footnotes role=doc-endnotes><hr><ol><li id=fn:1><p>Blattmann, A., Rombach, R., Ling, H., Dockhorn, T., Kim, S. W., Fidler, S., & Kreis, K. (2023). Align your Latents: High-Resolution Video Synthesis with Latent Diffusion Models. <em>CVPR</em>.&#160;<a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:2><p>Blattmann, A., Dockhorn, T., Kulal, S., Mendelevitch, D., Kilian, M., Lorenz, D., &mldr; & Rombach, R. (2023). Stable Video Diffusion: Scaling Latent Video Diffusion Models to Large Datasets. <em>arXiv:2311.15127</em>.&#160;<a href=#fnref:2 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a>&#160;<a href=#fnref1:2 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:3><p>Guo, Y., Yang, C., Rao, A., Liang, Z., Wang, Y., Qiao, Y., Agrawala, M., Lin, D., & Dai, B. (2024). AnimateDiff: Animate Your Personalized Text-to-Image Diffusion Models without Specific Tuning. <em>ICLR</em>.&#160;<a href=#fnref:3 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:4><p>Ma, X., Wang, Y., Chen, X., Jia, G., Liu, Z., Li, Y.-F., Chen, C., & Qiao, Y. (2024). Latte: Latent Diffusion Transformer for Video Generation. <em>arXiv:2401.03048</em>（后发表于 <em>TMLR</em> 2025）.&#160;<a href=#fnref:4 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a>&#160;<a href=#fnref1:4 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:5><p>Brooks, T., Peebles, B., Holmes, C., DePue, W., Guo, Y., Jing, L., Schnurr, D., Taylor, J., Luhman, T., Luhman, E., Ng, C., Wang, R., & Ramesh, A. (2024). Video Generation Models as World Simulators. <em>OpenAI Technical Report</em>.&#160;<a href=#fnref:5 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:6><p>Yang, Z., Teng, J., Zheng, W., Ding, M., Huang, S., Xu, J., &mldr; & Tang, J. (2025). CogVideoX: Text-to-Video Diffusion Models with An Expert Transformer. <em>ICLR</em>.&#160;<a href=#fnref:6 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:7><p>Chen, B., Martí Monsó, D., Du, Y., Simchowitz, M., Tedrake, R., & Sitzmann, V. (2024). Diffusion Forcing: Next-token Prediction Meets Full-Sequence Diffusion. <em>NeurIPS</em>.&#160;<a href=#fnref:7 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:8><p>Nichol, A., Jun, H., Dhariwal, P., Mishkin, P., & Chen, M. (2022). Point-E: A System for Generating 3D Point Clouds from Complex Prompts. <em>arXiv:2212.08751</em>.&#160;<a href=#fnref:8 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:9><p>Jun, H., & Nichol, A. (2023). Shap-E: Generating Conditional 3D Implicit Functions. <em>arXiv:2305.02463</em>.&#160;<a href=#fnref:9 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:10><p>Poole, B., Jain, A., Barron, J. T., & Mildenhall, B. (2023). DreamFusion: Text-to-3D using 2D Diffusion. <em>ICLR</em>（arXiv:2209.14988, 2022）.&#160;<a href=#fnref:10 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:11><p>Wang, Z., Lu, C., Wang, Y., Bao, F., Li, C., Su, H., & Zhu, J. (2023). ProlificDreamer: High-Fidelity and Diverse Text-to-3D Generation with Variational Score Distillation. <em>NeurIPS</em>.&#160;<a href=#fnref:11 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:12><p>Voleti, V., Yao, C.-H., Boss, M., Letts, A., Pankratz, D., Tochilkin, D., &mldr; & Jampani, V. (2024). SV3D: Novel Multi-view Synthesis and 3D Generation from a Single Image using Latent Video Diffusion. <em>ECCV</em>.&#160;<a href=#fnref:12 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:13><p>Weng, H., Yang, T., Wang, J., Li, Y., Zhang, T., Chen, C. L. P., & Zhang, L. (2023). Consistent123: Improve Consistency for One Image to 3D Object Synthesis. <em>arXiv:2310.08092</em>.&#160;<a href=#fnref:13 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:14><p>Zheng, C., & Vedaldi, A. (2024). Free3D: Consistent Novel View Synthesis without 3D Representation. <em>CVPR</em>.&#160;<a href=#fnref:14 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:15><p>Liu, H., Chen, Z., Yuan, Y., Mei, X., Liu, X., Mandic, D., Wang, W., & Plumbley, M. D. (2023). AudioLDM: Text-to-Audio Generation with Latent Diffusion Models. <em>ICML</em>.&#160;<a href=#fnref:15 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a>&#160;<a href=#fnref1:15 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:16><p>Austin, J., Johnson, D. D., Ho, J., Tarlow, D., & van den Berg, R. (2021). Structured Denoising Diffusion Models in Discrete State-Spaces. <em>NeurIPS</em>.&#160;<a href=#fnref:16 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:17><p>Hoogeboom, E., Gritsenko, A. A., Bastings, J., Poole, B., van den Berg, R., & Salimans, T. (2022). Autoregressive Diffusion Models. <em>ICLR</em>.&#160;<a href=#fnref:17 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:18><p>Sahoo, S. S., Arriola, M., Schiff, Y., Gokaslan, A., Marroquin, E., Chiu, J. T., Rush, A., & Kuleshov, V. (2024). Simple and Effective Masked Diffusion Language Models. <em>NeurIPS</em>.&#160;<a href=#fnref:18 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:19><p>Nie, S., Zhu, F., You, Z., Zhang, X., Ou, J., Hu, J., Zhou, J., Lin, Y., Wen, J.-R., & Li, C. (2025). Large Language Diffusion Models. <em>arXiv:2502.09992</em>.&#160;<a href=#fnref:19 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:20><p>Jo, J., & Hwang, S. J. (2025). Continuous Diffusion Model for Language Modeling. <em>NeurIPS</em>（arXiv:2502.11564）.&#160;<a href=#fnref:20 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a>&#160;<a href=#fnref1:20 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:21><p>Zhang, D., Gong, C., & Liu, Q. (2024). Rectified Flow for Structure Based Drug Design. <em>arXiv:2412.01174</em>（ELLIS ML4Molecules Workshop 2024）.&#160;<a href=#fnref:21 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a>&#160;<a href=#fnref1:21 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:22><p>Schneuing, A., Harris, C., Du, Y., Didi, K., Jamasb, A., Igashov, I., &mldr; & Correia, B. (2024). Structure-based Drug Design with Equivariant Diffusion Models. <em>Nature Computational Science</em>（arXiv:2210.13695, 2022）.&#160;<a href=#fnref:22 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:23><p>Zeni, C., Pinsler, R., Zügner, D., Fowler, A., Horton, M., Fu, X., &mldr; & Xie, T. (2025). A generative model for inorganic materials design (MatterGen). <em>Nature</em>（arXiv:2312.03687）.&#160;<a href=#fnref:23 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:24><p>Lin, S., Liu, B., Li, J., & Yang, X. (2024). Common Diffusion Noise Schedules and Sample Steps are Flawed. <em>WACV</em>（arXiv:2305.08891）.&#160;<a href=#fnref:24 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li></ol></div></div><footer class=article-footer><blockquote class=article-copyright><p><strong><span class="icon-user icon"></span>本文作者：</strong>Jingmengzhiyue</p><p><strong><span class="icon-link icon"></span>本文链接：</strong><a href=https://www.jingmengzhiyue.tech/2025/08/12/diffusion-model-cross-modal-and-practice/>https://www.jingmengzhiyue.tech/2025/08/12/diffusion-model-cross-modal-and-practice/</a></p><p><strong><span class="icon-pencil icon"></span>本文标题：</strong>扩散模型（四）：跨模态扩散与实现实践</p><p><strong><span class="icon-calendar icon"></span>本文发布时间：</strong>2025-08-12 09:00:00</p><p><strong><span class="icon-copyright icon"></span>本文版权：</strong>
+本博客所有文章除特别声明外，均采用 <a href=https://creativecommons.org/licenses/by/4.0/deed.zh rel="noopener nofollow noreferrer" target=_blank><span class=icon-creative-commons></span>BY</a> 许可协议。转载请注明出处！</p><span class="icon-creative-commons article-copyright-bg"></span></blockquote><ul class=article-category-list><li class=article-tag-list-item data-aos=zoom-in><a class=article-category-link href=/categories/Machine-Learning/ data-aos=zoom-in>Machine Learning</a></li></ul><ul class=article-tag-list itemprop=keywords><li class=article-tag-list-item data-aos=zoom-in><a class=article-tag-list-link href=/tags/Machine-Learning/ rel=tag>Machine Learning</a></li></ul></footer></div><nav id=article-nav aria-label="Article navigation" data-aos=fade-up><div class="article-nav-link-wrap left"><img data-src=/img/24.jpg data-sizes=auto alt=扩散模型（三）：采样加速与前沿方法 class=lazyload><a href=/2025/07/25/diffusion-model-sampling-and-frontiers/ aria-label=前一篇:扩散模型（三）：采样加速与前沿方法 title=前一篇:扩散模型（三）：采样加速与前沿方法></a><div class=article-nav-caption>前一篇</div><h3 class=article-nav-title>扩散模型（三）：采样加速与前沿方法</h3></div><div class="article-nav-link-wrap right"><img data-src=/img/3.jpg data-sizes=auto alt="Hello, welcome." class=lazyload><a href=/2023/10/02/hello-world/ aria-label="后一篇:Hello, welcome." title="后一篇:Hello, welcome."></a><div class=article-nav-caption>后一篇</div><h3 class=article-nav-title>Hello, welcome.</h3></div></nav></article></section></div><footer id=footer aria-label="Site footer"><div style=width:100%;overflow:hidden><div class=footer-line></div></div><div id=footer-info><div><span class=icon-copyright></span>2023-2026<span class="footer-info-sep rotate"></span>Jingmengzhiyue</div><div>基于&nbsp;<a href=https://gohugo.io/ target=_blank rel="noopener nofollow noreferrer">Hugo</a>&nbsp;Theme.<a href=https://github.com/D-Sketon/hugo-theme-reimu target=_blank rel="noopener nofollow noreferrer">Reimu</a></div><div><span class=icon-brush>&nbsp;446.2k</span>
+&nbsp;|&nbsp;
+<span class=icon-coffee>&nbsp;15:31</span></div><div><span class=icon-eye></span>
+<span id=busuanzi_container_site_pv>总访问量&nbsp;<span id=busuanzi_value_site_pv></span></span>
+&nbsp;|&nbsp;
+<span class=icon-user></span>
+<span id=busuanzi_container_site_uv>总访客量&nbsp;<span id=busuanzi_value_site_uv></span></span></div></div></footer><div class=sidebar-top><div class="sidebar-top-taichi rotate"></div><div class=arrow-up></div></div><div id=mask class=hide></div></div><nav id=mobile-nav aria-label="Mobile navigation"><div class=sidebar-wrap><div class=sidebar-toc-sidebar><h3 class=toc-title>文章目录</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#71-视频扩散模型>7.1 视频扩散模型</a><ul><li><a href=#711-视频生成的时序建模框架>7.1.1 视频生成的时序建模框架</a></li><li><a href=#712-video-ldm对齐潜变量的视频生成>7.1.2 Video LDM：对齐潜变量的视频生成</a></li><li><a href=#713-stable-video-diffusionsvd规模化视频扩散>7.1.3 Stable Video Diffusion（SVD）：规模化视频扩散</a></li><li><a href=#714-animatediff即插即用的运动模块>7.1.4 AnimateDiff：即插即用的运动模块</a></li><li><a href=#715-latte潜在扩散-transformer>7.1.5 Latte：潜在扩散 Transformer</a></li><li><a href=#716-sora时空统一的-dit-范式>7.1.6 Sora：时空统一的 DiT 范式</a></li><li><a href=#717-cogvideocogvideox-与开源生态>7.1.7 CogVideo、CogVideoX 与开源生态</a></li><li><a href=#718-长视频与自回归式视频扩散>7.1.8 长视频与自回归式视频扩散</a></li></ul></li><li><a href=#72-三维扩散模型>7.2 三维扩散模型</a><ul><li><a href=#721-直接三维表示扩散>7.2.1 直接三维表示扩散</a></li><li><a href=#722-score-distillation-samplingsds用-2d-先验生成-3d>7.2.2 Score Distillation Sampling（SDS）：用 2D 先验生成 3D</a></li><li><a href=#723-多视角一致性扩散与-3d-重建>7.2.3 多视角一致性扩散与 3D 重建</a></li><li><a href=#724-3d-生成方法对比>7.2.4 3D 生成方法对比</a></li></ul></li><li><a href=#73-音频扩散模型>7.3 音频扩散模型</a><ul><li><a href=#731-频谱图潜扩散范式>7.3.1 频谱图潜扩散范式</a></li><li><a href=#732-音频生成模型谱系>7.3.2 音频生成模型谱系</a></li><li><a href=#733-音频编辑与风格转换>7.3.3 音频编辑与风格转换</a></li></ul></li><li><a href=#74-离散数据扩散模型>7.4 离散数据扩散模型</a><ul><li><a href=#741-多类别离散扩散d3pm>7.4.1 多类别离散扩散（D3PM）</a></li><li><a href=#742-自回归扩散模型ardm>7.4.2 自回归扩散模型（ARDM）</a></li><li><a href=#743-连续时间与掩码扩散语言模型>7.4.3 连续时间与掩码扩散语言模型</a></li><li><a href=#744-连续松弛与嵌入空间扩散>7.4.4 连续松弛与嵌入空间扩散</a></li><li><a href=#745-离散扩散方法对比>7.4.5 离散扩散方法对比</a></li></ul></li><li><a href=#75-科学应用分子蛋白质与材料生成>7.5 科学应用：分子、蛋白质与材料生成</a><ul><li><a href=#751-分子生成与基于结构的药物设计>7.5.1 分子生成与基于结构的药物设计</a></li><li><a href=#752-蛋白质结构生成>7.5.2 蛋白质结构生成</a></li><li><a href=#753-材料设计与晶体结构生成>7.5.3 材料设计与晶体结构生成</a></li></ul></li></ul><ul><li><a href=#81-方法选择决策树>8.1 方法选择决策树</a></li><li><a href=#82-关键超参数对比与推荐>8.2 关键超参数对比与推荐</a><ul><li><a href=#821-通用训练超参数>8.2.1 通用训练超参数</a></li><li><a href=#822-采样超参数>8.2.2 采样超参数</a></li><li><a href=#823-各模态特殊参数>8.2.3 各模态特殊参数</a></li></ul></li><li><a href=#83-评估指标>8.3 评估指标</a></li><li><a href=#84-常见陷阱与排雷指南>8.4 常见陷阱与排雷指南</a><ul><li><a href=#841-训练不稳定>8.4.1 训练不稳定</a></li><li><a href=#842-多样性下降与条件失效>8.4.2 多样性下降与条件失效</a></li><li><a href=#843-内存溢出oom>8.4.3 内存溢出（OOM）</a></li><li><a href=#844-采样质量差>8.4.4 采样质量差</a></li></ul></li><li><a href=#85-计算资源需求对比>8.5 计算资源需求对比</a></li><li><a href=#86-pytorch-核心代码实现>8.6 PyTorch 核心代码实现</a><ul><li><a href=#861-ddpm-训练循环>8.6.1 DDPM 训练循环</a></li><li><a href=#862-ddpm-采样循环含-cfg>8.6.2 DDPM 采样循环（含 CFG）</a></li><li><a href=#863-flow-matching-训练rectified-flow>8.6.3 Flow Matching 训练（Rectified Flow）</a></li><li><a href=#864-完整训练脚本框架>8.6.4 完整训练脚本框架</a></li></ul></li><li><a href=#87-质量检查清单>8.7 质量检查清单</a></li><li><a href=#参考文献>参考文献</a></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/profile_picture.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>文章</div><div class=sidebar-state-number>61</div></div><a class=sidebar-state-category href=/categories/ aria-label=sidebar-state-category-link><div>分类</div><div class=sidebar-state-number>9</div></a><a class=sidebar-state-tag href=/tags/ aria-label=sidebar-state-tag-link><div>标签</div><div class=sidebar-state-number>27</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/ aria-label=首页></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>首页</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/archives aria-label=归档></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>归档</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/categories aria-label=目录></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>目录</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/tags aria-label=标签></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>标签</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/about aria-label=关于></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>关于</div></div></div></div></div><div class=sidebar-btn-wrapper><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></nav></div><div id=aplayer theme=var(--color-link)></div><script src=https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js integrity=sha384-3gT/vsepWkfz/ff7PpWNUeMzeWoH3cDhm/A8jM7ouoAK0/fP/9bcHHR5kHq2nf+e crossorigin=anonymous></script><script src=https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js integrity=sha384-J08i8An/QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q crossorigin=anonymous></script><script src=/js/main.js integrity crossorigin=anonymous></script><script src=/js/aos.js integrity crossorigin=anonymous></script><script>var aosInit=()=>{AOS.init({duration:1e3,easing:"ease",once:!0,offset:50})};document.readyState==="loading"?document.addEventListener("DOMContentLoaded",aosInit):aosInit()</script><script src=/js/pjax_main.js integrity crossorigin=anonymous data-pjax></script><div id=lazy-script><div><script data-pjax>window.REIMU_POST={author:"Jingmengzhiyue",title:"扩散模型（四）：跨模态扩散与实现实践",url:"https://www.jingmengzhiyue.tech/2025/08/12/diffusion-model-cross-modal-and-practice/",description:"介绍视频、三维、音频和离散数据中的扩散模型及其实现要点。",cover:"https://www.jingmengzhiyue.tech/img/24.jpg"}</script><script src=https://npm.webcache.cn/mermaid@11.16.0/dist/mermaid.min.js data-pjax integrity=sha384-T/0lMUdJpd2S1ZHtRiofG3htU3xPCrFVeAQ1UUE2TJwlEJSV5NUwn30kP28n238E crossorigin=anonymous></script><script src=https://npm.webcache.cn/dompurify@3.2.6/dist/purify.min.js data-pjax integrity=sha384-JEyTNhjM6R1ElGoJns4U2Ln4ofPcqzSsynQkmEc/KGy6336qAZl70tDLufbkla+3 crossorigin=anonymous></script><script data-pjax>if(window.mermaid){const t=".mermaid",n=e=>{const n=_$$(t);return n.length?new Promise((t,s)=>{try{n.forEach(e),t()}catch(e){s(e)}}):Promise.resolve()},o=()=>n(e=>{e.getAttribute("data-original-code")||e.setAttribute("data-original-code",e.innerHTML)}),i=()=>n(e=>{const t=e.getAttribute("data-original-code");t&&(e.removeAttribute("data-processed"),e.innerHTML=DOMPurify.sanitize(t))}),a=async e=>{window.mermaid.initialize({theme:e,startOnLoad:!1}),await window.mermaid.run({querySelector:t,suppressErrors:!0}),window.svgPanZoom&&(window.__panZoomList?.forEach(e=>{try{e.destroy()}catch{}}),window.__panZoomList=[],_$$(".mermaid > svg").forEach(e=>{const t=e.getBBox();e.setAttribute("height",Math.max(t.height,80)),window.__panZoomList.push(window.svgPanZoom(e,{zoomEnabled:!0,controlIconsEnabled:!0,fit:!0,center:!0}))}),window.__resizeMermaidSvg&&window.removeEventListener("resize",window.__resizeMermaidSvg),window.__resizeMermaidSvg=()=>{try{window.__panZoomList.forEach(e=>{e.resize(),e.fit(),e.center()})}catch{window.removeEventListener("resize",window.__resizeMermaidSvg),window.__panZoomList=[]}},window.addEventListener("resize",window.__resizeMermaidSvg))},e=async e=>{try{await o(),await i(),await a(e)}catch(e){console.error(e)}};document.body.addEventListener("reimu:theme-set",t=>{const n=t.detail.isDark;e(n?"dark":"default")});const s=localStorage.getItem("dark_mode");if(s==="auto"){const t=window.matchMedia("(prefers-color-scheme: dark)").matches;e(t?"dark":"default")}else e(s==="true"?"dark":"default")}</script><script src=/js/insert_highlight.js integrity crossorigin=anonymous data-pjax></script><script src=/js/tabs.js integrity crossorigin=anonymous data-pjax defer></script><script type=module data-pjax>const PhotoSwipeLightbox = (await safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js", "sha384-DiL6M\/gG\u002bwmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF\/N6lrZi\/")).default;const initPswp = (gallery, children) => {
+          if (_$$(`${gallery} ${children}`).length > 0) {
+            new PhotoSwipeLightbox({
+              gallery,
+              children,pswpModule: () => safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8\u002boTJ7m3DfYEWX1fu1scuS4\u002bs")}).init();
+          }
+        }
+        const pswp = () => {
+          initPswp('.article-entry', 'a.article-gallery-item');
+          initPswp('.article-gallery', 'a.article-gallery-item');
+        }
+        pswp()
+      </script><script data-pjax>window.MathJax=JSON.parse('[{"loader":{"load":["input/asciimath","[tex]/noerrors"]},"options":{"ignoreHtmlClass":"tex2jax_ignore","processHtmlClass":"tex2jax_process","skipHtmlTags":["script","noscript","style","textarea","pre","code"]},"tex":{"autoload":{"color":[],"colorv2":["color"]},"displayMath":[["$$","$$"],["\\\\[","\\\\]"]],"inlineMath":[["$","$"],["\\\\(","\\\\)"]],"packages":{"[+]":["noerrors"]},"processEnvironments":true,"processEscapes":true,"tags":"ams","useLabelIds":true}}]')[0]</script><script src=https://npm.webcache.cn/mathjax@3.2.2/es5/tex-mml-chtml.js defer data-pjax integrity=sha384-Wuix6BuhrWbjDBs24bXrjf4ZQ5aFeFWBuKkFekO2t8xFU0iNaLQfp2K6/1Nxveei crossorigin=anonymous></script></div></div><script src=https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js async integrity=sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S crossorigin=anonymous></script><script>"serviceWorker"in navigator&&navigator.serviceWorker.getRegistrations().then(e=>{for(let t of e)t.unregister()})</script><script>const reimuCopyright=String.raw`
+   ______     ______     __     __    __     __  __    
+  /\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+  \ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+   \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+    \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                    
+  `;console.log(String.raw`%c ${reimuCopyright}`,"color: #ff5252;"),console.log("%c Theme.Reimu %c https://github.com/D-Sketon/hugo-theme-reimu ","color: white; background: #ff5252; padding:5px 0;","padding:4px;border:1px solid #ff5252;")</script><script>var setupAPlayer=()=>{if(!!1||!window.matchMedia("(max-width: 768px)").matches){const e=window.matchMedia("(max-width: 959px)").matches;if(e){const e=_$("#aplayer");if(e){const t=e.parentNode?.parentNode;t?.tagName==="ASIDE"&&(e.removeAttribute("data-aos"),t.parentNode.removeChild(e),document.body.appendChild(e))}}new APlayer({theme:"var(--color-link)",container:document.getElementById("aplayer"),audio:JSON.parse('[{"cover":"/img/24.jpg","name":"The Song Of Soul","url":"/music/The Song Of Soul.mp3"},{"cover":"/img/24.jpg","name":"Merry Christmas Mr Lawrence","url":"/music/Merry Christmas Mr Lawrence.mp3"},{"cover":"/img/24.jpg","name":"やさしさがしっとりと降るなかで","url":"/music/やさしさがしっとりと降るなかで.mp3"},{"artist":"千葉紗子","cover":"/img/24.jpg","name":"花手紙","url":"/music/花手紙.mp3"}]')||[],fixed:!!e||!0,autoplay:!0,loop:"all"||"all",order:"list"||"list",preload:"none"||"auto",volume:.7||.7,mutex:!0,listFolded:!0,lrcType:0||0})}}</script><script src=https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.js defer onload=setupAPlayer() integrity=sha384-gdGYZwHnfJM54evoZhpO0s6ZF5BQiybkiyW7VXr+h5UfruuRL/aORyw+5+HZoU6e crossorigin=anonymous></script></body></html>

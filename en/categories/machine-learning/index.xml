@@ -1,4 +1,62 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Machine Learning on 热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/en/categories/machine-learning/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>en</language><copyright>All articles on this blog are licensed under the BY license agreement unless otherwise stated. Please indicate the source when reprinting!</copyright><lastBuildDate>Sun, 01 Oct 2023 21:13:43 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/en/categories/machine-learning/index.xml" rel="self" type="application/rss+xml"/><item><title>Pandas Time Series Data</title><link>https://www.jingmengzhiyue.tech/en/pandas-time-series/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/pandas-time-series/</guid><description>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Machine Learning on 热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/en/categories/machine-learning/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>en</language><copyright>All articles on this blog are licensed under the BY license agreement unless otherwise stated. Please indicate the source when reprinting!</copyright><lastBuildDate>Tue, 12 Aug 2025 09:00:00 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/en/categories/machine-learning/index.xml" rel="self" type="application/rss+xml"/><item><title>Diffusion Models, Part 4: Cross-Modal Diffusion and Implementation</title><link>https://www.jingmengzhiyue.tech/en/diffusion-model-cross-modal-and-practice/</link><pubDate>Tue, 12 Aug 2025 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/diffusion-model-cross-modal-and-practice/</guid><description>
+<![CDATA[<h1>Diffusion Models, Part 4: Cross-Modal Diffusion and Implementation</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="chapter-7-cross-modal-diffusion--video-3d-audio-and-discrete-data">
+<a class="header-anchor" href="#chapter-7-cross-modal-diffusion--video-3d-audio-and-discrete-data"></a>
+Chapter 7: Cross-Modal Diffusion — Video, 3D, Audio, and Discrete Data
+</h1><p>Diffusion models first broke through in image generation, but their core idea — <strong>starting from a simple distribution and approaching a complex data distribution through iterative denoising</strong> — is not limited to two-dimensional pixels. In recent years, researchers have extended the diffusion framework to a range of modalities, including video, three-dimensional geometry, audio, and discrete symbol sequences, creating the active frontier of cross-modal diffusion. This chapter walks through these directions one by one, focusing on three questions: <strong>what is hard</strong> about each modality, <strong>which part of the diffusion framework</strong> the main methods change, and the <strong>commonalities and trade-offs</strong> among them.</p>
+        
+        <hr><p>Published on 2025-08-12 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2025-08-12</p>]]></description><category>Machine Learning</category></item><item><title>Diffusion Models, Part 3: Faster Sampling and Emerging Methods</title><link>https://www.jingmengzhiyue.tech/en/diffusion-model-sampling-and-frontiers/</link><pubDate>Fri, 25 Jul 2025 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/diffusion-model-sampling-and-frontiers/</guid><description>
+<![CDATA[<h1>Diffusion Models, Part 3: Faster Sampling and Emerging Methods</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="chapter-5-sampling-algorithms-and-acceleration-strategies">
+<a class="header-anchor" href="#chapter-5-sampling-algorithms-and-acceleration-strategies"></a>
+Chapter 5: Sampling Algorithms and Acceleration Strategies
+</h1><p>Sampling a diffusion model is, at bottom, a matter of numerically solving a reverse stochastic differential equation (SDE) or the corresponding probability flow ODE (see §1.7). The original DDPM needed hundreds to thousands of network forward evaluations (NFE, Number of Function Evaluations) to produce a high-quality sample, which severely limited its deployment in real-time settings. This chapter surveys the full family of sampling-acceleration techniques, moving from simple to advanced:</p>
+        
+        <hr><p>Published on 2025-07-25 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2025-07-25</p>]]></description><category>Machine Learning</category></item><item><title>Diffusion Models, Part 2: Latent Diffusion and Controllable Generation</title><link>https://www.jingmengzhiyue.tech/en/diffusion-model-latent-and-control/</link><pubDate>Mon, 07 Jul 2025 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/diffusion-model-latent-and-control/</guid><description>
+<![CDATA[<h1>Diffusion Models, Part 2: Latent Diffusion and Controllable Generation</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="chapter-3-conditional-generation-and-latent-diffusion-models">
+<a class="header-anchor" href="#chapter-3-conditional-generation-and-latent-diffusion-models"></a>
+Chapter 3: Conditional Generation and Latent Diffusion Models
+</h1><h2 id="31-from-unconditional-to-conditional-generation">
+<a class="header-anchor" href="#31-from-unconditional-to-conditional-generation"></a>
+3.1 From Unconditional to Conditional Generation
+</h2><p>Diffusion models first appeared in the form of unconditional generation: learning a data distribution $p(x)$ and sampling from noise to produce new samples similar to the training data. In practice, however, users need finer control—specifying a class, a text description, a style reference, and so on. Conditional generation aims to learn a conditional distribution $p(x \mid c)$, where $c$ is the conditioning signal, which can be a class label, a text embedding, an image mask, or a spatial structure map.</p>
+        
+        <hr><p>Published on 2025-07-07 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2025-07-07</p>]]></description><category>Machine Learning</category></item><item><title>Diffusion Models, Part 1: Foundations and Classic Models</title><link>https://www.jingmengzhiyue.tech/en/diffusion-model-foundations/</link><pubDate>Thu, 19 Jun 2025 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/diffusion-model-foundations/</guid><description>
+<![CDATA[<h1>Diffusion Models, Part 1: Foundations and Classic Models</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="deep-learning-diffusion-models-foundations-and-classic-models">
+<a class="header-anchor" href="#deep-learning-diffusion-models-foundations-and-classic-models"></a>
+Deep Learning Diffusion Models: Foundations and Classic Models
+</h1><blockquote>
+<p>Author: ResearchWriter_基础与经典
+Generated: 2026-07-02</p>
+</blockquote>
+<hr>
+<h2 id="chapter-1-mathematical-foundations-and-core-concepts-of-diffusion-models">
+<a class="header-anchor" href="#chapter-1-mathematical-foundations-and-core-concepts-of-diffusion-models"></a>
+Chapter 1: Mathematical Foundations and Core Concepts of Diffusion Models
+</h2><h3 id="11-introduction-and-historical-context">
+<a class="header-anchor" href="#11-introduction-and-historical-context"></a>
+1.1 Introduction and Historical Context
+</h3><p>Diffusion models are one of the most important technical paradigms in generative AI today, and their theoretical roots span statistical physics, stochastic processes, and variational inference. In 2015, Sohl-Dickstein et al.<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> first drew inspiration from nonequilibrium statistical mechanics and proposed a generative framework that progressively destroys data structure through a forward diffusion process and then restores it through a reverse diffusion process. Then Song &amp; Ermon (2019)<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> revisited the problem from the perspective of <strong>score matching</strong> and proposed the Noise Conditional Score Network (NCSN); Ho et al. (2020)<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup> developed the <strong>Denoising Diffusion Probabilistic Model (DDPM)</strong>, which brought diffusion models into practical use through variational inference and a simplified training objective. In 2021, Song et al.<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup> proposed a unified framework based on <strong>stochastic differential equations (SDE)</strong>, showing that NCSN and DDPM are discretizations of two classes of continuous-time diffusion processes—VE-SDE and VP-SDE—and that both can be described in the same language of &ldquo;score + SDE.&rdquo; In 2022, the <strong>EDM</strong> work by Karras et al.<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup> systematically elucidated the design space of diffusion models, unifying the choices of preconditioning, loss weighting, and samplers. This chapter starts from the mathematical foundations and systematically builds the core conceptual framework of diffusion models.</p>
+        
+        <hr><p>Published on 2025-06-19 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2025-06-19</p>]]></description><category>Machine Learning</category></item><item><title>A Survey of the Diffusion Model Landscape</title><link>https://www.jingmengzhiyue.tech/en/diffusion-model-landscape/</link><pubDate>Sun, 01 Jun 2025 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/diffusion-model-landscape/</guid><description>
+<![CDATA[<h1>A Survey of the Diffusion Model Landscape</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="diffusion-model-landscape-scan-results-landscape-scan">
+<a class="header-anchor" href="#diffusion-model-landscape-scan-results-landscape-scan"></a>
+Diffusion Model Landscape Scan Results (Landscape Scan)
+</h1><p><strong>Date</strong>: 2026-07-02 (revised 2026-11-19: checked paper years and sources, added missing branches)
+<strong>Search strategy</strong>: coarse-to-fine, with 5 searches covering the big picture, structure, and frontier work</p>
+<blockquote>
+<p>This article is the &ldquo;map&rdquo; of the whole diffusion model note series: it opens with a one-page list of the main technical branches and representative work, then points you to the corresponding chapter notes for the underlying principles (see Section 6, &ldquo;Reading Guide&rdquo;). Years generally refer to the conference or journal year in which the paper was formally published, with the conference name in parentheses.</p>
+</blockquote>
+        
+        <hr><p>Published on 2025-06-01 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2025-06-01</p>]]></description><category>Machine Learning</category></item><item><title>Pandas Time Series Data</title><link>https://www.jingmengzhiyue.tech/en/pandas-time-series/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/pandas-time-series/</guid><description>
 <![CDATA[<h1>Pandas Time Series Data</h1><p>Author: Jingmengzhiyue()</p>
         
           <h1 id="pandas-time-series-data">
