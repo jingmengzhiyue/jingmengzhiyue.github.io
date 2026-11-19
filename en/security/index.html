@@ -1,0 +1,249 @@
+<!doctype html><html lang=en data-theme-mode=auto><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><title>Security and Cryptography | Jingmengzhiyue</title><meta name=description content="Security in computer science"><script>window.siteConfig=JSON.parse('{"anchor":{"auto":{"enable":false,"length":60},"explicit":{"enable":false,"marker":"{#anchor-","prefix":"anchor-"}},"anchor_icon":null,"base":"https://www.jingmengzhiyue.tech/","clipboard":{"copyright":{"count":50,"enable":false,"license_type":"by-nc-sa"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-br":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ","zh-cn":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-tw":"複製失敗 (ﾟ⊿ﾟ)ﾂ"},"success":{"en":"Copy successfully (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-br":"Copiado com sucesso (*^▽^*)","zh-cn":"复制成功 (*^▽^*)","zh-tw":"複製成功 (*^▽^*)"}},"code_block":{"expand":true},"dark_mode":{"button":true,"mode":"auto"},"i18n_languages":[{"label":"简体中文","lang":"zh-cn"},{"label":"English","lang":"en"}],"icon_font":"4552607_ex15nbittbh","outdate":{"daysago":180,"enable":false,"message":{"en":"This article was last updated on {time}. Please note that the content may no longer be applicable.","ja":"この記事は最終更新日：{time}。記載内容が現在有効でない可能性がありますのでご注意ください。","pt-br":"Este artigo foi atualizado pela última vez em {time}. Observe que o conteúdo pode não ser mais aplicável.","zh-cn":"本文最后更新于 {time}，请注意文中内容可能已不适用。","zh-tw":"本文最後更新於 {time}，請注意文中內容可能已不適用。"}}}')</script><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap" media=print onload='this.media="all"'><link rel=preload href=//at.alicdn.com/t/c/font_4552607_ex15nbittbh.woff2 as=font type=font/woff2 crossorigin=anonymous><link rel=stylesheet href=/css/loader.min.ac746e154f756f8220326eeb52a719f142ab038be5a8ddf30ea5ef15ef2356ea.css><meta property="og:type" content="website"><meta property="og:title" content="Security and Cryptography | Jingmengzhiyue"><meta property="og:description" content="Security in computer science"><meta property="og:url" content="https://www.jingmengzhiyue.tech/en/security/"><meta property="og:site_name" content="热爱可抵万难"><meta property="og:image" content="https://www.jingmengzhiyue.tech/img/24.jpg"><meta property="article:author" content="Jingmengzhiyue"><meta property="article:published_time" content="2023-06-05T16:37:29+08:00"><meta property="article:modified_time" content="2023-06-05T16:37:29+08:00"><meta property="article:tag" content="The Missing Semester of Your CS Education"><meta name=twitter:card content="summary"><meta name=twitter:image content="https://www.jingmengzhiyue.tech/img/24.jpg"><link rel="shortcut icon" href=/favicon.ico><link rel=stylesheet href=/css/main.min.c69028af04cc11392739edc48eeb60465879b00de4286e0147bbc470f8f39418.css><link rel=preload as=style href=https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css integrity=sha384-IfxC36XL/toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx/1oA/0l8ysE crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><link rel=preload as=style href=https://npm.webcache.cn/katex@0.16.47/dist/katex.min.css integrity=sha384-nH0MfJ44wi1dd7w6jinlyBgljjS8EJAh2JBoRad8a3VDw2K69vfaaqm4WnR+gXtA crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><script src=https://npm.webcache.cn/pace-js@1.2.4/pace.min.js integrity=sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8 crossorigin=anonymous></script><link rel=stylesheet href=https://npm.webcache.cn/@reimujs/aos@0.1.3/dist/aos.css integrity=sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa crossorigin=anonymous><link rel=stylesheet href=https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.css integrity=sha384-tLMkTWh2pfXNWGFlUS0w1TFtRG5xZ9lPWFOooj+vDDLIL+xBGQU/voDBY5XE2lVh crossorigin=anonymous><link rel=icon href=/img/fluid.png type=image/png><link rel=apple-touch-icon href=/img/fluid.png><link rel=stylesheet href=/css/custom.css></head><body><div id=loader><div class="loading-left-bg loading-bg"></div><div class="loading-right-bg loading-bg"></div><div class=spinner-box><div class="loading-taichi rotate"><svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" shape-rendering="geometricPrecision"><path d="M303.5 432a80 80 0 01-12 160 80 80 0 0112-160z" fill="var(--red-1, #ff5252)"/><path d="M512 65a447 447 0 010 894V929a417 417 0 000-834 417 417 0 000 834v30a447 447 0 010-894zm0 30A417 417 0 01929 512 208.5 208.5.0 01720.5 720.5V592a80 80 0 000-160 80 80 0 000 160V720.5A208.5 208.5.0 01512 512 208.5 208.5.0 00303.5 303.5 208.5 208.5.0 0095 512 417 417 0 01512 95z" fill="var(--red-1, #ff5252)"/></svg></div><div class=loading-word>Loading...</div></div></div></div><script>var time=null,loaderEl=document.getElementById("loader"),startLoading=()=>{time=Date.now(),loaderEl.classList.remove("loading")},hideLoader=()=>{document.body.style.overflow="auto",loader.classList.add("loading")},endLoading=()=>{time?Date.now()-time>500?(time=null,hideLoader()):(setTimeout(endLoading,500-(Date.now()-time)),time=null):hideLoader()};window.addEventListener("DOMContentLoaded",endLoading),loaderEl.addEventListener("click",endLoading)</script><div id=copy-tooltip></div><div id=lang-tooltip>This article does not have a corresponding language version</div><div id=heatmap-tooltip></div><div id=container><div id=wrap><div id=header-nav><nav id=main-nav aria-label="Primary navigation"><a class=main-nav-link-wrap href=/en/><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>Home</span>
+</a><a class=main-nav-link-wrap href=/en/categories><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>Category</span>
+</a><a class=main-nav-link-wrap href=/en/tags><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>Tag</span>
+</a><a id=main-nav-toggle class=nav-icon aria-label="Toggle navigation" role=button></a></nav><nav id=sub-nav aria-label="Secondary navigation"></nav><nav id=i18n-nav aria-label="Language selection"><div class=custom-dropdown><div class=select-selected id=select-selected role=button aria-haspopup=listbox aria-expanded=false aria-label="Language menu"><span id=nav-language-btn class=nav-icon style="padding:0 20px 0 0"></span>
+<span id=selected-lang>English</span></div><ul class=select-items id=select-items role=listbox aria-label=Languages><li data-value=zh-cn role=option aria-selected=false>简体中文</li><li data-value=en role=option class=selected aria-selected=true>English</li></ul></div><script>var selectSelected=document.getElementById("select-selected"),selectedLang=document.getElementById("selected-lang"),selectItems=document.getElementById("select-items"),selectOptions=selectItems.querySelectorAll("li");selectSelected.addEventListener("click",()=>{selectItems.classList.toggle("show");var e=selectSelected.getAttribute("aria-expanded")==="true";selectSelected.setAttribute("aria-expanded",(!e).toString())}),selectOptions.forEach(e=>{e.addEventListener("click",()=>{const t={};if(t["zh-cn"]="/2023/06/05/security/",selectedLang.textContent=e.textContent,selectItems.classList.remove("show"),selectOptions.forEach(e=>{e.classList.remove("selected")}),e.classList.add("selected"),e.dataset.value==="en")return;if(!t[e.dataset.value]){_$("#lang-tooltip").style.opacity="1",setTimeout(()=>{_$("#lang-tooltip").style.opacity="0"},1e3);return}window.location=t[e.dataset.value]})}),document.addEventListener("click",e=>{e.target.closest(".custom-dropdown")||(selectItems.classList.remove("show"),selectSelected.setAttribute("aria-expanded","false"))})</script></nav></div><header id=header aria-label="Site header"><picture></picture><img fetchpriority=high src=/img/24.jpg alt="Security and Cryptography"><div id=header-outer><div id=header-title><span id=logo><h1 data-aos=slide-up>Security and Cryptography</h1></span><h2 id=subtitle-wrap data-aos=slide-down></h2></div></div></header><div id=content aria-label="Page content" class=sidebar-right><aside id=sidebar aria-label=Sidebar><div class="sidebar-wrapper-container sticky"><div class=sidebar-wrapper><div class=sidebar-wrap data-aos=fade-up><div class=sidebar-toc-sidebar><h3 class=toc-title>Contents</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#applications>Applications</a></li></ul><ul><li><a href=#applications-1>Applications</a></li></ul><ul><li><a href=#applications-2>Applications</a></li></ul><ul><li><a href=#applications-3>Applications</a></li><li><a href=#key-distribution>Key distribution</a></li></ul><ul><li><a href=#password-managers>Password managers</a></li><li><a href=#two-factor-authentication>Two-factor authentication</a></li><li><a href=#full-disk-encryption>Full disk encryption</a></li><li><a href=#private-messaging>Private messaging</a></li><li><a href=#ssh>SSH</a></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/profile_picture.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>Posts</div><div class=sidebar-state-number>54</div></div><a class=sidebar-state-category href=/en/categories/ aria-label=sidebar-state-category-link><div>Categories</div><div class=sidebar-state-number>9</div></a><a class=sidebar-state-tag href=/en/tags/ aria-label=sidebar-state-tag-link><div>Tags</div><div class=sidebar-state-number>26</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/ aria-label=Home></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Home</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/categories aria-label=Category></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Category</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/tags aria-label=Tag></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Tag</div></div></div></div><div class=sidebar-btn-wrapper style=position:static><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></div></div><div class=sidebar-widget></div></div></aside><section id=main aria-label="Main content"><nav aria-label="Article language"><a href=/2023/06/05/security/ hreflang=zh-CN lang=zh-CN>简体中文</a></nav><article class="h-entry article" itemscope itemtype=https://schema.org/BlogPosting><div class=article-inner data-aos=fade-up><div class=article-meta><div class=article-date><span class="article-date-link icon-calendar" data-aos=zoom-in><time datetime="2023-06-05 16:37:29 +0800 +0800" itemprop=datePublished>2023-06-05</time>
+<time style=display:none id=post-update-time>2023-06-05</time></span></div></div><div class=hr-line></div><div class="e-content article-entry" itemprop=articleBody><p>Last year&rsquo;s <a href=/2023/06/05/security/>security and privacy lecture</a> focused on how you
+can be more secure as a computer <em>user</em>. This year, we will focus on security
+and cryptography concepts that are relevant in understanding tools covered
+earlier in this class, such as the use of hash functions in Git or key
+derivation functions and symmetric/asymmetric cryptosystems in SSH.</p><p>This lecture is not a substitute for a more rigorous and complete course on
+computer systems security (<a href=https://css.csail.mit.edu/6.858/>6.858</a>) or
+cryptography (<a href=https://courses.csail.mit.edu/6.857/>6.857</a> and 6.875). Don&rsquo;t
+do security work without formal training in security. Unless you&rsquo;re an expert,
+don&rsquo;t <a href=https://www.schneier.com/blog/archives/2015/05/amateurs_produc.html>roll your own
+crypto</a>.
+The same principle applies to systems security.</p><p>This lecture has a very informal (but we think practical) treatment of basic
+cryptography concepts. This lecture won&rsquo;t be enough to teach you how to
+<em>design</em> secure systems or cryptographic protocols, but we hope it will be
+enough to give you a general understanding of the programs and protocols you
+already use.</p><h1 id=entropy><a class=header-anchor href=#entropy></a>Entropy</h1><p><a href=https://en.wikipedia.org/wiki/Entropy_%28information_theory%29>Entropy</a> is a
+measure of randomness. This is useful, for example, when determining the
+strength of a password.</p><p><img src=https://imgs.xkcd.com/comics/password_strength.png alt="XKCD 936: Password Strength"></p><p>As the above <a href=https://xkcd.com/936/>XKCD comic</a> illustrates, a password like
+&ldquo;correcthorsebatterystaple&rdquo; is more secure than one like &ldquo;Tr0ub4dor&amp;3&rdquo;. But how
+do you quantify something like this?</p><p>Entropy is measured in <em>bits</em>, and when selecting uniformly at random from a
+set of possible outcomes, the entropy is equal to <code>log_2(# of possibilities)</code>.
+A fair coin flip gives 1 bit of entropy. A dice roll (of a 6-sided die) has
+~2.58 bits of entropy.</p><p>You should consider that the attacker knows the <em>model</em> of the password, but
+not the randomness (e.g. from <a href=https://en.wikipedia.org/wiki/Diceware>dice
+rolls</a>) used to select a particular
+password.</p><p>How many bits of entropy is enough? It depends on your threat model. For online
+guessing, as the XKCD comic points out, ~40 bits of entropy is pretty good. To
+be resistant to offline guessing, a stronger password would be necessary (e.g.
+80 bits, or more).</p><h1 id=hash-functions><a class=header-anchor href=#hash-functions></a>Hash functions</h1><p>A <a href=https://en.wikipedia.org/wiki/Cryptographic_hash_function>cryptographic hash
+function</a> maps data
+of arbitrary size to a fixed size, and has some special properties. A rough
+specification of a hash function is as follows:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>hash(value: array&lt;byte&gt;) -&gt; vector&lt;byte, N&gt;  (for some fixed N)
+</span></span></code></pre></td></tr></table></div></div><p>An example of a hash function is <a href=https://en.wikipedia.org/wiki/SHA-1>SHA1</a>,
+which is used in Git. It maps arbitrary-sized inputs to 160-bit outputs (which
+can be represented as 40 hexadecimal characters). We can try out the SHA1 hash
+on an input using the <code>sha1sum</code> command:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-console data-lang=console><span class=line><span class=cl><span class=gp>$</span> <span class=nb>printf</span> <span class=s1>&#39;hello&#39;</span> <span class=p>|</span> sha1sum
+</span></span><span class=line><span class=cl><span class=go>aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d
+</span></span></span><span class=line><span class=cl><span class=gp>$</span> <span class=nb>printf</span> <span class=s1>&#39;hello&#39;</span> <span class=p>|</span> sha1sum
+</span></span><span class=line><span class=cl><span class=go>aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d
+</span></span></span><span class=line><span class=cl><span class=gp>$</span> <span class=nb>printf</span> <span class=s1>&#39;Hello&#39;</span> <span class=p>|</span> sha1sum
+</span></span><span class=line><span class=cl><span class=go>f7ff9e8b7bb2e09b70935a5d785e0cc5d9d0abf0
+</span></span></span></code></pre></td></tr></table></div></div><p>At a high level, a hash function can be thought of as a hard-to-invert
+random-looking (but deterministic) function (and this is the <a href=https://en.wikipedia.org/wiki/Random_oracle>ideal model of a
+hash function</a>). A hash function
+has the following properties:</p><ul><li>Deterministic: the same input always generates the same output.</li><li>Non-invertible: it is hard to find an input <code>m</code> such that <code>hash(m) = h</code> for
+some desired output <code>h</code>.</li><li>Target collision resistant: given an input <code>m_1</code>, it&rsquo;s hard to find a
+different input <code>m_2</code> such that <code>hash(m_1) = hash(m_2)</code>.</li><li>Collision resistant: it&rsquo;s hard to find two inputs <code>m_1</code> and <code>m_2</code> such that
+<code>hash(m_1) = hash(m_2)</code> (note that this is a strictly stronger property than
+target collision resistance).</li></ul><p>Note: while it may work for certain purposes, SHA-1 is <a href=https://web.archive.org/web/20260207211148/https://shattered.io/>no
+longer</a> considered a strong cryptographic hash function.
+You might find this table of <a href=https://valerieaurora.org/hash.html>lifetimes of cryptographic hash
+functions</a> interesting. However, note that
+recommending specific hash functions is beyond the scope of this lecture. If you
+are doing work where this matters, you need formal training in
+security/cryptography.</p><h2 id=applications><a class=header-anchor href=#applications></a>Applications</h2><ul><li>Git, for content-addressed storage. The idea of a <a href=https://en.wikipedia.org/wiki/Hash_function>hash
+function</a> is a more general
+concept (there are non-cryptographic hash functions). Why does Git use a
+cryptographic hash function?</li><li>A short summary of the contents of a file. Software can often be downloaded
+from (potentially less trustworthy) mirrors, e.g. Linux ISOs, and it would be
+nice to not have to trust them. The official sites usually post hashes
+alongside the download links (that point to third-party mirrors), so that the
+hash can be checked after downloading a file.</li><li><a href=https://en.wikipedia.org/wiki/Commitment_scheme>Commitment schemes</a>.
+Suppose you want to commit to a particular value, but reveal the value itself
+later. For example, I want to do a fair coin toss &ldquo;in my head&rdquo;, without a
+trusted shared coin that two parties can see. I could choose a value <code>r = random()</code>, and then share <code>h = sha256(r)</code>. Then, you could call heads or tails
+(we&rsquo;ll agree that even <code>r</code> means heads, and odd <code>r</code> means tails). After you
+call, I can reveal my value <code>r</code>, and you can confirm that I haven&rsquo;t cheated by
+checking <code>sha256(r)</code> matches the hash I shared earlier.</li></ul><h1 id=key-derivation-functions><a class=header-anchor href=#key-derivation-functions></a>Key derivation functions</h1><p>A related concept to cryptographic hashes, <a href=https://en.wikipedia.org/wiki/Key_derivation_function>key derivation
+functions</a> (KDFs) are
+used for a number of applications, including producing fixed-length output for
+use as keys in other cryptographic algorithms. Usually, KDFs are deliberately
+slow, in order to slow down offline brute-force attacks.</p><h2 id=applications-1><a class=header-anchor href=#applications-1></a>Applications</h2><ul><li>Producing keys from passphrases for use in other cryptographic algorithms
+(e.g. symmetric cryptography, see below).</li><li>Storing login credentials. Storing plaintext passwords is bad; the right
+approach is to generate and store a random
+<a href=https://en.wikipedia.org/wiki/Salt_%28cryptography%29>salt</a> <code>salt = random()</code> for
+each user, store <code>KDF(password + salt)</code>, and verify login attempts by
+re-computing the KDF given the entered password and the stored salt.</li></ul><h1 id=symmetric-cryptography><a class=header-anchor href=#symmetric-cryptography></a>Symmetric cryptography</h1><p>Hiding message contents is probably the first concept you think about when you
+think about cryptography. Symmetric cryptography accomplishes this with the
+following set of functionality:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>keygen() -&gt; key  (this function is randomized)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>encrypt(plaintext: array&lt;byte&gt;, key) -&gt; array&lt;byte&gt;  (the ciphertext)
+</span></span><span class=line><span class=cl>decrypt(ciphertext: array&lt;byte&gt;, key) -&gt; array&lt;byte&gt;  (the plaintext)
+</span></span></code></pre></td></tr></table></div></div><p>The encrypt function has the property that given the output (ciphertext), it&rsquo;s
+hard to determine the input (plaintext) without the key. The decrypt function
+has the obvious correctness property, that <code>decrypt(encrypt(m, k), k) = m</code>.</p><p>An example of a symmetric cryptosystem in wide use today is
+<a href=https://en.wikipedia.org/wiki/Advanced_Encryption_Standard>AES</a>.</p><h2 id=applications-2><a class=header-anchor href=#applications-2></a>Applications</h2><ul><li>Encrypting files for storage in an untrusted cloud service. This can be
+combined with KDFs, so you can encrypt a file with a passphrase. Generate <code>key = KDF(passphrase)</code>, and then store <code>encrypt(file, key)</code>.</li></ul><h1 id=asymmetric-cryptography><a class=header-anchor href=#asymmetric-cryptography></a>Asymmetric cryptography</h1><p>The term &ldquo;asymmetric&rdquo; refers to there being two keys, with two different roles.
+A private key, as its name implies, is meant to be kept private, while the
+public key can be publicly shared and it won&rsquo;t affect security (unlike sharing
+the key in a symmetric cryptosystem). Asymmetric cryptosystems provide the
+following set of functionality, to encrypt/decrypt and to sign/verify:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>keygen() -&gt; (public key, private key)  (this function is randomized)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>encrypt(plaintext: array&lt;byte&gt;, public key) -&gt; array&lt;byte&gt;  (the ciphertext)
+</span></span><span class=line><span class=cl>decrypt(ciphertext: array&lt;byte&gt;, private key) -&gt; array&lt;byte&gt;  (the plaintext)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>sign(message: array&lt;byte&gt;, private key) -&gt; array&lt;byte&gt;  (the signature)
+</span></span><span class=line><span class=cl>verify(message: array&lt;byte&gt;, signature: array&lt;byte&gt;, public key) -&gt; bool  (whether or not the signature is valid)
+</span></span></code></pre></td></tr></table></div></div><p>The encrypt/decrypt functions have properties similar to their analogs from
+symmetric cryptosystems. A message can be encrypted using the <em>public</em> key.
+Given the output (ciphertext), it&rsquo;s hard to determine the input (plaintext)
+without the <em>private</em> key. The decrypt function has the obvious correctness
+property, that <code>decrypt(encrypt(m, public key), private key) = m</code>.</p><p>Symmetric and asymmetric encryption can be compared to physical locks. A
+symmetric cryptosystem is like a door lock: anyone with the key can lock and
+unlock it. Asymmetric encryption is like a padlock with a key. You could give
+the unlocked lock to someone (the public key), they could put a message in a
+box and then put the lock on, and after that, only you could open the lock
+because you kept the key (the private key).</p><p>The sign/verify functions have the same properties that you would hope physical
+signatures would have, in that it&rsquo;s hard to forge a signature. No matter the
+message, without the <em>private</em> key, it&rsquo;s hard to produce a signature such that
+<code>verify(message, signature, public key)</code> returns true. And of course, the
+verify function has the obvious correctness property that <code>verify(message, sign(message, private key), public key) = true</code>.</p><h2 id=applications-3><a class=header-anchor href=#applications-3></a>Applications</h2><ul><li><a href=https://en.wikipedia.org/wiki/Pretty_Good_Privacy>PGP email encryption</a>.
+People can have their public keys posted online (e.g. in a PGP keyserver, or on
+<a href=https://keybase.io/>Keybase</a>). Anyone can send them encrypted email.</li><li>Private messaging. Apps like <a href=https://signal.org/>Signal</a> and
+<a href=https://keybase.io/>Keybase</a> use asymmetric keys to establish private
+communication channels.</li><li>Signing software. Git can have GPG-signed commits and tags. With a posted
+public key, anyone can verify the authenticity of downloaded software.</li></ul><h2 id=key-distribution><a class=header-anchor href=#key-distribution></a>Key distribution</h2><p>Asymmetric-key cryptography is wonderful, but it has a big challenge of
+distributing public keys / mapping public keys to real-world identities. There
+are many solutions to this problem. Signal has one simple solution: trust on
+first use, and support out-of-band public key exchange (you verify your
+friends&rsquo; &ldquo;safety numbers&rdquo; in person). PGP has a different solution, which is
+<a href=https://en.wikipedia.org/wiki/Web_of_trust>web of trust</a>. Keybase has yet
+another solution of <a href=https://keybase.io/blog/chat-apps-softer-than-tofu>social
+proof</a> (along with other
+neat ideas). Each model has its merits; we (the instructors) like Keybase&rsquo;s
+model.</p><h1 id=case-studies><a class=header-anchor href=#case-studies></a>Case studies</h1><h2 id=password-managers><a class=header-anchor href=#password-managers></a>Password managers</h2><p>This is an essential tool that everyone should try to use (e.g.
+<a href=https://keepassxc.org/>KeePassXC</a>, <a href=https://git.zx2c4.com/password-store/about/>pass</a>,
+and <a href=https://1password.com>1Password</a>). Password managers make it convenient to use unique,
+randomly generated high-entropy passwords for all your logins, and they save
+all your passwords in one place, encrypted with a symmetric cipher with a key
+produced from a passphrase using a KDF.</p><p>Using a password manager lets you avoid password reuse (so you&rsquo;re less impacted
+when websites get compromised), use high-entropy passwords (so you&rsquo;re less likely to
+get compromised), and only need to remember a single high-entropy password.</p><h2 id=two-factor-authentication><a class=header-anchor href=#two-factor-authentication></a>Two-factor authentication</h2><p><a href=https://en.wikipedia.org/wiki/Multi-factor_authentication>Two-factor
+authentication</a>
+(2FA) requires you to use a passphrase (&ldquo;something you know&rdquo;) along with a 2FA
+authenticator (like a <a href=https://www.yubico.com/>YubiKey</a>, &ldquo;something you have&rdquo;)
+in order to protect against stolen passwords and
+<a href=https://en.wikipedia.org/wiki/Phishing>phishing</a> attacks.</p><h2 id=full-disk-encryption><a class=header-anchor href=#full-disk-encryption></a>Full disk encryption</h2><p>Keeping your laptop&rsquo;s entire disk encrypted is an easy way to protect your data
+in the case that your laptop is stolen. You can use <a href=https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_a_non-root_file_system>cryptsetup +
+LUKS</a>
+on Linux,
+<a href=https://fossbytes.com/enable-full-disk-encryption-windows-10/>BitLocker</a> on
+Windows, or <a href=https://support.apple.com/en-us/HT204837>FileVault</a> on macOS.
+This encrypts the entire disk with a symmetric cipher, with a key protected by
+a passphrase.</p><h2 id=private-messaging><a class=header-anchor href=#private-messaging></a>Private messaging</h2><p>Use <a href=https://signal.org/>Signal</a> or <a href=https://keybase.io/>Keybase</a>. End-to-end
+security is bootstrapped from asymmetric-key encryption. Obtaining your
+contacts&rsquo; public keys is the critical step here. If you want good security, you
+need to authenticate public keys out-of-band (with Signal or Keybase), or trust
+social proofs (with Keybase).</p><h2 id=ssh><a class=header-anchor href=#ssh></a>SSH</h2><p>We&rsquo;ve covered the use of SSH and SSH keys in an <a href=/2023/06/05/Command-line/#remote-machines>earlier
+lecture</a>. Let&rsquo;s look at the cryptography
+aspects of this.</p><p>When you run <code>ssh-keygen</code>, it generates an asymmetric key pair, <code>public_key, private_key</code>. This is generated randomly, using entropy provided by the
+operating system (collected from hardware events, etc.). The public key is
+stored as-is (it&rsquo;s public, so keeping it a secret is not important), but at
+rest, the private key should be encrypted on disk. The <code>ssh-keygen</code> program
+prompts the user for a passphrase, and this is fed through a key derivation
+function to produce a key, which is then used to encrypt the private key with a
+symmetric cipher.</p><p>In use, once the server knows the client&rsquo;s public key (stored in the
+<code>.ssh/authorized_keys</code> file), a connecting client can prove its identity using
+asymmetric signatures. This is done through
+<a href=https://en.wikipedia.org/wiki/Challenge%E2%80%93response_authentication>challenge-response</a>.
+At a high level, the server picks a random number and sends it to the client.
+The client then signs this message and sends the signature back to the server,
+which checks the signature against the public key on record. This effectively
+proves that the client is in possession of the private key corresponding to the
+public key that&rsquo;s in the server&rsquo;s <code>.ssh/authorized_keys</code> file, so the server
+can allow the client to log in.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>{% comment %}
+</span></span><span class=line><span class=cl>extra topics, if there&#39;s time
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>security concepts, tips
+</span></span><span class=line><span class=cl>- biometrics
+</span></span><span class=line><span class=cl>- HTTPS
+</span></span><span class=line><span class=cl>{% endcomment %}
+</span></span></code></pre></td></tr></table></div></div><h1 id=resources><a class=header-anchor href=#resources></a>Resources</h1><ul><li><a href=/2023/06/05/security/>Last year&rsquo;s notes</a>: from when this lecture was more focused on security and privacy as a computer user</li><li><a href=https://latacora.micro.blog/2018/04/03/cryptographic-right-answers.html>Cryptographic Right Answers</a>: answers &ldquo;what crypto should I use for X?&rdquo; for many common X.</li></ul><h1 id=exercises><a class=header-anchor href=#exercises></a>Exercises</h1><ol><li><strong>Entropy.</strong><ol><li>Suppose a password is chosen as a concatenation of four lower-case
+dictionary words, where each word is selected uniformly at random from a
+dictionary of size 100,000. An example of such a password is
+<code>correcthorsebatterystaple</code>. How many bits of entropy does this have?</li><li>Consider an alternative scheme where a password is chosen as a sequence
+of 8 random alphanumeric characters (including both lower-case and
+upper-case letters). An example is <code>rg8Ql34g</code>. How many bits of entropy
+does this have?</li><li>Which is the stronger password?</li><li>Suppose an attacker can try guessing 10,000 passwords per second. On
+average, how long will it take to break each of the passwords?</li></ol></li><li><strong>Cryptographic hash functions.</strong> Download a Debian image from a
+<a href=https://www.debian.org/CD/http-ftp/>mirror</a> (e.g. <a href=http://debian.xfree.com.ar/debian-cd/current/amd64/iso-cd/>from this Argentinean
+mirror</a>).
+Cross-check the hash (e.g. using the <code>sha256sum</code> command) with the hash
+retrieved from the official Debian site (e.g. <a href=https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/SHA256SUMS>this
+file</a>
+hosted at <code>debian.org</code>, if you&rsquo;ve downloaded the linked file from the
+Argentinean mirror).</li><li><strong>Symmetric cryptography.</strong> Encrypt a file with AES encryption, using
+<a href=https://www.openssl.org/>OpenSSL</a>: <code>openssl aes-256-cbc -salt -in {input filename} -out {output filename}</code>. Look at the contents using <code>cat</code> or
+<code>hexdump</code>. Decrypt it with <code>openssl aes-256-cbc -d -in {input filename} -out {output filename}</code> and confirm that the contents match the original using
+<code>cmp</code>.</li><li><strong>Asymmetric cryptography.</strong><ol><li>Set up <a href=https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys--2>SSH
+keys</a>
+on a computer you have access to (not Athena, because Kerberos interacts
+weirdly with SSH keys). Make sure
+your private key is encrypted with a passphrase, so it is protected at
+rest.</li><li><a href=https://www.digitalocean.com/community/tutorials/how-to-use-gpg-to-encrypt-and-sign-messages>Set up GPG</a></li><li>Send Anish an encrypted email (<a href=https://keybase.io/anish>public key</a>).</li><li>Sign a Git commit with <code>git commit -S</code> or create a signed Git tag with
+<code>git tag -s</code>. Verify the signature on the commit with <code>git show --show-signature</code> or on the tag with <code>git tag -v</code>.</li></ol></li></ol></div><footer class=article-footer><blockquote class=article-copyright><p><strong><span class="icon-user icon"></span>Author: </strong>Jingmengzhiyue</p><p><strong><span class="icon-link icon"></span>Permalink: </strong><a href=https://www.jingmengzhiyue.tech/en/security/>https://www.jingmengzhiyue.tech/en/security/</a></p><p><strong><span class="icon-pencil icon"></span>Title: </strong>Security and Cryptography</p><p><strong><span class="icon-calendar icon"></span>Published: </strong>2023-06-05 16:37:29</p><p><strong><span class="icon-copyright icon"></span>License: </strong>All articles on this blog are licensed under the <a href=https://creativecommons.org/licenses/by/4.0/deed.zh rel="noopener nofollow noreferrer" target=_blank><span class=icon-creative-commons></span>BY</a> license agreement unless otherwise stated. Please indicate the source when reprinting!</p><span class="icon-creative-commons article-copyright-bg"></span></blockquote><ul class=article-category-list><li class=article-tag-list-item data-aos=zoom-in><a class=article-category-link href=/en/categories/computer-science/ data-aos=zoom-in>Computer Science</a></li></ul><ul class=article-tag-list itemprop=keywords><li class=article-tag-list-item data-aos=zoom-in><a class=article-tag-list-link href=/en/tags/the-missing-semester-of-your-cs-education/ rel=tag>The Missing Semester of Your CS Education</a></li></ul></footer></div><nav id=article-nav aria-label="Article navigation" data-aos=fade-up><div class="article-nav-link-wrap left"><img data-src=/img/15.jpg data-sizes=auto alt="Shell Tools and Scripting" class=lazyload><a href=/en/shell-tools/ aria-label="Prev:Shell Tools and Scripting" title="Prev:Shell Tools and Scripting"></a><div class=article-nav-caption>Prev</div><h3 class=article-nav-title>Shell Tools and Scripting</h3></div><div class="article-nav-link-wrap right"><img data-src=/img/11.jpg data-sizes=auto alt=Q&amp;A class=lazyload><a href=/en/qa/ aria-label=Next:Q&amp;A title=Next:Q&amp;A></a><div class=article-nav-caption>Next</div><h3 class=article-nav-title>Q&amp;A</h3></div></nav></article></section></div><footer id=footer aria-label="Site footer"><div style=width:100%;overflow:hidden><div class=footer-line></div></div><div id=footer-info><div><span class=icon-copyright></span>2023-2026<span class="footer-info-sep rotate"></span>Jingmengzhiyue</div><div>Powered by&nbsp;<a href=https://gohugo.io/ target=_blank rel="noopener nofollow noreferrer">Hugo</a>&nbsp;Theme.<a href=https://github.com/D-Sketon/hugo-theme-reimu target=_blank rel="noopener nofollow noreferrer">Reimu</a></div><div><span class=icon-brush>&nbsp;173.8k</span>
+&nbsp;|&nbsp;
+<span class=icon-coffee>&nbsp;14:09</span></div><div><span class=icon-eye></span>
+<span id=busuanzi_container_site_pv>Number of visits&nbsp;<span id=busuanzi_value_site_pv></span></span>
+&nbsp;|&nbsp;
+<span class=icon-user></span>
+<span id=busuanzi_container_site_uv>Number of visitors&nbsp;<span id=busuanzi_value_site_uv></span></span></div></div></footer><div class=sidebar-top><div class="sidebar-top-taichi rotate"></div><div class=arrow-up></div></div><div id=mask class=hide></div></div><nav id=mobile-nav aria-label="Mobile navigation"><div class=sidebar-wrap><div class=sidebar-toc-sidebar><h3 class=toc-title>Contents</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#applications>Applications</a></li></ul><ul><li><a href=#applications-1>Applications</a></li></ul><ul><li><a href=#applications-2>Applications</a></li></ul><ul><li><a href=#applications-3>Applications</a></li><li><a href=#key-distribution>Key distribution</a></li></ul><ul><li><a href=#password-managers>Password managers</a></li><li><a href=#two-factor-authentication>Two-factor authentication</a></li><li><a href=#full-disk-encryption>Full disk encryption</a></li><li><a href=#private-messaging>Private messaging</a></li><li><a href=#ssh>SSH</a></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/profile_picture.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>Posts</div><div class=sidebar-state-number>54</div></div><a class=sidebar-state-category href=/en/categories/ aria-label=sidebar-state-category-link><div>Categories</div><div class=sidebar-state-number>9</div></a><a class=sidebar-state-tag href=/en/tags/ aria-label=sidebar-state-tag-link><div>Tags</div><div class=sidebar-state-number>26</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/ aria-label=Home></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Home</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/categories aria-label=Category></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Category</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/tags aria-label=Tag></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Tag</div></div></div></div></div><div class=sidebar-btn-wrapper><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></nav></div><div id=aplayer theme=var(--color-link)></div><script src=https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js integrity=sha384-3gT/vsepWkfz/ff7PpWNUeMzeWoH3cDhm/A8jM7ouoAK0/fP/9bcHHR5kHq2nf+e crossorigin=anonymous></script><script src=https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js integrity=sha384-J08i8An/QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q crossorigin=anonymous></script><script src=/js/main.js integrity crossorigin=anonymous></script><script src=/js/aos.js integrity crossorigin=anonymous></script><script>var aosInit=()=>{AOS.init({duration:1e3,easing:"ease",once:!0,offset:50})};document.readyState==="loading"?document.addEventListener("DOMContentLoaded",aosInit):aosInit()</script><script src=/js/pjax_main.js integrity crossorigin=anonymous data-pjax></script><div id=lazy-script><div><script data-pjax>window.REIMU_POST={author:"Jingmengzhiyue",title:"Security and Cryptography",url:"https://www.jingmengzhiyue.tech/en/security/",description:"Security in computer science",cover:"https://www.jingmengzhiyue.tech/img/24.jpg"}</script><script src=/js/insert_highlight.js integrity crossorigin=anonymous data-pjax></script><script src=/js/tabs.js integrity crossorigin=anonymous data-pjax defer></script><script type=module data-pjax>const PhotoSwipeLightbox = (await safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js", "sha384-DiL6M\/gG\u002bwmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF\/N6lrZi\/")).default;const initPswp = (gallery, children) => {
+          if (_$$(`${gallery} ${children}`).length > 0) {
+            new PhotoSwipeLightbox({
+              gallery,
+              children,pswpModule: () => safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8\u002boTJ7m3DfYEWX1fu1scuS4\u002bs")}).init();
+          }
+        }
+        const pswp = () => {
+          initPswp('.article-entry', 'a.article-gallery-item');
+          initPswp('.article-gallery', 'a.article-gallery-item');
+        }
+        pswp()
+      </script><script data-pjax>window.MathJax=JSON.parse('[{"loader":{"load":["input/asciimath","[tex]/noerrors"]},"options":{"ignoreHtmlClass":"tex2jax_ignore","processHtmlClass":"tex2jax_process","skipHtmlTags":["script","noscript","style","textarea","pre","code"]},"tex":{"autoload":{"color":[],"colorv2":["color"]},"displayMath":[["$$","$$"],["\\\\[","\\\\]"]],"inlineMath":[["$","$"],["\\\\(","\\\\)"]],"packages":{"[+]":["noerrors"]},"processEnvironments":true,"processEscapes":true,"tags":"ams","useLabelIds":true}}]')[0]</script><script src=https://npm.webcache.cn/mathjax@3.2.2/es5/tex-mml-chtml.js defer data-pjax integrity=sha384-Wuix6BuhrWbjDBs24bXrjf4ZQ5aFeFWBuKkFekO2t8xFU0iNaLQfp2K6/1Nxveei crossorigin=anonymous></script></div></div><script src=https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js async integrity=sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S crossorigin=anonymous></script><script>"serviceWorker"in navigator&&navigator.serviceWorker.getRegistrations().then(e=>{for(let t of e)t.unregister()})</script><script>const reimuCopyright=String.raw`
+   ______     ______     __     __    __     __  __    
+  /\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+  \ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+   \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+    \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                    
+  `;console.log(String.raw`%c ${reimuCopyright}`,"color: #ff5252;"),console.log("%c Theme.Reimu %c https://github.com/D-Sketon/hugo-theme-reimu ","color: white; background: #ff5252; padding:5px 0;","padding:4px;border:1px solid #ff5252;")</script><script>var setupAPlayer=()=>{if(!!1||!window.matchMedia("(max-width: 768px)").matches){const e=window.matchMedia("(max-width: 959px)").matches;if(e){const e=_$("#aplayer");if(e){const t=e.parentNode?.parentNode;t?.tagName==="ASIDE"&&(e.removeAttribute("data-aos"),t.parentNode.removeChild(e),document.body.appendChild(e))}}new APlayer({theme:"var(--color-link)",container:document.getElementById("aplayer"),audio:JSON.parse('[{"artist":"千葉紗子","cover":"/img/24.jpg","name":"花手紙","url":"/music/千葉紗子+-+花手紙.mp3"}]')||[],fixed:!!e||!0,autoplay:!1,loop:"one"||"all",order:"list"||"list",preload:"none"||"auto",volume:.7||.7,mutex:!0,listFolded:!0,lrcType:0||0})}}</script><script src=https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.js defer onload=setupAPlayer() integrity=sha384-gdGYZwHnfJM54evoZhpO0s6ZF5BQiybkiyW7VXr+h5UfruuRL/aORyw+5+HZoU6e crossorigin=anonymous></script></body></html>

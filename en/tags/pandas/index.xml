@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Pandas on 热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/en/tags/pandas/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>en</language><copyright>All articles on this blog are licensed under the BY license agreement unless otherwise stated. Please indicate the source when reprinting!</copyright><lastBuildDate>Sun, 01 Oct 2023 21:13:43 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/en/tags/pandas/index.xml" rel="self" type="application/rss+xml"/><item><title>Pandas Time Series Data</title><link>https://www.jingmengzhiyue.tech/en/pandas-time-series/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/pandas-time-series/</guid><description>
+<![CDATA[<h1>Pandas Time Series Data</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="pandas-time-series-data">
+<a class="header-anchor" href="#pandas-time-series-data"></a>
+Pandas Time Series Data
+</h1><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="i-basic-objects-in-time-series">
+<a class="header-anchor" href="#i-basic-objects-in-time-series"></a>
+I. Basic Objects in Time Series
+</h2><p>Time series are a familiar concept in daily life, but a concrete temporal event can be described from several different object perspectives. Suppose you must be in class at 8 a.m. on Monday, September 7, 2020, and the class ends at 10 a.m. that same morning. What time concepts does this involve?</p>
+        
+        <hr><p>Published on 2023-10-01 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-10-01</p>]]></description><category>Machine Learning</category></item><item><title>Pandas Text Data Processing</title><link>https://www.jingmengzhiyue.tech/en/pandas-text-data/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/pandas-text-data/</guid><description>
+<![CDATA[<h1>Pandas Text Data Processing</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="pandas-text-data-processing">
+<a class="header-anchor" href="#pandas-text-data-processing"></a>
+Pandas Text Data Processing
+</h1><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="i-the-str-object">
+<a class="header-anchor" href="#i-the-str-object"></a>
+I. The str Object
+</h2><h3 id="1-design-intent-of-the-str-object">
+<a class="header-anchor" href="#1-design-intent-of-the-str-object"></a>
+1. Design Intent of the str Object
+</h3><p>The <code>str</code> object is an attribute defined on <code>Index</code> or <code>Series</code>, dedicated to processing the text content of each element. It has a large number of methods defined internally, so to process a series as text you first need to obtain its <code>str</code> object. The Python standard library also has a <code>str</code> module; for the sake of convenience, <code>pandas</code> copies many of its designs — converting letters to uppercase, for instance:</p>
+        
+        <hr><p>Published on 2023-10-01 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-10-01</p>]]></description><category>Machine Learning</category></item><item><title>Pandas Reshaping</title><link>https://www.jingmengzhiyue.tech/en/pandas-reshaping/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/pandas-reshaping/</guid><description>
+<![CDATA[<h1>Pandas Reshaping</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="pandas-reshaping">
+<a class="header-anchor" href="#pandas-reshaping"></a>
+Pandas Reshaping
+</h1><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="i-reshaping-long-and-wide-tables">
+<a class="header-anchor" href="#i-reshaping-long-and-wide-tables"></a>
+I. Reshaping Long and Wide Tables
+</h2><p>What is a long table, and what is a wide table? The distinction is made with respect to a particular feature. If a table stores gender in one column, it is a long table with respect to gender; if gender is used as the column names and the cells hold values of some other related feature, the table is a wide table with respect to gender. The two tables below are, respectively, long and wide tables with respect to gender:</p>
+        
+        <hr><p>Published on 2023-10-01 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-10-01</p>]]></description><category>Machine Learning</category></item><item><title>Pandas Joining</title><link>https://www.jingmengzhiyue.tech/en/pandas-joining/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/pandas-joining/</guid><description>
+<![CDATA[<h1>Pandas Joining</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="pandas-joining">
+<a class="header-anchor" href="#pandas-joining"></a>
+Pandas Joining
+</h1><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="i-relational-joins">
+<a class="header-anchor" href="#i-relational-joins"></a>
+I. Relational Joins
+</h2><h3 id="1-basic-concepts-of-joins">
+<a class="header-anchor" href="#1-basic-concepts-of-joins"></a>
+1. Basic Concepts of Joins
+</h3><p>Joining two related tables on one key or a set of keys is a common operation. For example, the score sheets for the various subjects of a student&rsquo;s final exam can be joined on $\color{red}{\text{name}}$ and $\color{red}{\text{class}}$ into a single grade report; likewise, the various information tables of a company&rsquo;s employees can be joined and summarized by $\color{red}{\text{employee ID}}$. As these examples show, in a relational join the $\color{red}{\text{key}}$ is of central importance and is usually specified with the <code>on</code> parameter.</p>
+        
+        <hr><p>Published on 2023-10-01 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-10-01</p>]]></description><category>Machine Learning</category></item><item><title>Pandas Indexing</title><link>https://www.jingmengzhiyue.tech/en/pandas-indexing/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/pandas-indexing/</guid><description>
+<![CDATA[<h1>Pandas Indexing</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="pandas-indexing">
+<a class="header-anchor" href="#pandas-indexing"></a>
+Pandas Indexing
+</h1><h2 id="i-indexers">
+<a class="header-anchor" href="#i-indexers"></a>
+I. Indexers
+</h2><h3 id="1-column-indexing-in-a-table">
+<a class="header-anchor" href="#1-column-indexing-in-a-table"></a>
+1. Column Indexing in a Table
+</h3><p>Column indexing is the most common form of indexing and is typically done with <code>[]</code>. Using <code>[column name]</code> extracts the corresponding column from a <code>DataFrame</code> and returns a <code>Series</code>—for example, selecting the name column:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/learn_pandas.csv&#39;</span><span class="p">,</span> <span class="n">usecols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;School&#39;</span><span class="p">,</span> <span class="s1">&#39;Grade&#39;</span><span class="p">,</span> <span class="s1">&#39;Name&#39;</span><span class="p">,</span> <span class="s1">&#39;Gender&#39;</span><span class="p">,</span> <span class="s1">&#39;Weight&#39;</span><span class="p">,</span> <span class="s1">&#39;Transfer&#39;</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><pre><code>0      Gaopeng Yang
+1    Changqiang You
+2           Mei Sun
+3      Xiaojuan Sun
+4       Gaojuan You
+Name: Name, dtype: object
+</code></pre>
+<p>To fetch multiple columns, pass a <code>[list of column names]</code>; the result is a <code>DataFrame</code>. Here we extract the gender and name columns:</p>
+        
+        <hr><p>Published on 2023-10-01 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-10-01</p>]]></description><category>Machine Learning</category></item><item><title>Pandas Handling Missing Data</title><link>https://www.jingmengzhiyue.tech/en/pandas-missing-data/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/pandas-missing-data/</guid><description>
+<![CDATA[<h1>Pandas Handling Missing Data</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="pandas-handling-missing-data">
+<a class="header-anchor" href="#pandas-handling-missing-data"></a>
+Pandas Handling Missing Data
+</h1><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="i-counting-and-deleting-missing-values">
+<a class="header-anchor" href="#i-counting-and-deleting-missing-values"></a>
+I. Counting and Deleting Missing Values
+</h2><h3 id="1-counting-missing-information">
+<a class="header-anchor" href="#1-counting-missing-information"></a>
+1. Counting Missing Information
+</h3><p>Missing data can be examined with <code>isna</code> or <code>isnull</code> (the two functions are interchangeable) to see whether each cell is missing; combined with <code>mean</code>, this yields the proportion of missing values in each column:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/learn_pandas.csv&#39;</span><span class="p">,</span> <span class="n">usecols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Grade&#39;</span><span class="p">,</span> <span class="s1">&#39;Name&#39;</span><span class="p">,</span> <span class="s1">&#39;Gender&#39;</span><span class="p">,</span> <span class="s1">&#39;Height&#39;</span><span class="p">,</span> <span class="s1">&#39;Weight&#39;</span><span class="p">,</span> <span class="s1">&#39;Transfer&#39;</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Grade</th>
+      <th>Name</th>
+      <th>Gender</th>
+      <th>Height</th>
+      <th>Weight</th>
+      <th>Transfer</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+        
+        <hr><p>Published on 2023-10-01 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-10-01</p>]]></description><category>Machine Learning</category></item><item><title>Pandas Grouping</title><link>https://www.jingmengzhiyue.tech/en/pandas-grouping/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/pandas-grouping/</guid><description>
+<![CDATA[<h1>Pandas Grouping</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="pandas-grouping">
+<a class="header-anchor" href="#pandas-grouping"></a>
+Pandas Grouping
+</h1><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="i-grouping-patterns-and-their-objects">
+<a class="header-anchor" href="#i-grouping-patterns-and-their-objects"></a>
+I. Grouping Patterns and Their Objects
+</h2><h3 id="1-the-general-pattern-of-grouping">
+<a class="header-anchor" href="#1-the-general-pattern-of-grouping"></a>
+1. The General Pattern of Grouping
+</h3><p>Grouping operations are ubiquitous in daily life. For example:</p>
+<ul>
+<li>Group by gender to compute the average lifespan of the national population</li>
+<li>Group by season and standardize the temperatures within each season</li>
+<li>Group by class and filter out classes whose mean math score exceeds 80</li>
+</ul>
+<p>From the examples above, three elements are clearly required for a grouping operation: the grouping key, the data source, and the operation along with its return value. Viewed from the other direction, once these three aspects are specified, a grouping operation is fully determined. The general form of grouping code is therefore:</p>
+        
+        <hr><p>Published on 2023-10-01 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-10-01</p>]]></description><category>Machine Learning</category></item><item><title>Pandas Fundamentals</title><link>https://www.jingmengzhiyue.tech/en/pandas-basics/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/pandas-basics/</guid><description>
+<![CDATA[<h1>Pandas Fundamentals</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="pandas-fundamentals">
+<a class="header-anchor" href="#pandas-fundamentals"></a>
+Pandas Fundamentals
+</h1><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Make sure your <code>pandas</code> version is at least the one shown below; otherwise, please upgrade. Also confirm that the three packages <code>xlrd, xlwt, openpyxl</code> are installed, with <code>xlrd</code> no newer than <code>2.0.0</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">pd</span><span class="o">.</span><span class="n">__version__</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><pre><code>'1.1.5'
+</code></pre>
+<h2 id="i-reading-and-writing-files">
+<a class="header-anchor" href="#i-reading-and-writing-files"></a>
+I. Reading and Writing Files
+</h2><h3 id="1-reading-files">
+<a class="header-anchor" href="#1-reading-files"></a>
+1. Reading Files
+</h3><p><code>pandas</code> can read many file formats; here we focus on <code>csv</code>, <code>excel</code>, and <code>txt</code> files.</p>
+        
+        <hr><p>Published on 2023-10-01 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-10-01</p>]]></description><category>Machine Learning</category></item><item><title>Pandas Categorical Data</title><link>https://www.jingmengzhiyue.tech/en/pandas-categorical-data/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/pandas-categorical-data/</guid><description>
+<![CDATA[<h1>Pandas Categorical Data</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="pandas-categorical-data">
+<a class="header-anchor" href="#pandas-categorical-data"></a>
+Pandas Categorical Data
+</h1><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="i-the-cat-object">
+<a class="header-anchor" href="#i-the-cat-object"></a>
+I. The cat Object
+</h2><h3 id="1-attributes-of-the-cat-object">
+<a class="header-anchor" href="#1-attributes-of-the-cat-object"></a>
+1. Attributes of the cat Object
+</h3><p><code>pandas</code> provides the <code>category</code> dtype so that users can work with categorical variables; an ordinary series can be turned into a categorical variable with the <code>astype</code> method.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/learn_pandas.csv&#39;</span><span class="p">,</span> <span class="n">usecols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Grade&#39;</span><span class="p">,</span> <span class="s1">&#39;Name&#39;</span><span class="p">,</span> <span class="s1">&#39;Gender&#39;</span><span class="p">,</span> <span class="s1">&#39;Height&#39;</span><span class="p">,</span> <span class="s1">&#39;Weight&#39;</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">s</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">Grade</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">s</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><pre><code>0     Freshman
+1     Freshman
+2       Senior
+3    Sophomore
+4    Sophomore
+Name: Grade, dtype: category
+Categories (4, object): ['Freshman', 'Junior', 'Senior', 'Sophomore']
+</code></pre>
+<p>A categorical <code>Series</code> defines a <code>cat</code> object, much like the <code>str</code> object introduced in the previous chapter. It offers a number of attributes and methods for manipulating categories.</p>
+        
+        <hr><p>Published on 2023-10-01 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-10-01</p>]]></description><category>Machine Learning</category></item></channel></rss>

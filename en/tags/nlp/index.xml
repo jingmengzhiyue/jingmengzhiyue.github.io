@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>NLP on 热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/en/tags/nlp/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>en</language><copyright>All articles on this blog are licensed under the BY license agreement unless otherwise stated. Please indicate the source when reprinting!</copyright><lastBuildDate>Sun, 05 Mar 2023 17:09:55 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/en/tags/nlp/index.xml" rel="self" type="application/rss+xml"/><item><title>Word2Vec</title><link>https://www.jingmengzhiyue.tech/en/word2vec/</link><pubDate>Sun, 05 Mar 2023 17:09:55 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/word2vec/</guid><description>
+<![CDATA[<h1>Word2Vec</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="word2vec">
+<a class="header-anchor" href="#word2vec"></a>
+Word2Vec
+</h1><p>Because deep neural networks cannot understand words or sentences the way humans do, words and sentences must be represented in a form the network can understand.</p>
+<p>Suppose there is a vocabulary $\mathbf{V}=\{w_1,...,w_{|v|}\}$. For each word $w_i$, there are two ways to represent it: one-hot encoding, and distributed representation.</p>
+<h2 id="one-hot-representation">
+<a class="header-anchor" href="#one-hot-representation"></a>
+one-hot representation
+</h2><p>Each word is represented as a vector whose length equals the total number of words in the vocabulary. Each vector has a single 1, and the remaining values are all 0.</p>
+        
+        <hr><p>Published on 2023-03-05 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-03-05</p>]]></description><category>Deep Learning</category></item></channel></rss>

@@ -1,0 +1,372 @@
+<!doctype html><html lang=en data-theme-mode=auto><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><title>Shell Tools and Scripting | Jingmengzhiyue</title><meta name=description content="Commonly used terminal tools in computer science"><script>window.siteConfig=JSON.parse('{"anchor":{"auto":{"enable":false,"length":60},"explicit":{"enable":false,"marker":"{#anchor-","prefix":"anchor-"}},"anchor_icon":null,"base":"https://www.jingmengzhiyue.tech/","clipboard":{"copyright":{"count":50,"enable":false,"license_type":"by-nc-sa"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-br":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ","zh-cn":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-tw":"複製失敗 (ﾟ⊿ﾟ)ﾂ"},"success":{"en":"Copy successfully (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-br":"Copiado com sucesso (*^▽^*)","zh-cn":"复制成功 (*^▽^*)","zh-tw":"複製成功 (*^▽^*)"}},"code_block":{"expand":true},"dark_mode":{"button":true,"mode":"auto"},"i18n_languages":[{"label":"简体中文","lang":"zh-cn"},{"label":"English","lang":"en"}],"icon_font":"4552607_ex15nbittbh","outdate":{"daysago":180,"enable":false,"message":{"en":"This article was last updated on {time}. Please note that the content may no longer be applicable.","ja":"この記事は最終更新日：{time}。記載内容が現在有効でない可能性がありますのでご注意ください。","pt-br":"Este artigo foi atualizado pela última vez em {time}. Observe que o conteúdo pode não ser mais aplicável.","zh-cn":"本文最后更新于 {time}，请注意文中内容可能已不适用。","zh-tw":"本文最後更新於 {time}，請注意文中內容可能已不適用。"}}}')</script><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap" media=print onload='this.media="all"'><link rel=preload href=//at.alicdn.com/t/c/font_4552607_ex15nbittbh.woff2 as=font type=font/woff2 crossorigin=anonymous><link rel=stylesheet href=/css/loader.min.ac746e154f756f8220326eeb52a719f142ab038be5a8ddf30ea5ef15ef2356ea.css><meta property="og:type" content="website"><meta property="og:title" content="Shell Tools and Scripting | Jingmengzhiyue"><meta property="og:description" content="Commonly used terminal tools in computer science"><meta property="og:url" content="https://www.jingmengzhiyue.tech/en/shell-tools/"><meta property="og:site_name" content="热爱可抵万难"><meta property="og:image" content="https://www.jingmengzhiyue.tech/img/24.jpg"><meta property="article:author" content="Jingmengzhiyue"><meta property="article:published_time" content="2023-06-05T16:37:29+08:00"><meta property="article:modified_time" content="2023-06-05T16:37:29+08:00"><meta property="article:tag" content="The Missing Semester of Your CS Education"><meta name=twitter:card content="summary"><meta name=twitter:image content="https://www.jingmengzhiyue.tech/img/24.jpg"><link rel="shortcut icon" href=/favicon.ico><link rel=stylesheet href=/css/main.min.c69028af04cc11392739edc48eeb60465879b00de4286e0147bbc470f8f39418.css><link rel=preload as=style href=https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css integrity=sha384-IfxC36XL/toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx/1oA/0l8ysE crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><link rel=preload as=style href=https://npm.webcache.cn/katex@0.16.47/dist/katex.min.css integrity=sha384-nH0MfJ44wi1dd7w6jinlyBgljjS8EJAh2JBoRad8a3VDw2K69vfaaqm4WnR+gXtA crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><script src=https://npm.webcache.cn/pace-js@1.2.4/pace.min.js integrity=sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8 crossorigin=anonymous></script><link rel=stylesheet href=https://npm.webcache.cn/@reimujs/aos@0.1.3/dist/aos.css integrity=sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa crossorigin=anonymous><link rel=stylesheet href=https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.css integrity=sha384-tLMkTWh2pfXNWGFlUS0w1TFtRG5xZ9lPWFOooj+vDDLIL+xBGQU/voDBY5XE2lVh crossorigin=anonymous><link rel=icon href=/img/fluid.png type=image/png><link rel=apple-touch-icon href=/img/fluid.png><link rel=stylesheet href=/css/custom.css></head><body><div id=loader><div class="loading-left-bg loading-bg"></div><div class="loading-right-bg loading-bg"></div><div class=spinner-box><div class="loading-taichi rotate"><svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" shape-rendering="geometricPrecision"><path d="M303.5 432a80 80 0 01-12 160 80 80 0 0112-160z" fill="var(--red-1, #ff5252)"/><path d="M512 65a447 447 0 010 894V929a417 417 0 000-834 417 417 0 000 834v30a447 447 0 010-894zm0 30A417 417 0 01929 512 208.5 208.5.0 01720.5 720.5V592a80 80 0 000-160 80 80 0 000 160V720.5A208.5 208.5.0 01512 512 208.5 208.5.0 00303.5 303.5 208.5 208.5.0 0095 512 417 417 0 01512 95z" fill="var(--red-1, #ff5252)"/></svg></div><div class=loading-word>Loading...</div></div></div></div><script>var time=null,loaderEl=document.getElementById("loader"),startLoading=()=>{time=Date.now(),loaderEl.classList.remove("loading")},hideLoader=()=>{document.body.style.overflow="auto",loader.classList.add("loading")},endLoading=()=>{time?Date.now()-time>500?(time=null,hideLoader()):(setTimeout(endLoading,500-(Date.now()-time)),time=null):hideLoader()};window.addEventListener("DOMContentLoaded",endLoading),loaderEl.addEventListener("click",endLoading)</script><div id=copy-tooltip></div><div id=lang-tooltip>This article does not have a corresponding language version</div><div id=heatmap-tooltip></div><div id=container><div id=wrap><div id=header-nav><nav id=main-nav aria-label="Primary navigation"><a class=main-nav-link-wrap href=/en/><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>Home</span>
+</a><a class=main-nav-link-wrap href=/en/categories><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>Category</span>
+</a><a class=main-nav-link-wrap href=/en/tags><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>Tag</span>
+</a><a id=main-nav-toggle class=nav-icon aria-label="Toggle navigation" role=button></a></nav><nav id=sub-nav aria-label="Secondary navigation"></nav><nav id=i18n-nav aria-label="Language selection"><div class=custom-dropdown><div class=select-selected id=select-selected role=button aria-haspopup=listbox aria-expanded=false aria-label="Language menu"><span id=nav-language-btn class=nav-icon style="padding:0 20px 0 0"></span>
+<span id=selected-lang>English</span></div><ul class=select-items id=select-items role=listbox aria-label=Languages><li data-value=zh-cn role=option aria-selected=false>简体中文</li><li data-value=en role=option class=selected aria-selected=true>English</li></ul></div><script>var selectSelected=document.getElementById("select-selected"),selectedLang=document.getElementById("selected-lang"),selectItems=document.getElementById("select-items"),selectOptions=selectItems.querySelectorAll("li");selectSelected.addEventListener("click",()=>{selectItems.classList.toggle("show");var e=selectSelected.getAttribute("aria-expanded")==="true";selectSelected.setAttribute("aria-expanded",(!e).toString())}),selectOptions.forEach(e=>{e.addEventListener("click",()=>{const t={};if(t["zh-cn"]="/2023/06/05/shell-tools/",selectedLang.textContent=e.textContent,selectItems.classList.remove("show"),selectOptions.forEach(e=>{e.classList.remove("selected")}),e.classList.add("selected"),e.dataset.value==="en")return;if(!t[e.dataset.value]){_$("#lang-tooltip").style.opacity="1",setTimeout(()=>{_$("#lang-tooltip").style.opacity="0"},1e3);return}window.location=t[e.dataset.value]})}),document.addEventListener("click",e=>{e.target.closest(".custom-dropdown")||(selectItems.classList.remove("show"),selectSelected.setAttribute("aria-expanded","false"))})</script></nav></div><header id=header aria-label="Site header"><picture></picture><img fetchpriority=high src=/img/24.jpg alt="Shell Tools and Scripting"><div id=header-outer><div id=header-title><span id=logo><h1 data-aos=slide-up>Shell Tools and Scripting</h1></span><h2 id=subtitle-wrap data-aos=slide-down></h2></div></div></header><div id=content aria-label="Page content" class=sidebar-right><aside id=sidebar aria-label=Sidebar><div class="sidebar-wrapper-container sticky"><div class=sidebar-wrapper><div class=sidebar-wrap data-aos=fade-up><div class=sidebar-toc-sidebar><h3 class=toc-title>Contents</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#finding-how-to-use-commands>Finding how to use commands</a></li><li><a href=#finding-files>Finding files</a></li><li><a href=#finding-code>Finding code</a></li><li><a href=#finding-shell-commands>Finding shell commands</a></li><li><a href=#directory-navigation>Directory Navigation</a></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/profile_picture.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>Posts</div><div class=sidebar-state-number>54</div></div><a class=sidebar-state-category href=/en/categories/ aria-label=sidebar-state-category-link><div>Categories</div><div class=sidebar-state-number>9</div></a><a class=sidebar-state-tag href=/en/tags/ aria-label=sidebar-state-tag-link><div>Tags</div><div class=sidebar-state-number>26</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/ aria-label=Home></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Home</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/categories aria-label=Category></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Category</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/tags aria-label=Tag></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Tag</div></div></div></div><div class=sidebar-btn-wrapper style=position:static><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></div></div><div class=sidebar-widget></div></div></aside><section id=main aria-label="Main content"><nav aria-label="Article language"><a href=/2023/06/05/shell-tools/ hreflang=zh-CN lang=zh-CN>简体中文</a></nav><article class="h-entry article" itemscope itemtype=https://schema.org/BlogPosting><div class=article-inner data-aos=fade-up><div class=article-meta><div class=article-date><span class="article-date-link icon-calendar" data-aos=zoom-in><time datetime="2023-06-05 16:37:29 +0800 +0800" itemprop=datePublished>2023-06-05</time>
+<time style=display:none id=post-update-time>2023-06-05</time></span></div></div><div class=hr-line></div><div class="e-content article-entry" itemprop=articleBody><p>In this lecture, we will present some of the basics of using bash as a scripting language along with a number of shell tools that cover several of the most common tasks that you will be constantly performing in the command line.</p><h1 id=shell-scripting><a class=header-anchor href=#shell-scripting></a>Shell Scripting</h1><p>So far we have seen how to execute commands in the shell and pipe them together.
+However, in many scenarios you will want to perform a series of commands and make use of control flow expressions like conditionals or loops.</p><p>Shell scripts are the next step in complexity.
+Most shells have their own scripting language with variables, control flow and its own syntax.
+What makes shell scripting different from other scripting programming languages is that it is optimized for performing shell-related tasks.
+Thus, creating command pipelines, saving results into files, and reading from standard input are primitives in shell scripting, which makes it easier to use than general purpose scripting languages.
+For this section we will focus on bash scripting since it is the most common.</p><p>To assign variables in bash, use the syntax <code>foo=bar</code> and access the value of the variable with <code>$foo</code>.
+Note that <code>foo = bar</code> will not work since it is interpreted as calling the <code>foo</code> program with arguments <code>=</code> and <code>bar</code>.
+In general, in shell scripts the space character will perform argument splitting. This behavior can be confusing to use at first, so always check for that.</p><p>Strings in bash can be defined with <code>'</code> and <code>"</code> delimiters, but they are not equivalent.
+Strings delimited with <code>'</code> are literal strings and will not substitute variable values whereas <code>"</code> delimited strings will.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nv>foo</span><span class=o>=</span>bar
+</span></span><span class=line><span class=cl><span class=nb>echo</span> <span class=s2>&#34;</span><span class=nv>$foo</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl><span class=c1># prints bar</span>
+</span></span><span class=line><span class=cl><span class=nb>echo</span> <span class=s1>&#39;$foo&#39;</span>
+</span></span><span class=line><span class=cl><span class=c1># prints $foo</span>
+</span></span></code></pre></td></tr></table></div></div><p>As with most programming languages, bash supports control flow techniques including <code>if</code>, <code>case</code>, <code>while</code> and <code>for</code>.
+Similarly, <code>bash</code> has functions that take arguments and can operate with them. Here is an example of a function that creates a directory and <code>cd</code>s into it.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>mcd <span class=o>()</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>    mkdir -p <span class=s2>&#34;</span><span class=nv>$1</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=nb>cd</span> <span class=s2>&#34;</span><span class=nv>$1</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>Here <code>$1</code> is the first argument to the script/function.
+Unlike other scripting languages, bash uses a variety of special variables to refer to arguments, error codes, and other relevant variables. Below is a list of some of them. A more comprehensive list can be found <a href=https://tldp.org/LDP/abs/html/special-chars.html>here</a>.</p><ul><li><code>$0</code> - Name of the script</li><li><code>$1</code> to <code>$9</code> - Arguments to the script. <code>$1</code> is the first argument and so on.</li><li><code>$@</code> - All the arguments</li><li><code>$#</code> - Number of arguments</li><li><code>$?</code> - Return code of the previous command</li><li><code>$$</code> - Process identification number (PID) for the current script</li><li><code>!!</code> - Entire last command, including arguments. A common pattern is to execute a command only for it to fail due to missing permissions; you can quickly re-execute the command with sudo by doing <code>sudo !!</code></li><li><code>$_</code> - Last argument from the last command. If you are in an interactive shell, you can also quickly get this value by typing <code>Esc</code> followed by <code>.</code> or <code>Alt+.</code></li></ul><p>Commands will often return output using <code>STDOUT</code>, errors through <code>STDERR</code>, and a Return Code to report errors in a more script-friendly manner.
+The return code or exit status is the way scripts/commands have to communicate how execution went.
+A value of 0 usually means everything went OK; anything different from 0 means an error occurred.</p><p>Exit codes can be used to conditionally execute commands using <code>&&</code> (and operator) and <code>||</code> (or operator), both of which are <a href=https://en.wikipedia.org/wiki/Short-circuit_evaluation>short-circuiting</a> operators. Commands can also be separated within the same line using a semicolon <code>;</code>.
+The <code>true</code> program will always have a 0 return code and the <code>false</code> command will always have a 1 return code.
+Let&rsquo;s see some examples</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>false</span> <span class=o>||</span> <span class=nb>echo</span> <span class=s2>&#34;Oops, fail&#34;</span>
+</span></span><span class=line><span class=cl><span class=c1># Oops, fail</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>true</span> <span class=o>||</span> <span class=nb>echo</span> <span class=s2>&#34;Will not be printed&#34;</span>
+</span></span><span class=line><span class=cl><span class=c1>#</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>true</span> <span class=o>&amp;&amp;</span> <span class=nb>echo</span> <span class=s2>&#34;Things went well&#34;</span>
+</span></span><span class=line><span class=cl><span class=c1># Things went well</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>false</span> <span class=o>&amp;&amp;</span> <span class=nb>echo</span> <span class=s2>&#34;Will not be printed&#34;</span>
+</span></span><span class=line><span class=cl><span class=c1>#</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>false</span> <span class=p>;</span> <span class=nb>echo</span> <span class=s2>&#34;This will always run&#34;</span>
+</span></span><span class=line><span class=cl><span class=c1># This will always run</span>
+</span></span></code></pre></td></tr></table></div></div><p>Another common pattern is wanting to get the output of a command as a variable. This can be done with <em>command substitution</em>.
+Whenever you use <code>$( CMD )</code> to execute the command <code>CMD</code>, its output
+replaces the <code>$( CMD )</code> expression. For example, if you run
+<code>for file in $(ls)</code>, the shell will first call <code>ls</code> and then iterate over
+those values.
+A lesser known similar feature is <em>process substitution</em>, <code>&lt;( CMD )</code> will execute <code>CMD</code> and place the output in a temporary file and substitute the <code>&lt;()</code> with that file&rsquo;s name. This is useful when commands expect values to be passed by file instead of by STDIN. For example, <code>diff &lt;(ls foo) &lt;(ls bar)</code> will show differences between files in dirs <code>foo</code> and <code>bar</code>.</p><p>Since that was a huge information dump, let&rsquo;s see an example that showcases some of these features. It will iterate through the arguments we provide, <code>grep</code> for the string <code>foobar</code>, and append it to the file as a comment if it&rsquo;s not found.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=cp>#!/bin/bash
+</span></span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>echo</span> <span class=s2>&#34;Starting program at </span><span class=k>$(</span>date<span class=k>)</span><span class=s2>&#34;</span> <span class=c1># Date will be substituted</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>echo</span> <span class=s2>&#34;Running program </span><span class=nv>$0</span><span class=s2> with </span><span class=nv>$#</span><span class=s2> arguments with pid </span><span class=nv>$$</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>for</span> file in <span class=s2>&#34;</span><span class=nv>$@</span><span class=s2>&#34;</span><span class=p>;</span> <span class=k>do</span>
+</span></span><span class=line><span class=cl>    grep foobar <span class=s2>&#34;</span><span class=nv>$file</span><span class=s2>&#34;</span> &gt; /dev/null 2&gt; /dev/null
+</span></span><span class=line><span class=cl>    <span class=c1># When pattern is not found, grep has exit status 1</span>
+</span></span><span class=line><span class=cl>    <span class=c1># We redirect STDOUT and STDERR to a null register since we do not care about them</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=o>[[</span> <span class=nv>$?</span> -ne <span class=m>0</span> <span class=o>]]</span><span class=p>;</span> <span class=k>then</span>
+</span></span><span class=line><span class=cl>        <span class=nb>echo</span> <span class=s2>&#34;File </span><span class=nv>$file</span><span class=s2> does not have any foobar, adding one&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=nb>echo</span> <span class=s2>&#34;# foobar&#34;</span> &gt;&gt; <span class=s2>&#34;</span><span class=nv>$file</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=k>fi</span>
+</span></span><span class=line><span class=cl><span class=k>done</span>
+</span></span></code></pre></td></tr></table></div></div><p>In the comparison we tested whether <code>$?</code> was not equal to 0.
+Bash implements many comparisons of this sort - you can find a detailed list in the manpage for <a href=https://www.man7.org/linux/man-pages/man1/test.1.html><code>test</code></a>.
+When performing comparisons in bash, try to use double brackets <code>[[ ]]</code> in favor of simple brackets <code>[ ]</code>. Chances of making mistakes are lower although it won&rsquo;t be portable to <code>sh</code>. A more detailed explanation can be found <a href=https://mywiki.wooledge.org/BashFAQ/031>here</a>.</p><p>When launching scripts, you will often want to provide arguments that are similar. Bash has ways of making this easier, expanding expressions by carrying out filename expansion. These techniques are often referred to as shell <em>globbing</em>.</p><ul><li>Wildcards - Whenever you want to perform some sort of wildcard matching, you can use <code>?</code> and <code>*</code> to match one or any amount of characters respectively. For instance, given files <code>foo</code>, <code>foo1</code>, <code>foo2</code>, <code>foo10</code> and <code>bar</code>, the command <code>rm foo?</code> will delete <code>foo1</code> and <code>foo2</code> whereas <code>rm foo*</code> will delete all but <code>bar</code>.</li><li>Curly braces <code>{}</code> - Whenever you have a common substring in a series of commands, you can use curly braces for bash to expand this automatically. This comes in very handy when moving or converting files.</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>convert image.<span class=o>{</span>png,jpg<span class=o>}</span>
+</span></span><span class=line><span class=cl><span class=c1># Will expand to</span>
+</span></span><span class=line><span class=cl>convert image.png image.jpg
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>cp /path/to/project/<span class=o>{</span>foo,bar,baz<span class=o>}</span>.sh /newpath
+</span></span><span class=line><span class=cl><span class=c1># Will expand to</span>
+</span></span><span class=line><span class=cl>cp /path/to/project/foo.sh /path/to/project/bar.sh /path/to/project/baz.sh /newpath
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Globbing techniques can also be combined</span>
+</span></span><span class=line><span class=cl>mv *<span class=o>{</span>.py,.sh<span class=o>}</span> folder
+</span></span><span class=line><span class=cl><span class=c1># Will move all *.py and *.sh files</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>mkdir foo bar
+</span></span><span class=line><span class=cl><span class=c1># This creates files foo/a, foo/b, ... foo/h, bar/a, bar/b, ... bar/h</span>
+</span></span><span class=line><span class=cl>touch <span class=o>{</span>foo,bar<span class=o>}</span>/<span class=o>{</span>a..h<span class=o>}</span>
+</span></span><span class=line><span class=cl>touch foo/x bar/y
+</span></span><span class=line><span class=cl><span class=c1># Show differences between files in foo and bar</span>
+</span></span><span class=line><span class=cl>diff &lt;<span class=o>(</span>ls foo<span class=o>)</span> &lt;<span class=o>(</span>ls bar<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=c1># Outputs</span>
+</span></span><span class=line><span class=cl><span class=c1># &lt; x</span>
+</span></span><span class=line><span class=cl><span class=c1># ---</span>
+</span></span><span class=line><span class=cl><span class=c1># &gt; y</span>
+</span></span></code></pre></td></tr></table></div></div><p>Writing <code>bash</code> scripts can be tricky and unintuitive. There are tools like <a href=https://github.com/koalaman/shellcheck>shellcheck</a> that will help you find errors in your sh/bash scripts.</p><p>Note that scripts need not necessarily be written in bash to be called from the terminal. For instance, here&rsquo;s a simple Python script that outputs its arguments in reversed order:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=ch>#!/usr/local/bin/python</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>sys</span>
+</span></span><span class=line><span class=cl><span class=k>for</span> <span class=n>arg</span> <span class=ow>in</span> <span class=nb>reversed</span><span class=p>(</span><span class=n>sys</span><span class=o>.</span><span class=n>argv</span><span class=p>[</span><span class=mi>1</span><span class=p>:]):</span>
+</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=n>arg</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>The kernel knows to execute this script with a python interpreter instead of a shell command because we included a <a href=https://en.wikipedia.org/wiki/Shebang_%28Unix%29>shebang</a> line at the top of the script.
+It is good practice to write shebang lines using the <a href=https://www.man7.org/linux/man-pages/man1/env.1.html><code>env</code></a> command that will resolve to wherever the command lives in the system, increasing the portability of your scripts. To resolve the location, <code>env</code> will make use of the <code>PATH</code> environment variable we introduced in the first lecture.
+For this example the shebang line would look like <code>#!/usr/bin/env python</code>.</p><p>Some differences between shell functions and scripts that you should keep in mind are:</p><ul><li>Functions have to be in the same language as the shell, while scripts can be written in any language. This is why including a shebang for scripts is important.</li><li>Functions are loaded once when their definition is read. Scripts are loaded every time they are executed. This makes functions slightly faster to load, but whenever you change them you will have to reload their definition.</li><li>Functions are executed in the current shell environment whereas scripts execute in their own process. Thus, functions can modify environment variables, e.g. change your current directory, whereas scripts can&rsquo;t. Environment variables which have been exported using <a href=https://www.man7.org/linux/man-pages/man1/export.1p.html><code>export</code></a> are passed by value to scripts.</li><li>As with any programming language, functions are a powerful construct to achieve modularity, code reuse, and clarity of shell code. Often shell scripts will include their own function definitions.</li></ul><h1 id=shell-tools><a class=header-anchor href=#shell-tools></a>Shell Tools</h1><h2 id=finding-how-to-use-commands><a class=header-anchor href=#finding-how-to-use-commands></a>Finding how to use commands</h2><p>At this point, you might be wondering how to find the flags for the commands in the aliasing section such as <code>ls -l</code>, <code>mv -i</code> and <code>mkdir -p</code>.
+More generally, given a command, how do you go about finding out what it does and its different options?
+You could always start googling, but since UNIX predates StackOverflow, there are built-in ways of getting this information.</p><p>As we saw in the shell lecture, the first-order approach is to call said command with the <code>-h</code> or <code>--help</code> flags. A more detailed approach is to use the <code>man</code> command.
+Short for manual, <a href=https://www.man7.org/linux/man-pages/man1/man.1.html><code>man</code></a> provides a manual page (called manpage) for a command you specify.
+For example, <code>man rm</code> will output the behavior of the <code>rm</code> command along with the flags that it takes, including the <code>-i</code> flag we showed earlier.
+In fact, what I have been linking so far for every command is the online version of the Linux manpages for the commands.
+Even non-native commands that you install will have manpage entries if the developer wrote them and included them as part of the installation process.
+For interactive tools such as the ones based on ncurses, help for the commands can often be accessed within the program using the <code>:help</code> command or typing <code>?</code>.</p><p>Sometimes manpages can provide overly detailed descriptions of the commands, making it hard to decipher what flags/syntax to use for common use cases.
+<a href=https://tldr.sh/>TLDR pages</a> are a nifty complementary solution that focuses on giving example use cases of a command so you can quickly figure out which options to use.
+For instance, I find myself referring back to the tldr pages for <a href=https://tldr.inbrowser.app/pages/common/tar><code>tar</code></a> and <a href=https://tldr.inbrowser.app/pages/common/ffmpeg><code>ffmpeg</code></a> way more often than the manpages.</p><h2 id=finding-files><a class=header-anchor href=#finding-files></a>Finding files</h2><p>One of the most common repetitive tasks that every programmer faces is finding files or directories.
+All UNIX-like systems come packaged with <a href=https://www.man7.org/linux/man-pages/man1/find.1.html><code>find</code></a>, a great shell tool to find files. <code>find</code> will recursively search for files matching some criteria. Some examples:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># Find all directories named src</span>
+</span></span><span class=line><span class=cl>find . -name src -type d
+</span></span><span class=line><span class=cl><span class=c1># Find all python files that have a folder named test in their path</span>
+</span></span><span class=line><span class=cl>find . -path <span class=s1>&#39;*/test/*.py&#39;</span> -type f
+</span></span><span class=line><span class=cl><span class=c1># Find all files modified in the last day</span>
+</span></span><span class=line><span class=cl>find . -mtime -1
+</span></span><span class=line><span class=cl><span class=c1># Find all tar.gz files with size in range 500k to 10M</span>
+</span></span><span class=line><span class=cl>find . -size +500k -size -10M -name <span class=s1>&#39;*.tar.gz&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><p>Beyond listing files, find can also perform actions over files that match your query.
+This property can be incredibly helpful to simplify what could be fairly monotonous tasks.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># Delete all files with .tmp extension</span>
+</span></span><span class=line><span class=cl>find . -name <span class=s1>&#39;*.tmp&#39;</span> -exec rm <span class=o>{}</span> <span class=se>\;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Find all PNG files and convert them to JPG</span>
+</span></span><span class=line><span class=cl>find . -name <span class=s1>&#39;*.png&#39;</span> -exec convert <span class=o>{}</span> <span class=o>{}</span>.jpg <span class=se>\;</span>
+</span></span></code></pre></td></tr></table></div></div><p>Despite <code>find</code>&rsquo;s ubiquitousness, its syntax can sometimes be tricky to remember.
+For instance, to simply find files that match some pattern <code>PATTERN</code> you have to execute <code>find -name '*PATTERN*'</code> (or <code>-iname</code> if you want the pattern matching to be case insensitive).
+You could start building aliases for those scenarios, but part of the shell philosophy is that it is good to explore alternatives.
+Remember, one of the best properties of the shell is that you are just calling programs, so you can find (or even write yourself) replacements for some.
+For instance, <a href=https://github.com/sharkdp/fd><code>fd</code></a> is a simple, fast, and user-friendly alternative to <code>find</code>.
+It offers some nice defaults like colorized output, default regex matching, and Unicode support. It also has, in my opinion, a more intuitive syntax.
+For example, the syntax to find a pattern <code>PATTERN</code> is <code>fd PATTERN</code>.</p><p>Most would agree that <code>find</code> and <code>fd</code> are good, but some of you might be wondering about the efficiency of looking for files every time versus compiling some sort of index or database for quickly searching.
+That is what <a href=https://www.man7.org/linux/man-pages/man1/locate.1.html><code>locate</code></a> is for.
+<code>locate</code> uses a database that is updated using <a href=https://www.man7.org/linux/man-pages/man1/updatedb.1.html><code>updatedb</code></a>.
+In most systems, <code>updatedb</code> is updated daily via <a href=https://www.man7.org/linux/man-pages/man8/cron.8.html><code>cron</code></a>.
+Therefore one trade-off between the two is speed vs freshness.
+Moreover <code>find</code> and similar tools can also find files using attributes such as file size, modification time, or file permissions, while <code>locate</code> just uses the file name.
+A more in-depth comparison can be found <a href=https://unix.stackexchange.com/questions/60205/locate-vs-find-usage-pros-and-cons-of-each-other>here</a>.</p><h2 id=finding-code><a class=header-anchor href=#finding-code></a>Finding code</h2><p>Finding files by name is useful, but quite often you want to search based on file <em>content</em>.
+A common scenario is wanting to search for all files that contain some pattern, along with where in those files said pattern occurs.
+To achieve this, most UNIX-like systems provide <a href=https://www.man7.org/linux/man-pages/man1/grep.1.html><code>grep</code></a>, a generic tool for matching patterns from the input text.
+<code>grep</code> is an incredibly valuable shell tool that we will cover in greater detail during the data wrangling lecture.</p><p>For now, know that <code>grep</code> has many flags that make it a very versatile tool.
+Some I frequently use are <code>-C</code> for getting <strong>C</strong>ontext around the matching line and <code>-v</code> for in<strong>v</strong>erting the match, i.e. print all lines that do <strong>not</strong> match the pattern. For example, <code>grep -C 5</code> will print 5 lines before and after the match.
+When it comes to quickly searching through many files, you want to use <code>-R</code> since it will <strong>R</strong>ecursively go into directories and look for files for the matching string.</p><p>But <code>grep -R</code> can be improved in many ways, such as ignoring <code>.git</code> folders, using multi CPU support, &amp;c.
+Many <code>grep</code> alternatives have been developed, including <a href=https://github.com/beyondgrep/ack3>ack</a>, <a href=https://github.com/ggreer/the_silver_searcher>ag</a> and <a href=https://github.com/BurntSushi/ripgrep>rg</a>.
+All of them are fantastic and pretty much provide the same functionality.
+For now I am sticking with ripgrep (<code>rg</code>), given how fast and intuitive it is. Some examples:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># Find all python files where I used the requests library</span>
+</span></span><span class=line><span class=cl>rg -t py <span class=s1>&#39;import requests&#39;</span>
+</span></span><span class=line><span class=cl><span class=c1># Find all files (including hidden files) without a shebang line</span>
+</span></span><span class=line><span class=cl>rg -u --files-without-match <span class=s2>&#34;^#!&#34;</span>
+</span></span><span class=line><span class=cl><span class=c1># Find all matches of foo and print the following 5 lines</span>
+</span></span><span class=line><span class=cl>rg foo -A <span class=m>5</span>
+</span></span><span class=line><span class=cl><span class=c1># Print statistics of matches (# of matched lines and files )</span>
+</span></span><span class=line><span class=cl>rg --stats PATTERN
+</span></span></code></pre></td></tr></table></div></div><p>Note that as with <code>find</code>/<code>fd</code>, it is important that you know that these problems can be quickly solved using one of these tools, while the specific tools you use are not as important.</p><h2 id=finding-shell-commands><a class=header-anchor href=#finding-shell-commands></a>Finding shell commands</h2><p>So far we have seen how to find files and code, but as you start spending more time in the shell, you may want to find specific commands you typed at some point.
+The first thing to know is that typing the up arrow will give you back your last command, and if you keep pressing it you will slowly go through your shell history.</p><p>The <code>history</code> command will let you access your shell history programmatically.
+It will print your shell history to the standard output.
+If we want to search there we can pipe that output to <code>grep</code> and search for patterns.
+<code>history | grep find</code> will print commands that contain the substring &ldquo;find&rdquo;.</p><p>In most shells, you can make use of <code>Ctrl+R</code> to perform backwards search through your history.
+After pressing <code>Ctrl+R</code>, you can type a substring you want to match for commands in your history.
+As you keep pressing it, you will cycle through the matches in your history.
+This can also be enabled with the UP/DOWN arrows in <a href=https://github.com/zsh-users/zsh-history-substring-search>zsh</a>.
+A nice addition on top of <code>Ctrl+R</code> comes with using <a href=https://github.com/junegunn/fzf/wiki/Configuring-shell-key-bindings#ctrl-r>fzf</a> bindings.
+<code>fzf</code> is a general-purpose fuzzy finder that can be used with many commands.
+Here it is used to fuzzily match through your history and present results in a convenient and visually pleasing manner.</p><p>Another cool history-related trick I really enjoy is <strong>history-based autosuggestions</strong>.
+First introduced by the <a href=https://fishshell.com/>fish</a> shell, this feature dynamically autocompletes your current shell command with the most recent command that you typed that shares a common prefix with it.
+It can be enabled in <a href=https://github.com/zsh-users/zsh-autosuggestions>zsh</a> and it is a great quality of life trick for your shell.</p><p>You can modify your shell&rsquo;s history behavior, like preventing commands with a leading space from being included. This comes in handy when you are typing commands with passwords or other bits of sensitive information.
+To do this, add <code>HISTCONTROL=ignorespace</code> to your <code>.bashrc</code> or <code>setopt HIST_IGNORE_SPACE</code> to your <code>.zshrc</code>.
+If you make the mistake of not adding the leading space, you can always manually remove the entry by editing your <code>.bash_history</code> or <code>.zsh_history</code>.</p><h2 id=directory-navigation><a class=header-anchor href=#directory-navigation></a>Directory Navigation</h2><p>So far, we have assumed that you are already where you need to be to perform these actions. But how do you go about quickly navigating directories?
+There are many simple ways that you could do this, such as writing shell aliases or creating symlinks with <a href=https://www.man7.org/linux/man-pages/man1/ln.1.html>ln -s</a>, but the truth is that developers have figured out quite clever and sophisticated solutions by now.</p><p>As with the theme of this course, you often want to optimize for the common case.
+Finding frequent and/or recent files and directories can be done through tools like <a href=https://github.com/clvv/fasd><code>fasd</code></a> and <a href=https://github.com/wting/autojump><code>autojump</code></a>.
+Fasd ranks files and directories by <a href=https://web.archive.org/web/20210421120120/https://developer.mozilla.org/en-US/docs/Mozilla/Tech/Places/Frecency_algorithm><em>frecency</em></a>, that is, by both <em>frequency</em> and <em>recency</em>.
+By default, <code>fasd</code> adds a <code>z</code> command that you can use to quickly <code>cd</code> using a substring of a <em>frecent</em> directory. For example, if you often go to <code>/home/user/files/cool_project</code> you can simply use <code>z cool</code> to jump there. Using autojump, this same change of directory could be accomplished using <code>j cool</code>.</p><p>More complex tools exist to quickly get an overview of a directory structure: <a href=https://linux.die.net/man/1/tree><code>tree</code></a>, <a href=https://github.com/Canop/broot><code>broot</code></a> or even full fledged file managers like <a href=https://github.com/jarun/nnn><code>nnn</code></a> or <a href=https://github.com/ranger/ranger><code>ranger</code></a>.</p><h1 id=exercises><a class=header-anchor href=#exercises></a>Exercises</h1><p><a href=https://missing-semester-cn.github.io/missing-notes-and-solutions/2020/solutions/shell-tools-solution/>Exercise solutions</a></p><ol><li><p>Read <a href=https://www.man7.org/linux/man-pages/man1/ls.1.html><code>man ls</code></a> and write an <code>ls</code> command that lists files in the following manner</p><ul><li>Includes all files, including hidden files</li><li>Sizes are listed in human readable format (e.g. 454M instead of 454279954)</li><li>Files are ordered by recency</li><li>Output is colorized</li></ul><p>A sample output would look like this</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>-rw-r--r--   1 user group 1.1M Jan 14 09:53 baz
+</span></span><span class=line><span class=cl>drwxr-xr-x   5 user group  160 Jan 14 09:53 .
+</span></span><span class=line><span class=cl>-rw-r--r--   1 user group  514 Jan 14 06:42 bar
+</span></span><span class=line><span class=cl>-rw-r--r--   1 user group 106M Jan 13 12:12 foo
+</span></span><span class=line><span class=cl>drwx------+ 47 user group 1.5K Jan 12 18:08 ..
+</span></span></code></pre></td></tr></table></div></div></li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>{% comment %}
+</span></span><span class=line><span class=cl>ls -lath --color=auto
+</span></span><span class=line><span class=cl>{% endcomment %}
+</span></span></code></pre></td></tr></table></div></div><ol start=2><li>Write bash functions <code>marco</code> and <code>polo</code> that do the following.
+Whenever you execute <code>marco</code> the current working directory should be saved in some manner, then when you execute <code>polo</code>, no matter what directory you are in, <code>polo</code> should <code>cd</code> you back to the directory where you executed <code>marco</code>.
+For ease of debugging you can write the code in a file <code>marco.sh</code> and (re)load the definitions to your shell by executing <code>source marco.sh</code>.</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>{% comment %}
+</span></span><span class=line><span class=cl>marco() {
+</span></span><span class=line><span class=cl>    export MARCO=$(pwd)
+</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>polo() {
+</span></span><span class=line><span class=cl>    cd &#34;$MARCO&#34;
+</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>{% endcomment %}
+</span></span></code></pre></td></tr></table></div></div><ol start=3><li><p>Say you have a command that fails rarely. In order to debug it you need to capture its output but it can be time consuming to get a failure run.
+Write a bash script that runs the following script until it fails and captures its standard output and error streams to files and prints everything at the end.
+Bonus points if you can also report how many runs it took for the script to fail.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=cp>#!/usr/bin/env bash
+</span></span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>n</span><span class=o>=</span><span class=k>$((</span> RANDOM <span class=o>%</span> <span class=m>100</span> <span class=k>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=o>[[</span> n -eq <span class=m>42</span> <span class=o>]]</span><span class=p>;</span> <span class=k>then</span>
+</span></span><span class=line><span class=cl>   <span class=nb>echo</span> <span class=s2>&#34;Something went wrong&#34;</span>
+</span></span><span class=line><span class=cl>   &gt;<span class=p>&amp;</span><span class=m>2</span> <span class=nb>echo</span> <span class=s2>&#34;The error was using magic numbers&#34;</span>
+</span></span><span class=line><span class=cl>   <span class=nb>exit</span> <span class=m>1</span>
+</span></span><span class=line><span class=cl><span class=k>fi</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>echo</span> <span class=s2>&#34;Everything went according to plan&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>{% comment %}
+</span></span><span class=line><span class=cl>#!/usr/bin/env bash
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>count=0
+</span></span><span class=line><span class=cl>until [[ &#34;$?&#34; -ne 0 ]];
+</span></span><span class=line><span class=cl>do
+</span></span><span class=line><span class=cl>  count=$((count+1))
+</span></span><span class=line><span class=cl>  ./random.sh &amp;&gt; out.txt
+</span></span><span class=line><span class=cl>done
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>echo &#34;found error after $count runs&#34;
+</span></span><span class=line><span class=cl>cat out.txt
+</span></span><span class=line><span class=cl>{% endcomment %}
+</span></span></code></pre></td></tr></table></div></div></li><li><p>As we covered in the lecture <code>find</code>&rsquo;s <code>-exec</code> can be very powerful for performing operations over the files we are searching for.
+However, what if we want to do something with <strong>all</strong> the files, like creating a zip file?
+As you have seen so far commands will take input from both arguments and STDIN.
+When piping commands, we are connecting STDOUT to STDIN, but some commands like <code>tar</code> take inputs from arguments.
+To bridge this disconnect there&rsquo;s the <a href=https://www.man7.org/linux/man-pages/man1/xargs.1.html><code>xargs</code></a> command which will execute a command using STDIN as arguments.
+For example <code>ls | xargs rm</code> will delete the files in the current directory.</p><p>Your task is to write a command that recursively finds all HTML files in the folder and makes a zip with them. Note that your command should work even if the files have spaces (hint: check <code>-d</code> flag for <code>xargs</code>).</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>{% comment %}
+</span></span><span class=line><span class=cl>find . -type f -name &#34;*.html&#34; | xargs -d &#39;\n&#39;  tar -cvzf archive.tar.gz
+</span></span><span class=line><span class=cl>{% endcomment %}
+</span></span></code></pre></td></tr></table></div></div><p>If you&rsquo;re on macOS, note that the default BSD <code>find</code> is different from the one included in <a href=https://en.wikipedia.org/wiki/List_of_GNU_Core_Utilities_commands>GNU coreutils</a>. You can use <code>-print0</code> on <code>find</code> and the <code>-0</code> flag on <code>xargs</code>. As a macOS user, you should be aware that command-line utilities shipped with macOS may differ from the GNU counterparts; you can install the GNU versions if you like by <a href=https://formulae.brew.sh/formula/coreutils>using brew</a>.</p></li><li><p>(Advanced) Write a command or script to recursively find the most recently modified file in a directory. More generally, can you list all files by recency?</p></li></ol></div><footer class=article-footer><blockquote class=article-copyright><p><strong><span class="icon-user icon"></span>Author: </strong>Jingmengzhiyue</p><p><strong><span class="icon-link icon"></span>Permalink: </strong><a href=https://www.jingmengzhiyue.tech/en/shell-tools/>https://www.jingmengzhiyue.tech/en/shell-tools/</a></p><p><strong><span class="icon-pencil icon"></span>Title: </strong>Shell Tools and Scripting</p><p><strong><span class="icon-calendar icon"></span>Published: </strong>2023-06-05 16:37:29</p><p><strong><span class="icon-copyright icon"></span>License: </strong>All articles on this blog are licensed under the <a href=https://creativecommons.org/licenses/by/4.0/deed.zh rel="noopener nofollow noreferrer" target=_blank><span class=icon-creative-commons></span>BY</a> license agreement unless otherwise stated. Please indicate the source when reprinting!</p><span class="icon-creative-commons article-copyright-bg"></span></blockquote><ul class=article-category-list><li class=article-tag-list-item data-aos=zoom-in><a class=article-category-link href=/en/categories/computer-science/ data-aos=zoom-in>Computer Science</a></li></ul><ul class=article-tag-list itemprop=keywords><li class=article-tag-list-item data-aos=zoom-in><a class=article-tag-list-link href=/en/tags/the-missing-semester-of-your-cs-education/ rel=tag>The Missing Semester of Your CS Education</a></li></ul></footer></div><nav id=article-nav aria-label="Article navigation" data-aos=fade-up><div class="article-nav-link-wrap left"><img data-src=/img/11.jpg data-sizes=auto alt="Version Control (Git)" class=lazyload><a href=/en/version-control/ aria-label="Prev:Version Control (Git)" title="Prev:Version Control (Git)"></a><div class=article-nav-caption>Prev</div><h3 class=article-nav-title>Version Control (Git)</h3></div><div class="article-nav-link-wrap right"><img data-src=/img/9.jpg data-sizes=auto alt="Security and Cryptography" class=lazyload><a href=/en/security/ aria-label="Next:Security and Cryptography" title="Next:Security and Cryptography"></a><div class=article-nav-caption>Next</div><h3 class=article-nav-title>Security and Cryptography</h3></div></nav></article></section></div><footer id=footer aria-label="Site footer"><div style=width:100%;overflow:hidden><div class=footer-line></div></div><div id=footer-info><div><span class=icon-copyright></span>2023-2026<span class="footer-info-sep rotate"></span>Jingmengzhiyue</div><div>Powered by&nbsp;<a href=https://gohugo.io/ target=_blank rel="noopener nofollow noreferrer">Hugo</a>&nbsp;Theme.<a href=https://github.com/D-Sketon/hugo-theme-reimu target=_blank rel="noopener nofollow noreferrer">Reimu</a></div><div><span class=icon-brush>&nbsp;173.8k</span>
+&nbsp;|&nbsp;
+<span class=icon-coffee>&nbsp;14:09</span></div><div><span class=icon-eye></span>
+<span id=busuanzi_container_site_pv>Number of visits&nbsp;<span id=busuanzi_value_site_pv></span></span>
+&nbsp;|&nbsp;
+<span class=icon-user></span>
+<span id=busuanzi_container_site_uv>Number of visitors&nbsp;<span id=busuanzi_value_site_uv></span></span></div></div></footer><div class=sidebar-top><div class="sidebar-top-taichi rotate"></div><div class=arrow-up></div></div><div id=mask class=hide></div></div><nav id=mobile-nav aria-label="Mobile navigation"><div class=sidebar-wrap><div class=sidebar-toc-sidebar><h3 class=toc-title>Contents</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#finding-how-to-use-commands>Finding how to use commands</a></li><li><a href=#finding-files>Finding files</a></li><li><a href=#finding-code>Finding code</a></li><li><a href=#finding-shell-commands>Finding shell commands</a></li><li><a href=#directory-navigation>Directory Navigation</a></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/profile_picture.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>Posts</div><div class=sidebar-state-number>54</div></div><a class=sidebar-state-category href=/en/categories/ aria-label=sidebar-state-category-link><div>Categories</div><div class=sidebar-state-number>9</div></a><a class=sidebar-state-tag href=/en/tags/ aria-label=sidebar-state-tag-link><div>Tags</div><div class=sidebar-state-number>26</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/ aria-label=Home></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Home</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/categories aria-label=Category></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Category</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/tags aria-label=Tag></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Tag</div></div></div></div></div><div class=sidebar-btn-wrapper><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></nav></div><div id=aplayer theme=var(--color-link)></div><script src=https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js integrity=sha384-3gT/vsepWkfz/ff7PpWNUeMzeWoH3cDhm/A8jM7ouoAK0/fP/9bcHHR5kHq2nf+e crossorigin=anonymous></script><script src=https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js integrity=sha384-J08i8An/QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q crossorigin=anonymous></script><script src=/js/main.js integrity crossorigin=anonymous></script><script src=/js/aos.js integrity crossorigin=anonymous></script><script>var aosInit=()=>{AOS.init({duration:1e3,easing:"ease",once:!0,offset:50})};document.readyState==="loading"?document.addEventListener("DOMContentLoaded",aosInit):aosInit()</script><script src=/js/pjax_main.js integrity crossorigin=anonymous data-pjax></script><div id=lazy-script><div><script data-pjax>window.REIMU_POST={author:"Jingmengzhiyue",title:"Shell Tools and Scripting",url:"https://www.jingmengzhiyue.tech/en/shell-tools/",description:"Commonly used terminal tools in computer science",cover:"https://www.jingmengzhiyue.tech/img/24.jpg"}</script><script src=/js/insert_highlight.js integrity crossorigin=anonymous data-pjax></script><script src=/js/tabs.js integrity crossorigin=anonymous data-pjax defer></script><script type=module data-pjax>const PhotoSwipeLightbox = (await safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js", "sha384-DiL6M\/gG\u002bwmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF\/N6lrZi\/")).default;const initPswp = (gallery, children) => {
+          if (_$$(`${gallery} ${children}`).length > 0) {
+            new PhotoSwipeLightbox({
+              gallery,
+              children,pswpModule: () => safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8\u002boTJ7m3DfYEWX1fu1scuS4\u002bs")}).init();
+          }
+        }
+        const pswp = () => {
+          initPswp('.article-entry', 'a.article-gallery-item');
+          initPswp('.article-gallery', 'a.article-gallery-item');
+        }
+        pswp()
+      </script><script data-pjax>window.MathJax=JSON.parse('[{"loader":{"load":["input/asciimath","[tex]/noerrors"]},"options":{"ignoreHtmlClass":"tex2jax_ignore","processHtmlClass":"tex2jax_process","skipHtmlTags":["script","noscript","style","textarea","pre","code"]},"tex":{"autoload":{"color":[],"colorv2":["color"]},"displayMath":[["$$","$$"],["\\\\[","\\\\]"]],"inlineMath":[["$","$"],["\\\\(","\\\\)"]],"packages":{"[+]":["noerrors"]},"processEnvironments":true,"processEscapes":true,"tags":"ams","useLabelIds":true}}]')[0]</script><script src=https://npm.webcache.cn/mathjax@3.2.2/es5/tex-mml-chtml.js defer data-pjax integrity=sha384-Wuix6BuhrWbjDBs24bXrjf4ZQ5aFeFWBuKkFekO2t8xFU0iNaLQfp2K6/1Nxveei crossorigin=anonymous></script></div></div><script src=https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js async integrity=sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S crossorigin=anonymous></script><script>"serviceWorker"in navigator&&navigator.serviceWorker.getRegistrations().then(e=>{for(let t of e)t.unregister()})</script><script>const reimuCopyright=String.raw`
+   ______     ______     __     __    __     __  __    
+  /\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+  \ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+   \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+    \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                    
+  `;console.log(String.raw`%c ${reimuCopyright}`,"color: #ff5252;"),console.log("%c Theme.Reimu %c https://github.com/D-Sketon/hugo-theme-reimu ","color: white; background: #ff5252; padding:5px 0;","padding:4px;border:1px solid #ff5252;")</script><script>var setupAPlayer=()=>{if(!!1||!window.matchMedia("(max-width: 768px)").matches){const e=window.matchMedia("(max-width: 959px)").matches;if(e){const e=_$("#aplayer");if(e){const t=e.parentNode?.parentNode;t?.tagName==="ASIDE"&&(e.removeAttribute("data-aos"),t.parentNode.removeChild(e),document.body.appendChild(e))}}new APlayer({theme:"var(--color-link)",container:document.getElementById("aplayer"),audio:JSON.parse('[{"artist":"千葉紗子","cover":"/img/24.jpg","name":"花手紙","url":"/music/千葉紗子+-+花手紙.mp3"}]')||[],fixed:!!e||!0,autoplay:!1,loop:"one"||"all",order:"list"||"list",preload:"none"||"auto",volume:.7||.7,mutex:!0,listFolded:!0,lrcType:0||0})}}</script><script src=https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.js defer onload=setupAPlayer() integrity=sha384-gdGYZwHnfJM54evoZhpO0s6ZF5BQiybkiyW7VXr+h5UfruuRL/aORyw+5+HZoU6e crossorigin=anonymous></script></body></html>

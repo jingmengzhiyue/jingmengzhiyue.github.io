@@ -1,0 +1,1300 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/en/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>en</language><copyright>All articles on this blog are licensed under the BY license agreement unless otherwise stated. Please indicate the source when reprinting!</copyright><lastBuildDate>Thu, 28 Mar 2024 23:53:20 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/en/index.xml" rel="self" type="application/rss+xml"/><item><title>The Multi-Head Self-Attention Mechanism in Transformers</title><link>https://www.jingmengzhiyue.tech/en/multi-head-self-attention/</link><pubDate>Thu, 28 Mar 2024 23:47:31 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/multi-head-self-attention/</guid><description>
+<![CDATA[<h1>The Multi-Head Self-Attention Mechanism in Transformers</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>In natural language processing and other sequence-modeling tasks, the Transformer has become a research focus thanks to its strong performance. Multi-head self-attention is one of the Transformer&rsquo;s core components. What follows looks closely at how it works and how it is implemented.</p>
+<h2 id="what-is-self-attention">
+<a class="header-anchor" href="#what-is-self-attention"></a>
+What Is Self-Attention
+</h2><p>The self-attention mechanism lets the model, while encoding a sequence, gather information from the other positions for the representation at each position and update that representation from this information. Unlike recurrent networks such as RNNs and LSTMs, which capture dependence along a sequence step by step, self-attention models dependence between positions directly through attention scores. Modeling long-range dependence directly in this way greatly increases the model&rsquo;s expressive power.</p>
+        
+        <hr><p>Published on 2024-03-28 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2024-03-28</p>]]></description><category>Deep Learning</category></item><item><title>Hyperspectral Image Processing Based on Prototype Analysis</title><link>https://www.jingmengzhiyue.tech/en/prototype-analysis/</link><pubDate>Mon, 25 Mar 2024 21:35:21 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/prototype-analysis/</guid><description>
+<![CDATA[<h1>Hyperspectral Image Processing Based on Prototype Analysis</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h2 id="introduction-to-prototype-analysis">
+<a class="header-anchor" href="#introduction-to-prototype-analysis"></a>
+Introduction to Prototype Analysis
+</h2><p>In hyperspectral image processing, prototype analysis (Archetypal Analysis, AA) is an unsupervised method for endmember extraction and abundance estimation. Unlike conventional endmember extraction methods, prototype analysis does not assume that endmembers lie at the vertices of a simplex. Instead, it seeks the minimal convex hull of the original data points.</p>
+<p>Given a hyperspectral data matrix \(\mathbf{X}=\left\{\mathbf{x}_{1}, \mathbf{x}_{2}, \ldots, \mathbf{x}_{n}, \ldots \mathbf{x}_{N}\right\} \in \mathbf{R}^{M \times N}\), where \(M\) is the number of spectral bands and \(N\) is the number of pixels, the goal of prototype analysis is to estimate \(D(D\ll N)\) prototypes \(\mathbf{Z}=\left\{\mathbf{z}_{1}, \mathbf{z}_{2}, \ldots, \mathbf{z}_{d}, \ldots \mathbf{z}_{D}\right\} \in \mathbf{R}^{M \times D}\) from \(\mathbf{X}\), so that each original observation \(\mathbf{x}_{n}\) can be written as a linear combination of the prototypes:</p>
+        
+        <hr><p>Published on 2024-03-25 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2024-03-25</p>]]></description><category>Remote Sensing</category></item><item><title>A Hyperspectral Image Super-Resolution Algorithm Based on Coupled Nonnegative Matrix Factorization</title><link>https://www.jingmengzhiyue.tech/en/nssr/</link><pubDate>Sun, 24 Mar 2024 16:30:33 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/nssr/</guid><description>
+<![CDATA[<h1>A Hyperspectral Image Super-Resolution Algorithm Based on Coupled Nonnegative Matrix Factorization</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h2 id="problem-definition">
+<a class="header-anchor" href="#problem-definition"></a>
+Problem Definition
+</h2><p>Hyperspectral imaging acquires images of the same scene at many different wavelengths at once, and it is widely used in agriculture, astronomy, surveillance, and mineralogy. Because of various hardware limitations, however, obtaining a high-resolution (HR) hyperspectral image remains a challenge. What follows shows how to reconstruct an HR hyperspectral image from a low-resolution (LR) hyperspectral image and an HR multispectral or RGB image of the same scene.</p>
+        
+        <hr><p>Published on 2024-03-24 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2024-03-25</p>]]></description><category>Remote Sensing</category></item><item><title>Principles and Solution of the Vertex Component Analysis (VCA) Algorithm</title><link>https://www.jingmengzhiyue.tech/en/vca/</link><pubDate>Mon, 25 Mar 2024 21:35:21 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/vca/</guid><description>
+<![CDATA[<h1>Principles and Solution of the Vertex Component Analysis (VCA) Algorithm</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>Vertex Component Analysis (VCA) is a fast unsupervised algorithm for extracting endmembers from hyperspectral images. Its main idea is to use the property that endmembers form the vertices of the data cloud in a high-dimensional feature space. By iteratively searching for spectra that lie on the boundary of the data cloud, the algorithm extracts the endmembers. The mathematical principle and the solution procedure are presented in detail below.</p>
+<h2 id="problem-statement">
+<a class="header-anchor" href="#problem-statement"></a>
+Problem Statement
+</h2><p>Consider a hyperspectral image with \(L\) bands. The spectral vector of each pixel is \(\mathbf{r} \in \mathbb{R}^{L}\), and the whole image can be written as \(\mathbf{R} = [\mathbf{r}_1, \mathbf{r}_2, \dots, \mathbf{r}_N] \in \mathbb{R}^{L \times N}\), where \(N\) is the number of pixels. Under the linear mixing model, each spectral vector \(\mathbf{r}_i\) is a linear combination of \(p\) endmembers \(\mathbf{m}_1, \mathbf{m}_2, \dots, \mathbf{m}_p \in \mathbb{R}^{L}\):</p>
+        
+        <hr><p>Published on 2024-03-25 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2024-03-25</p>]]></description><category>Remote Sensing</category></item><item><title>Maximum Distance (MaxD) Endmember Extraction for Hyperspectral Images</title><link>https://www.jingmengzhiyue.tech/en/maxd/</link><pubDate>Mon, 25 Mar 2024 21:35:21 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/maxd/</guid><description>
+<![CDATA[<h1>Maximum Distance (MaxD) Endmember Extraction for Hyperspectral Images</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>The maximum distance (MaxD) algorithm is an unsupervised endmember extraction method used to identify pure endmember spectra in a hyperspectral image. This post presents the mathematical principle of the MaxD algorithm and a MATLAB implementation.</p>
+<h2 id="algorithm-principle">
+<a class="header-anchor" href="#algorithm-principle"></a>
+Algorithm Principle
+</h2><p>The MaxD algorithm is based on the following key ideas:</p>
+<ol>
+<li>
+<p><strong>Maximum-distance criterion</strong>: Endmember spectra correspond to the sample points that lie farthest apart in feature space. This is because an endmember spectrum represents the spectrum of a pure surface material, whereas a mixed spectrum lies between endmember spectra.</p>
+</li>
+<li>
+<p><strong>Sequential extraction</strong>: The algorithm extracts all endmember spectra one by one, in descending order of the distance between each endmember spectrum and the other spectra.</p>
+</li>
+<li>
+<p><strong>Vector projection</strong>: When a new endmember spectrum is extracted, linear combinations of the known endmember spectra are used to construct a vector space. The new endmember spectrum is the one with the largest projection length in the complementary subspace of that space.</p>
+</li>
+</ol>
+        
+        <hr><p>Published on 2024-03-25 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2024-03-25</p>]]></description><category>Remote Sensing</category></item><item><title>Endmember Extraction Based on the N-FINDR Algorithm</title><link>https://www.jingmengzhiyue.tech/en/n-finder/</link><pubDate>Mon, 25 Mar 2024 21:35:21 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/n-finder/</guid><description>
+<![CDATA[<h1>Endmember Extraction Based on the N-FINDR Algorithm</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>The N-FINDR algorithm extracts endmember signatures from a hyperspectral data cube. Its core idea is to search the data set for the simplex of maximum volume, whose vertices are the desired endmembers. The mathematical principle and the concrete steps are as follows.</p>
+<h2 id="mathematical-principle">
+<a class="header-anchor" href="#mathematical-principle"></a>
+Mathematical Principle
+</h2><p>Consider an \(M \times N \times C\)-dimensional hyperspectral data cube \(\mathbf{X}\). From it we need to find \(p\) endmember signatures \(\mathbf{e}_1, \mathbf{e}_2, \ldots, \mathbf{e}_p\). The matrix formed by these signature vectors is written \(\mathbf{E} = [\mathbf{e}_1, \mathbf{e}_2, \ldots, \mathbf{e}_p]^T \in \mathbb{R}^{C \times p}\).</p>
+        
+        <hr><p>Published on 2024-03-25 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2024-03-25</p>]]></description><category>Remote Sensing</category></item><item><title>Extracting Endmember Features with the Fast Iterative Pixel Purity Index</title><link>https://www.jingmengzhiyue.tech/en/fippi/</link><pubDate>Mon, 25 Mar 2024 21:26:16 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/fippi/</guid><description>
+<![CDATA[<h1>Extracting Endmember Features with the Fast Iterative Pixel Purity Index</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="introduction-to-the-fippi-algorithm">
+<a class="header-anchor" href="#introduction-to-the-fippi-algorithm"></a>
+Introduction to the FIPPI Algorithm
+</h1><p>The Fast Iterative Pixel Purity Index (FIPPI) is an effective method for extracting endmember signatures from hyperspectral remote-sensing data. It is an iterative improvement of the pixel purity index (PPI), designed to improve computational efficiency and obtain better endmember estimates through a sound stopping condition and carefully designed iteration rules.</p>
+<h1 id="mathematical-principles-of-the-algorithm">
+<a class="header-anchor" href="#mathematical-principles-of-the-algorithm"></a>
+Mathematical Principles of the Algorithm
+</h1><h2 id="dimensionality-reduction">
+<a class="header-anchor" href="#dimensionality-reduction"></a>
+Dimensionality Reduction
+</h2><p>In the FIPPI algorithm, the original high-dimensional data cube is first reduced in dimension in order to lower computational complexity. Common dimensionality-reduction methods include:</p>
+        
+        <hr><p>Published on 2024-03-25 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2024-03-25</p>]]></description><category>Remote Sensing</category></item><item><title>A Subspace-Based Change Detection Method for Hyperspectral Images</title><link>https://www.jingmengzhiyue.tech/en/change-detection/</link><pubDate>Sun, 24 Mar 2024 17:41:32 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/change-detection/</guid><description>
+<![CDATA[<h1>A Subspace-Based Change Detection Method for Hyperspectral Images</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>Accurately and promptly detecting changes in land-surface features is essential for environmental monitoring and resource management. Compared with conventional single-band or multispectral remote sensing imagery, hyperspectral imagery contains a large amount of spectral information and therefore performs better at change detection. This article introduces a subspace-based change detection (SCD) method for hyperspectral images.</p>
+<h2 id="subspace-analysis-for-hyperspectral-imagery">
+<a class="header-anchor" href="#subspace-analysis-for-hyperspectral-imagery"></a>
+Subspace Analysis for Hyperspectral Imagery
+</h2><p>Subspace learning is an effective tool for analyzing hyperspectral imagery. Its strengths are that it can accurately describe linearly mixed signals and that it offers better signal separability. Orthogonal subspace projection (OSP) is a successful method for hyperspectral image analysis and is widely used across a range of applications.</p>
+        
+        <hr><p>Published on 2024-03-24 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2024-03-24</p>]]></description><category>Remote Sensing</category></item><item><title>A Fast Hyperspectral Image Unmixing Algorithm Based on the Minimum-Volume Simplex</title><link>https://www.jingmengzhiyue.tech/en/hypercsi/</link><pubDate>Sun, 24 Mar 2024 11:37:14 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/hypercsi/</guid><description>
+<![CDATA[<h1>A Fast Hyperspectral Image Unmixing Algorithm Based on the Minimum-Volume Simplex</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>Hyperspectral remote sensing is a key technique for identifying the endmember constituents within a target region and their proportions. It is widely used in land-cover classification, environmental monitoring, and related fields. Hyperspectral unmixing (HU) is the signal-processing task of analyzing hyperspectral data to identify the endmembers in an image and their corresponding abundances. Craig&rsquo;s minimum-volume simplex criterion is a classical and effective method for blind unmixing: the vertices of the minimum-volume simplex that encloses the data point cloud are taken as the endmember estimates. Related algorithms are computationally inefficient, however, because they involve complicated volume calculations. HyperCSI (Hyperplane-based Craig-Simplex Identification) does not evaluate a complicated volume function. It uses a geometric theorem instead: an \(N\)-dimensional simplex can be determined by \(N\) hyperplanes (of dimension \(N-2\)). HyperCSI reconstructs Craig&rsquo;s minimum-volume simplex by constructing \(N\) hyperplanes associated with it. This avoids the volume calculation and is far less expensive than algorithms based on Craig&rsquo;s criterion.</p>
+        
+        <hr><p>Published on 2024-03-24 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2024-03-24</p>]]></description><category>Remote Sensing</category><category>Algorithm</category></item><item><title>Endmember Extraction Using the Pixel Purity Index (PPI) Algorithm</title><link>https://www.jingmengzhiyue.tech/en/ppi-en/</link><pubDate>Tue, 19 Mar 2024 22:12:45 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/ppi-en/</guid><description>
+<![CDATA[<h1>Endmember Extraction Using the Pixel Purity Index (PPI) Algorithm</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>The Pixel Purity Index (PPI) algorithm extracts endmember signatures from hyperspectral data cubes. It identifies endmember pixels by projecting dimensionality-reduced data onto randomly generated unit vectors and finding the pixels with the largest projection values.</p>
+<h2 id="algorithm-principle">
+<a class="header-anchor" href="#algorithm-principle"></a>
+Algorithm Principle
+</h2><ol>
+<li>Perform dimensionality reduction on the hyperspectral data cube, choosing from PCA (Principal Component Analysis), MNF (Maximum Noise Fraction), or no reduction at all.</li>
+<li>Generate a set number of random unit vectors (10,000 by default).</li>
+<li>Project the reduced data onto each random unit vector and record the maximum projection value obtained by each pixel.</li>
+<li>Rank the pixels by their maximum projection values and select the N pixels with the largest values as the endmember signatures.</li>
+</ol>
+<h2 id="algorithm-implementation">
+<a class="header-anchor" href="#algorithm-implementation"></a>
+Algorithm Implementation
+</h2><p>Here is how to implement the PPI algorithm in MATLAB.</p>
+        
+        <hr><p>Published on 2024-03-19 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2024-03-24</p>]]></description><category>Remote Sensing</category></item><item><title>Endmember Initialization</title><link>https://www.jingmengzhiyue.tech/en/endmember-initialization/</link><pubDate>Tue, 19 Mar 2024 21:08:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/endmember-initialization/</guid><description>
+<![CDATA[<h1>Endmember Initialization</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="the-importance-of-endmember-estimation-in-hyperspectral-image-processing">
+<a class="header-anchor" href="#the-importance-of-endmember-estimation-in-hyperspectral-image-processing"></a>
+The Importance of Endmember Estimation in Hyperspectral Image Processing
+</h1><p>In hyperspectral image processing, one often has to initialize the endmember matrix, and an accurate estimate of that matrix has a major effect on the performance of the final result. When the problem is convex, the choice of initial value has a relatively small effect on the final result. For a nonconvex problem, however, an initial value close to the global optimum can substantially improve the algorithm&rsquo;s performance.</p>
+        
+        <hr><p>Published on 2024-03-19 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2024-03-24</p>]]></description><category>Remote Sensing</category></item><item><title>Endmember Number Estimation Using Eigenvalue Thresholding</title><link>https://www.jingmengzhiyue.tech/en/est-endnum-en/</link><pubDate>Tue, 19 Mar 2024 22:01:49 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/est-endnum-en/</guid><description>
+<![CDATA[<h1>Endmember Number Estimation Using Eigenvalue Thresholding</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>In hyperspectral image analysis, estimating the number of endmembers</p>
+<p>is a crucial step that affects the accuracy and efficiency of subsequent</p>
+<p>processing. This post introduces an eigenvalue thresholding approach for</p>
+<p>estimating the number of endmembers in hyperspectral data through noise</p>
+<p>whitening and eigenvalue analysis.</p>
+<h2 id="noise-whitening-of-hyperspectral-images">
+<a class="header-anchor" href="#noise-whitening-of-hyperspectral-images"></a>
+Noise Whitening of Hyperspectral Images
+</h2><p>Let&rsquo;s consider a hyperspectral image \(\mathbf{X} \in \mathbb{R}^{M \times B}\),</p>
+<p>where \(M\) is the number of spatial</p>
+<p>pixels and \(B\) is the number of</p>
+        
+        <hr><p>Published on 2024-03-19 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2024-03-24</p>]]></description><category>Remote Sensing</category></item><item><title>Using OpenCV C++ on Windows Subsystem for Linux (WSL)</title><link>https://www.jingmengzhiyue.tech/en/opencv-wsl/</link><pubDate>Sat, 16 Mar 2024 16:37:10 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/opencv-wsl/</guid><description>
+<![CDATA[<h1>Using OpenCV C++ on Windows Subsystem for Linux (WSL)</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>Setting up OpenCV C++ on Windows Subsystem for Linux (WSL) involves</p>
+<p>several steps, including installing WSL, installing necessary</p>
+<p>dependencies, downloading the OpenCV source code, and compiling and</p>
+<p>installing OpenCV. This blog post provides a step-by-step guide to help</p>
+<p>you through the process.</p>
+<h2 id="summary">
+<a class="header-anchor" href="#summary"></a>
+Summary
+</h2><p>The process of using OpenCV C++ on Windows Subsystem for Linux (WSL)</p>
+<p>involves enabling WSL on your Windows system, installing a Linux</p>
+<p>distribution (like Ubuntu), updating and installing required</p>
+        
+        <hr><p>Published on 2024-03-16 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2024-03-16</p>]]></description><category>Programming</category></item><item><title>OpenCV Basics</title><link>https://www.jingmengzhiyue.tech/en/opencv-basics/</link><pubDate>Thu, 14 Mar 2024 19:35:59 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/opencv-basics/</guid><description>
+<![CDATA[<h1>OpenCV Basics</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>This blog post covers the basics of OpenCV, a popular computer vision library. It explains how to load, display, and save images using OpenCV functions. Additionally, it delves into the Mat class, which is used to represent images in OpenCV as matrices. The post demonstrates how to create Mat objects, access their properties, and traverse and manipulate pixel values using both array-based and pointer-based methods.</p>
+<h2 id="hello-world">
+<a class="header-anchor" href="#hello-world"></a>
+Hello World
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;opencv2/opencv.hpp&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="n">using</span> <span class="n">namespace</span> <span class="n">cv</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">using</span> <span class="n">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;start</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Read an image
+</span></span></span><span class="line"><span class="cl">    <span class="n">Mat</span> <span class="n">src</span> <span class="o">=</span> <span class="nf">imread</span><span class="p">(</span><span class="s">&#34;E:</span><span class="se">\\</span><span class="s">Datum</span><span class="se">\\</span><span class="s">Code</span><span class="se">\\</span><span class="s">CV4</span><span class="se">\\</span><span class="s">CV4</span><span class="se">\\</span><span class="s">a.png&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">src</span><span class="p">.</span><span class="nf">empty</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;could not open&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">namedWindow</span><span class="p">(</span><span class="s">&#34;input&#34;</span><span class="p">,</span> <span class="n">WINDOW_AUTOSIZE</span><span class="p">);</span> <span class="c1">// Create a window with the given title and automatic image size
+</span></span></span><span class="line"><span class="cl">    <span class="c1">// In OpenCV 3, use namedWindow(&#34;input&#34;, CV_WINDOW_AUTOSIZE)
+</span></span></span><span class="line"><span class="cl">    <span class="nf">imshow</span><span class="p">(</span><span class="s">&#34;input&#34;</span><span class="p">,</span> <span class="n">src</span><span class="p">);</span> <span class="c1">// Display the image in the &#34;input&#34; window
+</span></span></span><span class="line"><span class="cl">    <span class="nf">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="c1">// Prevent the window from closing immediately, wait for user input
+</span></span></span><span class="line"><span class="cl">    <span class="nf">destroyAllWindows</span><span class="p">();</span> <span class="c1">// Destroy all windows
+</span></span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol>
+<li>In OpenCV 4, you can directly use <code>#include &lt;opencv2/opencv.hpp&gt;</code> to import all OpenCV functions.</li>
+<li><code>using namespace cv;</code> uses the OpenCV namespace.</li>
+<li>Define a <code>Mat</code> variable <code>src</code> and read an image into it.</li>
+<li>Perform robustness check; if the loaded image is not empty, display it.</li>
+<li>Use <code>namedWindow(&quot;input&quot;, WINDOW_AUTOSIZE);</code> to create a window. The first parameter is the window name, and the second parameter is the window size, which in OpenCV 4 is defined as automatic window size. In OpenCV 3, use <code>nameWindow(&quot;input&quot;, CV_WINDOW_AUTOSIZE)</code> to define the window.</li>
+<li>Use <code>imshow(&quot;input&quot;, src)</code> to display the image. The first parameter is the window to display in, and the second parameter is the image to display.</li>
+<li>To prevent the displayed image from disappearing immediately, use <code>waitKey(0)</code> to wait for user input.</li>
+<li>Use <code>destroyAllWindows()</code> to destroy all windows.</li>
+</ol>
+<h2 id="image-file-loading-displaying-and-saving">
+<a class="header-anchor" href="#image-file-loading-displaying-and-saving"></a>
+Image File Loading, Displaying, and Saving
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;opencv2/opencv.hpp&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="n">using</span> <span class="n">namespace</span> <span class="n">cv</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Mat src = imread(&#34;./lenna.tiff&#34;, IMREAD_COLOR); // Load as a color image, default mode, transparency channel will be discarded
+</span></span></span><span class="line"><span class="cl">    <span class="c1">// Mat src = imread(&#34;./lenna.tiff&#34;, IMREAD_GRAYSCALE); // Load as a grayscale image
+</span></span></span><span class="line"><span class="cl">    <span class="c1">// Mat src = imread(&#34;./lenna.tiff&#34;, IMREAD_ANYCOLOR); // Load with any color format
+</span></span></span><span class="line"><span class="cl">    <span class="n">Mat</span> <span class="n">src</span> <span class="o">=</span> <span class="nf">imread</span><span class="p">(</span><span class="s">&#34;./test.png&#34;</span><span class="p">,</span> <span class="n">IMREAD_UNCHANGED</span><span class="p">);</span> <span class="c1">// Do not change the number of channels, supports loading PNG transparency channel
+</span></span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">src</span><span class="p">.</span><span class="nf">empty</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;can not open&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// namedWindow(&#34;input&#34;, WINDOW_AUTOSIZE); // Automatically fit image size, cannot be changed
+</span></span></span><span class="line"><span class="cl">    <span class="c1">// namedWindow(&#34;input&#34;, WINDOW_FREERATIO); // Freely change image display size
+</span></span></span><span class="line"><span class="cl">    <span class="nf">namedWindow</span><span class="p">(</span><span class="s">&#34;input&#34;</span><span class="p">,</span> <span class="n">WINDOW_NORMAL</span><span class="p">);</span> <span class="c1">// Can change image display size
+</span></span></span><span class="line"><span class="cl">    <span class="nf">imshow</span><span class="p">(</span><span class="s">&#34;input&#34;</span><span class="p">,</span> <span class="n">src</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">destroyAllWindows</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">imwrite</span><span class="p">(</span><span class="s">&#34;./test.png&#34;</span><span class="p">,</span> <span class="n">src</span><span class="p">);</span> <span class="c1">// Save as the corresponding format based on the file extension
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="image-file-loading">
+<a class="header-anchor" href="#image-file-loading"></a>
+Image File Loading
+</h3><p>The <code>imread(&quot;filename&quot;, load_mode)</code> function:</p>
+        
+        <hr><p>Published on 2024-03-14 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2024-03-14</p>]]></description><category>Programming</category></item><item><title>Windows 11 + WSL + VS Code + Rust Environment Setup</title><link>https://www.jingmengzhiyue.tech/en/rust-wal2-vscode/</link><pubDate>Mon, 11 Mar 2024 23:29:33 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/rust-wal2-vscode/</guid><description>
+<![CDATA[<h1>Windows 11 + WSL + VS Code + Rust Environment Setup</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h2 id="introduction">
+<a class="header-anchor" href="#introduction"></a>
+Introduction
+</h2><p>You can set up a Rust environment on either Windows or Linux. After searching online, I found that setting up a Rust environment on Linux is much quicker than on Windows, but I still use the Windows system on a daily basis.</p>
+<p>Therefore, I ultimately chose to set up the Rust environment in the WSL2 of Windows 11, and then use VS Code to connect to WSL.</p>
+<h2 id="overall-steps">
+<a class="header-anchor" href="#overall-steps"></a>
+Overall Steps
+</h2><ol>
+<li>Install WSL on Windows 11</li>
+<li>Change the source on WSL in Windows 11</li>
+<li>Install gcc on WSL in Windows 11</li>
+<li>Install Rust on WSL in Windows 11</li>
+<li>Install Remote-WSL on VS Code in Windows 11</li>
+<li>Install rust-analyzer on VS Code in Windows 11</li>
+<li>Simple verification</li>
+<li>Run and debug</li>
+</ol>
+<h2 id="install-wsl-on-windows-11">
+<a class="header-anchor" href="#install-wsl-on-windows-11"></a>
+Install WSL on Windows 11
+</h2><p>Reference: <a href="https://learn.microsoft.com/en-us/windows/wsl/about">https://learn.microsoft.com/en-us/windows/wsl/about</a></p>
+        
+        <hr><p>Published on 2024-03-11 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2024-03-11</p>]]></description><category>Environment Configuration</category></item><item><title>Using Windows Proxy Settings in WSL2</title><link>https://www.jingmengzhiyue.tech/en/wsl2-proxy/</link><pubDate>Mon, 11 Mar 2024 23:22:42 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/wsl2-proxy/</guid><description>
+<![CDATA[<h1>Using Windows Proxy Settings in WSL2</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="setting-up-a-proxy-for-wsl2">
+<a class="header-anchor" href="#setting-up-a-proxy-for-wsl2"></a>
+Setting up a Proxy for WSL2
+</h1><p>WSL2 (Windows Subsystem for Linux 2) utilizes a virtual machine approach, separating its network from Windows. This means that network traffic no longer shares the same subnet as the Windows host, making it more challenging to use the host&rsquo;s proxy settings.</p>
+<h2 id="obtaining-the-host-ip-in-wsl">
+<a class="header-anchor" href="#obtaining-the-host-ip-in-wsl"></a>
+Obtaining the Host IP in WSL
+</h2><p>In WSL, the IP address changes with each reboot, so you cannot set a static proxy. WSL2 writes the IP address to <code>/etc/resolv.conf</code>, allowing you to retrieve the host&rsquo;s IP using the following command:</p>
+        
+        <hr><p>Published on 2024-03-11 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2024-03-11</p>]]></description><category>Environment Configuration</category></item><item><title>Installing Windows &amp; Linux Dual Boot System</title><link>https://www.jingmengzhiyue.tech/en/dual-system/</link><pubDate>Mon, 11 Mar 2024 22:58:03 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/dual-system/</guid><description>
+<![CDATA[<h1>Installing Windows & Linux Dual Boot System</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>Ever found yourself torn between the sleek, user-friendly experience of Windows and the robustness and open-source allure of Linux? Fret not, for you can have the best of both worlds with a seamless dual-boot setup. In this comprehensive guide, we&rsquo;ll walk you through the intricate process of installing Windows and Linux on the same machine, unlocking a realm of endless possibilities and flexibility.</p>
+<p>Imagine being able to seamlessly transition between operating systems, harnessing the power of Linux for development, server management, or simply embracing its customizable nature, while still having access to the familiarity and compatibility of Windows for daily tasks or gaming. With a dual-boot configuration, you&rsquo;ll no longer have to compromise; instead, you&rsquo;ll wield the ultimate computing experience tailored to your needs.</p>
+        
+        <hr><p>Published on 2024-03-11 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2024-03-11</p>]]></description><category>Environment Configuration</category></item><item><title>Effortless Cross-Device Configuration with Dotfiles and Plugins</title><link>https://www.jingmengzhiyue.tech/en/config-dotfile/</link><pubDate>Mon, 11 Mar 2024 20:45:01 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/config-dotfile/</guid><description>
+<![CDATA[<h1>Effortless Cross-Device Configuration with Dotfiles and Plugins</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>Managing dotfiles and configurations for applications like Vim and Tmux across multiple devices can be a daunting task. However, with a few simple steps, you can streamline the process and achieve seamless one-click configuration on any machine.</p>
+<ol>
+<li>
+<p><strong>Version Control:</strong> Use Git to track your dotfiles. Create a Git repository and store your configuration files within it. This allows you to manage file versions and sync your setup across different machines.</p>
+</li>
+<li>
+<p><strong>Symbolic Links:</strong> Clone your dotfiles repository on a new machine and create symbolic links pointing to these files. This way, you can maintain the file locations within the repository while the system uses the symbolic links.</p>
+</li>
+<li>
+<p><strong>Automation Script:</strong> Write an installation script that, when you clone the repository on a new machine, automatically creates symbolic links and installs necessary software (like Vim and Tmux plugin managers).</p>
+</li>
+<li>
+<p><strong>Plugin Managers:</strong> For Vim, you can use a plugin manager like <code>vim-plug</code>, and for Tmux, you can use a tool like <code>tpm</code> (Tmux Plugin Manager). This way, you only need to specify the required plugins in your configuration files, and then run the corresponding commands to automatically install them.</p>
+</li>
+</ol>
+        
+        <hr><p>Published on 2024-03-11 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2024-03-11</p>]]></description><category>Environment Configuration</category></item><item><title>Hello, welcome.</title><link>https://www.jingmengzhiyue.tech/en/hello-world/</link><pubDate>Mon, 02 Oct 2023 00:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/hello-world/</guid><description>
+<![CDATA[<h1>Hello, welcome.</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>Hello, my name is Huoshuai. I hold a Master&rsquo;s degree in Signal and Information Processing. My primary research area is remote sensing image processing, particularly the application of optimization theories to fuse hyperspectral and multispectral images. Additionally, I have scholarly interests in computer vision within the frameworks of machine learning and deep learning. I am also intrigued by natural language processing and deep reinforcement learning, with a dedicated focus on improving the interpretability of deep learning models.</p>
+        
+        <hr><p>Published on 2023-10-02 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-10-02</p>]]></description></item><item><title>Python Fundamentals</title><link>https://www.jingmengzhiyue.tech/en/python-basics/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/python-basics/</guid><description>
+<![CDATA[<h1>Python Fundamentals</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="prerequisites">
+<a class="header-anchor" href="#prerequisites"></a>
+Prerequisites
+</h1><h2 id="i-python-fundamentals">
+<a class="header-anchor" href="#i-python-fundamentals"></a>
+I. Python Fundamentals
+</h2><h3 id="1-list-comprehensions-and-conditional-assignment">
+<a class="header-anchor" href="#1-list-comprehensions-and-conditional-assignment"></a>
+1. List Comprehensions and Conditional Assignment
+</h3><p>When generating a sequence of numbers in <code>Python</code>, you can write it as follows:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">L</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">my_func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">L</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">my_func</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">L</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><pre><code>[0, 2, 4, 6, 8]
+</code></pre>
+<p>List comprehensions can actually simplify this notation: <code>[* for i in *]</code>. Here the first <code>*</code> is the mapping function, whose input is whatever <code>i</code> refers to in the latter part, whereas the second <code>*</code> denotes the object being iterated over.</p>
+        
+        <hr><p>Published on 2023-10-01 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-10-01</p>]]></description><category>Programming</category></item><item><title>Pandas Time Series Data</title><link>https://www.jingmengzhiyue.tech/en/pandas-time-series/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/pandas-time-series/</guid><description>
+<![CDATA[<h1>Pandas Time Series Data</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="pandas-time-series-data">
+<a class="header-anchor" href="#pandas-time-series-data"></a>
+Pandas Time Series Data
+</h1><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="i-basic-objects-in-time-series">
+<a class="header-anchor" href="#i-basic-objects-in-time-series"></a>
+I. Basic Objects in Time Series
+</h2><p>Time series are a familiar concept in daily life, but a concrete temporal event can be described from several different object perspectives. Suppose you must be in class at 8 a.m. on Monday, September 7, 2020, and the class ends at 10 a.m. that same morning. What time concepts does this involve?</p>
+        
+        <hr><p>Published on 2023-10-01 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-10-01</p>]]></description><category>Machine Learning</category></item><item><title>Pandas Text Data Processing</title><link>https://www.jingmengzhiyue.tech/en/pandas-text-data/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/pandas-text-data/</guid><description>
+<![CDATA[<h1>Pandas Text Data Processing</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="pandas-text-data-processing">
+<a class="header-anchor" href="#pandas-text-data-processing"></a>
+Pandas Text Data Processing
+</h1><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="i-the-str-object">
+<a class="header-anchor" href="#i-the-str-object"></a>
+I. The str Object
+</h2><h3 id="1-design-intent-of-the-str-object">
+<a class="header-anchor" href="#1-design-intent-of-the-str-object"></a>
+1. Design Intent of the str Object
+</h3><p>The <code>str</code> object is an attribute defined on <code>Index</code> or <code>Series</code>, dedicated to processing the text content of each element. It has a large number of methods defined internally, so to process a series as text you first need to obtain its <code>str</code> object. The Python standard library also has a <code>str</code> module; for the sake of convenience, <code>pandas</code> copies many of its designs — converting letters to uppercase, for instance:</p>
+        
+        <hr><p>Published on 2023-10-01 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-10-01</p>]]></description><category>Machine Learning</category></item><item><title>Pandas Reshaping</title><link>https://www.jingmengzhiyue.tech/en/pandas-reshaping/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/pandas-reshaping/</guid><description>
+<![CDATA[<h1>Pandas Reshaping</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="pandas-reshaping">
+<a class="header-anchor" href="#pandas-reshaping"></a>
+Pandas Reshaping
+</h1><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="i-reshaping-long-and-wide-tables">
+<a class="header-anchor" href="#i-reshaping-long-and-wide-tables"></a>
+I. Reshaping Long and Wide Tables
+</h2><p>What is a long table, and what is a wide table? The distinction is made with respect to a particular feature. If a table stores gender in one column, it is a long table with respect to gender; if gender is used as the column names and the cells hold values of some other related feature, the table is a wide table with respect to gender. The two tables below are, respectively, long and wide tables with respect to gender:</p>
+        
+        <hr><p>Published on 2023-10-01 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-10-01</p>]]></description><category>Machine Learning</category></item><item><title>Pandas Joining</title><link>https://www.jingmengzhiyue.tech/en/pandas-joining/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/pandas-joining/</guid><description>
+<![CDATA[<h1>Pandas Joining</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="pandas-joining">
+<a class="header-anchor" href="#pandas-joining"></a>
+Pandas Joining
+</h1><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="i-relational-joins">
+<a class="header-anchor" href="#i-relational-joins"></a>
+I. Relational Joins
+</h2><h3 id="1-basic-concepts-of-joins">
+<a class="header-anchor" href="#1-basic-concepts-of-joins"></a>
+1. Basic Concepts of Joins
+</h3><p>Joining two related tables on one key or a set of keys is a common operation. For example, the score sheets for the various subjects of a student&rsquo;s final exam can be joined on $\color{red}{\text{name}}$ and $\color{red}{\text{class}}$ into a single grade report; likewise, the various information tables of a company&rsquo;s employees can be joined and summarized by $\color{red}{\text{employee ID}}$. As these examples show, in a relational join the $\color{red}{\text{key}}$ is of central importance and is usually specified with the <code>on</code> parameter.</p>
+        
+        <hr><p>Published on 2023-10-01 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-10-01</p>]]></description><category>Machine Learning</category></item><item><title>Pandas Indexing</title><link>https://www.jingmengzhiyue.tech/en/pandas-indexing/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/pandas-indexing/</guid><description>
+<![CDATA[<h1>Pandas Indexing</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="pandas-indexing">
+<a class="header-anchor" href="#pandas-indexing"></a>
+Pandas Indexing
+</h1><h2 id="i-indexers">
+<a class="header-anchor" href="#i-indexers"></a>
+I. Indexers
+</h2><h3 id="1-column-indexing-in-a-table">
+<a class="header-anchor" href="#1-column-indexing-in-a-table"></a>
+1. Column Indexing in a Table
+</h3><p>Column indexing is the most common form of indexing and is typically done with <code>[]</code>. Using <code>[column name]</code> extracts the corresponding column from a <code>DataFrame</code> and returns a <code>Series</code>—for example, selecting the name column:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/learn_pandas.csv&#39;</span><span class="p">,</span> <span class="n">usecols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;School&#39;</span><span class="p">,</span> <span class="s1">&#39;Grade&#39;</span><span class="p">,</span> <span class="s1">&#39;Name&#39;</span><span class="p">,</span> <span class="s1">&#39;Gender&#39;</span><span class="p">,</span> <span class="s1">&#39;Weight&#39;</span><span class="p">,</span> <span class="s1">&#39;Transfer&#39;</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><pre><code>0      Gaopeng Yang
+1    Changqiang You
+2           Mei Sun
+3      Xiaojuan Sun
+4       Gaojuan You
+Name: Name, dtype: object
+</code></pre>
+<p>To fetch multiple columns, pass a <code>[list of column names]</code>; the result is a <code>DataFrame</code>. Here we extract the gender and name columns:</p>
+        
+        <hr><p>Published on 2023-10-01 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-10-01</p>]]></description><category>Machine Learning</category></item><item><title>Pandas Handling Missing Data</title><link>https://www.jingmengzhiyue.tech/en/pandas-missing-data/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/pandas-missing-data/</guid><description>
+<![CDATA[<h1>Pandas Handling Missing Data</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="pandas-handling-missing-data">
+<a class="header-anchor" href="#pandas-handling-missing-data"></a>
+Pandas Handling Missing Data
+</h1><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="i-counting-and-deleting-missing-values">
+<a class="header-anchor" href="#i-counting-and-deleting-missing-values"></a>
+I. Counting and Deleting Missing Values
+</h2><h3 id="1-counting-missing-information">
+<a class="header-anchor" href="#1-counting-missing-information"></a>
+1. Counting Missing Information
+</h3><p>Missing data can be examined with <code>isna</code> or <code>isnull</code> (the two functions are interchangeable) to see whether each cell is missing; combined with <code>mean</code>, this yields the proportion of missing values in each column:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/learn_pandas.csv&#39;</span><span class="p">,</span> <span class="n">usecols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Grade&#39;</span><span class="p">,</span> <span class="s1">&#39;Name&#39;</span><span class="p">,</span> <span class="s1">&#39;Gender&#39;</span><span class="p">,</span> <span class="s1">&#39;Height&#39;</span><span class="p">,</span> <span class="s1">&#39;Weight&#39;</span><span class="p">,</span> <span class="s1">&#39;Transfer&#39;</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Grade</th>
+      <th>Name</th>
+      <th>Gender</th>
+      <th>Height</th>
+      <th>Weight</th>
+      <th>Transfer</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+        
+        <hr><p>Published on 2023-10-01 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-10-01</p>]]></description><category>Machine Learning</category></item><item><title>Pandas Grouping</title><link>https://www.jingmengzhiyue.tech/en/pandas-grouping/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/pandas-grouping/</guid><description>
+<![CDATA[<h1>Pandas Grouping</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="pandas-grouping">
+<a class="header-anchor" href="#pandas-grouping"></a>
+Pandas Grouping
+</h1><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="i-grouping-patterns-and-their-objects">
+<a class="header-anchor" href="#i-grouping-patterns-and-their-objects"></a>
+I. Grouping Patterns and Their Objects
+</h2><h3 id="1-the-general-pattern-of-grouping">
+<a class="header-anchor" href="#1-the-general-pattern-of-grouping"></a>
+1. The General Pattern of Grouping
+</h3><p>Grouping operations are ubiquitous in daily life. For example:</p>
+<ul>
+<li>Group by gender to compute the average lifespan of the national population</li>
+<li>Group by season and standardize the temperatures within each season</li>
+<li>Group by class and filter out classes whose mean math score exceeds 80</li>
+</ul>
+<p>From the examples above, three elements are clearly required for a grouping operation: the grouping key, the data source, and the operation along with its return value. Viewed from the other direction, once these three aspects are specified, a grouping operation is fully determined. The general form of grouping code is therefore:</p>
+        
+        <hr><p>Published on 2023-10-01 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-10-01</p>]]></description><category>Machine Learning</category></item><item><title>Pandas Fundamentals</title><link>https://www.jingmengzhiyue.tech/en/pandas-basics/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/pandas-basics/</guid><description>
+<![CDATA[<h1>Pandas Fundamentals</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="pandas-fundamentals">
+<a class="header-anchor" href="#pandas-fundamentals"></a>
+Pandas Fundamentals
+</h1><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Make sure your <code>pandas</code> version is at least the one shown below; otherwise, please upgrade. Also confirm that the three packages <code>xlrd, xlwt, openpyxl</code> are installed, with <code>xlrd</code> no newer than <code>2.0.0</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">pd</span><span class="o">.</span><span class="n">__version__</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><pre><code>'1.1.5'
+</code></pre>
+<h2 id="i-reading-and-writing-files">
+<a class="header-anchor" href="#i-reading-and-writing-files"></a>
+I. Reading and Writing Files
+</h2><h3 id="1-reading-files">
+<a class="header-anchor" href="#1-reading-files"></a>
+1. Reading Files
+</h3><p><code>pandas</code> can read many file formats; here we focus on <code>csv</code>, <code>excel</code>, and <code>txt</code> files.</p>
+        
+        <hr><p>Published on 2023-10-01 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-10-01</p>]]></description><category>Machine Learning</category></item><item><title>Pandas Categorical Data</title><link>https://www.jingmengzhiyue.tech/en/pandas-categorical-data/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/pandas-categorical-data/</guid><description>
+<![CDATA[<h1>Pandas Categorical Data</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="pandas-categorical-data">
+<a class="header-anchor" href="#pandas-categorical-data"></a>
+Pandas Categorical Data
+</h1><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="i-the-cat-object">
+<a class="header-anchor" href="#i-the-cat-object"></a>
+I. The cat Object
+</h2><h3 id="1-attributes-of-the-cat-object">
+<a class="header-anchor" href="#1-attributes-of-the-cat-object"></a>
+1. Attributes of the cat Object
+</h3><p><code>pandas</code> provides the <code>category</code> dtype so that users can work with categorical variables; an ordinary series can be turned into a categorical variable with the <code>astype</code> method.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/learn_pandas.csv&#39;</span><span class="p">,</span> <span class="n">usecols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Grade&#39;</span><span class="p">,</span> <span class="s1">&#39;Name&#39;</span><span class="p">,</span> <span class="s1">&#39;Gender&#39;</span><span class="p">,</span> <span class="s1">&#39;Height&#39;</span><span class="p">,</span> <span class="s1">&#39;Weight&#39;</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">s</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">Grade</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">s</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><pre><code>0     Freshman
+1     Freshman
+2       Senior
+3    Sophomore
+4    Sophomore
+Name: Grade, dtype: category
+Categories (4, object): ['Freshman', 'Junior', 'Senior', 'Sophomore']
+</code></pre>
+<p>A categorical <code>Series</code> defines a <code>cat</code> object, much like the <code>str</code> object introduced in the previous chapter. It offers a number of attributes and methods for manipulating categories.</p>
+        
+        <hr><p>Published on 2023-10-01 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-10-01</p>]]></description><category>Machine Learning</category></item><item><title>Machine Learning — Learning Theory</title><link>https://www.jingmengzhiyue.tech/en/ml-learning-theory/</link><pubDate>Tue, 01 Aug 2023 21:22:28 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/ml-learning-theory/</guid><description>
+<![CDATA[<h1>Machine Learning — Learning Theory</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="chapter-4">
+<a class="header-anchor" href="#chapter-4"></a>
+Chapter 4
+</h1><h3 id="part-6-learning-theory">
+<a class="header-anchor" href="#part-6-learning-theory"></a>
+Part 6: Learning Theory
+</h3><h4 id="1-the-biasvariance-tradeoff">
+<a class="header-anchor" href="#1-the-biasvariance-tradeoff"></a>
+1 The bias/variance tradeoff
+</h4><p>When we discussed linear regression, we considered the following question: when fitting the data, should we choose a “simple” model such as the linear model “$y = \theta_0 +\theta_1x$”, or a “complex” model such as the polynomial “$y= \theta_0 + \theta_1x+ ...+\theta_5x^5$”? This is illustrated below:</p>
+<p><img src="/img/cs229note4f1.png" alt=""></p>
+<p>As the rightmost plot shows, fitting with a fifth-degree polynomial does not yield a good model. Moreover, although this fifth-degree polynomial gives a very good predicted value of $y$ (the corresponding housing price) for every $x$ in the training set (for example, the living area mentioned earlier in the notes), we still cannot expect this model to give reliable predictions for points outside the training set. In other words, a model obtained by learning from the training set with a high-degree polynomial of this kind simply does not carry over to other houses. The <strong>generalization error</strong> of a hypothesis (a formal definition will be given shortly) is precisely the expected error on examples that are not necessarily in the training set.</p>
+        
+        <hr><p>Published on 2023-08-01 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-08-01</p>]]></description><category>Machine Learning</category></item><item><title>Machine Learning — Support Vector Machines</title><link>https://www.jingmengzhiyue.tech/en/ml-support-vector-machines/</link><pubDate>Tue, 01 Aug 2023 21:18:39 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/ml-support-vector-machines/</guid><description>
+<![CDATA[<h1>Machine Learning — Support Vector Machines</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="chapter-3">
+<a class="header-anchor" href="#chapter-3"></a>
+Chapter 3
+</h1><h3 id="part-5-support-vector-machines">
+<a class="header-anchor" href="#part-5-support-vector-machines"></a>
+Part 5: Support Vector Machines
+</h3><p>The notes in this chapter are mainly about the support vector machine (SVM) learning algorithm. The SVM is one of the best off-the-shelf supervised learning algorithms available. Many people would in fact say that the words “one of” are unnecessary, and that the SVM simply is the best off-the-shelf supervised learning algorithm. Before we trace where the SVM comes from, we need some ideas about margins, and about splitting the data into large gaps. Next we discuss the optimal margin classifier, which also brings in some material on Lagrange duality. We then meet kernels, which give an efficient way to carry out SVM learning in very high dimensions (for example, an infinite-dimensional space). The chapter ends with the SMO algorithm, an efficient implementation of the SVM.</p>
+        
+        <hr><p>Published on 2023-08-01 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-08-01</p>]]></description><category>Machine Learning</category></item><item><title>Machine Learning — Generative Models</title><link>https://www.jingmengzhiyue.tech/en/ml-generative-models/</link><pubDate>Tue, 01 Aug 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/ml-generative-models/</guid><description>
+<![CDATA[<h1>Machine Learning — Generative Models</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="chapter-2">
+<a class="header-anchor" href="#chapter-2"></a>
+Chapter 2
+</h1><h3 id="part-4-generative-learning-algorithms">
+<a class="header-anchor" href="#part-4-generative-learning-algorithms"></a>
+Part 4: Generative Learning Algorithms
+</h3><p>The models in the learning algorithms we have discussed so far have all been $p (y|x;\theta)$, that is, the conditional distribution of $y$ given $x$, with $\theta$ as the parameter. In logistic regression, for example, $h_\theta(x) = g(\theta^T x)$ is used as the model of $p (y|x;\theta)$, where $g$ is a sigmoid function. We now turn to a different kind of learning algorithm.</p>
+        
+        <hr><p>Published on 2023-08-01 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-08-01</p>]]></description><category>Machine Learning</category></item><item><title>Machine Learning — Linear Models</title><link>https://www.jingmengzhiyue.tech/en/ml-linear-models/</link><pubDate>Tue, 01 Aug 2023 20:59:58 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/ml-linear-models/</guid><description>
+<![CDATA[<h1>Machine Learning — Linear Models</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="chapter-1">
+<a class="header-anchor" href="#chapter-1"></a>
+Chapter 1
+</h1><h2 id="supervised-learning">
+<a class="header-anchor" href="#supervised-learning"></a>
+Supervised Learning
+</h2><p>Let us begin with a few examples of solving problems with supervised learning. Suppose we have a data set containing the living area and price of $47$ houses in Portland, Oregon:</p>
+<table>
+	<thead>
+			<tr>
+					<th style="text-align: center">Living area (square feet)</th>
+					<th style="text-align: center">Price (thousands of dollars)</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: center">$2104$</td>
+					<td style="text-align: center">$400$</td>
+			</tr>
+			<tr>
+					<td style="text-align: center">$1600$</td>
+					<td style="text-align: center">$330$</td>
+			</tr>
+			<tr>
+					<td style="text-align: center">$2400$</td>
+					<td style="text-align: center">$369$</td>
+			</tr>
+			<tr>
+					<td style="text-align: center">$1416$</td>
+					<td style="text-align: center">$232$</td>
+			</tr>
+			<tr>
+					<td style="text-align: center">$3000$</td>
+					<td style="text-align: center">$540$</td>
+			</tr>
+			<tr>
+					<td style="text-align: center">$\vdots$</td>
+					<td style="text-align: center">$\vdots$</td>
+			</tr>
+	</tbody>
+</table>
+<p>Plot these data:</p>
+<p><img src="/img/cs229note1f1.png" alt=""></p>
+<p>Given data like these, how can we learn to predict the prices of other houses in Portland, together with their living areas?</p>
+        
+        <hr><p>Published on 2023-08-01 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-08-01</p>]]></description><category>Machine Learning</category></item><item><title>DTW (Dynamic Time Warping)</title><link>https://www.jingmengzhiyue.tech/en/dtw/</link><pubDate>Sat, 24 Jun 2023 14:47:16 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/dtw/</guid><description>
+<![CDATA[<h1>DTW (Dynamic Time Warping)</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>DTW was originally used to measure similarity between speech signals. The DTW algorithm is now commonly used to compute the similarity of two time series, <strong>especially series of different lengths and different rhythms</strong>.</p>
+<h2 id="algorithm">
+<a class="header-anchor" href="#algorithm"></a>
+Algorithm
+</h2><p>Suppose there are two sequences
+</p>
+$$\mathbf{X}=\{\mathbf{x}_1,\mathbf{x}_{2},\ldots,\mathbf{x}_{n}\}
+$$$$\mathbf{Y}=\{\mathbf{y}_1,\mathbf{y}_{2},\ldots,\mathbf{y}_{m}\}
+$$<p>
+<img src="/img/DTWgrid.gif" alt=""></p>
+<p>First, build an $m\times n$ two-dimensional array $W$. Each point $W(i,j)$ in the array is the cumulative distance between $\mathbf{X}_{i}$ and $\mathbf{Y}_{j}$, $\sqrt{ (\mathbf{X}_{i}-\mathbf{Y}_{j})^2 }$. The core idea of DTW is to find, in this distance matrix, the minimum-distance warping path from the start of both sequences to their ends. While searching for that path, several constraints must be satisfied:</p>
+        
+        <hr><p>Published on 2023-06-24 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-06-24</p>]]></description><category>Algorithm</category></item><item><title>Version Control (Git)</title><link>https://www.jingmengzhiyue.tech/en/version-control/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/version-control/</guid><description>
+<![CDATA[<h1>Version Control (Git)</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>Version control systems (VCSs) are tools used to track changes to source code
+(or other collections of files and folders). As the name implies, these tools
+help maintain a history of changes; furthermore, they facilitate collaboration.
+VCSs track changes to a folder and its contents in a series of snapshots, where
+each snapshot encapsulates the entire state of files/folders within a top-level
+directory. VCSs also maintain metadata like who created each snapshot, messages
+associated with each snapshot, and so on.</p>
+        
+        <hr><p>Published on 2023-06-05 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>Shell Tools and Scripting</title><link>https://www.jingmengzhiyue.tech/en/shell-tools/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/shell-tools/</guid><description>
+<![CDATA[<h1>Shell Tools and Scripting</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>In this lecture, we will present some of the basics of using bash as a scripting language along with a number of shell tools that cover several of the most common tasks that you will be constantly performing in the command line.</p>
+<h1 id="shell-scripting">
+<a class="header-anchor" href="#shell-scripting"></a>
+Shell Scripting
+</h1><p>So far we have seen how to execute commands in the shell and pipe them together.
+However, in many scenarios you will want to perform a series of commands and make use of control flow expressions like conditionals or loops.</p>
+        
+        <hr><p>Published on 2023-06-05 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>Security and Cryptography</title><link>https://www.jingmengzhiyue.tech/en/security/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/security/</guid><description>
+<![CDATA[<h1>Security and Cryptography</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>Last year&rsquo;s <a href="/2023/06/05/security/">security and privacy lecture</a> focused on how you
+can be more secure as a computer <em>user</em>. This year, we will focus on security
+and cryptography concepts that are relevant in understanding tools covered
+earlier in this class, such as the use of hash functions in Git or key
+derivation functions and symmetric/asymmetric cryptosystems in SSH.</p>
+<p>This lecture is not a substitute for a more rigorous and complete course on
+computer systems security (<a href="https://css.csail.mit.edu/6.858/">6.858</a>) or
+cryptography (<a href="https://courses.csail.mit.edu/6.857/">6.857</a> and 6.875). Don&rsquo;t
+do security work without formal training in security. Unless you&rsquo;re an expert,
+don&rsquo;t <a href="https://www.schneier.com/blog/archives/2015/05/amateurs_produc.html">roll your own
+crypto</a>.
+The same principle applies to systems security.</p>
+        
+        <hr><p>Published on 2023-06-05 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>Q&amp;A</title><link>https://www.jingmengzhiyue.tech/en/qa/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/qa/</guid><description>
+<![CDATA[<h1>Q&A</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>For the last lecture, we answered questions that the students submitted:</p>
+<ul>
+<li><a href="/en/qa/#any-recommendations-on-learning-operating-systems-related-topics-like-processes-virtual-memory-interrupts-memory-management-etc">Any recommendations on learning Operating Systems related topics like processes, virtual memory, interrupts, memory management, etc </a></li>
+<li><a href="/en/qa/#what-are-some-of-the-tools-youd-prioritize-learning-first">What are some of the tools you&rsquo;d prioritize learning first?</a></li>
+<li><a href="/en/qa/#when-do-i-use-python-versus-a-bash-scripts-versus-some-other-language">When do I use Python versus a Bash scripts versus some other language?</a></li>
+<li><a href="/en/qa/#what-is-the-difference-between-source-scriptsh-and-scriptsh">What is the difference between <code>source script.sh</code> and <code>./script.sh</code></a></li>
+<li><a href="/en/qa/#what-are-the-places-where-various-packages-and-tools-are-stored-and-how-does-referencing-them-work-what-even-is-bin-or-lib">What are the places where various packages and tools are stored and how does referencing them work? What even is <code>/bin</code> or <code>/lib</code>?</a></li>
+<li><a href="/en/qa/#should-i-apt-get-install-a-python-whatever-or-pip-install-whatever-package">Should I <code>apt-get install</code> a python-whatever, or <code>pip install</code> whatever package?</a></li>
+<li><a href="/en/qa/#whats-the-easiest-and-best-profiling-tools-to-use-to-improve-performance-of-my-code">What&rsquo;s the easiest and best profiling tools to use to improve performance of my code?</a></li>
+<li><a href="/en/qa/#what-browser-plugins-do-you-use">What browser plugins do you use?</a></li>
+<li><a href="/en/qa/#what-are-other-useful-data-wrangling-tools">What are other useful data wrangling tools?</a></li>
+<li><a href="/en/qa/#what-is-the-difference-between-docker-and-a-virtual-machine">What is the difference between Docker and a Virtual Machine?</a></li>
+<li><a href="/en/qa/#what-are-the-advantages-and-disadvantages-of-each-os-and-how-can-we-choose-between-them-eg-choosing-the-best-linux-distribution-for-our-purposes">What are the advantages and disadvantages of each OS and how can we choose between them (e.g. choosing the best Linux distribution for our purposes)?</a></li>
+<li><a href="/en/qa/#vim-vs-emacs">Vim vs Emacs?</a></li>
+<li><a href="/en/qa/#any-tips-or-tricks-for-machine-learning-applications">Any tips or tricks for Machine Learning applications?</a></li>
+<li><a href="/en/qa/#any-more-vim-tips">Any more Vim tips?</a></li>
+<li><a href="/en/qa/#what-is-2fa-and-why-should-i-use-it">What is 2FA and why should I use it?</a></li>
+<li><a href="/en/qa/#any-comments-on-differences-between-web-browsers">Any comments on differences between web browsers?</a></li>
+</ul>
+<h2 id="any-recommendations-on-learning-operating-systems-related-topics-like-processes-virtual-memory-interrupts-memory-management-etc">
+<a class="header-anchor" href="#any-recommendations-on-learning-operating-systems-related-topics-like-processes-virtual-memory-interrupts-memory-management-etc"></a>
+Any recommendations on learning Operating Systems related topics like processes, virtual memory, interrupts, memory management, etc
+</h2><p>First, it is unclear whether you actually need to be very familiar with all of these topics since they are very low level topics.
+They will matter as you start writing more low level code like implementing or modifying a kernel. Otherwise, most topics will not be relevant, with the exception of processes and signals that were briefly covered in other lectures.</p>
+        
+        <hr><p>Published on 2023-06-05 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>Potpourri</title><link>https://www.jingmengzhiyue.tech/en/potpourri/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/potpourri/</guid><description>
+<![CDATA[<h1>Potpourri</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h2 id="table-of-contents">
+<a class="header-anchor" href="#table-of-contents"></a>
+Table of Contents
+</h2><ul>
+<li><a href="/en/potpourri/#keyboard-remapping">Keyboard remapping</a></li>
+<li><a href="/en/potpourri/#daemons">Daemons</a></li>
+<li><a href="/en/potpourri/#fuse">FUSE</a></li>
+<li><a href="/en/potpourri/#backups">Backups</a></li>
+<li><a href="/en/potpourri/#apis">APIs</a></li>
+<li><a href="/en/potpourri/#common-command-line-flagspatterns">Common command-line flags/patterns</a></li>
+<li><a href="/en/potpourri/#window-managers">Window managers</a></li>
+<li><a href="/en/potpourri/#vpns">VPNs</a></li>
+<li><a href="/en/potpourri/#markdown">Markdown</a></li>
+<li><a href="/en/potpourri/#hammerspoon-desktop-automation-on-macos">Hammerspoon (desktop automation on macOS)</a>
+<ul>
+<li><a href="/en/potpourri/#resources">Resources</a></li>
+</ul>
+</li>
+<li><a href="/en/potpourri/#booting--live-usbs">Booting + Live USBs</a></li>
+<li><a href="/en/potpourri/#docker-vagrant-vms-cloud-openstack">Docker, Vagrant, VMs, Cloud, OpenStack</a></li>
+<li><a href="/en/potpourri/#notebook-programming">Notebook programming</a></li>
+<li><a href="/en/potpourri/#github">GitHub</a></li>
+</ul>
+<h2 id="keyboard-remapping">
+<a class="header-anchor" href="#keyboard-remapping"></a>
+Keyboard remapping
+</h2><p>As a programmer, your keyboard is your main input method. As with pretty much anything in your computer, it is configurable (and worth configuring).</p>
+<p>The most basic change is to remap keys.
+This usually involves some software that is listening and, whenever a certain key is pressed, it intercepts that event and replaces it with another event corresponding to a different key. Some examples:</p>
+        
+        <hr><p>Published on 2023-06-05 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>Metaprogramming</title><link>https://www.jingmengzhiyue.tech/en/metaprogramming/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/metaprogramming/</guid><description>
+<![CDATA[<h1>Metaprogramming</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>What do we mean by &ldquo;metaprogramming&rdquo;? Well, it was the best collective
+term we could come up with for the set of things that are more about
+<em>process</em> than they are about writing code or working more efficiently.
+In this lecture, we will look at systems for building and testing your
+code, and for managing dependencies. These may seem like they are of
+limited importance in your day-to-day as a student, but the moment you
+interact with a larger code base through an internship or once you enter
+the &ldquo;real world&rdquo;, you will see this everywhere. We should note that
+&ldquo;metaprogramming&rdquo; can also mean &ldquo;<a href="https://en.wikipedia.org/wiki/Metaprogramming">programs that operate on
+programs</a>&rdquo;, whereas that
+is not quite the definition we are using for the purposes of this
+lecture.</p>
+        
+        <hr><p>Published on 2023-06-05 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>Editors (Vim)</title><link>https://www.jingmengzhiyue.tech/en/editors/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/editors/</guid><description>
+<![CDATA[<h1>Editors (Vim)</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>Writing English words and writing code are very different activities. When
+programming, you spend more time switching files, reading, navigating, and
+editing code compared to writing a long stream. It makes sense that there are
+different types of programs for writing English words versus code (e.g.
+Microsoft Word versus Visual Studio Code).</p>
+<p>As programmers, we spend most of our time editing code, so it&rsquo;s worth investing
+time mastering an editor that fits your needs. Here&rsquo;s how you learn a new
+editor:</p>
+        
+        <hr><p>Published on 2023-06-05 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>Debugging and Profiling</title><link>https://www.jingmengzhiyue.tech/en/debugging-profiling/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/debugging-profiling/</guid><description>
+<![CDATA[<h1>Debugging and Profiling</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>A golden rule in programming is that code follows your instructions exactly, whether or not they match what you expected.
+Bridging that gap can sometimes be a quite difficult feat.
+In this lecture we are going to cover useful techniques for dealing with buggy and resource hungry code: debugging and profiling.</p>
+<h1 id="debugging">
+<a class="header-anchor" href="#debugging"></a>
+Debugging
+</h1><h2 id="printf-debugging-and-logging">
+<a class="header-anchor" href="#printf-debugging-and-logging"></a>
+Printf debugging and Logging
+</h2><p>&ldquo;The most effective debugging tool is still careful thought, coupled with judiciously placed print statements&rdquo; — Brian Kernighan, <em>Unix for Beginners</em>.</p>
+        
+        <hr><p>Published on 2023-06-05 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>Data Wrangling</title><link>https://www.jingmengzhiyue.tech/en/data-wrangling/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/data-wrangling/</guid><description>
+<![CDATA[<h1>Data Wrangling</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>Have you ever wanted to take data in one format and turn it into a
+different format? Of course you have! That, in very general terms, is
+what this lecture is all about. Specifically, massaging data, whether in
+text or binary format, until you end up with exactly what you wanted.</p>
+<p>We&rsquo;ve already seen some basic data wrangling in past lectures. Pretty
+much any time you use the <code>|</code> operator, you are performing some kind of
+data wrangling. Consider a command like <code>journalctl | grep -i intel</code>. It
+finds all system log entries that mention Intel (case insensitive). Even if
+you would not call it data wrangling, it transforms one format (your entire
+system log) into a more useful one (just the intel log entries). Most data wrangling is about knowing what tools
+you have at your disposal, and how to combine them.</p>
+        
+        <hr><p>Published on 2023-06-05 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>Course Overview + The Shell</title><link>https://www.jingmengzhiyue.tech/en/course-shell/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/course-shell/</guid><description>
+<![CDATA[<h1>Course Overview + The Shell</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="motivation">
+<a class="header-anchor" href="#motivation"></a>
+Motivation
+</h1><p>As computer scientists, we know that computers are great at aiding in
+repetitive tasks. However, far too often, we forget that this applies
+just as much to our <em>use</em> of the computer as it does to the computations
+we want our programs to perform. We have a vast range of tools
+available at our fingertips that enable us to be more productive and
+solve more complex problems when working on any computer-related
+problem. Yet many of us utilize only a small fraction of those tools; we
+only know enough magical incantations by rote to get by, and blindly
+copy-paste commands from the internet when we get stuck.</p>
+        
+        <hr><p>Published on 2023-06-05 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>Command-line Environment</title><link>https://www.jingmengzhiyue.tech/en/command-line/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/command-line/</guid><description>
+<![CDATA[<h1>Command-line Environment</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>In this lecture we will go through several ways in which you can improve your workflow when using the shell. We have been working with the shell for a while now, but we have mainly focused on executing different commands. We will now see how to run several processes at the same time while keeping track of them, how to stop or pause a specific process and how to make a process run in the background.</p>
+        
+        <hr><p>Published on 2023-06-05 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>CPP Generic Programming</title><link>https://www.jingmengzhiyue.tech/en/cpp-generic-programming/</link><pubDate>Fri, 31 Mar 2023 18:38:53 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/cpp-generic-programming/</guid><description>
+<![CDATA[<h1>CPP Generic Programming</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="c-generic-programming">
+<a class="header-anchor" href="#c-generic-programming"></a>
+C++ Generic Programming
+</h1><ul>
+<li>This stage offers a detailed explanation of C++ ==generic programming== and ==STL== techniques, delving into more advanced uses of C++</li>
+</ul>
+<h2 id="1-templates">
+<a class="header-anchor" href="#1-templates"></a>
+1 Templates
+</h2><h3 id="11-the-concept-of-templates">
+<a class="header-anchor" href="#11-the-concept-of-templates"></a>
+1.1 The Concept of Templates
+</h3><p>A template is used to build a <strong>universal mold</strong>, greatly <strong>enhancing reusability</strong>.</p>
+<p>Consider templates in everyday life.</p>
+<p>A one-inch photo template:</p>
+<p><img src="/img/1547105026929.png" alt="1547105026929"></p>
+<p>A PPT template:</p>
+<p><img src="/img/1547103297864.png" alt="1547103297864"></p>
+<p><img src="/img/1547103359158.png" alt="1547103359158"></p>
+<p>Characteristics of templates:</p>
+<ul>
+<li>A template cannot be used directly; it is merely a framework.</li>
+<li>The generality of a template is not all-powerful.</li>
+</ul>
+<h3 id="12-function-templates">
+<a class="header-anchor" href="#12-function-templates"></a>
+1.2 Function Templates
+</h3><ul>
+<li>Another programming paradigm in C++ is known as ==generic programming==, and the technique it chiefly relies on is the template.</li>
+<li>C++ offers two template mechanisms: <strong>function templates</strong> and <strong>class templates</strong>.</li>
+</ul>
+<h4 id="121-function-template-syntax">
+<a class="header-anchor" href="#121-function-template-syntax"></a>
+1.2.1 Function Template Syntax
+</h4><p>The purpose of a function template:</p>
+        
+        <hr><p>Published on 2023-03-31 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-03-31</p>]]></description><category>Programming</category></item><item><title>C++ Core Programming</title><link>https://www.jingmengzhiyue.tech/en/cpp-core-programming/</link><pubDate>Fri, 31 Mar 2023 18:19:51 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/cpp-core-programming/</guid><description>
+<![CDATA[<h1>C++ Core Programming</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="c-core-programming">
+<a class="header-anchor" href="#c-core-programming"></a>
+C++ Core Programming
+</h1><p>This stage offers a detailed treatment of C++ ==object-oriented== programming techniques, examining the core and essence of the language.</p>
+<h2 id="1-memory-partition-model">
+<a class="header-anchor" href="#1-memory-partition-model"></a>
+1 Memory Partition Model
+</h2><p>When a C++ program runs, memory is broadly divided into <strong>4 regions</strong></p>
+<ul>
+<li>Code segment: holds the binary code of function bodies and is managed by the operating system</li>
+<li>Global segment: holds global variables, static variables, and constants</li>
+<li>Stack segment: automatically allocated and freed by the compiler; it stores function parameters, local variables, and the like</li>
+<li>Heap segment: allocated and freed by the programmer; if the programmer does not release it, the operating system reclaims it when the program ends</li>
+</ul>
+<p><strong>Significance of the four memory regions:</strong></p>
+        
+        <hr><p>Published on 2023-03-31 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-03-31</p>]]></description><category>Programming</category></item><item><title>C++ Basic Syntax</title><link>https://www.jingmengzhiyue.tech/en/cpp-basic-syntax/</link><pubDate>Fri, 31 Mar 2023 17:56:42 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/cpp-basic-syntax/</guid><description>
+<![CDATA[<h1>C++ Basic Syntax</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h2 id="1-first-look-at-c">
+<a class="header-anchor" href="#1-first-look-at-c"></a>
+1 First Look at C++
+</h2><h3 id="11-the-first-c-program">
+<a class="header-anchor" href="#11-the-first-c-program"></a>
+1.1 The First C++ Program
+</h3><p>Writing a C++ program takes four steps:</p>
+<ul>
+<li>Create a project</li>
+<li>Create a file</li>
+<li>Write the code</li>
+<li>Run the program</li>
+</ul>
+<h4 id="111-create-a-project">
+<a class="header-anchor" href="#111-create-a-project"></a>
+1.1.1 Create a Project
+</h4><p>Visual Studio is the main tool we use to write C++ programs. Open it first.</p>
+<p><img src="/img/1541383178746.png" alt="1541383178746"></p>
+<p><img src="/img/1541384366413.png" alt="1541384366413"></p>
+<h4 id="112-create-a-file">
+<a class="header-anchor" href="#112-create-a-file"></a>
+1.1.2 Create a File
+</h4><p>Right-click Source Files and choose Add -&gt; New Item.</p>
+<p><img src="/img/1541383817248.png" alt="1541383817248"></p>
+<p>Give the C++ file a name, then click Add.</p>
+        
+        <hr><p>Published on 2023-03-31 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-03-31</p>]]></description><category>Programming</category></item><item><title>Linear Discriminant Analysis (LDA)</title><link>https://www.jingmengzhiyue.tech/en/lda/</link><pubDate>Tue, 07 Mar 2023 16:22:38 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/lda/</guid><description>
+<![CDATA[<h1>Linear Discriminant Analysis (LDA)</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h2 id="the-principle-of-lda">
+<a class="header-anchor" href="#the-principle-of-lda"></a>
+The Principle of LDA
+</h2><p>Given data $\mathbf{X}\in \mathbb{R}^{N\times p}$ together with $\mathbf{y}\in \{0,1\}$, we form the input–output training pairs $D=\{(\mathbf{x}_1,\mathbf{y}_1),...,(\mathbf{x}_N,\mathbf{y}_N)\}$. The training set $D$ means that the whole training set contains $N$ samples, each of dimension $p$, and that every sample belongs to one of only two classes, corresponding to the output $\mathbf{y}$ taking the value 0 or 1.</p>
+<p>Assume first that the first class, $\mathbf{x}_{c1}$, contains $|\mathbf{x}_{c1}|=N_1$ samples and the second class contains $|\mathbf{x}_{c2}|=N_2$ samples, with $N_1+N_2=N$. The means and variances of the two classes can be written as:</p>
+        
+        <hr><p>Published on 2023-03-07 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-03-07</p>]]></description><category>machine learning</category></item><item><title>ChatGPT</title><link>https://www.jingmengzhiyue.tech/en/chatgpt/</link><pubDate>Mon, 06 Mar 2023 15:13:59 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/chatgpt/</guid><description>
+<![CDATA[<h1>ChatGPT</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>ChatGPT evolved from InstructGPT.
+<img src="/img/ChatGPT_Diagram.png" alt="ChatGPT training pipeline"></p>
+<h2 id="overview">
+<a class="header-anchor" href="#overview"></a>
+Overview
+</h2><p>Its training can be divided into four stages:</p>
+<ol>
+<li>Mask-based self-supervised training</li>
+<li>Supervised QA training on human-labeled data</li>
+<li>Supervised training on human rankings of answer preference</li>
+<li>Reinforcement learning from the learned human preferences to train a discriminative model</li>
+</ol>
+<h2 id="self-supervised-training">
+<a class="header-anchor" href="#self-supervised-training"></a>
+Self-supervised training
+</h2><p><img src="/img/Hello.png" alt="Sampling-based self-supervised training"></p>
+<p>Self-supervised training is used for text generation. During training, the model is given the preceding words and asked to predict the next one. The prediction is a probability distribution over possible words, and beam search can sample the next word from it. That newly generated word is then fed back into the model to produce the following output. Because the output is obtained by random sampling, the result is different each time.</p>
+        
+        <hr><p>Published on 2023-03-06 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-03-06</p>]]></description><category>LLM</category></item><item><title>Using OpenAI and YNMT to Create a Paper</title><link>https://www.jingmengzhiyue.tech/en/openai-api/</link><pubDate>Sun, 05 Mar 2023 19:38:17 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/openai-api/</guid><description>
+<![CDATA[<h1>Using OpenAI and YNMT to Create a Paper</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="using-openai-and-ynmt-to-create-a-paper">
+<a class="header-anchor" href="#using-openai-and-ynmt-to-create-a-paper"></a>
+Using OpenAI and YNMT to Create a Paper
+</h1><pre class="mermaid">
+  graph TB
+    id1(Start)-->id2[Access the YNMT/ChatGPT translation model]
+    subgraph  
+        id2==Authenticate==>id3(Send the API and token to the data center)
+        id3-->id4[Authentication succeeded]
+        id3-->id5((End))
+        end
+    subgraph Translation
+    	id4-->id6(Read the article paragraph by paragraph)
+    	id6-->id7(Send it to the translation model)
+    	id7-->id8(Get the return value)
+    	id8-->id9((Create a TeX document))
+  
+  
+    end
+</pre><h2 id="code-implementation">
+<a class="header-anchor" href="#code-implementation"></a>
+Code Implementation
+</h2><p>main.py</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">fnmatch</span> <span class="kn">import</span> <span class="n">translate</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pylatex</span> <span class="kn">import</span> <span class="n">Document</span><span class="p">,</span> <span class="n">Section</span><span class="p">,</span> <span class="n">Subsection</span><span class="p">,</span> <span class="n">Command</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pylatex.base_classes</span> <span class="kn">import</span> <span class="n">Environment</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">docx</span> <span class="kn">import</span> <span class="n">Document</span> <span class="k">as</span> <span class="n">docx_Document</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pylatex.utils</span> <span class="kn">import</span> <span class="n">NoEscape</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pylatex.basic</span> <span class="kn">import</span> <span class="n">NewLine</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">translate</span> <span class="kn">import</span> <span class="n">Zh2En</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pylatex.utils</span> <span class="kn">import</span> <span class="n">italic</span><span class="p">,</span> <span class="n">NoEscape</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">fill_document</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">with</span> <span class="n">doc</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">Section</span><span class="p">(</span><span class="s1">&#39;A section&#39;</span><span class="p">)):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">doc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Some regular text and some &#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">doc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">italic</span><span class="p">(</span><span class="s1">&#39;italic text. &#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="k">with</span> <span class="n">doc</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">Subsection</span><span class="p">(</span><span class="s1">&#39;A subsection&#39;</span><span class="p">)):</span>
+</span></span><span class="line"><span class="cl">            <span class="n">doc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Also some crazy characters: $&amp;#</span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">ABSTRACT</span><span class="p">(</span><span class="n">Environment</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">escape</span> <span class="o">=</span> <span class="kc">False</span>
+</span></span><span class="line"><span class="cl">    <span class="n">content_separator</span> <span class="o">=</span> <span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">doc</span> <span class="o">=</span> <span class="n">Document</span><span class="p">(</span><span class="n">default_filepath</span><span class="o">=</span><span class="s1">&#39;paper&#39;</span><span class="p">,</span><span class="n">documentclass</span><span class="o">=</span><span class="s1">&#39;IEEEtran&#39;</span><span class="p">,</span><span class="n">document_options</span><span class="o">=</span><span class="s1">&#39;journal&#39;</span><span class="p">,</span><span class="n">lmodern</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">textcomp</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">doc</span><span class="o">.</span><span class="n">preamble</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;Translate to English using the YNMT natural language translation model&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">doc</span><span class="o">.</span><span class="n">preamble</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s1">&#39;author&#39;</span><span class="p">,</span> <span class="s1">&#39;***, ***&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">doc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">NoEscape</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\maketitle&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="k">with</span> <span class="n">doc</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">ABSTRACT</span><span class="p">()):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">abstract</span> <span class="o">=</span> <span class="n">docx_Document</span><span class="p">(</span><span class="sa">r</span><span class="s2">&#34;./abstract.docx&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">abstract</span><span class="o">.</span><span class="n">paragraphs</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">abstrach_zh</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">text</span>
+</span></span><span class="line"><span class="cl">            <span class="n">abstrach_en</span> <span class="o">=</span> <span class="n">Zh2En</span><span class="p">(</span><span class="n">abstrach_zh</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">doc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">abstrach_en</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">with</span> <span class="n">doc</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">Section</span><span class="p">(</span><span class="s1">&#39;Introduction&#39;</span><span class="p">)):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">introduction</span> <span class="o">=</span> <span class="n">docx_Document</span><span class="p">(</span><span class="sa">r</span><span class="s2">&#34;./introduction.docx&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">introduction</span><span class="o">.</span><span class="n">paragraphs</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">introduction_zh</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">text</span>
+</span></span><span class="line"><span class="cl">            <span class="n">introduction_en</span> <span class="o">=</span> <span class="n">Zh2En</span><span class="p">(</span><span class="n">introduction_zh</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">doc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">introduction_en</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">doc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">NoEscape</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\par&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">doc</span><span class="o">.</span><span class="n">generate_pdf</span><span class="p">(</span><span class="n">clean_tex</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">doc</span><span class="o">.</span><span class="n">generate_tex</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Call the YNMT function to obtain the translation.</p>
+        
+        <hr><p>Published on 2023-03-05 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-03-05</p>]]></description><category>LLM</category></item><item><title>Word2Vec</title><link>https://www.jingmengzhiyue.tech/en/word2vec/</link><pubDate>Sun, 05 Mar 2023 17:09:55 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/word2vec/</guid><description>
+<![CDATA[<h1>Word2Vec</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="word2vec">
+<a class="header-anchor" href="#word2vec"></a>
+Word2Vec
+</h1><p>Because deep neural networks cannot understand words or sentences the way humans do, words and sentences must be represented in a form the network can understand.</p>
+<p>Suppose there is a vocabulary $\mathbf{V}=\{w_1,...,w_{|v|}\}$. For each word $w_i$, there are two ways to represent it: one-hot encoding, and distributed representation.</p>
+<h2 id="one-hot-representation">
+<a class="header-anchor" href="#one-hot-representation"></a>
+one-hot representation
+</h2><p>Each word is represented as a vector whose length equals the total number of words in the vocabulary. Each vector has a single 1, and the remaining values are all 0.</p>
+        
+        <hr><p>Published on 2023-03-05 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-03-05</p>]]></description><category>Deep Learning</category></item><item><title>Linear Regression</title><link>https://www.jingmengzhiyue.tech/en/linear-regression/</link><pubDate>Sun, 05 Mar 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/linear-regression/</guid><description>
+<![CDATA[<h1>Linear Regression</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="linear-regression">
+<a class="header-anchor" href="#linear-regression"></a>
+Linear Regression
+</h1><h2 id="introduction">
+<a class="header-anchor" href="#introduction"></a>
+Introduction
+</h2><p>Linear regression is a typical method among linear models.</p>
+<h2 id="basic-principles">
+<a class="header-anchor" href="#basic-principles"></a>
+Basic Principles
+</h2><p>Given a data set $D = \{(x_1,y_1),...,(x_m,y_m) \}$ of inputs $x$ and outputs $y$, where $y_{i}\in \mathbb{R}$. A linear regression model assumes that the data are linearly distributed, so the goal is to learn a linear model that minimizes the error between the predicted values and the true values. Assume that the output and the input in linear regression are related by
+</p>
+        
+        <hr><p>Published on 2023-03-05 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-03-05</p>]]></description><category>machine learning</category></item><item><title>Solving the Generalized Sylvester Equation</title><link>https://www.jingmengzhiyue.tech/en/generalized-sylvester-equation/</link><pubDate>Sun, 29 Jan 2023 17:43:04 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/generalized-sylvester-equation/</guid><description>
+<![CDATA[<h1>Solving the Generalized Sylvester Equation</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="solving-the-generalized-sylvester-equation">
+<a class="header-anchor" href="#solving-the-generalized-sylvester-equation"></a>
+Solving the Generalized Sylvester Equation
+</h1><h2 id="common-sylvester-equations">
+<a class="header-anchor" href="#common-sylvester-equations"></a>
+Common Sylvester Equations
+</h2><p>The Sylvester equation</p>
+$$
+\mathbf{AX}+\mathbf{XD} = \mathbf{E}
+$$<hr>
+<p>The generalized Sylvester equation</p>
+$$
+\mathbf{AXB}+\mathbf{CXD} = \mathbf{E}
+$$<p>where $\mathbf{X}\in \mathbb{R}^{n\times r}$, $\mathbf{A}\in \mathbb{R}^{m\times n}$, $\mathbf{B}\in \mathbb{R}^{r\times p}$, $\mathbf{C}\in \mathbb{R}^{m\times n}$, $\mathbf{D}\in \mathbb{R}^{r\times p}$, $\mathbf{E}\in \mathbb{R}^{m\times p}$.</p>
+<hr>
+<p>The Stein matrix equation</p>
+$$
+\mathbf{AXB}+\mathbf{X} = \mathbf{E}
+$$<hr>
+<p>The Lyapunov matrix equation</p>
+$$
+\mathbf{AX}+\mathbf{XA^T}=\mathbf{E}
+$$<hr>
+<h2 id="solving-the-generalized-sylvester-equation-1">
+<a class="header-anchor" href="#solving-the-generalized-sylvester-equation-1"></a>
+Solving the Generalized Sylvester Equation
+</h2><ol>
+<li>Use a closed-form solution</li>
+<li>Use Newton&rsquo;s method or the conjugate gradient method</li>
+</ol>
+<h2 id="solving-the-generalized-sylvester-equation-with-admm">
+<a class="header-anchor" href="#solving-the-generalized-sylvester-equation-with-admm"></a>
+Solving the Generalized Sylvester Equation with ADMM
+</h2>$$
+\begin{cases}
+\mathbf{AXB}+\mathbf{CXD}=\mathbf{E}
+ \\
+\mathbf{AXB}+\mathbf{CXD}=\mathbf{E}
+\end{cases}
+$$<p>Move terms across to construct an equivalent system:</p>
+        
+        <hr><p>Published on 2023-01-29 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-01-29</p>]]></description><category>Optimization</category></item></channel></rss>

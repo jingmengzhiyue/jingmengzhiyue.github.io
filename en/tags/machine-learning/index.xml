@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Machine Learning on 热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/en/tags/machine-learning/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>en</language><copyright>All articles on this blog are licensed under the BY license agreement unless otherwise stated. Please indicate the source when reprinting!</copyright><lastBuildDate>Tue, 01 Aug 2023 21:22:28 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/en/tags/machine-learning/index.xml" rel="self" type="application/rss+xml"/><item><title>Machine Learning — Learning Theory</title><link>https://www.jingmengzhiyue.tech/en/ml-learning-theory/</link><pubDate>Tue, 01 Aug 2023 21:22:28 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/ml-learning-theory/</guid><description>
+<![CDATA[<h1>Machine Learning — Learning Theory</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="chapter-4">
+<a class="header-anchor" href="#chapter-4"></a>
+Chapter 4
+</h1><h3 id="part-6-learning-theory">
+<a class="header-anchor" href="#part-6-learning-theory"></a>
+Part 6: Learning Theory
+</h3><h4 id="1-the-biasvariance-tradeoff">
+<a class="header-anchor" href="#1-the-biasvariance-tradeoff"></a>
+1 The bias/variance tradeoff
+</h4><p>When we discussed linear regression, we considered the following question: when fitting the data, should we choose a “simple” model such as the linear model “$y = \theta_0 +\theta_1x$”, or a “complex” model such as the polynomial “$y= \theta_0 + \theta_1x+ ...+\theta_5x^5$”? This is illustrated below:</p>
+<p><img src="/img/cs229note4f1.png" alt=""></p>
+<p>As the rightmost plot shows, fitting with a fifth-degree polynomial does not yield a good model. Moreover, although this fifth-degree polynomial gives a very good predicted value of $y$ (the corresponding housing price) for every $x$ in the training set (for example, the living area mentioned earlier in the notes), we still cannot expect this model to give reliable predictions for points outside the training set. In other words, a model obtained by learning from the training set with a high-degree polynomial of this kind simply does not carry over to other houses. The <strong>generalization error</strong> of a hypothesis (a formal definition will be given shortly) is precisely the expected error on examples that are not necessarily in the training set.</p>
+        
+        <hr><p>Published on 2023-08-01 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-08-01</p>]]></description><category>Machine Learning</category></item><item><title>Machine Learning — Support Vector Machines</title><link>https://www.jingmengzhiyue.tech/en/ml-support-vector-machines/</link><pubDate>Tue, 01 Aug 2023 21:18:39 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/ml-support-vector-machines/</guid><description>
+<![CDATA[<h1>Machine Learning — Support Vector Machines</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="chapter-3">
+<a class="header-anchor" href="#chapter-3"></a>
+Chapter 3
+</h1><h3 id="part-5-support-vector-machines">
+<a class="header-anchor" href="#part-5-support-vector-machines"></a>
+Part 5: Support Vector Machines
+</h3><p>The notes in this chapter are mainly about the support vector machine (SVM) learning algorithm. The SVM is one of the best off-the-shelf supervised learning algorithms available. Many people would in fact say that the words “one of” are unnecessary, and that the SVM simply is the best off-the-shelf supervised learning algorithm. Before we trace where the SVM comes from, we need some ideas about margins, and about splitting the data into large gaps. Next we discuss the optimal margin classifier, which also brings in some material on Lagrange duality. We then meet kernels, which give an efficient way to carry out SVM learning in very high dimensions (for example, an infinite-dimensional space). The chapter ends with the SMO algorithm, an efficient implementation of the SVM.</p>
+        
+        <hr><p>Published on 2023-08-01 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-08-01</p>]]></description><category>Machine Learning</category></item><item><title>Machine Learning — Generative Models</title><link>https://www.jingmengzhiyue.tech/en/ml-generative-models/</link><pubDate>Tue, 01 Aug 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/ml-generative-models/</guid><description>
+<![CDATA[<h1>Machine Learning — Generative Models</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="chapter-2">
+<a class="header-anchor" href="#chapter-2"></a>
+Chapter 2
+</h1><h3 id="part-4-generative-learning-algorithms">
+<a class="header-anchor" href="#part-4-generative-learning-algorithms"></a>
+Part 4: Generative Learning Algorithms
+</h3><p>The models in the learning algorithms we have discussed so far have all been $p (y|x;\theta)$, that is, the conditional distribution of $y$ given $x$, with $\theta$ as the parameter. In logistic regression, for example, $h_\theta(x) = g(\theta^T x)$ is used as the model of $p (y|x;\theta)$, where $g$ is a sigmoid function. We now turn to a different kind of learning algorithm.</p>
+        
+        <hr><p>Published on 2023-08-01 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-08-01</p>]]></description><category>Machine Learning</category></item><item><title>Machine Learning — Linear Models</title><link>https://www.jingmengzhiyue.tech/en/ml-linear-models/</link><pubDate>Tue, 01 Aug 2023 20:59:58 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/ml-linear-models/</guid><description>
+<![CDATA[<h1>Machine Learning — Linear Models</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="chapter-1">
+<a class="header-anchor" href="#chapter-1"></a>
+Chapter 1
+</h1><h2 id="supervised-learning">
+<a class="header-anchor" href="#supervised-learning"></a>
+Supervised Learning
+</h2><p>Let us begin with a few examples of solving problems with supervised learning. Suppose we have a data set containing the living area and price of $47$ houses in Portland, Oregon:</p>
+<table>
+	<thead>
+			<tr>
+					<th style="text-align: center">Living area (square feet)</th>
+					<th style="text-align: center">Price (thousands of dollars)</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: center">$2104$</td>
+					<td style="text-align: center">$400$</td>
+			</tr>
+			<tr>
+					<td style="text-align: center">$1600$</td>
+					<td style="text-align: center">$330$</td>
+			</tr>
+			<tr>
+					<td style="text-align: center">$2400$</td>
+					<td style="text-align: center">$369$</td>
+			</tr>
+			<tr>
+					<td style="text-align: center">$1416$</td>
+					<td style="text-align: center">$232$</td>
+			</tr>
+			<tr>
+					<td style="text-align: center">$3000$</td>
+					<td style="text-align: center">$540$</td>
+			</tr>
+			<tr>
+					<td style="text-align: center">$\vdots$</td>
+					<td style="text-align: center">$\vdots$</td>
+			</tr>
+	</tbody>
+</table>
+<p>Plot these data:</p>
+<p><img src="/img/cs229note1f1.png" alt=""></p>
+<p>Given data like these, how can we learn to predict the prices of other houses in Portland, together with their living areas?</p>
+        
+        <hr><p>Published on 2023-08-01 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-08-01</p>]]></description><category>Machine Learning</category></item><item><title>Linear Discriminant Analysis (LDA)</title><link>https://www.jingmengzhiyue.tech/en/lda/</link><pubDate>Tue, 07 Mar 2023 16:22:38 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/lda/</guid><description>
+<![CDATA[<h1>Linear Discriminant Analysis (LDA)</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h2 id="the-principle-of-lda">
+<a class="header-anchor" href="#the-principle-of-lda"></a>
+The Principle of LDA
+</h2><p>Given data $\mathbf{X}\in \mathbb{R}^{N\times p}$ together with $\mathbf{y}\in \{0,1\}$, we form the input–output training pairs $D=\{(\mathbf{x}_1,\mathbf{y}_1),...,(\mathbf{x}_N,\mathbf{y}_N)\}$. The training set $D$ means that the whole training set contains $N$ samples, each of dimension $p$, and that every sample belongs to one of only two classes, corresponding to the output $\mathbf{y}$ taking the value 0 or 1.</p>
+<p>Assume first that the first class, $\mathbf{x}_{c1}$, contains $|\mathbf{x}_{c1}|=N_1$ samples and the second class contains $|\mathbf{x}_{c2}|=N_2$ samples, with $N_1+N_2=N$. The means and variances of the two classes can be written as:</p>
+        
+        <hr><p>Published on 2023-03-07 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-03-07</p>]]></description><category>machine learning</category></item><item><title>Linear Regression</title><link>https://www.jingmengzhiyue.tech/en/linear-regression/</link><pubDate>Sun, 05 Mar 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/linear-regression/</guid><description>
+<![CDATA[<h1>Linear Regression</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="linear-regression">
+<a class="header-anchor" href="#linear-regression"></a>
+Linear Regression
+</h1><h2 id="introduction">
+<a class="header-anchor" href="#introduction"></a>
+Introduction
+</h2><p>Linear regression is a typical method among linear models.</p>
+<h2 id="basic-principles">
+<a class="header-anchor" href="#basic-principles"></a>
+Basic Principles
+</h2><p>Given a data set $D = \{(x_1,y_1),...,(x_m,y_m) \}$ of inputs $x$ and outputs $y$, where $y_{i}\in \mathbb{R}$. A linear regression model assumes that the data are linearly distributed, so the goal is to learn a linear model that minimizes the error between the predicted values and the true values. Assume that the output and the input in linear regression are related by
+</p>
+        
+        <hr><p>Published on 2023-03-05 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-03-05</p>]]></description><category>machine learning</category></item></channel></rss>

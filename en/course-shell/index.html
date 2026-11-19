@@ -1,0 +1,349 @@
+<!doctype html><html lang=en data-theme-mode=auto><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><title>Course Overview + The Shell | Jingmengzhiyue</title><meta name=description content="The shell in computer science"><script>window.siteConfig=JSON.parse('{"anchor":{"auto":{"enable":false,"length":60},"explicit":{"enable":false,"marker":"{#anchor-","prefix":"anchor-"}},"anchor_icon":null,"base":"https://www.jingmengzhiyue.tech/","clipboard":{"copyright":{"count":50,"enable":false,"license_type":"by-nc-sa"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-br":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ","zh-cn":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-tw":"複製失敗 (ﾟ⊿ﾟ)ﾂ"},"success":{"en":"Copy successfully (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-br":"Copiado com sucesso (*^▽^*)","zh-cn":"复制成功 (*^▽^*)","zh-tw":"複製成功 (*^▽^*)"}},"code_block":{"expand":true},"dark_mode":{"button":true,"mode":"auto"},"i18n_languages":[{"label":"简体中文","lang":"zh-cn"},{"label":"English","lang":"en"}],"icon_font":"4552607_ex15nbittbh","outdate":{"daysago":180,"enable":false,"message":{"en":"This article was last updated on {time}. Please note that the content may no longer be applicable.","ja":"この記事は最終更新日：{time}。記載内容が現在有効でない可能性がありますのでご注意ください。","pt-br":"Este artigo foi atualizado pela última vez em {time}. Observe que o conteúdo pode não ser mais aplicável.","zh-cn":"本文最后更新于 {time}，请注意文中内容可能已不适用。","zh-tw":"本文最後更新於 {time}，請注意文中內容可能已不適用。"}}}')</script><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap" media=print onload='this.media="all"'><link rel=preload href=//at.alicdn.com/t/c/font_4552607_ex15nbittbh.woff2 as=font type=font/woff2 crossorigin=anonymous><link rel=stylesheet href=/css/loader.min.ac746e154f756f8220326eeb52a719f142ab038be5a8ddf30ea5ef15ef2356ea.css><meta property="og:type" content="website"><meta property="og:title" content="Course Overview + The Shell | Jingmengzhiyue"><meta property="og:description" content="The shell in computer science"><meta property="og:url" content="https://www.jingmengzhiyue.tech/en/course-shell/"><meta property="og:site_name" content="热爱可抵万难"><meta property="og:image" content="https://www.jingmengzhiyue.tech/img/24.jpg"><meta property="article:author" content="Jingmengzhiyue"><meta property="article:published_time" content="2023-06-05T16:37:29+08:00"><meta property="article:modified_time" content="2023-06-05T16:37:29+08:00"><meta property="article:tag" content="The Missing Semester of Your CS Education"><meta name=twitter:card content="summary"><meta name=twitter:image content="https://www.jingmengzhiyue.tech/img/24.jpg"><link rel="shortcut icon" href=/favicon.ico><link rel=stylesheet href=/css/main.min.c69028af04cc11392739edc48eeb60465879b00de4286e0147bbc470f8f39418.css><link rel=preload as=style href=https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css integrity=sha384-IfxC36XL/toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx/1oA/0l8ysE crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><link rel=preload as=style href=https://npm.webcache.cn/katex@0.16.47/dist/katex.min.css integrity=sha384-nH0MfJ44wi1dd7w6jinlyBgljjS8EJAh2JBoRad8a3VDw2K69vfaaqm4WnR+gXtA crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><script src=https://npm.webcache.cn/pace-js@1.2.4/pace.min.js integrity=sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8 crossorigin=anonymous></script><link rel=stylesheet href=https://npm.webcache.cn/@reimujs/aos@0.1.3/dist/aos.css integrity=sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa crossorigin=anonymous><link rel=stylesheet href=https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.css integrity=sha384-tLMkTWh2pfXNWGFlUS0w1TFtRG5xZ9lPWFOooj+vDDLIL+xBGQU/voDBY5XE2lVh crossorigin=anonymous><link rel=icon href=/img/fluid.png type=image/png><link rel=apple-touch-icon href=/img/fluid.png><link rel=stylesheet href=/css/custom.css></head><body><div id=loader><div class="loading-left-bg loading-bg"></div><div class="loading-right-bg loading-bg"></div><div class=spinner-box><div class="loading-taichi rotate"><svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" shape-rendering="geometricPrecision"><path d="M303.5 432a80 80 0 01-12 160 80 80 0 0112-160z" fill="var(--red-1, #ff5252)"/><path d="M512 65a447 447 0 010 894V929a417 417 0 000-834 417 417 0 000 834v30a447 447 0 010-894zm0 30A417 417 0 01929 512 208.5 208.5.0 01720.5 720.5V592a80 80 0 000-160 80 80 0 000 160V720.5A208.5 208.5.0 01512 512 208.5 208.5.0 00303.5 303.5 208.5 208.5.0 0095 512 417 417 0 01512 95z" fill="var(--red-1, #ff5252)"/></svg></div><div class=loading-word>Loading...</div></div></div></div><script>var time=null,loaderEl=document.getElementById("loader"),startLoading=()=>{time=Date.now(),loaderEl.classList.remove("loading")},hideLoader=()=>{document.body.style.overflow="auto",loader.classList.add("loading")},endLoading=()=>{time?Date.now()-time>500?(time=null,hideLoader()):(setTimeout(endLoading,500-(Date.now()-time)),time=null):hideLoader()};window.addEventListener("DOMContentLoaded",endLoading),loaderEl.addEventListener("click",endLoading)</script><div id=copy-tooltip></div><div id=lang-tooltip>This article does not have a corresponding language version</div><div id=heatmap-tooltip></div><div id=container><div id=wrap><div id=header-nav><nav id=main-nav aria-label="Primary navigation"><a class=main-nav-link-wrap href=/en/><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>Home</span>
+</a><a class=main-nav-link-wrap href=/en/categories><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>Category</span>
+</a><a class=main-nav-link-wrap href=/en/tags><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>Tag</span>
+</a><a id=main-nav-toggle class=nav-icon aria-label="Toggle navigation" role=button></a></nav><nav id=sub-nav aria-label="Secondary navigation"></nav><nav id=i18n-nav aria-label="Language selection"><div class=custom-dropdown><div class=select-selected id=select-selected role=button aria-haspopup=listbox aria-expanded=false aria-label="Language menu"><span id=nav-language-btn class=nav-icon style="padding:0 20px 0 0"></span>
+<span id=selected-lang>English</span></div><ul class=select-items id=select-items role=listbox aria-label=Languages><li data-value=zh-cn role=option aria-selected=false>简体中文</li><li data-value=en role=option class=selected aria-selected=true>English</li></ul></div><script>var selectSelected=document.getElementById("select-selected"),selectedLang=document.getElementById("selected-lang"),selectItems=document.getElementById("select-items"),selectOptions=selectItems.querySelectorAll("li");selectSelected.addEventListener("click",()=>{selectItems.classList.toggle("show");var e=selectSelected.getAttribute("aria-expanded")==="true";selectSelected.setAttribute("aria-expanded",(!e).toString())}),selectOptions.forEach(e=>{e.addEventListener("click",()=>{const t={};if(t["zh-cn"]="/2023/06/05/course-shell/",selectedLang.textContent=e.textContent,selectItems.classList.remove("show"),selectOptions.forEach(e=>{e.classList.remove("selected")}),e.classList.add("selected"),e.dataset.value==="en")return;if(!t[e.dataset.value]){_$("#lang-tooltip").style.opacity="1",setTimeout(()=>{_$("#lang-tooltip").style.opacity="0"},1e3);return}window.location=t[e.dataset.value]})}),document.addEventListener("click",e=>{e.target.closest(".custom-dropdown")||(selectItems.classList.remove("show"),selectSelected.setAttribute("aria-expanded","false"))})</script></nav></div><header id=header aria-label="Site header"><picture></picture><img fetchpriority=high src=/img/24.jpg alt="Course Overview + The Shell"><div id=header-outer><div id=header-title><span id=logo><h1 data-aos=slide-up>Course Overview + The Shell</h1></span><h2 id=subtitle-wrap data-aos=slide-down></h2></div></div></header><div id=content aria-label="Page content" class=sidebar-right><aside id=sidebar aria-label=Sidebar><div class="sidebar-wrapper-container sticky"><div class=sidebar-wrapper><div class=sidebar-wrap data-aos=fade-up><div class=sidebar-toc-sidebar><h3 class=toc-title>Contents</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#what-is-the-shell>What is the shell?</a></li><li><a href=#using-the-shell>Using the shell</a></li><li><a href=#navigating-in-the-shell>Navigating in the shell</a></li><li><a href=#connecting-programs>Connecting programs</a></li><li><a href=#a-versatile-and-powerful-tool>A versatile and powerful tool</a></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/profile_picture.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>Posts</div><div class=sidebar-state-number>54</div></div><a class=sidebar-state-category href=/en/categories/ aria-label=sidebar-state-category-link><div>Categories</div><div class=sidebar-state-number>9</div></a><a class=sidebar-state-tag href=/en/tags/ aria-label=sidebar-state-tag-link><div>Tags</div><div class=sidebar-state-number>26</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/ aria-label=Home></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Home</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/categories aria-label=Category></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Category</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/tags aria-label=Tag></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Tag</div></div></div></div><div class=sidebar-btn-wrapper style=position:static><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></div></div><div class=sidebar-widget></div></div></aside><section id=main aria-label="Main content"><nav aria-label="Article language"><a href=/2023/06/05/course-shell/ hreflang=zh-CN lang=zh-CN>简体中文</a></nav><article class="h-entry article" itemscope itemtype=https://schema.org/BlogPosting><div class=article-inner data-aos=fade-up><div class=article-meta><div class=article-date><span class="article-date-link icon-calendar" data-aos=zoom-in><time datetime="2023-06-05 16:37:29 +0800 +0800" itemprop=datePublished>2023-06-05</time>
+<time style=display:none id=post-update-time>2023-06-05</time></span></div></div><div class=hr-line></div><div class="e-content article-entry" itemprop=articleBody><h1 id=motivation><a class=header-anchor href=#motivation></a>Motivation</h1><p>As computer scientists, we know that computers are great at aiding in
+repetitive tasks. However, far too often, we forget that this applies
+just as much to our <em>use</em> of the computer as it does to the computations
+we want our programs to perform. We have a vast range of tools
+available at our fingertips that enable us to be more productive and
+solve more complex problems when working on any computer-related
+problem. Yet many of us utilize only a small fraction of those tools; we
+only know enough magical incantations by rote to get by, and blindly
+copy-paste commands from the internet when we get stuck.</p><p>This class is an attempt to address this.</p><p>We want to teach you how to make the most of the tools you know, show
+you new tools to add to your toolbox, and hopefully instill in you some
+excitement for exploring (and perhaps building) more tools on your own.
+This is what we believe to be the missing semester from most Computer
+Science curricula.</p><h1 id=class-structure><a class=header-anchor href=#class-structure></a>Class structure</h1><p>The class consists of 11 1-hour lectures, each one centering on a
+<a href=https://missing.csail.mit.edu/2020/>particular topic</a>. The lectures are largely independent,
+though as the semester goes on we will presume that you are familiar
+with the content from the earlier lectures. We have lecture notes
+online, but there will be a lot of content covered in class (e.g. in the
+form of demos) that may not be in the notes. We will be recording
+lectures and posting the recordings online.</p><p>We are trying to cover a lot of ground over the course of just 11 1-hour
+lectures, so the lectures are fairly dense. To allow you some time to
+get familiar with the content at your own pace, each lecture includes a
+set of exercises that guide you through the lecture&rsquo;s key points. After
+each lecture, we are hosting office hours where we will be present to
+help answer any questions you might have. If you are attending the class
+online, you can send us questions at
+<a href=mailto:missing-semester@mit.edu>missing-semester@mit.edu</a>.</p><p>Due to the limited time we have, we won&rsquo;t be able to cover all the tools
+in the same level of detail a full-scale class might. Where possible, we
+will try to point you towards resources for digging further into a tool
+or topic, but if something particularly strikes your fancy, don&rsquo;t
+hesitate to reach out to us and ask for pointers!</p><h1 id=topic-1-the-shell><a class=header-anchor href=#topic-1-the-shell></a>Topic 1: The Shell</h1><h2 id=what-is-the-shell><a class=header-anchor href=#what-is-the-shell></a>What is the shell?</h2><p>Computers these days have a variety of interfaces for giving them
+commands; fanciful graphical user interfaces, voice interfaces, and
+even AR/VR are everywhere. These are great for 80% of use-cases, but
+they are often fundamentally restricted in what they allow you to do —
+you cannot press a button that isn&rsquo;t there or give a voice command that
+hasn&rsquo;t been programmed. To take full advantage of the tools your
+computer provides, we have to go old-school and drop down to a textual
+interface: The Shell.</p><p>Nearly all platforms you can get your hands on have a shell in one form or
+another, and many of them have several shells for you to choose from.
+While they may vary in the details, at their core they are all roughly
+the same: they allow you to run programs, give them input, and inspect
+their output in a semi-structured way.</p><p>In this lecture, we will focus on the Bourne Again SHell, or &ldquo;bash&rdquo; for
+short. This is one of the most widely used shells, and its syntax is
+similar to what you will see in many other shells. To open a shell
+<em>prompt</em> (where you can type commands), you first need a <em>terminal</em>.
+Your device probably shipped with one installed, or you can install one
+fairly easily.</p><h2 id=using-the-shell><a class=header-anchor href=#using-the-shell></a>Using the shell</h2><p>When you launch your terminal, you will see a <em>prompt</em> that often looks
+a little like this:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-console data-lang=console><span class=line><span class=cl><span class=go>missing:~$
+</span></span></span></code></pre></td></tr></table></div></div><p>This is the main textual interface to the shell. It tells you that you
+are on the machine <code>missing</code> and that your &ldquo;current working directory&rdquo;,
+or where you currently are, is <code>~</code> (short for &ldquo;home&rdquo;). The <code>$</code> tells you
+that you are not the root user (more on that later). At this prompt you
+can type a <em>command</em>, which will then be interpreted by the shell. The
+most basic command is to execute a program:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-console data-lang=console><span class=line><span class=cl><span class=go>missing:~$ date
+</span></span></span><span class=line><span class=cl><span class=go>Fri 10 Jan 2020 11:49:31 AM EST
+</span></span></span><span class=line><span class=cl><span class=go>missing:~$
+</span></span></span></code></pre></td></tr></table></div></div><p>Here, we executed the <code>date</code> program, which (perhaps unsurprisingly)
+prints the current date and time. The shell then asks us for another
+command to execute. We can also execute a command with <em>arguments</em>:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-console data-lang=console><span class=line><span class=cl><span class=go>missing:~$ echo hello
+</span></span></span><span class=line><span class=cl><span class=go>hello
+</span></span></span></code></pre></td></tr></table></div></div><p>In this case, we told the shell to execute the program <code>echo</code> with the
+argument <code>hello</code>. The <code>echo</code> program simply prints out its arguments.
+The shell parses the command by splitting it by whitespace, and then
+runs the program indicated by the first word, supplying each subsequent
+word as an argument that the program can access. If you want to provide
+an argument that contains spaces or other special characters (e.g., a
+directory named &ldquo;My Photos&rdquo;), you can either quote the argument with <code>'</code>
+or <code>"</code> (<code>"My Photos"</code>), or escape just the relevant characters with <code>\</code>
+(<code>My\ Photos</code>).</p><p>But how does the shell know how to find the <code>date</code> or <code>echo</code> programs?
+Well, the shell is a programming environment, just like Python or Ruby,
+and so it has variables, conditionals, loops, and functions (next
+lecture!). When you run commands in your shell, you are really writing a
+small bit of code that your shell interprets. If the shell is asked to
+execute a command that doesn&rsquo;t match one of its programming keywords, it
+consults an <em>environment variable</em> called <code>$PATH</code> that lists which
+directories the shell should search for programs when it is given a
+command:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-console data-lang=console><span class=line><span class=cl><span class=go>missing:~$ echo $PATH
+</span></span></span><span class=line><span class=cl><span class=go>/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+</span></span></span><span class=line><span class=cl><span class=go>missing:~$ which echo
+</span></span></span><span class=line><span class=cl><span class=go>/bin/echo
+</span></span></span><span class=line><span class=cl><span class=go>missing:~$ /bin/echo $PATH
+</span></span></span><span class=line><span class=cl><span class=go>/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+</span></span></span></code></pre></td></tr></table></div></div><p>When we run the <code>echo</code> command, the shell sees that it should execute
+the program <code>echo</code>, and then searches through the <code>:</code>-separated list of
+directories in <code>$PATH</code> for a file by that name. When it finds it, it
+runs it (assuming the file is <em>executable</em>; more on that later). We can
+find out which file is executed for a given program name using the
+<code>which</code> program. We can also bypass <code>$PATH</code> entirely by giving the
+<em>path</em> to the file we want to execute.</p><h2 id=navigating-in-the-shell><a class=header-anchor href=#navigating-in-the-shell></a>Navigating in the shell</h2><p>A path on the shell is a delimited list of directories; separated by <code>/</code>
+on Linux and macOS and <code>\</code> on Windows. On Linux and macOS, the path <code>/</code>
+is the &ldquo;root&rdquo; of the file system, under which all directories and files
+lie, whereas on Windows there is one root for each disk partition (e.g.,
+<code>C:\</code>). We will generally assume that you are using a Linux filesystem
+in this class. A path that starts with <code>/</code> is called an <em>absolute</em> path.
+Any other path is a <em>relative</em> path. Relative paths are relative to the
+current working directory, which we can see with the <code>pwd</code> command and
+change with the <code>cd</code> command. In a path, <code>.</code> refers to the current
+directory, and <code>..</code> to its parent directory:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-console data-lang=console><span class=line><span class=cl><span class=go>missing:~$ pwd
+</span></span></span><span class=line><span class=cl><span class=go>/home/missing
+</span></span></span><span class=line><span class=cl><span class=go>missing:~$ cd /home
+</span></span></span><span class=line><span class=cl><span class=go>missing:/home$ pwd
+</span></span></span><span class=line><span class=cl><span class=go>/home
+</span></span></span><span class=line><span class=cl><span class=go>missing:/home$ cd ..
+</span></span></span><span class=line><span class=cl><span class=go>missing:/$ pwd
+</span></span></span><span class=line><span class=cl><span class=go>/
+</span></span></span><span class=line><span class=cl><span class=go>missing:/$ cd ./home
+</span></span></span><span class=line><span class=cl><span class=go>missing:/home$ pwd
+</span></span></span><span class=line><span class=cl><span class=go>/home
+</span></span></span><span class=line><span class=cl><span class=go>missing:/home$ cd missing
+</span></span></span><span class=line><span class=cl><span class=go>missing:~$ pwd
+</span></span></span><span class=line><span class=cl><span class=go>/home/missing
+</span></span></span><span class=line><span class=cl><span class=go>missing:~$ ../../bin/echo hello
+</span></span></span><span class=line><span class=cl><span class=go>hello
+</span></span></span></code></pre></td></tr></table></div></div><p>Notice that our shell prompt kept us informed about what our current
+working directory was. You can configure your prompt to show you all
+sorts of useful information, which we will cover in a later lecture.</p><p>In general, when we run a program, it will operate in the current
+directory unless we tell it otherwise. For example, it will usually
+search for files there, and create new files there if it needs to.</p><p>To see what lives in a given directory, we use the <code>ls</code> command:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-console data-lang=console><span class=line><span class=cl><span class=go>missing:~$ ls
+</span></span></span><span class=line><span class=cl><span class=go>missing:~$ cd ..
+</span></span></span><span class=line><span class=cl><span class=go>missing:/home$ ls
+</span></span></span><span class=line><span class=cl><span class=go>missing
+</span></span></span><span class=line><span class=cl><span class=go>missing:/home$ cd ..
+</span></span></span><span class=line><span class=cl><span class=go>missing:/$ ls
+</span></span></span><span class=line><span class=cl><span class=go>bin
+</span></span></span><span class=line><span class=cl><span class=go>boot
+</span></span></span><span class=line><span class=cl><span class=go>dev
+</span></span></span><span class=line><span class=cl><span class=go>etc
+</span></span></span><span class=line><span class=cl><span class=go>home
+</span></span></span><span class=line><span class=cl><span class=go>...
+</span></span></span></code></pre></td></tr></table></div></div><p>Unless a directory is given as its first argument, <code>ls</code> will print the
+contents of the current directory. Most commands accept flags and
+options (flags with values) that start with <code>-</code> to modify their
+behavior. Usually, running a program with the <code>-h</code> or <code>--help</code> flag
+will print some help text that tells you what flags
+and options are available. For example, <code>ls --help</code> tells us:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>  -l                         use a long listing format
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-console data-lang=console><span class=line><span class=cl><span class=go>missing:~$ ls -l /home
+</span></span></span><span class=line><span class=cl><span class=go>drwxr-xr-x 1 missing  users  4096 Jun 15  2019 missing
+</span></span></span></code></pre></td></tr></table></div></div><p>This gives us a bunch more information about each file or directory
+present. First, the <code>d</code> at the beginning of the line tells us that
+<code>missing</code> is a directory. Then follow three groups of three characters
+(<code>rwx</code>). These indicate what permissions the owner of the file
+(<code>missing</code>), the owning group (<code>users</code>), and everyone else respectively
+have on the relevant item. A <code>-</code> indicates that the given principal does
+not have the given permission. Above, only the owner is allowed to
+modify (<code>w</code>) the <code>missing</code> directory (i.e., add/remove files in it). To
+enter a directory, a user must have &ldquo;search&rdquo; (represented by &ldquo;execute&rdquo;:
+<code>x</code>) permissions on that directory (and its parents). To list its
+contents, a user must have read (<code>r</code>) permissions on that directory. For
+files, the permissions are as you would expect. Notice that nearly all
+the files in <code>/bin</code> have the <code>x</code> permission set for the last group,
+&ldquo;everyone else&rdquo;, so that anyone can execute those programs.</p><p>Some other handy programs to know about at this point are <code>mv</code> (to
+rename/move a file), <code>cp</code> (to copy a file), and <code>mkdir</code> (to make a new
+directory).</p><p>If you ever want <em>more</em> information about a program&rsquo;s arguments, inputs,
+outputs, or how it works in general, give the <code>man</code> program a try. It
+takes as an argument the name of a program, and shows you its <em>manual
+page</em>. Press <code>q</code> to exit.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-console data-lang=console><span class=line><span class=cl><span class=go>missing:~$ man ls
+</span></span></span></code></pre></td></tr></table></div></div><h2 id=connecting-programs><a class=header-anchor href=#connecting-programs></a>Connecting programs</h2><p>In the shell, programs have two primary &ldquo;streams&rdquo; associated with them:
+their input stream and their output stream. When the program tries to
+read input, it reads from the input stream, and when it prints
+something, it prints to its output stream. Normally, a program&rsquo;s input
+and output are both your terminal. That is, your keyboard as input and
+your screen as output. However, we can also rewire those streams!</p><p>The simplest form of redirection is <code>&lt; file</code> and <code>> file</code>. These let you
+rewire the input and output streams of a program to a file respectively:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-console data-lang=console><span class=line><span class=cl><span class=go>missing:~$ echo hello &gt; hello.txt
+</span></span></span><span class=line><span class=cl><span class=go>missing:~$ cat hello.txt
+</span></span></span><span class=line><span class=cl><span class=go>hello
+</span></span></span><span class=line><span class=cl><span class=go>missing:~$ cat &lt; hello.txt
+</span></span></span><span class=line><span class=cl><span class=go>hello
+</span></span></span><span class=line><span class=cl><span class=go>missing:~$ cat &lt; hello.txt &gt; hello2.txt
+</span></span></span><span class=line><span class=cl><span class=go>missing:~$ cat hello2.txt
+</span></span></span><span class=line><span class=cl><span class=go>hello
+</span></span></span></code></pre></td></tr></table></div></div><p>Demonstrated in the example above, <code>cat</code> is a program that con<code>cat</code>enates
+files. When given file names as arguments, it prints the contents of each of
+the files in sequence to its output stream. But when <code>cat</code> is not given any
+arguments, it prints contents from its input stream to its output stream (like
+in the third example above).</p><p>You can also use <code>>></code> to append to a file. Where this kind of
+input/output redirection really shines is in the use of <em>pipes</em>. The <code>|</code>
+operator lets you &ldquo;chain&rdquo; programs such that the output of one is the
+input of another:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-console data-lang=console><span class=line><span class=cl><span class=go>missing:~$ ls -l / | tail -n1
+</span></span></span><span class=line><span class=cl><span class=go>drwxr-xr-x 1 root  root  4096 Jun 20  2019 var
+</span></span></span><span class=line><span class=cl><span class=go>missing:~$ curl --head --silent google.com | grep --ignore-case content-length | cut --delimiter=&#39; &#39; -f2
+</span></span></span><span class=line><span class=cl><span class=go>219
+</span></span></span></code></pre></td></tr></table></div></div><p>We will go into a lot more detail about how to take advantage of pipes
+in the lecture on data wrangling.</p><h2 id=a-versatile-and-powerful-tool><a class=header-anchor href=#a-versatile-and-powerful-tool></a>A versatile and powerful tool</h2><p>On most Unix-like systems, one user is special: the &ldquo;root&rdquo; user. You may
+have seen it in the file listings above. The root user is above (almost)
+all access restrictions, and can create, read, update, and delete any
+file in the system. You will not usually log into your system as the
+root user though, since it&rsquo;s too easy to accidentally break something.
+Instead, you will be using the <code>sudo</code> command. As its name implies, it
+lets you &ldquo;do&rdquo; something &ldquo;as su&rdquo; (short for &ldquo;super user&rdquo;, or &ldquo;root&rdquo;).
+When you get permission denied errors, it is usually because you need to
+do something as root. Though make sure you first double-check that you
+really wanted to do it that way!</p><p>One thing you need to be root in order to do is writing to the <code>sysfs</code> file
+system mounted under <code>/sys</code>. <code>sysfs</code> exposes a number of kernel parameters as
+files, so that you can easily reconfigure the kernel on the fly without
+specialized tools. <strong>Note that sysfs does not exist on Windows or macOS.</strong></p><p>For example, the brightness of your laptop&rsquo;s screen is exposed through a file
+called <code>brightness</code> under</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>/sys/class/backlight
+</span></span></code></pre></td></tr></table></div></div><p>By writing a value into that file, we can change the screen brightness.
+Your first instinct might be to do something like:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-console data-lang=console><span class=line><span class=cl><span class=gp>$</span> sudo find -L /sys/class/backlight -maxdepth <span class=m>2</span> -name <span class=s1>&#39;*brightness*&#39;</span>
+</span></span><span class=line><span class=cl><span class=go>/sys/class/backlight/thinkpad_screen/brightness
+</span></span></span><span class=line><span class=cl><span class=gp>$</span> <span class=nb>cd</span> /sys/class/backlight/thinkpad_screen
+</span></span><span class=line><span class=cl><span class=gp>$</span> sudo <span class=nb>echo</span> <span class=m>3</span> &gt; brightness
+</span></span><span class=line><span class=cl><span class=go>An error occurred while redirecting file &#39;brightness&#39;
+</span></span></span><span class=line><span class=cl><span class=go>open: Permission denied
+</span></span></span></code></pre></td></tr></table></div></div><p>This error may come as a surprise. After all, we ran the command with
+<code>sudo</code>! This is an important thing to know about the shell. Operations
+like <code>|</code>, <code>></code>, and <code>&lt;</code> are done <em>by the shell</em>, not by the individual
+program. <code>echo</code> and friends do not &ldquo;know&rdquo; about <code>|</code>. They just read from
+their input and write to their output, whatever it may be. In the case
+above, the <em>shell</em> (which is authenticated just as your user) tries to
+open the brightness file for writing, before setting that as <code>sudo echo</code>&rsquo;s output, but is prevented from doing so since the shell does not
+run as root. Using this knowledge, we can work around this:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-console data-lang=console><span class=line><span class=cl><span class=gp>$</span> <span class=nb>echo</span> <span class=m>3</span> <span class=p>|</span> sudo tee brightness
+</span></span></code></pre></td></tr></table></div></div><p>Since the <code>tee</code> program is the one to open the <code>/sys</code> file for writing,
+and <em>it</em> is running as <code>root</code>, the permissions all work out. You can
+control all sorts of fun and useful things through <code>/sys</code>, such as the
+state of various system LEDs (your path might be different):</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-console data-lang=console><span class=line><span class=cl><span class=gp>$</span> <span class=nb>echo</span> <span class=m>1</span> <span class=p>|</span> sudo tee /sys/class/leds/input6::scrolllock/brightness
+</span></span></code></pre></td></tr></table></div></div><h1 id=next-steps><a class=header-anchor href=#next-steps></a>Next steps</h1><p>At this point you know your way around a shell enough to accomplish
+basic tasks. You should be able to navigate around to find files of
+interest and use the basic functionality of most programs. In the next
+lecture, we will talk about how to perform and automate more complex
+tasks using the shell and the many handy command-line programs out
+there.</p><h1 id=exercises><a class=header-anchor href=#exercises></a>Exercises</h1><p>All classes in this course are accompanied by a series of exercises. Some give
+you a specific task to do, while others are open-ended, like &ldquo;try using X and Y
+programs&rdquo;. We highly encourage you to try them out.</p><p>We have not written solutions for the exercises. If you are stuck on anything
+in particular, feel free to send us an email describing what you&rsquo;ve tried so
+far, and we will try to help you out.</p><ol><li>For this course, you need to be using a Unix shell like Bash or ZSH. If you
+are on Linux or macOS, you don&rsquo;t have to do anything special. If you are on
+Windows, you need to make sure you are not running cmd.exe or PowerShell;
+you can use <a href=https://docs.microsoft.com/en-us/windows/wsl/>Windows Subsystem for
+Linux</a> or a Linux virtual
+machine to use Unix-style command-line tools. To make sure you&rsquo;re running
+an appropriate shell, you can try the command <code>echo $SHELL</code>. If it says
+something like <code>/bin/bash</code> or <code>/usr/bin/zsh</code>, that means you&rsquo;re running the
+right program.</li><li>Create a new directory called <code>missing</code> under <code>/tmp</code>.</li><li>Look up the <code>touch</code> program. The <code>man</code> program is your friend.</li><li>Use <code>touch</code> to create a new file called <code>semester</code> in <code>missing</code>.</li><li>Write the following into that file, one line at a time:<div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=cp>#!/bin/sh
+</span></span></span><span class=line><span class=cl>curl --head --silent https://missing.csail.mit.edu
+</span></span></code></pre></td></tr></table></div></div>The first line might be tricky to get working. It&rsquo;s helpful to know that
+<code>#</code> starts a comment in Bash, and <code>!</code> has a special meaning even within
+double-quoted (<code>"</code>) strings. Bash treats single-quoted strings (<code>'</code>)
+differently: they will do the trick in this case. See the Bash
+<a href=https://www.gnu.org/software/bash/manual/html_node/Quoting.html>quoting</a>
+manual page for more information.</li><li>Try to execute the file, i.e. type the path to the script (<code>./semester</code>)
+into your shell and press enter. Understand why it doesn&rsquo;t work by
+consulting the output of <code>ls</code> (hint: look at the permission bits of the
+file).</li><li>Run the command by explicitly starting the <code>sh</code> interpreter, and giving it
+the file <code>semester</code> as the first argument, i.e. <code>sh semester</code>. Why does
+this work, while <code>./semester</code> didn&rsquo;t?</li><li>Look up the <code>chmod</code> program (e.g. use <code>man chmod</code>).</li><li>Use <code>chmod</code> to make it possible to run the command <code>./semester</code> rather than
+having to type <code>sh semester</code>. How does your shell know that the file is
+supposed to be interpreted using <code>sh</code>? See this page on the
+<a href=https://en.wikipedia.org/wiki/Shebang_%28Unix%29>shebang</a> line for more
+information.</li><li>Use <code>|</code> and <code>></code> to write the &ldquo;last modified&rdquo; date output by
+<code>semester</code> into a file called <code>last-modified.txt</code> in your home
+directory.</li><li>Write a command that reads out your laptop battery&rsquo;s power level or your
+desktop machine&rsquo;s CPU temperature from <code>/sys</code>. Note: if you&rsquo;re a macOS
+user, your OS doesn&rsquo;t have sysfs, so you can skip this exercise.</li></ol></div><footer class=article-footer><blockquote class=article-copyright><p><strong><span class="icon-user icon"></span>Author: </strong>Jingmengzhiyue</p><p><strong><span class="icon-link icon"></span>Permalink: </strong><a href=https://www.jingmengzhiyue.tech/en/course-shell/>https://www.jingmengzhiyue.tech/en/course-shell/</a></p><p><strong><span class="icon-pencil icon"></span>Title: </strong>Course Overview + The Shell</p><p><strong><span class="icon-calendar icon"></span>Published: </strong>2023-06-05 16:37:29</p><p><strong><span class="icon-copyright icon"></span>License: </strong>All articles on this blog are licensed under the <a href=https://creativecommons.org/licenses/by/4.0/deed.zh rel="noopener nofollow noreferrer" target=_blank><span class=icon-creative-commons></span>BY</a> license agreement unless otherwise stated. Please indicate the source when reprinting!</p><span class="icon-creative-commons article-copyright-bg"></span></blockquote><ul class=article-category-list><li class=article-tag-list-item data-aos=zoom-in><a class=article-category-link href=/en/categories/computer-science/ data-aos=zoom-in>Computer Science</a></li></ul><ul class=article-tag-list itemprop=keywords><li class=article-tag-list-item data-aos=zoom-in><a class=article-tag-list-link href=/en/tags/the-missing-semester-of-your-cs-education/ rel=tag>The Missing Semester of Your CS Education</a></li></ul></footer></div><nav id=article-nav aria-label="Article navigation" data-aos=fade-up><div class="article-nav-link-wrap left"><img data-src=/img/21.jpg data-sizes=auto alt="Data Wrangling" class=lazyload><a href=/en/data-wrangling/ aria-label="Prev:Data Wrangling" title="Prev:Data Wrangling"></a><div class=article-nav-caption>Prev</div><h3 class=article-nav-title>Data Wrangling</h3></div><div class="article-nav-link-wrap right"><img data-src=/img/11.jpg data-sizes=auto alt="Command-line Environment" class=lazyload><a href=/en/command-line/ aria-label="Next:Command-line Environment" title="Next:Command-line Environment"></a><div class=article-nav-caption>Next</div><h3 class=article-nav-title>Command-line Environment</h3></div></nav></article></section></div><footer id=footer aria-label="Site footer"><div style=width:100%;overflow:hidden><div class=footer-line></div></div><div id=footer-info><div><span class=icon-copyright></span>2023-2026<span class="footer-info-sep rotate"></span>Jingmengzhiyue</div><div>Powered by&nbsp;<a href=https://gohugo.io/ target=_blank rel="noopener nofollow noreferrer">Hugo</a>&nbsp;Theme.<a href=https://github.com/D-Sketon/hugo-theme-reimu target=_blank rel="noopener nofollow noreferrer">Reimu</a></div><div><span class=icon-brush>&nbsp;173.8k</span>
+&nbsp;|&nbsp;
+<span class=icon-coffee>&nbsp;14:09</span></div><div><span class=icon-eye></span>
+<span id=busuanzi_container_site_pv>Number of visits&nbsp;<span id=busuanzi_value_site_pv></span></span>
+&nbsp;|&nbsp;
+<span class=icon-user></span>
+<span id=busuanzi_container_site_uv>Number of visitors&nbsp;<span id=busuanzi_value_site_uv></span></span></div></div></footer><div class=sidebar-top><div class="sidebar-top-taichi rotate"></div><div class=arrow-up></div></div><div id=mask class=hide></div></div><nav id=mobile-nav aria-label="Mobile navigation"><div class=sidebar-wrap><div class=sidebar-toc-sidebar><h3 class=toc-title>Contents</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#what-is-the-shell>What is the shell?</a></li><li><a href=#using-the-shell>Using the shell</a></li><li><a href=#navigating-in-the-shell>Navigating in the shell</a></li><li><a href=#connecting-programs>Connecting programs</a></li><li><a href=#a-versatile-and-powerful-tool>A versatile and powerful tool</a></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/profile_picture.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>Posts</div><div class=sidebar-state-number>54</div></div><a class=sidebar-state-category href=/en/categories/ aria-label=sidebar-state-category-link><div>Categories</div><div class=sidebar-state-number>9</div></a><a class=sidebar-state-tag href=/en/tags/ aria-label=sidebar-state-tag-link><div>Tags</div><div class=sidebar-state-number>26</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/ aria-label=Home></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Home</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/categories aria-label=Category></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Category</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/tags aria-label=Tag></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Tag</div></div></div></div></div><div class=sidebar-btn-wrapper><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></nav></div><div id=aplayer theme=var(--color-link)></div><script src=https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js integrity=sha384-3gT/vsepWkfz/ff7PpWNUeMzeWoH3cDhm/A8jM7ouoAK0/fP/9bcHHR5kHq2nf+e crossorigin=anonymous></script><script src=https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js integrity=sha384-J08i8An/QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q crossorigin=anonymous></script><script src=/js/main.js integrity crossorigin=anonymous></script><script src=/js/aos.js integrity crossorigin=anonymous></script><script>var aosInit=()=>{AOS.init({duration:1e3,easing:"ease",once:!0,offset:50})};document.readyState==="loading"?document.addEventListener("DOMContentLoaded",aosInit):aosInit()</script><script src=/js/pjax_main.js integrity crossorigin=anonymous data-pjax></script><div id=lazy-script><div><script data-pjax>window.REIMU_POST={author:"Jingmengzhiyue",title:"Course Overview + The Shell",url:"https://www.jingmengzhiyue.tech/en/course-shell/",description:"The shell in computer science",cover:"https://www.jingmengzhiyue.tech/img/24.jpg"}</script><script src=/js/insert_highlight.js integrity crossorigin=anonymous data-pjax></script><script src=/js/tabs.js integrity crossorigin=anonymous data-pjax defer></script><script type=module data-pjax>const PhotoSwipeLightbox = (await safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js", "sha384-DiL6M\/gG\u002bwmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF\/N6lrZi\/")).default;const initPswp = (gallery, children) => {
+          if (_$$(`${gallery} ${children}`).length > 0) {
+            new PhotoSwipeLightbox({
+              gallery,
+              children,pswpModule: () => safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8\u002boTJ7m3DfYEWX1fu1scuS4\u002bs")}).init();
+          }
+        }
+        const pswp = () => {
+          initPswp('.article-entry', 'a.article-gallery-item');
+          initPswp('.article-gallery', 'a.article-gallery-item');
+        }
+        pswp()
+      </script><script data-pjax>window.MathJax=JSON.parse('[{"loader":{"load":["input/asciimath","[tex]/noerrors"]},"options":{"ignoreHtmlClass":"tex2jax_ignore","processHtmlClass":"tex2jax_process","skipHtmlTags":["script","noscript","style","textarea","pre","code"]},"tex":{"autoload":{"color":[],"colorv2":["color"]},"displayMath":[["$$","$$"],["\\\\[","\\\\]"]],"inlineMath":[["$","$"],["\\\\(","\\\\)"]],"packages":{"[+]":["noerrors"]},"processEnvironments":true,"processEscapes":true,"tags":"ams","useLabelIds":true}}]')[0]</script><script src=https://npm.webcache.cn/mathjax@3.2.2/es5/tex-mml-chtml.js defer data-pjax integrity=sha384-Wuix6BuhrWbjDBs24bXrjf4ZQ5aFeFWBuKkFekO2t8xFU0iNaLQfp2K6/1Nxveei crossorigin=anonymous></script></div></div><script src=https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js async integrity=sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S crossorigin=anonymous></script><script>"serviceWorker"in navigator&&navigator.serviceWorker.getRegistrations().then(e=>{for(let t of e)t.unregister()})</script><script>const reimuCopyright=String.raw`
+   ______     ______     __     __    __     __  __    
+  /\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+  \ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+   \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+    \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                    
+  `;console.log(String.raw`%c ${reimuCopyright}`,"color: #ff5252;"),console.log("%c Theme.Reimu %c https://github.com/D-Sketon/hugo-theme-reimu ","color: white; background: #ff5252; padding:5px 0;","padding:4px;border:1px solid #ff5252;")</script><script>var setupAPlayer=()=>{if(!!1||!window.matchMedia("(max-width: 768px)").matches){const e=window.matchMedia("(max-width: 959px)").matches;if(e){const e=_$("#aplayer");if(e){const t=e.parentNode?.parentNode;t?.tagName==="ASIDE"&&(e.removeAttribute("data-aos"),t.parentNode.removeChild(e),document.body.appendChild(e))}}new APlayer({theme:"var(--color-link)",container:document.getElementById("aplayer"),audio:JSON.parse('[{"artist":"千葉紗子","cover":"/img/24.jpg","name":"花手紙","url":"/music/千葉紗子+-+花手紙.mp3"}]')||[],fixed:!!e||!0,autoplay:!1,loop:"one"||"all",order:"list"||"list",preload:"none"||"auto",volume:.7||.7,mutex:!0,listFolded:!0,lrcType:0||0})}}</script><script src=https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.js defer onload=setupAPlayer() integrity=sha384-gdGYZwHnfJM54evoZhpO0s6ZF5BQiybkiyW7VXr+h5UfruuRL/aORyw+5+HZoU6e crossorigin=anonymous></script></body></html>

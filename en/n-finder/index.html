@@ -1,0 +1,491 @@
+<!doctype html><html lang=en data-theme-mode=auto><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><title>Endmember Extraction Based on the N-FINDR Algorithm | Jingmengzhiyue</title><meta name=description content="The N-FINDR algorithm extracts endmember signatures from a hyperspectral data cube. Its core idea is to search the data set for the simplex of maximum volume, whose vertices are the desired endmembers. The mathematical principle and the concrete steps are as follows."><script>window.siteConfig=JSON.parse('{"anchor":{"auto":{"enable":false,"length":60},"explicit":{"enable":false,"marker":"{#anchor-","prefix":"anchor-"}},"anchor_icon":null,"base":"https://www.jingmengzhiyue.tech/","clipboard":{"copyright":{"count":50,"enable":false,"license_type":"by-nc-sa"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-br":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ","zh-cn":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-tw":"複製失敗 (ﾟ⊿ﾟ)ﾂ"},"success":{"en":"Copy successfully (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-br":"Copiado com sucesso (*^▽^*)","zh-cn":"复制成功 (*^▽^*)","zh-tw":"複製成功 (*^▽^*)"}},"code_block":{"expand":true},"dark_mode":{"button":true,"mode":"auto"},"i18n_languages":[{"label":"简体中文","lang":"zh-cn"},{"label":"English","lang":"en"}],"icon_font":"4552607_ex15nbittbh","outdate":{"daysago":180,"enable":false,"message":{"en":"This article was last updated on {time}. Please note that the content may no longer be applicable.","ja":"この記事は最終更新日：{time}。記載内容が現在有効でない可能性がありますのでご注意ください。","pt-br":"Este artigo foi atualizado pela última vez em {time}. Observe que o conteúdo pode não ser mais aplicável.","zh-cn":"本文最后更新于 {time}，请注意文中内容可能已不适用。","zh-tw":"本文最後更新於 {time}，請注意文中內容可能已不適用。"}}}')</script><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap" media=print onload='this.media="all"'><link rel=preload href=//at.alicdn.com/t/c/font_4552607_ex15nbittbh.woff2 as=font type=font/woff2 crossorigin=anonymous><link rel=stylesheet href=/css/loader.min.ac746e154f756f8220326eeb52a719f142ab038be5a8ddf30ea5ef15ef2356ea.css><meta property="og:type" content="website"><meta property="og:title" content="Endmember Extraction Based on the N-FINDR Algorithm | Jingmengzhiyue"><meta property="og:description" content="The N-FINDR algorithm extracts endmember signatures from a hyperspectral data cube. Its core idea is to search the data set for the simplex of maximum volume, whose vertices are the desired endmembers. The mathematical principle and the concrete steps are as follows."><meta property="og:url" content="https://www.jingmengzhiyue.tech/en/n-finder/"><meta property="og:site_name" content="热爱可抵万难"><meta property="og:image" content="https://www.jingmengzhiyue.tech/img/24.jpg"><meta property="article:author" content="Jingmengzhiyue"><meta property="article:published_time" content="2024-03-25T21:35:21+08:00"><meta property="article:modified_time" content="2024-03-25T21:40:12+08:00"><meta property="article:tag" content="Hyperspectral unmixing, Remote Sensing"><meta name=twitter:card content="summary"><meta name=twitter:image content="https://www.jingmengzhiyue.tech/img/24.jpg"><link rel="shortcut icon" href=/favicon.ico><link rel=stylesheet href=/css/main.min.c69028af04cc11392739edc48eeb60465879b00de4286e0147bbc470f8f39418.css><link rel=preload as=style href=https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css integrity=sha384-IfxC36XL/toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx/1oA/0l8ysE crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><link rel=preload as=style href=https://npm.webcache.cn/katex@0.16.47/dist/katex.min.css integrity=sha384-nH0MfJ44wi1dd7w6jinlyBgljjS8EJAh2JBoRad8a3VDw2K69vfaaqm4WnR+gXtA crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><script src=https://npm.webcache.cn/pace-js@1.2.4/pace.min.js integrity=sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8 crossorigin=anonymous></script><link rel=stylesheet href=https://npm.webcache.cn/@reimujs/aos@0.1.3/dist/aos.css integrity=sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa crossorigin=anonymous><link rel=stylesheet href=https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.css integrity=sha384-tLMkTWh2pfXNWGFlUS0w1TFtRG5xZ9lPWFOooj+vDDLIL+xBGQU/voDBY5XE2lVh crossorigin=anonymous><link rel=icon href=/img/fluid.png type=image/png><link rel=apple-touch-icon href=/img/fluid.png><link rel=stylesheet href=/css/custom.css></head><body><div id=loader><div class="loading-left-bg loading-bg"></div><div class="loading-right-bg loading-bg"></div><div class=spinner-box><div class="loading-taichi rotate"><svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" shape-rendering="geometricPrecision"><path d="M303.5 432a80 80 0 01-12 160 80 80 0 0112-160z" fill="var(--red-1, #ff5252)"/><path d="M512 65a447 447 0 010 894V929a417 417 0 000-834 417 417 0 000 834v30a447 447 0 010-894zm0 30A417 417 0 01929 512 208.5 208.5.0 01720.5 720.5V592a80 80 0 000-160 80 80 0 000 160V720.5A208.5 208.5.0 01512 512 208.5 208.5.0 00303.5 303.5 208.5 208.5.0 0095 512 417 417 0 01512 95z" fill="var(--red-1, #ff5252)"/></svg></div><div class=loading-word>Loading...</div></div></div></div><script>var time=null,loaderEl=document.getElementById("loader"),startLoading=()=>{time=Date.now(),loaderEl.classList.remove("loading")},hideLoader=()=>{document.body.style.overflow="auto",loader.classList.add("loading")},endLoading=()=>{time?Date.now()-time>500?(time=null,hideLoader()):(setTimeout(endLoading,500-(Date.now()-time)),time=null):hideLoader()};window.addEventListener("DOMContentLoaded",endLoading),loaderEl.addEventListener("click",endLoading)</script><div id=copy-tooltip></div><div id=lang-tooltip>This article does not have a corresponding language version</div><div id=heatmap-tooltip></div><div id=container><div id=wrap><div id=header-nav><nav id=main-nav aria-label="Primary navigation"><a class=main-nav-link-wrap href=/en/><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>Home</span>
+</a><a class=main-nav-link-wrap href=/en/categories><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>Category</span>
+</a><a class=main-nav-link-wrap href=/en/tags><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>Tag</span>
+</a><a id=main-nav-toggle class=nav-icon aria-label="Toggle navigation" role=button></a></nav><nav id=sub-nav aria-label="Secondary navigation"></nav><nav id=i18n-nav aria-label="Language selection"><div class=custom-dropdown><div class=select-selected id=select-selected role=button aria-haspopup=listbox aria-expanded=false aria-label="Language menu"><span id=nav-language-btn class=nav-icon style="padding:0 20px 0 0"></span>
+<span id=selected-lang>English</span></div><ul class=select-items id=select-items role=listbox aria-label=Languages><li data-value=zh-cn role=option aria-selected=false>简体中文</li><li data-value=en role=option class=selected aria-selected=true>English</li></ul></div><script>var selectSelected=document.getElementById("select-selected"),selectedLang=document.getElementById("selected-lang"),selectItems=document.getElementById("select-items"),selectOptions=selectItems.querySelectorAll("li");selectSelected.addEventListener("click",()=>{selectItems.classList.toggle("show");var e=selectSelected.getAttribute("aria-expanded")==="true";selectSelected.setAttribute("aria-expanded",(!e).toString())}),selectOptions.forEach(e=>{e.addEventListener("click",()=>{const t={};if(t["zh-cn"]="/2024/03/25/FINDER/",selectedLang.textContent=e.textContent,selectItems.classList.remove("show"),selectOptions.forEach(e=>{e.classList.remove("selected")}),e.classList.add("selected"),e.dataset.value==="en")return;if(!t[e.dataset.value]){_$("#lang-tooltip").style.opacity="1",setTimeout(()=>{_$("#lang-tooltip").style.opacity="0"},1e3);return}window.location=t[e.dataset.value]})}),document.addEventListener("click",e=>{e.target.closest(".custom-dropdown")||(selectItems.classList.remove("show"),selectSelected.setAttribute("aria-expanded","false"))})</script></nav></div><header id=header aria-label="Site header"><picture></picture><img fetchpriority=high src=/img/24.jpg alt="Endmember Extraction Based on the N-FINDR Algorithm"><div id=header-outer><div id=header-title><span id=logo><h1 data-aos=slide-up>Endmember Extraction Based on the N-FINDR Algorithm</h1></span><h2 id=subtitle-wrap data-aos=slide-down></h2></div></div></header><div id=content aria-label="Page content" class=sidebar-right><aside id=sidebar aria-label=Sidebar><div class="sidebar-wrapper-container sticky"><div class=sidebar-wrapper><div class=sidebar-wrap data-aos=fade-up><div class=sidebar-toc-sidebar><h3 class=toc-title>Contents</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#mathematical-principle>Mathematical Principle</a></li><li><a href=#algorithm-steps>Algorithm Steps</a></li><li><a href=#implementation>Implementation</a></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/profile_picture.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>Posts</div><div class=sidebar-state-number>54</div></div><a class=sidebar-state-category href=/en/categories/ aria-label=sidebar-state-category-link><div>Categories</div><div class=sidebar-state-number>9</div></a><a class=sidebar-state-tag href=/en/tags/ aria-label=sidebar-state-tag-link><div>Tags</div><div class=sidebar-state-number>26</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/ aria-label=Home></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Home</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/categories aria-label=Category></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Category</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/tags aria-label=Tag></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Tag</div></div></div></div><div class=sidebar-btn-wrapper style=position:static><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></div></div><div class=sidebar-widget></div></div></aside><section id=main aria-label="Main content"><nav aria-label="Article language"><a href=/2024/03/25/FINDER/ hreflang=zh-CN lang=zh-CN>简体中文</a></nav><article class="h-entry article" itemscope itemtype=https://schema.org/BlogPosting><div class=article-inner data-aos=fade-up><div class=article-meta><div class=article-date><span class="article-date-link icon-calendar" data-aos=zoom-in><time datetime="2024-03-25 21:35:21 +0800 +0800" itemprop=datePublished>2024-03-25</time>
+<time style=display:none id=post-update-time>2024-03-25</time></span></div></div><div class=hr-line></div><div class="e-content article-entry" itemprop=articleBody><p>The N-FINDR algorithm extracts endmember signatures from a hyperspectral data cube. Its core idea is to search the data set for the simplex of maximum volume, whose vertices are the desired endmembers. The mathematical principle and the concrete steps are as follows.</p><h2 id=mathematical-principle><a class=header-anchor href=#mathematical-principle></a>Mathematical Principle</h2><p>Consider an \(M \times N \times C\)-dimensional hyperspectral data cube \(\mathbf{X}\). From it we need to find \(p\) endmember signatures \(\mathbf{e}_1, \mathbf{e}_2, \ldots, \mathbf{e}_p\). The matrix formed by these signature vectors is written \(\mathbf{E} = [\mathbf{e}_1, \mathbf{e}_2, \ldots, \mathbf{e}_p]^T \in \mathbb{R}^{C \times p}\).</p><p>Under the linear mixing model, each pixel \(\mathbf{x}_i\) in the data cube \(\mathbf{X}\) can be expressed as a linear combination of the endmember signatures:</p>\[
+\mathbf{x}_i = \sum_{j=1}^p a_{ij}
+\mathbf{e}_j + \mathbf{n}_i
+\]<p>where \(a_{ij}\) is the corresponding abundance fraction, subject to the constraints \(\sum_{j=1}^p a_{ij} = 1\) and \(a_{ij} \geq 0\), and \(\mathbf{n}_i\) is an additive noise term.</p><p>The goal of N-FINDR is to find a set of endmember signatures \(\mathbf{E}\) such that the \(p\)-dimensional simplex formed by these signature vectors has maximum volume. The volume of that simplex can be expressed as the absolute value of the determinant of the endmember matrix \(\mathbf{E}\):</p>\[
+\mathrm{vol}(\mathbf{E}) =
+|\det(\mathbf{E})|
+\]<p>The algorithm iteratively updates the endmember matrix \(\mathbf{E}\) until it finds the solution that maximizes the determinant above.</p><h2 id=algorithm-steps><a class=header-anchor href=#algorithm-steps></a>Algorithm Steps</h2><ol><li><p><strong>Initialization</strong>: Randomly select \(p\) pixels from the data cube as the initial endmember signature vectors, form the initial endmember matrix \(\mathbf{E}^{(0)}\), and compute the absolute value of its determinant, \(\mathrm{vol}(\mathbf{E}^{(0)})\).</p></li><li><p><strong>Iteration</strong>:</p><ul><li><p>For each endmember signature vector \(\mathbf{e}_i^{(t)}\), replace it with another pixel \(\mathbf{x}_j\) from the data cube to form a new endmember matrix \(\mathbf{E}_{ij}^{(t+1)}\).</p></li><li><p>Compute \(\mathrm{vol}(\mathbf{E}_{ij}^{(t+1)})\). If it is greater than \(\mathrm{vol}(\mathbf{E}^{(t)})\), update \(\mathbf{E}^{(t+1)} = \mathbf{E}_{ij}^{(t+1)}\).</p></li><li><p>Repeat the steps above until the volume can no longer be increased.</p></li></ul></li><li><p><strong>Output</strong>: The final endmember matrix \(\mathbf{E}\) is the solution.</p></li></ol><h2 id=implementation><a class=header-anchor href=#implementation></a>Implementation</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span><span class=lnt>111
+</span><span class=lnt>112
+</span><span class=lnt>113
+</span><span class=lnt>114
+</span><span class=lnt>115
+</span><span class=lnt>116
+</span><span class=lnt>117
+</span><span class=lnt>118
+</span><span class=lnt>119
+</span><span class=lnt>120
+</span><span class=lnt>121
+</span><span class=lnt>122
+</span><span class=lnt>123
+</span><span class=lnt>124
+</span><span class=lnt>125
+</span><span class=lnt>126
+</span><span class=lnt>127
+</span><span class=lnt>128
+</span><span class=lnt>129
+</span><span class=lnt>130
+</span><span class=lnt>131
+</span><span class=lnt>132
+</span><span class=lnt>133
+</span><span class=lnt>134
+</span><span class=lnt>135
+</span><span class=lnt>136
+</span><span class=lnt>137
+</span><span class=lnt>138
+</span><span class=lnt>139
+</span><span class=lnt>140
+</span><span class=lnt>141
+</span><span class=lnt>142
+</span><span class=lnt>143
+</span><span class=lnt>144
+</span><span class=lnt>145
+</span><span class=lnt>146
+</span><span class=lnt>147
+</span><span class=lnt>148
+</span><span class=lnt>149
+</span><span class=lnt>150
+</span><span class=lnt>151
+</span><span class=lnt>152
+</span><span class=lnt>153
+</span><span class=lnt>154
+</span><span class=lnt>155
+</span><span class=lnt>156
+</span><span class=lnt>157
+</span><span class=lnt>158
+</span><span class=lnt>159
+</span><span class=lnt>160
+</span><span class=lnt>161
+</span><span class=lnt>162
+</span><span class=lnt>163
+</span><span class=lnt>164
+</span><span class=lnt>165
+</span><span class=lnt>166
+</span><span class=lnt>167
+</span><span class=lnt>168
+</span><span class=lnt>169
+</span><span class=lnt>170
+</span><span class=lnt>171
+</span><span class=lnt>172
+</span><span class=lnt>173
+</span><span class=lnt>174
+</span><span class=lnt>175
+</span><span class=lnt>176
+</span><span class=lnt>177
+</span><span class=lnt>178
+</span><span class=lnt>179
+</span><span class=lnt>180
+</span><span class=lnt>181
+</span><span class=lnt>182
+</span><span class=lnt>183
+</span><span class=lnt>184
+</span><span class=lnt>185
+</span><span class=lnt>186
+</span><span class=lnt>187
+</span><span class=lnt>188
+</span><span class=lnt>189
+</span><span class=lnt>190
+</span><span class=lnt>191
+</span><span class=lnt>192
+</span><span class=lnt>193
+</span><span class=lnt>194
+</span><span class=lnt>195
+</span><span class=lnt>196
+</span><span class=lnt>197
+</span><span class=lnt>198
+</span><span class=lnt>199
+</span><span class=lnt>200
+</span><span class=lnt>201
+</span><span class=lnt>202
+</span><span class=lnt>203
+</span><span class=lnt>204
+</span><span class=lnt>205
+</span><span class=lnt>206
+</span><span class=lnt>207
+</span><span class=lnt>208
+</span><span class=lnt>209
+</span><span class=lnt>210
+</span><span class=lnt>211
+</span><span class=lnt>212
+</span><span class=lnt>213
+</span><span class=lnt>214
+</span><span class=lnt>215
+</span><span class=lnt>216
+</span><span class=lnt>217
+</span><span class=lnt>218
+</span><span class=lnt>219
+</span><span class=lnt>220
+</span><span class=lnt>221
+</span><span class=lnt>222
+</span><span class=lnt>223
+</span><span class=lnt>224
+</span><span class=lnt>225
+</span><span class=lnt>226
+</span><span class=lnt>227
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-matlab data-lang=matlab><span class=line><span class=cl><span class=k>function</span><span class=w> </span>endmemSig <span class=p>=</span><span class=w> </span><span class=nf>nfindr</span><span class=p>(</span>cube, num, option<span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=c>% NFINDR extracts endmember signatures by finding a simplex on the data cube</span>
+</span></span><span class=line><span class=cl><span class=c>%   ENDMEMSIG = NFINDR(CUBE, NUM) estimates endmember signatures by finding the volume of a simplex on the dimensionality-reduced data</span>
+</span></span><span class=line><span class=cl><span class=c>%   NUM is the number of endmember signatures present in CUBE</span>
+</span></span><span class=line><span class=cl><span class=c>%   CUBE is an M-by-N-by-C numeric array containing hyperspectral data, or a hyperspectral cube object</span>
+</span></span><span class=line><span class=cl><span class=c>%   M and N are the number of rows and columns of the hyperspectral cube, respectively</span>
+</span></span><span class=line><span class=cl><span class=c>%   C is the number of bands in the hyperspectral cube</span>
+</span></span><span class=line><span class=cl><span class=c>%   NUM is a positive integer greater than 1</span>
+</span></span><span class=line><span class=cl><span class=c>%   The output ENDMEMSIG is a C-by-NUM numeric matrix that provides the endmember signatures</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c>%   ENDMEMSIG = NFINDR(___, Name, Value) estimates endmember signatures by finding the maximum-volume simplex on the dimensionality-reduced data, using the selected name-value pairs</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c>%   &#39;NumIterations&#39;  Number of times the algorithm is run. If it has not converged, the default value is 3*NUM</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c>%   &#39;ReductionMethod&#39; - Method used to perform dimensionality reduction. The choices are:</span>
+</span></span><span class=line><span class=cl><span class=c>%</span>
+</span></span><span class=line><span class=cl><span class=c>%       &#39;PCA&#39;  Based on the directions of greatest data variation, principal component analysis (PCA) transforms a large amount of data into a smaller set</span>
+</span></span><span class=line><span class=cl><span class=c>%              while retaining most of the information</span>
+</span></span><span class=line><span class=cl><span class=c>%</span>
+</span></span><span class=line><span class=cl><span class=c>%       &#39;MNF&#39;  Based on the noise fraction, the maximum noise fraction (MNF) transform converts a large amount of data into a smaller set</span>
+</span></span><span class=line><span class=cl><span class=c>%              while retaining most of the information. MNF orders the components according to image quality</span>
+</span></span><span class=line><span class=cl><span class=c>%              The default method is MNF</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c>%   Notes</span>
+</span></span><span class=line><span class=cl><span class=c>%   -----</span>
+</span></span><span class=line><span class=cl><span class=c>%   1) The NFINDR algorithm uses the default random seed to generate random unit vectors</span>
+</span></span><span class=line><span class=cl><span class=c>%</span>
+</span></span><span class=line><span class=cl><span class=c>%   2) For larger data sets, the NFINDR algorithm is computationally expensive</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c>%   Class Support</span>
+</span></span><span class=line><span class=cl><span class=c>%   -------------</span>
+</span></span><span class=line><span class=cl><span class=c>%   The input array CUBE must belong to one of the following classes: uint8, uint16, uint32, int8, int16, int32, single, double, uint64, int64, or a hypercube object</span>
+</span></span><span class=line><span class=cl><span class=c>%   It must be real and nonsparse</span>
+</span></span><span class=line><span class=cl><span class=c>%   NUM and NUMITER are positive integer scalars</span>
+</span></span><span class=line><span class=cl><span class=c>%   The output ENDMEMSIG is a C-by-NUM numeric matrix of the same class as the input cube</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c>%   References</span>
+</span></span><span class=line><span class=cl><span class=c>%   ---------</span>
+</span></span><span class=line><span class=cl><span class=c>%   M.E. Winter, &#34;N-FINDR: an algorithm for fast autonomous spectral</span>
+</span></span><span class=line><span class=cl><span class=c>%   end-member determination in hyperspectral data&#34;, Proc. SPIE 3753,</span>
+</span></span><span class=line><span class=cl><span class=c>%   Imaging Spectrometry V, 1999.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c>%   Example 1: Find endmember signatures</span>
+</span></span><span class=line><span class=cl><span class=c>%   -----------</span>
+</span></span><span class=line><span class=cl><span class=c>%   % Load the Indian Pines data set</span>
+</span></span><span class=line><span class=cl><span class=c>%   cube = load(&#39;indian_pines.mat&#39;);</span>
+</span></span><span class=line><span class=cl><span class=c>%</span>
+</span></span><span class=line><span class=cl><span class=c>%   % Estimate the number of endmembers</span>
+</span></span><span class=line><span class=cl><span class=c>%   num = countEndmembersHFC(cube.indian_pines);</span>
+</span></span><span class=line><span class=cl><span class=c>% </span>
+</span></span><span class=line><span class=cl><span class=c>%   % Estimate and visualize the endmember signatures</span>
+</span></span><span class=line><span class=cl><span class=c>%   endmemSig = nfindr(cube.indian_pines, num);</span>
+</span></span><span class=line><span class=cl><span class=c>%   plot(endmemSig);</span>
+</span></span><span class=line><span class=cl><span class=c>%   xlabel(&#39;Band index&#39;)</span>
+</span></span><span class=line><span class=cl><span class=c>%   ylabel(&#39;Signatures&#39;)</span>
+</span></span><span class=line><span class=cl><span class=c>%   title(&#39;Endmembers&#39;)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c>%   Example 2: Find endmember signatures using the &#39;PCA&#39; dimensionality-reduction method</span>
+</span></span><span class=line><span class=cl><span class=c>%   -----------</span>
+</span></span><span class=line><span class=cl><span class=c>%   % Read the hyperspectral cube</span>
+</span></span><span class=line><span class=cl><span class=c>%   obj = hypercube(&#39;indian_pines.hdr&#39;);</span>
+</span></span><span class=line><span class=cl><span class=c>%</span>
+</span></span><span class=line><span class=cl><span class=c>%   % Estimate the number of endmembers</span>
+</span></span><span class=line><span class=cl><span class=c>%   num = countEndmembersHFC(obj);</span>
+</span></span><span class=line><span class=cl><span class=c>%</span>
+</span></span><span class=line><span class=cl><span class=c>%   % Estimate endmember signatures with the NFINDR method</span>
+</span></span><span class=line><span class=cl><span class=c>%   endmemSig = nfindr(obj, num, &#39;ReductionMethod&#39;, &#39;pca&#39;);</span>
+</span></span><span class=line><span class=cl><span class=c>%   plot(endmemSig);</span>
+</span></span><span class=line><span class=cl><span class=c>%   xlabel(&#39;Band index&#39;)</span>
+</span></span><span class=line><span class=cl><span class=c>%   ylabel(&#39;Signatures&#39;)</span>
+</span></span><span class=line><span class=cl><span class=c>%   title(&#39;Endmembers&#39;)</span>
+</span></span><span class=line><span class=cl><span class=c>%</span>
+</span></span><span class=line><span class=cl><span class=c>%   See also ppi, fippi, hypercube, countEndmembersHFC.</span>
+</span></span><span class=line><span class=cl><span class=c>%</span>
+</span></span><span class=line><span class=cl><span class=c>%   Copyright 2020-2021 The MathWorks, Inc.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>arguments</span>
+</span></span><span class=line><span class=cl>    <span class=n>cube</span> <span class=p>{</span><span class=n>mustBeA</span><span class=p>(</span><span class=n>cube</span><span class=p>,</span><span class=s>&#39;hypercube&#39;</span><span class=p>)}</span> <span class=c>% Require cube to be a hypercube object</span>
+</span></span><span class=line><span class=cl>     <span class=n>num</span> <span class=p>(</span><span class=mi>1</span><span class=p>,</span><span class=mi>1</span><span class=p>)</span> <span class=p>{</span><span class=n>mustBeNumeric</span><span class=p>,</span> <span class=n>mustBeNonNan</span><span class=p>,</span> <span class=n>mustBeFinite</span><span class=p>,</span> <span class=n>mustBeNonsparse</span><span class=p>,</span> <span class=c>...</span>
+</span></span><span class=line><span class=cl>        <span class=n>mustBeNonempty</span><span class=p>,</span> <span class=n>mustBeReal</span><span class=p>,</span> <span class=n>mustBeInteger</span><span class=p>,</span> <span class=n>mustBePositive</span><span class=p>,</span> <span class=c>...</span>
+</span></span><span class=line><span class=cl>        <span class=n>mustBeLessSize</span><span class=p>(</span><span class=n>num</span><span class=p>,</span> <span class=n>cube</span><span class=p>)}</span> <span class=c>% Require num to be a positive integer smaller than the number of bands</span>
+</span></span><span class=line><span class=cl>    <span class=n>option</span><span class=p>.</span><span class=n>NumIterations</span> <span class=p>(</span><span class=mi>1</span><span class=p>,</span><span class=mi>1</span><span class=p>)</span> <span class=p>{</span><span class=n>mustBeNumeric</span><span class=p>,</span> <span class=n>mustBeNonNan</span><span class=p>,</span> <span class=n>mustBeFinite</span><span class=p>,</span> <span class=c>...</span>
+</span></span><span class=line><span class=cl>        <span class=n>mustBeNonsparse</span><span class=p>,</span> <span class=n>mustBeNonempty</span><span class=p>,</span> <span class=n>mustBeReal</span><span class=p>,</span> <span class=n>mustBeInteger</span><span class=p>,</span><span class=c>...</span>
+</span></span><span class=line><span class=cl>        <span class=n>mustBePositive</span><span class=p>}</span> <span class=p>=</span> <span class=mi>3</span><span class=o>*</span><span class=n>num</span> <span class=c>% The default number of iterations is 3*num</span>
+</span></span><span class=line><span class=cl>    <span class=n>option</span><span class=p>.</span><span class=n>ReductionMethod</span> <span class=p>(</span><span class=mi>1</span><span class=p>,</span><span class=mi>1</span><span class=p>)</span> <span class=n>string</span> <span class=c>...</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span><span class=n>validatestring</span><span class=p>(</span><span class=n>option</span><span class=p>.</span><span class=n>ReductionMethod</span><span class=p>,{</span><span class=s>&#39;MNF&#39;</span><span class=p>,</span> <span class=s>&#39;PCA&#39;</span><span class=p>})}</span> <span class=p>=</span> &#34;<span class=n>MNF</span>&#34;  <span class=c>% The default dimensionality-reduction method is MNF</span>
+</span></span><span class=line><span class=cl><span class=k>end</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c>% Used for compiler testing</span>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=n>isdeployed</span>
+</span></span><span class=line><span class=cl>    <span class=n>rootDir</span> <span class=p>=</span> <span class=n>ctfroot</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>else</span>
+</span></span><span class=line><span class=cl>    <span class=n>rootDir</span> <span class=p>=</span> <span class=n>matlabroot</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>end</span>
+</span></span><span class=line><span class=cl><span class=c>% Register resources/hyperspectral</span>
+</span></span><span class=line><span class=cl><span class=n>matlab</span><span class=p>.</span><span class=n>internal</span><span class=p>.</span><span class=n>msgcat</span><span class=p>.</span><span class=n>setAdditionalResourceLocation</span><span class=p>(</span><span class=n>rootDir</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c>% Input parsing</span>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=n>isobject</span><span class=p>(</span><span class=n>cube</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>cube</span> <span class=p>=</span> <span class=n>cube</span><span class=p>.</span><span class=n>DataCube</span><span class=p>;</span> <span class=c>% If cube is an object, extract the data cube</span>
+</span></span><span class=line><span class=cl><span class=k>end</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>maxItr</span> <span class=p>=</span> <span class=n>option</span><span class=p>.</span><span class=n>NumIterations</span><span class=p>;</span> <span class=c>% Maximum number of iterations</span>
+</span></span><span class=line><span class=cl><span class=n>method</span> <span class=p>=</span> <span class=n>validatestring</span><span class=p>(</span><span class=n>option</span><span class=p>.</span><span class=n>ReductionMethod</span><span class=p>,</span> <span class=p>{</span><span class=s>&#39;MNF&#39;</span><span class=p>,</span> <span class=s>&#39;PCA&#39;</span><span class=p>});</span> <span class=c>% Dimensionality-reduction method</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c>% Cube dimensions</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=n>rows</span><span class=p>,</span> <span class=n>cols</span><span class=p>,</span> <span class=n>channels</span><span class=p>]</span> <span class=p>=</span> <span class=nb>size</span><span class=p>(</span><span class=n>cube</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>numOfSamples</span> <span class=p>=</span> <span class=n>rows</span><span class=o>*</span><span class=n>cols</span><span class=p>;</span> <span class=c>% Number of samples</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c>% Reshape the original data cube</span>
+</span></span><span class=line><span class=cl><span class=n>originalCube</span> <span class=p>=</span> <span class=nb>reshape</span><span class=p>(</span><span class=n>cube</span><span class=p>,</span> <span class=n>numOfSamples</span><span class=p>,</span> <span class=n>channels</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=n>isinteger</span><span class=p>(</span><span class=n>cube</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>cube</span> <span class=p>=</span> <span class=n>single</span><span class=p>(</span><span class=n>cube</span><span class=p>);</span> <span class=c>% Convert integer types to single</span>
+</span></span><span class=line><span class=cl>    <span class=n>num</span> <span class=p>=</span> <span class=n>single</span><span class=p>(</span><span class=n>num</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=k>end</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=n>strcmpi</span><span class=p>(</span><span class=n>method</span><span class=p>,</span> <span class=s>&#39;PCA&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=c>% Perform principal component analysis (PCA) on the hyperspectral cube</span>
+</span></span><span class=line><span class=cl>    <span class=n>cube</span> <span class=p>=</span> <span class=n>hyperpca</span><span class=p>(</span><span class=n>cube</span><span class=p>,</span> <span class=n>num</span><span class=o>-</span><span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl><span class=k>else</span>
+</span></span><span class=line><span class=cl>    <span class=c>% Use the maximum noise fraction (MNF) transform to reduce the computational cost</span>
+</span></span><span class=line><span class=cl>    <span class=n>cube</span> <span class=p>=</span> <span class=n>hypermnf</span><span class=p>(</span><span class=n>cube</span><span class=p>,</span> <span class=n>num</span><span class=o>-</span><span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=k>end</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c>% Reshape the dimensionality-reduced cube</span>
+</span></span><span class=line><span class=cl><span class=n>cube</span> <span class=p>=</span> <span class=nb>reshape</span><span class=p>(</span><span class=n>cube</span><span class=p>,</span> <span class=p>[</span><span class=n>numOfSamples</span> <span class=n>num</span><span class=o>-</span><span class=mi>1</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c>% Initialize the matrix and set the first row to 1. Each column vector contains an endmember spectrum</span>
+</span></span><span class=line><span class=cl><span class=n>signatures</span> <span class=p>=</span> <span class=nb>zeros</span><span class=p>(</span><span class=n>num</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>signatures</span><span class=p>(</span><span class=mi>1</span><span class=p>,:)</span> <span class=p>=</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c>% Generate random samples in the range from 1 to numOfSamples</span>
+</span></span><span class=line><span class=cl><span class=n>prevS</span> <span class=p>=</span> <span class=n>rng</span><span class=p>(</span><span class=s>&#39;default&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>randSamplesInd</span> <span class=p>=</span> <span class=n>randi</span><span class=p>([</span><span class=mi>1</span> <span class=n>numOfSamples</span><span class=p>],</span> <span class=mi>1</span><span class=p>,</span> <span class=n>num</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c>% Restore the random-number state on cleanup</span>
+</span></span><span class=line><span class=cl><span class=n>cleanup</span> <span class=p>=</span> <span class=n>onCleanup</span><span class=p>(@()</span> <span class=n>rng</span><span class=p>(</span><span class=n>prevS</span><span class=p>));</span>
+</span></span><span class=line><span class=cl><span class=c>% Select random pixels and set them as endmembers</span>
+</span></span><span class=line><span class=cl><span class=n>signatures</span><span class=p>(</span><span class=mi>2</span><span class=p>:</span><span class=n>num</span><span class=p>,</span> <span class=p>:)</span> <span class=p>=</span> <span class=n>cube</span><span class=p>(</span><span class=n>randSamplesInd</span><span class=p>,</span> <span class=p>:)</span><span class=o>&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c>% For this algorithm, division by factorial(p-1) is invariant, so it is skipped</span>
+</span></span><span class=line><span class=cl><span class=n>actualVolume</span> <span class=p>=</span> <span class=nb>abs</span><span class=p>(</span><span class=n>det</span><span class=p>(</span><span class=n>signatures</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c>% Initialize the iteration count</span>
+</span></span><span class=line><span class=cl><span class=n>itr</span> <span class=p>=</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c>% Initialize the volumes v1 and v2</span>
+</span></span><span class=line><span class=cl><span class=n>initVol</span> <span class=p>=</span> <span class=o>-</span><span class=n>itr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>maxVol</span> <span class=p>=</span> <span class=n>actualVolume</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c>% Compute the volume for every pixel. If replacing a pixel increases the volume, treat the replacement pixel as an endmember</span>
+</span></span><span class=line><span class=cl><span class=c>% Repeat this process until no further endmember replacements are made</span>
+</span></span><span class=line><span class=cl><span class=k>while</span> <span class=n>maxVol</span> <span class=o>&gt;</span> <span class=n>initVol</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=n>sigCount</span><span class=p>=</span><span class=mi>1</span><span class=p>:</span><span class=n>num</span>
+</span></span><span class=line><span class=cl>         
+</span></span><span class=line><span class=cl>         <span class=c>% Find the simplex that defines the volume</span>
+</span></span><span class=line><span class=cl>         <span class=p>[</span><span class=n>randSamplesInd</span><span class=p>,</span> <span class=n>actualVolume</span><span class=p>,</span> <span class=n>signatures</span><span class=p>]</span> <span class=p>=</span> <span class=n>findSimplex</span><span class=p>(</span><span class=n>signatures</span><span class=p>,</span> <span class=n>cube</span><span class=p>,</span> <span class=c>...</span>
+</span></span><span class=line><span class=cl>             <span class=n>randSamplesInd</span><span class=p>,</span> <span class=n>actualVolume</span><span class=p>,</span> <span class=n>numOfSamples</span><span class=p>,</span> <span class=n>num</span><span class=p>,</span> <span class=n>sigCount</span><span class=p>);</span> 
+</span></span><span class=line><span class=cl>    <span class=k>end</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=c>% Break if the maximum number of iterations is reached</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=n>itr</span> <span class=o>==</span> <span class=n>maxItr</span>
+</span></span><span class=line><span class=cl>        <span class=k>break</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>end</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=c>% Update the iteration count, v1, and v2</span>
+</span></span><span class=line><span class=cl>    <span class=n>itr</span> <span class=p>=</span> <span class=n>itr</span><span class=o>+</span><span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>initVol</span> <span class=p>=</span> <span class=n>maxVol</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>maxVol</span> <span class=p>=</span> <span class=n>actualVolume</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>end</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c>% Extract the endmember signatures from the volume according to the sample indices</span>
+</span></span><span class=line><span class=cl><span class=n>endmemSig</span> <span class=p>=</span> <span class=n>originalCube</span><span class=p>(</span><span class=n>randSamplesInd</span><span class=p>,</span> <span class=p>:)</span><span class=o>&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>end</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>function</span><span class=err> [</span><span class=nf>randSamplesInd</span><span class=p>,</span> <span class=n>actualVolume</span><span class=p>,</span> <span class=n>signatures</span><span class=p>]</span> <span class=p>=</span> <span class=n>findSimplex</span><span class=p>(</span><span class=n>signatures</span><span class=p>,</span> <span class=n>reducedCube</span><span class=p>,</span> <span class=c>...</span>
+</span></span><span class=line><span class=cl>    <span class=n>randSamplesInd</span><span class=p>,</span> <span class=n>actualVolume</span><span class=p>,</span> <span class=n>numOfSamples</span><span class=p>,</span> <span class=n>num</span><span class=p>,</span> <span class=n>sigCount</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=k>for</span> <span class=n>sampleCount</span><span class=p>=</span><span class=mi>1</span><span class=p>:</span><span class=n>numOfSamples</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=c>% Check each sample after dimensionality reduction</span>
+</span></span><span class=line><span class=cl>    <span class=n>signatures</span><span class=p>(</span><span class=mi>2</span><span class=p>:</span><span class=n>num</span><span class=p>,</span> <span class=n>sigCount</span><span class=p>)</span> <span class=p>=</span> <span class=n>reducedCube</span><span class=p>(</span><span class=n>sampleCount</span><span class=p>,</span> <span class=p>:);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c>% The volume of the simplex formed by the estimated endmembers is proportional to the determinant of the signature matrix</span>
+</span></span><span class=line><span class=cl>    <span class=n>volume</span> <span class=p>=</span> <span class=nb>abs</span><span class=p>(</span><span class=n>det</span><span class=p>(</span><span class=n>signatures</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=n>volume</span> <span class=o>&gt;</span> <span class=n>actualVolume</span>
+</span></span><span class=line><span class=cl>        <span class=n>actualVolume</span> <span class=p>=</span> <span class=n>volume</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>randSamplesInd</span><span class=p>(</span><span class=n>sigCount</span><span class=p>)</span> <span class=p>=</span> <span class=n>sampleCount</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>end</span>
+</span></span><span class=line><span class=cl><span class=k>end</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c>% Update the endmember signatures with the latest sample</span>
+</span></span><span class=line><span class=cl><span class=n>signatures</span><span class=p>(</span><span class=mi>2</span><span class=p>:</span><span class=n>num</span><span class=p>,</span> <span class=n>sigCount</span><span class=p>)</span> <span class=p>=</span> <span class=n>reducedCube</span><span class=p>(</span><span class=n>randSamplesInd</span><span class=p>(</span><span class=n>sigCount</span><span class=p>),</span> <span class=p>:);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>end</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>function</span><span class=w> </span><span class=nf>mustBeA</span><span class=p>(</span>hypercube,classIn<span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=k>if</span> <span class=n>isobject</span><span class=p>(</span><span class=n>hypercube</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>validateattributes</span><span class=p>(</span><span class=n>hypercube</span><span class=p>,{</span><span class=n>classIn</span><span class=p>},{</span><span class=s>&#39;nonempty&#39;</span><span class=p>},</span><span class=s>&#39;nfindr&#39;</span><span class=p>,</span><span class=s>&#39;hypercube&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>cube</span> <span class=p>=</span> <span class=n>hypercube</span><span class=p>.</span><span class=n>DataCube</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>else</span>
+</span></span><span class=line><span class=cl>    <span class=n>cube</span> <span class=p>=</span> <span class=n>hypercube</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>end</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>validateattributes</span><span class=p>(</span><span class=n>cube</span><span class=p>,</span> <span class=c>...</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span><span class=s>&#39;numeric&#39;</span><span class=p>},</span> <span class=p>{</span><span class=s>&#39;nonsparse&#39;</span><span class=p>,</span> <span class=s>&#39;nonempty&#39;</span><span class=p>,</span> <span class=s>&#39;real&#39;</span><span class=p>,</span><span class=s>&#39;nonnan&#39;</span><span class=p>,</span> <span class=s>&#39;finite&#39;</span><span class=p>,</span> <span class=c>...</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#39;ndims&#39;</span><span class=p>,</span><span class=mi>3</span><span class=p>},</span> <span class=n>mfilename</span><span class=p>,</span> <span class=s>&#39;hypercube&#39;</span><span class=p>,</span> <span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>end</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c>% Validate that numComponents is smaller than the number of bands</span>
+</span></span><span class=line><span class=cl><span class=k>function</span><span class=w> </span><span class=nf>mustBeLessSize</span><span class=p>(</span>a, b<span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=k>if</span> <span class=n>isobject</span><span class=p>(</span><span class=n>b</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>cube</span> <span class=p>=</span> <span class=n>b</span><span class=p>.</span><span class=n>DataCube</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>else</span>
+</span></span><span class=line><span class=cl>    <span class=n>cube</span> <span class=p>=</span> <span class=n>b</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>end</span>
+</span></span><span class=line><span class=cl><span class=n>sz</span> <span class=p>=</span> <span class=nb>size</span><span class=p>(</span><span class=n>cube</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>validateattributes</span><span class=p>(</span><span class=n>a</span><span class=p>,</span> <span class=p>{</span><span class=s>&#39;numeric&#39;</span><span class=p>},</span><span class=c>...</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span><span class=s>&#39;&gt;&#39;</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=s>&#39;&lt;=&#39;</span><span class=p>,</span><span class=n>sz</span><span class=p>(</span><span class=mi>3</span><span class=p>),</span> <span class=s>&#39;scalar&#39;</span><span class=p>},</span><span class=n>mfilename</span><span class=p>,</span> <span class=s>&#39;num&#39;</span><span class=p>,</span><span class=mi>2</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=n>a</span> <span class=o>&gt;</span><span class=p>=</span> <span class=n>sz</span><span class=p>(</span><span class=mi>1</span><span class=p>)</span><span class=o>*</span><span class=n>sz</span><span class=p>(</span><span class=mi>2</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=n>error</span><span class=p>(</span><span class=n>message</span><span class=p>(</span><span class=s>&#39;hyperspectral:hyperpca:notGreaterEqual&#39;</span><span class=p>));</span>    
+</span></span><span class=line><span class=cl><span class=k>end</span>
+</span></span><span class=line><span class=cl><span class=k>end</span>
+</span></span></code></pre></td></tr></table></div></div><p>The advantage of this algorithm is that the idea is clear: it can effectively extract the endmember signatures corresponding to the maximum-volume cluster. Its disadvantage is that the computation is heavy, and large data sets take a long time. In practice, the data are therefore usually reduced first with PCA, MNF, or a similar method, and N-FINDR is then run on the reduced data to cut the computational cost.</p><p>Overall, N-FINDR extracts endmembers from the data by maximizing the volume of the simplex formed by the endmember signature vectors. It is a classic unsupervised endmember-extraction algorithm.</p></div><footer class=article-footer><blockquote class=article-copyright><p><strong><span class="icon-user icon"></span>Author: </strong>Jingmengzhiyue</p><p><strong><span class="icon-link icon"></span>Permalink: </strong><a href=https://www.jingmengzhiyue.tech/en/n-finder/>https://www.jingmengzhiyue.tech/en/n-finder/</a></p><p><strong><span class="icon-pencil icon"></span>Title: </strong>Endmember Extraction Based on the N-FINDR Algorithm</p><p><strong><span class="icon-calendar icon"></span>Published: </strong>2024-03-25 21:35:21</p><p><strong><span class="icon-copyright icon"></span>License: </strong>All articles on this blog are licensed under the <a href=https://creativecommons.org/licenses/by/4.0/deed.zh rel="noopener nofollow noreferrer" target=_blank><span class=icon-creative-commons></span>BY</a> license agreement unless otherwise stated. Please indicate the source when reprinting!</p><span class="icon-creative-commons article-copyright-bg"></span></blockquote><ul class=article-category-list><li class=article-tag-list-item data-aos=zoom-in><a class=article-category-link href=/en/categories/remote-sensing/ data-aos=zoom-in>Remote Sensing</a></li></ul><ul class=article-tag-list itemprop=keywords><li class=article-tag-list-item data-aos=zoom-in><a class=article-tag-list-link href=/en/tags/hyperspectral-unmixing/ rel=tag>Hyperspectral unmixing</a></li><li class=article-tag-list-item data-aos=zoom-in><a class=article-tag-list-link href=/en/tags/remote-sensing/ rel=tag>Remote Sensing</a></li></ul></footer></div><nav id=article-nav aria-label="Article navigation" data-aos=fade-up><div class="article-nav-link-wrap left"><img data-src=/img/7.jpg data-sizes=auto alt="Hyperspectral Image Processing Based on Prototype Analysis" class=lazyload><a href=/en/prototype-analysis/ aria-label="Prev:Hyperspectral Image Processing Based on Prototype Analysis" title="Prev:Hyperspectral Image Processing Based on Prototype Analysis"></a><div class=article-nav-caption>Prev</div><h3 class=article-nav-title>Hyperspectral Image Processing Based on Prototype Analysis</h3></div><div class="article-nav-link-wrap right"><img data-src=/img/28.jpg data-sizes=auto alt="The Multi-Head Self-Attention Mechanism in Transformers" class=lazyload><a href=/en/multi-head-self-attention/ aria-label="Next:The Multi-Head Self-Attention Mechanism in Transformers" title="Next:The Multi-Head Self-Attention Mechanism in Transformers"></a><div class=article-nav-caption>Next</div><h3 class=article-nav-title>The Multi-Head Self-Attention Mechanism in Transformers</h3></div></nav></article></section></div><footer id=footer aria-label="Site footer"><div style=width:100%;overflow:hidden><div class=footer-line></div></div><div id=footer-info><div><span class=icon-copyright></span>2023-2026<span class="footer-info-sep rotate"></span>Jingmengzhiyue</div><div>Powered by&nbsp;<a href=https://gohugo.io/ target=_blank rel="noopener nofollow noreferrer">Hugo</a>&nbsp;Theme.<a href=https://github.com/D-Sketon/hugo-theme-reimu target=_blank rel="noopener nofollow noreferrer">Reimu</a></div><div><span class=icon-brush>&nbsp;173.8k</span>
+&nbsp;|&nbsp;
+<span class=icon-coffee>&nbsp;14:09</span></div><div><span class=icon-eye></span>
+<span id=busuanzi_container_site_pv>Number of visits&nbsp;<span id=busuanzi_value_site_pv></span></span>
+&nbsp;|&nbsp;
+<span class=icon-user></span>
+<span id=busuanzi_container_site_uv>Number of visitors&nbsp;<span id=busuanzi_value_site_uv></span></span></div></div></footer><div class=sidebar-top><div class="sidebar-top-taichi rotate"></div><div class=arrow-up></div></div><div id=mask class=hide></div></div><nav id=mobile-nav aria-label="Mobile navigation"><div class=sidebar-wrap><div class=sidebar-toc-sidebar><h3 class=toc-title>Contents</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#mathematical-principle>Mathematical Principle</a></li><li><a href=#algorithm-steps>Algorithm Steps</a></li><li><a href=#implementation>Implementation</a></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/profile_picture.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>Posts</div><div class=sidebar-state-number>54</div></div><a class=sidebar-state-category href=/en/categories/ aria-label=sidebar-state-category-link><div>Categories</div><div class=sidebar-state-number>9</div></a><a class=sidebar-state-tag href=/en/tags/ aria-label=sidebar-state-tag-link><div>Tags</div><div class=sidebar-state-number>26</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/ aria-label=Home></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Home</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/categories aria-label=Category></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Category</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/tags aria-label=Tag></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Tag</div></div></div></div></div><div class=sidebar-btn-wrapper><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></nav></div><div id=aplayer theme=var(--color-link)></div><script src=https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js integrity=sha384-3gT/vsepWkfz/ff7PpWNUeMzeWoH3cDhm/A8jM7ouoAK0/fP/9bcHHR5kHq2nf+e crossorigin=anonymous></script><script src=https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js integrity=sha384-J08i8An/QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q crossorigin=anonymous></script><script src=/js/main.js integrity crossorigin=anonymous></script><script src=/js/aos.js integrity crossorigin=anonymous></script><script>var aosInit=()=>{AOS.init({duration:1e3,easing:"ease",once:!0,offset:50})};document.readyState==="loading"?document.addEventListener("DOMContentLoaded",aosInit):aosInit()</script><script src=/js/pjax_main.js integrity crossorigin=anonymous data-pjax></script><div id=lazy-script><div><script data-pjax>window.REIMU_POST={author:"Jingmengzhiyue",title:"Endmember Extraction Based on the N-FINDR Algorithm",url:"https://www.jingmengzhiyue.tech/en/n-finder/",description:"The N-FINDR algorithm extracts endmember signatures from a hyperspectral data cube. Its core idea is to search the data set for the simplex of maximum volume, whose vertices are the desired endmembers. The mathematical principle and the concrete steps are as follows.",cover:"https://www.jingmengzhiyue.tech/img/24.jpg"}</script><script src=/js/insert_highlight.js integrity crossorigin=anonymous data-pjax></script><script src=/js/tabs.js integrity crossorigin=anonymous data-pjax defer></script><script type=module data-pjax>const PhotoSwipeLightbox = (await safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js", "sha384-DiL6M\/gG\u002bwmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF\/N6lrZi\/")).default;const initPswp = (gallery, children) => {
+          if (_$$(`${gallery} ${children}`).length > 0) {
+            new PhotoSwipeLightbox({
+              gallery,
+              children,pswpModule: () => safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8\u002boTJ7m3DfYEWX1fu1scuS4\u002bs")}).init();
+          }
+        }
+        const pswp = () => {
+          initPswp('.article-entry', 'a.article-gallery-item');
+          initPswp('.article-gallery', 'a.article-gallery-item');
+        }
+        pswp()
+      </script><script data-pjax>window.MathJax=JSON.parse('[{"loader":{"load":["input/asciimath","[tex]/noerrors"]},"options":{"ignoreHtmlClass":"tex2jax_ignore","processHtmlClass":"tex2jax_process","skipHtmlTags":["script","noscript","style","textarea","pre","code"]},"tex":{"autoload":{"color":[],"colorv2":["color"]},"displayMath":[["$$","$$"],["\\\\[","\\\\]"]],"inlineMath":[["$","$"],["\\\\(","\\\\)"]],"packages":{"[+]":["noerrors"]},"processEnvironments":true,"processEscapes":true,"tags":"ams","useLabelIds":true}}]')[0]</script><script src=https://npm.webcache.cn/mathjax@3.2.2/es5/tex-mml-chtml.js defer data-pjax integrity=sha384-Wuix6BuhrWbjDBs24bXrjf4ZQ5aFeFWBuKkFekO2t8xFU0iNaLQfp2K6/1Nxveei crossorigin=anonymous></script></div></div><script src=https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js async integrity=sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S crossorigin=anonymous></script><script>"serviceWorker"in navigator&&navigator.serviceWorker.getRegistrations().then(e=>{for(let t of e)t.unregister()})</script><script>const reimuCopyright=String.raw`
+   ______     ______     __     __    __     __  __    
+  /\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+  \ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+   \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+    \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                    
+  `;console.log(String.raw`%c ${reimuCopyright}`,"color: #ff5252;"),console.log("%c Theme.Reimu %c https://github.com/D-Sketon/hugo-theme-reimu ","color: white; background: #ff5252; padding:5px 0;","padding:4px;border:1px solid #ff5252;")</script><script>var setupAPlayer=()=>{if(!!1||!window.matchMedia("(max-width: 768px)").matches){const e=window.matchMedia("(max-width: 959px)").matches;if(e){const e=_$("#aplayer");if(e){const t=e.parentNode?.parentNode;t?.tagName==="ASIDE"&&(e.removeAttribute("data-aos"),t.parentNode.removeChild(e),document.body.appendChild(e))}}new APlayer({theme:"var(--color-link)",container:document.getElementById("aplayer"),audio:JSON.parse('[{"artist":"千葉紗子","cover":"/img/24.jpg","name":"花手紙","url":"/music/千葉紗子+-+花手紙.mp3"}]')||[],fixed:!!e||!0,autoplay:!1,loop:"one"||"all",order:"list"||"list",preload:"none"||"auto",volume:.7||.7,mutex:!0,listFolded:!0,lrcType:0||0})}}</script><script src=https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.js defer onload=setupAPlayer() integrity=sha384-gdGYZwHnfJM54evoZhpO0s6ZF5BQiybkiyW7VXr+h5UfruuRL/aORyw+5+HZoU6e crossorigin=anonymous></script></body></html>

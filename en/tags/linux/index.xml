@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Linux on 热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/en/tags/linux/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>en</language><copyright>All articles on this blog are licensed under the BY license agreement unless otherwise stated. Please indicate the source when reprinting!</copyright><lastBuildDate>Mon, 11 Mar 2024 22:58:03 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/en/tags/linux/index.xml" rel="self" type="application/rss+xml"/><item><title>Installing Windows &amp; Linux Dual Boot System</title><link>https://www.jingmengzhiyue.tech/en/dual-system/</link><pubDate>Mon, 11 Mar 2024 22:58:03 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/dual-system/</guid><description>
+<![CDATA[<h1>Installing Windows & Linux Dual Boot System</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>Ever found yourself torn between the sleek, user-friendly experience of Windows and the robustness and open-source allure of Linux? Fret not, for you can have the best of both worlds with a seamless dual-boot setup. In this comprehensive guide, we&rsquo;ll walk you through the intricate process of installing Windows and Linux on the same machine, unlocking a realm of endless possibilities and flexibility.</p>
+<p>Imagine being able to seamlessly transition between operating systems, harnessing the power of Linux for development, server management, or simply embracing its customizable nature, while still having access to the familiarity and compatibility of Windows for daily tasks or gaming. With a dual-boot configuration, you&rsquo;ll no longer have to compromise; instead, you&rsquo;ll wield the ultimate computing experience tailored to your needs.</p>
+        
+        <hr><p>Published on 2024-03-11 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2024-03-11</p>]]></description><category>Environment Configuration</category></item><item><title>Effortless Cross-Device Configuration with Dotfiles and Plugins</title><link>https://www.jingmengzhiyue.tech/en/config-dotfile/</link><pubDate>Mon, 11 Mar 2024 20:45:01 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/config-dotfile/</guid><description>
+<![CDATA[<h1>Effortless Cross-Device Configuration with Dotfiles and Plugins</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>Managing dotfiles and configurations for applications like Vim and Tmux across multiple devices can be a daunting task. However, with a few simple steps, you can streamline the process and achieve seamless one-click configuration on any machine.</p>
+<ol>
+<li>
+<p><strong>Version Control:</strong> Use Git to track your dotfiles. Create a Git repository and store your configuration files within it. This allows you to manage file versions and sync your setup across different machines.</p>
+</li>
+<li>
+<p><strong>Symbolic Links:</strong> Clone your dotfiles repository on a new machine and create symbolic links pointing to these files. This way, you can maintain the file locations within the repository while the system uses the symbolic links.</p>
+</li>
+<li>
+<p><strong>Automation Script:</strong> Write an installation script that, when you clone the repository on a new machine, automatically creates symbolic links and installs necessary software (like Vim and Tmux plugin managers).</p>
+</li>
+<li>
+<p><strong>Plugin Managers:</strong> For Vim, you can use a plugin manager like <code>vim-plug</code>, and for Tmux, you can use a tool like <code>tpm</code> (Tmux Plugin Manager). This way, you only need to specify the required plugins in your configuration files, and then run the corresponding commands to automatically install them.</p>
+</li>
+</ol>
+        
+        <hr><p>Published on 2024-03-11 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2024-03-11</p>]]></description><category>Environment Configuration</category></item></channel></rss>

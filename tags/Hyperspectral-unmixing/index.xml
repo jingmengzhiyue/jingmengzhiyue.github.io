@@ -61,37 +61,6 @@ FIPPI算法简介
 </li>
 </ol>
         
-        <hr><p>本文2024-03-19首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-24</p>]]></description><category>Remote Sensing</category></item><item><title>Endmember Extraction Using the Pixel Purity Index (PPI) Algorithm</title><link>https://www.jingmengzhiyue.tech/2024/03/19/ppi-en/</link><pubDate>Tue, 19 Mar 2024 22:12:45 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/19/ppi-en/</guid><description>
-<![CDATA[<h1>Endmember Extraction Using the Pixel Purity Index (PPI) Algorithm</h1><p>作者：Jingmengzhiyue（）</p>
-        
-          <p>Endmember Extraction Using the Pixel Purity Index (PPI) Algorithm The</p>
-<p>Pixel Purity Index (PPI) algorithm is used to extract endmember</p>
-<p>signatures from hyperspectral data cubes. The algorithm identifies</p>
-<p>endmember pixels by projecting dimensionality-reduced data onto randomly</p>
-<p>generated unit vectors and finding the pixels with the maximum</p>
-<p>projection values.</p>
-<h2 id="algorithm-principle">
-<a class="header-anchor" href="#algorithm-principle"></a>
-Algorithm Principle
-</h2><p>Perform dimensionality reduction on the hyperspectral data cube using</p>
-<p>Principal Component Analysis (PCA), Maximum Noise Fraction (MNF), or no</p>
-        
-        <hr><p>本文2024-03-19首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-24</p>]]></description><category>Remote Sensing</category></item><item><title>Endmember Number Estimation Using Eigenvalue Thresholding</title><link>https://www.jingmengzhiyue.tech/2024/03/19/est-endnum-en/</link><pubDate>Tue, 19 Mar 2024 22:01:49 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/19/est-endnum-en/</guid><description>
-<![CDATA[<h1>Endmember Number Estimation Using Eigenvalue Thresholding</h1><p>作者：Jingmengzhiyue（）</p>
-        
-          <p>In hyperspectral image analysis, estimating the number of endmembers</p>
-<p>is a crucial step that affects the accuracy and efficiency of subsequent</p>
-<p>processing. This post introduces an eigenvalue thresholding approach for</p>
-<p>estimating the number of endmembers in hyperspectral data through noise</p>
-<p>whitening and eigenvalue analysis.</p>
-<h2 id="noise-whitening-of">
-<a class="header-anchor" href="#noise-whitening-of"></a>
-Noise Whitening of
-</h2><p>Hyperspectral Image</p>
-<p>Let&rsquo;s consider a hyperspectral image \(\mathbf{X} \in \mathbb{R}^{M \times B}\),</p>
-<p>where \(M\) is the number of spatial</p>
-<p>pixels and \(B\) is the number of</p>
-        
         <hr><p>本文2024-03-19首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-24</p>]]></description><category>Remote Sensing</category></item><item><title>端元初始化</title><link>https://www.jingmengzhiyue.tech/2024/03/19/endmember/</link><pubDate>Tue, 19 Mar 2024 21:08:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2024/03/19/endmember/</guid><description>
 <![CDATA[<h1>端元初始化</h1><p>作者：Jingmengzhiyue（）</p>
         

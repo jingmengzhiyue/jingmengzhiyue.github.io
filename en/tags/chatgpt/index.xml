@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>ChatGPT on 热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/en/tags/chatgpt/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>en</language><copyright>All articles on this blog are licensed under the BY license agreement unless otherwise stated. Please indicate the source when reprinting!</copyright><lastBuildDate>Mon, 06 Mar 2023 15:13:59 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/en/tags/chatgpt/index.xml" rel="self" type="application/rss+xml"/><item><title>ChatGPT</title><link>https://www.jingmengzhiyue.tech/en/chatgpt/</link><pubDate>Mon, 06 Mar 2023 15:13:59 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/chatgpt/</guid><description>
+<![CDATA[<h1>ChatGPT</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>ChatGPT evolved from InstructGPT.
+<img src="/img/ChatGPT_Diagram.png" alt="ChatGPT training pipeline"></p>
+<h2 id="overview">
+<a class="header-anchor" href="#overview"></a>
+Overview
+</h2><p>Its training can be divided into four stages:</p>
+<ol>
+<li>Mask-based self-supervised training</li>
+<li>Supervised QA training on human-labeled data</li>
+<li>Supervised training on human rankings of answer preference</li>
+<li>Reinforcement learning from the learned human preferences to train a discriminative model</li>
+</ol>
+<h2 id="self-supervised-training">
+<a class="header-anchor" href="#self-supervised-training"></a>
+Self-supervised training
+</h2><p><img src="/img/Hello.png" alt="Sampling-based self-supervised training"></p>
+<p>Self-supervised training is used for text generation. During training, the model is given the preceding words and asked to predict the next one. The prediction is a probability distribution over possible words, and beam search can sample the next word from it. That newly generated word is then fed back into the model to produce the following output. Because the output is obtained by random sampling, the result is different each time.</p>
+        
+        <hr><p>Published on 2023-03-06 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-03-06</p>]]></description><category>LLM</category></item><item><title>Using OpenAI and YNMT to Create a Paper</title><link>https://www.jingmengzhiyue.tech/en/openai-api/</link><pubDate>Sun, 05 Mar 2023 19:38:17 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/openai-api/</guid><description>
+<![CDATA[<h1>Using OpenAI and YNMT to Create a Paper</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="using-openai-and-ynmt-to-create-a-paper">
+<a class="header-anchor" href="#using-openai-and-ynmt-to-create-a-paper"></a>
+Using OpenAI and YNMT to Create a Paper
+</h1><pre class="mermaid">
+  graph TB
+    id1(Start)-->id2[Access the YNMT/ChatGPT translation model]
+    subgraph  
+        id2==Authenticate==>id3(Send the API and token to the data center)
+        id3-->id4[Authentication succeeded]
+        id3-->id5((End))
+        end
+    subgraph Translation
+    	id4-->id6(Read the article paragraph by paragraph)
+    	id6-->id7(Send it to the translation model)
+    	id7-->id8(Get the return value)
+    	id8-->id9((Create a TeX document))
+  
+  
+    end
+</pre><h2 id="code-implementation">
+<a class="header-anchor" href="#code-implementation"></a>
+Code Implementation
+</h2><p>main.py</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">fnmatch</span> <span class="kn">import</span> <span class="n">translate</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pylatex</span> <span class="kn">import</span> <span class="n">Document</span><span class="p">,</span> <span class="n">Section</span><span class="p">,</span> <span class="n">Subsection</span><span class="p">,</span> <span class="n">Command</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pylatex.base_classes</span> <span class="kn">import</span> <span class="n">Environment</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">docx</span> <span class="kn">import</span> <span class="n">Document</span> <span class="k">as</span> <span class="n">docx_Document</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pylatex.utils</span> <span class="kn">import</span> <span class="n">NoEscape</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pylatex.basic</span> <span class="kn">import</span> <span class="n">NewLine</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">translate</span> <span class="kn">import</span> <span class="n">Zh2En</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pylatex.utils</span> <span class="kn">import</span> <span class="n">italic</span><span class="p">,</span> <span class="n">NoEscape</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">fill_document</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">with</span> <span class="n">doc</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">Section</span><span class="p">(</span><span class="s1">&#39;A section&#39;</span><span class="p">)):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">doc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Some regular text and some &#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">doc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">italic</span><span class="p">(</span><span class="s1">&#39;italic text. &#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="k">with</span> <span class="n">doc</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">Subsection</span><span class="p">(</span><span class="s1">&#39;A subsection&#39;</span><span class="p">)):</span>
+</span></span><span class="line"><span class="cl">            <span class="n">doc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Also some crazy characters: $&amp;#</span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">ABSTRACT</span><span class="p">(</span><span class="n">Environment</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">escape</span> <span class="o">=</span> <span class="kc">False</span>
+</span></span><span class="line"><span class="cl">    <span class="n">content_separator</span> <span class="o">=</span> <span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">doc</span> <span class="o">=</span> <span class="n">Document</span><span class="p">(</span><span class="n">default_filepath</span><span class="o">=</span><span class="s1">&#39;paper&#39;</span><span class="p">,</span><span class="n">documentclass</span><span class="o">=</span><span class="s1">&#39;IEEEtran&#39;</span><span class="p">,</span><span class="n">document_options</span><span class="o">=</span><span class="s1">&#39;journal&#39;</span><span class="p">,</span><span class="n">lmodern</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">textcomp</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">doc</span><span class="o">.</span><span class="n">preamble</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;Translate to English using the YNMT natural language translation model&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">doc</span><span class="o">.</span><span class="n">preamble</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s1">&#39;author&#39;</span><span class="p">,</span> <span class="s1">&#39;***, ***&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">doc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">NoEscape</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\maketitle&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="k">with</span> <span class="n">doc</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">ABSTRACT</span><span class="p">()):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">abstract</span> <span class="o">=</span> <span class="n">docx_Document</span><span class="p">(</span><span class="sa">r</span><span class="s2">&#34;./abstract.docx&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">abstract</span><span class="o">.</span><span class="n">paragraphs</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">abstrach_zh</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">text</span>
+</span></span><span class="line"><span class="cl">            <span class="n">abstrach_en</span> <span class="o">=</span> <span class="n">Zh2En</span><span class="p">(</span><span class="n">abstrach_zh</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">doc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">abstrach_en</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">with</span> <span class="n">doc</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">Section</span><span class="p">(</span><span class="s1">&#39;Introduction&#39;</span><span class="p">)):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">introduction</span> <span class="o">=</span> <span class="n">docx_Document</span><span class="p">(</span><span class="sa">r</span><span class="s2">&#34;./introduction.docx&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">introduction</span><span class="o">.</span><span class="n">paragraphs</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">introduction_zh</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">text</span>
+</span></span><span class="line"><span class="cl">            <span class="n">introduction_en</span> <span class="o">=</span> <span class="n">Zh2En</span><span class="p">(</span><span class="n">introduction_zh</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">doc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">introduction_en</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">doc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">NoEscape</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\par&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">doc</span><span class="o">.</span><span class="n">generate_pdf</span><span class="p">(</span><span class="n">clean_tex</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">doc</span><span class="o">.</span><span class="n">generate_tex</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Call the YNMT function to obtain the translation.</p>
+        
+        <hr><p>Published on 2023-03-05 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-03-05</p>]]></description><category>LLM</category></item></channel></rss>

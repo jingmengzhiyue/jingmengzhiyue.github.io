@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>C++ on 热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/en/tags/c++/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>en</language><copyright>All articles on this blog are licensed under the BY license agreement unless otherwise stated. Please indicate the source when reprinting!</copyright><lastBuildDate>Fri, 31 Mar 2023 18:38:53 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/en/tags/c++/index.xml" rel="self" type="application/rss+xml"/><item><title>CPP Generic Programming</title><link>https://www.jingmengzhiyue.tech/en/cpp-generic-programming/</link><pubDate>Fri, 31 Mar 2023 18:38:53 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/cpp-generic-programming/</guid><description>
+<![CDATA[<h1>CPP Generic Programming</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="c-generic-programming">
+<a class="header-anchor" href="#c-generic-programming"></a>
+C++ Generic Programming
+</h1><ul>
+<li>This stage offers a detailed explanation of C++ ==generic programming== and ==STL== techniques, delving into more advanced uses of C++</li>
+</ul>
+<h2 id="1-templates">
+<a class="header-anchor" href="#1-templates"></a>
+1 Templates
+</h2><h3 id="11-the-concept-of-templates">
+<a class="header-anchor" href="#11-the-concept-of-templates"></a>
+1.1 The Concept of Templates
+</h3><p>A template is used to build a <strong>universal mold</strong>, greatly <strong>enhancing reusability</strong>.</p>
+<p>Consider templates in everyday life.</p>
+<p>A one-inch photo template:</p>
+<p><img src="/img/1547105026929.png" alt="1547105026929"></p>
+<p>A PPT template:</p>
+<p><img src="/img/1547103297864.png" alt="1547103297864"></p>
+<p><img src="/img/1547103359158.png" alt="1547103359158"></p>
+<p>Characteristics of templates:</p>
+<ul>
+<li>A template cannot be used directly; it is merely a framework.</li>
+<li>The generality of a template is not all-powerful.</li>
+</ul>
+<h3 id="12-function-templates">
+<a class="header-anchor" href="#12-function-templates"></a>
+1.2 Function Templates
+</h3><ul>
+<li>Another programming paradigm in C++ is known as ==generic programming==, and the technique it chiefly relies on is the template.</li>
+<li>C++ offers two template mechanisms: <strong>function templates</strong> and <strong>class templates</strong>.</li>
+</ul>
+<h4 id="121-function-template-syntax">
+<a class="header-anchor" href="#121-function-template-syntax"></a>
+1.2.1 Function Template Syntax
+</h4><p>The purpose of a function template:</p>
+        
+        <hr><p>Published on 2023-03-31 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-03-31</p>]]></description><category>Programming</category></item><item><title>C++ Core Programming</title><link>https://www.jingmengzhiyue.tech/en/cpp-core-programming/</link><pubDate>Fri, 31 Mar 2023 18:19:51 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/cpp-core-programming/</guid><description>
+<![CDATA[<h1>C++ Core Programming</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="c-core-programming">
+<a class="header-anchor" href="#c-core-programming"></a>
+C++ Core Programming
+</h1><p>This stage offers a detailed treatment of C++ ==object-oriented== programming techniques, examining the core and essence of the language.</p>
+<h2 id="1-memory-partition-model">
+<a class="header-anchor" href="#1-memory-partition-model"></a>
+1 Memory Partition Model
+</h2><p>When a C++ program runs, memory is broadly divided into <strong>4 regions</strong></p>
+<ul>
+<li>Code segment: holds the binary code of function bodies and is managed by the operating system</li>
+<li>Global segment: holds global variables, static variables, and constants</li>
+<li>Stack segment: automatically allocated and freed by the compiler; it stores function parameters, local variables, and the like</li>
+<li>Heap segment: allocated and freed by the programmer; if the programmer does not release it, the operating system reclaims it when the program ends</li>
+</ul>
+<p><strong>Significance of the four memory regions:</strong></p>
+        
+        <hr><p>Published on 2023-03-31 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-03-31</p>]]></description><category>Programming</category></item><item><title>C++ Basic Syntax</title><link>https://www.jingmengzhiyue.tech/en/cpp-basic-syntax/</link><pubDate>Fri, 31 Mar 2023 17:56:42 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/cpp-basic-syntax/</guid><description>
+<![CDATA[<h1>C++ Basic Syntax</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h2 id="1-first-look-at-c">
+<a class="header-anchor" href="#1-first-look-at-c"></a>
+1 First Look at C++
+</h2><h3 id="11-the-first-c-program">
+<a class="header-anchor" href="#11-the-first-c-program"></a>
+1.1 The First C++ Program
+</h3><p>Writing a C++ program takes four steps:</p>
+<ul>
+<li>Create a project</li>
+<li>Create a file</li>
+<li>Write the code</li>
+<li>Run the program</li>
+</ul>
+<h4 id="111-create-a-project">
+<a class="header-anchor" href="#111-create-a-project"></a>
+1.1.1 Create a Project
+</h4><p>Visual Studio is the main tool we use to write C++ programs. Open it first.</p>
+<p><img src="/img/1541383178746.png" alt="1541383178746"></p>
+<p><img src="/img/1541384366413.png" alt="1541384366413"></p>
+<h4 id="112-create-a-file">
+<a class="header-anchor" href="#112-create-a-file"></a>
+1.1.2 Create a File
+</h4><p>Right-click Source Files and choose Add -&gt; New Item.</p>
+<p><img src="/img/1541383817248.png" alt="1541383817248"></p>
+<p>Give the C++ file a name, then click Add.</p>
+        
+        <hr><p>Published on 2023-03-31 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-03-31</p>]]></description><category>Programming</category></item></channel></rss>

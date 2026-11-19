@@ -1,0 +1,736 @@
+<!doctype html><html lang=en data-theme-mode=auto><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><title>A Fast Hyperspectral Image Unmixing Algorithm Based on the Minimum-Volume Simplex | Jingmengzhiyue</title><meta name=description content="Hyperspectral remote sensing is a key technique for identifying the endmember constituents of a target region and their proportions, with wide use in land-cover classification and environmental monitoring. Hyperspectral unmixing (HU) analyzes hyperspectral data to recover the endmembers in an image and their abundances. Craig's minimum-volume simplex criterion…"><script>window.siteConfig=JSON.parse('{"anchor":{"auto":{"enable":false,"length":60},"explicit":{"enable":false,"marker":"{#anchor-","prefix":"anchor-"}},"anchor_icon":null,"base":"https://www.jingmengzhiyue.tech/","clipboard":{"copyright":{"count":50,"enable":false,"license_type":"by-nc-sa"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-br":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ","zh-cn":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-tw":"複製失敗 (ﾟ⊿ﾟ)ﾂ"},"success":{"en":"Copy successfully (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-br":"Copiado com sucesso (*^▽^*)","zh-cn":"复制成功 (*^▽^*)","zh-tw":"複製成功 (*^▽^*)"}},"code_block":{"expand":true},"dark_mode":{"button":true,"mode":"auto"},"i18n_languages":[{"label":"简体中文","lang":"zh-cn"},{"label":"English","lang":"en"}],"icon_font":"4552607_ex15nbittbh","outdate":{"daysago":180,"enable":false,"message":{"en":"This article was last updated on {time}. Please note that the content may no longer be applicable.","ja":"この記事は最終更新日：{time}。記載内容が現在有効でない可能性がありますのでご注意ください。","pt-br":"Este artigo foi atualizado pela última vez em {time}. Observe que o conteúdo pode não ser mais aplicável.","zh-cn":"本文最后更新于 {time}，请注意文中内容可能已不适用。","zh-tw":"本文最後更新於 {time}，請注意文中內容可能已不適用。"}}}')</script><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap" media=print onload='this.media="all"'><link rel=preload href=//at.alicdn.com/t/c/font_4552607_ex15nbittbh.woff2 as=font type=font/woff2 crossorigin=anonymous><link rel=stylesheet href=/css/loader.min.ac746e154f756f8220326eeb52a719f142ab038be5a8ddf30ea5ef15ef2356ea.css><meta property="og:type" content="website"><meta property="og:title" content="A Fast Hyperspectral Image Unmixing Algorithm Based on the Minimum-Volume Simplex | Jingmengzhiyue"><meta property="og:description" content="Hyperspectral remote sensing is a key technique for identifying the endmember constituents of a target region and their proportions, with wide use in land-cover classification and environmental monitoring. Hyperspectral unmixing (HU) analyzes hyperspectral data to recover the endmembers in an image and their abundances. Craig's minimum-volume simplex criterion…"><meta property="og:url" content="https://www.jingmengzhiyue.tech/en/hypercsi/"><meta property="og:site_name" content="热爱可抵万难"><meta property="og:image" content="https://www.jingmengzhiyue.tech/img/24.jpg"><meta property="article:author" content="Jingmengzhiyue"><meta property="article:published_time" content="2024-03-24T11:37:14+08:00"><meta property="article:modified_time" content="2024-03-24T12:14:07+08:00"><meta property="article:tag" content="Hyperspectral unmixing, Remote Sensing, HyperCSI"><meta name=twitter:card content="summary"><meta name=twitter:image content="https://www.jingmengzhiyue.tech/img/24.jpg"><link rel="shortcut icon" href=/favicon.ico><link rel=stylesheet href=/css/main.min.c69028af04cc11392739edc48eeb60465879b00de4286e0147bbc470f8f39418.css><link rel=preload as=style href=https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css integrity=sha384-IfxC36XL/toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx/1oA/0l8ysE crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><link rel=preload as=style href=https://npm.webcache.cn/katex@0.16.47/dist/katex.min.css integrity=sha384-nH0MfJ44wi1dd7w6jinlyBgljjS8EJAh2JBoRad8a3VDw2K69vfaaqm4WnR+gXtA crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><script src=https://npm.webcache.cn/pace-js@1.2.4/pace.min.js integrity=sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8 crossorigin=anonymous></script><link rel=stylesheet href=https://npm.webcache.cn/@reimujs/aos@0.1.3/dist/aos.css integrity=sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa crossorigin=anonymous><link rel=stylesheet href=https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.css integrity=sha384-tLMkTWh2pfXNWGFlUS0w1TFtRG5xZ9lPWFOooj+vDDLIL+xBGQU/voDBY5XE2lVh crossorigin=anonymous><link rel=icon href=/img/fluid.png type=image/png><link rel=apple-touch-icon href=/img/fluid.png><link rel=stylesheet href=/css/custom.css></head><body><div id=loader><div class="loading-left-bg loading-bg"></div><div class="loading-right-bg loading-bg"></div><div class=spinner-box><div class="loading-taichi rotate"><svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" shape-rendering="geometricPrecision"><path d="M303.5 432a80 80 0 01-12 160 80 80 0 0112-160z" fill="var(--red-1, #ff5252)"/><path d="M512 65a447 447 0 010 894V929a417 417 0 000-834 417 417 0 000 834v30a447 447 0 010-894zm0 30A417 417 0 01929 512 208.5 208.5.0 01720.5 720.5V592a80 80 0 000-160 80 80 0 000 160V720.5A208.5 208.5.0 01512 512 208.5 208.5.0 00303.5 303.5 208.5 208.5.0 0095 512 417 417 0 01512 95z" fill="var(--red-1, #ff5252)"/></svg></div><div class=loading-word>Loading...</div></div></div></div><script>var time=null,loaderEl=document.getElementById("loader"),startLoading=()=>{time=Date.now(),loaderEl.classList.remove("loading")},hideLoader=()=>{document.body.style.overflow="auto",loader.classList.add("loading")},endLoading=()=>{time?Date.now()-time>500?(time=null,hideLoader()):(setTimeout(endLoading,500-(Date.now()-time)),time=null):hideLoader()};window.addEventListener("DOMContentLoaded",endLoading),loaderEl.addEventListener("click",endLoading)</script><div id=copy-tooltip></div><div id=lang-tooltip>This article does not have a corresponding language version</div><div id=heatmap-tooltip></div><div id=container><div id=wrap><div id=header-nav><nav id=main-nav aria-label="Primary navigation"><a class=main-nav-link-wrap href=/en/><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>Home</span>
+</a><a class=main-nav-link-wrap href=/en/categories><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>Category</span>
+</a><a class=main-nav-link-wrap href=/en/tags><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>Tag</span>
+</a><a id=main-nav-toggle class=nav-icon aria-label="Toggle navigation" role=button></a></nav><nav id=sub-nav aria-label="Secondary navigation"></nav><nav id=i18n-nav aria-label="Language selection"><div class=custom-dropdown><div class=select-selected id=select-selected role=button aria-haspopup=listbox aria-expanded=false aria-label="Language menu"><span id=nav-language-btn class=nav-icon style="padding:0 20px 0 0"></span>
+<span id=selected-lang>English</span></div><ul class=select-items id=select-items role=listbox aria-label=Languages><li data-value=zh-cn role=option aria-selected=false>简体中文</li><li data-value=en role=option class=selected aria-selected=true>English</li></ul></div><script>var selectSelected=document.getElementById("select-selected"),selectedLang=document.getElementById("selected-lang"),selectItems=document.getElementById("select-items"),selectOptions=selectItems.querySelectorAll("li");selectSelected.addEventListener("click",()=>{selectItems.classList.toggle("show");var e=selectSelected.getAttribute("aria-expanded")==="true";selectSelected.setAttribute("aria-expanded",(!e).toString())}),selectOptions.forEach(e=>{e.addEventListener("click",()=>{const t={};if(t["zh-cn"]="/2024/03/24/HyperCSI/",selectedLang.textContent=e.textContent,selectItems.classList.remove("show"),selectOptions.forEach(e=>{e.classList.remove("selected")}),e.classList.add("selected"),e.dataset.value==="en")return;if(!t[e.dataset.value]){_$("#lang-tooltip").style.opacity="1",setTimeout(()=>{_$("#lang-tooltip").style.opacity="0"},1e3);return}window.location=t[e.dataset.value]})}),document.addEventListener("click",e=>{e.target.closest(".custom-dropdown")||(selectItems.classList.remove("show"),selectSelected.setAttribute("aria-expanded","false"))})</script></nav></div><header id=header aria-label="Site header"><picture></picture><img fetchpriority=high src=/img/24.jpg alt="A Fast Hyperspectral Image Unmixing Algorithm Based on the Minimum-Volume Simplex"><div id=header-outer><div id=header-title><span id=logo><h1 data-aos=slide-up>A Fast Hyperspectral Image Unmixing Algorithm Based on the Minimum-Volume Simplex</h1></span><h2 id=subtitle-wrap data-aos=slide-down></h2></div></div></header><div id=content aria-label="Page content" class=sidebar-right><aside id=sidebar aria-label=Sidebar><div class="sidebar-wrapper-container sticky"><div class=sidebar-wrapper><div class=sidebar-wrap data-aos=fade-up><div class=sidebar-toc-sidebar><h3 class=toc-title>Contents</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#principle-of-the-algorithm>Principle of the Algorithm</a><ul><li><a href=#1-assumptions-and-notation>1. Assumptions and Notation</a></li><li><a href=#2-representing-craigs-minimum-volume-simplex-by-hyperplanes>2. Representing Craig&rsquo;s Minimum-Volume Simplex by Hyperplanes</a></li><li><a href=#3-estimating-hyperplane-normals>3. Estimating Hyperplane Normals</a></li><li><a href=#4-estimating-the-hyperplane-inner-product-constants>4. Estimating the Hyperplane Inner-Product Constants</a></li><li><a href=#5-abundance-estimation>5. Abundance Estimation</a></li></ul></li><li><a href=#summary-of-the-algorithm>Summary of the Algorithm</a></li><li><a href=#code-implementation>Code Implementation</a><ul><li><a href=#matlab-implementation>MATLAB Implementation</a></li><li><a href=#python-implementation>Python Implementation</a></li></ul></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/profile_picture.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>Posts</div><div class=sidebar-state-number>54</div></div><a class=sidebar-state-category href=/en/categories/ aria-label=sidebar-state-category-link><div>Categories</div><div class=sidebar-state-number>9</div></a><a class=sidebar-state-tag href=/en/tags/ aria-label=sidebar-state-tag-link><div>Tags</div><div class=sidebar-state-number>26</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/ aria-label=Home></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Home</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/categories aria-label=Category></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Category</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/tags aria-label=Tag></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Tag</div></div></div></div><div class=sidebar-btn-wrapper style=position:static><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></div></div><div class=sidebar-widget></div></div></aside><section id=main aria-label="Main content"><nav aria-label="Article language"><a href=/2024/03/24/HyperCSI/ hreflang=zh-CN lang=zh-CN>简体中文</a></nav><article class="h-entry article" itemscope itemtype=https://schema.org/BlogPosting><div class=article-inner data-aos=fade-up><div class=article-meta><div class=article-date><span class="article-date-link icon-calendar" data-aos=zoom-in><time datetime="2024-03-24 11:37:14 +0800 +0800" itemprop=datePublished>2024-03-24</time>
+<time style=display:none id=post-update-time>2024-03-24</time></span></div></div><div class=hr-line></div><div class="e-content article-entry" itemprop=articleBody><p>Hyperspectral remote sensing is a key technique for identifying the endmember constituents within a target region and their proportions. It is widely used in land-cover classification, environmental monitoring, and related fields. Hyperspectral unmixing (HU) is the signal-processing task of analyzing hyperspectral data to identify the endmembers in an image and their corresponding abundances. Craig&rsquo;s minimum-volume simplex criterion is a classical and effective method for blind unmixing: the vertices of the minimum-volume simplex that encloses the data point cloud are taken as the endmember estimates. Related algorithms are computationally inefficient, however, because they involve complicated volume calculations. HyperCSI (Hyperplane-based Craig-Simplex Identification) does not evaluate a complicated volume function. It uses a geometric theorem instead: an \(N\)-dimensional simplex can be determined by \(N\) hyperplanes (of dimension \(N-2\)). HyperCSI reconstructs Craig&rsquo;s minimum-volume simplex by constructing \(N\) hyperplanes associated with it. This avoids the volume calculation and is far less expensive than algorithms based on Craig&rsquo;s criterion.</p><h2 id=principle-of-the-algorithm><a class=header-anchor href=#principle-of-the-algorithm></a>Principle of the Algorithm</h2><h3 id=1-assumptions-and-notation><a class=header-anchor href=#1-assumptions-and-notation></a>1. Assumptions and Notation</h3><p>Let the observed data be \(\{x[1],\dots,x[L]\} \subset \mathbb{R}^M\), where each \(x[n] \in \mathbb{R}^M\) is a pixel vector in the image and contains the values of \(M\) spectral bands. The vector \(x[n]\) is assumed to be a linear combination of \(N\) endmembers \(\{a_1,\dots,a_N\}\subset \mathbb{R}^M\), and the abundance vector \(s[n] = [s_1[n],\dots,s_N[n]]^T \in \mathbb{R}^N\) satisfies the nonnegativity constraint and sums to one. That is,</p>\[
+x[n] = \sum_{i=1}^N s_i[n] a_i + w[n],
+\quad \forall n \in \{1,\dots,L\}
+\]<p>where \(w[n]\) is additive noise. Let \(\alpha_i = C^\dagger (a_i-d) \in \mathbb{R}^{N-1}\) be the endmember vector after dimension reduction (DR), where \(C\in\mathbb{R}^{M \times (N-1)}\) is the matrix whose columns are the eigenvectors corresponding to the first \(N-1\) principal components of the data matrix, and \(d=\frac{1}{L}\sum_{n=1}^L x[n]\) is the data mean. The data after DR are then</p>\[
+\tilde{x}[n] = C^\dagger (x[n] - d) =
+\sum_{i=1}^N s_i[n]\alpha_i \in \mathbb{R}^{N-1}
+\]<h3 id=2-representing-craigs-minimum-volume-simplex-by-hyperplanes><a class=header-anchor href=#2-representing-craigs-minimum-volume-simplex-by-hyperplanes></a>2. Representing Craig&rsquo;s Minimum-Volume Simplex by Hyperplanes</h3><p><img src=/img/image.png alt="alt text"></p><p>Let Craig&rsquo;s minimum-volume simplex be \(\mathcal{T} = \mathrm{conv}\{\alpha_1,\dots,\alpha_N\} \subset \mathbb{R}^{N-1}\). By the following proposition, this simplex can be determined by \(N\) associated hyperplanes \(H_1,\dots,H_N\):</p><p><strong>Proposition 1.</strong> If \(\{\alpha_1,\dots,\alpha_N\}\subset\mathbb{R}^{N-1}\) are affinely independent (that is, \(\mathcal{T}\) is a simplex), then \(\mathcal{T}\) can be reconstructed from \(N\) hyperplanes \(\{H_1,\dots,H_N\}\) that tightly enclose \(\mathcal{T}\), where \(H_i = \text{aff}(\{\alpha_1,\dots,\alpha_N\}\backslash\{\alpha_i\})\).</p><p>Proof sketch: it is enough to show that \(\{\alpha_1,\dots,\alpha_N\}\) can be determined from \(\{H_1,\dots,H_N\}\). The proof is omitted.</p><p>The key step of HyperCSI is therefore to estimate these \(N\) hyperplanes, recover Craig&rsquo;s minimum-volume simplex, and thereby obtain the endmember estimates.</p><p><img src=/img/image1.png alt="alt text"></p><h3 id=3-estimating-hyperplane-normals><a class=header-anchor href=#3-estimating-hyperplane-normals></a>3. Estimating Hyperplane Normals</h3><p>Now consider how to estimate the normal \(b_i\) and the constant \(h_i\) of the \(i\)-th hyperplane \(H_i(b_i,h_i) = \{x\in\mathbb{R}^{N-1} \ \vert \ b_i^T x = h_i\}\).</p><p>By the following proposition, \(b_i\) is determined once any \(N-1\) affinely independent points on \(H_i\) have been found.</p><p><strong>Proposition 2.</strong> Given any set of \(N-1\) affinely independent points \(\{p_1^{(i)},\dots,p_{N-1}^{(i)}\}\subset H_i\) on \(H_i\), one has (up to a positive scale factor)</p>\[
+b_i = v_i (p_1^{(i)}, \dots,
+p_{N-1}^{(i)})
+\]<p>where</p>\[
+v_i(p_1, \dots, p_{N-1}) = (I_{N-1} -
+P(P^TP)^{-1}P^T)(p_j - p_i), \quad \forall j\neq i
+\]<p>and \(P = [\alpha_1 \cdots \alpha_i \cdots \alpha_j \cdots \alpha_N] - \alpha_j \cdot 1_{N-2}^T\).</p><p>Next, \(N-1\) &ldquo;nearest&rdquo; points \(P_i\) on \(H_i\) are sought in the original data \(X = \{\tilde{x}[1], \dots, \tilde{x}[L]\}\). The steps are as follows.</p><ol><li>First use SPA to extract from \(X\) the \(N\) purest pixels \(\{\tilde{\alpha}_1, \dots, \tilde{\alpha}_N\}\) (which may be viewed as the pixels closest to \(\alpha_1, \dots, \alpha_N\)).</li><li>Compute the normal \(\tilde{b}_i\) of the hyperplane \(\tilde{H}_i = \text{aff}(\{\tilde{\alpha}_1, \dots, \tilde{\alpha}_N\}\backslash\{\tilde{\alpha}_i\})\).</li><li>Partition the data set \(X\) into \(N-1\) disjoint regions \(R_1^{(i)},\dots,R_{N-1}^{(i)}\), each centered at one \(\tilde{\alpha}_j\).</li><li>In each region, find the point closest to \(\tilde{H}_i\) by solving</li></ol>\[
+p_k^{(i)} \in \arg\max\{\tilde{b}_i^T p
+\mid p \in X \cap R_k^{(i)}\}, \quad \forall
+k\in\{1,\dots,N-1\}
+\]<p>Let the resulting point set be \(P_i = \{p_1^{(i)}, \dots, p_{N-1}^{(i)}\}\).</p><ol start=5><li>By Proposition 2, the estimated normal of the \(i\)-th hyperplane in HyperCSI is</li></ol>\[
+\hat{b}_i = v_i(p_1^{(i)}, \dots,
+p_{N-1}^{(i)})
+\]<h3 id=4-estimating-the-hyperplane-inner-product-constants><a class=header-anchor href=#4-estimating-the-hyperplane-inner-product-constants></a>4. Estimating the Hyperplane Inner-Product Constants</h3><p>The method above yields estimated normals \(\{\hat{b}_1,\dots,\hat{b}_N\}\) of the \(N\) hyperplanes of Craig&rsquo;s minimum-volume simplex. To determine these hyperplanes completely, the corresponding inner-product constants \(\hat{h}_i\) must still be estimated. Consider the following lemma.</p><p><strong>Lemma 1.</strong></p><ol><li>For every \(p\in X\), \(b_i^Tp \leq h_i\) (that is, all data points lie on the same side).</li><li>The distance from a point \(p\in X\) to \(H_i\) is \(\text{dist}(p,H_i) = |h_i - b_i^Tp| / \|b_i\|\).</li><li>If and only if \(b_i\) points from the interior of Craig&rsquo;s minimum-volume simplex toward its exterior, the point corresponding to the maximum point-to-plane distance, \(\hat{p} = \arg\max\{b_i^Tp\mid p\in X\}\), is the point closest to \(H_i\).</li></ol><p>It is then natural to take</p>\[
+\hat{h}_i = \max\{\hat{b}_i^T p \mid p
+\in X\}
+\]<p>as the estimate of the corresponding inner-product constant.</p><p>In the presence of noise, noise can inflate the number of endmember types apparent in the data. The volume of Craig&rsquo;s minimum-volume simplex then increases, and the estimated hyperplanes are pushed away from the data mean (the origin in the DR space). To mitigate this effect, the estimated hyperplanes are shifted inward by a suitable amount:</p>\[
+\hat{H}_i = \{\hat{b}_i^Tx =
+\hat{h}_i/c\}, \quad c \geq 1
+\]<p>where \(c\) is an inward-shift factor given by</p>\[
+c = \max\{1, \max\{-v_{ij}/d_j \mid
+i\in\{1,\dots,N\}, j\in\{1,\dots,M\}\}\} / \eta
+\]<p>Here \(\eta \in (0,1]\) is a preset parameter (a typical value is \(0.9\)), \(v_{ij}\) is the \(j\)-th element of \(C(\hat{B}_{-i}^{-1}\hat{h}_{-i})\), \(d_j\) is the \(j\)-th element of the data mean \(d\), and \(\hat{B}_{-i}\) and \(\hat{h}_{-i}\) are determined by the vectors \(\{\hat{b}_j,\hat{h}_j\}_{j\neq i}\). This choice ensures that the estimated endmember signatures are nonnegative.</p><p>Finally, the endmember estimates after the inward shift are</p>\[
+\hat{\alpha}_i =
+\hat{B}_{-i}^{-1}\frac{\hat{h}_{-i}}{c}, \quad \hat{a}_i =
+C\hat{\alpha}_i + d, \quad \forall i\in\{1,\dots,N\}
+\]<h3 id=5-abundance-estimation><a class=header-anchor href=#5-abundance-estimation></a>5. Abundance Estimation</h3><p>Although abundances are usually estimated by solving a fully constrained least-squares (FCLS) problem, the geometric quantities supplied by Craig&rsquo;s criterion allow the abundances to be estimated quickly by the following closed-form expression:</p>\[
+\hat{s}_i[n] = \left(\frac{\hat{h}_i -
+\hat{b}_i^T\tilde{x}[n]}{\hat{h}_i -
+\hat{b}_i^T\hat{\alpha}_i}\right)_+, \quad \forall i\in\{1,\dots,N\}, \,
+\forall n\in\{1,\dots,L\}
+\]<p>where \((y)_+ = \max\{y,0\}\) enforces nonnegative abundances. When a pixel \(\tilde{x}[n]\) lies inside the simplex enclosed by the estimated endmembers, this estimate is equivalent to the solution of the FCLS problem. When a pixel lies far from the estimated simplex, some bias may appear. For high-SNR hyperspectral data, however, most pixels fall near the estimated simplex, so the fast abundance estimate above is reasonable.</p><h2 id=summary-of-the-algorithm><a class=header-anchor href=#summary-of-the-algorithm></a>Summary of the Algorithm</h2><ul><li>HyperCSI constructs the hyperplanes associated with Craig&rsquo;s minimum-volume simplex and thereby avoids complicated volume calculations, solving Craig&rsquo;s criterion efficiently.</li><li>It needs only \(N(N-1)\) pixels, independent of the data length, to reconstruct the \(N\) hyperplanes of Craig&rsquo;s minimum-volume simplex.</li><li>It is proved that, with no noise and sufficiently many pixels, HyperCSI identifies the true endmembers and Craig&rsquo;s minimum-volume simplex exactly.</li><li>Abundance estimation uses a closed form and is therefore fast.</li><li>The overall computational complexity is \(\mathcal{O}(N^2L)\), comparable to that of some classical pure-pixel algorithms.</li></ul><p>In summary, HyperCSI is a novel and efficient method for solving Craig&rsquo;s criterion. It avoids complicated volume calculations while retaining the strong performance of the traditional algorithms.</p><h2 id=code-implementation><a class=header-anchor href=#code-implementation></a>Code Implementation</h2><h3 id=matlab-implementation><a class=header-anchor href=#matlab-implementation></a>MATLAB Implementation</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span><span class=lnt>111
+</span><span class=lnt>112
+</span><span class=lnt>113
+</span><span class=lnt>114
+</span><span class=lnt>115
+</span><span class=lnt>116
+</span><span class=lnt>117
+</span><span class=lnt>118
+</span><span class=lnt>119
+</span><span class=lnt>120
+</span><span class=lnt>121
+</span><span class=lnt>122
+</span><span class=lnt>123
+</span><span class=lnt>124
+</span><span class=lnt>125
+</span><span class=lnt>126
+</span><span class=lnt>127
+</span><span class=lnt>128
+</span><span class=lnt>129
+</span><span class=lnt>130
+</span><span class=lnt>131
+</span><span class=lnt>132
+</span><span class=lnt>133
+</span><span class=lnt>134
+</span><span class=lnt>135
+</span><span class=lnt>136
+</span><span class=lnt>137
+</span><span class=lnt>138
+</span><span class=lnt>139
+</span><span class=lnt>140
+</span><span class=lnt>141
+</span><span class=lnt>142
+</span><span class=lnt>143
+</span><span class=lnt>144
+</span><span class=lnt>145
+</span><span class=lnt>146
+</span><span class=lnt>147
+</span><span class=lnt>148
+</span><span class=lnt>149
+</span><span class=lnt>150
+</span><span class=lnt>151
+</span><span class=lnt>152
+</span><span class=lnt>153
+</span><span class=lnt>154
+</span><span class=lnt>155
+</span><span class=lnt>156
+</span><span class=lnt>157
+</span><span class=lnt>158
+</span><span class=lnt>159
+</span><span class=lnt>160
+</span><span class=lnt>161
+</span><span class=lnt>162
+</span><span class=lnt>163
+</span><span class=lnt>164
+</span><span class=lnt>165
+</span><span class=lnt>166
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-matlab data-lang=matlab><span class=line><span class=cl><span class=c>% References:</span>
+</span></span><span class=line><span class=cl><span class=c>% C.-H. Lin, C.-Y. Chi, Y.-H. Wang, and T.-H. Chan,</span>
+</span></span><span class=line><span class=cl><span class=c>% ``A fast hyperplane-based minimum-volume enclosing simplex algorithm for blind hyperspectral unmixing,&#34;</span>
+</span></span><span class=line><span class=cl><span class=c>% arXiv preprint arXiv:1510.08917, 2015.</span>
+</span></span><span class=line><span class=cl><span class=c>%======================================================================</span>
+</span></span><span class=line><span class=cl><span class=c>% A fast implementation of the hyperplane-based Craig-simplex identification algorithm</span>
+</span></span><span class=line><span class=cl><span class=c>% [A_est, S_est, time] = HyperCSI(X,N)</span>
+</span></span><span class=line><span class=cl><span class=c>%======================================================================</span>
+</span></span><span class=line><span class=cl><span class=c>%  Input</span>
+</span></span><span class=line><span class=cl><span class=c>%  X is an M-by-L data matrix, where M is the number of spectral bands and L is the number of pixels.</span>
+</span></span><span class=line><span class=cl><span class=c>%  N is the number of endmembers.</span>
+</span></span><span class=line><span class=cl><span class=c>%----------------------------------------------------------------------</span>
+</span></span><span class=line><span class=cl><span class=c>%  Output</span>
+</span></span><span class=line><span class=cl><span class=c>%  A_est is an M-by-N mixing matrix whose columns are the estimated endmember signatures.</span>
+</span></span><span class=line><span class=cl><span class=c>%  S_est is an N-by-L source matrix whose rows are the estimated abundance maps.</span>
+</span></span><span class=line><span class=cl><span class=c>%  time is the computation time (in seconds).</span>
+</span></span><span class=line><span class=cl><span class=c>%========================================================================</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>function</span><span class=w> </span>[A_est, S_est, time] <span class=p>=</span><span class=w> </span><span class=nf>HyperCSI</span><span class=p>(</span>X,N<span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=n>t0</span> <span class=p>=</span> <span class=n>clock</span><span class=p>;</span> <span class=c>% get the current time</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c>%------------------------ Step 1 ------------------------</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=n>M</span> <span class=n>L</span> <span class=p>]</span> <span class=p>=</span> <span class=nb>size</span><span class=p>(</span><span class=n>X</span><span class=p>);</span> <span class=c>% get the size of X</span>
+</span></span><span class=line><span class=cl><span class=n>d</span> <span class=p>=</span> <span class=n>mean</span><span class=p>(</span><span class=n>X</span><span class=p>,</span><span class=mi>2</span><span class=p>);</span> <span class=c>% compute the mean vector</span>
+</span></span><span class=line><span class=cl><span class=n>U</span> <span class=p>=</span> <span class=n>X</span><span class=o>-</span><span class=n>d</span><span class=o>*</span><span class=nb>ones</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span><span class=n>L</span><span class=p>);</span> <span class=c>% mean centering</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=n>eV</span> <span class=n>D</span><span class=p>]</span> <span class=p>=</span> <span class=n>eig</span><span class=p>(</span><span class=n>U</span><span class=o>*</span><span class=n>U</span><span class=o>&#39;</span><span class=p>);</span> <span class=c>% compute eigenvalues and eigenvectors</span>
+</span></span><span class=line><span class=cl><span class=n>C</span> <span class=p>=</span> <span class=n>eV</span><span class=p>(:,</span><span class=n>M</span><span class=o>-</span><span class=n>N</span><span class=o>+</span><span class=mi>2</span><span class=p>:</span><span class=k>end</span><span class=p>);</span> <span class=c>% extract the first N-1 principal components</span>
+</span></span><span class=line><span class=cl><span class=n>Xd</span> <span class=p>=</span> <span class=n>C</span><span class=o>&#39;*</span><span class=p>(</span><span class=n>X</span><span class=o>-</span><span class=n>d</span><span class=o>*</span><span class=nb>ones</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span><span class=n>L</span><span class=p>));</span> <span class=c>% dimension-reduced data (Xd is (N-1)-by-L)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c>%------------------------ Step 2 ------------------------</span>
+</span></span><span class=line><span class=cl><span class=n>alpha_tilde</span> <span class=p>=</span> <span class=n>SPA</span><span class=p>(</span><span class=n>Xd</span><span class=p>,</span><span class=n>L</span><span class=p>,</span><span class=n>N</span><span class=p>);</span> <span class=c>% identify the purest pixels</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c>%------------------------ Step 3 ------------------------</span>
+</span></span><span class=line><span class=cl><span class=k>for</span> <span class=nb>i</span> <span class=p>=</span> <span class=mi>1</span><span class=p>:</span><span class=n>N</span>
+</span></span><span class=line><span class=cl>    <span class=n>bi_tilde</span><span class=p>(:,</span><span class=nb>i</span><span class=p>)</span> <span class=p>=</span> <span class=n>compute_bi</span><span class=p>(</span><span class=n>alpha_tilde</span><span class=p>,</span><span class=nb>i</span><span class=p>,</span><span class=n>N</span><span class=p>);</span> <span class=c>% obtain bi_tilde</span>
+</span></span><span class=line><span class=cl><span class=k>end</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>r</span> <span class=p>=</span> <span class=p>(</span><span class=mi>1</span><span class=o>/</span><span class=mi>2</span><span class=p>)</span><span class=o>*</span><span class=n>norm</span><span class=p>(</span><span class=n>alpha_tilde</span><span class=p>(:,</span><span class=mi>1</span><span class=p>)</span><span class=o>-</span><span class=n>alpha_tilde</span><span class=p>(:,</span><span class=mi>2</span><span class=p>));</span> <span class=c>% initialize the hyperball radius</span>
+</span></span><span class=line><span class=cl><span class=k>for</span> <span class=nb>i</span> <span class=p>=</span> <span class=mi>1</span><span class=p>:</span><span class=n>N</span><span class=o>-</span><span class=mi>1</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=nb>j</span> <span class=p>=</span> <span class=nb>i</span><span class=o>+</span><span class=mi>1</span><span class=p>:</span><span class=n>N</span>
+</span></span><span class=line><span class=cl>        <span class=n>dist_ai_aj</span><span class=p>(</span><span class=nb>i</span><span class=p>,</span><span class=nb>j</span><span class=p>)</span> <span class=p>=</span> <span class=n>norm</span><span class=p>(</span><span class=n>alpha_tilde</span><span class=p>(:,</span><span class=nb>i</span><span class=p>)</span><span class=o>-</span><span class=n>alpha_tilde</span><span class=p>(:,</span><span class=nb>j</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=mi>1</span><span class=o>/</span><span class=mi>2</span><span class=p>)</span><span class=o>*</span><span class=n>dist_ai_aj</span><span class=p>(</span><span class=nb>i</span><span class=p>,</span><span class=nb>j</span><span class=p>)</span> <span class=o>&lt;</span> <span class=n>r</span>
+</span></span><span class=line><span class=cl>            <span class=n>r</span> <span class=p>=</span> <span class=p>(</span><span class=mi>1</span><span class=o>/</span><span class=mi>2</span><span class=p>)</span><span class=o>*</span><span class=n>dist_ai_aj</span><span class=p>(</span><span class=nb>i</span><span class=p>,</span><span class=nb>j</span><span class=p>);</span> <span class=c>% compute the hyperball radius</span>
+</span></span><span class=line><span class=cl>        <span class=k>end</span>
+</span></span><span class=line><span class=cl>    <span class=k>end</span>
+</span></span><span class=line><span class=cl><span class=k>end</span>
+</span></span><span class=line><span class=cl><span class=n>Xd_divided_idx</span> <span class=p>=</span> <span class=nb>zeros</span><span class=p>(</span><span class=n>L</span><span class=p>,</span><span class=mi>1</span><span class=p>);</span> <span class=c>% initialize the label array</span>
+</span></span><span class=line><span class=cl><span class=n>radius_square</span> <span class=p>=</span> <span class=n>r</span>^<span class=mi>2</span><span class=p>;</span> <span class=c>% square of the radius</span>
+</span></span><span class=line><span class=cl><span class=k>for</span> <span class=n>k</span> <span class=p>=</span> <span class=mi>1</span><span class=p>:</span><span class=n>N</span>
+</span></span><span class=line><span class=cl>    <span class=p>[</span><span class=n>IDX_alpha_i_tilde</span><span class=p>]=</span> <span class=nb>find</span><span class=p>(</span> <span class=n>sum</span><span class=p>(</span>  <span class=p>(</span><span class=n>Xd</span><span class=o>-</span> <span class=n>alpha_tilde</span><span class=p>(:,</span><span class=n>k</span><span class=p>)</span><span class=o>*</span><span class=nb>ones</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span><span class=n>L</span><span class=p>)</span> <span class=p>)</span><span class=o>.^</span><span class=mi>2</span><span class=p>,</span><span class=mi>1</span>  <span class=p>)</span>  <span class=o>&lt;</span> <span class=n>radius_square</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>Xd_divided_idx</span><span class=p>(</span><span class=n>IDX_alpha_i_tilde</span><span class=p>)</span> <span class=p>=</span> <span class=n>k</span> <span class=p>;</span> <span class=c>% compute the hyperballs</span>
+</span></span><span class=line><span class=cl><span class=k>end</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c>%------------------------ Step 4 ------------------------</span>
+</span></span><span class=line><span class=cl><span class=k>for</span> <span class=nb>i</span> <span class=p>=</span> <span class=mi>1</span><span class=p>:</span><span class=n>N</span>
+</span></span><span class=line><span class=cl>    <span class=n>Hi_idx</span> <span class=p>=</span> <span class=n>setdiff</span><span class=p>([</span><span class=mi>1</span><span class=p>:</span><span class=n>N</span><span class=p>],[</span><span class=nb>i</span><span class=p>]);</span> <span class=c>% remove the i-th endmember</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=n>k</span> <span class=p>=</span> <span class=mi>1</span><span class=p>:</span><span class=mi>1</span><span class=o>*</span><span class=p>(</span><span class=n>N</span><span class=o>-</span><span class=mi>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>Ri_k</span> <span class=p>=</span> <span class=n>Xd</span><span class=p>(:,(</span> <span class=n>Xd_divided_idx</span> <span class=o>==</span> <span class=n>Hi_idx</span><span class=p>(</span><span class=n>k</span><span class=p>)</span> <span class=p>));</span> <span class=c>% select the data belonging to the k-th hyperball</span>
+</span></span><span class=line><span class=cl>        <span class=p>[</span><span class=n>val</span> <span class=n>idx</span><span class=p>]</span> <span class=p>=</span> <span class=n>max</span><span class=p>(</span><span class=n>bi_tilde</span><span class=p>(:,</span><span class=nb>i</span><span class=p>)</span><span class=o>&#39;*</span><span class=n>Ri_k</span><span class=p>);</span> <span class=c>% find the point with the largest projection onto bi_tilde(:,i)</span>
+</span></span><span class=line><span class=cl>        <span class=n>pi_k</span><span class=p>(:,</span><span class=n>k</span><span class=p>)</span> <span class=p>=</span> <span class=n>Ri_k</span><span class=p>(:,</span><span class=n>idx</span><span class=p>);</span> <span class=c>% record these points as the N-1 affinely independent points on the hyperplane</span>
+</span></span><span class=line><span class=cl>    <span class=k>end</span>
+</span></span><span class=line><span class=cl>    <span class=n>b_hat</span><span class=p>(:,</span><span class=nb>i</span><span class=p>)</span> <span class=p>=</span> <span class=n>compute_bi</span><span class=p>([</span><span class=n>pi_k</span> <span class=n>alpha_tilde</span><span class=p>(:,</span><span class=nb>i</span><span class=p>)],</span><span class=n>N</span><span class=p>,</span><span class=n>N</span><span class=p>);</span> <span class=c>% compute b_hat(:,i)</span>
+</span></span><span class=line><span class=cl>    <span class=n>h_hat</span><span class=p>(</span><span class=nb>i</span><span class=p>,</span><span class=mi>1</span><span class=p>)</span> <span class=p>=</span> <span class=n>max</span><span class=p>(</span><span class=n>b_hat</span><span class=p>(:,</span><span class=nb>i</span><span class=p>)</span><span class=o>&#39;*</span><span class=n>Xd</span><span class=p>);</span> <span class=c>% compute h_hat(i,1)</span>
+</span></span><span class=line><span class=cl><span class=k>end</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c>%------------------------ Step 5 &amp; Step 6 ------------------------</span>
+</span></span><span class=line><span class=cl><span class=n>comm_flag</span> <span class=p>=</span> <span class=mi>1</span><span class=p>;</span> <span class=c>% comm_flag = 1 means noise is present, so the hyperplanes are moved toward the center of the data cloud</span>
+</span></span><span class=line><span class=cl><span class=c>% comm_flag = 0 means there is no noise, so Step 5 is not performed (hence c = 1)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>eta</span> <span class=p>=</span> <span class=mf>0.9</span><span class=p>;</span> <span class=c>% 0.9 is an empirically good choice for endmembers in the USGS library</span>
+</span></span><span class=line><span class=cl><span class=k>for</span> <span class=nb>i</span> <span class=p>=</span> <span class=mi>1</span><span class=p>:</span><span class=n>N</span>
+</span></span><span class=line><span class=cl>    <span class=n>bbbb</span> <span class=p>=</span> <span class=n>b_hat</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>ccconst</span> <span class=p>=</span> <span class=n>h_hat</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>bbbb</span><span class=p>(:,</span><span class=nb>i</span><span class=p>)</span> <span class=p>=</span> <span class=p>[];</span> <span class=c>% remove the i-th column</span>
+</span></span><span class=line><span class=cl>    <span class=n>ccconst</span><span class=p>(</span><span class=nb>i</span><span class=p>)</span> <span class=p>=</span> <span class=p>[];</span> <span class=c>% remove the i-th element</span>
+</span></span><span class=line><span class=cl>    <span class=n>alpha_hat</span><span class=p>(:,</span><span class=nb>i</span><span class=p>)</span> <span class=p>=</span> <span class=n>pinv</span><span class=p>(</span><span class=n>bbbb</span><span class=o>&#39;</span><span class=p>)</span><span class=o>*</span><span class=n>ccconst</span><span class=p>;</span> <span class=c>% compute alpha_hat(:,i)</span>
+</span></span><span class=line><span class=cl><span class=k>end</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=n>comm_flag</span> <span class=o>==</span> <span class=mi>1</span>
+</span></span><span class=line><span class=cl>    <span class=n>VV</span> <span class=p>=</span> <span class=n>C</span><span class=o>*</span><span class=n>alpha_hat</span><span class=p>;</span> <span class=c>% project alpha_hat back to the original dimension</span>
+</span></span><span class=line><span class=cl>    <span class=n>UU</span> <span class=p>=</span> <span class=n>d</span><span class=o>*</span><span class=nb>ones</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span><span class=n>N</span><span class=p>);</span> <span class=c>% construct the mean vector</span>
+</span></span><span class=line><span class=cl>    <span class=n>closed_form_optval</span> <span class=p>=</span> <span class=n>max</span><span class=p>(</span> <span class=mi>1</span> <span class=p>,</span> <span class=n>max</span><span class=p>(</span><span class=n>max</span><span class=p>(</span> <span class=p>(</span><span class=o>-</span><span class=n>VV</span><span class=p>)</span> <span class=o>./</span> <span class=n>UU</span><span class=p>))</span> <span class=p>);</span> <span class=c>% compute c&#39;</span>
+</span></span><span class=line><span class=cl>    <span class=n>c</span> <span class=p>=</span> <span class=n>closed_form_optval</span><span class=o>/</span><span class=n>eta</span><span class=p>;</span> <span class=c>% compute c</span>
+</span></span><span class=line><span class=cl>    <span class=n>h_hat</span> <span class=p>=</span> <span class=n>h_hat</span><span class=o>/</span><span class=n>c</span><span class=p>;</span> <span class=c>% update h_hat</span>
+</span></span><span class=line><span class=cl>    <span class=n>alpha_hat</span> <span class=p>=</span> <span class=n>alpha_hat</span><span class=o>/</span><span class=n>c</span><span class=p>;</span> <span class=c>% update alpha_hat</span>
+</span></span><span class=line><span class=cl><span class=k>end</span>
+</span></span><span class=line><span class=cl><span class=n>A_est</span> <span class=p>=</span> <span class=n>C</span> <span class=o>*</span> <span class=n>alpha_hat</span> <span class=o>+</span> <span class=n>d</span> <span class=o>*</span> <span class=nb>ones</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span><span class=n>N</span><span class=p>);</span> <span class=c>% endmember estimates</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c>%------------------------ Step 7 ------------------------</span>
+</span></span><span class=line><span class=cl><span class=c>% Step 7 can be removed if the user does not need abundance estimates</span>
+</span></span><span class=line><span class=cl><span class=n>S_est</span> <span class=p>=</span> <span class=p>(</span> <span class=n>h_hat</span><span class=o>*</span><span class=nb>ones</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span><span class=n>L</span><span class=p>)</span><span class=o>-</span> <span class=n>b_hat</span><span class=o>&#39;*</span><span class=n>Xd</span>   <span class=p>)</span> <span class=o>./</span> <span class=p>(</span> <span class=p>(</span>  <span class=n>h_hat</span> <span class=o>-</span> <span class=n>sum</span><span class=p>(</span> <span class=n>b_hat</span><span class=o>.*</span><span class=n>alpha_hat</span> <span class=p>)</span><span class=o>&#39;</span> <span class=p>)</span> <span class=o>*</span><span class=nb>ones</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span><span class=n>L</span><span class=p>)</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>S_est</span><span class=p>(</span><span class=n>S_est</span><span class=o>&lt;</span><span class=mi>0</span><span class=p>)</span> <span class=p>=</span> <span class=mi>0</span><span class=p>;</span> <span class=c>% nonnegativity constraint</span>
+</span></span><span class=line><span class=cl><span class=c>% end</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>time</span> <span class=p>=</span> <span class=n>etime</span><span class=p>(</span><span class=n>clock</span><span class=p>,</span><span class=n>t0</span><span class=p>);</span> <span class=c>% compute the runtime</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c>%% subprogram 1</span>
+</span></span><span class=line><span class=cl><span class=k>function</span><span class=w> </span>[bi] <span class=p>=</span><span class=w> </span><span class=nf>compute_bi</span><span class=p>(</span>a0,i,N<span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=n>Hindx</span> <span class=p>=</span> <span class=n>setdiff</span><span class=p>([</span><span class=mi>1</span><span class=p>:</span><span class=n>N</span><span class=p>],[</span><span class=nb>i</span><span class=p>]);</span> <span class=c>% remove the i-th endmember</span>
+</span></span><span class=line><span class=cl><span class=n>A_Hindx</span> <span class=p>=</span> <span class=n>a0</span><span class=p>(:,</span><span class=n>Hindx</span><span class=p>);</span> <span class=c>% select the other endmembers</span>
+</span></span><span class=line><span class=cl><span class=n>A_tilde_i</span> <span class=p>=</span> <span class=n>A_Hindx</span><span class=p>(:,</span><span class=mi>1</span><span class=p>:</span><span class=n>N</span><span class=o>-</span><span class=mi>2</span><span class=p>)</span><span class=o>-</span><span class=n>A_Hindx</span><span class=p>(:,</span><span class=n>N</span><span class=o>-</span><span class=mi>1</span><span class=p>)</span><span class=o>*</span><span class=nb>ones</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span><span class=n>N</span><span class=o>-</span><span class=mi>2</span><span class=p>);</span> <span class=c>% compute A_tilde_i</span>
+</span></span><span class=line><span class=cl><span class=n>bi</span> <span class=p>=</span> <span class=n>A_Hindx</span><span class=p>(:,</span><span class=n>N</span><span class=o>-</span><span class=mi>1</span><span class=p>)</span><span class=o>-</span><span class=n>a0</span><span class=p>(:,</span><span class=nb>i</span><span class=p>);</span> <span class=c>% compute bi</span>
+</span></span><span class=line><span class=cl><span class=n>bi</span> <span class=p>=</span> <span class=p>(</span><span class=nb>eye</span><span class=p>(</span><span class=n>N</span><span class=o>-</span><span class=mi>1</span><span class=p>)</span> <span class=o>-</span> <span class=n>A_tilde_i</span><span class=o>*</span><span class=p>(</span><span class=n>pinv</span><span class=p>(</span><span class=n>A_tilde_i</span><span class=o>&#39;*</span><span class=n>A_tilde_i</span><span class=p>))</span><span class=o>*</span><span class=n>A_tilde_i</span><span class=o>&#39;</span><span class=p>)</span><span class=o>*</span><span class=n>bi</span><span class=p>;</span> <span class=c>% project bi onto null(A_tilde_i)</span>
+</span></span><span class=line><span class=cl><span class=n>bi</span> <span class=p>=</span> <span class=n>bi</span><span class=o>/</span><span class=n>norm</span><span class=p>(</span><span class=n>bi</span><span class=p>);</span> <span class=c>% normalize</span>
+</span></span><span class=line><span class=cl><span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=c>% end</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c>%% subprogram 2</span>
+</span></span><span class=line><span class=cl><span class=k>function</span><span class=w> </span>[alpha_tilde] <span class=p>=</span><span class=w> </span><span class=nf>SPA</span><span class=p>(</span>Xd,L,N<span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=c>% References:</span>
+</span></span><span class=line><span class=cl><span class=c>% [1] W.-K. Ma, J. M. Bioucas-Dias, T.-H. Chan, N. Gillis, P. Gader, A. J. Plaza, A. Ambikapathi, and C.-Y. Chi, </span>
+</span></span><span class=line><span class=cl><span class=c>% ``A signal processing perspective on hyperspectral unmixing,�� </span>
+</span></span><span class=line><span class=cl><span class=c>% IEEE Signal Process. Mag., vol. 31, no. 1, pp. 67�V81, 2014.</span>
+</span></span><span class=line><span class=cl><span class=c>% </span>
+</span></span><span class=line><span class=cl><span class=c>% [2] S. Arora, R. Ge, Y. Halpern, D. Mimno, A. Moitra, D. Sontag, Y. Wu, and M. Zhu, </span>
+</span></span><span class=line><span class=cl><span class=c>% ``A practical algorithm for topic modeling with provable guarantees,�� </span>
+</span></span><span class=line><span class=cl><span class=c>% arXiv preprint arXiv:1212.4777, 2012.</span>
+</span></span><span class=line><span class=cl><span class=c>%======================================================================</span>
+</span></span><span class=line><span class=cl><span class=c>% An implementation of the successive projection algorithm (SPA)</span>
+</span></span><span class=line><span class=cl><span class=c>% [alpha_tilde] = SPA(Xd,L,N)</span>
+</span></span><span class=line><span class=cl><span class=c>%======================================================================</span>
+</span></span><span class=line><span class=cl><span class=c>%  Input</span>
+</span></span><span class=line><span class=cl><span class=c>%  Xd is the dimension-reduced data matrix.</span>
+</span></span><span class=line><span class=cl><span class=c>%  L is the number of pixels.</span>
+</span></span><span class=line><span class=cl><span class=c>%  N is the number of endmembers.</span>
+</span></span><span class=line><span class=cl><span class=c>%----------------------------------------------------------------------</span>
+</span></span><span class=line><span class=cl><span class=c>%  Output</span>
+</span></span><span class=line><span class=cl><span class=c>%  alpha_tilde is an (N-1)-by-N matrix whose columns are the purest pixels after dimension reduction.</span>
+</span></span><span class=line><span class=cl><span class=c>%======================================================================</span>
+</span></span><span class=line><span class=cl><span class=c>%======================================================================</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c>%----------- Define default parameters------------------</span>
+</span></span><span class=line><span class=cl><span class=n>con_tol</span> <span class=p>=</span> <span class=mf>1e-8</span><span class=p>;</span> <span class=c>% SPA convergence tolerance</span>
+</span></span><span class=line><span class=cl><span class=n>num_SPA_itr</span> <span class=p>=</span> <span class=n>N</span><span class=p>;</span> <span class=c>% number of SPA post-processing iterations</span>
+</span></span><span class=line><span class=cl><span class=n>N_max</span> <span class=p>=</span> <span class=n>N</span><span class=p>;</span> <span class=c>% maximum number of iterations</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c>%------------------------ SPA initialization ------------------------</span>
+</span></span><span class=line><span class=cl><span class=n>A_set</span><span class=p>=[];</span> <span class=n>Xd_t</span> <span class=p>=</span> <span class=p>[</span><span class=n>Xd</span><span class=p>;</span> <span class=nb>ones</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span><span class=n>L</span><span class=p>)];</span> <span class=n>index</span> <span class=p>=</span> <span class=p>[];</span> <span class=c>% initialization</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=n>val</span> <span class=n>ind</span><span class=p>]</span> <span class=p>=</span> <span class=n>max</span><span class=p>(</span><span class=n>sum</span><span class=p>(</span> <span class=n>Xd_t</span><span class=o>.^</span><span class=mi>2</span> <span class=p>));</span> <span class=c>% find the point with the largest sum of squared projections</span>
+</span></span><span class=line><span class=cl><span class=n>A_set</span> <span class=p>=</span> <span class=p>[</span><span class=n>A_set</span> <span class=n>Xd_t</span><span class=p>(:,</span><span class=n>ind</span><span class=p>)];</span> <span class=c>% add this point to A_set</span>
+</span></span><span class=line><span class=cl><span class=n>index</span> <span class=p>=</span> <span class=p>[</span><span class=n>index</span> <span class=n>ind</span><span class=p>];</span> <span class=c>% record the index</span>
+</span></span><span class=line><span class=cl><span class=k>for</span> <span class=nb>i</span><span class=p>=</span><span class=mi>2</span><span class=p>:</span><span class=n>N</span>
+</span></span><span class=line><span class=cl>    <span class=n>XX</span> <span class=p>=</span> <span class=p>(</span><span class=nb>eye</span><span class=p>(</span><span class=n>N_max</span><span class=p>)</span> <span class=o>-</span> <span class=n>A_set</span> <span class=o>*</span> <span class=n>pinv</span><span class=p>(</span><span class=n>A_set</span><span class=p>))</span> <span class=o>*</span> <span class=n>Xd_t</span><span class=p>;</span> <span class=c>% project onto the orthogonal complement of A_set</span>
+</span></span><span class=line><span class=cl>    <span class=p>[</span><span class=n>val</span> <span class=n>ind</span><span class=p>]</span> <span class=p>=</span> <span class=n>max</span><span class=p>(</span><span class=n>sum</span><span class=p>(</span> <span class=n>XX</span><span class=o>.^</span><span class=mi>2</span> <span class=p>));</span> <span class=c>% find the point with the largest sum of squared projections</span>
+</span></span><span class=line><span class=cl>    <span class=n>A_set</span> <span class=p>=</span> <span class=p>[</span><span class=n>A_set</span> <span class=n>Xd_t</span><span class=p>(:,</span><span class=n>ind</span><span class=p>)];</span> <span class=c>% add this point to A_set</span>
+</span></span><span class=line><span class=cl>    <span class=n>index</span> <span class=p>=</span> <span class=p>[</span><span class=n>index</span> <span class=n>ind</span><span class=p>];</span> <span class=c>% record the index</span>
+</span></span><span class=line><span class=cl><span class=k>end</span>
+</span></span><span class=line><span class=cl><span class=n>alpha_tilde</span> <span class=p>=</span> <span class=n>Xd</span><span class=p>(:,</span><span class=n>index</span><span class=p>);</span> <span class=c>% initial estimate of the purest pixels</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c>%------------------------ SPA post-processing ------------------------</span>
+</span></span><span class=line><span class=cl><span class=n>current_vol</span> <span class=p>=</span> <span class=n>det</span><span class=p>(</span> <span class=n>alpha_tilde</span><span class=p>(:,</span><span class=mi>1</span><span class=p>:</span><span class=n>N</span><span class=o>-</span><span class=mi>1</span><span class=p>)</span> <span class=o>-</span> <span class=n>alpha_tilde</span><span class=p>(:,</span><span class=n>N</span><span class=p>)</span><span class=o>*</span><span class=nb>ones</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span><span class=n>N</span><span class=o>-</span><span class=mi>1</span><span class=p>)</span> <span class=p>);</span> <span class=c>% compute the initial volume</span>
+</span></span><span class=line><span class=cl><span class=k>for</span> <span class=n>jjj</span> <span class=p>=</span> <span class=mi>1</span><span class=p>:</span><span class=n>num_SPA_itr</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=nb>i</span> <span class=p>=</span> <span class=mi>1</span><span class=p>:</span><span class=n>N</span>
+</span></span><span class=line><span class=cl>        <span class=n>b</span><span class=p>(:,</span><span class=nb>i</span><span class=p>)</span> <span class=p>=</span> <span class=n>compute_bi</span><span class=p>(</span><span class=n>alpha_tilde</span><span class=p>,</span><span class=nb>i</span><span class=p>,</span><span class=n>N</span><span class=p>);</span> <span class=c>% compute bi</span>
+</span></span><span class=line><span class=cl>        <span class=n>b</span><span class=p>(:,</span><span class=nb>i</span><span class=p>)</span> <span class=p>=</span> <span class=o>-</span><span class=n>b</span><span class=p>(:,</span><span class=nb>i</span><span class=p>);</span> <span class=c>% take the negative</span>
+</span></span><span class=line><span class=cl>        <span class=p>[</span><span class=n>const</span> <span class=n>idx</span><span class=p>]</span> <span class=p>=</span> <span class=n>max</span><span class=p>(</span><span class=n>b</span><span class=p>(:,</span><span class=nb>i</span><span class=p>)</span><span class=o>&#39;*</span><span class=n>Xd</span><span class=p>);</span> <span class=c>% find the point with the largest projection onto bi</span>
+</span></span><span class=line><span class=cl>        <span class=n>alpha_tilde</span><span class=p>(:,</span><span class=nb>i</span><span class=p>)</span> <span class=p>=</span> <span class=n>Xd</span><span class=p>(:,</span><span class=n>idx</span><span class=p>);</span> <span class=c>% update alpha_tilde(:,i)</span>
+</span></span><span class=line><span class=cl>    <span class=k>end</span>
+</span></span><span class=line><span class=cl>    <span class=n>new_vol</span> <span class=p>=</span> <span class=n>det</span><span class=p>(</span> <span class=n>alpha_tilde</span><span class=p>(:,</span><span class=mi>1</span><span class=p>:</span><span class=n>N</span><span class=o>-</span><span class=mi>1</span><span class=p>)</span> <span class=o>-</span> <span class=n>alpha_tilde</span><span class=p>(:,</span><span class=n>N</span><span class=p>)</span><span class=o>*</span><span class=nb>ones</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span><span class=n>N</span><span class=o>-</span><span class=mi>1</span><span class=p>)</span> <span class=p>);</span> <span class=c>% compute the new volume</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>new_vol</span> <span class=o>-</span> <span class=n>current_vol</span><span class=p>)</span><span class=o>/</span><span class=n>current_vol</span>  <span class=o>&lt;</span> <span class=n>con_tol</span>
+</span></span><span class=line><span class=cl>        <span class=k>break</span><span class=p>;</span> <span class=c>% converged</span>
+</span></span><span class=line><span class=cl>    <span class=k>end</span>
+</span></span><span class=line><span class=cl><span class=k>end</span>
+</span></span><span class=line><span class=cl><span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=c>% end</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=python-implementation><a class=header-anchor href=#python-implementation></a>Python Implementation</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span><span class=lnt>111
+</span><span class=lnt>112
+</span><span class=lnt>113
+</span><span class=lnt>114
+</span><span class=lnt>115
+</span><span class=lnt>116
+</span><span class=lnt>117
+</span><span class=lnt>118
+</span><span class=lnt>119
+</span><span class=lnt>120
+</span><span class=lnt>121
+</span><span class=lnt>122
+</span><span class=lnt>123
+</span><span class=lnt>124
+</span><span class=lnt>125
+</span><span class=lnt>126
+</span><span class=lnt>127
+</span><span class=lnt>128
+</span><span class=lnt>129
+</span><span class=lnt>130
+</span><span class=lnt>131
+</span><span class=lnt>132
+</span><span class=lnt>133
+</span><span class=lnt>134
+</span><span class=lnt>135
+</span><span class=lnt>136
+</span><span class=lnt>137
+</span><span class=lnt>138
+</span><span class=lnt>139
+</span><span class=lnt>140
+</span><span class=lnt>141
+</span><span class=lnt>142
+</span><span class=lnt>143
+</span><span class=lnt>144
+</span><span class=lnt>145
+</span><span class=lnt>146
+</span><span class=lnt>147
+</span><span class=lnt>148
+</span><span class=lnt>149
+</span><span class=lnt>150
+</span><span class=lnt>151
+</span><span class=lnt>152
+</span><span class=lnt>153
+</span><span class=lnt>154
+</span><span class=lnt>155
+</span><span class=lnt>156
+</span><span class=lnt>157
+</span><span class=lnt>158
+</span><span class=lnt>159
+</span><span class=lnt>160
+</span><span class=lnt>161
+</span><span class=lnt>162
+</span><span class=lnt>163
+</span><span class=lnt>164
+</span><span class=lnt>165
+</span><span class=lnt>166
+</span><span class=lnt>167
+</span><span class=lnt>168
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>numpy</span> <span class=k>as</span> <span class=nn>np</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>time</span> <span class=kn>import</span> <span class=n>time</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Reference:</span>
+</span></span><span class=line><span class=cl><span class=c1># C.-H. Lin, C.-Y. Chi, Y.-H. Wang, and T.-H. Chan,</span>
+</span></span><span class=line><span class=cl><span class=c1># ``A fast hyperplane-based minimum-volume enclosing simplex algorithm for blind hyperspectral unmixing,&#34;</span>
+</span></span><span class=line><span class=cl><span class=c1># arXiv preprint arXiv:1510.08917, 2015.</span>
+</span></span><span class=line><span class=cl><span class=c1>#======================================================================</span>
+</span></span><span class=line><span class=cl><span class=c1># A fast implementation of Hyperplane-based Craig-Simplex-Identification algorithm</span>
+</span></span><span class=line><span class=cl><span class=c1># [A_est, S_est, time] = HyperCSI(X,N)</span>
+</span></span><span class=line><span class=cl><span class=c1>#======================================================================</span>
+</span></span><span class=line><span class=cl><span class=c1>#  Input</span>
+</span></span><span class=line><span class=cl><span class=c1>#  X is M-by-L data matrix, where M is the number of spectral bands and L is the number of pixels.</span>
+</span></span><span class=line><span class=cl><span class=c1>#  N is the number of endmembers.</span>
+</span></span><span class=line><span class=cl><span class=c1>#----------------------------------------------------------------------</span>
+</span></span><span class=line><span class=cl><span class=c1>#  Output</span>
+</span></span><span class=line><span class=cl><span class=c1>#  A_est is M-by-N mixing matrix whose columns are estimated endmember signatures.</span>
+</span></span><span class=line><span class=cl><span class=c1>#  S_est is N-by-L source matrix whose rows are estimated abundance maps.</span>
+</span></span><span class=line><span class=cl><span class=c1>#  time is the computation time (in secs).</span>
+</span></span><span class=line><span class=cl><span class=c1>#========================================================================</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>HyperCSI</span><span class=p>(</span><span class=n>X</span><span class=p>,</span> <span class=n>N</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=n>t0</span> <span class=o>=</span> <span class=n>time</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>#------------------------ Step 1 ------------------------</span>
+</span></span><span class=line><span class=cl>    <span class=n>M</span><span class=p>,</span> <span class=n>L</span> <span class=o>=</span> <span class=n>X</span><span class=o>.</span><span class=n>shape</span>
+</span></span><span class=line><span class=cl>    <span class=n>d</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>mean</span><span class=p>(</span><span class=n>X</span><span class=p>,</span> <span class=n>axis</span><span class=o>=</span><span class=mi>1</span><span class=p>,</span> <span class=n>keepdims</span><span class=o>=</span><span class=kc>True</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>U</span> <span class=o>=</span> <span class=n>X</span> <span class=o>-</span> <span class=n>d</span>
+</span></span><span class=line><span class=cl>    <span class=n>D</span><span class=p>,</span> <span class=n>eV</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>linalg</span><span class=o>.</span><span class=n>eigh</span><span class=p>(</span><span class=n>U</span> <span class=o>@</span> <span class=n>U</span><span class=o>.</span><span class=n>T</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>C</span> <span class=o>=</span> <span class=n>eV</span><span class=p>[:,</span> <span class=n>M</span><span class=o>-</span><span class=n>N</span><span class=p>:</span><span class=n>M</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>    <span class=n>Xd</span> <span class=o>=</span> <span class=n>C</span><span class=o>.</span><span class=n>T</span> <span class=o>@</span> <span class=p>(</span><span class=n>X</span> <span class=o>-</span> <span class=n>d</span><span class=p>)</span> <span class=c1># dimension reduced data (Xd is (N-1)-by-L)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>#------------------------ Step 2 ------------------------</span>
+</span></span><span class=line><span class=cl>    <span class=n>alpha_tilde</span> <span class=o>=</span> <span class=n>SPA</span><span class=p>(</span><span class=n>Xd</span><span class=p>,</span> <span class=n>L</span><span class=p>,</span> <span class=n>N</span><span class=p>)</span> <span class=c1># the identified purest pixels</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>#------------------------ Step 3 ------------------------</span>
+</span></span><span class=line><span class=cl>    <span class=n>bi_tilde</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>zeros</span><span class=p>((</span><span class=n>N</span><span class=o>-</span><span class=mi>1</span><span class=p>,</span> <span class=n>N</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>N</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=n>bi_tilde</span><span class=p>[:,</span> <span class=n>i</span><span class=p>]</span> <span class=o>=</span> <span class=n>compute_bi</span><span class=p>(</span><span class=n>alpha_tilde</span><span class=p>,</span> <span class=n>i</span><span class=p>,</span> <span class=n>N</span><span class=p>)</span> <span class=c1># obtain bi_tilde</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>r</span> <span class=o>=</span> <span class=mf>0.5</span> <span class=o>*</span> <span class=n>np</span><span class=o>.</span><span class=n>linalg</span><span class=o>.</span><span class=n>norm</span><span class=p>(</span><span class=n>alpha_tilde</span><span class=p>[:,</span> <span class=mi>0</span><span class=p>]</span> <span class=o>-</span> <span class=n>alpha_tilde</span><span class=p>[:,</span> <span class=mi>1</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>N</span><span class=o>-</span><span class=mi>1</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=n>j</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>i</span><span class=o>+</span><span class=mi>1</span><span class=p>,</span> <span class=n>N</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>            <span class=n>dist_ai_aj</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>linalg</span><span class=o>.</span><span class=n>norm</span><span class=p>(</span><span class=n>alpha_tilde</span><span class=p>[:,</span> <span class=n>i</span><span class=p>]</span> <span class=o>-</span> <span class=n>alpha_tilde</span><span class=p>[:,</span> <span class=n>j</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=mf>0.5</span> <span class=o>*</span> <span class=n>dist_ai_aj</span> <span class=o>&lt;</span> <span class=n>r</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>                <span class=n>r</span> <span class=o>=</span> <span class=mf>0.5</span> <span class=o>*</span> <span class=n>dist_ai_aj</span> <span class=c1># compute radius of hyperballs</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>Xd_divided_idx</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>zeros</span><span class=p>(</span><span class=n>L</span><span class=p>,</span> <span class=n>dtype</span><span class=o>=</span><span class=nb>int</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>radius_square</span> <span class=o>=</span> <span class=n>r</span><span class=o>**</span><span class=mi>2</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=n>k</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>N</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=n>IDX_alpha_i_tilde</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>sum</span><span class=p>((</span><span class=n>Xd</span> <span class=o>-</span> <span class=n>alpha_tilde</span><span class=p>[:,</span> <span class=n>k</span><span class=p>]</span><span class=o>.</span><span class=n>reshape</span><span class=p>(</span><span class=o>-</span><span class=mi>1</span><span class=p>,</span> <span class=mi>1</span><span class=p>))</span><span class=o>**</span><span class=mi>2</span><span class=p>,</span> <span class=n>axis</span><span class=o>=</span><span class=mi>0</span><span class=p>)</span> <span class=o>&lt;</span> <span class=n>radius_square</span>
+</span></span><span class=line><span class=cl>        <span class=n>Xd_divided_idx</span><span class=p>[</span><span class=n>IDX_alpha_i_tilde</span><span class=p>]</span> <span class=o>=</span> <span class=n>k</span> <span class=c1># compute the hyperballs</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>#------------------------ Step 4 ------------------------</span>
+</span></span><span class=line><span class=cl>    <span class=n>b_hat</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>zeros</span><span class=p>((</span><span class=n>N</span><span class=o>-</span><span class=mi>1</span><span class=p>,</span> <span class=n>N</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=n>h_hat</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>zeros</span><span class=p>(</span><span class=n>N</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>N</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=n>Hi_idx</span> <span class=o>=</span> <span class=p>[</span><span class=n>idx</span> <span class=k>for</span> <span class=n>idx</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>N</span><span class=p>)</span> <span class=k>if</span> <span class=n>idx</span> <span class=o>!=</span> <span class=n>i</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>        <span class=n>pi_k</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>zeros</span><span class=p>((</span><span class=n>N</span><span class=o>-</span><span class=mi>1</span><span class=p>,</span> <span class=n>N</span><span class=o>-</span><span class=mi>1</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=n>k</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>N</span><span class=o>-</span><span class=mi>1</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>            <span class=n>Ri_k</span> <span class=o>=</span> <span class=n>Xd</span><span class=p>[:,</span> <span class=n>Xd_divided_idx</span> <span class=o>==</span> <span class=n>Hi_idx</span><span class=p>[</span><span class=n>k</span><span class=p>]]</span>
+</span></span><span class=line><span class=cl>            <span class=n>idx</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>argmax</span><span class=p>(</span><span class=n>bi_tilde</span><span class=p>[:,</span> <span class=n>i</span><span class=p>]</span><span class=o>.</span><span class=n>T</span> <span class=o>@</span> <span class=n>Ri_k</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=n>pi_k</span><span class=p>[:,</span> <span class=n>k</span><span class=p>]</span> <span class=o>=</span> <span class=n>Ri_k</span><span class=p>[:,</span> <span class=n>idx</span><span class=p>]</span> <span class=c1># find N-1 affinely independent points for each hyperplane</span>
+</span></span><span class=line><span class=cl>        <span class=n>b_hat</span><span class=p>[:,</span> <span class=n>i</span><span class=p>]</span> <span class=o>=</span> <span class=n>compute_bi</span><span class=p>(</span><span class=n>np</span><span class=o>.</span><span class=n>hstack</span><span class=p>((</span><span class=n>pi_k</span><span class=p>,</span> <span class=n>alpha_tilde</span><span class=p>[:,</span> <span class=n>i</span><span class=p>]</span><span class=o>.</span><span class=n>reshape</span><span class=p>(</span><span class=o>-</span><span class=mi>1</span><span class=p>,</span> <span class=mi>1</span><span class=p>))),</span> <span class=n>N</span><span class=p>,</span> <span class=n>N</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>h_hat</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>max</span><span class=p>(</span><span class=n>b_hat</span><span class=p>[:,</span> <span class=n>i</span><span class=p>]</span><span class=o>.</span><span class=n>T</span> <span class=o>@</span> <span class=n>Xd</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>#------------------------ Step 5 &amp; Step 6 ------------------------</span>
+</span></span><span class=line><span class=cl>    <span class=n>comm_flag</span> <span class=o>=</span> <span class=mi>1</span>
+</span></span><span class=line><span class=cl>    <span class=c1># comm_flag = 1 in noisy case: bring hyperplanes closer to the center of data cloud</span>
+</span></span><span class=line><span class=cl>    <span class=c1># comm_flag = 0 when no noise: Step 5 will not be performed (and hence c = 1)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>eta</span> <span class=o>=</span> <span class=mf>0.9</span> <span class=c1># 0.9 is empirically good choice for endmembers in USGS library</span>
+</span></span><span class=line><span class=cl>    <span class=n>alpha_hat</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>zeros</span><span class=p>((</span><span class=n>N</span><span class=o>-</span><span class=mi>1</span><span class=p>,</span> <span class=n>N</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>N</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=n>bbbb</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>delete</span><span class=p>(</span><span class=n>b_hat</span><span class=p>,</span> <span class=n>i</span><span class=p>,</span> <span class=n>axis</span><span class=o>=</span><span class=mi>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>ccconst</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>delete</span><span class=p>(</span><span class=n>h_hat</span><span class=p>,</span> <span class=n>i</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>alpha_hat</span><span class=p>[:,</span> <span class=n>i</span><span class=p>]</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>linalg</span><span class=o>.</span><span class=n>pinv</span><span class=p>(</span><span class=n>bbbb</span><span class=o>.</span><span class=n>T</span><span class=p>)</span> <span class=o>@</span> <span class=n>ccconst</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=n>comm_flag</span> <span class=o>==</span> <span class=mi>1</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=n>VV</span> <span class=o>=</span> <span class=n>C</span> <span class=o>@</span> <span class=n>alpha_hat</span>
+</span></span><span class=line><span class=cl>        <span class=n>UU</span> <span class=o>=</span> <span class=n>d</span> <span class=o>*</span> <span class=n>np</span><span class=o>.</span><span class=n>ones</span><span class=p>((</span><span class=mi>1</span><span class=p>,</span> <span class=n>N</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>        <span class=n>closed_form_optval</span> <span class=o>=</span> <span class=nb>max</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=n>np</span><span class=o>.</span><span class=n>max</span><span class=p>((</span><span class=o>-</span><span class=n>VV</span><span class=p>)</span> <span class=o>/</span> <span class=n>UU</span><span class=p>))</span> <span class=c1># c&#39; in Step 5</span>
+</span></span><span class=line><span class=cl>        <span class=n>c</span> <span class=o>=</span> <span class=n>closed_form_optval</span> <span class=o>/</span> <span class=n>eta</span>
+</span></span><span class=line><span class=cl>        <span class=n>h_hat</span> <span class=o>=</span> <span class=n>h_hat</span> <span class=o>/</span> <span class=n>c</span>
+</span></span><span class=line><span class=cl>        <span class=n>alpha_hat</span> <span class=o>=</span> <span class=n>alpha_hat</span> <span class=o>/</span> <span class=n>c</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>A_est</span> <span class=o>=</span> <span class=n>C</span> <span class=o>@</span> <span class=n>alpha_hat</span> <span class=o>+</span> <span class=n>d</span> <span class=c1># endmemeber estimates</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>#------------------------ Step 7 ------------------------</span>
+</span></span><span class=line><span class=cl>    <span class=c1># Step 7 can be removed if the user do not need abundance estimation</span>
+</span></span><span class=line><span class=cl>    <span class=n>S_est</span> <span class=o>=</span> <span class=p>(</span><span class=n>h_hat</span><span class=o>.</span><span class=n>reshape</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=o>-</span><span class=mi>1</span><span class=p>)</span> <span class=o>-</span> <span class=n>b_hat</span><span class=o>.</span><span class=n>T</span> <span class=o>@</span> <span class=n>Xd</span><span class=p>)</span> <span class=o>/</span> <span class=p>((</span><span class=n>h_hat</span> <span class=o>-</span> <span class=n>np</span><span class=o>.</span><span class=n>sum</span><span class=p>(</span><span class=n>b_hat</span> <span class=o>*</span> <span class=n>alpha_hat</span><span class=p>,</span> <span class=n>axis</span><span class=o>=</span><span class=mi>1</span><span class=p>))</span><span class=o>.</span><span class=n>reshape</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=o>-</span><span class=mi>1</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=n>S_est</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>maximum</span><span class=p>(</span><span class=n>S_est</span><span class=p>,</span> <span class=mi>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=c1># end</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>time_elapsed</span> <span class=o>=</span> <span class=n>time</span><span class=p>()</span> <span class=o>-</span> <span class=n>t0</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>A_est</span><span class=p>,</span> <span class=n>S_est</span><span class=p>,</span> <span class=n>time_elapsed</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#% subprogram 1</span>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>compute_bi</span><span class=p>(</span><span class=n>a0</span><span class=p>,</span> <span class=n>i</span><span class=p>,</span> <span class=n>N</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=n>Hindx</span> <span class=o>=</span> <span class=p>[</span><span class=n>idx</span> <span class=k>for</span> <span class=n>idx</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>N</span><span class=p>)</span> <span class=k>if</span> <span class=n>idx</span> <span class=o>!=</span> <span class=n>i</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>    <span class=n>A_Hindx</span> <span class=o>=</span> <span class=n>a0</span><span class=p>[:,</span> <span class=n>Hindx</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>    <span class=n>A_tilde_i</span> <span class=o>=</span> <span class=n>A_Hindx</span><span class=p>[:,</span> <span class=p>:</span><span class=o>-</span><span class=mi>1</span><span class=p>]</span> <span class=o>-</span> <span class=n>A_Hindx</span><span class=p>[:,</span> <span class=o>-</span><span class=mi>1</span><span class=p>]</span><span class=o>.</span><span class=n>reshape</span><span class=p>(</span><span class=o>-</span><span class=mi>1</span><span class=p>,</span> <span class=mi>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>bi</span> <span class=o>=</span> <span class=n>A_Hindx</span><span class=p>[:,</span> <span class=o>-</span><span class=mi>1</span><span class=p>]</span> <span class=o>-</span> <span class=n>a0</span><span class=p>[:,</span> <span class=n>i</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>    <span class=n>A_tilde_i_pinv</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>linalg</span><span class=o>.</span><span class=n>pinv</span><span class=p>(</span><span class=n>A_tilde_i</span><span class=o>.</span><span class=n>T</span> <span class=o>@</span> <span class=n>A_tilde_i</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>bi</span> <span class=o>=</span> <span class=p>(</span><span class=n>np</span><span class=o>.</span><span class=n>eye</span><span class=p>(</span><span class=n>N</span><span class=o>-</span><span class=mi>1</span><span class=p>)</span> <span class=o>-</span> <span class=n>A_tilde_i</span> <span class=o>@</span> <span class=n>A_tilde_i_pinv</span> <span class=o>@</span> <span class=n>A_tilde_i</span><span class=o>.</span><span class=n>T</span><span class=p>)</span> <span class=o>@</span> <span class=n>bi</span>
+</span></span><span class=line><span class=cl>    <span class=n>bi</span> <span class=o>=</span> <span class=n>bi</span> <span class=o>/</span> <span class=n>np</span><span class=o>.</span><span class=n>linalg</span><span class=o>.</span><span class=n>norm</span><span class=p>(</span><span class=n>bi</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>bi</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#% subprogram 2</span>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>SPA</span><span class=p>(</span><span class=n>Xd</span><span class=p>,</span> <span class=n>L</span><span class=p>,</span> <span class=n>N</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=c1># Reference:</span>
+</span></span><span class=line><span class=cl>    <span class=c1># [1] W.-K. Ma, J. M. Bioucas-Dias, T.-H. Chan, N. Gillis, P. Gader, A. J. Plaza, A. Ambikapathi, and C.-Y. Chi,</span>
+</span></span><span class=line><span class=cl>    <span class=c1># ``A signal processing perspective on hyperspectral unmixing,��</span>
+</span></span><span class=line><span class=cl>    <span class=c1># IEEE Signal Process. Mag., vol. 31, no. 1, pp. 67�V81, 2014.</span>
+</span></span><span class=line><span class=cl>    <span class=c1>#</span>
+</span></span><span class=line><span class=cl>    <span class=c1># [2] S. Arora, R. Ge, Y. Halpern, D. Mimno, A. Moitra, D. Sontag, Y. Wu, and M. Zhu,</span>
+</span></span><span class=line><span class=cl>    <span class=c1># ``A practical algorithm for topic modeling with provable guarantees,��</span>
+</span></span><span class=line><span class=cl>    <span class=c1># arXiv preprint arXiv:1212.4777, 2012.</span>
+</span></span><span class=line><span class=cl>    <span class=c1>#======================================================================</span>
+</span></span><span class=line><span class=cl>    <span class=c1># An implementation of successive projection algorithm (SPA)</span>
+</span></span><span class=line><span class=cl>    <span class=c1># [alpha_tilde] = SPA(Xd,L,N)</span>
+</span></span><span class=line><span class=cl>    <span class=c1>#======================================================================</span>
+</span></span><span class=line><span class=cl>    <span class=c1>#  Input</span>
+</span></span><span class=line><span class=cl>    <span class=c1>#  Xd is dimension-reduced (DR) data matrix.</span>
+</span></span><span class=line><span class=cl>    <span class=c1>#  L is the number of pixels.</span>
+</span></span><span class=line><span class=cl>    <span class=c1>#  N is the number of endmembers.</span>
+</span></span><span class=line><span class=cl>    <span class=c1>#----------------------------------------------------------------------</span>
+</span></span><span class=line><span class=cl>    <span class=c1>#  Output</span>
+</span></span><span class=line><span class=cl>    <span class=c1>#  alpha_tilde is an (N-1)-by-N matrix whose columns are DR purest pixels.</span>
+</span></span><span class=line><span class=cl>    <span class=c1>#======================================================================</span>
+</span></span><span class=line><span class=cl>    <span class=c1>#======================================================================</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>#----------- Define default parameters------------------</span>
+</span></span><span class=line><span class=cl>    <span class=n>con_tol</span> <span class=o>=</span> <span class=mf>1e-8</span> <span class=c1># the convergence tolence in SPA</span>
+</span></span><span class=line><span class=cl>    <span class=n>num_SPA_itr</span> <span class=o>=</span> <span class=n>N</span> <span class=c1># number of iterations in post-processing of SPA</span>
+</span></span><span class=line><span class=cl>    <span class=n>N_max</span> <span class=o>=</span> <span class=n>N</span> <span class=c1># max number of iterations</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>#------------------------ initialization of SPA ------------------------</span>
+</span></span><span class=line><span class=cl>    <span class=n>A_set</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>zeros</span><span class=p>((</span><span class=n>N</span><span class=p>,</span> <span class=mi>0</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=n>Xd_t</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>vstack</span><span class=p>((</span><span class=n>Xd</span><span class=p>,</span> <span class=n>np</span><span class=o>.</span><span class=n>ones</span><span class=p>(</span><span class=n>L</span><span class=p>)))</span>
+</span></span><span class=line><span class=cl>    <span class=n>index</span> <span class=o>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=cl>    <span class=n>val</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>sum</span><span class=p>(</span><span class=n>Xd_t</span><span class=o>**</span><span class=mi>2</span><span class=p>,</span> <span class=n>axis</span><span class=o>=</span><span class=mi>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>ind</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>argmax</span><span class=p>(</span><span class=n>val</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>A_set</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>hstack</span><span class=p>((</span><span class=n>A_set</span><span class=p>,</span> <span class=n>Xd_t</span><span class=p>[:,</span> <span class=n>ind</span><span class=p>]</span><span class=o>.</span><span class=n>reshape</span><span class=p>(</span><span class=o>-</span><span class=mi>1</span><span class=p>,</span> <span class=mi>1</span><span class=p>)))</span>
+</span></span><span class=line><span class=cl>    <span class=n>index</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>ind</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=n>N</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=n>XX</span> <span class=o>=</span> <span class=n>Xd_t</span> <span class=o>-</span> <span class=n>A_set</span> <span class=o>@</span> <span class=n>np</span><span class=o>.</span><span class=n>linalg</span><span class=o>.</span><span class=n>pinv</span><span class=p>(</span><span class=n>A_set</span><span class=o>.</span><span class=n>T</span> <span class=o>@</span> <span class=n>A_set</span><span class=p>)</span> <span class=o>@</span> <span class=n>A_set</span><span class=o>.</span><span class=n>T</span> <span class=o>@</span> <span class=n>Xd_t</span>
+</span></span><span class=line><span class=cl>        <span class=n>val</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>sum</span><span class=p>(</span><span class=n>XX</span><span class=o>**</span><span class=mi>2</span><span class=p>,</span> <span class=n>axis</span><span class=o>=</span><span class=mi>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>ind</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>argmax</span><span class=p>(</span><span class=n>val</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>A_set</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>hstack</span><span class=p>((</span><span class=n>A_set</span><span class=p>,</span> <span class=n>Xd_t</span><span class=p>[:,</span> <span class=n>ind</span><span class=p>]</span><span class=o>.</span><span class=n>reshape</span><span class=p>(</span><span class=o>-</span><span class=mi>1</span><span class=p>,</span> <span class=mi>1</span><span class=p>)))</span>
+</span></span><span class=line><span class=cl>        <span class=n>index</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>ind</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>alpha_tilde</span> <span class=o>=</span> <span class=n>Xd</span><span class=p>[:,</span> <span class=n>index</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>#------------------------ post-processing of SPA ------------------------</span>
+</span></span><span class=line><span class=cl>    <span class=n>current_vol</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>linalg</span><span class=o>.</span><span class=n>det</span><span class=p>(</span><span class=n>alpha_tilde</span><span class=p>[:,</span> <span class=p>:</span><span class=o>-</span><span class=mi>1</span><span class=p>]</span> <span class=o>-</span> <span class=n>alpha_tilde</span><span class=p>[:,</span> <span class=o>-</span><span class=mi>1</span><span class=p>]</span><span class=o>.</span><span class=n>reshape</span><span class=p>(</span><span class=o>-</span><span class=mi>1</span><span class=p>,</span> <span class=mi>1</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=n>jjj</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>num_SPA_itr</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=n>b</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>zeros</span><span class=p>((</span><span class=n>N</span><span class=o>-</span><span class=mi>1</span><span class=p>,</span> <span class=n>N</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>N</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>            <span class=n>b</span><span class=p>[:,</span> <span class=n>i</span><span class=p>]</span> <span class=o>=</span> <span class=n>compute_bi</span><span class=p>(</span><span class=n>alpha_tilde</span><span class=p>,</span> <span class=n>i</span><span class=p>,</span> <span class=n>N</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=n>b</span><span class=p>[:,</span> <span class=n>i</span><span class=p>]</span> <span class=o>=</span> <span class=o>-</span><span class=n>b</span><span class=p>[:,</span> <span class=n>i</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>            <span class=n>idx</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>argmax</span><span class=p>(</span><span class=n>b</span><span class=p>[:,</span> <span class=n>i</span><span class=p>]</span><span class=o>.</span><span class=n>T</span> <span class=o>@</span> <span class=n>Xd</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=n>alpha_tilde</span><span class=p>[:,</span> <span class=n>i</span><span class=p>]</span> <span class=o>=</span> <span class=n>Xd</span><span class=p>[:,</span> <span class=n>idx</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>        <span class=n>new_vol</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>linalg</span><span class=o>.</span><span class=n>det</span><span class=p>(</span><span class=n>alpha_tilde</span><span class=p>[:,</span> <span class=p>:</span><span class=o>-</span><span class=mi>1</span><span class=p>]</span> <span class=o>-</span> <span class=n>alpha_tilde</span><span class=p>[:,</span> <span class=o>-</span><span class=mi>1</span><span class=p>]</span><span class=o>.</span><span class=n>reshape</span><span class=p>(</span><span class=o>-</span><span class=mi>1</span><span class=p>,</span> <span class=mi>1</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>new_vol</span> <span class=o>-</span> <span class=n>current_vol</span><span class=p>)</span> <span class=o>/</span> <span class=n>current_vol</span> <span class=o>&lt;</span> <span class=n>con_tol</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=k>break</span>
+</span></span><span class=line><span class=cl>        <span class=n>current_vol</span> <span class=o>=</span> <span class=n>new_vol</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>alpha_tilde</span>
+</span></span></code></pre></td></tr></table></div></div></div><footer class=article-footer><blockquote class=article-copyright><p><strong><span class="icon-user icon"></span>Author: </strong>Jingmengzhiyue</p><p><strong><span class="icon-link icon"></span>Permalink: </strong><a href=https://www.jingmengzhiyue.tech/en/hypercsi/>https://www.jingmengzhiyue.tech/en/hypercsi/</a></p><p><strong><span class="icon-pencil icon"></span>Title: </strong>A Fast Hyperspectral Image Unmixing Algorithm Based on the Minimum-Volume Simplex</p><p><strong><span class="icon-calendar icon"></span>Published: </strong>2024-03-24 11:37:14</p><p><strong><span class="icon-copyright icon"></span>License: </strong>All articles on this blog are licensed under the <a href=https://creativecommons.org/licenses/by/4.0/deed.zh rel="noopener nofollow noreferrer" target=_blank><span class=icon-creative-commons></span>BY</a> license agreement unless otherwise stated. Please indicate the source when reprinting!</p><span class="icon-creative-commons article-copyright-bg"></span></blockquote><ul class=article-category-list><li class=article-tag-list-item data-aos=zoom-in><a class=article-category-link href=/en/categories/remote-sensing/ data-aos=zoom-in>Remote Sensing</a></li><li class=article-tag-list-item data-aos=zoom-in><a class=article-category-link href=/en/categories/algorithm/ data-aos=zoom-in>Algorithm</a></li></ul><ul class=article-tag-list itemprop=keywords><li class=article-tag-list-item data-aos=zoom-in><a class=article-tag-list-link href=/en/tags/hyperspectral-unmixing/ rel=tag>Hyperspectral unmixing</a></li><li class=article-tag-list-item data-aos=zoom-in><a class=article-tag-list-link href=/en/tags/remote-sensing/ rel=tag>Remote Sensing</a></li><li class=article-tag-list-item data-aos=zoom-in><a class=article-tag-list-link href=/en/tags/hypercsi/ rel=tag>HyperCSI</a></li></ul></footer></div><nav id=article-nav aria-label="Article navigation" data-aos=fade-up><div class="article-nav-link-wrap left"><img data-src=/img/10.jpg data-sizes=auto alt="Endmember Extraction Using the Pixel Purity Index (PPI) Algorithm" class=lazyload><a href=/en/ppi-en/ aria-label="Prev:Endmember Extraction Using the Pixel Purity Index (PPI) Algorithm" title="Prev:Endmember Extraction Using the Pixel Purity Index (PPI) Algorithm"></a><div class=article-nav-caption>Prev</div><h3 class=article-nav-title>Endmember Extraction Using the Pixel Purity Index (PPI) Algorithm</h3></div><div class="article-nav-link-wrap right"><img data-src=/img/18.jpg data-sizes=auto alt="A Hyperspectral Image Super-Resolution Algorithm Based on Coupled Nonnegative Matrix Factorization" class=lazyload><a href=/en/nssr/ aria-label="Next:A Hyperspectral Image Super-Resolution Algorithm Based on Coupled Nonnegative Matrix Factorization" title="Next:A Hyperspectral Image Super-Resolution Algorithm Based on Coupled Nonnegative Matrix Factorization"></a><div class=article-nav-caption>Next</div><h3 class=article-nav-title>A Hyperspectral Image Super-Resolution Algorithm Based on Coupled Nonnegative Matrix Factorization</h3></div></nav></article></section></div><footer id=footer aria-label="Site footer"><div style=width:100%;overflow:hidden><div class=footer-line></div></div><div id=footer-info><div><span class=icon-copyright></span>2023-2026<span class="footer-info-sep rotate"></span>Jingmengzhiyue</div><div>Powered by&nbsp;<a href=https://gohugo.io/ target=_blank rel="noopener nofollow noreferrer">Hugo</a>&nbsp;Theme.<a href=https://github.com/D-Sketon/hugo-theme-reimu target=_blank rel="noopener nofollow noreferrer">Reimu</a></div><div><span class=icon-brush>&nbsp;173.8k</span>
+&nbsp;|&nbsp;
+<span class=icon-coffee>&nbsp;14:09</span></div><div><span class=icon-eye></span>
+<span id=busuanzi_container_site_pv>Number of visits&nbsp;<span id=busuanzi_value_site_pv></span></span>
+&nbsp;|&nbsp;
+<span class=icon-user></span>
+<span id=busuanzi_container_site_uv>Number of visitors&nbsp;<span id=busuanzi_value_site_uv></span></span></div></div></footer><div class=sidebar-top><div class="sidebar-top-taichi rotate"></div><div class=arrow-up></div></div><div id=mask class=hide></div></div><nav id=mobile-nav aria-label="Mobile navigation"><div class=sidebar-wrap><div class=sidebar-toc-sidebar><h3 class=toc-title>Contents</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#principle-of-the-algorithm>Principle of the Algorithm</a><ul><li><a href=#1-assumptions-and-notation>1. Assumptions and Notation</a></li><li><a href=#2-representing-craigs-minimum-volume-simplex-by-hyperplanes>2. Representing Craig&rsquo;s Minimum-Volume Simplex by Hyperplanes</a></li><li><a href=#3-estimating-hyperplane-normals>3. Estimating Hyperplane Normals</a></li><li><a href=#4-estimating-the-hyperplane-inner-product-constants>4. Estimating the Hyperplane Inner-Product Constants</a></li><li><a href=#5-abundance-estimation>5. Abundance Estimation</a></li></ul></li><li><a href=#summary-of-the-algorithm>Summary of the Algorithm</a></li><li><a href=#code-implementation>Code Implementation</a><ul><li><a href=#matlab-implementation>MATLAB Implementation</a></li><li><a href=#python-implementation>Python Implementation</a></li></ul></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/profile_picture.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>Posts</div><div class=sidebar-state-number>54</div></div><a class=sidebar-state-category href=/en/categories/ aria-label=sidebar-state-category-link><div>Categories</div><div class=sidebar-state-number>9</div></a><a class=sidebar-state-tag href=/en/tags/ aria-label=sidebar-state-tag-link><div>Tags</div><div class=sidebar-state-number>26</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/ aria-label=Home></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Home</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/categories aria-label=Category></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Category</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/tags aria-label=Tag></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Tag</div></div></div></div></div><div class=sidebar-btn-wrapper><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></nav></div><div id=aplayer theme=var(--color-link)></div><script src=https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js integrity=sha384-3gT/vsepWkfz/ff7PpWNUeMzeWoH3cDhm/A8jM7ouoAK0/fP/9bcHHR5kHq2nf+e crossorigin=anonymous></script><script src=https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js integrity=sha384-J08i8An/QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q crossorigin=anonymous></script><script src=/js/main.js integrity crossorigin=anonymous></script><script src=/js/aos.js integrity crossorigin=anonymous></script><script>var aosInit=()=>{AOS.init({duration:1e3,easing:"ease",once:!0,offset:50})};document.readyState==="loading"?document.addEventListener("DOMContentLoaded",aosInit):aosInit()</script><script src=/js/pjax_main.js integrity crossorigin=anonymous data-pjax></script><div id=lazy-script><div><script data-pjax>window.REIMU_POST={author:"Jingmengzhiyue",title:"A Fast Hyperspectral Image Unmixing Algorithm Based on the Minimum-Volume Simplex",url:"https://www.jingmengzhiyue.tech/en/hypercsi/",description:"Hyperspectral remote sensing is a key technique for identifying the endmember constituents of a target region and their proportions, with wide use in land-cover classification and environmental monitoring. Hyperspectral unmixing (HU) analyzes hyperspectral data to recover the endmembers in an image …",cover:"https://www.jingmengzhiyue.tech/img/24.jpg"}</script><script src=/js/insert_highlight.js integrity crossorigin=anonymous data-pjax></script><script src=/js/tabs.js integrity crossorigin=anonymous data-pjax defer></script><script type=module data-pjax>const PhotoSwipeLightbox = (await safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js", "sha384-DiL6M\/gG\u002bwmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF\/N6lrZi\/")).default;const initPswp = (gallery, children) => {
+          if (_$$(`${gallery} ${children}`).length > 0) {
+            new PhotoSwipeLightbox({
+              gallery,
+              children,pswpModule: () => safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8\u002boTJ7m3DfYEWX1fu1scuS4\u002bs")}).init();
+          }
+        }
+        const pswp = () => {
+          initPswp('.article-entry', 'a.article-gallery-item');
+          initPswp('.article-gallery', 'a.article-gallery-item');
+        }
+        pswp()
+      </script><script data-pjax>window.MathJax=JSON.parse('[{"loader":{"load":["input/asciimath","[tex]/noerrors"]},"options":{"ignoreHtmlClass":"tex2jax_ignore","processHtmlClass":"tex2jax_process","skipHtmlTags":["script","noscript","style","textarea","pre","code"]},"tex":{"autoload":{"color":[],"colorv2":["color"]},"displayMath":[["$$","$$"],["\\\\[","\\\\]"]],"inlineMath":[["$","$"],["\\\\(","\\\\)"]],"packages":{"[+]":["noerrors"]},"processEnvironments":true,"processEscapes":true,"tags":"ams","useLabelIds":true}}]')[0]</script><script src=https://npm.webcache.cn/mathjax@3.2.2/es5/tex-mml-chtml.js defer data-pjax integrity=sha384-Wuix6BuhrWbjDBs24bXrjf4ZQ5aFeFWBuKkFekO2t8xFU0iNaLQfp2K6/1Nxveei crossorigin=anonymous></script></div></div><script src=https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js async integrity=sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S crossorigin=anonymous></script><script>"serviceWorker"in navigator&&navigator.serviceWorker.getRegistrations().then(e=>{for(let t of e)t.unregister()})</script><script>const reimuCopyright=String.raw`
+   ______     ______     __     __    __     __  __    
+  /\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+  \ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+   \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+    \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                    
+  `;console.log(String.raw`%c ${reimuCopyright}`,"color: #ff5252;"),console.log("%c Theme.Reimu %c https://github.com/D-Sketon/hugo-theme-reimu ","color: white; background: #ff5252; padding:5px 0;","padding:4px;border:1px solid #ff5252;")</script><script>var setupAPlayer=()=>{if(!!1||!window.matchMedia("(max-width: 768px)").matches){const e=window.matchMedia("(max-width: 959px)").matches;if(e){const e=_$("#aplayer");if(e){const t=e.parentNode?.parentNode;t?.tagName==="ASIDE"&&(e.removeAttribute("data-aos"),t.parentNode.removeChild(e),document.body.appendChild(e))}}new APlayer({theme:"var(--color-link)",container:document.getElementById("aplayer"),audio:JSON.parse('[{"artist":"千葉紗子","cover":"/img/24.jpg","name":"花手紙","url":"/music/千葉紗子+-+花手紙.mp3"}]')||[],fixed:!!e||!0,autoplay:!1,loop:"one"||"all",order:"list"||"list",preload:"none"||"auto",volume:.7||.7,mutex:!0,listFolded:!0,lrcType:0||0})}}</script><script src=https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.js defer onload=setupAPlayer() integrity=sha384-gdGYZwHnfJM54evoZhpO0s6ZF5BQiybkiyW7VXr+h5UfruuRL/aORyw+5+HZoU6e crossorigin=anonymous></script></body></html>

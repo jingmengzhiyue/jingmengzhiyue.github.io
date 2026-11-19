@@ -1,0 +1,507 @@
+<!doctype html><html lang=en data-theme-mode=auto><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><title>Version Control (Git) | Jingmengzhiyue</title><meta name=description content="Version control in computer science"><script>window.siteConfig=JSON.parse('{"anchor":{"auto":{"enable":false,"length":60},"explicit":{"enable":false,"marker":"{#anchor-","prefix":"anchor-"}},"anchor_icon":null,"base":"https://www.jingmengzhiyue.tech/","clipboard":{"copyright":{"count":50,"enable":false,"license_type":"by-nc-sa"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-br":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ","zh-cn":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-tw":"複製失敗 (ﾟ⊿ﾟ)ﾂ"},"success":{"en":"Copy successfully (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-br":"Copiado com sucesso (*^▽^*)","zh-cn":"复制成功 (*^▽^*)","zh-tw":"複製成功 (*^▽^*)"}},"code_block":{"expand":true},"dark_mode":{"button":true,"mode":"auto"},"i18n_languages":[{"label":"简体中文","lang":"zh-cn"},{"label":"English","lang":"en"}],"icon_font":"4552607_ex15nbittbh","outdate":{"daysago":180,"enable":false,"message":{"en":"This article was last updated on {time}. Please note that the content may no longer be applicable.","ja":"この記事は最終更新日：{time}。記載内容が現在有効でない可能性がありますのでご注意ください。","pt-br":"Este artigo foi atualizado pela última vez em {time}. Observe que o conteúdo pode não ser mais aplicável.","zh-cn":"本文最后更新于 {time}，请注意文中内容可能已不适用。","zh-tw":"本文最後更新於 {time}，請注意文中內容可能已不適用。"}}}')</script><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap" media=print onload='this.media="all"'><link rel=preload href=//at.alicdn.com/t/c/font_4552607_ex15nbittbh.woff2 as=font type=font/woff2 crossorigin=anonymous><link rel=stylesheet href=/css/loader.min.ac746e154f756f8220326eeb52a719f142ab038be5a8ddf30ea5ef15ef2356ea.css><meta property="og:type" content="website"><meta property="og:title" content="Version Control (Git) | Jingmengzhiyue"><meta property="og:description" content="Version control in computer science"><meta property="og:url" content="https://www.jingmengzhiyue.tech/en/version-control/"><meta property="og:site_name" content="热爱可抵万难"><meta property="og:image" content="https://www.jingmengzhiyue.tech/img/24.jpg"><meta property="article:author" content="Jingmengzhiyue"><meta property="article:published_time" content="2023-06-05T16:37:29+08:00"><meta property="article:modified_time" content="2023-06-05T16:37:29+08:00"><meta property="article:tag" content="The Missing Semester of Your CS Education"><meta name=twitter:card content="summary"><meta name=twitter:image content="https://www.jingmengzhiyue.tech/img/24.jpg"><link rel="shortcut icon" href=/favicon.ico><link rel=stylesheet href=/css/main.min.c69028af04cc11392739edc48eeb60465879b00de4286e0147bbc470f8f39418.css><link rel=preload as=style href=https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css integrity=sha384-IfxC36XL/toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx/1oA/0l8ysE crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><link rel=preload as=style href=https://npm.webcache.cn/katex@0.16.47/dist/katex.min.css integrity=sha384-nH0MfJ44wi1dd7w6jinlyBgljjS8EJAh2JBoRad8a3VDw2K69vfaaqm4WnR+gXtA crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><script src=https://npm.webcache.cn/pace-js@1.2.4/pace.min.js integrity=sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8 crossorigin=anonymous></script><link rel=stylesheet href=https://npm.webcache.cn/@reimujs/aos@0.1.3/dist/aos.css integrity=sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa crossorigin=anonymous><link rel=stylesheet href=https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.css integrity=sha384-tLMkTWh2pfXNWGFlUS0w1TFtRG5xZ9lPWFOooj+vDDLIL+xBGQU/voDBY5XE2lVh crossorigin=anonymous><link rel=icon href=/img/fluid.png type=image/png><link rel=apple-touch-icon href=/img/fluid.png><link rel=stylesheet href=/css/custom.css></head><body><div id=loader><div class="loading-left-bg loading-bg"></div><div class="loading-right-bg loading-bg"></div><div class=spinner-box><div class="loading-taichi rotate"><svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" shape-rendering="geometricPrecision"><path d="M303.5 432a80 80 0 01-12 160 80 80 0 0112-160z" fill="var(--red-1, #ff5252)"/><path d="M512 65a447 447 0 010 894V929a417 417 0 000-834 417 417 0 000 834v30a447 447 0 010-894zm0 30A417 417 0 01929 512 208.5 208.5.0 01720.5 720.5V592a80 80 0 000-160 80 80 0 000 160V720.5A208.5 208.5.0 01512 512 208.5 208.5.0 00303.5 303.5 208.5 208.5.0 0095 512 417 417 0 01512 95z" fill="var(--red-1, #ff5252)"/></svg></div><div class=loading-word>Loading...</div></div></div></div><script>var time=null,loaderEl=document.getElementById("loader"),startLoading=()=>{time=Date.now(),loaderEl.classList.remove("loading")},hideLoader=()=>{document.body.style.overflow="auto",loader.classList.add("loading")},endLoading=()=>{time?Date.now()-time>500?(time=null,hideLoader()):(setTimeout(endLoading,500-(Date.now()-time)),time=null):hideLoader()};window.addEventListener("DOMContentLoaded",endLoading),loaderEl.addEventListener("click",endLoading)</script><div id=copy-tooltip></div><div id=lang-tooltip>This article does not have a corresponding language version</div><div id=heatmap-tooltip></div><div id=container><div id=wrap><div id=header-nav><nav id=main-nav aria-label="Primary navigation"><a class=main-nav-link-wrap href=/en/><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>Home</span>
+</a><a class=main-nav-link-wrap href=/en/categories><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>Category</span>
+</a><a class=main-nav-link-wrap href=/en/tags><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>Tag</span>
+</a><a id=main-nav-toggle class=nav-icon aria-label="Toggle navigation" role=button></a></nav><nav id=sub-nav aria-label="Secondary navigation"></nav><nav id=i18n-nav aria-label="Language selection"><div class=custom-dropdown><div class=select-selected id=select-selected role=button aria-haspopup=listbox aria-expanded=false aria-label="Language menu"><span id=nav-language-btn class=nav-icon style="padding:0 20px 0 0"></span>
+<span id=selected-lang>English</span></div><ul class=select-items id=select-items role=listbox aria-label=Languages><li data-value=zh-cn role=option aria-selected=false>简体中文</li><li data-value=en role=option class=selected aria-selected=true>English</li></ul></div><script>var selectSelected=document.getElementById("select-selected"),selectedLang=document.getElementById("selected-lang"),selectItems=document.getElementById("select-items"),selectOptions=selectItems.querySelectorAll("li");selectSelected.addEventListener("click",()=>{selectItems.classList.toggle("show");var e=selectSelected.getAttribute("aria-expanded")==="true";selectSelected.setAttribute("aria-expanded",(!e).toString())}),selectOptions.forEach(e=>{e.addEventListener("click",()=>{const t={};if(t["zh-cn"]="/2023/06/05/version-control/",selectedLang.textContent=e.textContent,selectItems.classList.remove("show"),selectOptions.forEach(e=>{e.classList.remove("selected")}),e.classList.add("selected"),e.dataset.value==="en")return;if(!t[e.dataset.value]){_$("#lang-tooltip").style.opacity="1",setTimeout(()=>{_$("#lang-tooltip").style.opacity="0"},1e3);return}window.location=t[e.dataset.value]})}),document.addEventListener("click",e=>{e.target.closest(".custom-dropdown")||(selectItems.classList.remove("show"),selectSelected.setAttribute("aria-expanded","false"))})</script></nav></div><header id=header aria-label="Site header"><picture></picture><img fetchpriority=high src=/img/24.jpg alt="Version Control (Git)"><div id=header-outer><div id=header-title><span id=logo><h1 data-aos=slide-up>Version Control (Git)</h1></span><h2 id=subtitle-wrap data-aos=slide-down></h2></div></div></header><div id=content aria-label="Page content" class=sidebar-right><aside id=sidebar aria-label=Sidebar><div class="sidebar-wrapper-container sticky"><div class=sidebar-wrapper><div class=sidebar-wrap data-aos=fade-up><div class=sidebar-toc-sidebar><h3 class=toc-title>Contents</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#snapshots>Snapshots</a></li><li><a href=#modeling-history-relating-snapshots>Modeling history: relating snapshots</a></li><li><a href=#data-model-as-pseudocode>Data model, as pseudocode</a></li><li><a href=#objects-and-content-addressing>Objects and content-addressing</a></li><li><a href=#references>References</a></li><li><a href=#repositories>Repositories</a></li></ul><ul><li><a href=#basics>Basics</a></li><li><a href=#branching-and-merging>Branching and merging</a></li><li><a href=#remotes>Remotes</a></li><li><a href=#undo>Undo</a></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/profile_picture.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>Posts</div><div class=sidebar-state-number>54</div></div><a class=sidebar-state-category href=/en/categories/ aria-label=sidebar-state-category-link><div>Categories</div><div class=sidebar-state-number>9</div></a><a class=sidebar-state-tag href=/en/tags/ aria-label=sidebar-state-tag-link><div>Tags</div><div class=sidebar-state-number>26</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/ aria-label=Home></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Home</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/categories aria-label=Category></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Category</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/tags aria-label=Tag></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Tag</div></div></div></div><div class=sidebar-btn-wrapper style=position:static><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></div></div><div class=sidebar-widget></div></div></aside><section id=main aria-label="Main content"><nav aria-label="Article language"><a href=/2023/06/05/version-control/ hreflang=zh-CN lang=zh-CN>简体中文</a></nav><article class="h-entry article" itemscope itemtype=https://schema.org/BlogPosting><div class=article-inner data-aos=fade-up><div class=article-meta><div class=article-date><span class="article-date-link icon-calendar" data-aos=zoom-in><time datetime="2023-06-05 16:37:29 +0800 +0800" itemprop=datePublished>2023-06-05</time>
+<time style=display:none id=post-update-time>2023-06-05</time></span></div></div><div class=hr-line></div><div class="e-content article-entry" itemprop=articleBody><p>Version control systems (VCSs) are tools used to track changes to source code
+(or other collections of files and folders). As the name implies, these tools
+help maintain a history of changes; furthermore, they facilitate collaboration.
+VCSs track changes to a folder and its contents in a series of snapshots, where
+each snapshot encapsulates the entire state of files/folders within a top-level
+directory. VCSs also maintain metadata like who created each snapshot, messages
+associated with each snapshot, and so on.</p><p>Why is version control useful? Even when you&rsquo;re working by yourself, it can let
+you look at old snapshots of a project, keep a log of why certain changes were
+made, work on parallel branches of development, and much more. When working
+with others, it&rsquo;s an invaluable tool for seeing what other people have changed,
+as well as resolving conflicts in concurrent development.</p><p>Modern VCSs also let you easily (and often automatically) answer questions
+like:</p><ul><li>Who wrote this module?</li><li>When was this particular line of this particular file edited? By whom? Why
+was it edited?</li><li>Over the last 1000 revisions, when/why did a particular unit test stop
+working?</li></ul><p>While other VCSs exist, <strong>Git</strong> is the de facto standard for version control.
+This <a href=https://xkcd.com/1597/>XKCD comic</a> captures Git&rsquo;s reputation:</p><p><img src=https://imgs.xkcd.com/comics/git.png alt="xkcd 1597"></p><p>Because Git&rsquo;s interface is a leaky abstraction, learning Git top-down (starting
+with its interface / command-line interface) can lead to a lot of confusion.
+It&rsquo;s possible to memorize a handful of commands and think of them as magic
+incantations, and follow the approach in the comic above whenever anything goes
+wrong.</p><p>While Git admittedly has an ugly interface, its underlying design and ideas are
+beautiful. While an ugly interface has to be <em>memorized</em>, a beautiful design
+can be <em>understood</em>. For this reason, we give a bottom-up explanation of Git,
+starting with its data model and later covering the command-line interface.
+Once the data model is understood, the commands can be better understood in
+terms of how they manipulate the underlying data model.</p><h1 id=gits-data-model><a class=header-anchor href=#gits-data-model></a>Git&rsquo;s data model</h1><p>There are many ad-hoc approaches you could take to version control. Git has a
+well-thought-out model that enables all the nice features of version control,
+like maintaining history, supporting branches, and enabling collaboration.</p><h2 id=snapshots><a class=header-anchor href=#snapshots></a>Snapshots</h2><p>Git models the history of a collection of files and folders within some
+top-level directory as a series of snapshots. In Git terminology, a file is
+called a &ldquo;blob&rdquo;, and it&rsquo;s just a bunch of bytes. A directory is called a
+&ldquo;tree&rdquo;, and it maps names to blobs or trees (so directories can contain other
+directories). A snapshot is the top-level tree that is being tracked. For
+example, we might have a tree as follows:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&lt;root&gt; (tree)
+</span></span><span class=line><span class=cl>|
+</span></span><span class=line><span class=cl>+- foo (tree)
+</span></span><span class=line><span class=cl>|  |
+</span></span><span class=line><span class=cl>|  + bar.txt (blob, contents = &#34;hello world&#34;)
+</span></span><span class=line><span class=cl>|
+</span></span><span class=line><span class=cl>+- baz.txt (blob, contents = &#34;git is wonderful&#34;)
+</span></span></code></pre></td></tr></table></div></div><p>The top-level tree contains two elements, a tree &ldquo;foo&rdquo; (that itself contains
+one element, a blob &ldquo;bar.txt&rdquo;), and a blob &ldquo;baz.txt&rdquo;.</p><h2 id=modeling-history-relating-snapshots><a class=header-anchor href=#modeling-history-relating-snapshots></a>Modeling history: relating snapshots</h2><p>How should a version control system relate snapshots? One simple model would be
+to have a linear history. A history would be a list of snapshots in time-order.
+For many reasons, Git doesn&rsquo;t use a simple model like this.</p><p>In Git, a history is a directed acyclic graph (DAG) of snapshots. That may
+sound like a fancy math word, but don&rsquo;t be intimidated. All this means is that
+each snapshot in Git refers to a set of &ldquo;parents&rdquo;, the snapshots that preceded
+it. It&rsquo;s a set of parents rather than a single parent (as would be the case in
+a linear history) because a snapshot might descend from multiple parents, for
+example, due to combining (merging) two parallel branches of development.</p><p>Git calls these snapshots &ldquo;commit"s. Visualizing a commit history might look
+something like this:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>o &lt;-- o &lt;-- o &lt;-- o
+</span></span><span class=line><span class=cl>            ^
+</span></span><span class=line><span class=cl>             \
+</span></span><span class=line><span class=cl>              --- o &lt;-- o
+</span></span></code></pre></td></tr></table></div></div><p>In the ASCII art above, the <code>o</code>s correspond to individual commits (snapshots).
+The arrows point to the parent of each commit (it&rsquo;s a &ldquo;comes before&rdquo; relation,
+not &ldquo;comes after&rdquo;). After the third commit, the history branches into two
+separate branches. This might correspond to, for example, two separate features
+being developed in parallel, independently from each other. In the future,
+these branches may be merged to create a new snapshot that incorporates both of
+the features, producing a new history that looks like this, with the newly
+created merge commit shown in bold:</p><pre class=highlight>
+<code>
+o <-- o <-- o <-- o <---- <strong>o</strong>
+            ^            /
+             \          v
+              --- o <-- o
+</code>
+</pre><p>Commits in Git are immutable. This doesn&rsquo;t mean that mistakes can&rsquo;t be
+corrected, however; it&rsquo;s just that &ldquo;edits&rdquo; to the commit history are actually
+creating entirely new commits, and references (see below) are updated to point
+to the new ones.</p><h2 id=data-model-as-pseudocode><a class=header-anchor href=#data-model-as-pseudocode></a>Data model, as pseudocode</h2><p>It may be instructive to see Git&rsquo;s data model written down in pseudocode:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>// a file is a bunch of bytes
+</span></span><span class=line><span class=cl>type blob = array&lt;byte&gt;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>// a directory contains named files and directories
+</span></span><span class=line><span class=cl>type tree = map&lt;string, tree | blob&gt;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>// a commit has parents, metadata, and the top-level tree
+</span></span><span class=line><span class=cl>type commit = struct {
+</span></span><span class=line><span class=cl>    parents: array&lt;commit&gt;
+</span></span><span class=line><span class=cl>    author: string
+</span></span><span class=line><span class=cl>    message: string
+</span></span><span class=line><span class=cl>    snapshot: tree
+</span></span><span class=line><span class=cl>}
+</span></span></code></pre></td></tr></table></div></div><p>It&rsquo;s a clean, simple model of history.</p><h2 id=objects-and-content-addressing><a class=header-anchor href=#objects-and-content-addressing></a>Objects and content-addressing</h2><p>An &ldquo;object&rdquo; is a blob, tree, or commit:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>type object = blob | tree | commit
+</span></span></code></pre></td></tr></table></div></div><p>In Git&rsquo;s data store, all objects are content-addressed by their <a href=https://en.wikipedia.org/wiki/SHA-1>SHA-1
+hash</a>.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=n>objects</span> <span class=o>=</span> <span class=n>map</span><span class=o>&lt;</span><span class=n>string</span><span class=p>,</span> <span class=n>object</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>store</span><span class=p>(</span><span class=n>object</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=n>id</span> <span class=o>=</span> <span class=n>sha1</span><span class=p>(</span><span class=n>object</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>objects</span><span class=p>[</span><span class=n>id</span><span class=p>]</span> <span class=o>=</span> <span class=n>object</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>load</span><span class=p>(</span><span class=n>id</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>objects</span><span class=p>[</span><span class=n>id</span><span class=p>]</span>
+</span></span></code></pre></td></tr></table></div></div><p>Blobs, trees, and commits are unified in this way: they are all objects. When
+they reference other objects, they don&rsquo;t actually <em>contain</em> them in their
+on-disk representation, but have a reference to them by their hash.</p><p>For example, the tree for the example directory structure <a href=/en/version-control/#snapshots>above</a>
+(visualized using <code>git cat-file -p 698281bc680d1995c5f4caaf3359721a5a58d48d</code>),
+looks like this:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>100644 blob 4448adbf7ecd394f42ae135bbeed9676e894af85    baz.txt
+</span></span><span class=line><span class=cl>040000 tree c68d233a33c5c06e0340e4c224f0afca87c8ce87    foo
+</span></span></code></pre></td></tr></table></div></div><p>The tree itself contains pointers to its contents, <code>baz.txt</code> (a blob) and <code>foo</code>
+(a tree). If we look at the contents addressed by the hash corresponding to
+baz.txt with <code>git cat-file -p 4448adbf7ecd394f42ae135bbeed9676e894af85</code>, we get
+the following:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>git is wonderful
+</span></span></code></pre></td></tr></table></div></div><h2 id=references><a class=header-anchor href=#references></a>References</h2><p>Now, all snapshots can be identified by their SHA-1 hashes. That&rsquo;s inconvenient,
+because humans aren&rsquo;t good at remembering strings of 40 hexadecimal characters.</p><p>Git&rsquo;s solution to this problem is human-readable names for SHA-1 hashes, called
+&ldquo;references&rdquo;. References are pointers to commits. Unlike objects, which are
+immutable, references are mutable (can be updated to point to a new commit).
+For example, the <code>master</code> reference usually points to the latest commit in the
+main branch of development.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=n>references</span> <span class=o>=</span> <span class=n>map</span><span class=o>&lt;</span><span class=n>string</span><span class=p>,</span> <span class=n>string</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>update_reference</span><span class=p>(</span><span class=n>name</span><span class=p>,</span> <span class=n>id</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=n>references</span><span class=p>[</span><span class=n>name</span><span class=p>]</span> <span class=o>=</span> <span class=n>id</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>read_reference</span><span class=p>(</span><span class=n>name</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>references</span><span class=p>[</span><span class=n>name</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>load_reference</span><span class=p>(</span><span class=n>name_or_id</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=n>name_or_id</span> <span class=ow>in</span> <span class=n>references</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nb>load</span><span class=p>(</span><span class=n>references</span><span class=p>[</span><span class=n>name_or_id</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>    <span class=k>else</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nb>load</span><span class=p>(</span><span class=n>name_or_id</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>With this, Git can use human-readable names like &ldquo;master&rdquo; to refer to a
+particular snapshot in the history, instead of a long hexadecimal string.</p><p>One detail is that we often want a notion of &ldquo;where we currently are&rdquo; in the
+history, so that when we take a new snapshot, we know what it is relative to
+(how we set the <code>parents</code> field of the commit). In Git, that &ldquo;where we
+currently are&rdquo; is a special reference called &ldquo;HEAD&rdquo;.</p><h2 id=repositories><a class=header-anchor href=#repositories></a>Repositories</h2><p>Finally, we can define what (roughly) is a Git <em>repository</em>: it is the data
+<code>objects</code> and <code>references</code>.</p><p>On disk, all Git stores are objects and references: that&rsquo;s all there is to Git&rsquo;s
+data model. All <code>git</code> commands map to some manipulation of the commit DAG by
+adding objects and adding/updating references.</p><p>Whenever you&rsquo;re typing in any command, think about what manipulation the
+command is making to the underlying graph data structure. Conversely, if you&rsquo;re
+trying to make a particular kind of change to the commit DAG, e.g. &ldquo;discard
+uncommitted changes and make the &lsquo;master&rsquo; ref point to commit <code>5d83f9e</code>&rdquo;, there&rsquo;s
+probably a command to do it (e.g. in this case, <code>git checkout master; git reset --hard 5d83f9e</code>).</p><h1 id=staging-area><a class=header-anchor href=#staging-area></a>Staging area</h1><p>This is another concept that&rsquo;s orthogonal to the data model, but it&rsquo;s a part of
+the interface to create commits.</p><p>One way you might imagine implementing snapshotting as described above is to have
+a &ldquo;create snapshot&rdquo; command that creates a new snapshot based on the <em>current
+state</em> of the working directory. Some version control tools work like this, but
+not Git. We want clean snapshots, and it might not always be ideal to make a
+snapshot from the current state. For example, imagine a scenario where you&rsquo;ve
+implemented two separate features, and you want to create two separate commits,
+where the first introduces the first feature, and the next introduces the
+second feature. Or imagine a scenario where you have debugging print statements
+added all over your code, along with a bugfix; you want to commit the bugfix
+while discarding all the print statements.</p><p>Git accommodates such scenarios by allowing you to specify which modifications
+should be included in the next snapshot through a mechanism called the &ldquo;staging
+area&rdquo;.</p><h1 id=git-command-line-interface><a class=header-anchor href=#git-command-line-interface></a>Git command-line interface</h1><p>To avoid duplicating information, we&rsquo;re not going to explain the commands below
+in detail. See the highly recommended <a href=https://git-scm.com/book/en/v2>Pro Git</a>
+for more information, or watch the lecture video.</p><h2 id=basics><a class=header-anchor href=#basics></a>Basics</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>{% comment %}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>The `git init` command initializes a new Git repository, with repository
+</span></span><span class=line><span class=cl>metadata being stored in the `.git` directory:
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-console data-lang=console><span class=line><span class=cl><span class=gp>$</span> mkdir myproject
+</span></span><span class=line><span class=cl><span class=gp>$</span> <span class=nb>cd</span> myproject
+</span></span><span class=line><span class=cl><span class=gp>$</span> git init
+</span></span><span class=line><span class=cl><span class=go>Initialized empty Git repository in /home/missing-semester/myproject/.git/
+</span></span></span><span class=line><span class=cl><span class=gp>$</span> git status
+</span></span><span class=line><span class=cl><span class=go>On branch master
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=go>No commits yet
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=go>nothing to commit (create/copy files and use &#34;git add&#34; to track)
+</span></span></span></code></pre></td></tr></table></div></div><p>How do we interpret this output? &ldquo;No commits yet&rdquo; basically means our version
+history is empty. Let&rsquo;s fix that.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-console data-lang=console><span class=line><span class=cl><span class=gp>$</span> <span class=nb>echo</span> <span class=s2>&#34;hello, git&#34;</span> &gt; hello.txt
+</span></span><span class=line><span class=cl><span class=gp>$</span> git add hello.txt
+</span></span><span class=line><span class=cl><span class=gp>$</span> git status
+</span></span><span class=line><span class=cl><span class=go>On branch master
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=go>No commits yet
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=go>Changes to be committed:
+</span></span></span><span class=line><span class=cl><span class=go>  (use &#34;git rm --cached &lt;file&gt;...&#34; to unstage)
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=go>        new file:   hello.txt
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=gp>$</span> git commit -m <span class=s1>&#39;Initial commit&#39;</span>
+</span></span><span class=line><span class=cl><span class=go>[master (root-commit) 4515d17] Initial commit
+</span></span></span><span class=line><span class=cl><span class=go> 1 file changed, 1 insertion(+)
+</span></span></span><span class=line><span class=cl><span class=go> create mode 100644 hello.txt
+</span></span></span></code></pre></td></tr></table></div></div><p>With this, we&rsquo;ve <code>git add</code>ed a file to the staging area, and then <code>git commit</code>ed that change, adding a simple commit message &ldquo;Initial commit&rdquo;. If we
+didn&rsquo;t specify a <code>-m</code> option, Git would open our text editor to allow us type a
+commit message.</p><p>Now that we have a non-empty version history, we can visualize the history.
+Visualizing the history as a DAG can be especially helpful in understanding the
+current status of the repo and connecting it with your understanding of the Git
+data model.</p><p>The <code>git log</code> command visualizes history. By default, it shows a flattened
+version, which hides the graph structure. If you use a command like <code>git log --all --graph --decorate</code>, it will show you the full version history of the
+repository, visualized in graph form.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-console data-lang=console><span class=line><span class=cl><span class=gp>$</span> git log --all --graph --decorate
+</span></span><span class=line><span class=cl><span class=go>* commit 4515d17a167bdef0a91ee7d50d75b12c9c2652aa (HEAD -&gt; master)
+</span></span></span><span class=line><span class=cl><span class=go>  Author: Missing Semester &lt;missing-semester@mit.edu&gt;
+</span></span></span><span class=line><span class=cl><span class=go>  Date:   Tue Jan 21 22:18:36 2020 -0500
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=go>      Initial commit
+</span></span></span></code></pre></td></tr></table></div></div><p>This doesn&rsquo;t look all that graph-like, because it only contains a single node.
+Let&rsquo;s make some more changes, author a new commit, and visualize the history
+once more.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-console data-lang=console><span class=line><span class=cl><span class=gp>$</span> <span class=nb>echo</span> <span class=s2>&#34;another line&#34;</span> &gt;&gt; hello.txt
+</span></span><span class=line><span class=cl><span class=gp>$</span> git status
+</span></span><span class=line><span class=cl><span class=go>On branch master
+</span></span></span><span class=line><span class=cl><span class=go>Changes not staged for commit:
+</span></span></span><span class=line><span class=cl><span class=go>  (use &#34;git add &lt;file&gt;...&#34; to update what will be committed)
+</span></span></span><span class=line><span class=cl><span class=go>  (use &#34;git checkout -- &lt;file&gt;...&#34; to discard changes in working directory)
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=go>        modified:   hello.txt
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=go>no changes added to commit (use &#34;git add&#34; and/or &#34;git commit -a&#34;)
+</span></span></span><span class=line><span class=cl><span class=gp>$</span> git add hello.txt
+</span></span><span class=line><span class=cl><span class=gp>$</span> git status
+</span></span><span class=line><span class=cl><span class=go>On branch master
+</span></span></span><span class=line><span class=cl><span class=go>Changes to be committed:
+</span></span></span><span class=line><span class=cl><span class=go>  (use &#34;git reset HEAD &lt;file&gt;...&#34; to unstage)
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=go>        modified:   hello.txt
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=gp>$</span> git commit -m <span class=s1>&#39;Add a line&#39;</span>
+</span></span><span class=line><span class=cl><span class=go>[master 35f60a8] Add a line
+</span></span></span><span class=line><span class=cl><span class=go> 1 file changed, 1 insertion(+)
+</span></span></span></code></pre></td></tr></table></div></div><p>Now, if we visualize the history again, we&rsquo;ll see some of the graph structure:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>* commit 35f60a825be0106036dd2fbc7657598eb7b04c67 (HEAD -&gt; master)
+</span></span><span class=line><span class=cl>| Author: Missing Semester &lt;missing-semester@mit.edu&gt;
+</span></span><span class=line><span class=cl>| Date:   Tue Jan 21 22:26:20 2020 -0500
+</span></span><span class=line><span class=cl>|
+</span></span><span class=line><span class=cl>|     Add a line
+</span></span><span class=line><span class=cl>|
+</span></span><span class=line><span class=cl>* commit 4515d17a167bdef0a91ee7d50d75b12c9c2652aa
+</span></span><span class=line><span class=cl>  Author: Anish Athalye &lt;me@anishathalye.com&gt;
+</span></span><span class=line><span class=cl>  Date:   Tue Jan 21 22:18:36 2020 -0500
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>      Initial commit
+</span></span></code></pre></td></tr></table></div></div><p>Also, note that it shows the current HEAD, along with the current branch
+(master).</p><p>We can look at old versions using the <code>git checkout</code> command.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-console data-lang=console><span class=line><span class=cl><span class=gp>$</span> git checkout 4515d17  <span class=c1># previous commit hash; yours will be different</span>
+</span></span><span class=line><span class=cl><span class=go>Note: checking out &#39;4515d17&#39;.
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=go>You are in &#39;detached HEAD&#39; state. You can look around, make experimental
+</span></span></span><span class=line><span class=cl><span class=go>changes and commit them, and you can discard any commits you make in this
+</span></span></span><span class=line><span class=cl><span class=go>state without impacting any branches by performing another checkout.
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=go>If you want to create a new branch to retain commits you create, you may
+</span></span></span><span class=line><span class=cl><span class=go>do so (now or later) by using -b with the checkout command again. Example:
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=go>  git checkout -b &lt;new-branch-name&gt;
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=go>HEAD is now at 4515d17 Initial commit
+</span></span></span><span class=line><span class=cl><span class=gp>$</span> cat hello.txt
+</span></span><span class=line><span class=cl><span class=go>hello, git
+</span></span></span><span class=line><span class=cl><span class=gp>$</span> git checkout master
+</span></span><span class=line><span class=cl><span class=go>Previous HEAD position was 4515d17 Initial commit
+</span></span></span><span class=line><span class=cl><span class=go>Switched to branch &#39;master&#39;
+</span></span></span><span class=line><span class=cl><span class=gp>$</span> cat hello.txt
+</span></span><span class=line><span class=cl><span class=go>hello, git
+</span></span></span><span class=line><span class=cl><span class=go>another line
+</span></span></span></code></pre></td></tr></table></div></div><p>Git can show you how files have evolved (differences, or diffs) using the <code>git diff</code> command:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-console data-lang=console><span class=line><span class=cl><span class=gp>$</span> git diff 4515d17 hello.txt
+</span></span><span class=line><span class=cl><span class=go>diff --git c/hello.txt w/hello.txt
+</span></span></span><span class=line><span class=cl><span class=go>index 94bab17..f0013b2 100644
+</span></span></span><span class=line><span class=cl><span class=go>--- c/hello.txt
+</span></span></span><span class=line><span class=cl><span class=go>+++ w/hello.txt
+</span></span></span><span class=line><span class=cl><span class=go>@@ -1 +1,2 @@
+</span></span></span><span class=line><span class=cl><span class=go> hello, git
+</span></span></span><span class=line><span class=cl><span class=go> +another line
+</span></span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>{% endcomment %}
+</span></span></code></pre></td></tr></table></div></div><ul><li><code>git help &lt;command></code>: get help for a git command</li><li><code>git init</code>: creates a new git repo, with data stored in the <code>.git</code> directory</li><li><code>git status</code>: tells you what&rsquo;s going on</li><li><code>git add &lt;filename></code>: adds files to staging area</li><li><code>git commit</code>: creates a new commit<ul><li>Write <a href=https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html>good commit messages</a>!</li><li>Even more reasons to write <a href=https://chris.beams.io/posts/git-commit/>good commit messages</a>!</li></ul></li><li><code>git log</code>: shows a flattened log of history</li><li><code>git log --all --graph --decorate</code>: visualizes history as a DAG</li><li><code>git diff &lt;filename></code>: show changes you made relative to the staging area</li><li><code>git diff &lt;revision> &lt;filename></code>: shows differences in a file between snapshots</li><li><code>git checkout &lt;revision></code>: updates HEAD (and current branch if checking out a branch)</li></ul><h2 id=branching-and-merging><a class=header-anchor href=#branching-and-merging></a>Branching and merging</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>{% comment %}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Branching allows you to &#34;fork&#34; version history. It can be helpful for working
+</span></span><span class=line><span class=cl>on independent features or bug fixes in parallel. The `git branch` command can
+</span></span><span class=line><span class=cl>be used to create new branches; `git checkout -b &lt;branch name&gt;` creates and
+</span></span><span class=line><span class=cl>branch and checks it out.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Merging is the opposite of branching: it allows you to combine forked version
+</span></span><span class=line><span class=cl>histories, e.g. merging a feature branch back into master. The `git merge`
+</span></span><span class=line><span class=cl>command is used for merging.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>{% endcomment %}
+</span></span></code></pre></td></tr></table></div></div><ul><li><code>git branch</code>: shows branches</li><li><code>git branch &lt;name></code>: creates a branch</li><li><code>git checkout -b &lt;name></code>: creates a branch and switches to it<ul><li>same as <code>git branch &lt;name>; git checkout &lt;name></code></li></ul></li><li><code>git merge &lt;revision></code>: merges into current branch</li><li><code>git mergetool</code>: use a fancy tool to help resolve merge conflicts</li><li><code>git rebase</code>: rebase set of patches onto a new base</li></ul><h2 id=remotes><a class=header-anchor href=#remotes></a>Remotes</h2><ul><li><code>git remote</code>: list remotes</li><li><code>git remote add &lt;name> &lt;url></code>: add a remote</li><li><code>git push &lt;remote> &lt;local branch>:&lt;remote branch></code>: send objects to remote, and update remote reference</li><li><code>git branch --set-upstream-to=&lt;remote>/&lt;remote branch></code>: set up correspondence between local and remote branch</li><li><code>git fetch</code>: retrieve objects/references from a remote</li><li><code>git pull</code>: same as <code>git fetch; git merge</code></li><li><code>git clone</code>: download repository from remote</li></ul><h2 id=undo><a class=header-anchor href=#undo></a>Undo</h2><ul><li><code>git commit --amend</code>: edit a commit&rsquo;s contents/message</li><li><code>git reset HEAD &lt;file></code>: unstage a file</li><li><code>git checkout -- &lt;file></code>: discard changes</li></ul><h1 id=advanced-git><a class=header-anchor href=#advanced-git></a>Advanced Git</h1><ul><li><code>git config</code>: Git is <a href=https://git-scm.com/docs/git-config>highly customizable</a></li><li><code>git clone --depth=1</code>: shallow clone, without entire version history</li><li><code>git add -p</code>: interactive staging</li><li><code>git rebase -i</code>: interactive rebasing</li><li><code>git blame</code>: show who last edited which line</li><li><code>git stash</code>: temporarily remove modifications to working directory</li><li><code>git bisect</code>: binary search history (e.g. for regressions)</li><li><code>.gitignore</code>: <a href=https://git-scm.com/docs/gitignore>specify</a> intentionally untracked files to ignore</li></ul><h1 id=miscellaneous><a class=header-anchor href=#miscellaneous></a>Miscellaneous</h1><ul><li><strong>GUIs</strong>: there are many <a href=https://git-scm.com/downloads/guis>GUI clients</a>
+out there for Git. We personally don&rsquo;t use them and use the command-line
+interface instead.</li><li><strong>Shell integration</strong>: it&rsquo;s super handy to have a Git status as part of your
+shell prompt (<a href=https://github.com/olivierverdier/zsh-git-prompt>zsh</a>,
+<a href=https://github.com/magicmonty/bash-git-prompt>bash</a>). Often included in
+frameworks like <a href=https://github.com/ohmyzsh/ohmyzsh>Oh My Zsh</a>.</li><li><strong>Editor integration</strong>: similarly to the above, handy integrations with many
+features. <a href=https://github.com/tpope/vim-fugitive>fugitive.vim</a> is the standard
+one for Vim.</li><li><strong>Workflows</strong>: we taught you the data model, plus some basic commands; we
+didn&rsquo;t tell you what practices to follow when working on big projects (and
+there are <a href=https://nvie.com/posts/a-successful-git-branching-model/>many</a>
+<a href=https://www.endoflineblog.com/gitflow-considered-harmful>different</a>
+<a href=https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow>approaches</a>).</li><li><strong>GitHub</strong>: Git is not GitHub. GitHub has a specific way of contributing code
+to other projects, called <a href=https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests>pull
+requests</a>.</li><li><strong>Other Git providers</strong>: GitHub is not special: there are many Git repository
+hosts, like <a href=https://about.gitlab.com/>GitLab</a> and
+<a href=https://bitbucket.org/>BitBucket</a>.</li></ul><h1 id=resources><a class=header-anchor href=#resources></a>Resources</h1><ul><li><a href=https://git-scm.com/book/en/v2>Pro Git</a> is <strong>highly recommended reading</strong>.
+Going through Chapters 1&ndash;5 should teach you most of what you need to use Git
+proficiently, now that you understand the data model. The later chapters have
+some interesting, advanced material.</li><li><a href=https://ohshitgit.com/>Oh Shit, Git!?!</a> is a short guide on how to recover
+from some common Git mistakes.</li><li><a href=https://eagain.net/articles/git-for-computer-scientists/>Git for Computer
+Scientists</a> is a
+short explanation of Git&rsquo;s data model, with less pseudocode and more fancy
+diagrams than these lecture notes.</li><li><a href=https://jwiegley.github.io/git-from-the-bottom-up/>Git from the Bottom Up</a>
+is a detailed explanation of Git&rsquo;s implementation details beyond just the data
+model, for the curious.</li><li><a href=https://smusamashah.github.io/blog/2017/10/14/explain-git-in-simple-words>How to explain git in simple
+words</a></li><li><a href=https://learngitbranching.js.org/>Learn Git Branching</a> is a browser-based
+game that teaches you Git.</li></ul><h1 id=exercises><a class=header-anchor href=#exercises></a>Exercises</h1><ol><li>If you don&rsquo;t have any past experience with Git, either try reading the first
+couple chapters of <a href=https://git-scm.com/book/en/v2>Pro Git</a> or go through a
+tutorial like <a href=https://learngitbranching.js.org/>Learn Git Branching</a>. As
+you&rsquo;re working through it, relate Git commands to the data model.</li><li>Clone the <a href=https://github.com/missing-semester/missing-semester>repository for the
+class website</a>.<ol><li>Explore the version history by visualizing it as a graph.</li><li>Who was the last person to modify <code>README.md</code>? (Hint: use <code>git log</code> with
+an argument).</li><li>What was the commit message associated with the last modification to the
+<code>collections:</code> line of <code>_config.yml</code>? (Hint: use <code>git blame</code> and <code>git show</code>).</li></ol></li><li>One common mistake when learning Git is to commit large files that should
+not be managed by Git or adding sensitive information. Try adding a file to
+a repository, making some commits and then deleting that file from history
+(you may want to look at
+<a href=https://help.github.com/articles/removing-sensitive-data-from-a-repository/>this</a>).</li><li>Clone some repository from GitHub, and modify one of its existing files.
+What happens when you do <code>git stash</code>? What do you see when running <code>git log --all --oneline</code>? Run <code>git stash pop</code> to undo what you did with <code>git stash</code>.
+In what scenario might this be useful?</li><li>Like many command line tools, Git provides a configuration file (or dotfile)
+called <code>~/.gitconfig</code>. Create an alias in <code>~/.gitconfig</code> so that when you
+run <code>git graph</code>, you get the output of <code>git log --all --graph --decorate --oneline</code>. You can do this by directly
+<a href=https://git-scm.com/docs/git-config#Documentation/git-config.txt-alias>editing</a>
+the <code>~/.gitconfig</code> file, or you can use the <code>git config</code> command to add the
+alias. Information about git aliases can be found
+<a href=https://git-scm.com/book/en/v2/Git-Basics-Git-Aliases>here</a>.</li><li>You can define global ignore patterns in<code> ~/.gitignore_global</code> after running
+<code>git config --global core.excludesfile ~/.gitignore_global</code>. This sets the
+location of the global ignore file that Git will use, but you still need to
+manually create the file at that path. Set up your global gitignore file to
+ignore OS-specific or editor-specific temporary files, like <code>.DS_Store</code>.</li><li>Fork the <a href=https://github.com/missing-semester/missing-semester>repository for the class
+website</a>, find a typo
+or some other improvement you can make, and submit a pull request on GitHub
+(you may want to look at <a href=https://github.com/firstcontributions/first-contributions>this</a>).
+Please only submit PRs that are useful (don&rsquo;t spam us, please!). If you
+can&rsquo;t find an improvement to make, you can skip this exercise.</li></ol></div><footer class=article-footer><blockquote class=article-copyright><p><strong><span class="icon-user icon"></span>Author: </strong>Jingmengzhiyue</p><p><strong><span class="icon-link icon"></span>Permalink: </strong><a href=https://www.jingmengzhiyue.tech/en/version-control/>https://www.jingmengzhiyue.tech/en/version-control/</a></p><p><strong><span class="icon-pencil icon"></span>Title: </strong>Version Control (Git)</p><p><strong><span class="icon-calendar icon"></span>Published: </strong>2023-06-05 16:37:29</p><p><strong><span class="icon-copyright icon"></span>License: </strong>All articles on this blog are licensed under the <a href=https://creativecommons.org/licenses/by/4.0/deed.zh rel="noopener nofollow noreferrer" target=_blank><span class=icon-creative-commons></span>BY</a> license agreement unless otherwise stated. Please indicate the source when reprinting!</p><span class="icon-creative-commons article-copyright-bg"></span></blockquote><ul class=article-category-list><li class=article-tag-list-item data-aos=zoom-in><a class=article-category-link href=/en/categories/computer-science/ data-aos=zoom-in>Computer Science</a></li></ul><ul class=article-tag-list itemprop=keywords><li class=article-tag-list-item data-aos=zoom-in><a class=article-tag-list-link href=/en/tags/the-missing-semester-of-your-cs-education/ rel=tag>The Missing Semester of Your CS Education</a></li></ul></footer></div><nav id=article-nav aria-label="Article navigation" data-aos=fade-up><div class="article-nav-link-wrap left"><img data-src=/img/16.jpg data-sizes=auto alt="CPP Generic Programming" class=lazyload><a href=/en/cpp-generic-programming/ aria-label="Prev:CPP Generic Programming" title="Prev:CPP Generic Programming"></a><div class=article-nav-caption>Prev</div><h3 class=article-nav-title>CPP Generic Programming</h3></div><div class="article-nav-link-wrap right"><img data-src=/img/23.jpg data-sizes=auto alt="Shell Tools and Scripting" class=lazyload><a href=/en/shell-tools/ aria-label="Next:Shell Tools and Scripting" title="Next:Shell Tools and Scripting"></a><div class=article-nav-caption>Next</div><h3 class=article-nav-title>Shell Tools and Scripting</h3></div></nav></article></section></div><footer id=footer aria-label="Site footer"><div style=width:100%;overflow:hidden><div class=footer-line></div></div><div id=footer-info><div><span class=icon-copyright></span>2023-2026<span class="footer-info-sep rotate"></span>Jingmengzhiyue</div><div>Powered by&nbsp;<a href=https://gohugo.io/ target=_blank rel="noopener nofollow noreferrer">Hugo</a>&nbsp;Theme.<a href=https://github.com/D-Sketon/hugo-theme-reimu target=_blank rel="noopener nofollow noreferrer">Reimu</a></div><div><span class=icon-brush>&nbsp;173.8k</span>
+&nbsp;|&nbsp;
+<span class=icon-coffee>&nbsp;14:09</span></div><div><span class=icon-eye></span>
+<span id=busuanzi_container_site_pv>Number of visits&nbsp;<span id=busuanzi_value_site_pv></span></span>
+&nbsp;|&nbsp;
+<span class=icon-user></span>
+<span id=busuanzi_container_site_uv>Number of visitors&nbsp;<span id=busuanzi_value_site_uv></span></span></div></div></footer><div class=sidebar-top><div class="sidebar-top-taichi rotate"></div><div class=arrow-up></div></div><div id=mask class=hide></div></div><nav id=mobile-nav aria-label="Mobile navigation"><div class=sidebar-wrap><div class=sidebar-toc-sidebar><h3 class=toc-title>Contents</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#snapshots>Snapshots</a></li><li><a href=#modeling-history-relating-snapshots>Modeling history: relating snapshots</a></li><li><a href=#data-model-as-pseudocode>Data model, as pseudocode</a></li><li><a href=#objects-and-content-addressing>Objects and content-addressing</a></li><li><a href=#references>References</a></li><li><a href=#repositories>Repositories</a></li></ul><ul><li><a href=#basics>Basics</a></li><li><a href=#branching-and-merging>Branching and merging</a></li><li><a href=#remotes>Remotes</a></li><li><a href=#undo>Undo</a></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/profile_picture.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>Posts</div><div class=sidebar-state-number>54</div></div><a class=sidebar-state-category href=/en/categories/ aria-label=sidebar-state-category-link><div>Categories</div><div class=sidebar-state-number>9</div></a><a class=sidebar-state-tag href=/en/tags/ aria-label=sidebar-state-tag-link><div>Tags</div><div class=sidebar-state-number>26</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/ aria-label=Home></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Home</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/categories aria-label=Category></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Category</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/tags aria-label=Tag></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Tag</div></div></div></div></div><div class=sidebar-btn-wrapper><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></nav></div><div id=aplayer theme=var(--color-link)></div><script src=https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js integrity=sha384-3gT/vsepWkfz/ff7PpWNUeMzeWoH3cDhm/A8jM7ouoAK0/fP/9bcHHR5kHq2nf+e crossorigin=anonymous></script><script src=https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js integrity=sha384-J08i8An/QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q crossorigin=anonymous></script><script src=/js/main.js integrity crossorigin=anonymous></script><script src=/js/aos.js integrity crossorigin=anonymous></script><script>var aosInit=()=>{AOS.init({duration:1e3,easing:"ease",once:!0,offset:50})};document.readyState==="loading"?document.addEventListener("DOMContentLoaded",aosInit):aosInit()</script><script src=/js/pjax_main.js integrity crossorigin=anonymous data-pjax></script><div id=lazy-script><div><script data-pjax>window.REIMU_POST={author:"Jingmengzhiyue",title:"Version Control (Git)",url:"https://www.jingmengzhiyue.tech/en/version-control/",description:"Version control in computer science",cover:"https://www.jingmengzhiyue.tech/img/24.jpg"}</script><script src=/js/insert_highlight.js integrity crossorigin=anonymous data-pjax></script><script src=/js/tabs.js integrity crossorigin=anonymous data-pjax defer></script><script type=module data-pjax>const PhotoSwipeLightbox = (await safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js", "sha384-DiL6M\/gG\u002bwmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF\/N6lrZi\/")).default;const initPswp = (gallery, children) => {
+          if (_$$(`${gallery} ${children}`).length > 0) {
+            new PhotoSwipeLightbox({
+              gallery,
+              children,pswpModule: () => safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8\u002boTJ7m3DfYEWX1fu1scuS4\u002bs")}).init();
+          }
+        }
+        const pswp = () => {
+          initPswp('.article-entry', 'a.article-gallery-item');
+          initPswp('.article-gallery', 'a.article-gallery-item');
+        }
+        pswp()
+      </script><script data-pjax>window.MathJax=JSON.parse('[{"loader":{"load":["input/asciimath","[tex]/noerrors"]},"options":{"ignoreHtmlClass":"tex2jax_ignore","processHtmlClass":"tex2jax_process","skipHtmlTags":["script","noscript","style","textarea","pre","code"]},"tex":{"autoload":{"color":[],"colorv2":["color"]},"displayMath":[["$$","$$"],["\\\\[","\\\\]"]],"inlineMath":[["$","$"],["\\\\(","\\\\)"]],"packages":{"[+]":["noerrors"]},"processEnvironments":true,"processEscapes":true,"tags":"ams","useLabelIds":true}}]')[0]</script><script src=https://npm.webcache.cn/mathjax@3.2.2/es5/tex-mml-chtml.js defer data-pjax integrity=sha384-Wuix6BuhrWbjDBs24bXrjf4ZQ5aFeFWBuKkFekO2t8xFU0iNaLQfp2K6/1Nxveei crossorigin=anonymous></script></div></div><script src=https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js async integrity=sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S crossorigin=anonymous></script><script>"serviceWorker"in navigator&&navigator.serviceWorker.getRegistrations().then(e=>{for(let t of e)t.unregister()})</script><script>const reimuCopyright=String.raw`
+   ______     ______     __     __    __     __  __    
+  /\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+  \ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+   \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+    \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                    
+  `;console.log(String.raw`%c ${reimuCopyright}`,"color: #ff5252;"),console.log("%c Theme.Reimu %c https://github.com/D-Sketon/hugo-theme-reimu ","color: white; background: #ff5252; padding:5px 0;","padding:4px;border:1px solid #ff5252;")</script><script>var setupAPlayer=()=>{if(!!1||!window.matchMedia("(max-width: 768px)").matches){const e=window.matchMedia("(max-width: 959px)").matches;if(e){const e=_$("#aplayer");if(e){const t=e.parentNode?.parentNode;t?.tagName==="ASIDE"&&(e.removeAttribute("data-aos"),t.parentNode.removeChild(e),document.body.appendChild(e))}}new APlayer({theme:"var(--color-link)",container:document.getElementById("aplayer"),audio:JSON.parse('[{"artist":"千葉紗子","cover":"/img/24.jpg","name":"花手紙","url":"/music/千葉紗子+-+花手紙.mp3"}]')||[],fixed:!!e||!0,autoplay:!1,loop:"one"||"all",order:"list"||"list",preload:"none"||"auto",volume:.7||.7,mutex:!0,listFolded:!0,lrcType:0||0})}}</script><script src=https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.js defer onload=setupAPlayer() integrity=sha384-gdGYZwHnfJM54evoZhpO0s6ZF5BQiybkiyW7VXr+h5UfruuRL/aORyw+5+HZoU6e crossorigin=anonymous></script></body></html>

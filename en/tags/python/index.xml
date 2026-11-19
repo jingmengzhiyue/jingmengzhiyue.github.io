@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Python on 热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/en/tags/python/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>en</language><copyright>All articles on this blog are licensed under the BY license agreement unless otherwise stated. Please indicate the source when reprinting!</copyright><lastBuildDate>Sun, 01 Oct 2023 21:13:43 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/en/tags/python/index.xml" rel="self" type="application/rss+xml"/><item><title>Python Fundamentals</title><link>https://www.jingmengzhiyue.tech/en/python-basics/</link><pubDate>Sun, 01 Oct 2023 21:13:43 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/python-basics/</guid><description>
+<![CDATA[<h1>Python Fundamentals</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="prerequisites">
+<a class="header-anchor" href="#prerequisites"></a>
+Prerequisites
+</h1><h2 id="i-python-fundamentals">
+<a class="header-anchor" href="#i-python-fundamentals"></a>
+I. Python Fundamentals
+</h2><h3 id="1-list-comprehensions-and-conditional-assignment">
+<a class="header-anchor" href="#1-list-comprehensions-and-conditional-assignment"></a>
+1. List Comprehensions and Conditional Assignment
+</h3><p>When generating a sequence of numbers in <code>Python</code>, you can write it as follows:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">L</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">my_func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">L</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">my_func</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">L</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><pre><code>[0, 2, 4, 6, 8]
+</code></pre>
+<p>List comprehensions can actually simplify this notation: <code>[* for i in *]</code>. Here the first <code>*</code> is the mapping function, whose input is whatever <code>i</code> refers to in the latter part, whereas the second <code>*</code> denotes the object being iterated over.</p>
+        
+        <hr><p>Published on 2023-10-01 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-10-01</p>]]></description><category>Programming</category></item></channel></rss>

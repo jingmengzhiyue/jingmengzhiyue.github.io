@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Computer Science on 热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/en/categories/computer-science/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>en</language><copyright>All articles on this blog are licensed under the BY license agreement unless otherwise stated. Please indicate the source when reprinting!</copyright><lastBuildDate>Mon, 05 Jun 2023 16:37:29 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/en/categories/computer-science/index.xml" rel="self" type="application/rss+xml"/><item><title>Version Control (Git)</title><link>https://www.jingmengzhiyue.tech/en/version-control/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/version-control/</guid><description>
+<![CDATA[<h1>Version Control (Git)</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>Version control systems (VCSs) are tools used to track changes to source code
+(or other collections of files and folders). As the name implies, these tools
+help maintain a history of changes; furthermore, they facilitate collaboration.
+VCSs track changes to a folder and its contents in a series of snapshots, where
+each snapshot encapsulates the entire state of files/folders within a top-level
+directory. VCSs also maintain metadata like who created each snapshot, messages
+associated with each snapshot, and so on.</p>
+        
+        <hr><p>Published on 2023-06-05 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>Shell Tools and Scripting</title><link>https://www.jingmengzhiyue.tech/en/shell-tools/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/shell-tools/</guid><description>
+<![CDATA[<h1>Shell Tools and Scripting</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>In this lecture, we will present some of the basics of using bash as a scripting language along with a number of shell tools that cover several of the most common tasks that you will be constantly performing in the command line.</p>
+<h1 id="shell-scripting">
+<a class="header-anchor" href="#shell-scripting"></a>
+Shell Scripting
+</h1><p>So far we have seen how to execute commands in the shell and pipe them together.
+However, in many scenarios you will want to perform a series of commands and make use of control flow expressions like conditionals or loops.</p>
+        
+        <hr><p>Published on 2023-06-05 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>Security and Cryptography</title><link>https://www.jingmengzhiyue.tech/en/security/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/security/</guid><description>
+<![CDATA[<h1>Security and Cryptography</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>Last year&rsquo;s <a href="/2023/06/05/security/">security and privacy lecture</a> focused on how you
+can be more secure as a computer <em>user</em>. This year, we will focus on security
+and cryptography concepts that are relevant in understanding tools covered
+earlier in this class, such as the use of hash functions in Git or key
+derivation functions and symmetric/asymmetric cryptosystems in SSH.</p>
+<p>This lecture is not a substitute for a more rigorous and complete course on
+computer systems security (<a href="https://css.csail.mit.edu/6.858/">6.858</a>) or
+cryptography (<a href="https://courses.csail.mit.edu/6.857/">6.857</a> and 6.875). Don&rsquo;t
+do security work without formal training in security. Unless you&rsquo;re an expert,
+don&rsquo;t <a href="https://www.schneier.com/blog/archives/2015/05/amateurs_produc.html">roll your own
+crypto</a>.
+The same principle applies to systems security.</p>
+        
+        <hr><p>Published on 2023-06-05 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>Q&amp;A</title><link>https://www.jingmengzhiyue.tech/en/qa/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/qa/</guid><description>
+<![CDATA[<h1>Q&A</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>For the last lecture, we answered questions that the students submitted:</p>
+<ul>
+<li><a href="/en/qa/#any-recommendations-on-learning-operating-systems-related-topics-like-processes-virtual-memory-interrupts-memory-management-etc">Any recommendations on learning Operating Systems related topics like processes, virtual memory, interrupts, memory management, etc </a></li>
+<li><a href="/en/qa/#what-are-some-of-the-tools-youd-prioritize-learning-first">What are some of the tools you&rsquo;d prioritize learning first?</a></li>
+<li><a href="/en/qa/#when-do-i-use-python-versus-a-bash-scripts-versus-some-other-language">When do I use Python versus a Bash scripts versus some other language?</a></li>
+<li><a href="/en/qa/#what-is-the-difference-between-source-scriptsh-and-scriptsh">What is the difference between <code>source script.sh</code> and <code>./script.sh</code></a></li>
+<li><a href="/en/qa/#what-are-the-places-where-various-packages-and-tools-are-stored-and-how-does-referencing-them-work-what-even-is-bin-or-lib">What are the places where various packages and tools are stored and how does referencing them work? What even is <code>/bin</code> or <code>/lib</code>?</a></li>
+<li><a href="/en/qa/#should-i-apt-get-install-a-python-whatever-or-pip-install-whatever-package">Should I <code>apt-get install</code> a python-whatever, or <code>pip install</code> whatever package?</a></li>
+<li><a href="/en/qa/#whats-the-easiest-and-best-profiling-tools-to-use-to-improve-performance-of-my-code">What&rsquo;s the easiest and best profiling tools to use to improve performance of my code?</a></li>
+<li><a href="/en/qa/#what-browser-plugins-do-you-use">What browser plugins do you use?</a></li>
+<li><a href="/en/qa/#what-are-other-useful-data-wrangling-tools">What are other useful data wrangling tools?</a></li>
+<li><a href="/en/qa/#what-is-the-difference-between-docker-and-a-virtual-machine">What is the difference between Docker and a Virtual Machine?</a></li>
+<li><a href="/en/qa/#what-are-the-advantages-and-disadvantages-of-each-os-and-how-can-we-choose-between-them-eg-choosing-the-best-linux-distribution-for-our-purposes">What are the advantages and disadvantages of each OS and how can we choose between them (e.g. choosing the best Linux distribution for our purposes)?</a></li>
+<li><a href="/en/qa/#vim-vs-emacs">Vim vs Emacs?</a></li>
+<li><a href="/en/qa/#any-tips-or-tricks-for-machine-learning-applications">Any tips or tricks for Machine Learning applications?</a></li>
+<li><a href="/en/qa/#any-more-vim-tips">Any more Vim tips?</a></li>
+<li><a href="/en/qa/#what-is-2fa-and-why-should-i-use-it">What is 2FA and why should I use it?</a></li>
+<li><a href="/en/qa/#any-comments-on-differences-between-web-browsers">Any comments on differences between web browsers?</a></li>
+</ul>
+<h2 id="any-recommendations-on-learning-operating-systems-related-topics-like-processes-virtual-memory-interrupts-memory-management-etc">
+<a class="header-anchor" href="#any-recommendations-on-learning-operating-systems-related-topics-like-processes-virtual-memory-interrupts-memory-management-etc"></a>
+Any recommendations on learning Operating Systems related topics like processes, virtual memory, interrupts, memory management, etc
+</h2><p>First, it is unclear whether you actually need to be very familiar with all of these topics since they are very low level topics.
+They will matter as you start writing more low level code like implementing or modifying a kernel. Otherwise, most topics will not be relevant, with the exception of processes and signals that were briefly covered in other lectures.</p>
+        
+        <hr><p>Published on 2023-06-05 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>Potpourri</title><link>https://www.jingmengzhiyue.tech/en/potpourri/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/potpourri/</guid><description>
+<![CDATA[<h1>Potpourri</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h2 id="table-of-contents">
+<a class="header-anchor" href="#table-of-contents"></a>
+Table of Contents
+</h2><ul>
+<li><a href="/en/potpourri/#keyboard-remapping">Keyboard remapping</a></li>
+<li><a href="/en/potpourri/#daemons">Daemons</a></li>
+<li><a href="/en/potpourri/#fuse">FUSE</a></li>
+<li><a href="/en/potpourri/#backups">Backups</a></li>
+<li><a href="/en/potpourri/#apis">APIs</a></li>
+<li><a href="/en/potpourri/#common-command-line-flagspatterns">Common command-line flags/patterns</a></li>
+<li><a href="/en/potpourri/#window-managers">Window managers</a></li>
+<li><a href="/en/potpourri/#vpns">VPNs</a></li>
+<li><a href="/en/potpourri/#markdown">Markdown</a></li>
+<li><a href="/en/potpourri/#hammerspoon-desktop-automation-on-macos">Hammerspoon (desktop automation on macOS)</a>
+<ul>
+<li><a href="/en/potpourri/#resources">Resources</a></li>
+</ul>
+</li>
+<li><a href="/en/potpourri/#booting--live-usbs">Booting + Live USBs</a></li>
+<li><a href="/en/potpourri/#docker-vagrant-vms-cloud-openstack">Docker, Vagrant, VMs, Cloud, OpenStack</a></li>
+<li><a href="/en/potpourri/#notebook-programming">Notebook programming</a></li>
+<li><a href="/en/potpourri/#github">GitHub</a></li>
+</ul>
+<h2 id="keyboard-remapping">
+<a class="header-anchor" href="#keyboard-remapping"></a>
+Keyboard remapping
+</h2><p>As a programmer, your keyboard is your main input method. As with pretty much anything in your computer, it is configurable (and worth configuring).</p>
+<p>The most basic change is to remap keys.
+This usually involves some software that is listening and, whenever a certain key is pressed, it intercepts that event and replaces it with another event corresponding to a different key. Some examples:</p>
+        
+        <hr><p>Published on 2023-06-05 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>Metaprogramming</title><link>https://www.jingmengzhiyue.tech/en/metaprogramming/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/metaprogramming/</guid><description>
+<![CDATA[<h1>Metaprogramming</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>What do we mean by &ldquo;metaprogramming&rdquo;? Well, it was the best collective
+term we could come up with for the set of things that are more about
+<em>process</em> than they are about writing code or working more efficiently.
+In this lecture, we will look at systems for building and testing your
+code, and for managing dependencies. These may seem like they are of
+limited importance in your day-to-day as a student, but the moment you
+interact with a larger code base through an internship or once you enter
+the &ldquo;real world&rdquo;, you will see this everywhere. We should note that
+&ldquo;metaprogramming&rdquo; can also mean &ldquo;<a href="https://en.wikipedia.org/wiki/Metaprogramming">programs that operate on
+programs</a>&rdquo;, whereas that
+is not quite the definition we are using for the purposes of this
+lecture.</p>
+        
+        <hr><p>Published on 2023-06-05 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>Editors (Vim)</title><link>https://www.jingmengzhiyue.tech/en/editors/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/editors/</guid><description>
+<![CDATA[<h1>Editors (Vim)</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>Writing English words and writing code are very different activities. When
+programming, you spend more time switching files, reading, navigating, and
+editing code compared to writing a long stream. It makes sense that there are
+different types of programs for writing English words versus code (e.g.
+Microsoft Word versus Visual Studio Code).</p>
+<p>As programmers, we spend most of our time editing code, so it&rsquo;s worth investing
+time mastering an editor that fits your needs. Here&rsquo;s how you learn a new
+editor:</p>
+        
+        <hr><p>Published on 2023-06-05 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>Debugging and Profiling</title><link>https://www.jingmengzhiyue.tech/en/debugging-profiling/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/debugging-profiling/</guid><description>
+<![CDATA[<h1>Debugging and Profiling</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>A golden rule in programming is that code follows your instructions exactly, whether or not they match what you expected.
+Bridging that gap can sometimes be a quite difficult feat.
+In this lecture we are going to cover useful techniques for dealing with buggy and resource hungry code: debugging and profiling.</p>
+<h1 id="debugging">
+<a class="header-anchor" href="#debugging"></a>
+Debugging
+</h1><h2 id="printf-debugging-and-logging">
+<a class="header-anchor" href="#printf-debugging-and-logging"></a>
+Printf debugging and Logging
+</h2><p>&ldquo;The most effective debugging tool is still careful thought, coupled with judiciously placed print statements&rdquo; — Brian Kernighan, <em>Unix for Beginners</em>.</p>
+        
+        <hr><p>Published on 2023-06-05 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>Data Wrangling</title><link>https://www.jingmengzhiyue.tech/en/data-wrangling/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/data-wrangling/</guid><description>
+<![CDATA[<h1>Data Wrangling</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>Have you ever wanted to take data in one format and turn it into a
+different format? Of course you have! That, in very general terms, is
+what this lecture is all about. Specifically, massaging data, whether in
+text or binary format, until you end up with exactly what you wanted.</p>
+<p>We&rsquo;ve already seen some basic data wrangling in past lectures. Pretty
+much any time you use the <code>|</code> operator, you are performing some kind of
+data wrangling. Consider a command like <code>journalctl | grep -i intel</code>. It
+finds all system log entries that mention Intel (case insensitive). Even if
+you would not call it data wrangling, it transforms one format (your entire
+system log) into a more useful one (just the intel log entries). Most data wrangling is about knowing what tools
+you have at your disposal, and how to combine them.</p>
+        
+        <hr><p>Published on 2023-06-05 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>Course Overview + The Shell</title><link>https://www.jingmengzhiyue.tech/en/course-shell/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/course-shell/</guid><description>
+<![CDATA[<h1>Course Overview + The Shell</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="motivation">
+<a class="header-anchor" href="#motivation"></a>
+Motivation
+</h1><p>As computer scientists, we know that computers are great at aiding in
+repetitive tasks. However, far too often, we forget that this applies
+just as much to our <em>use</em> of the computer as it does to the computations
+we want our programs to perform. We have a vast range of tools
+available at our fingertips that enable us to be more productive and
+solve more complex problems when working on any computer-related
+problem. Yet many of us utilize only a small fraction of those tools; we
+only know enough magical incantations by rote to get by, and blindly
+copy-paste commands from the internet when we get stuck.</p>
+        
+        <hr><p>Published on 2023-06-05 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>Command-line Environment</title><link>https://www.jingmengzhiyue.tech/en/command-line/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/command-line/</guid><description>
+<![CDATA[<h1>Command-line Environment</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>In this lecture we will go through several ways in which you can improve your workflow when using the shell. We have been working with the shell for a while now, but we have mainly focused on executing different commands. We will now see how to run several processes at the same time while keeping track of them, how to stop or pause a specific process and how to make a process run in the background.</p>
+        
+        <hr><p>Published on 2023-06-05 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-06-05</p>]]></description><category>Computer Science</category></item></channel></rss>

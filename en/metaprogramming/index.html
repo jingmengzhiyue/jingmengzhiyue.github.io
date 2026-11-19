@@ -1,0 +1,302 @@
+<!doctype html><html lang=en data-theme-mode=auto><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><title>Metaprogramming | Jingmengzhiyue</title><meta name=description content="Metaprogramming in computer science"><script>window.siteConfig=JSON.parse('{"anchor":{"auto":{"enable":false,"length":60},"explicit":{"enable":false,"marker":"{#anchor-","prefix":"anchor-"}},"anchor_icon":null,"base":"https://www.jingmengzhiyue.tech/","clipboard":{"copyright":{"count":50,"enable":false,"license_type":"by-nc-sa"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-br":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ","zh-cn":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-tw":"複製失敗 (ﾟ⊿ﾟ)ﾂ"},"success":{"en":"Copy successfully (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-br":"Copiado com sucesso (*^▽^*)","zh-cn":"复制成功 (*^▽^*)","zh-tw":"複製成功 (*^▽^*)"}},"code_block":{"expand":true},"dark_mode":{"button":true,"mode":"auto"},"i18n_languages":[{"label":"简体中文","lang":"zh-cn"},{"label":"English","lang":"en"}],"icon_font":"4552607_ex15nbittbh","outdate":{"daysago":180,"enable":false,"message":{"en":"This article was last updated on {time}. Please note that the content may no longer be applicable.","ja":"この記事は最終更新日：{time}。記載内容が現在有効でない可能性がありますのでご注意ください。","pt-br":"Este artigo foi atualizado pela última vez em {time}. Observe que o conteúdo pode não ser mais aplicável.","zh-cn":"本文最后更新于 {time}，请注意文中内容可能已不适用。","zh-tw":"本文最後更新於 {time}，請注意文中內容可能已不適用。"}}}')</script><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap" media=print onload='this.media="all"'><link rel=preload href=//at.alicdn.com/t/c/font_4552607_ex15nbittbh.woff2 as=font type=font/woff2 crossorigin=anonymous><link rel=stylesheet href=/css/loader.min.ac746e154f756f8220326eeb52a719f142ab038be5a8ddf30ea5ef15ef2356ea.css><meta property="og:type" content="website"><meta property="og:title" content="Metaprogramming | Jingmengzhiyue"><meta property="og:description" content="Metaprogramming in computer science"><meta property="og:url" content="https://www.jingmengzhiyue.tech/en/metaprogramming/"><meta property="og:site_name" content="热爱可抵万难"><meta property="og:image" content="https://www.jingmengzhiyue.tech/img/24.jpg"><meta property="article:author" content="Jingmengzhiyue"><meta property="article:published_time" content="2023-06-05T16:37:29+08:00"><meta property="article:modified_time" content="2023-06-05T16:37:29+08:00"><meta property="article:tag" content="The Missing Semester of Your CS Education"><meta name=twitter:card content="summary"><meta name=twitter:image content="https://www.jingmengzhiyue.tech/img/24.jpg"><link rel="shortcut icon" href=/favicon.ico><link rel=stylesheet href=/css/main.min.c69028af04cc11392739edc48eeb60465879b00de4286e0147bbc470f8f39418.css><link rel=preload as=style href=https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css integrity=sha384-IfxC36XL/toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx/1oA/0l8ysE crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><link rel=preload as=style href=https://npm.webcache.cn/katex@0.16.47/dist/katex.min.css integrity=sha384-nH0MfJ44wi1dd7w6jinlyBgljjS8EJAh2JBoRad8a3VDw2K69vfaaqm4WnR+gXtA crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><script src=https://npm.webcache.cn/pace-js@1.2.4/pace.min.js integrity=sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8 crossorigin=anonymous></script><link rel=stylesheet href=https://npm.webcache.cn/@reimujs/aos@0.1.3/dist/aos.css integrity=sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa crossorigin=anonymous><link rel=stylesheet href=https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.css integrity=sha384-tLMkTWh2pfXNWGFlUS0w1TFtRG5xZ9lPWFOooj+vDDLIL+xBGQU/voDBY5XE2lVh crossorigin=anonymous><link rel=icon href=/img/fluid.png type=image/png><link rel=apple-touch-icon href=/img/fluid.png><link rel=stylesheet href=/css/custom.css></head><body><div id=loader><div class="loading-left-bg loading-bg"></div><div class="loading-right-bg loading-bg"></div><div class=spinner-box><div class="loading-taichi rotate"><svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" shape-rendering="geometricPrecision"><path d="M303.5 432a80 80 0 01-12 160 80 80 0 0112-160z" fill="var(--red-1, #ff5252)"/><path d="M512 65a447 447 0 010 894V929a417 417 0 000-834 417 417 0 000 834v30a447 447 0 010-894zm0 30A417 417 0 01929 512 208.5 208.5.0 01720.5 720.5V592a80 80 0 000-160 80 80 0 000 160V720.5A208.5 208.5.0 01512 512 208.5 208.5.0 00303.5 303.5 208.5 208.5.0 0095 512 417 417 0 01512 95z" fill="var(--red-1, #ff5252)"/></svg></div><div class=loading-word>Loading...</div></div></div></div><script>var time=null,loaderEl=document.getElementById("loader"),startLoading=()=>{time=Date.now(),loaderEl.classList.remove("loading")},hideLoader=()=>{document.body.style.overflow="auto",loader.classList.add("loading")},endLoading=()=>{time?Date.now()-time>500?(time=null,hideLoader()):(setTimeout(endLoading,500-(Date.now()-time)),time=null):hideLoader()};window.addEventListener("DOMContentLoaded",endLoading),loaderEl.addEventListener("click",endLoading)</script><div id=copy-tooltip></div><div id=lang-tooltip>This article does not have a corresponding language version</div><div id=heatmap-tooltip></div><div id=container><div id=wrap><div id=header-nav><nav id=main-nav aria-label="Primary navigation"><a class=main-nav-link-wrap href=/en/><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>Home</span>
+</a><a class=main-nav-link-wrap href=/en/categories><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>Category</span>
+</a><a class=main-nav-link-wrap href=/en/tags><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>Tag</span>
+</a><a id=main-nav-toggle class=nav-icon aria-label="Toggle navigation" role=button></a></nav><nav id=sub-nav aria-label="Secondary navigation"></nav><nav id=i18n-nav aria-label="Language selection"><div class=custom-dropdown><div class=select-selected id=select-selected role=button aria-haspopup=listbox aria-expanded=false aria-label="Language menu"><span id=nav-language-btn class=nav-icon style="padding:0 20px 0 0"></span>
+<span id=selected-lang>English</span></div><ul class=select-items id=select-items role=listbox aria-label=Languages><li data-value=zh-cn role=option aria-selected=false>简体中文</li><li data-value=en role=option class=selected aria-selected=true>English</li></ul></div><script>var selectSelected=document.getElementById("select-selected"),selectedLang=document.getElementById("selected-lang"),selectItems=document.getElementById("select-items"),selectOptions=selectItems.querySelectorAll("li");selectSelected.addEventListener("click",()=>{selectItems.classList.toggle("show");var e=selectSelected.getAttribute("aria-expanded")==="true";selectSelected.setAttribute("aria-expanded",(!e).toString())}),selectOptions.forEach(e=>{e.addEventListener("click",()=>{const t={};if(t["zh-cn"]="/2023/06/05/metaprogramming/",selectedLang.textContent=e.textContent,selectItems.classList.remove("show"),selectOptions.forEach(e=>{e.classList.remove("selected")}),e.classList.add("selected"),e.dataset.value==="en")return;if(!t[e.dataset.value]){_$("#lang-tooltip").style.opacity="1",setTimeout(()=>{_$("#lang-tooltip").style.opacity="0"},1e3);return}window.location=t[e.dataset.value]})}),document.addEventListener("click",e=>{e.target.closest(".custom-dropdown")||(selectItems.classList.remove("show"),selectSelected.setAttribute("aria-expanded","false"))})</script></nav></div><header id=header aria-label="Site header"><picture></picture><img fetchpriority=high src=/img/24.jpg alt=Metaprogramming><div id=header-outer><div id=header-title><span id=logo><h1 data-aos=slide-up>Metaprogramming</h1></span><h2 id=subtitle-wrap data-aos=slide-down></h2></div></div></header><div id=content aria-label="Page content" class=sidebar-right><aside id=sidebar aria-label=Sidebar><div class="sidebar-wrapper-container sticky"><div class=sidebar-wrapper><div class=sidebar-wrap data-aos=fade-up><div class=sidebar-toc-sidebar><h3 class=toc-title>Contents</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#a-brief-aside-on-testing>A brief aside on testing</a></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/profile_picture.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>Posts</div><div class=sidebar-state-number>54</div></div><a class=sidebar-state-category href=/en/categories/ aria-label=sidebar-state-category-link><div>Categories</div><div class=sidebar-state-number>9</div></a><a class=sidebar-state-tag href=/en/tags/ aria-label=sidebar-state-tag-link><div>Tags</div><div class=sidebar-state-number>26</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/ aria-label=Home></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Home</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/categories aria-label=Category></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Category</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/tags aria-label=Tag></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Tag</div></div></div></div><div class=sidebar-btn-wrapper style=position:static><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></div></div><div class=sidebar-widget></div></div></aside><section id=main aria-label="Main content"><nav aria-label="Article language"><a href=/2023/06/05/metaprogramming/ hreflang=zh-CN lang=zh-CN>简体中文</a></nav><article class="h-entry article" itemscope itemtype=https://schema.org/BlogPosting><div class=article-inner data-aos=fade-up><div class=article-meta><div class=article-date><span class="article-date-link icon-calendar" data-aos=zoom-in><time datetime="2023-06-05 16:37:29 +0800 +0800" itemprop=datePublished>2023-06-05</time>
+<time style=display:none id=post-update-time>2023-06-05</time></span></div></div><div class=hr-line></div><div class="e-content article-entry" itemprop=articleBody><p>What do we mean by &ldquo;metaprogramming&rdquo;? Well, it was the best collective
+term we could come up with for the set of things that are more about
+<em>process</em> than they are about writing code or working more efficiently.
+In this lecture, we will look at systems for building and testing your
+code, and for managing dependencies. These may seem like they are of
+limited importance in your day-to-day as a student, but the moment you
+interact with a larger code base through an internship or once you enter
+the &ldquo;real world&rdquo;, you will see this everywhere. We should note that
+&ldquo;metaprogramming&rdquo; can also mean &ldquo;<a href=https://en.wikipedia.org/wiki/Metaprogramming>programs that operate on
+programs</a>&rdquo;, whereas that
+is not quite the definition we are using for the purposes of this
+lecture.</p><h1 id=build-systems><a class=header-anchor href=#build-systems></a>Build systems</h1><p>If you write a paper in LaTeX, what are the commands you need to run to
+produce your paper? What about the ones used to run your benchmarks,
+plot them, and then insert that plot into your paper? Or to compile the
+code provided in the class you&rsquo;re taking and then running the tests?</p><p>For most projects, whether they contain code or not, there is a &ldquo;build
+process&rdquo;. Some sequence of operations you need to do to go from your
+inputs to your outputs. Often, that process might have many steps, and
+many branches. Run this to generate this plot, that to generate those
+results, and something else to produce the final paper. As with so many
+of the things we have seen in this class, you are not the first to
+encounter this annoyance, and luckily there exist many tools to help
+you!</p><p>These are usually called &ldquo;build systems&rdquo;, and there are <em>many</em> of them.
+Which one you use depends on the task at hand, your language of
+preference, and the size of the project. At their core, they are all
+very similar though. You define a number of <em>dependencies</em>, a number of
+<em>targets</em>, and <em>rules</em> for going from one to the other. You tell the
+build system that you want a particular target, and its job is to find
+all the transitive dependencies of that target, and then apply the rules
+to produce intermediate targets all the way until the final target has
+been produced. Ideally, the build system does this without unnecessarily
+executing rules for targets whose dependencies haven&rsquo;t changed and where
+the result is available from a previous build.</p><p><code>make</code> is one of the most common build systems out there, and you will
+usually find it installed on pretty much any UNIX-based computer. It has
+its warts, but works quite well for simple-to-moderate projects. When
+you run <code>make</code>, it consults a file called <code>Makefile</code> in the current
+directory. All the targets, their dependencies, and the rules are
+defined in that file. Let&rsquo;s take a look at one:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-make data-lang=make><span class=line><span class=cl><span class=nf>paper.pdf</span><span class=o>:</span> <span class=n>paper</span>.<span class=n>tex</span> <span class=n>plot</span>-<span class=n>data</span>.<span class=n>png</span>
+</span></span><span class=line><span class=cl>	pdflatex paper.tex
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nf>plot-%.png</span><span class=o>:</span> %.<span class=n>dat</span> <span class=n>plot</span>.<span class=n>py</span>
+</span></span><span class=line><span class=cl>	./plot.py -i <span class=nv>$*</span>.dat -o <span class=nv>$@</span>
+</span></span></code></pre></td></tr></table></div></div><p>Each directive in this file is a rule for how to produce the left-hand
+side using the right-hand side. Or, phrased differently, the things
+named on the right-hand side are dependencies, and the left-hand side is
+the target. The indented block is a sequence of programs to produce the
+target from those dependencies. In <code>make</code>, the first directive also
+defines the default goal. If you run <code>make</code> with no arguments, this is
+the target it will build. Alternatively, you can run something like
+<code>make plot-data.png</code>, and it will build that target instead.</p><p>The <code>%</code> in a rule is a &ldquo;pattern&rdquo;, and will match the same string on the
+left and on the right. For example, if the target <code>plot-foo.png</code> is
+requested, <code>make</code> will look for the dependencies <code>foo.dat</code> and
+<code>plot.py</code>. Now let&rsquo;s look at what happens if we run <code>make</code> with an empty
+source directory.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-console data-lang=console><span class=line><span class=cl><span class=gp>$</span> make
+</span></span><span class=line><span class=cl><span class=go>make: *** No rule to make target &#39;paper.tex&#39;, needed by &#39;paper.pdf&#39;.  Stop.
+</span></span></span></code></pre></td></tr></table></div></div><p><code>make</code> is helpfully telling us that in order to build <code>paper.pdf</code>, it
+needs <code>paper.tex</code>, and it has no rule telling it how to make that file.
+Let&rsquo;s try making it!</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-console data-lang=console><span class=line><span class=cl><span class=gp>$</span> touch paper.tex
+</span></span><span class=line><span class=cl><span class=gp>$</span> make
+</span></span><span class=line><span class=cl><span class=go>make: *** No rule to make target &#39;plot-data.png&#39;, needed by &#39;paper.pdf&#39;.  Stop.
+</span></span></span></code></pre></td></tr></table></div></div><p>Hmm, interesting, there <em>is</em> a rule to make <code>plot-data.png</code>, but it is a
+pattern rule. Since the source files do not exist (<code>data.dat</code>), <code>make</code>
+simply states that it cannot make that file. Let&rsquo;s try creating all the
+files:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-console data-lang=console><span class=line><span class=cl><span class=gp>$</span> cat paper.tex
+</span></span><span class=line><span class=cl><span class=go>\documentclass{article}
+</span></span></span><span class=line><span class=cl><span class=go>\usepackage{graphicx}
+</span></span></span><span class=line><span class=cl><span class=go>\begin{document}
+</span></span></span><span class=line><span class=cl><span class=go>\includegraphics[scale=0.65]{plot-data.png}
+</span></span></span><span class=line><span class=cl><span class=go>\end{document}
+</span></span></span><span class=line><span class=cl><span class=gp>$</span> cat plot.py
+</span></span><span class=line><span class=cl><span class=gp>#</span>!/usr/bin/env python
+</span></span><span class=line><span class=cl><span class=go>import matplotlib
+</span></span></span><span class=line><span class=cl><span class=go>import matplotlib.pyplot as plt
+</span></span></span><span class=line><span class=cl><span class=go>import numpy as np
+</span></span></span><span class=line><span class=cl><span class=go>import argparse
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=go>parser = argparse.ArgumentParser()
+</span></span></span><span class=line><span class=cl><span class=go>parser.add_argument(&#39;-i&#39;, type=argparse.FileType(&#39;r&#39;))
+</span></span></span><span class=line><span class=cl><span class=go>parser.add_argument(&#39;-o&#39;)
+</span></span></span><span class=line><span class=cl><span class=go>args = parser.parse_args()
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=go>data = np.loadtxt(args.i)
+</span></span></span><span class=line><span class=cl><span class=go>plt.plot(data[:, 0], data[:, 1])
+</span></span></span><span class=line><span class=cl><span class=go>plt.savefig(args.o)
+</span></span></span><span class=line><span class=cl><span class=gp>$</span> cat data.dat
+</span></span><span class=line><span class=cl><span class=go>1 1
+</span></span></span><span class=line><span class=cl><span class=go>2 2
+</span></span></span><span class=line><span class=cl><span class=go>3 3
+</span></span></span><span class=line><span class=cl><span class=go>4 4
+</span></span></span><span class=line><span class=cl><span class=go>5 8
+</span></span></span></code></pre></td></tr></table></div></div><p>Now what happens if we run <code>make</code>?</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-console data-lang=console><span class=line><span class=cl><span class=gp>$</span> make
+</span></span><span class=line><span class=cl><span class=go>./plot.py -i data.dat -o plot-data.png
+</span></span></span><span class=line><span class=cl><span class=go>pdflatex paper.tex
+</span></span></span><span class=line><span class=cl><span class=go>... lots of output ...
+</span></span></span></code></pre></td></tr></table></div></div><p>And look, it made a PDF for us!
+What if we run <code>make</code> again?</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-console data-lang=console><span class=line><span class=cl><span class=gp>$</span> make
+</span></span><span class=line><span class=cl><span class=go>make: &#39;paper.pdf&#39; is up to date.
+</span></span></span></code></pre></td></tr></table></div></div><p>It didn&rsquo;t do anything! Why not? Well, because it didn&rsquo;t need to. It
+checked that all of the previously-built targets were still up to date
+with respect to their listed dependencies. We can test this by modifying
+<code>paper.tex</code> and then re-running <code>make</code>:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-console data-lang=console><span class=line><span class=cl><span class=gp>$</span> vim paper.tex
+</span></span><span class=line><span class=cl><span class=gp>$</span> make
+</span></span><span class=line><span class=cl><span class=go>pdflatex paper.tex
+</span></span></span><span class=line><span class=cl><span class=go>...
+</span></span></span></code></pre></td></tr></table></div></div><p>Notice that <code>make</code> did <em>not</em> re-run <code>plot.py</code> because that was not
+necessary; none of <code>plot-data.png</code>&rsquo;s dependencies changed!</p><h1 id=dependency-management><a class=header-anchor href=#dependency-management></a>Dependency management</h1><p>At a more macro level, your software projects are likely to have
+dependencies that are themselves projects. You might depend on installed
+programs (like <code>python</code>), system packages (like <code>openssl</code>), or libraries
+within your programming language (like <code>matplotlib</code>). These days, most
+dependencies will be available through a <em>repository</em> that hosts a
+large number of such dependencies in a single place, and provides a
+convenient mechanism for installing them. Some examples include the
+Ubuntu package repositories for Ubuntu system packages, which you access
+through the <code>apt</code> tool, RubyGems for Ruby libraries, PyPI for Python
+libraries, or the Arch User Repository for Arch Linux user-contributed
+packages.</p><p>Since the exact mechanisms for interacting with these repositories vary
+a lot from repository to repository and from tool to tool, we won&rsquo;t go
+too much into the details of any specific one in this lecture. What we
+<em>will</em> cover is some of the common terminology they all use. The first
+among these is <em>versioning</em>. Most projects that other projects depend on
+issue a <em>version number</em> with every release. Usually something like
+8.1.3 or 64.1.20192004. They are often, but not always, numerical.
+Version numbers serve many purposes, and one of the most important of
+them is to ensure that software keeps working. Imagine, for example,
+that I release a new version of my library where I have renamed a
+particular function. If someone tried to build some software that
+depends on my library after I release that update, the build might fail
+because it calls a function that no longer exists! Versioning attempts
+to solve this problem by letting a project say that it depends on a
+particular version, or range of versions, of some other project. That
+way, even if the underlying library changes, dependent software
+continues building by using an older version of my library.</p><p>That also isn&rsquo;t ideal though! What if I issue a security update which
+does <em>not</em> change the public interface of my library (its &ldquo;API&rdquo;), and
+which any project that depended on the old version should immediately
+start using? This is where the different groups of numbers in a version
+come in. The exact meaning of each one varies between projects, but one
+relatively common standard is <a href=https://semver.org/><em>semantic
+versioning</em></a>. With semantic versioning, every
+version number is of the form: major.minor.patch. The rules are:</p><ul><li>If a new release does not change the API, increase the patch version.</li><li>If you <em>add</em> to your API in a backwards-compatible way, increase the
+minor version.</li><li>If you change the API in a non-backwards-compatible way, increase the
+major version.</li></ul><p>This already provides some major advantages. Now, if my project depends
+on your project, it <em>should</em> be safe to use the latest release with the
+same major version as the one I built against when I developed it, as
+long as its minor version is at least what it was back then. In other
+words, if I depend on your library at version <code>1.3.7</code>, then it <em>should</em>
+be fine to build it with <code>1.3.8</code>, <code>1.6.1</code>, or even <code>1.3.0</code>. Version
+<code>2.2.4</code> would probably not be okay, because the major version was
+increased. We can see an example of semantic versioning in Python&rsquo;s
+version numbers. Many of you are probably aware that Python 2 and Python
+3 code do not mix very well, which is why that was a <em>major</em> version
+bump. Similarly, code written for Python 3.5 might run fine on Python
+3.7, but possibly not on 3.4.</p><p>When working with dependency management systems, you may also come
+across the notion of <em>lock files</em>. A lock file is simply a file that
+lists the exact version you are <em>currently</em> depending on of each
+dependency. Usually, you need to explicitly run an update program to
+upgrade to newer versions of your dependencies. There are many reasons
+for this, such as avoiding unnecessary recompiles, having reproducible
+builds, or not automatically updating to the latest version (which may
+be broken). An extreme version of this kind of dependency locking is
+<em>vendoring</em>, which is where you copy all the code of your dependencies
+into your own project. That gives you total control over any changes to
+it, and lets you introduce your own changes to it, but also means you
+have to explicitly pull in any updates from the upstream maintainers
+over time.</p><h1 id=continuous-integration-systems><a class=header-anchor href=#continuous-integration-systems></a>Continuous integration systems</h1><p>As you work on larger and larger projects, you&rsquo;ll find that there are
+often additional tasks you have to do whenever you make a change to it.
+You might have to upload a new version of the documentation, upload a
+compiled version somewhere, release the code to pypi, run your test
+suite, and all sort of other things. Maybe every time someone sends you
+a pull request on GitHub, you want their code to be style checked and
+you want some benchmarks to run? When these kinds of needs arise, it&rsquo;s
+time to take a look at continuous integration.</p><p>Continuous integration, or CI, is an umbrella term for &ldquo;stuff that runs
+whenever your code changes&rdquo;, and there are many companies out there that
+provide various types of CI, often for free for open-source projects.
+Some of the big ones are Travis CI, Azure Pipelines, and GitHub Actions.
+They all work in roughly the same way: you add a file to your repository
+that describes what should happen when various things happen to that
+repository. By far the most common one is a rule like &ldquo;when someone
+pushes code, run the test suite&rdquo;. When the event triggers, the CI
+provider spins up a virtual machines (or more), runs the commands in
+your &ldquo;recipe&rdquo;, and then usually notes down the results somewhere. You
+might set it up so that you are notified if the test suite stops
+passing, or so that a little badge appears on your repository as long as
+the tests pass.</p><p>As an example of a CI system, the class website is set up using GitHub
+Pages. Pages is a CI action that runs the Jekyll blog software on every
+push to <code>master</code> and makes the built site available on a particular
+GitHub domain. This makes it trivial for us to update the website! We
+just make our changes locally, commit them with git, and then push. CI
+takes care of the rest.</p><h2 id=a-brief-aside-on-testing><a class=header-anchor href=#a-brief-aside-on-testing></a>A brief aside on testing</h2><p>Most large software projects come with a &ldquo;test suite&rdquo;. You may already
+be familiar with the general concept of testing, but we thought we&rsquo;d
+quickly mention some approaches to testing and testing terminology that
+you may encounter in the wild:</p><ul><li>Test suite: a collective term for all the tests</li><li>Unit test: a &ldquo;micro-test&rdquo; that tests a specific feature in isolation</li><li>Integration test: a &ldquo;macro-test&rdquo; that runs a larger part of the
+system to check that different feature or components work <em>together</em>.</li><li>Regression test: a test that implements a particular pattern that
+<em>previously</em> caused a bug to ensure that the bug does not resurface.</li><li>Mocking: to replace a function, module, or type with a fake
+implementation to avoid testing unrelated functionality. For example,
+you might &ldquo;mock the network&rdquo; or &ldquo;mock the disk&rdquo;.</li></ul><h1 id=exercises><a class=header-anchor href=#exercises></a>Exercises</h1><ol><li>Most makefiles provide a target called <code>clean</code>. This isn&rsquo;t intended
+to produce a file called <code>clean</code>, but instead to clean up any files
+that can be re-built by make. Think of it as a way to &ldquo;undo&rdquo; all of
+the build steps. Implement a <code>clean</code> target for the <code>paper.pdf</code>
+<code>Makefile</code> above. You will have to make the target
+<a href=https://www.gnu.org/software/make/manual/html_node/Phony-Targets.html>phony</a>.
+You may find the <a href=https://git-scm.com/docs/git-ls-files><code>git ls-files</code></a> subcommand useful.
+A number of other very common make targets are listed
+<a href=https://www.gnu.org/software/make/manual/html_node/Standard-Targets.html#Standard-Targets>here</a>.</li><li>Take a look at the various ways to specify version requirements for
+dependencies in <a href=https://doc.rust-lang.org/cargo/reference/specifying-dependencies.html>Rust&rsquo;s build
+system</a>.
+Most package repositories support similar syntax. For each one
+(caret, tilde, wildcard, comparison, and multiple), try to come up
+with a use-case in which that particular kind of requirement makes
+sense.</li><li>Git can act as a simple CI system all by itself. In <code>.git/hooks</code>
+inside any git repository, you will find (currently inactive) files
+that are run as scripts when a particular action happens. Write a
+<a href=https://git-scm.com/docs/githooks#_pre_commit><code>pre-commit</code></a> hook
+that runs <code>make paper.pdf</code> and refuses the commit if the <code>make</code>
+command fails. This should prevent any commit from having an
+unbuildable version of the paper.</li><li>Set up a simple auto-published page using <a href=https://pages.github.com/>GitHub
+Pages</a>.
+Add a <a href=https://github.com/features/actions>GitHub Action</a> to the
+repository to run <code>shellcheck</code> on any shell files in that
+repository (here is <a href=https://github.com/marketplace/actions/shellcheck>one way to do
+it</a>). Check that
+it works!</li><li><a href=https://help.github.com/en/actions/automating-your-workflow-with-github-actions/building-actions>Build your
+own</a>
+GitHub action to run <a href=https://github.com/amperser/proselint><code>proselint</code></a> or
+<a href=https://github.com/btford/write-good><code>write-good</code></a> on all the
+<code>.md</code> files in the repository. Enable it in your repository, and
+check that it works by filing a pull request with a typo in it.</li></ol></div><footer class=article-footer><blockquote class=article-copyright><p><strong><span class="icon-user icon"></span>Author: </strong>Jingmengzhiyue</p><p><strong><span class="icon-link icon"></span>Permalink: </strong><a href=https://www.jingmengzhiyue.tech/en/metaprogramming/>https://www.jingmengzhiyue.tech/en/metaprogramming/</a></p><p><strong><span class="icon-pencil icon"></span>Title: </strong>Metaprogramming</p><p><strong><span class="icon-calendar icon"></span>Published: </strong>2023-06-05 16:37:29</p><p><strong><span class="icon-copyright icon"></span>License: </strong>All articles on this blog are licensed under the <a href=https://creativecommons.org/licenses/by/4.0/deed.zh rel="noopener nofollow noreferrer" target=_blank><span class=icon-creative-commons></span>BY</a> license agreement unless otherwise stated. Please indicate the source when reprinting!</p><span class="icon-creative-commons article-copyright-bg"></span></blockquote><ul class=article-category-list><li class=article-tag-list-item data-aos=zoom-in><a class=article-category-link href=/en/categories/computer-science/ data-aos=zoom-in>Computer Science</a></li></ul><ul class=article-tag-list itemprop=keywords><li class=article-tag-list-item data-aos=zoom-in><a class=article-tag-list-link href=/en/tags/the-missing-semester-of-your-cs-education/ rel=tag>The Missing Semester of Your CS Education</a></li></ul></footer></div><nav id=article-nav aria-label="Article navigation" data-aos=fade-up><div class="article-nav-link-wrap left"><img data-src=/img/9.jpg data-sizes=auto alt=Potpourri class=lazyload><a href=/en/potpourri/ aria-label=Prev:Potpourri title=Prev:Potpourri></a><div class=article-nav-caption>Prev</div><h3 class=article-nav-title>Potpourri</h3></div><div class="article-nav-link-wrap right"><img data-src=/img/7.jpg data-sizes=auto alt="Editors (Vim)" class=lazyload><a href=/en/editors/ aria-label="Next:Editors (Vim)" title="Next:Editors (Vim)"></a><div class=article-nav-caption>Next</div><h3 class=article-nav-title>Editors (Vim)</h3></div></nav></article></section></div><footer id=footer aria-label="Site footer"><div style=width:100%;overflow:hidden><div class=footer-line></div></div><div id=footer-info><div><span class=icon-copyright></span>2023-2026<span class="footer-info-sep rotate"></span>Jingmengzhiyue</div><div>Powered by&nbsp;<a href=https://gohugo.io/ target=_blank rel="noopener nofollow noreferrer">Hugo</a>&nbsp;Theme.<a href=https://github.com/D-Sketon/hugo-theme-reimu target=_blank rel="noopener nofollow noreferrer">Reimu</a></div><div><span class=icon-brush>&nbsp;173.8k</span>
+&nbsp;|&nbsp;
+<span class=icon-coffee>&nbsp;14:09</span></div><div><span class=icon-eye></span>
+<span id=busuanzi_container_site_pv>Number of visits&nbsp;<span id=busuanzi_value_site_pv></span></span>
+&nbsp;|&nbsp;
+<span class=icon-user></span>
+<span id=busuanzi_container_site_uv>Number of visitors&nbsp;<span id=busuanzi_value_site_uv></span></span></div></div></footer><div class=sidebar-top><div class="sidebar-top-taichi rotate"></div><div class=arrow-up></div></div><div id=mask class=hide></div></div><nav id=mobile-nav aria-label="Mobile navigation"><div class=sidebar-wrap><div class=sidebar-toc-sidebar><h3 class=toc-title>Contents</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#a-brief-aside-on-testing>A brief aside on testing</a></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/profile_picture.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>Posts</div><div class=sidebar-state-number>54</div></div><a class=sidebar-state-category href=/en/categories/ aria-label=sidebar-state-category-link><div>Categories</div><div class=sidebar-state-number>9</div></a><a class=sidebar-state-tag href=/en/tags/ aria-label=sidebar-state-tag-link><div>Tags</div><div class=sidebar-state-number>26</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/ aria-label=Home></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Home</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/categories aria-label=Category></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Category</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/tags aria-label=Tag></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Tag</div></div></div></div></div><div class=sidebar-btn-wrapper><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></nav></div><div id=aplayer theme=var(--color-link)></div><script src=https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js integrity=sha384-3gT/vsepWkfz/ff7PpWNUeMzeWoH3cDhm/A8jM7ouoAK0/fP/9bcHHR5kHq2nf+e crossorigin=anonymous></script><script src=https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js integrity=sha384-J08i8An/QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q crossorigin=anonymous></script><script src=/js/main.js integrity crossorigin=anonymous></script><script src=/js/aos.js integrity crossorigin=anonymous></script><script>var aosInit=()=>{AOS.init({duration:1e3,easing:"ease",once:!0,offset:50})};document.readyState==="loading"?document.addEventListener("DOMContentLoaded",aosInit):aosInit()</script><script src=/js/pjax_main.js integrity crossorigin=anonymous data-pjax></script><div id=lazy-script><div><script data-pjax>window.REIMU_POST={author:"Jingmengzhiyue",title:"Metaprogramming",url:"https://www.jingmengzhiyue.tech/en/metaprogramming/",description:"Metaprogramming in computer science",cover:"https://www.jingmengzhiyue.tech/img/24.jpg"}</script><script src=/js/insert_highlight.js integrity crossorigin=anonymous data-pjax></script><script src=/js/tabs.js integrity crossorigin=anonymous data-pjax defer></script><script type=module data-pjax>const PhotoSwipeLightbox = (await safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js", "sha384-DiL6M\/gG\u002bwmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF\/N6lrZi\/")).default;const initPswp = (gallery, children) => {
+          if (_$$(`${gallery} ${children}`).length > 0) {
+            new PhotoSwipeLightbox({
+              gallery,
+              children,pswpModule: () => safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8\u002boTJ7m3DfYEWX1fu1scuS4\u002bs")}).init();
+          }
+        }
+        const pswp = () => {
+          initPswp('.article-entry', 'a.article-gallery-item');
+          initPswp('.article-gallery', 'a.article-gallery-item');
+        }
+        pswp()
+      </script><script data-pjax>window.MathJax=JSON.parse('[{"loader":{"load":["input/asciimath","[tex]/noerrors"]},"options":{"ignoreHtmlClass":"tex2jax_ignore","processHtmlClass":"tex2jax_process","skipHtmlTags":["script","noscript","style","textarea","pre","code"]},"tex":{"autoload":{"color":[],"colorv2":["color"]},"displayMath":[["$$","$$"],["\\\\[","\\\\]"]],"inlineMath":[["$","$"],["\\\\(","\\\\)"]],"packages":{"[+]":["noerrors"]},"processEnvironments":true,"processEscapes":true,"tags":"ams","useLabelIds":true}}]')[0]</script><script src=https://npm.webcache.cn/mathjax@3.2.2/es5/tex-mml-chtml.js defer data-pjax integrity=sha384-Wuix6BuhrWbjDBs24bXrjf4ZQ5aFeFWBuKkFekO2t8xFU0iNaLQfp2K6/1Nxveei crossorigin=anonymous></script></div></div><script src=https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js async integrity=sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S crossorigin=anonymous></script><script>"serviceWorker"in navigator&&navigator.serviceWorker.getRegistrations().then(e=>{for(let t of e)t.unregister()})</script><script>const reimuCopyright=String.raw`
+   ______     ______     __     __    __     __  __    
+  /\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+  \ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+   \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+    \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                    
+  `;console.log(String.raw`%c ${reimuCopyright}`,"color: #ff5252;"),console.log("%c Theme.Reimu %c https://github.com/D-Sketon/hugo-theme-reimu ","color: white; background: #ff5252; padding:5px 0;","padding:4px;border:1px solid #ff5252;")</script><script>var setupAPlayer=()=>{if(!!1||!window.matchMedia("(max-width: 768px)").matches){const e=window.matchMedia("(max-width: 959px)").matches;if(e){const e=_$("#aplayer");if(e){const t=e.parentNode?.parentNode;t?.tagName==="ASIDE"&&(e.removeAttribute("data-aos"),t.parentNode.removeChild(e),document.body.appendChild(e))}}new APlayer({theme:"var(--color-link)",container:document.getElementById("aplayer"),audio:JSON.parse('[{"artist":"千葉紗子","cover":"/img/24.jpg","name":"花手紙","url":"/music/千葉紗子+-+花手紙.mp3"}]')||[],fixed:!!e||!0,autoplay:!1,loop:"one"||"all",order:"list"||"list",preload:"none"||"auto",volume:.7||.7,mutex:!0,listFolded:!0,lrcType:0||0})}}</script><script src=https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.js defer onload=setupAPlayer() integrity=sha384-gdGYZwHnfJM54evoZhpO0s6ZF5BQiybkiyW7VXr+h5UfruuRL/aORyw+5+HZoU6e crossorigin=anonymous></script></body></html>

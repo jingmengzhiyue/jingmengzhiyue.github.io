@@ -1,0 +1,332 @@
+<!doctype html><html lang=en data-theme-mode=auto><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><title>Data Wrangling | Jingmengzhiyue</title><meta name=description content="Data wrangling in computer science"><script>window.siteConfig=JSON.parse('{"anchor":{"auto":{"enable":false,"length":60},"explicit":{"enable":false,"marker":"{#anchor-","prefix":"anchor-"}},"anchor_icon":null,"base":"https://www.jingmengzhiyue.tech/","clipboard":{"copyright":{"count":50,"enable":false,"license_type":"by-nc-sa"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-br":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ","zh-cn":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-tw":"複製失敗 (ﾟ⊿ﾟ)ﾂ"},"success":{"en":"Copy successfully (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-br":"Copiado com sucesso (*^▽^*)","zh-cn":"复制成功 (*^▽^*)","zh-tw":"複製成功 (*^▽^*)"}},"code_block":{"expand":true},"dark_mode":{"button":true,"mode":"auto"},"i18n_languages":[{"label":"简体中文","lang":"zh-cn"},{"label":"English","lang":"en"}],"icon_font":"4552607_ex15nbittbh","outdate":{"daysago":180,"enable":false,"message":{"en":"This article was last updated on {time}. Please note that the content may no longer be applicable.","ja":"この記事は最終更新日：{time}。記載内容が現在有効でない可能性がありますのでご注意ください。","pt-br":"Este artigo foi atualizado pela última vez em {time}. Observe que o conteúdo pode não ser mais aplicável.","zh-cn":"本文最后更新于 {time}，请注意文中内容可能已不适用。","zh-tw":"本文最後更新於 {time}，請注意文中內容可能已不適用。"}}}')</script><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap" media=print onload='this.media="all"'><link rel=preload href=//at.alicdn.com/t/c/font_4552607_ex15nbittbh.woff2 as=font type=font/woff2 crossorigin=anonymous><link rel=stylesheet href=/css/loader.min.ac746e154f756f8220326eeb52a719f142ab038be5a8ddf30ea5ef15ef2356ea.css><meta property="og:type" content="website"><meta property="og:title" content="Data Wrangling | Jingmengzhiyue"><meta property="og:description" content="Data wrangling in computer science"><meta property="og:url" content="https://www.jingmengzhiyue.tech/en/data-wrangling/"><meta property="og:site_name" content="热爱可抵万难"><meta property="og:image" content="https://www.jingmengzhiyue.tech/img/24.jpg"><meta property="article:author" content="Jingmengzhiyue"><meta property="article:published_time" content="2023-06-05T16:37:29+08:00"><meta property="article:modified_time" content="2023-06-05T16:37:29+08:00"><meta property="article:tag" content="The Missing Semester of Your CS Education"><meta name=twitter:card content="summary"><meta name=twitter:image content="https://www.jingmengzhiyue.tech/img/24.jpg"><link rel="shortcut icon" href=/favicon.ico><link rel=stylesheet href=/css/main.min.c69028af04cc11392739edc48eeb60465879b00de4286e0147bbc470f8f39418.css><link rel=preload as=style href=https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css integrity=sha384-IfxC36XL/toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx/1oA/0l8ysE crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><link rel=preload as=style href=https://npm.webcache.cn/katex@0.16.47/dist/katex.min.css integrity=sha384-nH0MfJ44wi1dd7w6jinlyBgljjS8EJAh2JBoRad8a3VDw2K69vfaaqm4WnR+gXtA crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><script src=https://npm.webcache.cn/pace-js@1.2.4/pace.min.js integrity=sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8 crossorigin=anonymous></script><link rel=stylesheet href=https://npm.webcache.cn/@reimujs/aos@0.1.3/dist/aos.css integrity=sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa crossorigin=anonymous><link rel=stylesheet href=https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.css integrity=sha384-tLMkTWh2pfXNWGFlUS0w1TFtRG5xZ9lPWFOooj+vDDLIL+xBGQU/voDBY5XE2lVh crossorigin=anonymous><link rel=icon href=/img/fluid.png type=image/png><link rel=apple-touch-icon href=/img/fluid.png><link rel=stylesheet href=/css/custom.css></head><body><div id=loader><div class="loading-left-bg loading-bg"></div><div class="loading-right-bg loading-bg"></div><div class=spinner-box><div class="loading-taichi rotate"><svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" shape-rendering="geometricPrecision"><path d="M303.5 432a80 80 0 01-12 160 80 80 0 0112-160z" fill="var(--red-1, #ff5252)"/><path d="M512 65a447 447 0 010 894V929a417 417 0 000-834 417 417 0 000 834v30a447 447 0 010-894zm0 30A417 417 0 01929 512 208.5 208.5.0 01720.5 720.5V592a80 80 0 000-160 80 80 0 000 160V720.5A208.5 208.5.0 01512 512 208.5 208.5.0 00303.5 303.5 208.5 208.5.0 0095 512 417 417 0 01512 95z" fill="var(--red-1, #ff5252)"/></svg></div><div class=loading-word>Loading...</div></div></div></div><script>var time=null,loaderEl=document.getElementById("loader"),startLoading=()=>{time=Date.now(),loaderEl.classList.remove("loading")},hideLoader=()=>{document.body.style.overflow="auto",loader.classList.add("loading")},endLoading=()=>{time?Date.now()-time>500?(time=null,hideLoader()):(setTimeout(endLoading,500-(Date.now()-time)),time=null):hideLoader()};window.addEventListener("DOMContentLoaded",endLoading),loaderEl.addEventListener("click",endLoading)</script><div id=copy-tooltip></div><div id=lang-tooltip>This article does not have a corresponding language version</div><div id=heatmap-tooltip></div><div id=container><div id=wrap><div id=header-nav><nav id=main-nav aria-label="Primary navigation"><a class=main-nav-link-wrap href=/en/><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>Home</span>
+</a><a class=main-nav-link-wrap href=/en/categories><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>Category</span>
+</a><a class=main-nav-link-wrap href=/en/tags><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>Tag</span>
+</a><a id=main-nav-toggle class=nav-icon aria-label="Toggle navigation" role=button></a></nav><nav id=sub-nav aria-label="Secondary navigation"></nav><nav id=i18n-nav aria-label="Language selection"><div class=custom-dropdown><div class=select-selected id=select-selected role=button aria-haspopup=listbox aria-expanded=false aria-label="Language menu"><span id=nav-language-btn class=nav-icon style="padding:0 20px 0 0"></span>
+<span id=selected-lang>English</span></div><ul class=select-items id=select-items role=listbox aria-label=Languages><li data-value=zh-cn role=option aria-selected=false>简体中文</li><li data-value=en role=option class=selected aria-selected=true>English</li></ul></div><script>var selectSelected=document.getElementById("select-selected"),selectedLang=document.getElementById("selected-lang"),selectItems=document.getElementById("select-items"),selectOptions=selectItems.querySelectorAll("li");selectSelected.addEventListener("click",()=>{selectItems.classList.toggle("show");var e=selectSelected.getAttribute("aria-expanded")==="true";selectSelected.setAttribute("aria-expanded",(!e).toString())}),selectOptions.forEach(e=>{e.addEventListener("click",()=>{const t={};if(t["zh-cn"]="/2023/06/05/data-wrangling/",selectedLang.textContent=e.textContent,selectItems.classList.remove("show"),selectOptions.forEach(e=>{e.classList.remove("selected")}),e.classList.add("selected"),e.dataset.value==="en")return;if(!t[e.dataset.value]){_$("#lang-tooltip").style.opacity="1",setTimeout(()=>{_$("#lang-tooltip").style.opacity="0"},1e3);return}window.location=t[e.dataset.value]})}),document.addEventListener("click",e=>{e.target.closest(".custom-dropdown")||(selectItems.classList.remove("show"),selectSelected.setAttribute("aria-expanded","false"))})</script></nav></div><header id=header aria-label="Site header"><picture></picture><img fetchpriority=high src=/img/24.jpg alt="Data Wrangling"><div id=header-outer><div id=header-title><span id=logo><h1 data-aos=slide-up>Data Wrangling</h1></span><h2 id=subtitle-wrap data-aos=slide-down></h2></div></div></header><div id=content aria-label="Page content" class=sidebar-right><aside id=sidebar aria-label=Sidebar><div class="sidebar-wrapper-container sticky"><div class=sidebar-wrapper><div class=sidebar-wrap data-aos=fade-up><div class=sidebar-toc-sidebar><h3 class=toc-title>Contents</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#regular-expressions>Regular expressions</a></li><li><a href=#back-to-data-wrangling>Back to data wrangling</a></li><li><a href=#awk--another-editor>awk &ndash; another editor</a></li><li><a href=#analyzing-data>Analyzing data</a></li><li><a href=#data-wrangling-to-make-arguments>Data wrangling to make arguments</a></li><li><a href=#wrangling-binary-data>Wrangling binary data</a></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/profile_picture.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>Posts</div><div class=sidebar-state-number>54</div></div><a class=sidebar-state-category href=/en/categories/ aria-label=sidebar-state-category-link><div>Categories</div><div class=sidebar-state-number>9</div></a><a class=sidebar-state-tag href=/en/tags/ aria-label=sidebar-state-tag-link><div>Tags</div><div class=sidebar-state-number>26</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/ aria-label=Home></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Home</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/categories aria-label=Category></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Category</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/tags aria-label=Tag></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Tag</div></div></div></div><div class=sidebar-btn-wrapper style=position:static><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></div></div><div class=sidebar-widget></div></div></aside><section id=main aria-label="Main content"><nav aria-label="Article language"><a href=/2023/06/05/data-wrangling/ hreflang=zh-CN lang=zh-CN>简体中文</a></nav><article class="h-entry article" itemscope itemtype=https://schema.org/BlogPosting><div class=article-inner data-aos=fade-up><div class=article-meta><div class=article-date><span class="article-date-link icon-calendar" data-aos=zoom-in><time datetime="2023-06-05 16:37:29 +0800 +0800" itemprop=datePublished>2023-06-05</time>
+<time style=display:none id=post-update-time>2023-06-05</time></span></div></div><div class=hr-line></div><div class="e-content article-entry" itemprop=articleBody><p>Have you ever wanted to take data in one format and turn it into a
+different format? Of course you have! That, in very general terms, is
+what this lecture is all about. Specifically, massaging data, whether in
+text or binary format, until you end up with exactly what you wanted.</p><p>We&rsquo;ve already seen some basic data wrangling in past lectures. Pretty
+much any time you use the <code>|</code> operator, you are performing some kind of
+data wrangling. Consider a command like <code>journalctl | grep -i intel</code>. It
+finds all system log entries that mention Intel (case insensitive). Even if
+you would not call it data wrangling, it transforms one format (your entire
+system log) into a more useful one (just the intel log entries). Most data wrangling is about knowing what tools
+you have at your disposal, and how to combine them.</p><p>Let&rsquo;s start from the beginning. To wrangle data, we need two things:
+data to wrangle, and something to do with it. Logs often make for a good
+use-case, because you often want to investigate things about them, and
+reading the whole thing isn&rsquo;t feasible. Let&rsquo;s figure out who&rsquo;s trying to
+log into my server by looking at my server&rsquo;s log:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>ssh myserver journalctl
+</span></span></code></pre></td></tr></table></div></div><p>That&rsquo;s far too much stuff. Let&rsquo;s limit it to ssh stuff:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>ssh myserver journalctl <span class=p>|</span> grep sshd
+</span></span></code></pre></td></tr></table></div></div><p>Notice that we&rsquo;re using a pipe to stream a <em>remote</em> file through <code>grep</code>
+on our local computer! <code>ssh</code> is magical, and we will talk more about it
+in the next lecture on the command-line environment. This is still way
+more stuff than we wanted though. And pretty hard to read. Let&rsquo;s do
+better:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>ssh myserver <span class=s1>&#39;journalctl | grep sshd | grep &#34;Disconnected from&#34;&#39;</span> <span class=p>|</span> less
+</span></span></code></pre></td></tr></table></div></div><p>Why the additional quoting? Well, our logs may be quite large, and it&rsquo;s
+wasteful to stream it all to our computer and then do the filtering.
+Instead, we can do the filtering on the remote server, and then massage
+the data locally. <code>less</code> gives us a &ldquo;pager&rdquo; that allows us to scroll up
+and down through the long output. To save some additional traffic while
+we debug our command-line, we can even stick the current filtered logs
+into a file so that we don&rsquo;t have to access the network while
+developing:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-console data-lang=console><span class=line><span class=cl><span class=gp>$</span> ssh myserver <span class=s1>&#39;journalctl | grep sshd | grep &#34;Disconnected from&#34;&#39;</span> &gt; ssh.log
+</span></span><span class=line><span class=cl><span class=gp>$</span> less ssh.log
+</span></span></code></pre></td></tr></table></div></div><p>There&rsquo;s still a lot of noise here. There are <em>a lot</em> of ways to get rid
+of that, but let&rsquo;s look at one of the most powerful tools in your
+toolkit: <code>sed</code>.</p><p><code>sed</code> is a &ldquo;stream editor&rdquo; that builds on top of the old <code>ed</code> editor. In
+it, you basically give short commands for how to modify the file, rather
+than manipulate its contents directly (although you can do that too).
+There are tons of commands, but one of the most common ones is <code>s</code>:
+substitution. For example, we can write:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>ssh myserver journalctl
+</span></span><span class=line><span class=cl> <span class=p>|</span> grep sshd
+</span></span><span class=line><span class=cl> <span class=p>|</span> grep <span class=s2>&#34;Disconnected from&#34;</span>
+</span></span><span class=line><span class=cl> <span class=p>|</span> sed <span class=s1>&#39;s/.*Disconnected from //&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><p>What we just wrote was a simple <em>regular expression</em>; a powerful
+construct that lets you match text against patterns. The <code>s</code> command is
+written in the form: <code>s/REGEX/SUBSTITUTION/</code>, where <code>REGEX</code> is the
+regular expression you want to search for, and <code>SUBSTITUTION</code> is the
+text you want to substitute matching text with.</p><p>(You may recognize this syntax from the &ldquo;Search and replace&rdquo; section of our Vim
+<a href=/en/editors/#advanced-vim>lecture notes</a>! Indeed, Vim uses a syntax for
+searching and replacing that is similar to <code>sed</code>&rsquo;s substitution command.
+Learning one tool often helps you become more proficient with others.)</p><h2 id=regular-expressions><a class=header-anchor href=#regular-expressions></a>Regular expressions</h2><p>Regular expressions are common and useful enough that it&rsquo;s worthwhile to
+take some time to understand how they work. Let&rsquo;s start by looking at
+the one we used above: <code>/.*Disconnected from /</code>. Regular expressions are
+usually (though not always) surrounded by <code>/</code>. Most ASCII characters
+just carry their normal meaning, but some characters have &ldquo;special&rdquo;
+matching behavior. Exactly which characters do what vary somewhat
+between different implementations of regular expressions, which is a
+source of great frustration. Very common patterns are:</p><ul><li><code>.</code> means &ldquo;any single character&rdquo; except newline</li><li><code>*</code> zero or more of the preceding match</li><li><code>+</code> one or more of the preceding match</li><li><code>[abc]</code> any one character of <code>a</code>, <code>b</code>, and <code>c</code></li><li><code>(RX1|RX2)</code> either something that matches <code>RX1</code> or <code>RX2</code></li><li><code>^</code> the start of the line</li><li><code>$</code> the end of the line</li></ul><p><code>sed</code>&rsquo;s regular expressions are somewhat weird, and will require you to
+put a <code>\</code> before most of these to give them their special meaning. Or
+you can pass <code>-E</code>.</p><p>So, looking back at <code>/.*Disconnected from /</code>, we see that it matches
+any text that starts with any number of characters, followed by the
+literal string &ldquo;Disconnected from ”. Which is what we wanted. But
+beware, regular expressions are tricky. What if someone tried to log in
+with the username &ldquo;Disconnected from&rdquo;? We&rsquo;d have:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>Jan 17 03:13:00 thesquareplanet.com sshd[2631]: Disconnected from invalid user Disconnected from 46.97.239.16 port 55920 [preauth]
+</span></span></code></pre></td></tr></table></div></div><p>What would we end up with? Well, <code>*</code> and <code>+</code> are, by default, &ldquo;greedy&rdquo;.
+They will match as much text as they can. So, in the above, we&rsquo;d end up
+with just</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>46.97.239.16 port 55920 [preauth]
+</span></span></code></pre></td></tr></table></div></div><p>Which may not be what we wanted. In some regular expression
+implementations, you can just suffix <code>*</code> or <code>+</code> with a <code>?</code> to make them
+non-greedy, but sadly <code>sed</code> doesn&rsquo;t support that. We <em>could</em> switch to
+perl&rsquo;s command-line mode though, which <em>does</em> support that construct:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>perl -pe <span class=s1>&#39;s/.*?Disconnected from //&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><p>We&rsquo;ll stick to <code>sed</code> for the rest of this, because it&rsquo;s by far the more
+common tool for these kinds of jobs. <code>sed</code> can also do other handy
+things like print lines following a given match, do multiple
+substitutions per invocation, search for things, etc. But we won&rsquo;t cover
+that too much here. <code>sed</code> is basically an entire topic in and of itself,
+but there are often better tools.</p><p>Okay, so we also have a suffix we&rsquo;d like to get rid of. How might we do
+that? It&rsquo;s a little tricky to match just the text that follows the
+username, especially if the username can have spaces and such! What we
+need to do is match the <em>whole</em> line:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl> <span class=p>|</span> sed -E <span class=s1>&#39;s/.*Disconnected from (invalid |authenticating )?user .* [^ ]+ port [0-9]+( \[preauth\])?$//&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><p>Let&rsquo;s look at what&rsquo;s going on with a <a href=https://regex101.com/r/qqbZqh/2>regex
+debugger</a>. Okay, so the start is still
+as before. Then, we&rsquo;re matching any of the &ldquo;user&rdquo; variants (there are
+two prefixes in the logs). Then we&rsquo;re matching on any string of
+characters where the username is. Then we&rsquo;re matching on any single word
+(<code>[^ ]+</code>; any non-empty sequence of non-space characters). Then the word
+&ldquo;port&rdquo; followed by a sequence of digits. Then possibly the suffix
+<code>[preauth]</code>, and then the end of the line.</p><p>Notice that with this technique, a username of &ldquo;Disconnected from&rdquo;
+won&rsquo;t confuse us any more. Can you see why?</p><p>There is one problem with this though, and that is that the entire log
+becomes empty. We want to <em>keep</em> the username after all. For this, we
+can use &ldquo;capture groups&rdquo;. Any text matched by a regex surrounded by
+parentheses is stored in a numbered capture group. These are available
+in the substitution (and in some engines, even in the pattern itself!)
+as <code>\1</code>, <code>\2</code>, <code>\3</code>, etc. So:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl> <span class=p>|</span> sed -E <span class=s1>&#39;s/.*Disconnected from (invalid |authenticating )?user (.*) [^ ]+ port [0-9]+( \[preauth\])?$/\2/&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><p>As you can probably imagine, you can come up with <em>really</em> complicated
+regular expressions. For example, here&rsquo;s an article on how you might
+match an <a href=https://www.regular-expressions.info/email.html>e-mail
+address</a>. It&rsquo;s <a href=https://web.archive.org/web/20221223174323/http://emailregex.com/>not
+easy</a>. And there&rsquo;s <a href=https://stackoverflow.com/questions/201323/how-to-validate-an-email-address-using-a-regular-expression/1917982>lots of
+discussion</a>.
+And people have <a href=https://fightingforalostcause.net/content/misc/2006/compare-email-regex.php>written
+tests</a>.
+And <a href=https://mathiasbynens.be/demo/url-regex>test matrices</a>. You can
+even write a regex for determining if a given number <a href=https://www.noulakaz.net/2007/03/18/a-regular-expression-to-check-for-prime-numbers/>is a prime
+number</a>.</p><p>Regular expressions are notoriously hard to get right, but they are also
+very handy to have in your toolbox!</p><h2 id=back-to-data-wrangling><a class=header-anchor href=#back-to-data-wrangling></a>Back to data wrangling</h2><p>Okay, so we now have</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>ssh myserver journalctl
+</span></span><span class=line><span class=cl> <span class=p>|</span> grep sshd
+</span></span><span class=line><span class=cl> <span class=p>|</span> grep <span class=s2>&#34;Disconnected from&#34;</span>
+</span></span><span class=line><span class=cl> <span class=p>|</span> sed -E <span class=s1>&#39;s/.*Disconnected from (invalid |authenticating )?user (.*) [^ ]+ port [0-9]+( \[preauth\])?$/\2/&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>sed</code> can do all sorts of other interesting things, like injecting text
+(with the <code>i</code> command), explicitly printing lines (with the <code>p</code>
+command), selecting lines by index, and lots of other things. Check <code>man sed</code>!</p><p>Anyway. What we have now gives us a list of all the usernames that have
+attempted to log in. But this is pretty unhelpful. Let&rsquo;s look for common
+ones:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>ssh myserver journalctl
+</span></span><span class=line><span class=cl> <span class=p>|</span> grep sshd
+</span></span><span class=line><span class=cl> <span class=p>|</span> grep <span class=s2>&#34;Disconnected from&#34;</span>
+</span></span><span class=line><span class=cl> <span class=p>|</span> sed -E <span class=s1>&#39;s/.*Disconnected from (invalid |authenticating )?user (.*) [^ ]+ port [0-9]+( \[preauth\])?$/\2/&#39;</span>
+</span></span><span class=line><span class=cl> <span class=p>|</span> sort <span class=p>|</span> uniq -c
+</span></span></code></pre></td></tr></table></div></div><p><code>sort</code> will, well, sort its input. <code>uniq -c</code> will collapse consecutive
+lines that are the same into a single line, prefixed with a count of the
+number of occurrences. We probably want to sort that too and only keep
+the most common usernames:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>ssh myserver journalctl
+</span></span><span class=line><span class=cl> <span class=p>|</span> grep sshd
+</span></span><span class=line><span class=cl> <span class=p>|</span> grep <span class=s2>&#34;Disconnected from&#34;</span>
+</span></span><span class=line><span class=cl> <span class=p>|</span> sed -E <span class=s1>&#39;s/.*Disconnected from (invalid |authenticating )?user (.*) [^ ]+ port [0-9]+( \[preauth\])?$/\2/&#39;</span>
+</span></span><span class=line><span class=cl> <span class=p>|</span> sort <span class=p>|</span> uniq -c
+</span></span><span class=line><span class=cl> <span class=p>|</span> sort -nk1,1 <span class=p>|</span> tail -n10
+</span></span></code></pre></td></tr></table></div></div><p><code>sort -n</code> will sort in numeric (instead of lexicographic) order. <code>-k1,1</code>
+means &ldquo;sort by only the first whitespace-separated column&rdquo;. The <code>,n</code>
+part says &ldquo;sort until the <code>n</code>th field, where the default is the end of
+the line. In this <em>particular</em> example, sorting by the whole line
+wouldn&rsquo;t matter, but we&rsquo;re here to learn!</p><p>If we wanted the <em>least</em> common ones, we could use <code>head</code> instead of
+<code>tail</code>. There&rsquo;s also <code>sort -r</code>, which sorts in reverse order.</p><p>Okay, so that&rsquo;s pretty cool, but what if we&rsquo;d like to extract only the usernames
+as a comma-separated list instead of one per line, perhaps for a config file?</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>ssh myserver journalctl
+</span></span><span class=line><span class=cl> <span class=p>|</span> grep sshd
+</span></span><span class=line><span class=cl> <span class=p>|</span> grep <span class=s2>&#34;Disconnected from&#34;</span>
+</span></span><span class=line><span class=cl> <span class=p>|</span> sed -E <span class=s1>&#39;s/.*Disconnected from (invalid |authenticating )?user (.*) [^ ]+ port [0-9]+( \[preauth\])?$/\2/&#39;</span>
+</span></span><span class=line><span class=cl> <span class=p>|</span> sort <span class=p>|</span> uniq -c
+</span></span><span class=line><span class=cl> <span class=p>|</span> sort -nk1,1 <span class=p>|</span> tail -n10
+</span></span><span class=line><span class=cl> <span class=p>|</span> awk <span class=s1>&#39;{print $2}&#39;</span> <span class=p>|</span> paste -sd,
+</span></span></code></pre></td></tr></table></div></div><p>If you&rsquo;re using macOS: note that the command as shown won&rsquo;t work with the BSD
+<code>paste</code> shipped with macOS. See <a href=/en/shell-tools/#exercises>exercise 4 from the shell tools
+lecture</a> for more on the difference between BSD
+and GNU coreutils and instructions for how to install GNU coreutils on macOS.</p><p>Let&rsquo;s start with <code>paste</code>: it lets you combine lines (<code>-s</code>) by a given
+single-character delimiter (<code>-d</code>; <code>,</code> in this case). But what&rsquo;s this <code>awk</code> business?</p><h2 id=awk--another-editor><a class=header-anchor href=#awk--another-editor></a>awk &ndash; another editor</h2><p><code>awk</code> is a programming language that just happens to be really good at
+processing text streams. There is <em>a lot</em> to say about <code>awk</code> if you were
+to learn it properly, but as with many other things here, we&rsquo;ll just go
+through the basics.</p><p>First, what does <code>{print $2}</code> do? Well, <code>awk</code> programs take the form of
+an optional pattern plus a block saying what to do if the pattern
+matches a given line. The default pattern (which we used above) matches
+all lines. Inside the block, <code>$0</code> is set to the entire line&rsquo;s contents,
+and <code>$1</code> through <code>$n</code> are set to the <code>n</code>th <em>field</em> of that line, when
+separated by the <code>awk</code> field separator (whitespace by default, change
+with <code>-F</code>). In this case, we&rsquo;re saying that, for every line, print the
+contents of the second field, which happens to be the username!</p><p>Let&rsquo;s see if we can do something fancier. Let&rsquo;s compute the number of
+single-use usernames that start with <code>c</code> and end with <code>e</code>:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl> <span class=p>|</span> awk <span class=s1>&#39;$1 == 1 &amp;&amp; $2 ~ /^c[^ ]*e$/ { print $2 }&#39;</span> <span class=p>|</span> wc -l
+</span></span></code></pre></td></tr></table></div></div><p>There&rsquo;s a lot to unpack here. First, notice that we now have a pattern
+(the stuff that goes before <code>{...}</code>). The pattern says that the first
+field of the line should be equal to 1 (that&rsquo;s the count from <code>uniq -c</code>), and that the second field should match the given regular
+expression. And the block just says to print the username. We then count
+the number of lines in the output with <code>wc -l</code>.</p><p>However, <code>awk</code> is a programming language, remember?</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-awk data-lang=awk><span class=line><span class=cl><span class=nb>BEGIN</span> <span class=p>{</span> <span class=nx>rows</span> <span class=o>=</span> <span class=mi>0</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=o>$</span><span class=mi>1</span> <span class=o>==</span> <span class=mi>1</span> <span class=o>&amp;&amp;</span> <span class=o>$</span><span class=mi>2</span> <span class=o>~</span> <span class=sr>/^c[^ ]*e$/</span> <span class=p>{</span> <span class=nx>rows</span> <span class=o>+=</span> <span class=o>$</span><span class=mi>1</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=nb>END</span> <span class=p>{</span> <span class=kr>print</span> <span class=nx>rows</span> <span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>BEGIN</code> is a pattern that matches the start of the input (and <code>END</code>
+matches the end). Now, the per-line block just adds the count from the
+first field (although it&rsquo;ll always be 1 in this case), and then we print
+it out at the end. In fact, we <em>could</em> get rid of <code>grep</code> and <code>sed</code>
+entirely, because <code>awk</code> <a href=https://web.archive.org/web/20251210045942/https://backreference.org/2010/02/10/idiomatic-awk/>can do it
+all</a>, but we&rsquo;ll
+leave that as an exercise to the reader.</p><h2 id=analyzing-data><a class=header-anchor href=#analyzing-data></a>Analyzing data</h2><p>You can do math directly in your shell using <code>bc</code>, a calculator that can read
+from STDIN! For example, add the numbers on each line together by concatenating
+them together, delimited by <code>+</code>:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl> <span class=p>|</span> paste -sd+ <span class=p>|</span> bc -l
+</span></span></code></pre></td></tr></table></div></div><p>Or produce more elaborate expressions:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>echo</span> <span class=s2>&#34;2*(</span><span class=k>$(</span>data <span class=p>|</span> paste -sd+<span class=k>)</span><span class=s2>)&#34;</span> <span class=p>|</span> bc -l
+</span></span></code></pre></td></tr></table></div></div><p>You can get stats in a variety of ways.
+<a href=https://github.com/nferraz/st><code>st</code></a> is pretty neat, but if you already
+have <a href=https://www.r-project.org/>R</a>:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>ssh myserver journalctl
+</span></span><span class=line><span class=cl> <span class=p>|</span> grep sshd
+</span></span><span class=line><span class=cl> <span class=p>|</span> grep <span class=s2>&#34;Disconnected from&#34;</span>
+</span></span><span class=line><span class=cl> <span class=p>|</span> sed -E <span class=s1>&#39;s/.*Disconnected from (invalid |authenticating )?user (.*) [^ ]+ port [0-9]+( \[preauth\])?$/\2/&#39;</span>
+</span></span><span class=line><span class=cl> <span class=p>|</span> sort <span class=p>|</span> uniq -c
+</span></span><span class=line><span class=cl> <span class=p>|</span> awk <span class=s1>&#39;{print $1}&#39;</span> <span class=p>|</span> R --no-echo -e <span class=s1>&#39;x &lt;- scan(file=&#34;stdin&#34;, quiet=TRUE); summary(x)&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><p>R is another (weird) programming language that&rsquo;s great at data analysis
+and <a href=https://ggplot2.tidyverse.org/>plotting</a>. We won&rsquo;t go into too
+much detail, but suffice to say that <code>summary</code> prints summary statistics
+for a vector, and we created a vector containing the input stream of
+numbers, so R gives us the statistics we wanted!</p><p>If you just want some simple plotting, <code>gnuplot</code> is your friend:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>ssh myserver journalctl
+</span></span><span class=line><span class=cl> <span class=p>|</span> grep sshd
+</span></span><span class=line><span class=cl> <span class=p>|</span> grep <span class=s2>&#34;Disconnected from&#34;</span>
+</span></span><span class=line><span class=cl> <span class=p>|</span> sed -E <span class=s1>&#39;s/.*Disconnected from (invalid |authenticating )?user (.*) [^ ]+ port [0-9]+( \[preauth\])?$/\2/&#39;</span>
+</span></span><span class=line><span class=cl> <span class=p>|</span> sort <span class=p>|</span> uniq -c
+</span></span><span class=line><span class=cl> <span class=p>|</span> sort -nk1,1 <span class=p>|</span> tail -n10
+</span></span><span class=line><span class=cl> <span class=p>|</span> gnuplot -p -e <span class=s1>&#39;set boxwidth 0.5; plot &#34;-&#34; using 1:xtic(2) with boxes&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=data-wrangling-to-make-arguments><a class=header-anchor href=#data-wrangling-to-make-arguments></a>Data wrangling to make arguments</h2><p>Sometimes you want to do data wrangling to find things to install or
+remove based on some longer list. The data wrangling we&rsquo;ve talked about
+so far + <code>xargs</code> can be a powerful combo.</p><p>For example, as seen in lecture, I can use the following command to uninstall
+old nightly builds of Rust from my system by extracting the old build names
+using data wrangling tools and then passing them via <code>xargs</code> to the
+uninstaller:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>rustup toolchain list <span class=p>|</span> grep nightly <span class=p>|</span> grep -vE <span class=s2>&#34;nightly-x86&#34;</span> <span class=p>|</span> sed <span class=s1>&#39;s/-x86.*//&#39;</span> <span class=p>|</span> xargs rustup toolchain uninstall
+</span></span></code></pre></td></tr></table></div></div><h2 id=wrangling-binary-data><a class=header-anchor href=#wrangling-binary-data></a>Wrangling binary data</h2><p>So far, we have mostly talked about wrangling textual data, but pipes
+are just as useful for binary data. For example, we can use ffmpeg to
+capture an image from our camera, convert it to grayscale, compress it,
+send it to a remote machine over SSH, decompress it there, make a copy,
+and then display it.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>ffmpeg -loglevel panic -i /dev/video0 -frames <span class=m>1</span> -f image2 -
+</span></span><span class=line><span class=cl> <span class=p>|</span> convert - -colorspace gray -
+</span></span><span class=line><span class=cl> <span class=p>|</span> gzip
+</span></span><span class=line><span class=cl> <span class=p>|</span> ssh mymachine <span class=s1>&#39;gzip -d | tee copy.jpg | env DISPLAY=:0 feh -&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><h1 id=exercises><a class=header-anchor href=#exercises></a>Exercises</h1><ol><li>Take this <a href=https://regexone.com/>short interactive regex tutorial</a>.</li><li>Find the number of words (in <code>/usr/share/dict/words</code>) that contain at
+least three <code>a</code>s and don&rsquo;t have a <code>'s</code> ending. What are the three
+most common last two letters of those words? <code>sed</code>&rsquo;s <code>y</code> command, or
+the <code>tr</code> program, may help you with case insensitivity. How many
+of those two-letter combinations are there? And for a challenge:
+which combinations do not occur?</li><li>To do in-place substitution it is quite tempting to do something like
+<code>sed s/REGEX/SUBSTITUTION/ input.txt > input.txt</code>. However this is a
+bad idea, why? Is this particular to <code>sed</code>? Use <code>man sed</code> to find out
+how to accomplish this.</li><li>Find your average, median, and max system boot time over the last ten
+boots. Use <code>journalctl</code> on Linux and <code>log show</code> on macOS, and look
+for log timestamps near the beginning and end of each boot. On Linux,
+they may look something like:<div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>Logs begin at ...
+</span></span></code></pre></td></tr></table></div></div>and<div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>systemd[577]: Startup finished in ...
+</span></span></code></pre></td></tr></table></div></div>On macOS, <a href=https://eclecticlight.co/2018/03/21/macos-unified-log-3-finding-your-way/>look
+for</a>:<div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>=== system boot:
+</span></span></code></pre></td></tr></table></div></div>and<div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>Previous shutdown cause: 5
+</span></span></code></pre></td></tr></table></div></div></li><li>Look for boot messages that are <em>not</em> shared between your past three
+reboots (see <code>journalctl</code>&rsquo;s <code>-b</code> flag). Break this task down into
+multiple steps. First, find a way to get just the logs from the past
+three boots. There may be an applicable flag on the tool you use to
+extract the boot logs, or you can use <code>sed '0,/STRING/d'</code> to remove
+all lines previous to one that matches <code>STRING</code>. Next, remove any
+parts of the line that <em>always</em> varies (like the timestamp). Then,
+de-duplicate the input lines and keep a count of each one (<code>uniq</code> is
+your friend). And finally, eliminate any line whose count is 3 (since
+it <em>was</em> shared among all the boots).</li><li>Find an online data set like <a href=https://commons.wikimedia.org/wiki/Data:Wikipedia_statistics/data.tab>this
+one</a>, <a href=https://ucr.fbi.gov/crime-in-the-u.s/2016/crime-in-the-u.s.-2016/topic-pages/tables/table-1>this
+one</a>,
+or maybe one <a href=https://www.springboard.com/blog/data-science/free-public-data-sets-data-science-project/>from
+here</a>.
+Fetch it using <code>curl</code> and extract out just two columns of numerical
+data. If you&rsquo;re fetching HTML data,
+<a href=https://github.com/EricChiang/pup><code>pup</code></a> might be helpful. For JSON
+data, try <a href=https://stedolan.github.io/jq/><code>jq</code></a>. Find the min and
+max of one column in a single command, and the difference of the sum
+of each column in another.</li></ol></div><footer class=article-footer><blockquote class=article-copyright><p><strong><span class="icon-user icon"></span>Author: </strong>Jingmengzhiyue</p><p><strong><span class="icon-link icon"></span>Permalink: </strong><a href=https://www.jingmengzhiyue.tech/en/data-wrangling/>https://www.jingmengzhiyue.tech/en/data-wrangling/</a></p><p><strong><span class="icon-pencil icon"></span>Title: </strong>Data Wrangling</p><p><strong><span class="icon-calendar icon"></span>Published: </strong>2023-06-05 16:37:29</p><p><strong><span class="icon-copyright icon"></span>License: </strong>All articles on this blog are licensed under the <a href=https://creativecommons.org/licenses/by/4.0/deed.zh rel="noopener nofollow noreferrer" target=_blank><span class=icon-creative-commons></span>BY</a> license agreement unless otherwise stated. Please indicate the source when reprinting!</p><span class="icon-creative-commons article-copyright-bg"></span></blockquote><ul class=article-category-list><li class=article-tag-list-item data-aos=zoom-in><a class=article-category-link href=/en/categories/computer-science/ data-aos=zoom-in>Computer Science</a></li></ul><ul class=article-tag-list itemprop=keywords><li class=article-tag-list-item data-aos=zoom-in><a class=article-tag-list-link href=/en/tags/the-missing-semester-of-your-cs-education/ rel=tag>The Missing Semester of Your CS Education</a></li></ul></footer></div><nav id=article-nav aria-label="Article navigation" data-aos=fade-up><div class="article-nav-link-wrap left"><img data-src=/img/12.jpg data-sizes=auto alt="Debugging and Profiling" class=lazyload><a href=/en/debugging-profiling/ aria-label="Prev:Debugging and Profiling" title="Prev:Debugging and Profiling"></a><div class=article-nav-caption>Prev</div><h3 class=article-nav-title>Debugging and Profiling</h3></div><div class="article-nav-link-wrap right"><img data-src=/img/18.jpg data-sizes=auto alt="Course Overview + The Shell" class=lazyload><a href=/en/course-shell/ aria-label="Next:Course Overview + The Shell" title="Next:Course Overview + The Shell"></a><div class=article-nav-caption>Next</div><h3 class=article-nav-title>Course Overview + The Shell</h3></div></nav></article></section></div><footer id=footer aria-label="Site footer"><div style=width:100%;overflow:hidden><div class=footer-line></div></div><div id=footer-info><div><span class=icon-copyright></span>2023-2026<span class="footer-info-sep rotate"></span>Jingmengzhiyue</div><div>Powered by&nbsp;<a href=https://gohugo.io/ target=_blank rel="noopener nofollow noreferrer">Hugo</a>&nbsp;Theme.<a href=https://github.com/D-Sketon/hugo-theme-reimu target=_blank rel="noopener nofollow noreferrer">Reimu</a></div><div><span class=icon-brush>&nbsp;173.8k</span>
+&nbsp;|&nbsp;
+<span class=icon-coffee>&nbsp;14:09</span></div><div><span class=icon-eye></span>
+<span id=busuanzi_container_site_pv>Number of visits&nbsp;<span id=busuanzi_value_site_pv></span></span>
+&nbsp;|&nbsp;
+<span class=icon-user></span>
+<span id=busuanzi_container_site_uv>Number of visitors&nbsp;<span id=busuanzi_value_site_uv></span></span></div></div></footer><div class=sidebar-top><div class="sidebar-top-taichi rotate"></div><div class=arrow-up></div></div><div id=mask class=hide></div></div><nav id=mobile-nav aria-label="Mobile navigation"><div class=sidebar-wrap><div class=sidebar-toc-sidebar><h3 class=toc-title>Contents</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#regular-expressions>Regular expressions</a></li><li><a href=#back-to-data-wrangling>Back to data wrangling</a></li><li><a href=#awk--another-editor>awk &ndash; another editor</a></li><li><a href=#analyzing-data>Analyzing data</a></li><li><a href=#data-wrangling-to-make-arguments>Data wrangling to make arguments</a></li><li><a href=#wrangling-binary-data>Wrangling binary data</a></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/profile_picture.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>Posts</div><div class=sidebar-state-number>54</div></div><a class=sidebar-state-category href=/en/categories/ aria-label=sidebar-state-category-link><div>Categories</div><div class=sidebar-state-number>9</div></a><a class=sidebar-state-tag href=/en/tags/ aria-label=sidebar-state-tag-link><div>Tags</div><div class=sidebar-state-number>26</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/ aria-label=Home></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Home</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/categories aria-label=Category></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Category</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/tags aria-label=Tag></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Tag</div></div></div></div></div><div class=sidebar-btn-wrapper><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></nav></div><div id=aplayer theme=var(--color-link)></div><script src=https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js integrity=sha384-3gT/vsepWkfz/ff7PpWNUeMzeWoH3cDhm/A8jM7ouoAK0/fP/9bcHHR5kHq2nf+e crossorigin=anonymous></script><script src=https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js integrity=sha384-J08i8An/QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q crossorigin=anonymous></script><script src=/js/main.js integrity crossorigin=anonymous></script><script src=/js/aos.js integrity crossorigin=anonymous></script><script>var aosInit=()=>{AOS.init({duration:1e3,easing:"ease",once:!0,offset:50})};document.readyState==="loading"?document.addEventListener("DOMContentLoaded",aosInit):aosInit()</script><script src=/js/pjax_main.js integrity crossorigin=anonymous data-pjax></script><div id=lazy-script><div><script data-pjax>window.REIMU_POST={author:"Jingmengzhiyue",title:"Data Wrangling",url:"https://www.jingmengzhiyue.tech/en/data-wrangling/",description:"Data wrangling in computer science",cover:"https://www.jingmengzhiyue.tech/img/24.jpg"}</script><script src=/js/insert_highlight.js integrity crossorigin=anonymous data-pjax></script><script src=/js/tabs.js integrity crossorigin=anonymous data-pjax defer></script><script type=module data-pjax>const PhotoSwipeLightbox = (await safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js", "sha384-DiL6M\/gG\u002bwmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF\/N6lrZi\/")).default;const initPswp = (gallery, children) => {
+          if (_$$(`${gallery} ${children}`).length > 0) {
+            new PhotoSwipeLightbox({
+              gallery,
+              children,pswpModule: () => safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8\u002boTJ7m3DfYEWX1fu1scuS4\u002bs")}).init();
+          }
+        }
+        const pswp = () => {
+          initPswp('.article-entry', 'a.article-gallery-item');
+          initPswp('.article-gallery', 'a.article-gallery-item');
+        }
+        pswp()
+      </script><script data-pjax>window.MathJax=JSON.parse('[{"loader":{"load":["input/asciimath","[tex]/noerrors"]},"options":{"ignoreHtmlClass":"tex2jax_ignore","processHtmlClass":"tex2jax_process","skipHtmlTags":["script","noscript","style","textarea","pre","code"]},"tex":{"autoload":{"color":[],"colorv2":["color"]},"displayMath":[["$$","$$"],["\\\\[","\\\\]"]],"inlineMath":[["$","$"],["\\\\(","\\\\)"]],"packages":{"[+]":["noerrors"]},"processEnvironments":true,"processEscapes":true,"tags":"ams","useLabelIds":true}}]')[0]</script><script src=https://npm.webcache.cn/mathjax@3.2.2/es5/tex-mml-chtml.js defer data-pjax integrity=sha384-Wuix6BuhrWbjDBs24bXrjf4ZQ5aFeFWBuKkFekO2t8xFU0iNaLQfp2K6/1Nxveei crossorigin=anonymous></script></div></div><script src=https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js async integrity=sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S crossorigin=anonymous></script><script>"serviceWorker"in navigator&&navigator.serviceWorker.getRegistrations().then(e=>{for(let t of e)t.unregister()})</script><script>const reimuCopyright=String.raw`
+   ______     ______     __     __    __     __  __    
+  /\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+  \ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+   \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+    \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                    
+  `;console.log(String.raw`%c ${reimuCopyright}`,"color: #ff5252;"),console.log("%c Theme.Reimu %c https://github.com/D-Sketon/hugo-theme-reimu ","color: white; background: #ff5252; padding:5px 0;","padding:4px;border:1px solid #ff5252;")</script><script>var setupAPlayer=()=>{if(!!1||!window.matchMedia("(max-width: 768px)").matches){const e=window.matchMedia("(max-width: 959px)").matches;if(e){const e=_$("#aplayer");if(e){const t=e.parentNode?.parentNode;t?.tagName==="ASIDE"&&(e.removeAttribute("data-aos"),t.parentNode.removeChild(e),document.body.appendChild(e))}}new APlayer({theme:"var(--color-link)",container:document.getElementById("aplayer"),audio:JSON.parse('[{"artist":"千葉紗子","cover":"/img/24.jpg","name":"花手紙","url":"/music/千葉紗子+-+花手紙.mp3"}]')||[],fixed:!!e||!0,autoplay:!1,loop:"one"||"all",order:"list"||"list",preload:"none"||"auto",volume:.7||.7,mutex:!0,listFolded:!0,lrcType:0||0})}}</script><script src=https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.js defer onload=setupAPlayer() integrity=sha384-gdGYZwHnfJM54evoZhpO0s6ZF5BQiybkiyW7VXr+h5UfruuRL/aORyw+5+HZoU6e crossorigin=anonymous></script></body></html>

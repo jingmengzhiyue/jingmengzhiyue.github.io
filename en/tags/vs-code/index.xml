@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VS Code on 热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/en/tags/vs-code/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>en</language><copyright>All articles on this blog are licensed under the BY license agreement unless otherwise stated. Please indicate the source when reprinting!</copyright><lastBuildDate>Mon, 11 Mar 2024 23:29:33 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/en/tags/vs-code/index.xml" rel="self" type="application/rss+xml"/><item><title>Windows 11 + WSL + VS Code + Rust Environment Setup</title><link>https://www.jingmengzhiyue.tech/en/rust-wal2-vscode/</link><pubDate>Mon, 11 Mar 2024 23:29:33 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/rust-wal2-vscode/</guid><description>
+<![CDATA[<h1>Windows 11 + WSL + VS Code + Rust Environment Setup</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h2 id="introduction">
+<a class="header-anchor" href="#introduction"></a>
+Introduction
+</h2><p>You can set up a Rust environment on either Windows or Linux. After searching online, I found that setting up a Rust environment on Linux is much quicker than on Windows, but I still use the Windows system on a daily basis.</p>
+<p>Therefore, I ultimately chose to set up the Rust environment in the WSL2 of Windows 11, and then use VS Code to connect to WSL.</p>
+<h2 id="overall-steps">
+<a class="header-anchor" href="#overall-steps"></a>
+Overall Steps
+</h2><ol>
+<li>Install WSL on Windows 11</li>
+<li>Change the source on WSL in Windows 11</li>
+<li>Install gcc on WSL in Windows 11</li>
+<li>Install Rust on WSL in Windows 11</li>
+<li>Install Remote-WSL on VS Code in Windows 11</li>
+<li>Install rust-analyzer on VS Code in Windows 11</li>
+<li>Simple verification</li>
+<li>Run and debug</li>
+</ol>
+<h2 id="install-wsl-on-windows-11">
+<a class="header-anchor" href="#install-wsl-on-windows-11"></a>
+Install WSL on Windows 11
+</h2><p>Reference: <a href="https://learn.microsoft.com/en-us/windows/wsl/about">https://learn.microsoft.com/en-us/windows/wsl/about</a></p>
+        
+        <hr><p>Published on 2024-03-11 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2024-03-11</p>]]></description><category>Environment Configuration</category></item></channel></rss>

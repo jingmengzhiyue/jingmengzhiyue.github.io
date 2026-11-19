@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Sylvester Equation on 热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/en/tags/sylvester-equation/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>en</language><copyright>All articles on this blog are licensed under the BY license agreement unless otherwise stated. Please indicate the source when reprinting!</copyright><lastBuildDate>Sun, 29 Jan 2023 17:43:04 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/en/tags/sylvester-equation/index.xml" rel="self" type="application/rss+xml"/><item><title>Solving the Generalized Sylvester Equation</title><link>https://www.jingmengzhiyue.tech/en/generalized-sylvester-equation/</link><pubDate>Sun, 29 Jan 2023 17:43:04 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/generalized-sylvester-equation/</guid><description>
+<![CDATA[<h1>Solving the Generalized Sylvester Equation</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h1 id="solving-the-generalized-sylvester-equation">
+<a class="header-anchor" href="#solving-the-generalized-sylvester-equation"></a>
+Solving the Generalized Sylvester Equation
+</h1><h2 id="common-sylvester-equations">
+<a class="header-anchor" href="#common-sylvester-equations"></a>
+Common Sylvester Equations
+</h2><p>The Sylvester equation</p>
+$$
+\mathbf{AX}+\mathbf{XD} = \mathbf{E}
+$$<hr>
+<p>The generalized Sylvester equation</p>
+$$
+\mathbf{AXB}+\mathbf{CXD} = \mathbf{E}
+$$<p>where $\mathbf{X}\in \mathbb{R}^{n\times r}$, $\mathbf{A}\in \mathbb{R}^{m\times n}$, $\mathbf{B}\in \mathbb{R}^{r\times p}$, $\mathbf{C}\in \mathbb{R}^{m\times n}$, $\mathbf{D}\in \mathbb{R}^{r\times p}$, $\mathbf{E}\in \mathbb{R}^{m\times p}$.</p>
+<hr>
+<p>The Stein matrix equation</p>
+$$
+\mathbf{AXB}+\mathbf{X} = \mathbf{E}
+$$<hr>
+<p>The Lyapunov matrix equation</p>
+$$
+\mathbf{AX}+\mathbf{XA^T}=\mathbf{E}
+$$<hr>
+<h2 id="solving-the-generalized-sylvester-equation-1">
+<a class="header-anchor" href="#solving-the-generalized-sylvester-equation-1"></a>
+Solving the Generalized Sylvester Equation
+</h2><ol>
+<li>Use a closed-form solution</li>
+<li>Use Newton&rsquo;s method or the conjugate gradient method</li>
+</ol>
+<h2 id="solving-the-generalized-sylvester-equation-with-admm">
+<a class="header-anchor" href="#solving-the-generalized-sylvester-equation-with-admm"></a>
+Solving the Generalized Sylvester Equation with ADMM
+</h2>$$
+\begin{cases}
+\mathbf{AXB}+\mathbf{CXD}=\mathbf{E}
+ \\
+\mathbf{AXB}+\mathbf{CXD}=\mathbf{E}
+\end{cases}
+$$<p>Move terms across to construct an equivalent system:</p>
+        
+        <hr><p>Published on 2023-01-29 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2023-01-29</p>]]></description><category>Optimization</category></item></channel></rss>

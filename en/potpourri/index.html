@@ -1,0 +1,279 @@
+<!doctype html><html lang=en data-theme-mode=auto><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><title>Potpourri | Jingmengzhiyue</title><meta name=description content="Assorted bits of knowledge in computer science"><script>window.siteConfig=JSON.parse('{"anchor":{"auto":{"enable":false,"length":60},"explicit":{"enable":false,"marker":"{#anchor-","prefix":"anchor-"}},"anchor_icon":null,"base":"https://www.jingmengzhiyue.tech/","clipboard":{"copyright":{"count":50,"enable":false,"license_type":"by-nc-sa"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-br":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ","zh-cn":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-tw":"複製失敗 (ﾟ⊿ﾟ)ﾂ"},"success":{"en":"Copy successfully (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-br":"Copiado com sucesso (*^▽^*)","zh-cn":"复制成功 (*^▽^*)","zh-tw":"複製成功 (*^▽^*)"}},"code_block":{"expand":true},"dark_mode":{"button":true,"mode":"auto"},"i18n_languages":[{"label":"简体中文","lang":"zh-cn"},{"label":"English","lang":"en"}],"icon_font":"4552607_ex15nbittbh","outdate":{"daysago":180,"enable":false,"message":{"en":"This article was last updated on {time}. Please note that the content may no longer be applicable.","ja":"この記事は最終更新日：{time}。記載内容が現在有効でない可能性がありますのでご注意ください。","pt-br":"Este artigo foi atualizado pela última vez em {time}. Observe que o conteúdo pode não ser mais aplicável.","zh-cn":"本文最后更新于 {time}，请注意文中内容可能已不适用。","zh-tw":"本文最後更新於 {time}，請注意文中內容可能已不適用。"}}}')</script><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap" media=print onload='this.media="all"'><link rel=preload href=//at.alicdn.com/t/c/font_4552607_ex15nbittbh.woff2 as=font type=font/woff2 crossorigin=anonymous><link rel=stylesheet href=/css/loader.min.ac746e154f756f8220326eeb52a719f142ab038be5a8ddf30ea5ef15ef2356ea.css><meta property="og:type" content="website"><meta property="og:title" content="Potpourri | Jingmengzhiyue"><meta property="og:description" content="Assorted bits of knowledge in computer science"><meta property="og:url" content="https://www.jingmengzhiyue.tech/en/potpourri/"><meta property="og:site_name" content="热爱可抵万难"><meta property="og:image" content="https://www.jingmengzhiyue.tech/img/24.jpg"><meta property="article:author" content="Jingmengzhiyue"><meta property="article:published_time" content="2023-06-05T16:37:29+08:00"><meta property="article:modified_time" content="2023-06-05T16:37:29+08:00"><meta property="article:tag" content="The Missing Semester of Your CS Education"><meta name=twitter:card content="summary"><meta name=twitter:image content="https://www.jingmengzhiyue.tech/img/24.jpg"><link rel="shortcut icon" href=/favicon.ico><link rel=stylesheet href=/css/main.min.c69028af04cc11392739edc48eeb60465879b00de4286e0147bbc470f8f39418.css><link rel=preload as=style href=https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css integrity=sha384-IfxC36XL/toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx/1oA/0l8ysE crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><link rel=preload as=style href=https://npm.webcache.cn/katex@0.16.47/dist/katex.min.css integrity=sha384-nH0MfJ44wi1dd7w6jinlyBgljjS8EJAh2JBoRad8a3VDw2K69vfaaqm4WnR+gXtA crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><script src=https://npm.webcache.cn/pace-js@1.2.4/pace.min.js integrity=sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8 crossorigin=anonymous></script><link rel=stylesheet href=https://npm.webcache.cn/@reimujs/aos@0.1.3/dist/aos.css integrity=sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa crossorigin=anonymous><link rel=stylesheet href=https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.css integrity=sha384-tLMkTWh2pfXNWGFlUS0w1TFtRG5xZ9lPWFOooj+vDDLIL+xBGQU/voDBY5XE2lVh crossorigin=anonymous><link rel=icon href=/img/fluid.png type=image/png><link rel=apple-touch-icon href=/img/fluid.png><link rel=stylesheet href=/css/custom.css></head><body><div id=loader><div class="loading-left-bg loading-bg"></div><div class="loading-right-bg loading-bg"></div><div class=spinner-box><div class="loading-taichi rotate"><svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" shape-rendering="geometricPrecision"><path d="M303.5 432a80 80 0 01-12 160 80 80 0 0112-160z" fill="var(--red-1, #ff5252)"/><path d="M512 65a447 447 0 010 894V929a417 417 0 000-834 417 417 0 000 834v30a447 447 0 010-894zm0 30A417 417 0 01929 512 208.5 208.5.0 01720.5 720.5V592a80 80 0 000-160 80 80 0 000 160V720.5A208.5 208.5.0 01512 512 208.5 208.5.0 00303.5 303.5 208.5 208.5.0 0095 512 417 417 0 01512 95z" fill="var(--red-1, #ff5252)"/></svg></div><div class=loading-word>Loading...</div></div></div></div><script>var time=null,loaderEl=document.getElementById("loader"),startLoading=()=>{time=Date.now(),loaderEl.classList.remove("loading")},hideLoader=()=>{document.body.style.overflow="auto",loader.classList.add("loading")},endLoading=()=>{time?Date.now()-time>500?(time=null,hideLoader()):(setTimeout(endLoading,500-(Date.now()-time)),time=null):hideLoader()};window.addEventListener("DOMContentLoaded",endLoading),loaderEl.addEventListener("click",endLoading)</script><div id=copy-tooltip></div><div id=lang-tooltip>This article does not have a corresponding language version</div><div id=heatmap-tooltip></div><div id=container><div id=wrap><div id=header-nav><nav id=main-nav aria-label="Primary navigation"><a class=main-nav-link-wrap href=/en/><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>Home</span>
+</a><a class=main-nav-link-wrap href=/en/categories><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>Category</span>
+</a><a class=main-nav-link-wrap href=/en/tags><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>Tag</span>
+</a><a id=main-nav-toggle class=nav-icon aria-label="Toggle navigation" role=button></a></nav><nav id=sub-nav aria-label="Secondary navigation"></nav><nav id=i18n-nav aria-label="Language selection"><div class=custom-dropdown><div class=select-selected id=select-selected role=button aria-haspopup=listbox aria-expanded=false aria-label="Language menu"><span id=nav-language-btn class=nav-icon style="padding:0 20px 0 0"></span>
+<span id=selected-lang>English</span></div><ul class=select-items id=select-items role=listbox aria-label=Languages><li data-value=zh-cn role=option aria-selected=false>简体中文</li><li data-value=en role=option class=selected aria-selected=true>English</li></ul></div><script>var selectSelected=document.getElementById("select-selected"),selectedLang=document.getElementById("selected-lang"),selectItems=document.getElementById("select-items"),selectOptions=selectItems.querySelectorAll("li");selectSelected.addEventListener("click",()=>{selectItems.classList.toggle("show");var e=selectSelected.getAttribute("aria-expanded")==="true";selectSelected.setAttribute("aria-expanded",(!e).toString())}),selectOptions.forEach(e=>{e.addEventListener("click",()=>{const t={};if(t["zh-cn"]="/2023/06/05/potpourri/",selectedLang.textContent=e.textContent,selectItems.classList.remove("show"),selectOptions.forEach(e=>{e.classList.remove("selected")}),e.classList.add("selected"),e.dataset.value==="en")return;if(!t[e.dataset.value]){_$("#lang-tooltip").style.opacity="1",setTimeout(()=>{_$("#lang-tooltip").style.opacity="0"},1e3);return}window.location=t[e.dataset.value]})}),document.addEventListener("click",e=>{e.target.closest(".custom-dropdown")||(selectItems.classList.remove("show"),selectSelected.setAttribute("aria-expanded","false"))})</script></nav></div><header id=header aria-label="Site header"><picture></picture><img fetchpriority=high src=/img/24.jpg alt=Potpourri><div id=header-outer><div id=header-title><span id=logo><h1 data-aos=slide-up>Potpourri</h1></span><h2 id=subtitle-wrap data-aos=slide-down></h2></div></div></header><div id=content aria-label="Page content" class=sidebar-right><aside id=sidebar aria-label=Sidebar><div class="sidebar-wrapper-container sticky"><div class=sidebar-wrapper><div class=sidebar-wrap data-aos=fade-up><div class=sidebar-toc-sidebar><h3 class=toc-title>Contents</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#table-of-contents>Table of Contents</a></li><li><a href=#keyboard-remapping>Keyboard remapping</a></li><li><a href=#daemons>Daemons</a></li><li><a href=#fuse>FUSE</a></li><li><a href=#backups>Backups</a></li><li><a href=#apis>APIs</a></li><li><a href=#common-command-line-flagspatterns>Common command-line flags/patterns</a></li><li><a href=#window-managers>Window managers</a></li><li><a href=#vpns>VPNs</a></li><li><a href=#markdown>Markdown</a></li><li><a href=#hammerspoon-desktop-automation-on-macos>Hammerspoon (desktop automation on macOS)</a><ul><li><a href=#resources>Resources</a></li></ul></li><li><a href=#booting--live-usbs>Booting + Live USBs</a></li><li><a href=#docker-vagrant-vms-cloud-openstack>Docker, Vagrant, VMs, Cloud, OpenStack</a></li><li><a href=#notebook-programming>Notebook programming</a></li><li><a href=#github>GitHub</a></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/profile_picture.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>Posts</div><div class=sidebar-state-number>54</div></div><a class=sidebar-state-category href=/en/categories/ aria-label=sidebar-state-category-link><div>Categories</div><div class=sidebar-state-number>9</div></a><a class=sidebar-state-tag href=/en/tags/ aria-label=sidebar-state-tag-link><div>Tags</div><div class=sidebar-state-number>26</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/ aria-label=Home></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Home</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/categories aria-label=Category></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Category</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/tags aria-label=Tag></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Tag</div></div></div></div><div class=sidebar-btn-wrapper style=position:static><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></div></div><div class=sidebar-widget></div></div></aside><section id=main aria-label="Main content"><nav aria-label="Article language"><a href=/2023/06/05/potpourri/ hreflang=zh-CN lang=zh-CN>简体中文</a></nav><article class="h-entry article" itemscope itemtype=https://schema.org/BlogPosting><div class=article-inner data-aos=fade-up><div class=article-meta><div class=article-date><span class="article-date-link icon-calendar" data-aos=zoom-in><time datetime="2023-06-05 16:37:29 +0800 +0800" itemprop=datePublished>2023-06-05</time>
+<time style=display:none id=post-update-time>2023-06-05</time></span></div></div><div class=hr-line></div><div class="e-content article-entry" itemprop=articleBody><h2 id=table-of-contents><a class=header-anchor href=#table-of-contents></a>Table of Contents</h2><ul><li><a href=/en/potpourri/#keyboard-remapping>Keyboard remapping</a></li><li><a href=/en/potpourri/#daemons>Daemons</a></li><li><a href=/en/potpourri/#fuse>FUSE</a></li><li><a href=/en/potpourri/#backups>Backups</a></li><li><a href=/en/potpourri/#apis>APIs</a></li><li><a href=/en/potpourri/#common-command-line-flagspatterns>Common command-line flags/patterns</a></li><li><a href=/en/potpourri/#window-managers>Window managers</a></li><li><a href=/en/potpourri/#vpns>VPNs</a></li><li><a href=/en/potpourri/#markdown>Markdown</a></li><li><a href=/en/potpourri/#hammerspoon-desktop-automation-on-macos>Hammerspoon (desktop automation on macOS)</a><ul><li><a href=/en/potpourri/#resources>Resources</a></li></ul></li><li><a href=/en/potpourri/#booting--live-usbs>Booting + Live USBs</a></li><li><a href=/en/potpourri/#docker-vagrant-vms-cloud-openstack>Docker, Vagrant, VMs, Cloud, OpenStack</a></li><li><a href=/en/potpourri/#notebook-programming>Notebook programming</a></li><li><a href=/en/potpourri/#github>GitHub</a></li></ul><h2 id=keyboard-remapping><a class=header-anchor href=#keyboard-remapping></a>Keyboard remapping</h2><p>As a programmer, your keyboard is your main input method. As with pretty much anything in your computer, it is configurable (and worth configuring).</p><p>The most basic change is to remap keys.
+This usually involves some software that is listening and, whenever a certain key is pressed, it intercepts that event and replaces it with another event corresponding to a different key. Some examples:</p><ul><li>Remap Caps Lock to Ctrl or Escape. We (the instructors) highly encourage this setting since Caps Lock has a very convenient location but is rarely used.</li><li>Remapping PrtSc to Play/Pause music. Most OSes have a play/pause key.</li><li>Swapping Ctrl and the Meta (Windows or Command) key.</li></ul><p>You can also map keys to arbitrary commands of your choosing. This is useful for common tasks that you perform. Here, some software listens for a specific key combination and executes some script whenever that event is detected.</p><ul><li>Open a new terminal or browser window.</li><li>Inserting some specific text, e.g. your long email address or your MIT ID number.</li><li>Sleeping the computer or the displays.</li></ul><p>There are even more complex modifications you can configure:</p><ul><li>Remapping sequences of keys, e.g. pressing shift five times toggles Caps Lock.</li><li>Remapping on tap vs on hold, e.g. Caps Lock key is remapped to Esc if you quickly tap it, but is remapped to Ctrl if you hold it and use it as a modifier.</li><li>Having remaps being keyboard or software specific.</li></ul><p>Some software resources to get started on the topic:</p><ul><li>macOS - <a href=https://karabiner-elements.pqrs.org/>karabiner-elements</a>, <a href=https://github.com/koekeishiya/skhd>skhd</a> or <a href=https://folivora.ai/>BetterTouchTool</a></li><li>Linux - <a href=https://wiki.archlinux.org/index.php/Xmodmap>xmodmap</a> or <a href=https://github.com/autokey/autokey>Autokey</a></li><li>Windows - Builtin in Control Panel, <a href=https://www.autohotkey.com/>AutoHotkey</a> or <a href=https://www.randyrants.com/category/sharpkeys/>SharpKeys</a></li><li>QMK - If your keyboard supports custom firmware you can use <a href=https://docs.qmk.fm/>QMK</a> to configure the hardware device itself so the remaps works for any machine you use the keyboard with.</li></ul><h2 id=daemons><a class=header-anchor href=#daemons></a>Daemons</h2><p>You are probably already familiar with the notion of daemons, even if the word seems new.
+Most computers have a series of processes that are always running in the background rather than waiting for a user to launch them and interact with them.
+These processes are called daemons and the programs that run as daemons often end with a <code>d</code> to indicate so.
+For example <code>sshd</code>, the SSH daemon, is the program responsible for listening to incoming SSH requests and checking that the remote user has the necessary credentials to log in.</p><p>In Linux, <code>systemd</code> (the system daemon) is the most common solution for running and setting up daemon processes.
+You can run <code>systemctl status</code> to list the current running daemons. Most of them might sound unfamiliar but are responsible for core parts of the system such as managing the network, solving DNS queries or displaying the graphical interface for the system.
+Systemd can be interacted with the <code>systemctl</code> command in order to <code>enable</code>, <code>disable</code>, <code>start</code>, <code>stop</code>, <code>restart</code> or check the <code>status</code> of services (those are the <code>systemctl</code> commands).</p><p>More interestingly, <code>systemd</code> has a fairly accessible interface for configuring and enabling new daemons (or services).
+Below is an example of a daemon for running a simple Python app.
+We won&rsquo;t go in the details but as you can see most of the fields are pretty self explanatory.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ini data-lang=ini><span class=line><span class=cl><span class=c1># /etc/systemd/system/myapp.service</span>
+</span></span><span class=line><span class=cl><span class=k>[Unit]</span>
+</span></span><span class=line><span class=cl><span class=c1># Configuration file description</span>
+</span></span><span class=line><span class=cl><span class=na>Description</span><span class=o>=</span><span class=s>My Custom App</span>
+</span></span><span class=line><span class=cl><span class=c1># Start this process after the network service is up</span>
+</span></span><span class=line><span class=cl><span class=na>After</span><span class=o>=</span><span class=s>network.target</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>[Service]</span>
+</span></span><span class=line><span class=cl><span class=c1># The user that runs this process</span>
+</span></span><span class=line><span class=cl><span class=na>User</span><span class=o>=</span><span class=s>foo</span>
+</span></span><span class=line><span class=cl><span class=c1># The group that runs this process</span>
+</span></span><span class=line><span class=cl><span class=na>Group</span><span class=o>=</span><span class=s>foo</span>
+</span></span><span class=line><span class=cl><span class=c1># The root directory where the process runs</span>
+</span></span><span class=line><span class=cl><span class=na>WorkingDirectory</span><span class=o>=</span><span class=s>/home/foo/projects/mydaemon</span>
+</span></span><span class=line><span class=cl><span class=c1># The command that starts this process</span>
+</span></span><span class=line><span class=cl><span class=na>ExecStart</span><span class=o>=</span><span class=s>/usr/bin/local/python3.7 app.py</span>
+</span></span><span class=line><span class=cl><span class=c1># Restart this process when an error occurs</span>
+</span></span><span class=line><span class=cl><span class=na>Restart</span><span class=o>=</span><span class=s>on-failure</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>[Install]</span>
+</span></span><span class=line><span class=cl><span class=c1># Equivalent to Windows startup. The process is loaded and run even if the GUI has not started</span>
+</span></span><span class=line><span class=cl><span class=na>WantedBy</span><span class=o>=</span><span class=s>multi-user.target</span>
+</span></span><span class=line><span class=cl><span class=c1># If the process should run only when the GUI is active, write this instead:</span>
+</span></span><span class=line><span class=cl><span class=c1># WantedBy=graphical.target</span>
+</span></span><span class=line><span class=cl><span class=c1># graphical.target runs GUI-related services in addition to those of multi-user.target</span>
+</span></span></code></pre></td></tr></table></div></div><p>Also, if you just want to run some program with a given frequency there is no need to build a custom daemon, you can use <a href=https://www.man7.org/linux/man-pages/man8/cron.8.html><code>cron</code></a>, a daemon your system already runs to perform scheduled tasks.</p><h2 id=fuse><a class=header-anchor href=#fuse></a>FUSE</h2><p>Modern software systems are usually composed of smaller building blocks that are composed together.
+Your operating system supports using different filesystem backends because there is a common language of what operations a filesystem supports.
+For instance, when you run <code>touch</code> to create a file, <code>touch</code> performs a system call to the kernel to create the file and the kernel performs the appropriate filesystem call to create the given file.
+A caveat is that UNIX filesystems are traditionally implemented as kernel modules and only the kernel is allowed to perform filesystem calls.</p><p><a href=https://en.wikipedia.org/wiki/Filesystem_in_Userspace>FUSE</a> (Filesystem in User Space) allows filesystems to be implemented by a user program. FUSE lets users run user space code for filesystem calls and then bridges the necessary calls to the kernel interfaces.
+In practice, this means that users can implement arbitrary functionality for filesystem calls.</p><p>For example, FUSE can be used so whenever you perform an operation in a virtual filesystem, that operation is forwarded through SSH to a remote machine, performed there, and the output is returned back to you.
+This way, local programs can see the file as if it was in your computer while in reality it&rsquo;s in a remote server.
+This is effectively what <code>sshfs</code> does.</p><p>Some interesting examples of FUSE filesystems are:</p><ul><li><a href=https://github.com/libfuse/sshfs>sshfs</a> - Open locally remote files/folder through an SSH connection.</li><li><a href=https://rclone.org/commands/rclone_mount/>rclone</a> - Mount cloud storage services like Dropbox, GDrive, Amazon S3 or Google Cloud Storage and open data locally.</li><li><a href=https://nuetzlich.net/gocryptfs/>gocryptfs</a> - Encrypted overlay system. Files are stored encrypted but once the FS is mounted they appear as plaintext in the mountpoint.</li><li><a href=https://keybase.io/docs/kbfs>kbfs</a> - Distributed filesystem with end-to-end encryption. You can have private, shared and public folders.</li><li><a href=https://borgbackup.readthedocs.io/en/stable/usage/mount.html>borgbackup</a> - Mount your deduplicated, compressed and encrypted backups for ease of browsing.</li></ul><h2 id=backups><a class=header-anchor href=#backups></a>Backups</h2><p>Any data that you haven’t backed up is data that could be gone at any moment, forever.
+It&rsquo;s easy to copy data around, it&rsquo;s hard to reliably backup data.
+Here are some good backup basics and the pitfalls of some approaches.</p><p>First, a copy of the data in the same disk is not a backup, because the disk is the single point of failure for all the data. Similarly, an external drive in your home is also a weak backup solution since it could be lost in a fire/robbery/&amp;c. Instead, having an off-site backup is a recommended practice.</p><p>Synchronization solutions are not backups. For instance, Dropbox/GDrive are convenient solutions, but when data is erased or corrupted they propagate the change. For the same reason, disk mirroring solutions like RAID are not backups. They don&rsquo;t help if data gets deleted, corrupted or encrypted by ransomware.</p><p>Some core features of good backups solutions are versioning, deduplication and security.
+Versioning backups ensure that you can access your history of changes and efficiently recover files.
+Efficient backup solutions use data deduplication to only store incremental changes and reduce the storage overhead.
+Regarding security, you should ask yourself what someone would need to know/have in order to read your data and, more importantly, to delete all your data and associated backups.
+Lastly, blindly trusting backups is a terrible idea and you should verify regularly that you can use them to recover data.</p><p>Backups go beyond local files in your computer.
+Given the significant growth of web applications, large amounts of your data are only stored in the cloud.
+For instance, your webmail, social media photos, music playlists in streaming services or online docs are gone if you lose access to the corresponding accounts.
+Having an offline copy of this information is the way to go, and you can find online tools that people have built to fetch the data and save it.</p><p>For a more detailed explanation, see 2019&rsquo;s lecture notes on <a href=https://missing.csail.mit.edu/2019/backups/>Backups</a>.</p><h2 id=apis><a class=header-anchor href=#apis></a>APIs</h2><p>We&rsquo;ve talked a lot in this class about using your computer more
+efficiently to accomplish <em>local</em> tasks, but you will find that many of
+these lessons also extend to the wider internet. Most services online
+will have &ldquo;APIs&rdquo; that let you programmatically access their data. For
+example, the US government has an API that lets you get weather
+forecasts, which you could use to easily get a weather forecast in your
+shell.</p><p>Most of these APIs have a similar format. They are structured URLs,
+often rooted at <code>api.service.com</code>, where the path and query parameters
+indicate what data you want to read or what action you want to perform.
+For the US weather data for example, to get the forecast for a
+particular location, you issue GET request (with <code>curl</code> for example) to
+<a href=https://api.weather.gov/points/42.3604,-71.094>https://api.weather.gov/points/42.3604,-71.094</a>. The response itself
+contains a bunch of other URLs that let you get specific forecasts for
+that region. Usually, the responses are formatted as JSON, which you can
+then pipe through a tool like <a href=https://stedolan.github.io/jq/><code>jq</code></a> to
+massage into what you care about.</p><p>Some APIs require authentication, and this usually takes the form of
+some sort of secret <em>token</em> that you need to include with the request.
+You should read the documentation for the API to see what the particular
+service you are looking for uses, but &ldquo;<a href=https://www.oauth.com/>OAuth</a>&rdquo;
+is a protocol you will often see used. At its heart, OAuth is a way to
+give you tokens that can &ldquo;act as you&rdquo; on a given service, and can only
+be used for particular purposes. Keep in mind that these tokens are
+<em>secret</em>, and anyone who gains access to your token can do whatever the
+token allows under <em>your</em> account!</p><p><a href=https://ifttt.com/>IFTTT</a> is a website that brings many APIs together,
+letting a specific event in one API trigger a task in another. Its name,
+If This Then That, says it all — for instance, it can automatically
+repost a new tweet of yours to other platforms as soon as one is
+detected. You can combine the APIs it supports in any way you like, so
+try setting up whatever you need!</p><h2 id=common-command-line-flagspatterns><a class=header-anchor href=#common-command-line-flagspatterns></a>Common command-line flags/patterns</h2><p>Command-line tools vary a lot, and you will often want to check out
+their <code>man</code> pages before using them. They often share some common
+features though that can be good to be aware of:</p><ul><li><p>Most tools support some kind of <code>--help</code> flag to display brief usage
+instructions for the tool.</p></li><li><p>Many tools that can cause irrevocable change support the notion of a
+&ldquo;dry run&rdquo; in which they only print what they <em>would have done</em>, but
+do not actually perform the change. Similarly, they often have an
+&ldquo;interactive&rdquo; flag that will prompt you for each destructive action.</p></li><li><p>You can usually use <code>--version</code> or <code>-V</code> to have the program print its
+own version (handy for reporting bugs!).</p></li><li><p>Almost all tools have a <code>--verbose</code> or <code>-v</code> flag to produce more
+verbose output. You can usually include the flag multiple times
+(<code>-vvv</code>) to get <em>more</em> verbose output, which can be handy for
+debugging. Similarly, many tools have a <code>--quiet</code> flag for making it
+only print something on error.</p></li><li><p>In many tools, <code>-</code> in place of a file name means &ldquo;standard input&rdquo; or
+&ldquo;standard output&rdquo;, depending on the argument.</p></li><li><p>Possibly destructive tools are generally not recursive by default,
+but support a &ldquo;recursive&rdquo; flag (often <code>-r</code>) to make them recurse.</p></li><li><p>Sometimes, you need to pass an ordinary argument that <em>looks</em> like a
+flag. For example:</p><ul><li>Removing a file named <code>-r</code> with <code>rm</code>.</li><li>Passing a flag to the &ldquo;inner&rdquo; program when running one program through
+another (<code>ssh machine foo</code>) — here the inner program is <code>foo</code>.</li></ul><p>In such cases, the special argument <code>--</code> tells a program to <em>stop</em>
+processing flags and options (anything starting with <code>-</code>) that follow it:</p><ul><li><code>rm -- -r</code> makes <code>rm</code> treat <code>-r</code> as a file name.</li><li>In <code>ssh machine --for-ssh -- foo --for-foo</code>, the <code>--</code> lets <code>ssh</code> know
+that <code>--for-foo</code> is not one of its own flags.</li></ul></li></ul><h2 id=window-managers><a class=header-anchor href=#window-managers></a>Window managers</h2><p>Most of you are used to using a &ldquo;drag and drop&rdquo; window manager, like
+what comes with Windows, macOS, and Ubuntu by default. There are windows
+that just sort of hang there on screen, and you can drag them around,
+resize them, and have them overlap one another. But these are only one
+<em>type</em> of window manager, often referred to as a &ldquo;floating&rdquo; window
+manager. There are many others, especially on Linux. A particularly
+common alternative is a &ldquo;tiling&rdquo; window manager. In a tiling window
+manager, windows never overlap, and are instead arranged as tiles on
+your screen, sort of like panes in tmux. With a tiling window manager,
+the screen is always filled by whatever windows are open, arranged
+according to some <em>layout</em>. If you have just one window, it takes up the
+full screen. If you then open another, the original window shrinks to
+make room for it (often something like 2/3 and 1/3). If you open a
+third, the other windows will again shrink to accommodate the new
+window. Just like with tmux panes, you can navigate around these tiled
+windows with your keyboard, and you can resize them and move them
+around, all without touching the mouse. They are worth looking into!</p><h2 id=vpns><a class=header-anchor href=#vpns></a>VPNs</h2><p>VPNs are all the rage these days, but it&rsquo;s not clear that&rsquo;s for <a href=https://web.archive.org/web/20230710155258/https://gist.github.com/joepie91/5a9909939e6ce7d09e29>any
+good reason</a>. You
+should be aware of what a VPN does and does not get you. A VPN, in the
+best case, is <em>really</em> just a way for you to change your internet
+service provider as far as the internet is concerned. All your traffic
+will look like it&rsquo;s coming from the VPN provider instead of your &ldquo;real&rdquo;
+location, and the network you are connected to will only see encrypted
+traffic.</p><p>While that may seem attractive, keep in mind that when you use a VPN,
+all you are really doing is shifting your trust from you current ISP to
+the VPN hosting company. Whatever your ISP <em>could</em> see, the VPN provider
+now sees <em>instead</em>. If you trust them <em>more</em> than your ISP, that is a
+win, but otherwise, it is not clear that you have gained much. If you
+are sitting on some dodgy unencrypted public Wi-Fi at an airport, then
+maybe you don&rsquo;t trust the connection much, but at home, the trade-off is
+not quite as clear.</p><p>You should also know that these days, much of your traffic, at least of
+a sensitive nature, is <em>already</em> encrypted through HTTPS or TLS more
+generally. In that case, it usually matters little whether you are on
+a &ldquo;bad&rdquo; network or not &ndash; the network operator will only learn what
+servers you talk to, but not anything about the data that is exchanged.</p><p>Notice that I said &ldquo;in the best case&rdquo; above. It is not unheard of for
+VPN providers to accidentally misconfigure their software such that the
+encryption is either weak or entirely disabled. Some VPN providers are
+malicious (or at the very least opportunist), and will log all your
+traffic, and possibly sell information about it to third parties.
+Choosing a bad VPN provider is often worse than not using one in the
+first place.</p><p>In a pinch, MIT <a href=https://ist.mit.edu/vpn>runs a VPN</a> for its students,
+so that may be worth taking a look at. Also, if you&rsquo;re going to roll
+your own, give <a href=https://www.wireguard.com/>WireGuard</a> a look.</p><h2 id=markdown><a class=header-anchor href=#markdown></a>Markdown</h2><p>There is a high chance that you will write some text over the course of
+your career. And often, you will want to mark up that text in simple
+ways. You want some text to be bold or italic, or you want to add
+headers, links, and code fragments. Instead of pulling out a heavy tool
+like Word or LaTeX, you may want to consider using the lightweight
+markup language <a href=https://commonmark.org/help/>Markdown</a>.</p><p>You have probably seen Markdown already, or at least some variant of it.
+Subsets of it are used and supported almost everywhere, even if it&rsquo;s not
+under the name Markdown. At its core, Markdown is an attempt to codify
+the way that people already often mark up text when they are writing
+plain text documents. Emphasis (<em>italics</em>) is added by surrounding a
+word with <code>*</code>. Strong emphasis (<strong>bold</strong>) is added using <code>**</code>. Lines
+starting with <code>#</code> are headings (and the number of <code>#</code>s is the subheading
+level). Any line starting with <code>-</code> is a bullet list item, and any line
+starting with a number + <code>.</code> is a numbered list item. Backtick is used
+to show words in <code>code font</code>, and a code block can be entered by
+indenting a line with four spaces or surrounding it with
+triple-backticks:</p><pre><code>```
+code goes here
+```
+</code></pre><p>To add a link, place the <em>text</em> for the link in square brackets,
+and the URL immediately following that in parentheses: <code>[name](url)</code>.
+Markdown is easy to get started with, and you can use it nearly
+everywhere. In fact, the lecture notes for this lecture, and all the
+others, are written in Markdown, and you can see the raw Markdown
+<a href=https://raw.githubusercontent.com/missing-semester/missing-semester/master/_2020/potpourri.md>here</a>.</p><h2 id=hammerspoon-desktop-automation-on-macos><a class=header-anchor href=#hammerspoon-desktop-automation-on-macos></a>Hammerspoon (desktop automation on macOS)</h2><p><a href=https://www.hammerspoon.org/>Hammerspoon</a> is a desktop automation framework
+for macOS. It lets you write Lua scripts that hook into operating system
+functionality, allowing you to interact with the keyboard/mouse, windows,
+displays, filesystem, and much more.</p><p>Some examples of things you can do with Hammerspoon:</p><ul><li>Bind hotkeys to move windows to specific locations</li><li>Create a menu bar button that automatically lays out windows in a specific layout</li><li>Mute your speaker when you arrive in lab (by detecting the Wi-Fi network)</li><li>Show you a warning if you&rsquo;ve accidentally taken your friend&rsquo;s power supply</li></ul><p>At a high level, Hammerspoon lets you run arbitrary Lua code, bound to menu
+buttons, key presses, or events, and Hammerspoon provides an extensive library
+for interacting with the system, so there&rsquo;s basically no limit to what you can
+do with it. Many people have made their Hammerspoon configurations public, so
+you can generally find what you need by searching the internet, but you can
+always write your own code from scratch.</p><h3 id=resources><a class=header-anchor href=#resources></a>Resources</h3><ul><li><a href=https://www.hammerspoon.org/go/>Getting Started with Hammerspoon</a>: the official Hammerspoon tutorial</li><li><a href=https://github.com/Hammerspoon/hammerspoon/wiki/Sample-Configurations>Sample configurations</a>: official sample Hammerspoon configurations</li><li><a href=https://github.com/anishathalye/dotfiles-local/tree/mac/hammerspoon>Anish&rsquo;s Hammerspoon config</a>: Anish&rsquo;s Hammerspoon configuration</li></ul><h2 id=booting--live-usbs><a class=header-anchor href=#booting--live-usbs></a>Booting + Live USBs</h2><p>When your machine boots up, before the operating system is loaded, the
+<a href=https://en.wikipedia.org/wiki/BIOS>BIOS</a>/<a href=https://en.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface>UEFI</a>
+initializes the system. During this process, you can press a specific key
+combination to configure this layer of software. For example, your computer may
+say something like &ldquo;Press F9 to configure BIOS. Press F12 to enter boot menu.&rdquo;
+during the boot process. You can configure all sorts of hardware-related
+settings in the BIOS menu. You can also enter the boot menu to boot from an
+alternate device instead of your hard drive.</p><p><a href=https://en.wikipedia.org/wiki/Live_USB>Live USBs</a> are USB flash drives
+containing a complete operating system. They serve a wide range of purposes,
+including:</p><ul><li>As a bootable drive for installing an operating system.</li><li>Running the operating system directly from the Live USB without installing it to the hard drive.</li><li>Repairing an existing installation of the same operating system on the hard drive.</li><li>Recovering data from the hard drive.</li></ul><p>A Live USB is made by <em>writing</em> an operating system image to the flash drive,
+which involves more than simply copying an <code>.iso</code> file onto it. You can use
+Live USB writing tools such as <a href=https://unetbootin.github.io/>UNetbootin</a>
+and <a href=https://github.com/pbatard/rufus>Rufus</a>.</p><h2 id=docker-vagrant-vms-cloud-openstack><a class=header-anchor href=#docker-vagrant-vms-cloud-openstack></a>Docker, Vagrant, VMs, Cloud, OpenStack</h2><p><a href=https://en.wikipedia.org/wiki/Virtual_machine>Virtual machines</a> and similar
+tools like containers let you emulate a whole computer system, including the
+operating system. This can be useful for creating an isolated environment for
+testing, development, or exploration (e.g. running potentially malicious code).</p><p><a href=https://www.vagrantup.com/>Vagrant</a> is a tool that lets you describe machine
+configurations (operating system, services, packages, etc.) in code, and then
+instantiate VMs with a simple <code>vagrant up</code>. <a href=https://www.docker.com/>Docker</a>
+is conceptually similar but it uses containers instead.</p><p>You can also rent virtual machines on the cloud, and it&rsquo;s a nice way to get instant
+access to:</p><ul><li>A cheap always-on machine that has a public IP address, used to host services</li><li>A machine with a lot of CPU, disk, RAM, and/or GPU</li><li>Many more machines than you physically have access to (billing is often by
+the second, so if you want a lot of computing for a short amount of time, it&rsquo;s
+feasible to rent 1000 computers for a couple of minutes)</li></ul><p>Popular services include <a href=https://aws.amazon.com/>Amazon AWS</a>, <a href=https://cloud.google.com/>Google
+Cloud</a>,<a href=https://azure.microsoft.com/> Microsoft Azure</a>,
+<a href=https://www.digitalocean.com/>DigitalOcean</a>.</p><p>If you&rsquo;re a member of MIT CSAIL, you can get free VMs for research purposes
+through the <a href=https://tig.csail.mit.edu/shared-computing/open-stack/>CSAIL OpenStack
+instance</a>.</p><h2 id=notebook-programming><a class=header-anchor href=#notebook-programming></a>Notebook programming</h2><p><a href=https://en.wikipedia.org/wiki/Notebook_interface>Notebook programming
+environments</a> can be really
+handy for doing certain types of interactive or exploratory development.
+Perhaps the most popular notebook programming environment today is
+<a href=https://jupyter.org/>Jupyter</a>, for Python (and several other languages).
+Its name comes from the three core languages it supports: Julia, Python,
+and R. <a href=https://www.wolfram.com/mathematica/>Wolfram Mathematica</a> is
+another excellent notebook environment commonly used for scientific
+computing.</p><h2 id=github><a class=header-anchor href=#github></a>GitHub</h2><p><a href=https://github.com/>GitHub</a> is one of the most popular platforms for
+open-source software development. Many of the tools we&rsquo;ve talked about in this
+class, from <a href=https://github.com/vim/vim>vim</a> to
+<a href=https://github.com/Hammerspoon/hammerspoon>Hammerspoon</a>, are hosted on
+GitHub. It&rsquo;s easy to get started contributing to open-source to help improve
+the tools that you use every day.</p><p>There are two primary ways in which people contribute to projects on GitHub:</p><ul><li>Creating an
+<a href=https://help.github.com/en/github/managing-your-work-on-github/creating-an-issue>issue</a>.
+This can be used to report bugs or request a new feature. Neither of these
+involves reading or writing code, so it can be pretty lightweight to do.
+High-quality bug reports can be extremely valuable to developers. Commenting on
+existing discussions can be helpful too.</li><li>Contribute code through a <a href=https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests>pull
+request</a>.
+This is generally more involved than creating an issue. You can
+<a href=https://help.github.com/en/github/getting-started-with-github/fork-a-repo>fork</a>
+a repository on GitHub, clone your fork, create a new branch, make some changes
+(e.g. fix a bug or implement a feature), push the branch, and then <a href=https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request>create a
+pull
+request</a>.
+After this, there will generally be some back-and-forth with the project
+maintainers, who will give you feedback on your patch. Finally, if all goes
+well, your patch will be merged into the upstream repository. Often times,
+larger projects will have a contributing guide, tag beginner-friendly issues,
+and some even have mentorship programs to help first-time contributors become
+familiar with the project.</li></ul></div><footer class=article-footer><blockquote class=article-copyright><p><strong><span class="icon-user icon"></span>Author: </strong>Jingmengzhiyue</p><p><strong><span class="icon-link icon"></span>Permalink: </strong><a href=https://www.jingmengzhiyue.tech/en/potpourri/>https://www.jingmengzhiyue.tech/en/potpourri/</a></p><p><strong><span class="icon-pencil icon"></span>Title: </strong>Potpourri</p><p><strong><span class="icon-calendar icon"></span>Published: </strong>2023-06-05 16:37:29</p><p><strong><span class="icon-copyright icon"></span>License: </strong>All articles on this blog are licensed under the <a href=https://creativecommons.org/licenses/by/4.0/deed.zh rel="noopener nofollow noreferrer" target=_blank><span class=icon-creative-commons></span>BY</a> license agreement unless otherwise stated. Please indicate the source when reprinting!</p><span class="icon-creative-commons article-copyright-bg"></span></blockquote><ul class=article-category-list><li class=article-tag-list-item data-aos=zoom-in><a class=article-category-link href=/en/categories/computer-science/ data-aos=zoom-in>Computer Science</a></li></ul><ul class=article-tag-list itemprop=keywords><li class=article-tag-list-item data-aos=zoom-in><a class=article-tag-list-link href=/en/tags/the-missing-semester-of-your-cs-education/ rel=tag>The Missing Semester of Your CS Education</a></li></ul></footer></div><nav id=article-nav aria-label="Article navigation" data-aos=fade-up><div class="article-nav-link-wrap left"><img data-src=/img/1.jpg data-sizes=auto alt=Q&amp;A class=lazyload><a href=/en/qa/ aria-label=Prev:Q&amp;A title=Prev:Q&amp;A></a><div class=article-nav-caption>Prev</div><h3 class=article-nav-title>Q&amp;A</h3></div><div class="article-nav-link-wrap right"><img data-src=/img/9.jpg data-sizes=auto alt=Metaprogramming class=lazyload><a href=/en/metaprogramming/ aria-label=Next:Metaprogramming title=Next:Metaprogramming></a><div class=article-nav-caption>Next</div><h3 class=article-nav-title>Metaprogramming</h3></div></nav></article></section></div><footer id=footer aria-label="Site footer"><div style=width:100%;overflow:hidden><div class=footer-line></div></div><div id=footer-info><div><span class=icon-copyright></span>2023-2026<span class="footer-info-sep rotate"></span>Jingmengzhiyue</div><div>Powered by&nbsp;<a href=https://gohugo.io/ target=_blank rel="noopener nofollow noreferrer">Hugo</a>&nbsp;Theme.<a href=https://github.com/D-Sketon/hugo-theme-reimu target=_blank rel="noopener nofollow noreferrer">Reimu</a></div><div><span class=icon-brush>&nbsp;173.8k</span>
+&nbsp;|&nbsp;
+<span class=icon-coffee>&nbsp;14:09</span></div><div><span class=icon-eye></span>
+<span id=busuanzi_container_site_pv>Number of visits&nbsp;<span id=busuanzi_value_site_pv></span></span>
+&nbsp;|&nbsp;
+<span class=icon-user></span>
+<span id=busuanzi_container_site_uv>Number of visitors&nbsp;<span id=busuanzi_value_site_uv></span></span></div></div></footer><div class=sidebar-top><div class="sidebar-top-taichi rotate"></div><div class=arrow-up></div></div><div id=mask class=hide></div></div><nav id=mobile-nav aria-label="Mobile navigation"><div class=sidebar-wrap><div class=sidebar-toc-sidebar><h3 class=toc-title>Contents</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#table-of-contents>Table of Contents</a></li><li><a href=#keyboard-remapping>Keyboard remapping</a></li><li><a href=#daemons>Daemons</a></li><li><a href=#fuse>FUSE</a></li><li><a href=#backups>Backups</a></li><li><a href=#apis>APIs</a></li><li><a href=#common-command-line-flagspatterns>Common command-line flags/patterns</a></li><li><a href=#window-managers>Window managers</a></li><li><a href=#vpns>VPNs</a></li><li><a href=#markdown>Markdown</a></li><li><a href=#hammerspoon-desktop-automation-on-macos>Hammerspoon (desktop automation on macOS)</a><ul><li><a href=#resources>Resources</a></li></ul></li><li><a href=#booting--live-usbs>Booting + Live USBs</a></li><li><a href=#docker-vagrant-vms-cloud-openstack>Docker, Vagrant, VMs, Cloud, OpenStack</a></li><li><a href=#notebook-programming>Notebook programming</a></li><li><a href=#github>GitHub</a></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/profile_picture.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>Posts</div><div class=sidebar-state-number>54</div></div><a class=sidebar-state-category href=/en/categories/ aria-label=sidebar-state-category-link><div>Categories</div><div class=sidebar-state-number>9</div></a><a class=sidebar-state-tag href=/en/tags/ aria-label=sidebar-state-tag-link><div>Tags</div><div class=sidebar-state-number>26</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/ aria-label=Home></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Home</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/categories aria-label=Category></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Category</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/tags aria-label=Tag></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Tag</div></div></div></div></div><div class=sidebar-btn-wrapper><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></nav></div><div id=aplayer theme=var(--color-link)></div><script src=https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js integrity=sha384-3gT/vsepWkfz/ff7PpWNUeMzeWoH3cDhm/A8jM7ouoAK0/fP/9bcHHR5kHq2nf+e crossorigin=anonymous></script><script src=https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js integrity=sha384-J08i8An/QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q crossorigin=anonymous></script><script src=/js/main.js integrity crossorigin=anonymous></script><script src=/js/aos.js integrity crossorigin=anonymous></script><script>var aosInit=()=>{AOS.init({duration:1e3,easing:"ease",once:!0,offset:50})};document.readyState==="loading"?document.addEventListener("DOMContentLoaded",aosInit):aosInit()</script><script src=/js/pjax_main.js integrity crossorigin=anonymous data-pjax></script><div id=lazy-script><div><script data-pjax>window.REIMU_POST={author:"Jingmengzhiyue",title:"Potpourri",url:"https://www.jingmengzhiyue.tech/en/potpourri/",description:"Assorted bits of knowledge in computer science",cover:"https://www.jingmengzhiyue.tech/img/24.jpg"}</script><script src=/js/insert_highlight.js integrity crossorigin=anonymous data-pjax></script><script src=/js/tabs.js integrity crossorigin=anonymous data-pjax defer></script><script type=module data-pjax>const PhotoSwipeLightbox = (await safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js", "sha384-DiL6M\/gG\u002bwmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF\/N6lrZi\/")).default;const initPswp = (gallery, children) => {
+          if (_$$(`${gallery} ${children}`).length > 0) {
+            new PhotoSwipeLightbox({
+              gallery,
+              children,pswpModule: () => safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8\u002boTJ7m3DfYEWX1fu1scuS4\u002bs")}).init();
+          }
+        }
+        const pswp = () => {
+          initPswp('.article-entry', 'a.article-gallery-item');
+          initPswp('.article-gallery', 'a.article-gallery-item');
+        }
+        pswp()
+      </script><script data-pjax>window.MathJax=JSON.parse('[{"loader":{"load":["input/asciimath","[tex]/noerrors"]},"options":{"ignoreHtmlClass":"tex2jax_ignore","processHtmlClass":"tex2jax_process","skipHtmlTags":["script","noscript","style","textarea","pre","code"]},"tex":{"autoload":{"color":[],"colorv2":["color"]},"displayMath":[["$$","$$"],["\\\\[","\\\\]"]],"inlineMath":[["$","$"],["\\\\(","\\\\)"]],"packages":{"[+]":["noerrors"]},"processEnvironments":true,"processEscapes":true,"tags":"ams","useLabelIds":true}}]')[0]</script><script src=https://npm.webcache.cn/mathjax@3.2.2/es5/tex-mml-chtml.js defer data-pjax integrity=sha384-Wuix6BuhrWbjDBs24bXrjf4ZQ5aFeFWBuKkFekO2t8xFU0iNaLQfp2K6/1Nxveei crossorigin=anonymous></script></div></div><script src=https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js async integrity=sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S crossorigin=anonymous></script><script>"serviceWorker"in navigator&&navigator.serviceWorker.getRegistrations().then(e=>{for(let t of e)t.unregister()})</script><script>const reimuCopyright=String.raw`
+   ______     ______     __     __    __     __  __    
+  /\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+  \ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+   \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+    \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                    
+  `;console.log(String.raw`%c ${reimuCopyright}`,"color: #ff5252;"),console.log("%c Theme.Reimu %c https://github.com/D-Sketon/hugo-theme-reimu ","color: white; background: #ff5252; padding:5px 0;","padding:4px;border:1px solid #ff5252;")</script><script>var setupAPlayer=()=>{if(!!1||!window.matchMedia("(max-width: 768px)").matches){const e=window.matchMedia("(max-width: 959px)").matches;if(e){const e=_$("#aplayer");if(e){const t=e.parentNode?.parentNode;t?.tagName==="ASIDE"&&(e.removeAttribute("data-aos"),t.parentNode.removeChild(e),document.body.appendChild(e))}}new APlayer({theme:"var(--color-link)",container:document.getElementById("aplayer"),audio:JSON.parse('[{"artist":"千葉紗子","cover":"/img/24.jpg","name":"花手紙","url":"/music/千葉紗子+-+花手紙.mp3"}]')||[],fixed:!!e||!0,autoplay:!1,loop:"one"||"all",order:"list"||"list",preload:"none"||"auto",volume:.7||.7,mutex:!0,listFolded:!0,lrcType:0||0})}}</script><script src=https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.js defer onload=setupAPlayer() integrity=sha384-gdGYZwHnfJM54evoZhpO0s6ZF5BQiybkiyW7VXr+h5UfruuRL/aORyw+5+HZoU6e crossorigin=anonymous></script></body></html>
