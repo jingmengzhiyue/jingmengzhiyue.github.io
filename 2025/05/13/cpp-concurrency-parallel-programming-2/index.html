@@ -1,0 +1,1090 @@
+<!doctype html><html lang=zh-CN data-theme-mode=auto><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><title>C++ 并发与并行编程（下） | Jingmengzhiyue</title><meta name=description content="C++ 并发与并行编程系列下篇：原子变量与内存序、C++20 取消与协调工具、工程实践，以及一个可关闭的并发任务处理器。"><script>window.siteConfig=JSON.parse('{"anchor":{"auto":{"enable":false,"length":60},"explicit":{"enable":false,"marker":"{#anchor-","prefix":"anchor-"}},"anchor_icon":null,"base":"https://www.jingmengzhiyue.tech/","clipboard":{"copyright":{"count":50,"enable":false,"license_type":"by-nc-sa"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-br":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ","zh-cn":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-tw":"複製失敗 (ﾟ⊿ﾟ)ﾂ"},"success":{"en":"Copy successfully (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-br":"Copiado com sucesso (*^▽^*)","zh-cn":"复制成功 (*^▽^*)","zh-tw":"複製成功 (*^▽^*)"}},"code_block":{"expand":true},"dark_mode":{"button":true,"mode":"auto"},"i18n_languages":[{"label":"简体中文","lang":"zh-cn"},{"label":"English","lang":"en"}],"icon_font":"4552607_ex15nbittbh","outdate":{"daysago":180,"enable":false,"message":{"en":"This article was last updated on {time}. Please note that the content may no longer be applicable.","ja":"この記事は最終更新日：{time}。記載内容が現在有効でない可能性がありますのでご注意ください。","pt-br":"Este artigo foi atualizado pela última vez em {time}. Observe que o conteúdo pode não ser mais aplicável.","zh-cn":"本文最后更新于 {time}，请注意文中内容可能已不适用。","zh-tw":"本文最後更新於 {time}，請注意文中內容可能已不適用。"}}}')</script><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap" media=print onload='this.media="all"'><link rel=preload href=//at.alicdn.com/t/c/font_4552607_ex15nbittbh.woff2 as=font type=font/woff2 crossorigin=anonymous><link rel=stylesheet href=/css/loader.min.ac746e154f756f8220326eeb52a719f142ab038be5a8ddf30ea5ef15ef2356ea.css><meta property="og:type" content="website"><meta property="og:title" content="C++ 并发与并行编程（下） | Jingmengzhiyue"><meta property="og:description" content="C++ 并发与并行编程系列下篇：原子变量与内存序、C++20 取消与协调工具、工程实践，以及一个可关闭的并发任务处理器。"><meta property="og:url" content="https://www.jingmengzhiyue.tech/2025/05/13/cpp-concurrency-parallel-programming-2/"><meta property="og:site_name" content="热爱可抵万难"><meta property="og:image" content="https://www.jingmengzhiyue.tech/img/24.jpg"><meta property="article:author" content="Jingmengzhiyue"><meta property="article:published_time" content="2025-05-13T16:00:00+08:00"><meta property="article:modified_time" content="2025-05-13T16:00:00+08:00"><meta property="article:tag" content="program, C++"><meta name=twitter:card content="summary"><meta name=twitter:image content="https://www.jingmengzhiyue.tech/img/24.jpg"><link rel="shortcut icon" href=/favicon.ico><link rel=stylesheet href=/css/main.min.c69028af04cc11392739edc48eeb60465879b00de4286e0147bbc470f8f39418.css><link rel=preload as=style href=https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css integrity=sha384-IfxC36XL/toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx/1oA/0l8ysE crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><link rel=preload as=style href=https://npm.webcache.cn/katex@0.16.47/dist/katex.min.css integrity=sha384-nH0MfJ44wi1dd7w6jinlyBgljjS8EJAh2JBoRad8a3VDw2K69vfaaqm4WnR+gXtA crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><script src=https://npm.webcache.cn/pace-js@1.2.4/pace.min.js integrity=sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8 crossorigin=anonymous></script><link rel=stylesheet href=https://npm.webcache.cn/@reimujs/aos@0.1.3/dist/aos.css integrity=sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa crossorigin=anonymous><link rel=stylesheet href=https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.css integrity=sha384-tLMkTWh2pfXNWGFlUS0w1TFtRG5xZ9lPWFOooj+vDDLIL+xBGQU/voDBY5XE2lVh crossorigin=anonymous><link rel=icon href=/img/fluid.png type=image/png><link rel=apple-touch-icon href=/img/fluid.png><link rel=stylesheet href=/css/custom.css></head><body><div id=loader><div class="loading-left-bg loading-bg"></div><div class="loading-right-bg loading-bg"></div><div class=spinner-box><div class="loading-taichi rotate"><svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" shape-rendering="geometricPrecision"><path d="M303.5 432a80 80 0 01-12 160 80 80 0 0112-160z" fill="var(--red-1, #ff5252)"/><path d="M512 65a447 447 0 010 894V929a417 417 0 000-834 417 417 0 000 834v30a447 447 0 010-894zm0 30A417 417 0 01929 512 208.5 208.5.0 01720.5 720.5V592a80 80 0 000-160 80 80 0 000 160V720.5A208.5 208.5.0 01512 512 208.5 208.5.0 00303.5 303.5 208.5 208.5.0 0095 512 417 417 0 01512 95z" fill="var(--red-1, #ff5252)"/></svg></div><div class=loading-word>少女祈祷中...</div></div></div></div><script>var time=null,loaderEl=document.getElementById("loader"),startLoading=()=>{time=Date.now(),loaderEl.classList.remove("loading")},hideLoader=()=>{document.body.style.overflow="auto",loader.classList.add("loading")},endLoading=()=>{time?Date.now()-time>500?(time=null,hideLoader()):(setTimeout(endLoading,500-(Date.now()-time)),time=null):hideLoader()};window.addEventListener("DOMContentLoaded",endLoading),loaderEl.addEventListener("click",endLoading)</script><div id=copy-tooltip></div><div id=lang-tooltip>本文章没有找到对应的语言版本</div><div id=heatmap-tooltip></div><div id=container><div id=wrap><div id=header-nav><nav id=main-nav aria-label="Primary navigation"><a class=main-nav-link-wrap href=/><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>首页</span>
+</a><a class=main-nav-link-wrap href=/archives><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>归档</span>
+</a><a class=main-nav-link-wrap href=/categories><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>目录</span>
+</a><a class=main-nav-link-wrap href=/tags><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>标签</span>
+</a><a class=main-nav-link-wrap href=/about><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>关于</span>
+</a><a id=main-nav-toggle class=nav-icon aria-label="Toggle navigation" role=button></a></nav><nav id=sub-nav aria-label="Secondary navigation"></nav><nav id=i18n-nav aria-label="Language selection"><div class=custom-dropdown><div class=select-selected id=select-selected role=button aria-haspopup=listbox aria-expanded=false aria-label="Language menu"><span id=nav-language-btn class=nav-icon style="padding:0 20px 0 0"></span>
+<span id=selected-lang>简体中文</span></div><ul class=select-items id=select-items role=listbox aria-label=Languages><li data-value=zh-cn role=option class=selected aria-selected=true>简体中文</li><li data-value=en role=option aria-selected=false>English</li></ul></div><script>var selectSelected=document.getElementById("select-selected"),selectedLang=document.getElementById("selected-lang"),selectItems=document.getElementById("select-items"),selectOptions=selectItems.querySelectorAll("li");selectSelected.addEventListener("click",()=>{selectItems.classList.toggle("show");var e=selectSelected.getAttribute("aria-expanded")==="true";selectSelected.setAttribute("aria-expanded",(!e).toString())}),selectOptions.forEach(e=>{e.addEventListener("click",()=>{const t={};if(t.en="/en/cpp-concurrency-parallel-programming-2/",selectedLang.textContent=e.textContent,selectItems.classList.remove("show"),selectOptions.forEach(e=>{e.classList.remove("selected")}),e.classList.add("selected"),e.dataset.value==="zh-cn")return;if(!t[e.dataset.value]){_$("#lang-tooltip").style.opacity="1",setTimeout(()=>{_$("#lang-tooltip").style.opacity="0"},1e3);return}window.location=t[e.dataset.value]})}),document.addEventListener("click",e=>{e.target.closest(".custom-dropdown")||(selectItems.classList.remove("show"),selectSelected.setAttribute("aria-expanded","false"))})</script></nav></div><header id=header aria-label="Site header"><picture></picture><img fetchpriority=high src=/img/24.jpg alt="C++ 并发与并行编程（下）"><div id=header-outer><div id=header-title><span id=logo><h1 data-aos=slide-up>C++ 并发与并行编程（下）</h1></span><h2 id=subtitle-wrap data-aos=slide-down></h2></div></div></header><div id=content aria-label="Page content" class=sidebar-right><aside id=sidebar aria-label=Sidebar><div class="sidebar-wrapper-container sticky"><div class=sidebar-wrapper><div class=sidebar-wrap data-aos=fade-up><div class=sidebar-toc-sidebar><h3 class=toc-title>文章目录</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#8-原子变量先明确边界再谈内存序>8. 原子变量：先明确边界，再谈内存序</a><ul><li><a href=#81-一次原子操作不等于一段原子业务>8.1 一次原子操作，不等于一段原子业务</a></li><li><a href=#82-happens-before正确性证明的连接线>8.2 happens-before：正确性证明的连接线</a></li><li><a href=#83-内存序各自负责什么>8.3 内存序各自负责什么</a></li><li><a href=#84-用一次发布证明-acquirerelease>8.4 用一次发布证明 acquire/release</a></li><li><a href=#85-seq_cst-保证什么不保证什么>8.5 <code>seq_cst</code> 保证什么，不保证什么</a></li><li><a href=#86-什么时候-relaxed-已经足够>8.6 什么时候 relaxed 已经足够</a></li><li><a href=#87-cas如果还没变就替换>8.7 CAS：如果还没变，就替换</a></li><li><a href=#88-stdatomic_flag-与自旋锁的边界>8.8 <code>std::atomic_flag</code> 与自旋锁的边界</a></li></ul></li><li><a href=#9-c20-的取消与协调工具>9. C++20 的取消与协调工具</a><ul><li><a href=#91-协作式取消请求检查安全退出>9.1 协作式取消：请求、检查、安全退出</a></li><li><a href=#92-等待中的线程也必须能退出>9.2 等待中的线程也必须能退出</a></li><li><a href=#93-semaphore保存许可数量>9.3 semaphore：保存许可数量</a></li><li><a href=#94-latch一次性的完成集合>9.4 latch：一次性的完成集合</a></li><li><a href=#95-barrier重复进行的阶段边界>9.5 barrier：重复进行的阶段边界</a></li><li><a href=#96-如何选择>9.6 如何选择</a></li></ul></li><li><a href=#10-从正确程序走向可维护可测量的程序>10. 从正确程序走向可维护、可测量的程序</a><ul><li><a href=#101-任务划分比线程数量更重要>10.1 任务划分比线程数量更重要</a></li><li><a href=#102-为什么多线程可能更慢>10.2 为什么多线程可能更慢</a></li><li><a href=#103-常见设计模式>10.3 常见设计模式</a></li><li><a href=#104-stdexecution-的边界>10.4 <code>std::execution</code> 的边界</a></li><li><a href=#105-怎样验证和测量>10.5 怎样验证和测量</a></li><li><a href=#106-并发测试是一组协议>10.6 并发测试是一组协议</a></li></ul></li><li><a href=#11-完整示例可关闭的并发平方任务处理器>11. 完整示例：可关闭的并发平方任务处理器</a><ul><li><a href=#111-需求与设计约束>11.1 需求与设计约束</a></li><li><a href=#112-完整实现>11.2 完整实现</a></li><li><a href=#113-设计与线程安全依据>11.3 设计与线程安全依据</a></li><li><a href=#114-可改进方向>11.4 可改进方向</a></li></ul></li><li><a href=#12-小结>12. 小结</a></li><li><a href=#参考资料>参考资料</a></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/profile_picture.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>文章</div><div class=sidebar-state-number>56</div></div><a class=sidebar-state-category href=/categories/ aria-label=sidebar-state-category-link><div>分类</div><div class=sidebar-state-number>9</div></a><a class=sidebar-state-tag href=/tags/ aria-label=sidebar-state-tag-link><div>标签</div><div class=sidebar-state-number>27</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/ aria-label=首页></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>首页</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/archives aria-label=归档></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>归档</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/categories aria-label=目录></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>目录</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/tags aria-label=标签></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>标签</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/about aria-label=关于></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>关于</div></div></div></div><div class=sidebar-btn-wrapper style=position:static><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></div></div><div class=sidebar-widget></div></div></aside><section id=main aria-label="Main content"><nav aria-label=文章语言><a href=/en/cpp-concurrency-parallel-programming-2/ hreflang=en lang=en>English</a></nav><article class="h-entry article" itemscope itemtype=https://schema.org/BlogPosting><div class=article-inner data-aos=fade-up><div class=article-meta><div class=article-date><span class="article-date-link icon-calendar" data-aos=zoom-in><time datetime="2025-05-13 16:00:00 +0800 +0800" itemprop=datePublished>2025-05-13</time>
+<time style=display:none id=post-update-time>2025-05-13</time></span></div></div><div class=hr-line></div><div class="e-content article-entry" itemprop=articleBody><p>本文是 C++ 并发与并行编程系列的下篇。<a href=/2024/09/27/cpp-concurrency-parallel-programming-1/>上篇</a>介绍了执行模型、线程生命周期、互斥锁、条件变量与 future 结果通道；本篇继续讨论原子变量与内存序、C++20 的取消与协调工具（<code>stop_token</code>、semaphore、latch、barrier）、从“正确”走向“可维护、可测量”的工程实践，最后实现一个可关闭的并发平方任务处理器。</p><p>为便于前后引用，章节号与示例编号沿用上篇：本篇从第 8 章、示例 15 开始，引用上篇内容时会注明“上篇”。</p><h2 id=8-原子变量先明确边界再谈内存序><a class=header-anchor href=#8-%e5%8e%9f%e5%ad%90%e5%8f%98%e9%87%8f%e5%85%88%e6%98%8e%e7%a1%ae%e8%be%b9%e7%95%8c%e5%86%8d%e8%b0%88%e5%86%85%e5%ad%98%e5%ba%8f></a>8. 原子变量：先明确边界，再谈内存序</h2><h3 id=81-一次原子操作不等于一段原子业务><a class=header-anchor href=#81-%e4%b8%80%e6%ac%a1%e5%8e%9f%e5%ad%90%e6%93%8d%e4%bd%9c%e4%b8%8d%e7%ad%89%e4%ba%8e%e4%b8%80%e6%ae%b5%e5%8e%9f%e5%ad%90%e4%b8%9a%e5%8a%a1></a>8.1 一次原子操作，不等于一段原子业务</h3><p><code>std::atomic&lt;T></code> 为适用的类型提供不可被拆开的操作。整数原子常用 <code>load</code>、<code>store</code>、<code>exchange</code> 和 <code>fetch_add</code>。<code>fetch_add</code> 返回修改前的值，并把读、加、写作为一次原子读改写。</p><p>常用操作如下。<code>load</code>、<code>store</code>、<code>exchange</code>、<code>fetch_*</code> 和 CAS 的相应重载可显式指定内存序，省略时默认 seq_cst；运算符形式固定使用 seq_cst，不接收内存序参数。无锁能力查询不涉及内存序（§8.3）：</p><table><thead><tr><th>操作</th><th>语义</th><th>返回</th></tr></thead><tbody><tr><td><code>load()</code></td><td>原子读取当前值</td><td>读到的值</td></tr><tr><td><code>store(v)</code></td><td>原子写入</td><td>无</td></tr><tr><td><code>exchange(v)</code></td><td>原子替换</td><td>替换前的值</td></tr><tr><td><code>fetch_add(n)</code> / <code>fetch_sub(n)</code></td><td>原子加 / 减（适用的整数、指针；C++20 也支持浮点特化）</td><td><strong>修改前</strong>的值</td></tr><tr><td><code>operator++</code> / <code>operator+=</code> 等</td><td>对应 fetch 操作的简写</td><td>前缀 <code>++</code> 返回<strong>修改后</strong>的值；后缀 <code>++</code> 与 <code>fetch_add</code> 一样返回<strong>修改前</strong>的值</td></tr><tr><td><code>compare_exchange_weak/strong(expected, desired)</code></td><td>仍等于 expected 才替换为 desired（§8.7）</td><td>是否成功；失败时 expected 被更新为观察到的值</td></tr><tr><td><code>is_lock_free()</code> / <code>is_always_lock_free</code></td><td>查询该对象 / 类型是否无锁实现</td><td>运行期 / 编译期答案</td></tr></tbody></table><p>赋值运算符执行默认内存序的存储并返回写入值，隐式类型转换执行默认内存序的 <code>load</code>；因此 <code>count = count + 1</code> 仍是读、写两次独立操作，与下面错误片段的问题相同。C++20 还提供原子 <code>wait</code> / <code>notify_one</code> / <code>notify_all</code>；旧 TDM-GCC 环境的缺失见上篇 §2.2，本文为保持示例连贯不使用它们。类型与操作规定见 <a href=https://timsong-cpp.github.io/cppwp/n4861/atomics.types.generic>C++20 草案的 atomic 泛型</a>。</p><p><strong>示例 15</strong>：默认内存序的原子计数。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * @file example15.cpp
+</span></span></span><span class=line><span class=cl><span class=cm> * @brief std::atomic&lt;int&gt; 计数器：fetch_add 是一次不可分割的原子读改写。
+</span></span></span><span class=line><span class=cl><span class=cm> * @details 两个 jthread 各加 10000 次，默认 seq_cst 内存序；join 后读取最终值。
+</span></span></span><span class=line><span class=cl><span class=cm> *          预期输出 20000。对应正文 §8.1。
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;atomic&gt;</span><span class=cp>   </span><span class=c1>// std::atomic
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;cassert&gt;</span><span class=cp>  </span><span class=c1>// assert：验证最终计数
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp> </span><span class=c1>// std::cout
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;thread&gt;</span><span class=cp>   </span><span class=c1>// std::jthread
+</span></span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * @brief 程序入口：原子累加，不丢更新。
+</span></span></span><span class=line><span class=cl><span class=cm> * @return 隐式返回 0。
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>atomic</span><span class=o>&lt;</span><span class=kt>int</span><span class=o>&gt;</span> <span class=n>count</span><span class=p>{</span><span class=mi>0</span><span class=p>};</span> <span class=c1>// 原子计数器：每次操作不可分割，无需互斥锁
+</span></span></span><span class=line><span class=cl>    <span class=cm>/** @brief 工作线程用原子读改写累加；引用的 count 活到两个线程退出后。 */</span>
+</span></span><span class=line><span class=cl>    <span class=k>auto</span> <span class=n>add</span> <span class=o>=</span> <span class=p>[</span><span class=o>&amp;</span><span class=p>]</span> <span class=p>{</span>           <span class=c1>// 按引用捕获 count；其寿命覆盖两个线程
+</span></span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=mi>10000</span><span class=p>;</span> <span class=o>++</span><span class=n>i</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>count</span><span class=p>.</span><span class=n>fetch_add</span><span class=p>(</span><span class=mi>1</span><span class=p>);</span> <span class=c1>// 默认 seq_cst；读、加、写合并为一次原子读改写
+</span></span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>};</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>jthread</span> <span class=n>first</span><span class=p>(</span><span class=n>add</span><span class=p>);</span>  <span class=c1>// 两个线程并发执行同一累加任务
+</span></span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>jthread</span> <span class=n>second</span><span class=p>(</span><span class=n>add</span><span class=p>);</span> <span class=c1>// 第二个线程访问同一原子计数器
+</span></span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=c1>// join 回收：线程结束与主线程的后续读取建立同步
+</span></span></span><span class=line><span class=cl>    <span class=k>const</span> <span class=kt>int</span> <span class=n>result</span> <span class=o>=</span> <span class=n>count</span><span class=p>.</span><span class=n>load</span><span class=p>();</span> <span class=c1>// 线程都结束后读取；默认 seq_cst
+</span></span></span><span class=line><span class=cl>    <span class=n>assert</span><span class=p>(</span><span class=n>result</span> <span class=o>==</span> <span class=mi>20000</span><span class=p>);</span>         <span class=c1>// 原子读改写保证不丢更新
+</span></span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>result</span> <span class=o>&lt;&lt;</span> <span class=sc>&#39;\n&#39;</span><span class=p>;</span>     <span class=c1>// 输出 20000
+</span></span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>错误示例，请勿照搬（片段；<code>count</code> 是 atomic）：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * @warning 故意错误的示例片段：load 与 store 分两次调用，中间可被其他线程插入。
+</span></span></span><span class=line><span class=cl><span class=cm> * @details 没有数据竞争（每一步各自是原子的），但两个线程可读到同一个旧值、写回
+</span></span></span><span class=line><span class=cl><span class=cm> *          同一个新值，丢一次更新——这是逻辑竞态而非未定义行为。
+</span></span></span><span class=line><span class=cl><span class=cm> * @see 正确写法：count.fetch_add(1) 或 ++count，见示例 15。
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=n>count</span><span class=p>.</span><span class=n>store</span><span class=p>(</span><span class=n>count</span><span class=p>.</span><span class=n>load</span><span class=p>()</span> <span class=o>+</span> <span class=mi>1</span><span class=p>);</span> <span class=c1>// 读和写是两个独立原子操作，合起来不构成原子读改写
+</span></span></span></code></pre></td></tr></table></div></div><p>这没有对 <code>count</code> 的数据竞争，却可能丢更新：两个线程分别 load 同一个值，再 store 同一个新值。改用 <code>fetch_add</code> 或 <code>++count</code>。</p><p>多个 atomic 也不会自动组成一个事务。例如两个账户余额分别是 atomic，先扣 A 再加 B，观察者可以在两步之间看到总额减少；即使全用默认内存序也一样。用锁保护共同不变量，通常比设计多变量无锁协议容易维护。</p><p>原子对象也必须先构造、后发布，并在无人访问后销毁。<code>atomic&lt;T></code> 并不对任意 T 都可用，也不保证所有类型都 lock-free；可以检查 <code>is_lock_free()</code> 或 <code>is_always_lock_free</code>。某些类型与目标需要额外链接 <code>libatomic</code>，本文的小整数示例没有这种需求。</p><h3 id=82-happens-before正确性证明的连接线><a class=header-anchor href=#82-happens-before%e6%ad%a3%e7%a1%ae%e6%80%a7%e8%af%81%e6%98%8e%e7%9a%84%e8%bf%9e%e6%8e%a5%e7%ba%bf></a>8.2 happens-before：正确性证明的连接线</h3><p>内存模型不是“刷新某级缓存”的编程接口。它规定哪些执行与观察结果被允许，编译器和硬件负责实现。</p><p>先区分三种关系：</p><ul><li><strong>sequenced-before</strong>：同一线程内，求值规则确定的先后关系；不是任意表达式都能直接按书写顺序推断。</li><li><strong>synchronizes-with</strong>：标准指定的跨线程同步边，例如解锁到随后加锁、线程结束到 join 返回。</li><li><strong>happens-before</strong>：将线程内顺序和跨线程同步连接起来形成的先后关系。本文不使用 <code>consume</code>，可以沿这些连接及传递性进行推导。</li></ul><p><img src=/img/cpp-concurrency-08-happens-before.drawio.png alt=cpp-concurrency-08-happens-before.drawio></p><p>图 8-1：一条完整的同步链（以示例 16 的发布为例）。线程 A 内 sequenced-before 把"写 payload"接到 release store；release 与读到该值的 acquire load 构成 synchronizes-with；再接线程 B 内的 sequenced-before，得出"写 payload happens-before 读 payload"。解锁与随后加锁之间的同步边同理。</p><p>**modification order（修改顺序）**是每个原子对象自己的全部修改操作所构成的全序，所有线程必须遵守该对象的原子一致性约束。不同原子对象各有自己的修改顺序，它们不会自动合成一个全局顺序；<code>relaxed</code> 也保留这一点。</p><p>真实时间上“似乎已经先写了”，不等于建立了 happens-before；<code>sleep_for()</code>、输出日志、CPU 核心数都不是所需证明。无锁代码尤其不能只根据某台 x86 机器的运行现象推断跨平台正确性。</p><h3 id=83-内存序各自负责什么><a class=header-anchor href=#83-%e5%86%85%e5%ad%98%e5%ba%8f%e5%90%84%e8%87%aa%e8%b4%9f%e8%b4%a3%e4%bb%80%e4%b9%88></a>8.3 内存序各自负责什么</h3><table><thead><tr><th>内存序</th><th>主要作用</th><th>合适的起点</th></tr></thead><tbody><tr><td><code>seq_cst</code></td><td>保留相应 acquire/release 作用，并对所有 seq_cst 操作提供一个满足标准约束的单一全序</td><td>默认选择</td></tr><tr><td><code>release</code></td><td>在匹配的同步关系中发布之前的操作</td><td>发布就绪状态的 store</td></tr><tr><td><code>acquire</code></td><td>在匹配的同步关系中接收发布的操作</td><td>观察就绪状态的 load</td></tr><tr><td><code>acq_rel</code></td><td>同时取得和发布</td><td>需要双向同步的读改写</td></tr><tr><td><code>relaxed</code></td><td>保证本次原子访问及该对象的修改顺序，不借此发布其他数据</td><td>不承担发布职责的独立计数</td></tr><tr><td><code>consume</code></td><td>基于数据依赖传递发布关系，规则比 acquire 更复杂</td><td>标准自 C++17 起注明劝阻使用（C++26 起正式废弃），一般代码应避免直接使用</td></tr></tbody></table><p>C++20 实际定义六种内存序，完整名称分别是 <code>std::memory_order_relaxed</code>、<code>std::memory_order_consume</code>、<code>std::memory_order_acquire</code>、<code>std::memory_order_release</code>、<code>std::memory_order_acq_rel</code>、<code>std::memory_order_seq_cst</code>。<code>consume</code> 长期存在实现与使用上的困难，主流实现通常按 acquire 处理，C++26 起被正式废弃；本文避免直接使用。<code>load</code> 不能用 release 或 acq_rel；<code>store</code> 不能用 consume、acquire 或 acq_rel。</p><p><strong>release 与 acquire 只有实际接上才同步</strong>：必须作用于同一个原子对象，且 acquire 读取到相应 release 写入的值，或者读取到由它起始的 release sequence 中的值。不是任意两个写着这两个单词的操作都能配对。</p><p>本文只用一次发布来避免复杂性。C++20 中，release sequence 是该对象修改顺序中，以 release 操作为首、后续全部由原子读改写组成的最长连续序列；中间插入普通原子 store 就会截断，单纯 load 不属于修改，不截断它；不能照搬旧教材中“同线程普通原子 store 也可延续该序列”的说法（P0982R1 提案有意收窄了这一定义，属于对旧规则的破坏性修改，旧代码若依赖被删去的延续规则会失去同步保证）。严格规则见 <a href=https://timsong-cpp.github.io/cppwp/n4861/atomics.order>C++20 内存序</a>。</p><h3 id=84-用一次发布证明-acquirerelease><a class=header-anchor href=#84-%e7%94%a8%e4%b8%80%e6%ac%a1%e5%8f%91%e5%b8%83%e8%af%81%e6%98%8e-acquirerelease></a>8.4 用一次发布证明 acquire/release</h3><p><strong>示例 16</strong>：发布初始化后的普通数据。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * @file example16.cpp
+</span></span></span><span class=line><span class=cl><span class=cm> * @brief acquire/release 发布协议：用一对内存序操作安全发布普通（非原子）数据。
+</span></span></span><span class=line><span class=cl><span class=cm> * @details 生产者先写 payload，再以 release 存储 ready；消费者用 acquire 读到 true，
+</span></span></span><span class=line><span class=cl><span class=cm> *          与 release 构成 synchronizes-with，随后安全读取 payload。
+</span></span></span><span class=line><span class=cl><span class=cm> *          预期输出 42。对应正文 §8.4。
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;atomic&gt;</span><span class=cp>   </span><span class=c1>// std::atomic / std::memory_order_release / std::memory_order_acquire
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;cassert&gt;</span><span class=cp>  </span><span class=c1>// assert：验证读到的数据
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp> </span><span class=c1>// std::cout
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;thread&gt;</span><span class=cp>   </span><span class=c1>// std::jthread / std::this_thread::yield
+</span></span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * @brief 程序入口：演示&#34;写数据 → 发布标记 → 观察标记 → 读数据&#34;的同步链。
+</span></span></span><span class=line><span class=cl><span class=cm> * @return 隐式返回 0。
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>payload</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>                <span class=c1>// 普通数据：由 ready 的发布协议保护，而非自身原子
+</span></span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>atomic</span><span class=o>&lt;</span><span class=kt>bool</span><span class=o>&gt;</span> <span class=n>ready</span><span class=p>{</span><span class=nb>false</span><span class=p>};</span> <span class=c1>// 发布标记：false → true 只发生一次
+</span></span></span><span class=line><span class=cl>    <span class=cm>/** @brief 生产者写一次 payload 后 release 发布，此后不再覆盖。 */</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>jthread</span> <span class=n>producer</span><span class=p>([</span><span class=o>&amp;</span><span class=p>]</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>payload</span> <span class=o>=</span> <span class=mi>42</span><span class=p>;</span>                                 <span class=c1>// ① 先写数据（线程内 sequenced-before ②）
+</span></span></span><span class=line><span class=cl>        <span class=n>ready</span><span class=p>.</span><span class=n>store</span><span class=p>(</span><span class=nb>true</span><span class=p>,</span> <span class=n>std</span><span class=o>::</span><span class=n>memory_order_release</span><span class=p>);</span> <span class=c1>// ② release 发布：① 的写入随标记一起可见
+</span></span></span><span class=line><span class=cl>        <span class=c1>// 发布后不再修改 payload，本例只交付一次。
+</span></span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>while</span> <span class=p>(</span><span class=o>!</span><span class=n>ready</span><span class=p>.</span><span class=n>load</span><span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>memory_order_acquire</span><span class=p>))</span> <span class=p>{</span> <span class=c1>// ③ acquire 观察：读到 true 即与 ② 配对同步
+</span></span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>this_thread</span><span class=o>::</span><span class=n>yield</span><span class=p>();</span> <span class=c1>// 只是调度提示；真正同步来自读到 true 的 acquire
+</span></span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>const</span> <span class=kt>int</span> <span class=n>value</span> <span class=o>=</span> <span class=n>payload</span><span class=p>;</span> <span class=c1>// 有意放在 join 之前，依靠发布协议保证安全（①→②→③→④ 链条）
+</span></span></span><span class=line><span class=cl>    <span class=n>producer</span><span class=p>.</span><span class=n>join</span><span class=p>();</span>           <span class=c1>// 回收线程；此处只为寿命管理，同步已由发布协议建立
+</span></span></span><span class=line><span class=cl>    <span class=n>assert</span><span class=p>(</span><span class=n>value</span> <span class=o>==</span> <span class=mi>42</span><span class=p>);</span> <span class=c1>// 验证 acquire 发布链保护的普通数据读取
+</span></span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>value</span> <span class=o>&lt;&lt;</span> <span class=sc>&#39;\n&#39;</span><span class=p>;</span> <span class=c1>// 输出 42
+</span></span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>证明分为三步：</p><ol><li>写 <code>payload</code> 在线程内先于 release store。</li><li>初始值是 false，只有生产者写 true，因此读到 true 的 acquire 必定读到了该次发布。</li><li>该 acquire 先于读 <code>payload</code>，串起 happens-before，因此普通整数的读写没有数据竞争。</li></ol><p>错误示例，请勿照搬（片段，表示对示例 16 的错误替换）：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * @warning 故意错误的示例片段：把示例 16 的 release/acquire 换成 relaxed，发布同步边消失。
+</span></span></span><span class=line><span class=cl><span class=cm> * @details 原子标记自身仍然安全，但它不再把 payload 的写入&#34;运送&#34;给消费者；
+</span></span></span><span class=line><span class=cl><span class=cm> *          普通整数的冲突访问缺少 happens-before → 数据竞争，未定义行为。
+</span></span></span><span class=line><span class=cl><span class=cm> *          &#34;在某台处理器上经常有效&#34;不是修复。正确写法见示例 16。
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=n>ready</span><span class=p>.</span><span class=n>store</span><span class=p>(</span><span class=nb>true</span><span class=p>,</span> <span class=n>std</span><span class=o>::</span><span class=n>memory_order_relaxed</span><span class=p>);</span> <span class=c1>// 故意错误：不再为普通 payload 建立发布同步
+</span></span></span><span class=line><span class=cl><span class=c1>// 消费者也使用 ready.load(std::memory_order_relaxed)，随后读取 payload。
+</span></span></span></code></pre></td></tr></table></div></div><p>原子标记本身安全，但它不再建立数据发布的同步，普通 <code>payload</code> 的冲突访问缺少 happens-before，产生未定义行为。某个处理器上“经常有效”不能修复 C++ 层面的错误。</p><p>本例弱内存序是为展示同步边而使用，<strong>不是经测量后的性能建议</strong>；保留默认 seq_cst 同样正确。实际等待时间可能较长时应使用条件变量；忙等与 yield 不保证公平性或有界响应时间。C++20 还提供原子 <code>wait/notify</code>，旧工具链的缺失记录见上篇 §2.2；本文仍用条件变量统一等待协议。</p><p>不能把 <code>ready</code> 简单清回 false，就把一次发布协议扩展成反复传输：生产者可能在消费者还读旧数据时覆盖它。多轮交接要补充消费确认、互斥或队列协议。</p><h3 id=85-seq_cst-保证什么不保证什么><a class=header-anchor href=#85-seq_cst-%e4%bf%9d%e8%af%81%e4%bb%80%e4%b9%88%e4%b8%8d%e4%bf%9d%e8%af%81%e4%bb%80%e4%b9%88></a>8.5 <code>seq_cst</code> 保证什么，不保证什么</h3><p>如果程序没有数据竞争，相关原子操作全部采用 seq_cst，可以用“所有原子操作按一个与各线程顺序一致的全局顺序交错”的方式推理。这个全序不是给整段函数加锁，也不保证多个 load 构成同一时刻的快照，更不保证实时调度或读取某个墙钟时刻的“最新值”。</p><p>例如 x、y 初始为 0，两个线程都使用 seq_cst：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>线程 A：x.store(1) → rA = y.load()
+</span></span><span class=line><span class=cl>线程 B：y.store(1) → rB = x.load()
+</span></span></code></pre></td></tr></table></div></div><p>不能同时得到 <code>rA == 0</code> 与 <code>rB == 0</code>：那要求两个 load 各自排在对方的 store 前面，与线程内顺序一起构成不可能的环。若改成 relaxed，这种结果是允许的；即使改成 release store 和 acquire load，读到初始 0 时也没有接上对方的发布，仍不能排除该结果。</p><p>混合弱内存序与 seq_cst 后，不能再把“全局交错”套用到所有操作；正式约束更细。没有明确的性能需求时，保持默认内存序比零散削弱操作更容易证明正确。seq_cst 不会修复未受保护的普通数据访问、悬空引用或业务操作被拆分的问题。</p><h3 id=86-什么时候-relaxed-已经足够><a class=header-anchor href=#86-%e4%bb%80%e4%b9%88%e6%97%b6%e5%80%99-relaxed-%e5%b7%b2%e7%bb%8f%e8%b6%b3%e5%a4%9f></a>8.6 什么时候 relaxed 已经足够</h3><p>示例 15 如果只要求独立计数，并在所有线程 join 后读取最终值，可以把其中 <code>fetch_add</code> 和最终 <code>load</code> 改为 relaxed：原子读改写防止丢更新，join 负责线程结束后的同步，计数器本身不发布其他业务数据。</p><p>这是一份正确性论证，不是速度保证；是否值得改需要测量。不要把这个结论推广成“看到计数达到 N，就能直接读取 N 个普通结果”：如果把计数当作就绪信号，又需要独立证明数据发布。</p><h3 id=87-cas如果还没变就替换><a class=header-anchor href=#87-cas%e5%a6%82%e6%9e%9c%e8%bf%98%e6%b2%a1%e5%8f%98%e5%b0%b1%e6%9b%bf%e6%8d%a2></a>8.7 CAS：如果还没变，就替换</h3><p>CAS 即 compare-and-swap，在 C++ 中由 <code>compare_exchange_weak/strong</code> 提供。理解 <code>expected</code> 是关键：它既是输入，也可能被修改。</p><table><thead><tr><th>结果</th><th>原子对象</th><th><code>expected</code></th></tr></thead><tbody><tr><td>成功，返回 true</td><td>写入 desired</td><td>保留本次比较用的值</td></tr><tr><td>失败，返回 false</td><td>不执行本次写入</td><td>更新为此次观察到的原子值</td></tr></tbody></table><p><code>weak</code> 允许伪失败：即使比较相等，也可能报告失败，因此通常放在循环中。<code>strong</code> 没有这种伪失败，但其他线程修改值仍会令它失败。CAS 比较不是调用自定义 <code>operator==</code>；本文使用简单整数，避免复杂表示问题。</p><p><strong>示例 17</strong>：库存大于零时才扣减。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * @file example17.cpp
+</span></span></span><span class=line><span class=cl><span class=cm> * @brief CAS 重试循环：库存大于零时才原子扣减，演示 expected/desired 的正确用法。
+</span></span></span><span class=line><span class=cl><span class=cm> * @details 两个线程竞争扣减 100 件库存；compare_exchange_weak 失败时自动把 expected
+</span></span></span><span class=line><span class=cl><span class=cm> *          更新为刚观察到的值，每轮重新计算目标值，因此不会扣成负数、总量守恒。
+</span></span></span><span class=line><span class=cl><span class=cm> *          预期输出 100（两线程各自拿到多少不确定）。对应正文 §8.7。
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;array&gt;</span><span class=cp>    </span><span class=c1>// std::array：各线程独立的计数槽位
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;atomic&gt;</span><span class=cp>   </span><span class=c1>// std::atomic
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;cassert&gt;</span><span class=cp>  </span><span class=c1>// assert：验证总量守恒
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp> </span><span class=c1>// std::cout
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;thread&gt;</span><span class=cp>   </span><span class=c1>// std::jthread
+</span></span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * @brief 尝试原子地扣减一件库存。
+</span></span></span><span class=line><span class=cl><span class=cm> * @param[in,out] stock 共享库存；原子对象，并发访问安全。
+</span></span></span><span class=line><span class=cl><span class=cm> * @retval true 本次扣减已生效。
+</span></span></span><span class=line><span class=cl><span class=cm> * @retval false 库存已为零，未扣减。
+</span></span></span><span class=line><span class=cl><span class=cm> * @note 每轮循环都根据最新的 expected 重新检查前提并计算目标值。
+</span></span></span><span class=line><span class=cl><span class=cm> * @warning 循环体内不得放置付款、发通知等不可重复的副作用（见 §8.7 的重试副作用说明）。
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=kt>bool</span> <span class=nf>take_one</span><span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>atomic</span><span class=o>&lt;</span><span class=kt>int</span><span class=o>&gt;&amp;</span> <span class=n>stock</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>expected</span> <span class=o>=</span> <span class=n>stock</span><span class=p>.</span><span class=n>load</span><span class=p>();</span> <span class=c1>// 首次猜测：读到多少就以多少为基准
+</span></span></span><span class=line><span class=cl>    <span class=k>while</span> <span class=p>(</span><span class=n>expected</span> <span class=o>&gt;</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>       <span class=c1>// 前提检查：只在大于零时尝试扣减
+</span></span></span><span class=line><span class=cl>        <span class=c1>// 每轮都根据最新 expected 计算目标，默认内存序简化论证。
+</span></span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>stock</span><span class=p>.</span><span class=n>compare_exchange_weak</span><span class=p>(</span><span class=n>expected</span><span class=p>,</span> <span class=n>expected</span> <span class=o>-</span> <span class=mi>1</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=nb>true</span><span class=p>;</span> <span class=c1>// 成功：stock 恰好在此刻从 expected 变为 expected - 1
+</span></span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 失败会更新 expected；库存已为零时，下一轮循环条件直接退出。
+</span></span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nb>false</span><span class=p>;</span> <span class=c1>// 库存耗尽
+</span></span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * @brief 程序入口：两线程竞争消费，验证总量守恒。
+</span></span></span><span class=line><span class=cl><span class=cm> * @return 隐式返回 0。
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>atomic</span><span class=o>&lt;</span><span class=kt>int</span><span class=o>&gt;</span> <span class=n>stock</span><span class=p>{</span><span class=mi>100</span><span class=p>};</span> <span class=c1>// 共享库存
+</span></span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>array</span><span class=o>&lt;</span><span class=kt>int</span><span class=p>,</span> <span class=mi>2</span><span class=o>&gt;</span> <span class=n>taken</span><span class=p>{};</span>  <span class=c1>// taken[i] 只由线程 i 写，无需额外同步
+</span></span></span><span class=line><span class=cl>    <span class=cm>/** @brief 反复扣减库存。 @param index 当前线程独占的数组槽位，本例为 0 或 1。 */</span>
+</span></span><span class=line><span class=cl>    <span class=k>auto</span> <span class=n>consume</span> <span class=o>=</span> <span class=p>[</span><span class=o>&amp;</span><span class=p>](</span><span class=kt>int</span> <span class=n>index</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>while</span> <span class=p>(</span><span class=n>take_one</span><span class=p>(</span><span class=n>stock</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=o>++</span><span class=n>taken</span><span class=p>[</span><span class=n>index</span><span class=p>];</span> <span class=c1>// 每个线程只修改属于自己的元素
+</span></span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>};</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>jthread</span> <span class=n>first</span><span class=p>(</span><span class=n>consume</span><span class=p>,</span> <span class=mi>0</span><span class=p>);</span>  <span class=c1>// index 按值传入线程
+</span></span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>jthread</span> <span class=n>second</span><span class=p>(</span><span class=n>consume</span><span class=p>,</span> <span class=mi>1</span><span class=p>);</span> <span class=c1>// 第二个线程只写 taken[1]，库存通过 CAS 共享
+</span></span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=c1>// join 回收两个线程
+</span></span></span><span class=line><span class=cl>    <span class=n>assert</span><span class=p>(</span><span class=n>stock</span><span class=p>.</span><span class=n>load</span><span class=p>()</span> <span class=o>==</span> <span class=mi>0</span><span class=p>);</span>              <span class=c1>// 库存恰好扣完
+</span></span></span><span class=line><span class=cl>    <span class=n>assert</span><span class=p>(</span><span class=n>taken</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=o>+</span> <span class=n>taken</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=o>==</span> <span class=mi>100</span><span class=p>);</span>     <span class=c1>// 总量守恒：不多不少
+</span></span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>taken</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=o>+</span> <span class=n>taken</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=o>&lt;&lt;</span> <span class=sc>&#39;\n&#39;</span><span class=p>;</span> <span class=c1>// 输出 100
+</span></span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>输出 <code>100</code>，各线程分别拿到多少不确定。成功的 CAS 是扣减生效的唯一时刻：只有仍等于正数 expected 时才会写入 expected 减一，因此不会扣成负数。</p><p>错误示例，请勿照搬（片段）：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * @warning 故意错误的示例片段：desired 在循环外只算一次，重试时使用过时的目标值。
+</span></span></span><span class=line><span class=cl><span class=cm> * @details compare_exchange_weak 失败会把 expected 更新为最新观察值，但 desired 不会
+</span></span></span><span class=line><span class=cl><span class=cm> *          自动重算；竞争后可能把&#34;旧 expected - 1&#34;写回，覆盖其他线程的扣减成果。
+</span></span></span><span class=line><span class=cl><span class=cm> *          这是逻辑错误，通常不是对原子 stock 的数据竞争。
+</span></span></span><span class=line><span class=cl><span class=cm> * @see 正确写法见示例 17：每轮重新检查前提并计算 desired。
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=n>expected</span> <span class=o>=</span> <span class=n>stock</span><span class=p>.</span><span class=n>load</span><span class=p>();</span> <span class=c1>// 读取首次比较的库存值；后续失败会覆盖 expected
+</span></span></span><span class=line><span class=cl><span class=kt>int</span> <span class=n>desired</span> <span class=o>=</span> <span class=n>expected</span> <span class=o>-</span> <span class=mi>1</span><span class=p>;</span> <span class=c1>// 错误：只计算一次，之后不再随 expected 更新
+</span></span></span><span class=line><span class=cl><span class=k>while</span> <span class=p>(</span><span class=o>!</span><span class=n>stock</span><span class=p>.</span><span class=n>compare_exchange_weak</span><span class=p>(</span><span class=n>expected</span><span class=p>,</span> <span class=n>desired</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 错误：expected 可能改变，desired 却仍然使用第一次计算的值。
+</span></span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>这可能在竞争后写入过时结果，造成逻辑错误，通常不是对原子 stock 的数据竞争。修复是像示例 17 一样每轮重新检查前提并计算 desired。重试体也不能执行付款、发送通知等不可重复副作用；这些应在操作成功之后执行。</p><p>如需显式内存序，CAS 有成功序和失败序：成功是读改写，失败只是读，因此失败序不能是 release 或 acq_rel。旧版“失败序不得强于成功序”的前置条件自 C++17 起已经移除，不应把它当作 C++20 规则；成功序用于读改写，失败序仍须是合法读取序。工程上采用熟悉且已论证的组合，如 acq_rel/acquire 或 release/relaxed；这里使用默认值，不需要手动搭配。单内存序重载会自动调整失败序：acq_rel 对应 acquire，release 对应 relaxed。具体规定见 <a href=https://timsong-cpp.github.io/cppwp/n4861/atomics.types.operations>C++20 原子操作</a>。</p><p>CAS 不意味着整个算法 lock-free，更不意味着某个线程不会饥饿。若值经历 A→B→A，CAS 可能看不出中间变化，这称为 ABA；涉及指针时还要处理对象回收和悬空访问。不建议从这个整数例子直接跳到自制无锁链表。</p><p>缓解 ABA 的常见思路是 <strong>tagged pointer（标记指针）</strong>：把指针与版本号作为同一个原子对象一起比较和更新。A → B → A 时，只要版本号没有回绕，CAS 就能发现变化。有限位数的标签可能回绕，必须证明旧观察仍在使用时不会复用同一标签。分开更新一个普通计数器与一个原子指针不能提供这个保证；宽 CAS 的可用性、是否 lock-free 及指针位编码都取决于实现，不能假定 64 位机器自动支持。</p><p>ABA 检测和对象寿命是两件事。<code>shared_ptr</code> 的所有权可以延长对象寿命，但共享指针变量自身仍需同步，且引用计数不能泛化为消除所有逻辑 ABA。hazard pointer（风险指针）通过发布正在访问的节点并复核，阻止相应节点过早回收；epoch reclamation（基于时期的回收）等待旧访问者越过安全时期再释放节点。它们需要完整的回收协议，也不自动解决所有业务状态的 A → B → A。本节只建立边界，不实现无锁链表。</p><h3 id=88-stdatomic_flag-与自旋锁的边界><a class=header-anchor href=#88-stdatomic_flag-%e4%b8%8e%e8%87%aa%e6%97%8b%e9%94%81%e7%9a%84%e8%be%b9%e7%95%8c></a>8.8 <code>std::atomic_flag</code> 与自旋锁的边界</h3><p><code>std::atomic_flag</code> 提供保证 lock-free 的标志操作。<code>test_and_set()</code> 原子地设为 true，并返回原值；<code>clear()</code> 清为 false。以下正确片段只展示锁协议（已包含 <code>&lt;atomic></code>、<code>&lt;mutex></code>、<code>&lt;thread></code>）：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * @brief 用原子标志演示最小自旋锁协议。
+</span></span></span><span class=line><span class=cl><span class=cm> * @note 锁对象应先于访问者构造，后于全部访问者销毁；只适合极短的临界区。
+</span></span></span><span class=line><span class=cl><span class=cm> * @warning 非递归、无公平性保证；原子标志 lock-free 不意味着这把锁的算法 lock-free。
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>SpinLock</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=cm>/** @brief 忙等到取得独占权；成功 acquire 接收前任持有者 release 发布的写入。 */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=n>lock</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>while</span> <span class=p>(</span><span class=n>flag_</span><span class=p>.</span><span class=n>test_and_set</span><span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>memory_order_acquire</span><span class=p>))</span> <span class=p>{</span> <span class=c1>// 原值 true 表示已有持有者
+</span></span></span><span class=line><span class=cl>            <span class=n>std</span><span class=o>::</span><span class=n>this_thread</span><span class=o>::</span><span class=n>yield</span><span class=p>();</span> <span class=c1>// 调度提示；不保证让持锁线程运行，也不负责同步
+</span></span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=cm>/** @brief 发布临界区写入并释放锁。 @pre 当前线程持有此锁。 */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=nf>unlock</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>flag_</span><span class=p>.</span><span class=n>clear</span><span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>memory_order_release</span><span class=p>);</span> <span class=c1>// 后继成功 acquire 与此次释放建立同步
+</span></span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>atomic_flag</span> <span class=n>flag_</span><span class=p>{};</span> <span class=c1>///&lt; false 表示空闲；C++20 起默认构造即清零（旧的 ATOMIC_FLAG_INIT 写法仍兼容，已非必需）
+</span></span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><p>使用时用具名 <code>std::lock_guard&lt;SpinLock></code> 管理，避免异常路径忘记解锁。持锁者被抢占时，等待者仍消耗 CPU；高竞争还会制造缓存一致性流量。单核、过量线程、慢 I/O、长临界区或阻塞操作都不适合这类自旋锁，普通 <code>std::mutex</code> 通常更合适。C++20 的 <code>atomic_flag::test()</code> 可只观察标志；原子等待属于另一种等待实现，应在目标工具链上实际探测支持情况。</p><h2 id=9-c20-的取消与协调工具><a class=header-anchor href=#9-c20-%e7%9a%84%e5%8f%96%e6%b6%88%e4%b8%8e%e5%8d%8f%e8%b0%83%e5%b7%a5%e5%85%b7></a>9. C++20 的取消与协调工具</h2><h3 id=91-协作式取消请求检查安全退出><a class=header-anchor href=#91-%e5%8d%8f%e4%bd%9c%e5%bc%8f%e5%8f%96%e6%b6%88%e8%af%b7%e6%b1%82%e6%a3%80%e6%9f%a5%e5%ae%89%e5%85%a8%e9%80%80%e5%87%ba></a>9.1 协作式取消：请求、检查、安全退出</h3><p>取消不是从外部强行截断一条线程。线程可能正在持锁、修改多个字段或管理文件资源，强行终止会留下半完成状态。</p><p>C++20 提供一组共享停止状态的句柄：</p><ul><li><code>stop_source</code>：拥有发出停止请求的能力，调用 <code>request_stop()</code>。</li><li><code>stop_token</code>：观察请求，调用 <code>stop_requested()</code>；可复制给相关任务。</li><li><code>stop_callback</code>：注册请求发生时执行的回调。</li></ul><p><code>jthread</code> 自带停止源。如果线程函数可以接受注入的 token，它会把 token 作为第一个参数传入。请求是一次性的，不能把同一个停止状态重置成“没有请求”；新一轮工作通常需要新状态。</p><p><img src=/img/cpp-concurrency-09-stop-token.drawio.png alt=cpp-concurrency-09-stop-token.drawio></p><p>图 9-1：协作式取消的数据流。请求写入共享停止状态；任务在安全点轮询 token，或经 stop_callback 被动响应；两条路径都要求线程自己完成清理后退出。</p><p>长计算应在合理的安全点检查 token，例如处理每一批数据后。检查太少影响响应，太频繁也可能增加开销。普通 <code>sleep_for()</code>、阻塞 I/O 和 <code>condition_variable::wait()</code> 不会仅因 token 被请求就自动醒来。</p><p><strong>停止句柄的接口一览</strong>：</p><table><thead><tr><th>接口</th><th>作用</th><th>注意事项</th></tr></thead><tbody><tr><td><code>stop_source::request_stop()</code></td><td>向共享停止状态发出一次停止请求</td><td>仅当本次调用首次发出请求时返回 true；未关联状态或已请求过返回 false</td></tr><tr><td><code>stop_source::get_token()</code></td><td>取得观察该状态的 <code>stop_token</code></td><td>可复制分发给任意数量的任务或回调</td></tr><tr><td><code>stop_token::stop_requested()</code></td><td>查询关联状态是否已收到停止请求</td><td>成功返回 true 的 <code>request_stop()</code> 与关联查询返回 true 建立同步；查询 false 不建立这条边，也不保证随后仍无请求</td></tr><tr><td><code>stop_token::stop_possible()</code></td><td>是否已收到请求，或仍可能通过关联 source 收到请求</td><td>无状态，或者尚未请求且已无关联 <code>stop_source</code> 时为 false；仅有 token 持有状态不够</td></tr><tr><td><code>stop_callback&lt;Fn>(token, fn)</code></td><td>状态被请求时执行一次 <code>fn</code></td><td>已请求则在注册线程立即执行；否则可能在请求线程中同步执行，见 §9.2 的注意事项</td></tr></tbody></table><p>停止查询的同步规则见 <a href=https://timsong-cpp.github.io/cppwp/n4861/thread.stoptoken.intro>C++20 停止状态</a>，可行性规则见 <a href=https://timsong-cpp.github.io/cppwp/n4861/stoptoken#stoptoken.mem>stop_token 成员</a>。这不代表查询能保护整个业务事务，也不代表请求后线程已经退出；回收线程仍需 join。</p><h3 id=92-等待中的线程也必须能退出><a class=header-anchor href=#92-%e7%ad%89%e5%be%85%e4%b8%ad%e7%9a%84%e7%ba%bf%e7%a8%8b%e4%b9%9f%e5%bf%85%e9%a1%bb%e8%83%bd%e9%80%80%e5%87%ba></a>9.2 等待中的线程也必须能退出</h3><p><code>condition_variable_any</code> 可配合满足基本加锁要求的锁类型；这里使用它，主要是为了让等待同时响应停止请求。C++20 的三个可中断等待重载如下，<code>stop_token</code> 都紧跟在锁参数后：</p><table><thead><tr><th>重载</th><th>等待边界</th></tr></thead><tbody><tr><td><code>wait(lock, token, pred)</code></td><td>条件成立或收到停止请求</td></tr><tr><td><code>wait_for(lock, token, rel_time, pred)</code></td><td>再加相对超时预算</td></tr><tr><td><code>wait_until(lock, token, abs_time, pred)</code></td><td>再加绝对截止时间</td></tr></tbody></table><p>三者都必须带谓词，<strong>不存在</strong>不带谓词的 <code>wait(lock, token)</code> 重载。返回值均为返回前谓词的最新求值结果（bool），不是唤醒原因的枚举；返回时重新持有锁。示例 18 用业务状态判断这次应继续工作还是退出。</p><p><strong>示例 18</strong>：取消正在等待、或者尚未开始等待的线程。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * @file example18.cpp
+</span></span></span><span class=line><span class=cl><span class=cm> * @brief 协作式取消：condition_variable_any 的可中断等待 + jthread 停止请求。
+</span></span></span><span class=line><span class=cl><span class=cm> * @details 主线程 request_stop 时工作线程可能尚未开始等待；停止状态持久存在不会丢失，
+</span></span></span><span class=line><span class=cl><span class=cm> *          可中断等待检测到后返回谓词当前值 false，线程安全退出。
+</span></span></span><span class=line><span class=cl><span class=cm> *          预期输出 &#34;cancelled&#34;。对应正文 §9.2。
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;cassert&gt;</span><span class=cp>            </span><span class=c1>// assert：验证取消路径
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;condition_variable&gt;</span><span class=cp> </span><span class=c1>// std::condition_variable_any：提供接受 stop_token 的等待重载
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>           </span><span class=c1>// std::cout
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;mutex&gt;</span><span class=cp>              </span><span class=c1>// std::mutex / std::unique_lock
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;stop_token&gt;</span><span class=cp>         </span><span class=c1>// std::stop_token
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;thread&gt;</span><span class=cp>             </span><span class=c1>// std::jthread
+</span></span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * @brief 程序入口：取消一个正在等待（或尚未开始等待）的线程。
+</span></span></span><span class=line><span class=cl><span class=cm> * @return 隐式返回 0。
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>mutex</span> <span class=n>mutex</span><span class=p>;</span>               <span class=c1>// 保护 work_ready 与 cancelled
+</span></span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>condition_variable_any</span> <span class=n>cv</span><span class=p>;</span> <span class=c1>// 可中断等待需要 any 版本的重载
+</span></span></span><span class=line><span class=cl>    <span class=kt>bool</span> <span class=n>work_ready</span> <span class=o>=</span> <span class=nb>false</span><span class=p>;</span>        <span class=c1>// 本例永不就绪：只演示取消路径
+</span></span></span><span class=line><span class=cl>    <span class=kt>bool</span> <span class=n>cancelled</span> <span class=o>=</span> <span class=nb>false</span><span class=p>;</span>         <span class=c1>// 工作线程写、主线程读（由 join 建立同步）
+</span></span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/** @brief 在工作线程内等待任务或停止。 @param token jthread 注入的共享停止状态观察句柄。 */</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>jthread</span> <span class=n>worker</span><span class=p>([</span><span class=o>&amp;</span><span class=p>](</span><span class=n>std</span><span class=o>::</span><span class=n>stop_token</span> <span class=n>token</span><span class=p>)</span> <span class=p>{</span> <span class=c1>// jthread 自动把停止令牌作为首参注入
+</span></span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>unique_lock</span><span class=o>&lt;</span><span class=n>std</span><span class=o>::</span><span class=n>mutex</span><span class=o>&gt;</span> <span class=n>lock</span><span class=p>(</span><span class=n>mutex</span><span class=p>);</span> <span class=c1>// 取得 mutex；可在 wait 期间暂时释放并重新取得
+</span></span></span><span class=line><span class=cl>        <span class=c1>// 谓词为假且未被停止 → 等待；停止请求到达 → 唤醒并重新检查，返回谓词当前值。
+</span></span></span><span class=line><span class=cl>        <span class=cm>/** @brief 持 mutex 检查业务条件。 @return work_ready；停止本身不把此谓词变为 true。 */</span>
+</span></span><span class=line><span class=cl>        <span class=k>const</span> <span class=kt>bool</span> <span class=n>has_work</span> <span class=o>=</span> <span class=n>cv</span><span class=p>.</span><span class=n>wait</span><span class=p>(</span><span class=n>lock</span><span class=p>,</span> <span class=n>token</span><span class=p>,</span> <span class=p>[</span><span class=o>&amp;</span><span class=p>]</span> <span class=p>{</span> <span class=k>return</span> <span class=n>work_ready</span><span class=p>;</span> <span class=p>});</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>has_work</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=c1>// 返回值反映谓词；本例没有发布任务，所以 false 表示因停止退出。
+</span></span></span><span class=line><span class=cl>            <span class=n>cancelled</span> <span class=o>=</span> <span class=nb>true</span><span class=p>;</span> <span class=c1>// 在临界区内记录退出原因
+</span></span></span><span class=line><span class=cl>            <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl>    <span class=n>worker</span><span class=p>.</span><span class=n>request_stop</span><span class=p>();</span> <span class=c1>// 即使在线程开始等待前调用，停止状态也不会丢失
+</span></span></span><span class=line><span class=cl>    <span class=n>worker</span><span class=p>.</span><span class=n>join</span><span class=p>();</span>         <span class=c1>// 等待线程响应停止并退出
+</span></span></span><span class=line><span class=cl>    <span class=n>assert</span><span class=p>(</span><span class=n>cancelled</span><span class=p>);</span> <span class=c1>// join 后验证工作线程已响应停止并退出
+</span></span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;cancelled</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>;</span> <span class=c1>// 输出本例已验证的取消结果
+</span></span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>输出 <code>cancelled</code>。<code>work_ready</code> 始终为 false，只有工作线程写 <code>cancelled</code>，主线程 join 后读取。停止请求与谓词同时成立时，等待结果仍根据谓词决定；真实队列必须规定“有任务时先处理”还是“停止优先”，不能从一个 bool 猜出业务策略。可中断等待的定义见 <a href=https://timsong-cpp.github.io/cppwp/n4861/thread.condvarany.intwait>C++20 condition_variable_any</a>。</p><p><code>stop_callback</code> 可能在调用 <code>request_stop()</code> 的线程中同步执行；注册时如果已经请求停止，回调会在注册线程中、注册返回前立即执行。回调对象析构还可能等待另一线程正在执行的该回调；持有回调所需锁时销毁回调也可能死锁。因此回调要短，且绝不能抛出异常（逃出回调的异常会导致 <code>std::terminate()</code>），也不要在持有回调需要的锁时请求停止，否则可能死锁。通常应优先使用上面的标准等待重载，避免自己拼装容易丢通知的回调协议。</p><p><code>jthread</code> 析构会请求停止再等待，但以下情况仍会卡住：函数完全不检查 token；线程等在不支持取消的操作上；退出需要一把当前析构者持有的锁。多个相互依赖的 jthread 通常应<strong>先向全部线程请求停止，再逐个 join</strong>，而不是指望依次析构自动解决互相等待。</p><h3 id=93-semaphore保存许可数量><a class=header-anchor href=#93-semaphore%e4%bf%9d%e5%ad%98%e8%ae%b8%e5%8f%af%e6%95%b0%e9%87%8f></a>9.3 semaphore：保存许可数量</h3><p>条件变量通知不积累；信号量保存一个许可计数。<code>acquire()</code> 在计数为零时等待，否则减一；<code>release()</code> 增加许可并使等待者有机会继续。<code>binary_semaphore</code> 适合最多一个许可的交接，<code>counting_semaphore&lt;N></code> 用于多个许可，N 是所需最大值的下界，不应把它误读为所有实现的精确上限。</p><p>信号量没有 mutex 那样的线程所有权，允许一线程 acquire、另一线程 release。它适合限制同时使用某资源的任务数或交付可用项数量；不能自动保护任意容器结构。不得 release 到超过允许的最大计数，等待者也不保证公平；<code>try_acquire()</code> 允许伪失败。</p><p><strong><code>counting_semaphore&lt;N></code> 的接口一览</strong>（<code>binary_semaphore</code> 即 <code>counting_semaphore&lt;1></code>）：</p><table><thead><tr><th>接口</th><th>作用</th><th>注意事项</th></tr></thead><tbody><tr><td>构造函数 <code>counting_semaphore(n)</code></td><td>以 <code>n</code> 个初始许可创建</td><td>要求 <code>0 &lt;= n &lt;= max()</code>；不可复制、不可移动</td></tr><tr><td><code>acquire()</code></td><td>许可减一；计数为零时阻塞至可用</td><td>获取观察到某次 release 的效果时建立相应同步；初始许可不对应 release，示例 19 的数据交接依赖后续 release</td></tr><tr><td><code>try_acquire()</code></td><td>不阻塞地尝试减一，返回是否成功</td><td>允许伪失败：即使计数为正也可能返回 false；返回 false 时未取得许可</td></tr><tr><td><code>try_acquire_for(d)</code> / <code>try_acquire_until(t)</code></td><td>在限定时长或时刻内等待许可</td><td>超时返回 false；超时不是实时返回保证</td></tr><tr><td><code>release(update = 1)</code></td><td>许可增加 <code>update</code> 个</td><td>前置条件：<code>update >= 0</code> 且释放后计数不超过 <code>max()</code>，违反是未定义行为；任意线程都可释放</td></tr><tr><td><code>max()</code>（静态）</td><td>返回实现支持的最大计数</td><td>至少为模板参数 <code>N</code>；<code>N</code> 只是“最小上限”，实际可以更大</td></tr></tbody></table><p><strong>示例 19</strong>：单槽交接三份数据。该例需要实现了 <code>&lt;semaphore></code> 的 C++20 标准库。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * @file example19.cpp
+</span></span></span><span class=line><span class=cl><span class=cm> * @brief binary_semaphore 单槽交接：生产者写一份、消费者读一份，重复三轮。
+</span></span></span><span class=line><span class=cl><span class=cm> * @details empty（初值 1）许可生产者写入，full（初值 0）许可消费者读取；两个方向的
+</span></span></span><span class=line><span class=cl><span class=cm> *          许可分别防止&#34;未写完就读&#34;和&#34;未读完就覆盖&#34;，计数始终在 0 与 1 之间。
+</span></span></span><span class=line><span class=cl><span class=cm> *          预期输出 6。对应正文 §9.3。
+</span></span></span><span class=line><span class=cl><span class=cm> * @note 旧 TDM-GCC 10.3 缺少 &lt;semaphore&gt;，GCC 11 起的 libstdc++ 才提供。
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;cassert&gt;</span><span class=cp>   </span><span class=c1>// assert：验证累计结果
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>  </span><span class=c1>// std::cout
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;semaphore&gt;</span><span class=cp> </span><span class=c1>// std::binary_semaphore（C++20；需要较新标准库实现）
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;thread&gt;</span><span class=cp>    </span><span class=c1>// std::jthread
+</span></span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * @brief 程序入口：单槽有界交接。
+</span></span></span><span class=line><span class=cl><span class=cm> * @return 隐式返回 0。
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>binary_semaphore</span> <span class=n>empty</span><span class=p>(</span><span class=mi>1</span><span class=p>);</span> <span class=c1>// 槽空许可：初始时槽为空，生产者可以写一次
+</span></span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>binary_semaphore</span> <span class=n>full</span><span class=p>(</span><span class=mi>0</span><span class=p>);</span>  <span class=c1>// 槽满许可：初始没有可读数据
+</span></span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>slot</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>                   <span class=c1>// 共享单槽：由两个信号量的许可协议保护，无需互斥锁
+</span></span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>sum</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>                    <span class=c1>// 消费者私有累计，join 后由主线程读取
+</span></span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/** @brief 消费者取得槽满许可后读取，归还槽空许可后才允许覆盖。 */</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>jthread</span> <span class=n>consumer</span><span class=p>([</span><span class=o>&amp;</span><span class=p>]</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=mi>3</span><span class=p>;</span> <span class=o>++</span><span class=n>i</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>full</span><span class=p>.</span><span class=n>acquire</span><span class=p>();</span>  <span class=c1>// 取得&#34;槽满&#34;许可：与生产者的 release 同步，slot 可读
+</span></span></span><span class=line><span class=cl>            <span class=n>sum</span> <span class=o>+=</span> <span class=n>slot</span><span class=p>;</span> <span class=c1>// 槽满许可确保数据已发布，消费者独占读取本轮值
+</span></span></span><span class=line><span class=cl>            <span class=n>empty</span><span class=p>.</span><span class=n>release</span><span class=p>();</span> <span class=c1>// 读取结束后才归还&#34;槽空&#34;许可，允许生产者覆盖槽
+</span></span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>value</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span> <span class=n>value</span> <span class=o>&lt;=</span> <span class=mi>3</span><span class=p>;</span> <span class=o>++</span><span class=n>value</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>empty</span><span class=p>.</span><span class=n>acquire</span><span class=p>();</span> <span class=c1>// 取得&#34;槽空&#34;许可：确保上一轮数据已被消费者读走
+</span></span></span><span class=line><span class=cl>        <span class=n>slot</span> <span class=o>=</span> <span class=n>value</span><span class=p>;</span> <span class=c1>// 槽空许可确保上一轮读完，生产者独占写入
+</span></span></span><span class=line><span class=cl>        <span class=n>full</span><span class=p>.</span><span class=n>release</span><span class=p>();</span>  <span class=c1>// 发布 slot，让消费者的对应 acquire 安全接收
+</span></span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=n>consumer</span><span class=p>.</span><span class=n>join</span><span class=p>();</span> <span class=c1>// 回收消费者；此后读取 sum 有同步保证
+</span></span></span><span class=line><span class=cl>    <span class=n>assert</span><span class=p>(</span><span class=n>sum</span> <span class=o>==</span> <span class=mi>6</span><span class=p>);</span> <span class=c1>// 1 + 2 + 3
+</span></span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>sum</span> <span class=o>&lt;&lt;</span> <span class=sc>&#39;\n&#39;</span><span class=p>;</span> <span class=c1>// 预期输出 6
+</span></span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>预期输出 <code>6</code>。两个方向的交接分别防止“未写完就读”和“未读完就覆盖”；计数始终在 0 与 1 之间。一个信号量不够表达这两种所有权转移。多生产者、多消费者队列还涉及槽位索引等共享状态，应另用锁保护。</p><p>真实资源许可应使用作用域守卫确保异常时也归还；本例槽中只进行不会抛业务异常的整数操作。标准规则见 <a href=https://timsong-cpp.github.io/cppwp/n4861/thread.sema>C++20 semaphore</a>。</p><h3 id=94-latch一次性的完成集合><a class=header-anchor href=#94-latch%e4%b8%80%e6%ac%a1%e6%80%a7%e7%9a%84%e5%ae%8c%e6%88%90%e9%9b%86%e5%90%88></a>9.4 latch：一次性的完成集合</h3><p><code>latch</code> 是倒计数门闩：<code>count_down()</code> 表示完成一份工作且不等待，<code>wait()</code> 等计数归零但不减计数；<code>arrive_and_wait()</code> 则先减计数再等待归零。计数不能重置，归零后等待者通过。不能把计数减到零以下。</p><p><strong><code>latch</code> 的接口一览</strong>：</p><table><thead><tr><th>接口</th><th>作用</th><th>注意事项</th></tr></thead><tbody><tr><td>构造函数 <code>latch(n)</code></td><td>以计数 <code>n</code> 创建</td><td>要求 <code>0 &lt;= n &lt;= max()</code>；一次性，不可重置、不可复制</td></tr><tr><td><code>count_down(update = 1)</code></td><td>计数减 <code>update</code>，不等待</td><td>各线程在各自 <code>count_down</code> 之前完成的写入，对因计数归零而通过等待的线程可见；前置条件 <code>update >= 0</code> 且不超过当前计数，违反是未定义行为</td></tr><tr><td><code>wait()</code></td><td>阻塞至计数归零</td><td>不消耗计数；计数已为零时立即通过</td></tr><tr><td><code>try_wait()</code></td><td>非阻塞查询计数是否已归零</td><td>返回布尔值，不等待；标准允许以极低概率伪失败返回 false</td></tr><tr><td><code>arrive_and_wait(update = 1)</code></td><td>先减计数，再等归零</td><td>等效于 <code>count_down(update)</code> 后接 <code>wait()</code></td></tr><tr><td><code>max()</code>（静态）</td><td>返回实现支持的最大计数</td><td>仅作能力提示</td></tr></tbody></table><p><strong>示例 20</strong>：等待两个结果准备完成。该例需要实现了 <code>&lt;latch></code> 的 C++20 标准库。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * @file example20.cpp
+</span></span></span><span class=line><span class=cl><span class=cm> * @brief std::latch 一次性完成集合：主线程等两个结果都写好后再求和。
+</span></span></span><span class=line><span class=cl><span class=cm> * @details 两个线程各写一个数组元素并 count_down；主线程 wait 到计数归零，
+</span></span></span><span class=line><span class=cl><span class=cm> *          门闩的同步保证让此前的写入对读取可见。预期输出 42。对应正文 §9.4。
+</span></span></span><span class=line><span class=cl><span class=cm> * @note 旧 TDM-GCC 10.3 缺少 &lt;latch&gt;，GCC 11 起的 libstdc++ 才提供。
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;array&gt;</span><span class=cp>    </span><span class=c1>// std::array：两个结果槽位
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;cassert&gt;</span><span class=cp>  </span><span class=c1>// assert：验证求和结果
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp> </span><span class=c1>// std::cout
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;latch&gt;</span><span class=cp>    </span><span class=c1>// std::latch（C++20；需要较新标准库实现）
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;thread&gt;</span><span class=cp>   </span><span class=c1>// std::jthread
+</span></span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * @brief 程序入口：等待两个并行准备的结果。
+</span></span></span><span class=line><span class=cl><span class=cm> * @return 隐式返回 0。
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>array</span><span class=o>&lt;</span><span class=kt>int</span><span class=p>,</span> <span class=mi>2</span><span class=o>&gt;</span> <span class=n>values</span><span class=p>{};</span> <span class=c1>// 每个元素只由一个线程写，无冲突
+</span></span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>latch</span> <span class=n>ready</span><span class=p>(</span><span class=mi>2</span><span class=p>);</span>         <span class=c1>// 计数 2：等两份工作完成；一次性，不可重置
+</span></span></span><span class=line><span class=cl>    <span class=cm>/** @brief 第一条线程写独占元素后报告到达；不再修改已发布结果。 */</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>jthread</span> <span class=n>first</span><span class=p>([</span><span class=o>&amp;</span><span class=p>]</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>values</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=o>=</span> <span class=mi>20</span><span class=p>;</span> <span class=c1>// 第一条线程只写元素 0，在 count_down 前完成
+</span></span></span><span class=line><span class=cl>        <span class=n>ready</span><span class=p>.</span><span class=n>count_down</span><span class=p>();</span> <span class=c1>// 先写结果再报完成：count_down 前的写入对 wait 通过者可见
+</span></span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl>    <span class=cm>/** @brief 第二条线程写独占元素后报告到达；ready 活到线程退出后。 */</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>jthread</span> <span class=n>second</span><span class=p>([</span><span class=o>&amp;</span><span class=p>]</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>values</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=o>=</span> <span class=mi>22</span><span class=p>;</span> <span class=c1>// 第二条线程只写元素 1，在 count_down 前完成
+</span></span></span><span class=line><span class=cl>        <span class=n>ready</span><span class=p>.</span><span class=n>count_down</span><span class=p>();</span> <span class=c1>// 发布第二份结果并减少门闩计数
+</span></span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl>    <span class=n>ready</span><span class=p>.</span><span class=n>wait</span><span class=p>();</span> <span class=c1>// 计数归零后通过；完成集合的同步保证使下方读取看到之前的写入
+</span></span></span><span class=line><span class=cl>    <span class=k>const</span> <span class=kt>int</span> <span class=n>total</span> <span class=o>=</span> <span class=n>values</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=o>+</span> <span class=n>values</span><span class=p>[</span><span class=mi>1</span><span class=p>];</span> <span class=c1>// wait 已提供同步，此处不必等到 join 才能读
+</span></span></span><span class=line><span class=cl>    <span class=n>first</span><span class=p>.</span><span class=n>join</span><span class=p>();</span>  <span class=c1>// 门闩等待的是进度点而非线程退出，线程仍需回收
+</span></span></span><span class=line><span class=cl>    <span class=n>second</span><span class=p>.</span><span class=n>join</span><span class=p>();</span> <span class=c1>// 回收第二条线程后才销毁 values 与 ready
+</span></span></span><span class=line><span class=cl>    <span class=n>assert</span><span class=p>(</span><span class=n>total</span> <span class=o>==</span> <span class=mi>42</span><span class=p>);</span> <span class=c1>// 验证两份结果合计为 42
+</span></span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>total</span> <span class=o>&lt;&lt;</span> <span class=sc>&#39;\n&#39;</span><span class=p>;</span> <span class=c1>// 预期输出 42
+</span></span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>预期输出 <code>42</code>。门闩等待的是某个进度点，不一定是线程退出；所以线程仍然需要回收。本例计数减少后不再修改结果。若某个任务异常退出而没 count_down，等待可能永久持续，必须在应用协议中处理失败。</p><h3 id=95-barrier重复进行的阶段边界><a class=header-anchor href=#95-barrier%e9%87%8d%e5%a4%8d%e8%bf%9b%e8%a1%8c%e7%9a%84%e9%98%b6%e6%ae%b5%e8%be%b9%e7%95%8c></a>9.5 barrier：重复进行的阶段边界</h3><p><code>barrier</code> 适合参与者固定、工作分轮进行的计算。每个参与者调用 <code>arrive_and_wait()</code>，本阶段参与者都到达后再继续。可以提供不抛异常的完成函数，在阶段切换时执行归并等操作；不要在完成函数中等待需要下一阶段才能完成的工作。</p><p><strong><code>barrier</code> 的接口一览</strong>：</p><table><thead><tr><th>接口</th><th>作用</th><th>注意事项</th></tr></thead><tbody><tr><td>构造函数 <code>barrier(n, f)</code></td><td>以 <code>n</code> 个预期参与者与完成函数 <code>f</code> 创建</td><td>要求 <code>0 &lt;= n &lt;= max()</code>；完成类型须满足 <code>is_nothrow_invocable_v&lt;CompletionFunction&></code>，lambda 应显式 <code>noexcept</code>；省略为空操作；零参与者对象只能销毁</td></tr><tr><td><code>arrive()</code></td><td>报告到达并减少本阶段预期计数，不等待</td><td>要求 <code>0 &lt; update &lt;= 本阶段剩余计数</code>；返回到达令牌并标记 <code>[[nodiscard]]</code></td></tr><tr><td><code>wait(token)</code></td><td>等待令牌对应阶段完成</td><td>令牌必须来自同一 barrier 的当前或紧邻上一阶段</td></tr><tr><td><code>arrive_and_wait()</code></td><td>到达并等待本阶段完成</td><td>等效于 <code>wait(arrive())</code>，最常用的汇合形式</td></tr><tr><td><code>arrive_and_drop()</code></td><td>到达并减少当前及后续阶段的预期计数</td><td>后续阶段正式退出，替代“不告而别”</td></tr><tr><td><code>max()</code>（静态）</td><td>返回实现支持的最大预期计数</td><td>仅作能力提示</td></tr></tbody></table><p><strong>示例 21</strong>：两个参与者，三轮填充与读取。该例需要实现了 <code>&lt;barrier></code> 的 C++20 标准库。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * @file example21.cpp
+</span></span></span><span class=line><span class=cl><span class=cm> * @brief std::barrier 阶段边界：两个参与者三轮&#34;写入 → 汇合 → 读取 → 再汇合&#34;。
+</span></span></span><span class=line><span class=cl><span class=cm> * @details 每轮两次 arrive_and_wait：第一次保证双方本轮写入都完成，第二次保证主线程
+</span></span></span><span class=line><span class=cl><span class=cm> *          读完之后 worker 才开始覆盖下一轮数据。缺第二次屏障会构成数据竞争。
+</span></span></span><span class=line><span class=cl><span class=cm> *          预期输出 18。对应正文 §9.5。
+</span></span></span><span class=line><span class=cl><span class=cm> * @note 旧 TDM-GCC 10.3 缺少 &lt;barrier&gt;，GCC 11 起的 libstdc++ 才提供。
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;array&gt;</span><span class=cp>    </span><span class=c1>// std::array：每线程各写一个元素
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;barrier&gt;</span><span class=cp>  </span><span class=c1>// std::barrier（C++20；需要较新标准库实现）
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;cassert&gt;</span><span class=cp>  </span><span class=c1>// assert：验证累计结果
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp> </span><span class=c1>// std::cout
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;thread&gt;</span><span class=cp>   </span><span class=c1>// std::jthread
+</span></span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * @brief 程序入口：主线程本身也是参与者，只额外创建一个 worker。
+</span></span></span><span class=line><span class=cl><span class=cm> * @return 隐式返回 0。
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>array</span><span class=o>&lt;</span><span class=kt>int</span><span class=p>,</span> <span class=mi>2</span><span class=o>&gt;</span> <span class=n>values</span><span class=p>{};</span> <span class=c1>// values[0] 由主线程写，values[1] 由 worker 写
+</span></span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>barrier</span><span class=o>&lt;&gt;</span> <span class=n>phase</span><span class=p>(</span><span class=mi>2</span><span class=p>);</span> <span class=c1>// 主线程也是参与者，只额外创建一个线程
+</span></span></span><span class=line><span class=cl>    <span class=cm>/** @brief 工作线程每轮写自己的元素，两次汇合分别保护写完和读完。 */</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>jthread</span> <span class=n>worker</span><span class=p>([</span><span class=o>&amp;</span><span class=p>]</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>round</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span> <span class=n>round</span> <span class=o>&lt;=</span> <span class=mi>3</span><span class=p>;</span> <span class=o>++</span><span class=n>round</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>values</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=o>=</span> <span class=mi>2</span> <span class=o>*</span> <span class=n>round</span><span class=p>;</span> <span class=c1>// 工作线程填写自己的本轮结果，下一阶段才允许读取
+</span></span></span><span class=line><span class=cl>            <span class=n>phase</span><span class=p>.</span><span class=n>arrive_and_wait</span><span class=p>();</span> <span class=c1>// 第一阶段：本轮双方写入都完成后汇合
+</span></span></span><span class=line><span class=cl>            <span class=n>phase</span><span class=p>.</span><span class=n>arrive_and_wait</span><span class=p>();</span> <span class=c1>// 第二阶段：等主线程读完，才开始覆盖下一轮
+</span></span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>total</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=c1>// 主线程私有累计
+</span></span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>round</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span> <span class=n>round</span> <span class=o>&lt;=</span> <span class=mi>3</span><span class=p>;</span> <span class=o>++</span><span class=n>round</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>values</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=o>=</span> <span class=n>round</span><span class=p>;</span> <span class=c1>// 主线程只写自己的槽位，然后与工作线程汇合
+</span></span></span><span class=line><span class=cl>        <span class=n>phase</span><span class=p>.</span><span class=n>arrive_and_wait</span><span class=p>();</span>        <span class=c1>// 汇合点 ①：本轮两份数据均已写好
+</span></span></span><span class=line><span class=cl>        <span class=n>total</span> <span class=o>+=</span> <span class=n>values</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=o>+</span> <span class=n>values</span><span class=p>[</span><span class=mi>1</span><span class=p>];</span> <span class=c1>// 在两次汇合之间安全读取双方数据
+</span></span></span><span class=line><span class=cl>        <span class=n>phase</span><span class=p>.</span><span class=n>arrive_and_wait</span><span class=p>();</span>        <span class=c1>// 汇合点 ②：读完后 worker 才能进入下一轮
+</span></span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=n>worker</span><span class=p>.</span><span class=n>join</span><span class=p>();</span> <span class=c1>// 回收线程
+</span></span></span><span class=line><span class=cl>    <span class=n>assert</span><span class=p>(</span><span class=n>total</span> <span class=o>==</span> <span class=mi>18</span><span class=p>);</span> <span class=c1>// (1+2) + (2+4) + (3+6) = 18
+</span></span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>total</span> <span class=o>&lt;&lt;</span> <span class=sc>&#39;\n&#39;</span><span class=p>;</span> <span class=c1>// 预期输出 18
+</span></span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>预期输出 <code>18</code>。第二次屏障不可随意删除：否则工作线程可能已经写下一轮 <code>values[1]</code>，主线程却还在读上一轮，造成数据竞争。屏障的阶段同步与参与者约束见 <a href=https://timsong-cpp.github.io/cppwp/n4861/thread.coord>C++20 协调类型</a>。</p><p><code>arrive()</code> 只报告到达、减少本阶段计数并返回到达令牌，不等其他参与者；随后可做不依赖本阶段完成的工作，再用 <code>wait(std::move(token))</code> 等该阶段完成。令牌必须来自同一个 barrier 的当前或紧邻上一阶段。<code>arrive_and_wait()</code> 合并这两个步骤。完成函数由标准允许的参与调用线程执行，不能假设固定在主线程；完成步骤结束 strongly happens-before 因本阶段完成而解除阻塞的等待调用返回，因此能安全交付阶段结果。</p><p>参与者不能不告而别；后续阶段不再参与时，要按协议使用 <code>arrive_and_drop()</code> 减少当前和后续预期参与数量。停止请求并不会自动把参与者从 barrier 中移除，取消与阶段退出必须一起设计。</p><h3 id=96-如何选择><a class=header-anchor href=#96-%e5%a6%82%e4%bd%95%e9%80%89%e6%8b%a9></a>9.6 如何选择</h3><table><thead><tr><th>需求</th><th>优先考虑</th></tr></thead><tbody><tr><td>保护多个字段的共同规则</td><td>mutex 与 RAII 锁</td></tr><tr><td>等“队列非空或关闭”等动态条件</td><td>condition_variable 与共享谓词</td></tr><tr><td>一个任务交付一次结果或异常</td><td>future 与 promise / packaged_task / async</td></tr><tr><td>限制同时使用资源的数量</td><td>semaphore</td></tr><tr><td>等一组工作达到一次完成点</td><td>latch</td></tr><tr><td>每轮等所有参与者到齐</td><td>barrier</td></tr><tr><td>请求任务在安全点结束</td><td>stop_token 与明确退出协议</td></tr></tbody></table><p><img src=/img/cpp-concurrency-10-sync-tools.drawio.png alt=cpp-concurrency-10-sync-tools.drawio></p><p>图 9-2：semaphore / latch / barrier 的语义对比——许可计数、一次性倒数、可重复的阶段屏障。</p><p>这些工具解决不同问题，不必每个项目都用一遍。</p><h2 id=10-从正确程序走向可维护可测量的程序><a class=header-anchor href=#10-%e4%bb%8e%e6%ad%a3%e7%a1%ae%e7%a8%8b%e5%ba%8f%e8%b5%b0%e5%90%91%e5%8f%af%e7%bb%b4%e6%8a%a4%e5%8f%af%e6%b5%8b%e9%87%8f%e7%9a%84%e7%a8%8b%e5%ba%8f></a>10. 从正确程序走向可维护、可测量的程序</h2><h3 id=101-任务划分比线程数量更重要><a class=header-anchor href=#101-%e4%bb%bb%e5%8a%a1%e5%88%92%e5%88%86%e6%af%94%e7%ba%bf%e7%a8%8b%e6%95%b0%e9%87%8f%e6%9b%b4%e9%87%8d%e8%a6%81></a>10.1 任务划分比线程数量更重要</h3><p>先找独立工作，再选执行资源。优先让每个任务只读输入、写自己拥有的输出，最后合并。多个线程修改普通数组的不同元素通常是可行的，但不能同时改变容器结构；<code>vector&lt;bool></code> 的位打包是一个需要特别警惕的例外。</p><p><code>std::thread::hardware_concurrency()</code> 返回可并发硬件线程数的提示，可能是逻辑核心数，也可能返回 0，且不代表当前可用配额或最佳线程数。需要给 0 设置合理回退值，并限制线程数不超过有意义的任务数量。空任务应直接返回。</p><p>需要“每线程各一份”的状态时，<code>thread_local</code> 让每个线程持有变量的独立实例，从源头消除共享：典型用途是每线程的累计器、缓存或随机数引擎。实例随线程退出而销毁。它是<strong>避免共享</strong>的工具，不是让共享变安全的工具——把 <code>thread_local</code> 对象的指针或引用交给别的线程，仍需另行处理同步与所属线程退出时的寿命。在线程池中，它的寿命按线程而不是任务划分；连续任务会复用同一份状态。上篇示例 5 这种一次性任务用 lambda 内普通局部变量即可；若采用每线程累计器，需要在线程退出前主动把副本交给归并者，主线程不能靠同名 <code>thread_local</code> 变量读取其他线程的实例。</p><p>CPU 密集任务可以从与可用硬件资源接近的工作线程数量开始测量；大量阻塞 I/O 可能需要不同策略。C++20 标准库没有通用网络异步 I/O 或现成通用线程池，不能靠无限创建线程解决所有场景。</p><h3 id=102-为什么多线程可能更慢><a class=header-anchor href=#102-%e4%b8%ba%e4%bb%80%e4%b9%88%e5%a4%9a%e7%ba%bf%e7%a8%8b%e5%8f%af%e8%83%bd%e6%9b%b4%e6%85%a2></a>10.2 为什么多线程可能更慢</h3><table><thead><tr><th>成本或限制</th><th>影响</th><th>常见改进方向</th></tr></thead><tbody><tr><td>线程创建与回收</td><td>小任务来不及抵消管理成本</td><td>复用少量工作线程，批量提交</td></tr><tr><td>上下文切换</td><td>调度、栈和缓存状态切换有成本</td><td>控制线程数，避免大量无效唤醒</td></tr><tr><td>锁竞争</td><td>线程等待同一临界区</td><td>缩短临界区、局部累计后合并、减少共享</td></tr><tr><td>任务太细</td><td>入队与同步成本占比过高</td><td>合并相邻小任务</td></tr><tr><td>任务太粗</td><td>少数长任务拖住结尾</td><td>合理分块或动态任务队列</td></tr><tr><td>内存带宽</td><td>多核心同时读写也可能受带宽限制</td><td>改善访问方式，避免重复搬运</td></tr><tr><td>oversubscription</td><td>活跃线程超过合适资源数，竞争加剧</td><td>避免嵌套并行层各自创建整组线程</td></tr></tbody></table><p>**false sharing（伪共享）**是不同线程修改不同变量，但这些变量恰好位于同一缓存行，导致缓存一致性流量增加。它可能没有数据竞争，却影响性能。每线程局部累计、减少写入频率、必要时分隔热点数据都可能有帮助。</p><p>**cache locality（缓存局部性）**指近期或相邻数据容易复用。让线程处理连续区间，通常比随机追逐指针更有利于局部性，但具体收益必须测量。盲目填充每个对象会增大内存占用，反而损害局部性；缓存行大小也不能一概假设为 64 字节。</p><h3 id=103-常见设计模式><a class=header-anchor href=#103-%e5%b8%b8%e8%a7%81%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f></a>10.3 常见设计模式</h3><table><thead><tr><th>模式</th><th>数据与执行怎样组织</th><th>适合与限制</th></tr></thead><tbody><tr><td>分块计算后归并</td><td>每线程处理独立区间，回收后合并</td><td>输入可拆分，结果可组合；注意负载不均</td></tr><tr><td>生产者—消费者</td><td>队列连接提交者和处理者</td><td>需要关闭协议；有界队列还能提供背压</td></tr><tr><td>固定工作线程池</td><td>少量线程循环取任务</td><td>避免每任务创建线程；设计清楚关闭与等待依赖</td></tr><tr><td>流水线</td><td>不同阶段通过队列交接</td><td>阶段速率不同，必须限制缓冲增长</td></tr><tr><td>单所有者 / 消息传递</td><td>一条执行路径修改状态，其他人发送消息</td><td>减少共享写；注意串行阶段成为瓶颈</td></tr><tr><td>不可变快照</td><td>发布后只读，更新生成新版本</td><td>读路径简单；仍需安全发布与寿命管理</td></tr></tbody></table><p>线程池中所有工作线程都在等待同一池里尚未运行的子任务时，会发生资源耗尽式死锁；它不要求出现 mutex。优先在协调者线程等待，或避免这样的嵌套依赖。</p><p>背压指处理跟不上时，限制提交速率或队列容量，而不是无限积累任务。§11 的任务处理器输入有限，先用无界队列保持核心协议清楚，再讨论有界扩展。</p><h3 id=104-stdexecution-的边界><a class=header-anchor href=#104-stdexecution-%e7%9a%84%e8%be%b9%e7%95%8c></a>10.4 <code>std::execution</code> 的边界</h3><p>C++17 起某些标准算法可接受 <code>std::execution::par</code> 等执行策略，但策略不是“保证使用 N 个核心”的命令。实现可以选择串行执行；并行实现还可能需要额外后端，例如一些 libstdc++ 配置使用 TBB，不能承诺默认编译命令就获得并行执行。本文不涉及后端配置，也不给出并行加速演示。参见 <a href=https://gcc.gnu.org/onlinedocs/libstdc++/manual/using.html>libstdc++ 的执行策略链接依赖</a>。</p><table><thead><tr><th>策略</th><th>用户函数的执行关系</th></tr></thead><tbody><tr><td><code>std::execution::seq</code></td><td>在调用线程中执行，各次调用不交错；不承诺某个具体元素顺序</td></tr><tr><td><code>std::execution::par</code></td><td>允许多线程；同一线程内的调用不交错，也可能全部串行执行</td></tr><tr><td><code>std::execution::par_unseq</code></td><td>允许多线程，且同一线程内调用也可不排序、交错执行</td></tr><tr><td><code>std::execution::unseq</code></td><td>C++20：在调用线程中允许不排序执行，例如向量化</td></tr></tbody></table><p>并行调用的回调不能无保护地修改共享状态。<code>par</code> 中可用正确的 mutex 协议保护共享访问，但不能等待“另一个迭代一定会并发执行”，因为实现允许串行。<code>par_unseq</code> 和 <code>unseq</code> 禁止调用向量化不安全的标准库函数，例如 mutex 加锁；同线程交错执行也可能造成死锁。原子操作仍需满足向量化安全要求，不能把任意 atomic 都当作可用的阻塞同步替代品。<a href=https://timsong-cpp.github.io/cppwp/n4861/algorithms.parallel.exec>执行策略规范</a></p><p>对于标准定义的执行策略，算法调用的用户函数如果有异常逃出，标准要求调用 <code>std::terminate()</code>；这也包括显式传入 <code>seq</code> 策略的重载，不要把它当作 async 的异常传播模型。算法自身分配资源失败可以抛出 <code>std::bad_alloc</code>，与用户函数逃出的异常要区分。</p><h3 id=105-怎样验证和测量><a class=header-anchor href=#105-%e6%80%8e%e6%a0%b7%e9%aa%8c%e8%af%81%e5%92%8c%e6%b5%8b%e9%87%8f></a>10.5 怎样验证和测量</h3><p>正确性检查先于性能测试：先写出所有权、锁保护范围、退出条件，再做小规模确定性结果检查、不同任务数、异常路径和重复运行。日志会改变调度，只能帮助定位，不能证明顺序。</p><p>在支持的平台上，可用 ThreadSanitizer 检查部分数据竞争。它不能证明没有逻辑竞态、死锁或悬空生命周期问题；可在受支持的 GCC/Clang 环境单独构建，例如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>g++ -std<span class=o>=</span>c++20 -O1 -g -fsanitize<span class=o>=</span>thread -pthread xxx.cpp -o xxx-tsan
+</span></span><span class=line><span class=cl>./xxx-tsan
+</span></span></code></pre></td></tr></table></div></div><p>这条诊断命令不属于本次已运行的默认编译检查，也不是所有平台都支持；TSan 官方手册建议编译与链接都带上 <code>-fsanitize=thread</code>，并开启优化（-O1/-O2 均可）配合 <code>-g</code>，兼顾运行速度与带行号的报告。不要把检测器下的速度用于性能比较。</p><p>测量性能时，用相同输入和优化等级，先比较串行基线；计入或明确排除创建线程、入队、合并成本；使用单调的 <code>steady_clock</code> 测时间间隔；重复测量并观察分布，记录硬件、线程数与负载。不要在被计时的热点中打印日志。本文的示例都不做计时，也不声称实际加速；更多线程并不必然更快。</p><h3 id=106-并发测试是一组协议><a class=header-anchor href=#106-%e5%b9%b6%e5%8f%91%e6%b5%8b%e8%af%95%e6%98%af%e4%b8%80%e7%bb%84%e5%8d%8f%e8%ae%ae></a>10.6 并发测试是一组协议</h3><p>先检查确定性的结果和不变量，再改变 worker、生产者、消费者和任务数量。测试的共享统计也要同步，可让各线程写独占槽位，join 后汇总。用 promise/future、latch 或受锁保护的谓词安排测试进度；<code>sleep_for()</code> 只能扰动调度，不能判断另一个线程已经完成。</p><p>压力测试记录随机 seed（种子）和输入，同一 seed 可复现输入，但不能保证复现线程调度。重复 100 次、500 次或更多，只能提高发现缺陷的机会；data race 程序不必输出错误值，relaxed 错误发布也不必在 x86 上失败。内存序必须另写 happens-before 证明。</p><p>死锁、未满足 future 和关闭失败要在独立进程中设置 timeout；不要把可能永久阻塞的线程留在评分器进程里。超时报告应区分等待失败与构建失败。覆盖任务异常、空工作、非法输入、重复关闭、重复构造与析构，以及 shutdown 与 submit 同时发生的接受边界。CMake 负责可移植构建，CTest 注册带超时的行为测试，Python 编排编译、重复运行、seed 与评分；断言不是完整评分系统。</p><p>工具检测是补充证据。TSan 发现部分 data race；AddressSanitizer 检查部分越界和失效访问。二者应分开构建，先实际探测编译、链接与运行能力，不支持时明确 SKIP。测试通过、检测器无报告与代码正确性证明是三种不同证据。<a href=https://clang.llvm.org/docs/ThreadSanitizer.html>TSan 官方说明</a></p><h2 id=11-完整示例可关闭的并发平方任务处理器><a class=header-anchor href=#11-%e5%ae%8c%e6%95%b4%e7%a4%ba%e4%be%8b%e5%8f%af%e5%85%b3%e9%97%ad%e7%9a%84%e5%b9%b6%e5%8f%91%e5%b9%b3%e6%96%b9%e4%bb%bb%e5%8a%a1%e5%a4%84%e7%90%86%e5%99%a8></a>11. 完整示例：可关闭的并发平方任务处理器</h2><h3 id=111-需求与设计约束><a class=header-anchor href=#111-%e9%9c%80%e6%b1%82%e4%b8%8e%e8%ae%be%e8%ae%a1%e7%ba%a6%e6%9d%9f></a>11.1 需求与设计约束</h3><p>本节实现一个小型批处理器：主线程提交整数任务，固定数量工作线程从共享队列取任务，计算平方。每个任务返回独立 future，调用者按提交顺序取得结果。</p><p>它需要满足以下要求：</p><ol><li>每个已接受任务恰好被取走一次；计算在队列锁之外执行。</li><li>输入只允许 0 到 1000；非法输入通过 future 传播 <code>invalid_argument</code>，不杀死工作线程。</li><li>主线程提交结束后关闭队列；关闭后不再接受任务，已有任务全部处理完，空队列上的等待者退出。</li><li>工作线程由 <code>jthread</code> 管理。线程创建或提交失败时，也要关闭队列，让已经启动的线程退出后再向上抛出异常。</li><li>检查空输入、单线程、多线程、合法与非法任务；拒绝零个工作线程。</li></ol><p>这里选择<strong>排空关闭</strong>：关闭只禁止新增任务，仍处理已接受任务。停止时丢弃排队任务属于另一种契约，需要明确被丢弃任务的 future 如何完成，不应混入同一个模糊开关。</p><h3 id=112-完整实现><a class=header-anchor href=#112-%e5%ae%8c%e6%95%b4%e5%ae%9e%e7%8e%b0></a>11.2 完整实现</h3><p><strong>示例 22</strong>：任务队列与异步结果。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span><span class=lnt>111
+</span><span class=lnt>112
+</span><span class=lnt>113
+</span><span class=lnt>114
+</span><span class=lnt>115
+</span><span class=lnt>116
+</span><span class=lnt>117
+</span><span class=lnt>118
+</span><span class=lnt>119
+</span><span class=lnt>120
+</span><span class=lnt>121
+</span><span class=lnt>122
+</span><span class=lnt>123
+</span><span class=lnt>124
+</span><span class=lnt>125
+</span><span class=lnt>126
+</span><span class=lnt>127
+</span><span class=lnt>128
+</span><span class=lnt>129
+</span><span class=lnt>130
+</span><span class=lnt>131
+</span><span class=lnt>132
+</span><span class=lnt>133
+</span><span class=lnt>134
+</span><span class=lnt>135
+</span><span class=lnt>136
+</span><span class=lnt>137
+</span><span class=lnt>138
+</span><span class=lnt>139
+</span><span class=lnt>140
+</span><span class=lnt>141
+</span><span class=lnt>142
+</span><span class=lnt>143
+</span><span class=lnt>144
+</span><span class=lnt>145
+</span><span class=lnt>146
+</span><span class=lnt>147
+</span><span class=lnt>148
+</span><span class=lnt>149
+</span><span class=lnt>150
+</span><span class=lnt>151
+</span><span class=lnt>152
+</span><span class=lnt>153
+</span><span class=lnt>154
+</span><span class=lnt>155
+</span><span class=lnt>156
+</span><span class=lnt>157
+</span><span class=lnt>158
+</span><span class=lnt>159
+</span><span class=lnt>160
+</span><span class=lnt>161
+</span><span class=lnt>162
+</span><span class=lnt>163
+</span><span class=lnt>164
+</span><span class=lnt>165
+</span><span class=lnt>166
+</span><span class=lnt>167
+</span><span class=lnt>168
+</span><span class=lnt>169
+</span><span class=lnt>170
+</span><span class=lnt>171
+</span><span class=lnt>172
+</span><span class=lnt>173
+</span><span class=lnt>174
+</span><span class=lnt>175
+</span><span class=lnt>176
+</span><span class=lnt>177
+</span><span class=lnt>178
+</span><span class=lnt>179
+</span><span class=lnt>180
+</span><span class=lnt>181
+</span><span class=lnt>182
+</span><span class=lnt>183
+</span><span class=lnt>184
+</span><span class=lnt>185
+</span><span class=lnt>186
+</span><span class=lnt>187
+</span><span class=lnt>188
+</span><span class=lnt>189
+</span><span class=lnt>190
+</span><span class=lnt>191
+</span><span class=lnt>192
+</span><span class=lnt>193
+</span><span class=lnt>194
+</span><span class=lnt>195
+</span><span class=lnt>196
+</span><span class=lnt>197
+</span><span class=lnt>198
+</span><span class=lnt>199
+</span><span class=lnt>200
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * @file example22.cpp
+</span></span></span><span class=line><span class=cl><span class=cm> * @brief 可关闭的并发平方任务处理器（任务队列 + future 结果通道）。
+</span></span></span><span class=line><span class=cl><span class=cm> * @details 主线程提交整数任务，固定数量的 jthread 工作线程从共享队列取任务、在锁外
+</span></span></span><span class=line><span class=cl><span class=cm> *          计算平方；每个任务返回独立 future；关闭后排空已有任务并让等待者退出。
+</span></span></span><span class=line><span class=cl><span class=cm> *          预期输出 &#34;all batch checks passed&#34;。对应正文 §11。
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;cassert&gt;</span><span class=cp>            </span><span class=c1>// assert：覆盖全部要求
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;condition_variable&gt;</span><span class=cp> </span><span class=c1>// std::condition_variable
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;cstddef&gt;</span><span class=cp>            </span><span class=c1>// std::size_t
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;future&gt;</span><span class=cp>             </span><span class=c1>// std::packaged_task / std::future
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>           </span><span class=c1>// std::cout
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;mutex&gt;</span><span class=cp>              </span><span class=c1>// std::mutex / std::lock_guard / std::unique_lock
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;queue&gt;</span><span class=cp>              </span><span class=c1>// std::queue
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;stdexcept&gt;</span><span class=cp>          </span><span class=c1>// std::invalid_argument / std::logic_error
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;thread&gt;</span><span class=cp>             </span><span class=c1>// std::jthread
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;utility&gt;</span><span class=cp>            </span><span class=c1>// std::move
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;vector&gt;</span><span class=cp>             </span><span class=c1>// std::vector
+</span></span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * @brief 可关闭的任务队列：提交方入队任务，工作线程取任务，关闭后排空退出。
+</span></span></span><span class=line><span class=cl><span class=cm> * @details 全部共享状态只由同一把 mutex_ 保护；等待谓词为
+</span></span></span><span class=line><span class=cl><span class=cm> *          &#34;closed_ || !tasks_.empty()&#34;，保证关闭后等待者能观察到并退出。
+</span></span></span><span class=line><span class=cl><span class=cm> * @note 必须先构造队列、后构造引用它的线程；销毁前先 close 并回收全部线程。
+</span></span></span><span class=line><span class=cl><span class=cm> * @warning 关闭语义是&#34;排空&#34;：已接受任务全部处理完，不是丢弃（见 §11.1）。
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>TaskQueue</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>using</span> <span class=n>Task</span> <span class=o>=</span> <span class=n>std</span><span class=o>::</span><span class=n>packaged_task</span><span class=o>&lt;</span><span class=kt>int</span><span class=p>()</span><span class=o>&gt;</span><span class=p>;</span> <span class=c1>///&lt; 任务类型：无参、产出 int 结果
+</span></span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm>     * @brief 提交一个整数平方任务。
+</span></span></span><span class=line><span class=cl><span class=cm>     * @param input 业务输入，合法范围 [0, 1000]；按值捕获进任务，与调用方解耦。
+</span></span></span><span class=line><span class=cl><span class=cm>     * @return 与该任务关联的 future；任务的值或异常都经它取回。
+</span></span></span><span class=line><span class=cl><span class=cm>     * @throws std::logic_error 队列已关闭时拒绝新任务。
+</span></span></span><span class=line><span class=cl><span class=cm>     * @note 入队在临界区内完成，通知在解锁后发出；future 必须在任务入队前取得。
+</span></span></span><span class=line><span class=cl><span class=cm>     */</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>future</span><span class=o>&lt;</span><span class=kt>int</span><span class=o>&gt;</span> <span class=n>submit</span><span class=p>(</span><span class=kt>int</span> <span class=n>input</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=cm>/** @brief 工作线程执行的平方计算，捕获 input 副本。 @return 平方值。 @throws std::invalid_argument 输入越界时，由 packaged_task 保存。 */</span>
+</span></span><span class=line><span class=cl>        <span class=n>Task</span> <span class=nf>task</span><span class=p>([</span><span class=n>input</span><span class=p>]</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=c1>// 限制范围既表达业务规则，也避免有符号整数乘法溢出。
+</span></span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=n>input</span> <span class=o>&lt;</span> <span class=mi>0</span> <span class=o>||</span> <span class=n>input</span> <span class=o>&gt;</span> <span class=mi>1000</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=k>throw</span> <span class=n>std</span><span class=o>::</span><span class=n>invalid_argument</span><span class=p>(</span><span class=s>&#34;input must be in [0, 1000]&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=n>input</span> <span class=o>*</span> <span class=n>input</span><span class=p>;</span> <span class=c1>// 范围已检查，平方可表示为 int；由 packaged_task 保存
+</span></span></span><span class=line><span class=cl>        <span class=p>});</span>
+</span></span><span class=line><span class=cl>        <span class=k>auto</span> <span class=n>result</span> <span class=o>=</span> <span class=n>task</span><span class=p>.</span><span class=n>get_future</span><span class=p>();</span> <span class=c1>// 在任务被移动入队之前取得唯一读取端
+</span></span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>std</span><span class=o>::</span><span class=n>lock_guard</span><span class=o>&lt;</span><span class=n>std</span><span class=o>::</span><span class=n>mutex</span><span class=o>&gt;</span> <span class=n>lock</span><span class=p>(</span><span class=n>mutex_</span><span class=p>);</span> <span class=c1>// 保护队列与 closed_ 的同一把锁，离开作用域自动释放
+</span></span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=n>closed_</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=k>throw</span> <span class=n>std</span><span class=o>::</span><span class=n>logic_error</span><span class=p>(</span><span class=s>&#34;queue is closed&#34;</span><span class=p>);</span> <span class=c1>// 关闭后不再接受任务
+</span></span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>            <span class=n>tasks_</span><span class=p>.</span><span class=n>push</span><span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>move</span><span class=p>(</span><span class=n>task</span><span class=p>));</span> <span class=c1>// 队列成为任务的唯一所有者
+</span></span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=n>cv_</span><span class=p>.</span><span class=n>notify_one</span><span class=p>();</span> <span class=c1>// 解锁后通知一个等待者：有新任务可取
+</span></span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>result</span><span class=p>;</span> <span class=c1>// 移动返回 future；结果状态由任务和 future 共同维持
+</span></span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm>     * @brief 取出一个任务；队列为空时按谓词等待，关闭且为空时报告退出。
+</span></span></span><span class=line><span class=cl><span class=cm>     * @param[out] task 成功时被移动赋值为队首任务；返回 false 时保持传入状态不变（可能是已执行过的有效任务，并非必定默认无效）。
+</span></span></span><span class=line><span class=cl><span class=cm>     * @retval true 取得一个任务，调用方应在锁外执行它。
+</span></span></span><span class=line><span class=cl><span class=cm>     * @retval false 队列已关闭且无剩余任务，工作线程应退出循环。
+</span></span></span><span class=line><span class=cl><span class=cm>     * @note 等待期间锁被原子地释放，醒来重新持锁后再取任务。
+</span></span></span><span class=line><span class=cl><span class=cm>     * @warning 谓词为真不等于有任务：closed_ 也使谓词成立，必须再检查队列是否为空。
+</span></span></span><span class=line><span class=cl><span class=cm>     */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>bool</span> <span class=nf>take</span><span class=p>(</span><span class=n>Task</span><span class=o>&amp;</span> <span class=n>task</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>unique_lock</span><span class=o>&lt;</span><span class=n>std</span><span class=o>::</span><span class=n>mutex</span><span class=o>&gt;</span> <span class=n>lock</span><span class=p>(</span><span class=n>mutex_</span><span class=p>);</span> <span class=c1>// 持队列锁检查状态；wait 需要能够解锁和重锁
+</span></span></span><span class=line><span class=cl>        <span class=cm>/** @brief 持 mutex_ 检查队列退出或取任务条件。 @return 已关闭或有任务可取。 */</span>
+</span></span><span class=line><span class=cl>        <span class=n>cv_</span><span class=p>.</span><span class=n>wait</span><span class=p>(</span><span class=n>lock</span><span class=p>,</span> <span class=p>[</span><span class=k>this</span><span class=p>]</span> <span class=p>{</span> <span class=k>return</span> <span class=n>closed_</span> <span class=o>||</span> <span class=o>!</span><span class=n>tasks_</span><span class=p>.</span><span class=n>empty</span><span class=p>();</span> <span class=p>});</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>tasks_</span><span class=p>.</span><span class=n>empty</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=nb>false</span><span class=p>;</span> <span class=c1>// 谓词已成立且队列为空，因此一定已关闭
+</span></span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=n>task</span> <span class=o>=</span> <span class=n>std</span><span class=o>::</span><span class=n>move</span><span class=p>(</span><span class=n>tasks_</span><span class=p>.</span><span class=n>front</span><span class=p>());</span> <span class=c1>// 工作线程接管队首任务；旧 task 的状态关联在赋值时释放
+</span></span></span><span class=line><span class=cl>        <span class=n>tasks_</span><span class=p>.</span><span class=n>pop</span><span class=p>();</span> <span class=c1>// 取出与移除在同一临界区，任务不会被两个线程取得
+</span></span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nb>true</span><span class=p>;</span> <span class=c1>// 报告已取到任务；返回时锁先析构，调用者再执行任务
+</span></span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm>     * @brief 关闭队列：禁止新增任务，唤醒所有等待者排空后退出。
+</span></span></span><span class=line><span class=cl><span class=cm>     * @note 幂等：重复调用不改变契约。状态修改在锁内，通知在锁外。
+</span></span></span><span class=line><span class=cl><span class=cm>     */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=nf>close</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>std</span><span class=o>::</span><span class=n>lock_guard</span><span class=o>&lt;</span><span class=n>std</span><span class=o>::</span><span class=n>mutex</span><span class=o>&gt;</span> <span class=n>lock</span><span class=p>(</span><span class=n>mutex_</span><span class=p>);</span> <span class=c1>// 保护队列与 closed_ 的同一把锁，离开作用域自动释放
+</span></span></span><span class=line><span class=cl>            <span class=n>closed_</span> <span class=o>=</span> <span class=nb>true</span><span class=p>;</span> <span class=c1>// 幂等：重复关闭不改变排空契约
+</span></span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=n>cv_</span><span class=p>.</span><span class=n>notify_all</span><span class=p>();</span> <span class=c1>// 包括没有拿到任务的等待者，都要有机会退出
+</span></span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>mutex</span> <span class=n>mutex_</span><span class=p>;</span>           <span class=c1>///&lt; 保护以下全部成员的同一把锁
+</span></span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>condition_variable</span> <span class=n>cv_</span><span class=p>;</span> <span class=c1>///&lt; 配合 mutex_ 的等待工具
+</span></span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>queue</span><span class=o>&lt;</span><span class=n>Task</span><span class=o>&gt;</span> <span class=n>tasks_</span><span class=p>;</span>     <span class=c1>///&lt; 未执行任务；只能在 mutex_ 保护下访问
+</span></span></span><span class=line><span class=cl>    <span class=kt>bool</span> <span class=n>closed_</span> <span class=o>=</span> <span class=nb>false</span><span class=p>;</span>        <span class=c1>///&lt; 关闭标志；与 tasks_ 一起构成等待谓词
+</span></span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * @brief 运行一批平方任务：创建工作线程组、提交全部输入、关闭并等待整批完成。
+</span></span></span><span class=line><span class=cl><span class=cm> * @param inputs 全部输入；空输入直接返回空结果列表。
+</span></span></span><span class=line><span class=cl><span class=cm> * @param worker_count 工作线程数；为 0 时抛出异常，超过任务数时收缩到任务数。
+</span></span></span><span class=line><span class=cl><span class=cm> * @return 按提交顺序排列的结果 future 列表；函数返回时全部已就绪。
+</span></span></span><span class=line><span class=cl><span class=cm> * @throws std::invalid_argument worker_count == 0 时。
+</span></span></span><span class=line><span class=cl><span class=cm> * @note 阻塞式批处理接口：返回前等待整批完成；futures 的共享状态独立于队列存活。
+</span></span></span><span class=line><span class=cl><span class=cm> * @warning 线程创建或提交失败时，先 close 让已有线程退出，再向上传播异常。
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>vector</span><span class=o>&lt;</span><span class=n>std</span><span class=o>::</span><span class=n>future</span><span class=o>&lt;</span><span class=kt>int</span><span class=o>&gt;&gt;</span> <span class=n>run_batch</span><span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>vector</span><span class=o>&lt;</span><span class=kt>int</span><span class=o>&gt;&amp;</span> <span class=n>inputs</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                                       <span class=n>std</span><span class=o>::</span><span class=n>size_t</span> <span class=n>worker_count</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>worker_count</span> <span class=o>==</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>throw</span> <span class=n>std</span><span class=o>::</span><span class=n>invalid_argument</span><span class=p>(</span><span class=s>&#34;worker_count must be positive&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>vector</span><span class=o>&lt;</span><span class=n>std</span><span class=o>::</span><span class=n>future</span><span class=o>&lt;</span><span class=kt>int</span><span class=o>&gt;&gt;</span> <span class=n>results</span><span class=p>;</span> <span class=c1>// 主线程按提交顺序拥有结果句柄
+</span></span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>inputs</span><span class=p>.</span><span class=n>empty</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>results</span><span class=p>;</span> <span class=c1>// 空输入：不创建线程，直接返回空列表
+</span></span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>worker_count</span> <span class=o>&gt;</span> <span class=n>inputs</span><span class=p>.</span><span class=n>size</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>worker_count</span> <span class=o>=</span> <span class=n>inputs</span><span class=p>.</span><span class=n>size</span><span class=p>();</span> <span class=c1>// 线程数不超过任务数
+</span></span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=n>results</span><span class=p>.</span><span class=n>reserve</span><span class=p>(</span><span class=n>inputs</span><span class=p>.</span><span class=n>size</span><span class=p>());</span> <span class=c1>// 预留空间，避免 push_back 重新分配
+</span></span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>TaskQueue</span> <span class=n>queue</span><span class=p>;</span> <span class=c1>// 先构造共享对象，后构造引用它的线程容器
+</span></span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>vector</span><span class=o>&lt;</span><span class=n>std</span><span class=o>::</span><span class=n>jthread</span><span class=o>&gt;</span> <span class=n>workers</span><span class=p>;</span> <span class=c1>// 拥有工作线程；异常展开时先于 queue 析构
+</span></span></span><span class=line><span class=cl>    <span class=n>workers</span><span class=p>.</span><span class=n>reserve</span><span class=p>(</span><span class=n>worker_count</span><span class=p>);</span> <span class=c1>// 预留空间，避免扩容时移动 jthread
+</span></span></span><span class=line><span class=cl>    <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>size_t</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=n>worker_count</span><span class=p>;</span> <span class=o>++</span><span class=n>i</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=cm>/** @brief 工作线程入口：重复取任务并在队列锁外执行，关闭且排空后退出。 */</span>
+</span></span><span class=line><span class=cl>            <span class=n>workers</span><span class=p>.</span><span class=n>emplace_back</span><span class=p>([</span><span class=o>&amp;</span><span class=n>queue</span><span class=p>]</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=n>TaskQueue</span><span class=o>::</span><span class=n>Task</span> <span class=n>task</span><span class=p>;</span> <span class=c1>// 默认构造的空任务，由 take 移动赋值
+</span></span></span><span class=line><span class=cl>                <span class=k>while</span> <span class=p>(</span><span class=n>queue</span><span class=p>.</span><span class=n>take</span><span class=p>(</span><span class=n>task</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                    <span class=c1>// take 已经释放队列锁；用户计算的异常由 packaged_task 保存。
+</span></span></span><span class=line><span class=cl>                    <span class=n>task</span><span class=p>();</span> <span class=c1>// 锁外执行：慢任务不会一直占用队列锁
+</span></span></span><span class=line><span class=cl>                <span class=p>}</span>
+</span></span><span class=line><span class=cl>            <span class=p>});</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=nl>input</span> <span class=p>:</span> <span class=n>inputs</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>results</span><span class=p>.</span><span class=n>push_back</span><span class=p>(</span><span class=n>queue</span><span class=p>.</span><span class=n>submit</span><span class=p>(</span><span class=n>input</span><span class=p>));</span> <span class=c1>// 逐个提交并保存结果句柄
+</span></span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=n>queue</span><span class=p>.</span><span class=n>close</span><span class=p>();</span> <span class=c1>// 提交完毕：关闭队列，进入排空阶段
+</span></span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>catch</span> <span class=p>(...)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 创建第 k 个线程或分配任务失败时，先让已有线程能退出。
+</span></span></span><span class=line><span class=cl>        <span class=c1>// 随后异常展开会析构 workers，逐个回收，再销毁 queue。
+</span></span></span><span class=line><span class=cl>        <span class=n>queue</span><span class=p>.</span><span class=n>close</span><span class=p>();</span> <span class=c1>// 失败清理：唤醒已有线程，让其排空退出而非永久等待
+</span></span></span><span class=line><span class=cl>        <span class=k>throw</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=k>auto</span><span class=o>&amp;</span> <span class=nl>worker</span> <span class=p>:</span> <span class=n>workers</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>worker</span><span class=p>.</span><span class=n>join</span><span class=p>();</span> <span class=c1>// 不持有队列锁；所有已接受任务处理完后返回
+</span></span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>results</span><span class=p>;</span> <span class=c1>// future 的共享状态独立于已销毁的任务和队列继续存活
+</span></span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * @brief 程序入口：逐项检查 §11.1 的要求。
+</span></span></span><span class=line><span class=cl><span class=cm> * @return 隐式返回 0。
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>assert</span><span class=p>(</span><span class=n>run_batch</span><span class=p>({},</span> <span class=mi>2</span><span class=p>).</span><span class=n>empty</span><span class=p>());</span> <span class=c1>// 空输入：返回空结果列表
+</span></span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>size_t</span> <span class=nl>count</span> <span class=p>:</span> <span class=p>{</span><span class=n>std</span><span class=o>::</span><span class=n>size_t</span><span class=p>{</span><span class=mi>1</span><span class=p>},</span> <span class=n>std</span><span class=o>::</span><span class=n>size_t</span><span class=p>{</span><span class=mi>3</span><span class=p>},</span> <span class=n>std</span><span class=o>::</span><span class=n>size_t</span><span class=p>{</span><span class=mi>8</span><span class=p>}})</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>auto</span> <span class=n>results</span> <span class=o>=</span> <span class=n>run_batch</span><span class=p>({</span><span class=mi>0</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>1000</span><span class=p>},</span> <span class=n>count</span><span class=p>);</span> <span class=c1>// 含线程数大于任务数的情形
+</span></span></span><span class=line><span class=cl>        <span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>vector</span><span class=o>&lt;</span><span class=kt>int</span><span class=o>&gt;</span> <span class=n>expected</span><span class=p>{</span><span class=mi>0</span><span class=p>,</span> <span class=mi>4</span><span class=p>,</span> <span class=mi>9</span><span class=p>,</span> <span class=mi>1000000</span><span class=p>};</span> <span class=c1>// 与提交顺序一一对应的预期平方结果
+</span></span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>size_t</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=n>results</span><span class=p>.</span><span class=n>size</span><span class=p>();</span> <span class=o>++</span><span class=n>i</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>assert</span><span class=p>(</span><span class=n>results</span><span class=p>[</span><span class=n>i</span><span class=p>].</span><span class=n>get</span><span class=p>()</span> <span class=o>==</span> <span class=n>expected</span><span class=p>[</span><span class=n>i</span><span class=p>]);</span> <span class=c1>// 结果按提交顺序取回
+</span></span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>auto</span> <span class=n>mixed</span> <span class=o>=</span> <span class=n>run_batch</span><span class=p>({</span><span class=mi>2</span><span class=p>,</span> <span class=o>-</span><span class=mi>1</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>1001</span><span class=p>},</span> <span class=mi>2</span><span class=p>);</span> <span class=c1>// 合法与非法输入混合
+</span></span></span><span class=line><span class=cl>    <span class=n>assert</span><span class=p>(</span><span class=n>mixed</span><span class=p>[</span><span class=mi>0</span><span class=p>].</span><span class=n>get</span><span class=p>()</span> <span class=o>==</span> <span class=mi>4</span><span class=p>);</span> <span class=c1>// 合法输入 2 的结果不受其他任务失败影响
+</span></span></span><span class=line><span class=cl>    <span class=n>assert</span><span class=p>(</span><span class=n>mixed</span><span class=p>[</span><span class=mi>2</span><span class=p>].</span><span class=n>get</span><span class=p>()</span> <span class=o>==</span> <span class=mi>9</span><span class=p>);</span> <span class=c1>// 合法输入 3 的任务仍被执行
+</span></span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>size_t</span> <span class=nl>i</span> <span class=p>:</span> <span class=p>{</span><span class=n>std</span><span class=o>::</span><span class=n>size_t</span><span class=p>{</span><span class=mi>1</span><span class=p>},</span> <span class=n>std</span><span class=o>::</span><span class=n>size_t</span><span class=p>{</span><span class=mi>3</span><span class=p>}})</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=kt>bool</span> <span class=n>rejected</span> <span class=o>=</span> <span class=nb>false</span><span class=p>;</span> <span class=c1>// 每个非法任务分别记录是否收到异常
+</span></span></span><span class=line><span class=cl>        <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=p>(</span><span class=kt>void</span><span class=p>)</span><span class=n>mixed</span><span class=p>[</span><span class=n>i</span><span class=p>].</span><span class=n>get</span><span class=p>();</span> <span class=c1>// 非法输入：经 future 重抛 invalid_argument
+</span></span></span><span class=line><span class=cl>        <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>invalid_argument</span><span class=o>&amp;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>rejected</span> <span class=o>=</span> <span class=nb>true</span><span class=p>;</span> <span class=c1>// 确认本次 get 传播了该任务的业务异常
+</span></span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=n>assert</span><span class=p>(</span><span class=n>rejected</span><span class=p>);</span> <span class=c1>// 该非法输入必须通过 future 报告失败
+</span></span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kt>bool</span> <span class=n>zero_rejected</span> <span class=o>=</span> <span class=nb>false</span><span class=p>;</span> <span class=c1>// 记录是否拒绝无法处理任务的零线程配置
+</span></span></span><span class=line><span class=cl>    <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=p>(</span><span class=kt>void</span><span class=p>)</span><span class=n>run_batch</span><span class=p>({</span><span class=mi>1</span><span class=p>},</span> <span class=mi>0</span><span class=p>);</span> <span class=c1>// 零个工作线程必须被拒绝
+</span></span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>invalid_argument</span><span class=o>&amp;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>zero_rejected</span> <span class=o>=</span> <span class=nb>true</span><span class=p>;</span> <span class=c1>// 确认在线程创建之前拒绝了非法配置
+</span></span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=n>assert</span><span class=p>(</span><span class=n>zero_rejected</span><span class=p>);</span> <span class=c1>// 验证不会创建一个永远无人消费的批次
+</span></span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>TaskQueue</span> <span class=n>closed</span><span class=p>;</span> <span class=c1>// 创建用于关闭契约检查的独立队列
+</span></span></span><span class=line><span class=cl>    <span class=n>closed</span><span class=p>.</span><span class=n>close</span><span class=p>();</span> <span class=c1>// 首次关闭空队列，之后应拒绝所有新提交
+</span></span></span><span class=line><span class=cl>    <span class=n>closed</span><span class=p>.</span><span class=n>close</span><span class=p>();</span> <span class=c1>// 重复关闭：幂等，不改变契约
+</span></span></span><span class=line><span class=cl>    <span class=kt>bool</span> <span class=n>submit_rejected</span> <span class=o>=</span> <span class=nb>false</span><span class=p>;</span> <span class=c1>// 记录关闭后的提交是否被拒绝
+</span></span></span><span class=line><span class=cl>    <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=p>(</span><span class=kt>void</span><span class=p>)</span><span class=n>closed</span><span class=p>.</span><span class=n>submit</span><span class=p>(</span><span class=mi>1</span><span class=p>);</span> <span class=c1>// 关闭后提交必须被拒绝
+</span></span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>logic_error</span><span class=o>&amp;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>submit_rejected</span> <span class=o>=</span> <span class=nb>true</span><span class=p>;</span> <span class=c1>// 确认 submit 同步抛出了队列关闭异常
+</span></span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=n>assert</span><span class=p>(</span><span class=n>submit_rejected</span><span class=p>);</span> <span class=c1>// 验证关闭后没有接受新任务
+</span></span></span><span class=line><span class=cl>    <span class=n>TaskQueue</span><span class=o>::</span><span class=n>Task</span> <span class=n>unused</span><span class=p>;</span> <span class=c1>// 默认无效的输出任务，用于测试关闭且空的 take
+</span></span></span><span class=line><span class=cl>    <span class=n>assert</span><span class=p>(</span><span class=o>!</span><span class=n>closed</span><span class=p>.</span><span class=n>take</span><span class=p>(</span><span class=n>unused</span><span class=p>));</span> <span class=c1>// 已关闭且为空：take 报告退出
+</span></span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;all batch checks passed</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>;</span> <span class=c1>// 全部断言通过后输出完成消息
+</span></span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>输出 <code>all batch checks passed</code>。<code>run_batch</code> 是阻塞的批处理接口：内部任务并发执行，但函数返回前等待整批结束，所以返回的 futures 已就绪。保留 future 是为了展示每个任务独立保存成功或异常；不能把这个接口称为“立即返回的异步提交服务”。</p><h3 id=113-设计与线程安全依据><a class=header-anchor href=#113-%e8%ae%be%e8%ae%a1%e4%b8%8e%e7%ba%bf%e7%a8%8b%e5%ae%89%e5%85%a8%e4%be%9d%e6%8d%ae></a>11.3 设计与线程安全依据</h3><p><img src=/img/cpp-concurrency-11-task-processor.drawio.png alt=cpp-concurrency-11-task-processor.drawio></p><p>图 11-1：任务处理器的组件与数据流。提交、取任务、关闭三条路径都经过同一把队列锁；计算与结果交付在锁外完成。</p><p><strong>所有权</strong>：主线程持有结果句柄；队列持有未执行任务；工作线程通过移动取得任务独占执行权。lambda 按值捕获整数，不引用调用者临时输入。packaged_task 不可复制，避免同一个任务被意外复制到两处。</p><p><strong>共享状态</strong>：只有任务队列和关闭标志需要 mutex。两个状态的每次访问都在同一把锁内。结果状态由 packaged_task/future 协议同步，无需再用队列锁保护结果。</p><p><strong>等待与同步</strong>：提交在锁内入队，解锁后通知。工作线程在锁内检查谓词，等待时原子地释放锁；重新加锁后才能取任务。关闭标志是持续存在的状态，所以即使 close 发生在线程准备等待之前，它也能在持锁检查时观察到关闭状态；随后排空剩余任务，确认队列为空后退出。任务执行在临界区外，慢任务不会一直占用队列锁。</p><p><strong>排空</strong>：谓词为真不等于立即退出。只有空队列才返回 false；若已关闭但仍有任务，继续取任务。锁内的移动和 pop 是一次受保护的取走过程，因此同一任务只被交给一个工作线程。</p><p><strong>寿命</strong>：正常路径显式 join；异常路径先 close，再由 workers 的析构回收线程，最后才销毁 queue。没有在持锁时 join。这里工作线程不接受 stop_token，故 jthread 析构发出的停止请求不影响排空契约；线程退出依赖 queue 的关闭状态。</p><p><strong>异常</strong>：非法输入由 packaged_task 自动捕获，后续任务仍能执行。线程创建或提交时的分配失败会进入清理路径。本例不尝试从底层同步原语自身失效等严重运行环境错误恢复，也不能保证任意永不返回的用户任务能够被关闭；本例的计算任务是有限步骤的整数操作。</p><p><strong>结果顺序</strong>：任务完成顺序不确定，但主线程按提交顺序保存并读取 futures，因此输出接口不依赖调度顺序。内部共享状态在队列销毁后仍由 future 持有，get 才取出结果。</p><h3 id=114-可改进方向><a class=header-anchor href=#114-%e5%8f%af%e6%94%b9%e8%bf%9b%e6%96%b9%e5%90%91></a>11.4 可改进方向</h3><p>先保留这些正确性依据，再根据真实需求扩展：</p><ul><li>将无界队列改成有界队列：增加“未满或已关闭”的谓词与相应通知；关闭必须同时唤醒生产者和消费者。</li><li>需要立即返回的服务时，把队列和工作线程放入长寿命对象，并提供明确的 <code>submit</code>、<code>close</code>、<code>join</code> 契约；不要返回引用了已销毁局部队列的线程。</li><li>添加协作取消时，区分“停止接收并排空”和“取消未执行任务”。后者应定义每个未执行 future 的异常或取消结果，并让长计算在安全点检查停止状态。</li><li>按任务粒度测量吞吐量与延迟，再决定是否批量入队、减少唤醒、复用结果缓冲区。</li></ul><p>长寿命服务还要明确契约：<code>submit</code> 入队与关闭状态切换用同一把锁确定接受边界；关闭前成功入队的任务必须完成，关闭后提交同步拒绝。<code>shutdown()</code> 关闭、唤醒并等待全部 worker；重复及并发 shutdown 需要另行串行化回收，不能对同一 jthread 并发 join。不要在持队列锁时 join。</p><p>worker 内调用会等待本 worker 的 shutdown 会自等待；应拒绝这种调用，并说明池中任务不能等待同池尚未运行的子任务。析构由唯一所有者负责，外部 submit/shutdown 调用必须先结束；析构与成员调用并发不受服务协议保护。通用任务可用 <code>packaged_task&lt;int()></code> 保持本文范围：允许可移动的 callable，值与异常交给 future；排空关闭要求用户任务最终返回，协作取消是另一份契约。</p><p>不建议一次性加入优先级、工作窃取和无锁队列；它们都增加需要证明的状态与退出路径。</p><h2 id=12-小结><a class=header-anchor href=#12-%e5%b0%8f%e7%bb%93></a>12. 小结</h2><p>回顾全系列，编写并发代码时可以对照以下工程实践：</p><ul><li>优先减少共享可变状态；只读输入、独立输出、最后合并。</li><li>默认 RAII，适合时使用 jthread；禁止让线程超过被引用对象的寿命。</li><li>对每组共享数据写明保护它的锁与业务不变量；读操作也要遵守协议。</li><li>锁管理对象有名字；临界区短但完整；多锁用安全加锁方案；等待任务时不持业务锁。</li><li>条件变量总是围绕共享谓词设计；关闭先修改状态再通知，最后回收。</li><li>明确每个异步状态由谁满足、谁 get、何时释放最后引用，异常也必须有接收者。</li><li>原子默认 seq_cst；削弱内存序前写出同步证明，并确认有实际优化需求。</li><li>取消覆盖计算与等待路径；不要期待析构、超时或停止请求强行中断工作。</li><li>限制并发资源和队列增长，避免无界创建线程与嵌套等待。</li></ul><h2 id=参考资料><a class=header-anchor href=#%e5%8f%82%e8%80%83%e8%b5%84%e6%96%99></a>参考资料</h2><p>涉及容易混淆的规则时，建议直接核对 C++20 草案：</p><ul><li><a href=https://timsong-cpp.github.io/cppwp/n4861/expr.prim.lambda.capture>Lambda 捕获</a>：值、引用、初始化捕获与当前对象捕获。</li><li><a href=https://timsong-cpp.github.io/cppwp/n4861/thread.lock.scoped>scoped_lock</a>：多锁获取与析构；不要依赖解锁顺序。</li><li><a href=https://timsong-cpp.github.io/cppwp/n4861/thread.req.timing>超时计量</a>：相对超时、时钟建议与返回延迟。</li><li><a href=https://timsong-cpp.github.io/cppwp/n4861/thread.condvarany.intwait>可中断等待</a>：stop_token 的参数位置与谓词返回值。</li><li><a href=https://timsong-cpp.github.io/cppwp/n4861/futures.async>async</a>：策略、结果、异常与关联线程完成的同步。</li></ul></div><footer class=article-footer><blockquote class=article-copyright><p><strong><span class="icon-user icon"></span>本文作者：</strong>Jingmengzhiyue</p><p><strong><span class="icon-link icon"></span>本文链接：</strong><a href=https://www.jingmengzhiyue.tech/2025/05/13/cpp-concurrency-parallel-programming-2/>https://www.jingmengzhiyue.tech/2025/05/13/cpp-concurrency-parallel-programming-2/</a></p><p><strong><span class="icon-pencil icon"></span>本文标题：</strong>C++ 并发与并行编程（下）</p><p><strong><span class="icon-calendar icon"></span>本文发布时间：</strong>2025-05-13 16:00:00</p><p><strong><span class="icon-copyright icon"></span>本文版权：</strong>
+本博客所有文章除特别声明外，均采用 <a href=https://creativecommons.org/licenses/by/4.0/deed.zh rel="noopener nofollow noreferrer" target=_blank><span class=icon-creative-commons></span>BY</a> 许可协议。转载请注明出处！</p><span class="icon-creative-commons article-copyright-bg"></span></blockquote><ul class=article-category-list><li class=article-tag-list-item data-aos=zoom-in><a class=article-category-link href=/categories/Programming/ data-aos=zoom-in>Programming</a></li></ul><ul class=article-tag-list itemprop=keywords><li class=article-tag-list-item data-aos=zoom-in><a class=article-tag-list-link href=/tags/program/ rel=tag>program</a></li><li class=article-tag-list-item data-aos=zoom-in><a class=article-tag-list-link href=/tags/c++/ rel=tag>C++</a></li></ul></footer></div><nav id=article-nav aria-label="Article navigation" data-aos=fade-up><div class="article-nav-link-wrap left"><img data-src=/img/7.jpg data-sizes=auto alt="C++ 并发与并行编程（上）" class=lazyload><a href=/2024/09/27/cpp-concurrency-parallel-programming-1/ aria-label="前一篇:C++ 并发与并行编程（上）" title="前一篇:C++ 并发与并行编程（上）"></a><div class=article-nav-caption>前一篇</div><h3 class=article-nav-title>C++ 并发与并行编程（上）</h3></div><div class="article-nav-link-wrap right"><img data-src=/img/26.jpg data-sizes=auto alt="Hello, welcome." class=lazyload><a href=/2023/10/02/hello-world/ aria-label="后一篇:Hello, welcome." title="后一篇:Hello, welcome."></a><div class=article-nav-caption>后一篇</div><h3 class=article-nav-title>Hello, welcome.</h3></div></nav></article></section></div><footer id=footer aria-label="Site footer"><div style=width:100%;overflow:hidden><div class=footer-line></div></div><div id=footer-info><div><span class=icon-copyright></span>2023-2026<span class="footer-info-sep rotate"></span>Jingmengzhiyue</div><div>基于&nbsp;<a href=https://gohugo.io/ target=_blank rel="noopener nofollow noreferrer">Hugo</a>&nbsp;Theme.<a href=https://github.com/D-Sketon/hugo-theme-reimu target=_blank rel="noopener nofollow noreferrer">Reimu</a></div><div><span class=icon-brush>&nbsp;361.8k</span>
+&nbsp;|&nbsp;
+<span class=icon-coffee>&nbsp;12:40</span></div><div><span class=icon-eye></span>
+<span id=busuanzi_container_site_pv>总访问量&nbsp;<span id=busuanzi_value_site_pv></span></span>
+&nbsp;|&nbsp;
+<span class=icon-user></span>
+<span id=busuanzi_container_site_uv>总访客量&nbsp;<span id=busuanzi_value_site_uv></span></span></div></div></footer><div class=sidebar-top><div class="sidebar-top-taichi rotate"></div><div class=arrow-up></div></div><div id=mask class=hide></div></div><nav id=mobile-nav aria-label="Mobile navigation"><div class=sidebar-wrap><div class=sidebar-toc-sidebar><h3 class=toc-title>文章目录</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#8-原子变量先明确边界再谈内存序>8. 原子变量：先明确边界，再谈内存序</a><ul><li><a href=#81-一次原子操作不等于一段原子业务>8.1 一次原子操作，不等于一段原子业务</a></li><li><a href=#82-happens-before正确性证明的连接线>8.2 happens-before：正确性证明的连接线</a></li><li><a href=#83-内存序各自负责什么>8.3 内存序各自负责什么</a></li><li><a href=#84-用一次发布证明-acquirerelease>8.4 用一次发布证明 acquire/release</a></li><li><a href=#85-seq_cst-保证什么不保证什么>8.5 <code>seq_cst</code> 保证什么，不保证什么</a></li><li><a href=#86-什么时候-relaxed-已经足够>8.6 什么时候 relaxed 已经足够</a></li><li><a href=#87-cas如果还没变就替换>8.7 CAS：如果还没变，就替换</a></li><li><a href=#88-stdatomic_flag-与自旋锁的边界>8.8 <code>std::atomic_flag</code> 与自旋锁的边界</a></li></ul></li><li><a href=#9-c20-的取消与协调工具>9. C++20 的取消与协调工具</a><ul><li><a href=#91-协作式取消请求检查安全退出>9.1 协作式取消：请求、检查、安全退出</a></li><li><a href=#92-等待中的线程也必须能退出>9.2 等待中的线程也必须能退出</a></li><li><a href=#93-semaphore保存许可数量>9.3 semaphore：保存许可数量</a></li><li><a href=#94-latch一次性的完成集合>9.4 latch：一次性的完成集合</a></li><li><a href=#95-barrier重复进行的阶段边界>9.5 barrier：重复进行的阶段边界</a></li><li><a href=#96-如何选择>9.6 如何选择</a></li></ul></li><li><a href=#10-从正确程序走向可维护可测量的程序>10. 从正确程序走向可维护、可测量的程序</a><ul><li><a href=#101-任务划分比线程数量更重要>10.1 任务划分比线程数量更重要</a></li><li><a href=#102-为什么多线程可能更慢>10.2 为什么多线程可能更慢</a></li><li><a href=#103-常见设计模式>10.3 常见设计模式</a></li><li><a href=#104-stdexecution-的边界>10.4 <code>std::execution</code> 的边界</a></li><li><a href=#105-怎样验证和测量>10.5 怎样验证和测量</a></li><li><a href=#106-并发测试是一组协议>10.6 并发测试是一组协议</a></li></ul></li><li><a href=#11-完整示例可关闭的并发平方任务处理器>11. 完整示例：可关闭的并发平方任务处理器</a><ul><li><a href=#111-需求与设计约束>11.1 需求与设计约束</a></li><li><a href=#112-完整实现>11.2 完整实现</a></li><li><a href=#113-设计与线程安全依据>11.3 设计与线程安全依据</a></li><li><a href=#114-可改进方向>11.4 可改进方向</a></li></ul></li><li><a href=#12-小结>12. 小结</a></li><li><a href=#参考资料>参考资料</a></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/profile_picture.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>文章</div><div class=sidebar-state-number>56</div></div><a class=sidebar-state-category href=/categories/ aria-label=sidebar-state-category-link><div>分类</div><div class=sidebar-state-number>9</div></a><a class=sidebar-state-tag href=/tags/ aria-label=sidebar-state-tag-link><div>标签</div><div class=sidebar-state-number>27</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/ aria-label=首页></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>首页</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/archives aria-label=归档></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>归档</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/categories aria-label=目录></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>目录</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/tags aria-label=标签></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>标签</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/about aria-label=关于></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>关于</div></div></div></div></div><div class=sidebar-btn-wrapper><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></nav></div><div id=aplayer theme=var(--color-link)></div><script src=https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js integrity=sha384-3gT/vsepWkfz/ff7PpWNUeMzeWoH3cDhm/A8jM7ouoAK0/fP/9bcHHR5kHq2nf+e crossorigin=anonymous></script><script src=https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js integrity=sha384-J08i8An/QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q crossorigin=anonymous></script><script src=/js/main.js integrity crossorigin=anonymous></script><script src=/js/aos.js integrity crossorigin=anonymous></script><script>var aosInit=()=>{AOS.init({duration:1e3,easing:"ease",once:!0,offset:50})};document.readyState==="loading"?document.addEventListener("DOMContentLoaded",aosInit):aosInit()</script><script src=/js/pjax_main.js integrity crossorigin=anonymous data-pjax></script><div id=lazy-script><div><script data-pjax>window.REIMU_POST={author:"Jingmengzhiyue",title:"C++ 并发与并行编程（下）",url:"https://www.jingmengzhiyue.tech/2025/05/13/cpp-concurrency-parallel-programming-2/",description:"C++ 并发与并行编程系列下篇：原子变量与内存序、C++20 取消与协调工具、工程实践，以及一个可关闭的并发任务处理器。",cover:"https://www.jingmengzhiyue.tech/img/24.jpg"}</script><script src=/js/insert_highlight.js integrity crossorigin=anonymous data-pjax></script><script src=/js/tabs.js integrity crossorigin=anonymous data-pjax defer></script><script type=module data-pjax>const PhotoSwipeLightbox = (await safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js", "sha384-DiL6M\/gG\u002bwmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF\/N6lrZi\/")).default;const initPswp = (gallery, children) => {
+          if (_$$(`${gallery} ${children}`).length > 0) {
+            new PhotoSwipeLightbox({
+              gallery,
+              children,pswpModule: () => safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8\u002boTJ7m3DfYEWX1fu1scuS4\u002bs")}).init();
+          }
+        }
+        const pswp = () => {
+          initPswp('.article-entry', 'a.article-gallery-item');
+          initPswp('.article-gallery', 'a.article-gallery-item');
+        }
+        pswp()
+      </script></div></div><script src=https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js async integrity=sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S crossorigin=anonymous></script><script>"serviceWorker"in navigator&&navigator.serviceWorker.getRegistrations().then(e=>{for(let t of e)t.unregister()})</script><script>const reimuCopyright=String.raw`
+   ______     ______     __     __    __     __  __    
+  /\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+  \ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+   \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+    \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                    
+  `;console.log(String.raw`%c ${reimuCopyright}`,"color: #ff5252;"),console.log("%c Theme.Reimu %c https://github.com/D-Sketon/hugo-theme-reimu ","color: white; background: #ff5252; padding:5px 0;","padding:4px;border:1px solid #ff5252;")</script><script>var setupAPlayer=()=>{if(!!1||!window.matchMedia("(max-width: 768px)").matches){const e=window.matchMedia("(max-width: 959px)").matches;if(e){const e=_$("#aplayer");if(e){const t=e.parentNode?.parentNode;t?.tagName==="ASIDE"&&(e.removeAttribute("data-aos"),t.parentNode.removeChild(e),document.body.appendChild(e))}}new APlayer({theme:"var(--color-link)",container:document.getElementById("aplayer"),audio:JSON.parse('[{"cover":"/img/24.jpg","name":"The Song Of Soul","url":"/music/The Song Of Soul.mp3"},{"cover":"/img/24.jpg","name":"Merry Christmas Mr Lawrence","url":"/music/Merry Christmas Mr Lawrence.mp3"},{"cover":"/img/24.jpg","name":"やさしさがしっとりと降るなかで","url":"/music/やさしさがしっとりと降るなかで.mp3"},{"artist":"千葉紗子","cover":"/img/24.jpg","name":"花手紙","url":"/music/花手紙.mp3"}]')||[],fixed:!!e||!0,autoplay:!0,loop:"all"||"all",order:"list"||"list",preload:"none"||"auto",volume:.7||.7,mutex:!0,listFolded:!0,lrcType:0||0})}}</script><script src=https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.js defer onload=setupAPlayer() integrity=sha384-gdGYZwHnfJM54evoZhpO0s6ZF5BQiybkiyW7VXr+h5UfruuRL/aORyw+5+HZoU6e crossorigin=anonymous></script></body></html>
