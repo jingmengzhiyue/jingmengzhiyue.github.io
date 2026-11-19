@@ -44,12 +44,12 @@
 1.1 引言与历史脉络
 </h3><p>扩散模型（Diffusion Models）作为当前生成式人工智能领域最重要的技术范式之一，其理论根基横跨统计物理、随机过程和变分推断。2015年，Sohl-Dickstein等人<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>首次受非平衡统计力学启发，提出了通过前向扩散过程逐步破坏数据结构、再通过反向扩散过程恢复数据的生成模型框架。随后，Song &amp; Ermon（2019）<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>从<strong>分数匹配（Score Matching）<strong>的角度重新审视这一问题，提出了噪声条件分数网络（NCSN）；Ho等人（2020）<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>则发展了</strong>去噪扩散概率模型（DDPM）</strong>，通过变分推断和简化的训练目标将扩散模型推向实用化。2021年，Song等人<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>进一步提出了基于<strong>随机微分方程（SDE）<strong>的统一框架，指出 NCSN 和 DDPM 分别是 VE-SDE 与 VP-SDE 这两类连续时间扩散过程的离散化，二者可以在同一套“分数 + SDE”的语言下描述。2022年，Karras等人<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup>的</strong>EDM</strong>工作则系统阐明了扩散模型的设计空间，统一了预处理、损失权重和采样器的选择。本章将从数学基础出发，系统建立扩散模型的核心概念体系。</p>
         
-        <hr><p>本文2025-06-19首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2025-06-19</p>]]></description><category>Machine Learning</category></item><item><title>扩散模型全景综述</title><link>https://www.jingmengzhiyue.tech/2025/06/01/diffusion-model-landscape/</link><pubDate>Sun, 01 Jun 2025 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2025/06/01/diffusion-model-landscape/</guid><description>
-<![CDATA[<h1>扩散模型全景综述</h1><p>作者：Jingmengzhiyue（）</p>
+        <hr><p>本文2025-06-19首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2025-06-19</p>]]></description><category>Machine Learning</category></item><item><title>扩散模型综述</title><link>https://www.jingmengzhiyue.tech/2025/06/01/diffusion-model-landscape/</link><pubDate>Sun, 01 Jun 2025 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2025/06/01/diffusion-model-landscape/</guid><description>
+<![CDATA[<h1>扩散模型综述</h1><p>作者：Jingmengzhiyue（）</p>
         
-          <h1 id="扩散模型全景扫描结果-landscape-scan">
-<a class="header-anchor" href="#%e6%89%a9%e6%95%a3%e6%a8%a1%e5%9e%8b%e5%85%a8%e6%99%af%e6%89%ab%e6%8f%8f%e7%bb%93%e6%9e%9c-landscape-scan"></a>
-扩散模型全景扫描结果 (Landscape Scan)
+          <h1 id="扩散模型综述">
+<a class="header-anchor" href="#%e6%89%a9%e6%95%a3%e6%a8%a1%e5%9e%8b%e7%bb%bc%e8%bf%b0"></a>
+扩散模型综述
 </h1><p><strong>日期</strong>: 2026-07-02（2026-11-19 修订：核对论文年份与出处，补充缺失分支）
 <strong>搜索策略</strong>: 由粗到细，5次搜索覆盖宏观、结构、前沿</p>
         
