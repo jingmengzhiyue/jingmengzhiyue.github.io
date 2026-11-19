@@ -4,8 +4,8 @@
           <p>在自然语言处理和其他序列数据建模任务中,Transformer模型凭借其优异的性能成为了研究的热点。其中,多头自注意力(Multi-Head</p>
 <p>Self-Attention)是Transformer的核心组件之一，接下来将深入了解它的运作原理和实现细节。</p>
         
-        <hr><p>本文2024-03-28首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-28</p>]]></description><category>Deep Learning</category></item><item><title>Word2Vec</title><link>https://www.jingmengzhiyue.tech/2023/03/05/Word2Vec/</link><pubDate>Sun, 05 Mar 2023 17:09:55 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/03/05/Word2Vec/</guid><description>
-<![CDATA[<h1>Word2Vec</h1><p>作者：Jingmengzhiyue（）</p>
+        <hr><p>本文2024-03-28首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-28</p>]]></description><category>Deep Learning</category></item><item><title>Word2Vec 词向量入门</title><link>https://www.jingmengzhiyue.tech/2023/03/05/Word2Vec/</link><pubDate>Sun, 05 Mar 2023 17:09:55 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/03/05/Word2Vec/</guid><description>
+<![CDATA[<h1>Word2Vec 词向量入门</h1><p>作者：Jingmengzhiyue（）</p>
         
           <h1 id="word2vec">
 <a class="header-anchor" href="#word2vec"></a>

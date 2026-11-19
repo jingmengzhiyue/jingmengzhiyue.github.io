@@ -100,16 +100,16 @@
 监督学习（Supervised learning）
 </h2><p>咱们先来聊几个使用监督学习来解决问题的实例。假如咱们有一个数据集，里面的数据是俄勒冈州波特兰市的 $47$ 套房屋的面积和价格：</p>
         
-        <hr><p>本文2023-08-01首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-08-01</p>]]></description><category>Machine Learning</category></item><item><title>LDA</title><link>https://www.jingmengzhiyue.tech/2023/03/07/LDA/</link><pubDate>Tue, 07 Mar 2023 16:22:38 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/03/07/LDA/</guid><description>
-<![CDATA[<h1>LDA</h1><p>作者：Jingmengzhiyue（）</p>
+        <hr><p>本文2023-08-01首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-08-01</p>]]></description><category>Machine Learning</category></item><item><title>线性判别分析（LDA）</title><link>https://www.jingmengzhiyue.tech/2023/03/07/LDA/</link><pubDate>Tue, 07 Mar 2023 16:22:38 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/03/07/LDA/</guid><description>
+<![CDATA[<h1>线性判别分析（LDA）</h1><p>作者：Jingmengzhiyue（）</p>
         
           <h2 id="lda-原理">
 <a class="header-anchor" href="#lda-%e5%8e%9f%e7%90%86"></a>
 LDA 原理
 </h2><p>给定数据$\mathbf{X}\in \mathbb{R}^{N\times p}$，以及$\mathbf{y}\in \{0,1\}$，构成输入与输出训练数据对$D=\{(\mathbf{x}_1,\mathbf{y}_1),...,(\mathbf{x}_N,\mathbf{y}_N)\}$。训练集$D$表示整个训练数据集有$N$条数据，每一条数据的维度为$p$维，所有数据只有两个类别分别对应于输出$\mathbf{y}$取值为0或者1。</p>
         
-        <hr><p>本文2023-03-07首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-03-07</p>]]></description><category>machine learning</category></item><item><title>LinearRegression</title><link>https://www.jingmengzhiyue.tech/2023/03/05/LinearRegression/</link><pubDate>Sun, 05 Mar 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/03/05/LinearRegression/</guid><description>
-<![CDATA[<h1>LinearRegression</h1><p>作者：Jingmengzhiyue（）</p>
+        <hr><p>本文2023-03-07首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-03-07</p>]]></description><category>machine learning</category></item><item><title>线性回归</title><link>https://www.jingmengzhiyue.tech/2023/03/05/LinearRegression/</link><pubDate>Sun, 05 Mar 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/03/05/LinearRegression/</guid><description>
+<![CDATA[<h1>线性回归</h1><p>作者：Jingmengzhiyue（）</p>
         
           <h1 id="linearregression">
 <a class="header-anchor" href="#linearregression"></a>

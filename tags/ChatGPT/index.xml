@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>ChatGPT on 热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/tags/ChatGPT/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>zh-CN</language><copyright>本博客所有文章除特别声明外，均采用 BY 许可协议。转载请注明出处！</copyright><lastBuildDate>Mon, 06 Mar 2023 15:13:59 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/tags/ChatGPT/index.xml" rel="self" type="application/rss+xml"/><item><title>ChatGPT</title><link>https://www.jingmengzhiyue.tech/2023/03/06/ChatGPT/</link><pubDate>Mon, 06 Mar 2023 15:13:59 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/03/06/ChatGPT/</guid><description>
-<![CDATA[<h1>ChatGPT</h1><p>作者：Jingmengzhiyue（）</p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>ChatGPT on 热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/tags/ChatGPT/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>zh-CN</language><copyright>本博客所有文章除特别声明外，均采用 BY 许可协议。转载请注明出处！</copyright><lastBuildDate>Mon, 06 Mar 2023 15:13:59 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/tags/ChatGPT/index.xml" rel="self" type="application/rss+xml"/><item><title>ChatGPT 的训练流程</title><link>https://www.jingmengzhiyue.tech/2023/03/06/ChatGPT/</link><pubDate>Mon, 06 Mar 2023 15:13:59 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/03/06/ChatGPT/</guid><description>
+<![CDATA[<h1>ChatGPT 的训练流程</h1><p>作者：Jingmengzhiyue（）</p>
         
           <p>ChatGPT是由InstructGPT演变而来的，
 <img src="/img/ChatGPT_Diagram.png" alt="ChatGPT训练流程图"></p>
@@ -18,8 +18,8 @@
 自监督训练
 </h2><p><img src="/img/Hello.png" alt="基于采样的自监督训练"></p>
         
-        <hr><p>本文2023-03-06首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-03-06</p>]]></description><category>LLM</category></item><item><title>Openai_api</title><link>https://www.jingmengzhiyue.tech/2023/03/05/Openai-api/</link><pubDate>Sun, 05 Mar 2023 19:38:17 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/03/05/Openai-api/</guid><description>
-<![CDATA[<h1>Openai_api</h1><p>作者：Jingmengzhiyue（）</p>
+        <hr><p>本文2023-03-06首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-03-06</p>]]></description><category>LLM</category></item><item><title>使用 OpenAI API 和 YNMT 辅助论文写作</title><link>https://www.jingmengzhiyue.tech/2023/03/05/Openai-api/</link><pubDate>Sun, 05 Mar 2023 19:38:17 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/03/05/Openai-api/</guid><description>
+<![CDATA[<h1>使用 OpenAI API 和 YNMT 辅助论文写作</h1><p>作者：Jingmengzhiyue（）</p>
         
           <h1 id="使用openai以及ynmt创建论文">
 <a class="header-anchor" href="#%e4%bd%bf%e7%94%a8openai%e4%bb%a5%e5%8f%8aynmt%e5%88%9b%e5%bb%ba%e8%ae%ba%e6%96%87"></a>

@@ -5,8 +5,8 @@
 <p>Unmixing,</p>
 <p>HU)就是分析高光谱数据,识别图像中的端元(endmembers)及其对应的丰度(abundances)的信号处理过程。其中Craig的最小体积外接单纯形准则是一种经典有效的盲解混方法,即将包围数据点云的最小体积单纯形的顶点视为端元估计。但相关算法由于涉及复杂的体积计算而计算效率低下。但是HyperCSI(Hyperplane-based</p>
         
-        <hr><p>本文2024-03-30首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-30</p>]]></description><category>Remote Sensing</category><category>Algorithm</category></item><item><title>DTW (Dynamic Time Warping)</title><link>https://www.jingmengzhiyue.tech/2023/06/24/DTW/</link><pubDate>Sat, 24 Jun 2023 14:47:16 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/24/DTW/</guid><description>
-<![CDATA[<h1>DTW (Dynamic Time Warping)</h1><p>作者：Jingmengzhiyue（）</p>
+        <hr><p>本文2024-03-30首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2024-03-30</p>]]></description><category>Remote Sensing</category><category>Algorithm</category></item><item><title>动态时间规整（DTW）</title><link>https://www.jingmengzhiyue.tech/2023/06/24/DTW/</link><pubDate>Sat, 24 Jun 2023 14:47:16 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/24/DTW/</guid><description>
+<![CDATA[<h1>动态时间规整（DTW）</h1><p>作者：Jingmengzhiyue（）</p>
         
           <p>DTW最初用于识别语音的相似性，当前DTW算法常用于计算两个时间序列的相似性，<strong>尤其适用于不同长度、不同节奏的时间序列</strong></p>
 <h2 id="算法流程">

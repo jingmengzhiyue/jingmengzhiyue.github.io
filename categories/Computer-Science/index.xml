@@ -1,25 +1,35 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Computer Science on 热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/categories/Computer-Science/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>zh-CN</language><copyright>本博客所有文章除特别声明外，均采用 BY 许可协议。转载请注明出处！</copyright><lastBuildDate>Mon, 05 Jun 2023 16:37:29 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/categories/Computer-Science/index.xml" rel="self" type="application/rss+xml"/><item><title>version-control</title><link>https://www.jingmengzhiyue.tech/2023/06/05/version-control/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/05/version-control/</guid><description>
-<![CDATA[<h1>version-control</h1><p>作者：Jingmengzhiyue（）</p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Computer Science on 热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/categories/Computer-Science/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>zh-CN</language><copyright>本博客所有文章除特别声明外，均采用 BY 许可协议。转载请注明出处！</copyright><lastBuildDate>Mon, 05 Jun 2023 16:37:29 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/categories/Computer-Science/index.xml" rel="self" type="application/rss+xml"/><item><title>元编程：构建、依赖管理与持续集成</title><link>https://www.jingmengzhiyue.tech/2023/06/05/metaprogramming/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/05/metaprogramming/</guid><description>
+<![CDATA[<h1>元编程：构建、依赖管理与持续集成</h1><p>作者：Jingmengzhiyue（）</p>
         
-          <p>版本控制系统 (VCSs) 是一类用于追踪源代码（或其他文件、文件夹）改动的工具。顾名思义，这些工具可以帮助我们管理代码的修改历史；不仅如此，它还可以让协作编码变得更方便。VCS通过一系列的快照将某个文件夹及其内容保存了起来，每个快照都包含了文件或文件夹的完整状态。同时它还维护了快照创建者的信息以及每个快照的相关信息等等。</p>
+          <p>我们这里说的 “元编程（metaprogramming）” 是什么意思呢？好吧，对于本文要介绍的这些内容，这是我们能够想到的最能概括它们的词。因为我们今天要讲的东西，更多是关于 <em>流程</em> ，而不是写代码或更高效的工作。本节课我们会学习构建系统、代码测试以及依赖管理。在您还是学生的时候，这些东西看上去似乎对您来说没那么重要，不过当您开始实习或走进社会的时候，您将会接触到大型的代码库，本节课讲授的这些东西也会变得随处可见。必须要指出的是，“元编程” 也有<a href="https://en.wikipedia.org/wiki/Metaprogramming">用于操作程序的程序</a>&quot; 之含义，这和我们今天讲座所介绍的概念是完全不同的。</p>
         
-        <hr><p>本文2023-06-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>shell-tools</title><link>https://www.jingmengzhiyue.tech/2023/06/05/shell-tools/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/05/shell-tools/</guid><description>
-<![CDATA[<h1>shell-tools</h1><p>作者：Jingmengzhiyue（）</p>
+        <hr><p>本文2023-06-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>文本编辑器与 Vim 入门</title><link>https://www.jingmengzhiyue.tech/2023/06/05/editors/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/05/editors/</guid><description>
+<![CDATA[<h1>文本编辑器与 Vim 入门</h1><p>作者：Jingmengzhiyue（）</p>
         
-          <p>在这节课中，我们将会展示 bash 作为脚本语言的一些基础操作，以及几种最常用的 shell 工具。</p>
-<h1 id="shell-脚本">
-<a class="header-anchor" href="#shell-%e8%84%9a%e6%9c%ac"></a>
-Shell 脚本
-</h1><p>到目前为止，我们已经学习来如何在 shell 中执行命令，并使用管道将命令组合使用。但是，很多情况下我们需要执行一系列的操作并使用条件或循环这样的控制流。</p>
+          <p>写作和写代码其实是两项非常不同的活动。当我们编程的时候，会经常在文件间进行切换、阅读、浏览和修改代码，而不是连续编写一大段的文字。因此代码编辑器和文本编辑器是很不同的两种工具（例如微软的 Word 与 Visual Studio Code）。</p>
         
-        <hr><p>本文2023-06-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>security</title><link>https://www.jingmengzhiyue.tech/2023/06/05/security/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/05/security/</guid><description>
-<![CDATA[<h1>security</h1><p>作者：Jingmengzhiyue（）</p>
+        <hr><p>本文2023-06-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>命令行数据整理</title><link>https://www.jingmengzhiyue.tech/2023/06/05/data-wrangling/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/05/data-wrangling/</guid><description>
+<![CDATA[<h1>命令行数据整理</h1><p>作者：Jingmengzhiyue（）</p>
         
-          <p>去年的<a href="/2023/06/05/security/">这节课</a>我们从计算机 <em>用户</em> 的角度探讨了增强隐私保护和安全的方法。
-今年我们将关注比如散列函数、密钥生成函数、对称/非对称密码体系这些安全和密码学的概念是如何应用于前几节课所学到的工具（Git和SSH）中的。</p>
+          <p>您是否曾经有过这样的需求，将某种格式存储的数据转换成另外一种格式? 肯定有过，对吧！
+这也正是我们这节课所要讲授的主要内容。具体来讲，我们需要不断地对数据进行处理，直到得到我们想要的最终结果。</p>
         
-        <hr><p>本文2023-06-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>QA</title><link>https://www.jingmengzhiyue.tech/2023/06/05/qa/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/05/qa/</guid><description>
-<![CDATA[<h1>QA</h1><p>作者：Jingmengzhiyue（）</p>
+        <hr><p>本文2023-06-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>命令行环境：任务控制、终端复用与远程连接</title><link>https://www.jingmengzhiyue.tech/2023/06/05/Command-line/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/05/Command-line/</guid><description>
+<![CDATA[<h1>命令行环境：任务控制、终端复用与远程连接</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <p>当您使用 shell 进行工作时，可以使用一些方法改善您的工作流，本节课我们就来讨论这些方法。</p>
+<p>我们已经使用 shell 一段时间了，但是到目前为止我们的关注点主要集中在使用不同的命令上面。现在，我们将会学习如何同时执行多个不同的进程并追踪它们的状态、如何停止或暂停某个进程以及如何使进程在后台运行。</p>
+        
+        <hr><p>本文2023-06-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>课程导论与 Shell 入门</title><link>https://www.jingmengzhiyue.tech/2023/06/05/course-shell/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/05/course-shell/</guid><description>
+<![CDATA[<h1>课程导论与 Shell 入门</h1><p>作者：Jingmengzhiyue（）</p>
+        
+          <h1 id="动机">
+<a class="header-anchor" href="#%e5%8a%a8%e6%9c%ba"></a>
+动机
+</h1><p>作为计算机科学家，我们都知道计算机最擅长帮助我们完成重复性的工作。但是我们却常常忘记这一点也适用于我们使用计算机的方式，而不仅仅是利用计算机程序去帮我们求解问题。在从事与计算机相关的工作时，我们有很多触手可及的工具可以帮助我们更高效的解决问题。但是我们中的大多数人实际上只利用了这些工具中的很少一部分，我们常常只是死记硬背一些如咒语般的命令，或是当我们卡住的时候，盲目地从网上复制粘贴一些命令。</p>
+        
+        <hr><p>本文2023-06-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>课程答疑</title><link>https://www.jingmengzhiyue.tech/2023/06/05/qa/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/05/qa/</guid><description>
+<![CDATA[<h1>课程答疑</h1><p>作者：Jingmengzhiyue（）</p>
         
           <p>最后一节课，我们回答学生提出的问题:</p>
 <ul>
@@ -46,8 +56,8 @@ Shell 脚本
 </h2><p>首先，不清楚你是不是真的需要了解这些更底层的话题。
 当你开始编写更加底层的代码，比如实现或修改内核的时候，这些内容是很重要的。除了其他课程中简要介绍过的进程和信号量之外，大部分话题都不相关。</p>
         
-        <hr><p>本文2023-06-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>potpourri</title><link>https://www.jingmengzhiyue.tech/2023/06/05/potpourri/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/05/potpourri/</guid><description>
-<![CDATA[<h1>potpourri</h1><p>作者：Jingmengzhiyue（）</p>
+        <hr><p>本文2023-06-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>开发工具与技巧杂谈</title><link>https://www.jingmengzhiyue.tech/2023/06/05/potpourri/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/05/potpourri/</guid><description>
+<![CDATA[<h1>开发工具与技巧杂谈</h1><p>作者：Jingmengzhiyue（）</p>
         
           <h2 id="目录">
 <a class="header-anchor" href="#%e7%9b%ae%e5%bd%95"></a>
@@ -77,40 +87,30 @@ Shell 脚本
 修改键位映射
 </h2><p>作为一名程序员，键盘是你的主要输入工具。它像计算机里的其他部件一样是可配置的，而且值得你在这上面花时间。</p>
         
-        <hr><p>本文2023-06-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>metaprogramming</title><link>https://www.jingmengzhiyue.tech/2023/06/05/metaprogramming/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/05/metaprogramming/</guid><description>
-<![CDATA[<h1>metaprogramming</h1><p>作者：Jingmengzhiyue（）</p>
-        
-          <p>我们这里说的 “元编程（metaprogramming）” 是什么意思呢？好吧，对于本文要介绍的这些内容，这是我们能够想到的最能概括它们的词。因为我们今天要讲的东西，更多是关于 <em>流程</em> ，而不是写代码或更高效的工作。本节课我们会学习构建系统、代码测试以及依赖管理。在您还是学生的时候，这些东西看上去似乎对您来说没那么重要，不过当您开始实习或走进社会的时候，您将会接触到大型的代码库，本节课讲授的这些东西也会变得随处可见。必须要指出的是，“元编程” 也有<a href="https://en.wikipedia.org/wiki/Metaprogramming">用于操作程序的程序</a>&quot; 之含义，这和我们今天讲座所介绍的概念是完全不同的。</p>
-        
-        <hr><p>本文2023-06-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>editors</title><link>https://www.jingmengzhiyue.tech/2023/06/05/editors/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/05/editors/</guid><description>
-<![CDATA[<h1>editors</h1><p>作者：Jingmengzhiyue（）</p>
-        
-          <p>写作和写代码其实是两项非常不同的活动。当我们编程的时候，会经常在文件间进行切换、阅读、浏览和修改代码，而不是连续编写一大段的文字。因此代码编辑器和文本编辑器是很不同的两种工具（例如微软的 Word 与 Visual Studio Code）。</p>
-        
-        <hr><p>本文2023-06-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>debugging</title><link>https://www.jingmengzhiyue.tech/2023/06/05/debugging-profiling/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/05/debugging-profiling/</guid><description>
-<![CDATA[<h1>debugging</h1><p>作者：Jingmengzhiyue（）</p>
+        <hr><p>本文2023-06-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>程序调试与性能分析</title><link>https://www.jingmengzhiyue.tech/2023/06/05/debugging-profiling/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/05/debugging-profiling/</guid><description>
+<![CDATA[<h1>程序调试与性能分析</h1><p>作者：Jingmengzhiyue（）</p>
         
           <p>代码不能完全按照您的想法运行，它只能完全按照您的写法运行，这是编程界的一条金科玉律。</p>
 <p>让您的写法符合您的想法是非常困难的。在这节课中，我们会传授给您一些非常有用技术，帮您处理代码中的 bug 和程序性能问题。</p>
         
-        <hr><p>本文2023-06-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>data-wrangling</title><link>https://www.jingmengzhiyue.tech/2023/06/05/data-wrangling/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/05/data-wrangling/</guid><description>
-<![CDATA[<h1>data-wrangling</h1><p>作者：Jingmengzhiyue（）</p>
+        <hr><p>本文2023-06-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>版本控制与 Git</title><link>https://www.jingmengzhiyue.tech/2023/06/05/version-control/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/05/version-control/</guid><description>
+<![CDATA[<h1>版本控制与 Git</h1><p>作者：Jingmengzhiyue（）</p>
         
-          <p>您是否曾经有过这样的需求，将某种格式存储的数据转换成另外一种格式? 肯定有过，对吧！
-这也正是我们这节课所要讲授的主要内容。具体来讲，我们需要不断地对数据进行处理，直到得到我们想要的最终结果。</p>
+          <p>版本控制系统 (VCSs) 是一类用于追踪源代码（或其他文件、文件夹）改动的工具。顾名思义，这些工具可以帮助我们管理代码的修改历史；不仅如此，它还可以让协作编码变得更方便。VCS通过一系列的快照将某个文件夹及其内容保存了起来，每个快照都包含了文件或文件夹的完整状态。同时它还维护了快照创建者的信息以及每个快照的相关信息等等。</p>
         
-        <hr><p>本文2023-06-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>course-shell</title><link>https://www.jingmengzhiyue.tech/2023/06/05/course-shell/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/05/course-shell/</guid><description>
-<![CDATA[<h1>course-shell</h1><p>作者：Jingmengzhiyue（）</p>
+        <hr><p>本文2023-06-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>安全与密码学</title><link>https://www.jingmengzhiyue.tech/2023/06/05/security/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/05/security/</guid><description>
+<![CDATA[<h1>安全与密码学</h1><p>作者：Jingmengzhiyue（）</p>
         
-          <h1 id="动机">
-<a class="header-anchor" href="#%e5%8a%a8%e6%9c%ba"></a>
-动机
-</h1><p>作为计算机科学家，我们都知道计算机最擅长帮助我们完成重复性的工作。但是我们却常常忘记这一点也适用于我们使用计算机的方式，而不仅仅是利用计算机程序去帮我们求解问题。在从事与计算机相关的工作时，我们有很多触手可及的工具可以帮助我们更高效的解决问题。但是我们中的大多数人实际上只利用了这些工具中的很少一部分，我们常常只是死记硬背一些如咒语般的命令，或是当我们卡住的时候，盲目地从网上复制粘贴一些命令。</p>
+          <p>去年的<a href="/2023/06/05/security/">这节课</a>我们从计算机 <em>用户</em> 的角度探讨了增强隐私保护和安全的方法。
+今年我们将关注比如散列函数、密钥生成函数、对称/非对称密码体系这些安全和密码学的概念是如何应用于前几节课所学到的工具（Git和SSH）中的。</p>
         
-        <hr><p>本文2023-06-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>Command-line</title><link>https://www.jingmengzhiyue.tech/2023/06/05/Command-line/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/05/Command-line/</guid><description>
-<![CDATA[<h1>Command-line</h1><p>作者：Jingmengzhiyue（）</p>
+        <hr><p>本文2023-06-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-06-05</p>]]></description><category>Computer Science</category></item><item><title>Shell 工具与脚本</title><link>https://www.jingmengzhiyue.tech/2023/06/05/shell-tools/</link><pubDate>Mon, 05 Jun 2023 16:37:29 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2023/06/05/shell-tools/</guid><description>
+<![CDATA[<h1>Shell 工具与脚本</h1><p>作者：Jingmengzhiyue（）</p>
         
-          <p>当您使用 shell 进行工作时，可以使用一些方法改善您的工作流，本节课我们就来讨论这些方法。</p>
-<p>我们已经使用 shell 一段时间了，但是到目前为止我们的关注点主要集中在使用不同的命令上面。现在，我们将会学习如何同时执行多个不同的进程并追踪它们的状态、如何停止或暂停某个进程以及如何使进程在后台运行。</p>
+          <p>在这节课中，我们将会展示 bash 作为脚本语言的一些基础操作，以及几种最常用的 shell 工具。</p>
+<h1 id="shell-脚本">
+<a class="header-anchor" href="#shell-%e8%84%9a%e6%9c%ac"></a>
+Shell 脚本
+</h1><p>到目前为止，我们已经学习来如何在 shell 中执行命令，并使用管道将命令组合使用。但是，很多情况下我们需要执行一系列的操作并使用条件或循环这样的控制流。</p>
         
         <hr><p>本文2023-06-05首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2023-06-05</p>]]></description><category>Computer Science</category></item></channel></rss>
