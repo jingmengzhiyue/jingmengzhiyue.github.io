@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/en/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>en</language><copyright>All articles on this blog are licensed under the BY license agreement unless otherwise stated. Please indicate the source when reprinting!</copyright><lastBuildDate>Fri, 26 Jun 2026 09:00:00 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/en/index.xml" rel="self" type="application/rss+xml"/><item><title>References</title><link>https://www.jingmengzhiyue.tech/en/boosting-references/</link><pubDate>Fri, 26 Jun 2026 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/boosting-references/</guid><description>
-<![CDATA[<h1>References</h1><p>Author: Jingmengzhiyue()</p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/en/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>en</language><copyright>All articles on this blog are licensed under the BY license agreement unless otherwise stated. Please indicate the source when reprinting!</copyright><lastBuildDate>Fri, 26 Jun 2026 09:00:00 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/en/index.xml" rel="self" type="application/rss+xml"/><item><title>Boosting Papers and Reading Guide</title><link>https://www.jingmengzhiyue.tech/en/boosting-references/</link><pubDate>Fri, 26 Jun 2026 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/boosting-references/</guid><description>
+<![CDATA[<h1>Boosting Papers and Reading Guide</h1><p>Author: Jingmengzhiyue()</p>
         
           <p>Boosting is one of the most classic and most practical techniques in machine learning, and its literature spans more than three decades — from the theoretical foundations of the mid-1990s, through the engineering explosion of the 2010s, to industrial deployment in the 2020s — forming a remarkably rich body of knowledge. This article doesn&rsquo;t just list references; it aims to give readers a clear reading path so they can build their own understanding efficiently, whatever their background.</p>
         
-        <hr><p>Published on 2026-06-26 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2026-06-26</p>]]></description><category>Machine Learning</category></item><item><title>End-to-End Python Examples</title><link>https://www.jingmengzhiyue.tech/en/boosting-python-examples/</link><pubDate>Tue, 09 Jun 2026 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/boosting-python-examples/</guid><description>
-<![CDATA[<h1>End-to-End Python Examples</h1><p>Author: Jingmengzhiyue()</p>
+        <hr><p>Published on 2026-06-26 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2026-06-26</p>]]></description><category>Machine Learning</category></item><item><title>Boosting in Python: Classification and Regression</title><link>https://www.jingmengzhiyue.tech/en/boosting-python-examples/</link><pubDate>Tue, 09 Jun 2026 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/boosting-python-examples/</guid><description>
+<![CDATA[<h1>Boosting in Python: Classification and Regression</h1><p>Author: Jingmengzhiyue()</p>
         
           <p>This article provides complete, runnable Python examples covering binary classification, regression, model persistence and SHAP explanation. The code targets sklearn 1.4+, XGBoost 2.1+, LightGBM 4.0+ and CatBoost 1.2+, and includes comments; it has been run end to end under scikit-learn 1.9.1, XGBoost 3.4.1, LightGBM 4.7.0, CatBoost 1.2.10, shap 0.54.1 and optuna 5.1.0 (Python 3.13).</p>
 <blockquote>
@@ -20,8 +20,8 @@
 11.1 A complete binary classification workflow
 </h2><p>This example uses sklearn&rsquo;s <code>make_classification</code> to generate data and walks through the whole path from loading to evaluation and visualization, comparing XGBoost, LightGBM and CatBoost along the way.</p>
         
-        <hr><p>Published on 2026-06-09 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2026-06-09</p>]]></description><category>Machine Learning</category></item><item><title>Tuning Guide and Best Practices</title><link>https://www.jingmengzhiyue.tech/en/boosting-tuning/</link><pubDate>Fri, 17 Apr 2026 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/boosting-tuning/</guid><description>
-<![CDATA[<h1>Tuning Guide and Best Practices</h1><p>Author: Jingmengzhiyue()</p>
+        <hr><p>Published on 2026-06-09 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2026-06-09</p>]]></description><category>Machine Learning</category></item><item><title>Tuning Boosting Models</title><link>https://www.jingmengzhiyue.tech/en/boosting-tuning/</link><pubDate>Fri, 17 Apr 2026 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/boosting-tuning/</guid><description>
+<![CDATA[<h1>Tuning Boosting Models</h1><p>Author: Jingmengzhiyue()</p>
         
           <p>Boosting performance depends heavily on hyperparameters. Unlike random forests, which work out of the box, boosting&rsquo;s default settings tend to be aggressive (XGBoost&rsquo;s <code>max_depth=6</code>, <code>eta=0.3</code>), and getting the best out of it takes systematic tuning. This article lays out a general staged tuning framework, gives concrete parameter advice for each algorithm, and offers fixes for the common traps.</p>
 <h2 id="101-a-general-strategy-staged-tuning">
@@ -29,10 +29,11 @@
 10.1 A general strategy: staged tuning
 </h2><p>Boosting has many parameters that interact (the <code>learning_rate</code>/<code>n_estimators</code> trade-off, for one). A blind full grid search is both expensive and prone to landing in a local optimum. <strong>Staged tuning</strong> — layering the work by importance, refining step by step — works better.</p>
         
-        <hr><p>Published on 2026-04-17 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2026-04-17</p>]]></description><category>Machine Learning</category></item><item><title>Comparing Algorithms and Choosing One</title><link>https://www.jingmengzhiyue.tech/en/boosting-model-selection/</link><pubDate>Sat, 04 Apr 2026 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/boosting-model-selection/</guid><description>
-<![CDATA[<h1>Comparing Algorithms and Choosing One</h1><p>Author: Jingmengzhiyue()</p>
+        <hr><p>Published on 2026-04-17 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2026-04-17</p>]]></description><category>Machine Learning</category></item><item><title>Boosting Algorithms: Comparison and Selection</title><link>https://www.jingmengzhiyue.tech/en/boosting-model-selection/</link><pubDate>Sat, 04 Apr 2026 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/boosting-model-selection/</guid><description>
+<![CDATA[<h1>Boosting Algorithms: Comparison and Selection</h1><p>Author: Jingmengzhiyue()</p>
         
           <p>The boosting family is crowded — from classic AdaBoost to modern XGBoost, LightGBM and CatBoost — and each member has its own design philosophy, optimization target and sweet spot. On real projects, picking the right algorithm often matters more than fine-tuning it. This article compares the five mainstream boosting algorithms across several dimensions and lays out a practical decision procedure.</p>
+<p><img src="/img/04_algorithm_comparison.png" alt="Comparison of XGBoost, LightGBM, and CatBoost"></p>
 <p>The comparison below covers training and prediction speed, memory use, accuracy, and feature handling.</p>
         
         <hr><p>Published on 2026-04-04 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2026-04-04</p>]]></description><category>Machine Learning</category></item><item><title>CatBoost</title><link>https://www.jingmengzhiyue.tech/en/boosting-catboost/</link><pubDate>Thu, 19 Feb 2026 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/boosting-catboost/</guid><description>
@@ -62,7 +63,8 @@
         <hr><p>Published on 2026-01-15 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2026-01-15</p>]]></description><category>Machine Learning</category></item><item><title>Gradient Boosting Machine</title><link>https://www.jingmengzhiyue.tech/en/boosting-gradient-boosting/</link><pubDate>Mon, 24 Nov 2025 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/boosting-gradient-boosting/</guid><description>
 <![CDATA[<h1>Gradient Boosting Machine</h1><p>Author: Jingmengzhiyue()</p>
         
-          <p>With squared-error loss, each new tree fits the current residuals. The learning rate scales its contribution to the ensemble.</p>
+          <p><img src="/img/03_gradient_boosting_residuals.png" alt="How gradient boosting fits residuals over successive rounds"></p>
+<p>With squared-error loss, each new tree fits the current residuals. The learning rate scales its contribution to the ensemble.</p>
 <h2 id="51-gradient-descent-in-function-space-friedman-2001">
 <a class="header-anchor" href="#51-gradient-descent-in-function-space-friedman-2001"></a>
 5.1 Gradient descent in function space (Friedman 2001)
@@ -71,14 +73,15 @@
         <hr><p>Published on 2025-11-24 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2025-11-24</p>]]></description><category>Machine Learning</category></item><item><title>AdaBoost (Adaptive Boosting)</title><link>https://www.jingmengzhiyue.tech/en/boosting-adaboost/</link><pubDate>Thu, 06 Nov 2025 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/boosting-adaboost/</guid><description>
 <![CDATA[<h1>AdaBoost (Adaptive Boosting)</h1><p>Author: Jingmengzhiyue()</p>
         
-          <p>Misclassified samples gain weight after each round, while the upper bound on training error decreases with successive rounds under the weak-learning condition.</p>
+          <p><img src="/img/02_adaboost_weights.png" alt="AdaBoost sample weights and training error bound"></p>
+<p>Misclassified samples gain weight after each round, while the upper bound on training error decreases with successive rounds under the weak-learning condition.</p>
 <h2 id="41-overview-and-core-idea">
 <a class="header-anchor" href="#41-overview-and-core-idea"></a>
 4.1 Overview and core idea
 </h2><p><strong>Yoav Freund</strong> and <strong>Robert E. Schapire</strong> first presented AdaBoost (Adaptive Boosting) as a conference paper in 1995 (EuroCOLT 1995) and published the full version in the <em>Journal of Computer and System Sciences</em> in 1997. It is the most classic and most influential member of the boosting family, and one of the most important algorithms in the history of machine learning.</p>
         
-        <hr><p>Published on 2025-11-06 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2025-11-06</p>]]></description><category>Machine Learning</category></item><item><title>Forward Stagewise Additive Models and the Loss-Function Framework</title><link>https://www.jingmengzhiyue.tech/en/boosting-additive-models/</link><pubDate>Thu, 23 Oct 2025 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/boosting-additive-models/</guid><description>
-<![CDATA[<h1>Forward Stagewise Additive Models and the Loss-Function Framework</h1><p>Author: Jingmengzhiyue()</p>
+        <hr><p>Published on 2025-11-06 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2025-11-06</p>]]></description><category>Machine Learning</category></item><item><title>Boosting Foundations: Additive Models and Loss Functions</title><link>https://www.jingmengzhiyue.tech/en/boosting-additive-models/</link><pubDate>Thu, 23 Oct 2025 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/boosting-additive-models/</guid><description>
+<![CDATA[<h1>Boosting Foundations: Additive Models and Loss Functions</h1><p>Author: Jingmengzhiyue()</p>
         
           <h2 id="31-the-additive-model-boostings-mathematical-base">
 <a class="header-anchor" href="#31-the-additive-model-boostings-mathematical-base"></a>

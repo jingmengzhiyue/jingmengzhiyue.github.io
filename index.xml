@@ -1,20 +1,20 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>zh-CN</language><copyright>本博客所有文章除特别声明外，均采用 BY 许可协议。转载请注明出处！</copyright><lastBuildDate>Fri, 26 Jun 2026 09:00:00 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/index.xml" rel="self" type="application/rss+xml"/><item><title>参考文献</title><link>https://www.jingmengzhiyue.tech/2026/06/26/boosting-references/</link><pubDate>Fri, 26 Jun 2026 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2026/06/26/boosting-references/</guid><description>
-<![CDATA[<h1>参考文献</h1><p>作者：Jingmengzhiyue（）</p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>zh-CN</language><copyright>本博客所有文章除特别声明外，均采用 BY 许可协议。转载请注明出处！</copyright><lastBuildDate>Fri, 26 Jun 2026 09:00:00 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/index.xml" rel="self" type="application/rss+xml"/><item><title>Boosting 论文与阅读指南</title><link>https://www.jingmengzhiyue.tech/2026/06/26/boosting-references/</link><pubDate>Fri, 26 Jun 2026 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2026/06/26/boosting-references/</guid><description>
+<![CDATA[<h1>Boosting 论文与阅读指南</h1><p>作者：Jingmengzhiyue（）</p>
         
           <p>Boosting 算法作为机器学习领域最经典、最实用的技术之一，其文献体系跨越了三十余年，从 1990 年代中期的理论奠基到 2010 年代的工程化爆发，再到 2020 年代的工业级落地，形成了极为丰富的知识脉络。本文不仅列出参考文献，更希望为读者提供一条清晰的阅读路径，帮助不同背景的读者高效地构建自己的 Boosting 知识体系。</p>
         
-        <hr><p>本文2026-06-26首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2026-06-26</p>]]></description><category>Machine Learning</category></item><item><title>Python 综合代码示例</title><link>https://www.jingmengzhiyue.tech/2026/06/09/boosting-python-examples/</link><pubDate>Tue, 09 Jun 2026 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2026/06/09/boosting-python-examples/</guid><description>
-<![CDATA[<h1>Python 综合代码示例</h1><p>作者：Jingmengzhiyue（）</p>
+        <hr><p>本文2026-06-26首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2026-06-26</p>]]></description><category>Machine Learning</category></item><item><title>Boosting 实战：Python 分类与回归</title><link>https://www.jingmengzhiyue.tech/2026/06/09/boosting-python-examples/</link><pubDate>Tue, 09 Jun 2026 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2026/06/09/boosting-python-examples/</guid><description>
+<![CDATA[<h1>Boosting 实战：Python 分类与回归</h1><p>作者：Jingmengzhiyue（）</p>
         
           <p>本文提供完整的、可直接运行的 Python 代码示例，涵盖二分类、回归、模型保存加载和 SHAP 解释。所有代码基于 sklearn 1.4+、XGBoost 2.1+、LightGBM 4.0+、CatBoost 1.2+ 编写，并附有注释；已在 scikit-learn 1.9.1、XGBoost 3.4.1、LightGBM 4.7.0、CatBoost 1.2.10、shap 0.54.1、optuna 5.1.0（Python 3.13）下实际运行通过。</p>
         
-        <hr><p>本文2026-06-09首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2026-06-09</p>]]></description><category>Machine Learning</category></item><item><title>调参指南与最佳实践</title><link>https://www.jingmengzhiyue.tech/2026/04/17/boosting-tuning/</link><pubDate>Fri, 17 Apr 2026 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2026/04/17/boosting-tuning/</guid><description>
-<![CDATA[<h1>调参指南与最佳实践</h1><p>作者：Jingmengzhiyue（）</p>
+        <hr><p>本文2026-06-09首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2026-06-09</p>]]></description><category>Machine Learning</category></item><item><title>Boosting 调参指南</title><link>https://www.jingmengzhiyue.tech/2026/04/17/boosting-tuning/</link><pubDate>Fri, 17 Apr 2026 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2026/04/17/boosting-tuning/</guid><description>
+<![CDATA[<h1>Boosting 调参指南</h1><p>作者：Jingmengzhiyue（）</p>
         
           <p>Boosting 算法的性能很大程度上取决于超参数的选择。与随机森林等&quot;开箱即用&quot;的算法不同，Boosting 的默认参数往往偏激进（如 XGBoost 默认 <code>max_depth=6</code>、<code>eta=0.3</code>），必须经过系统调参才能发挥最优性能。本文提供一套通用的分步调参框架，并针对每种算法给出具体的参数建议和常见陷阱的解决方案。</p>
         
-        <hr><p>本文2026-04-17首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2026-04-17</p>]]></description><category>Machine Learning</category></item><item><title>算法对比与选择决策</title><link>https://www.jingmengzhiyue.tech/2026/04/04/boosting-model-selection/</link><pubDate>Sat, 04 Apr 2026 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2026/04/04/boosting-model-selection/</guid><description>
-<![CDATA[<h1>算法对比与选择决策</h1><p>作者：Jingmengzhiyue（）</p>
+        <hr><p>本文2026-04-17首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2026-04-17</p>]]></description><category>Machine Learning</category></item><item><title>Boosting 算法对比与选型</title><link>https://www.jingmengzhiyue.tech/2026/04/04/boosting-model-selection/</link><pubDate>Sat, 04 Apr 2026 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2026/04/04/boosting-model-selection/</guid><description>
+<![CDATA[<h1>Boosting 算法对比与选型</h1><p>作者：Jingmengzhiyue（）</p>
         
           <p>Boosting 家族算法众多，从经典的 AdaBoost 到现代的 XGBoost、LightGBM、CatBoost，每种算法都有其独特的设计哲学、优化方向和适用场景。在实际项目中，选择正确的算法往往比精细调参更能决定最终效果。本文从多维度对五大主流 Boosting 算法进行系统对比，并给出可操作的算法选择决策流程。</p>
         
@@ -45,7 +45,8 @@
         <hr><p>本文2026-01-15首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2026-01-15</p>]]></description><category>Machine Learning</category></item><item><title>Gradient Boosting Machine（梯度提升机）</title><link>https://www.jingmengzhiyue.tech/2025/11/24/boosting-gradient-boosting/</link><pubDate>Mon, 24 Nov 2025 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2025/11/24/boosting-gradient-boosting/</guid><description>
 <![CDATA[<h1>Gradient Boosting Machine（梯度提升机）</h1><p>作者：Jingmengzhiyue（）</p>
         
-          <p>使用平方误差损失时，每一轮的新树拟合当前残差，再按学习率缩放后加入集成。</p>
+          <p><img src="/img/03_gradient_boosting_residuals.png" alt="梯度提升逐轮拟合残差的过程"></p>
+<p>使用平方误差损失时，每一轮的新树拟合当前残差，再按学习率缩放后加入集成。</p>
 <h2 id="51-函数空间梯度下降的核心思想friedman-2001">
 <a class="header-anchor" href="#51-%e5%87%bd%e6%95%b0%e7%a9%ba%e9%97%b4%e6%a2%af%e5%ba%a6%e4%b8%8b%e9%99%8d%e7%9a%84%e6%a0%b8%e5%bf%83%e6%80%9d%e6%83%b3friedman-2001"></a>
 5.1 函数空间梯度下降的核心思想（Friedman 2001）
@@ -54,14 +55,15 @@
         <hr><p>本文2025-11-24首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2025-11-24</p>]]></description><category>Machine Learning</category></item><item><title>AdaBoost（自适应提升算法）</title><link>https://www.jingmengzhiyue.tech/2025/11/06/boosting-adaboost/</link><pubDate>Thu, 06 Nov 2025 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2025/11/06/boosting-adaboost/</guid><description>
 <![CDATA[<h1>AdaBoost（自适应提升算法）</h1><p>作者：Jingmengzhiyue（）</p>
         
-          <p>每轮迭代后，错分样本的权重会上升。在满足弱学习条件时，训练误差的上界随迭代下降。</p>
+          <p><img src="/img/02_adaboost_weights.png" alt="AdaBoost 的样本权重变化与训练误差上界"></p>
+<p>每轮迭代后，错分样本的权重会上升。在满足弱学习条件时，训练误差的上界随迭代下降。</p>
 <h2 id="41-算法概述与核心思想">
 <a class="header-anchor" href="#41-%e7%ae%97%e6%b3%95%e6%a6%82%e8%bf%b0%e4%b8%8e%e6%a0%b8%e5%bf%83%e6%80%9d%e6%83%b3"></a>
 4.1 算法概述与核心思想
 </h2><p>AdaBoost（Adaptive Boosting，自适应提升）由 <strong>Yoav Freund</strong> 和 <strong>Robert E. Schapire</strong> 于 1995 年首次提出会议版本（EuroCOLT 1995），并于 1997 年在 <em>Journal of Computer and System Sciences</em> 上发表正式论文，是 Boosting 家族中最经典、最具影响力的算法，也是机器学习历史上最重要的算法之一。</p>
         
-        <hr><p>本文2025-11-06首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2025-11-06</p>]]></description><category>Machine Learning</category></item><item><title>前向分步加法模型与损失函数框架</title><link>https://www.jingmengzhiyue.tech/2025/10/23/boosting-additive-models/</link><pubDate>Thu, 23 Oct 2025 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2025/10/23/boosting-additive-models/</guid><description>
-<![CDATA[<h1>前向分步加法模型与损失函数框架</h1><p>作者：Jingmengzhiyue（）</p>
+        <hr><p>本文2025-11-06首发于<a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>，最后修改于2025-11-06</p>]]></description><category>Machine Learning</category></item><item><title>Boosting 原理：加法模型与损失函数</title><link>https://www.jingmengzhiyue.tech/2025/10/23/boosting-additive-models/</link><pubDate>Thu, 23 Oct 2025 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/2025/10/23/boosting-additive-models/</guid><description>
+<![CDATA[<h1>Boosting 原理：加法模型与损失函数</h1><p>作者：Jingmengzhiyue（）</p>
         
           <h2 id="31-加法模型boosting-的数学基础">
 <a class="header-anchor" href="#31-%e5%8a%a0%e6%b3%95%e6%a8%a1%e5%9e%8bboosting-%e7%9a%84%e6%95%b0%e5%ad%a6%e5%9f%ba%e7%a1%80"></a>
