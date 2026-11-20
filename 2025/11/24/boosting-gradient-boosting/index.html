@@ -1,0 +1,713 @@
+<!doctype html><html lang=zh-CN data-theme-mode=auto><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><title>Gradient Boosting Machine（梯度提升机） | Jingmengzhiyue</title><meta name=description content="热爱可抵万难"><script>window.siteConfig=JSON.parse('{"anchor":{"auto":{"enable":false,"length":60},"explicit":{"enable":false,"marker":"{#anchor-","prefix":"anchor-"}},"anchor_icon":null,"base":"https://www.jingmengzhiyue.tech/","clipboard":{"copyright":{"count":50,"enable":false,"license_type":"by-nc-sa"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-br":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ","zh-cn":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-tw":"複製失敗 (ﾟ⊿ﾟ)ﾂ"},"success":{"en":"Copy successfully (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-br":"Copiado com sucesso (*^▽^*)","zh-cn":"复制成功 (*^▽^*)","zh-tw":"複製成功 (*^▽^*)"}},"code_block":{"expand":true},"dark_mode":{"button":true,"mode":"auto"},"i18n_languages":[{"label":"简体中文","lang":"zh-cn"},{"label":"English","lang":"en"}],"icon_font":"4552607_ex15nbittbh","outdate":{"daysago":180,"enable":false,"message":{"en":"This article was last updated on {time}. Please note that the content may no longer be applicable.","ja":"この記事は最終更新日：{time}。記載内容が現在有効でない可能性がありますのでご注意ください。","pt-br":"Este artigo foi atualizado pela última vez em {time}. Observe que o conteúdo pode não ser mais aplicável.","zh-cn":"本文最后更新于 {time}，请注意文中内容可能已不适用。","zh-tw":"本文最後更新於 {time}，請注意文中內容可能已不適用。"}}}')</script><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap" media=print onload='this.media="all"'><link rel=preload href=//at.alicdn.com/t/c/font_4552607_ex15nbittbh.woff2 as=font type=font/woff2 crossorigin=anonymous><link rel=stylesheet href=/css/loader.min.ac746e154f756f8220326eeb52a719f142ab038be5a8ddf30ea5ef15ef2356ea.css><meta property="og:type" content="website"><meta property="og:title" content="Gradient Boosting Machine（梯度提升机） | Jingmengzhiyue"><meta property="og:description" content="热爱可抵万难"><meta property="og:url" content="https://www.jingmengzhiyue.tech/2025/11/24/boosting-gradient-boosting/"><meta property="og:site_name" content="热爱可抵万难"><meta property="og:image" content="https://www.jingmengzhiyue.tech/img/24.jpg"><meta property="article:author" content="Jingmengzhiyue"><meta property="article:published_time" content="2025-11-24T09:00:00+08:00"><meta property="article:modified_time" content="2025-11-24T09:00:00+08:00"><meta property="article:tag" content="Machine Learning"><meta name=twitter:card content="summary"><meta name=twitter:image content="https://www.jingmengzhiyue.tech/img/24.jpg"><link rel="shortcut icon" href=/favicon.ico><link rel=stylesheet href=/css/main.min.c69028af04cc11392739edc48eeb60465879b00de4286e0147bbc470f8f39418.css><link rel=preload as=style href=https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css integrity=sha384-IfxC36XL/toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx/1oA/0l8ysE crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><link rel=preload as=style href=https://npm.webcache.cn/katex@0.16.47/dist/katex.min.css integrity=sha384-nH0MfJ44wi1dd7w6jinlyBgljjS8EJAh2JBoRad8a3VDw2K69vfaaqm4WnR+gXtA crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><script src=https://npm.webcache.cn/pace-js@1.2.4/pace.min.js integrity=sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8 crossorigin=anonymous></script><link rel=stylesheet href=https://npm.webcache.cn/@reimujs/aos@0.1.3/dist/aos.css integrity=sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa crossorigin=anonymous><link rel=stylesheet href=https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.css integrity=sha384-tLMkTWh2pfXNWGFlUS0w1TFtRG5xZ9lPWFOooj+vDDLIL+xBGQU/voDBY5XE2lVh crossorigin=anonymous><link rel=icon href=/img/fluid.png type=image/png><link rel=apple-touch-icon href=/img/fluid.png><link rel=stylesheet href=/css/custom.css></head><body><div id=loader><div class="loading-left-bg loading-bg"></div><div class="loading-right-bg loading-bg"></div><div class=spinner-box><div class="loading-taichi rotate"><svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" shape-rendering="geometricPrecision"><path d="M303.5 432a80 80 0 01-12 160 80 80 0 0112-160z" fill="var(--red-1, #ff5252)"/><path d="M512 65a447 447 0 010 894V929a417 417 0 000-834 417 417 0 000 834v30a447 447 0 010-894zm0 30A417 417 0 01929 512 208.5 208.5.0 01720.5 720.5V592a80 80 0 000-160 80 80 0 000 160V720.5A208.5 208.5.0 01512 512 208.5 208.5.0 00303.5 303.5 208.5 208.5.0 0095 512 417 417 0 01512 95z" fill="var(--red-1, #ff5252)"/></svg></div><div class=loading-word>加载中...</div></div></div></div><script>var time=null,loaderEl=document.getElementById("loader"),startLoading=()=>{time=Date.now(),loaderEl.classList.remove("loading")},hideLoader=()=>{document.body.style.overflow="auto",loader.classList.add("loading")},endLoading=()=>{time?Date.now()-time>500?(time=null,hideLoader()):(setTimeout(endLoading,500-(Date.now()-time)),time=null):hideLoader()};window.addEventListener("DOMContentLoaded",endLoading),loaderEl.addEventListener("click",endLoading)</script><div id=copy-tooltip></div><div id=lang-tooltip>本文章没有找到对应的语言版本</div><div id=heatmap-tooltip></div><div id=container><div id=wrap><div id=header-nav><nav id=main-nav aria-label="Primary navigation"><a class=main-nav-link-wrap href=/><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>首页</span>
+</a><a class=main-nav-link-wrap href=/archives><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>归档</span>
+</a><a class=main-nav-link-wrap href=/categories><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>目录</span>
+</a><a class=main-nav-link-wrap href=/tags><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>标签</span>
+</a><a class=main-nav-link-wrap href=/about><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>关于</span>
+</a><a id=main-nav-toggle class=nav-icon aria-label="Toggle navigation" role=button></a></nav><nav id=sub-nav aria-label="Secondary navigation"></nav><nav id=i18n-nav aria-label="Language selection"><div class=custom-dropdown><div class=select-selected id=select-selected role=button aria-haspopup=listbox aria-expanded=false aria-label="Language menu"><span id=nav-language-btn class=nav-icon style="padding:0 20px 0 0"></span>
+<span id=selected-lang>简体中文</span></div><ul class=select-items id=select-items role=listbox aria-label=Languages><li data-value=zh-cn role=option class=selected aria-selected=true>简体中文</li><li data-value=en role=option aria-selected=false>English</li></ul></div><script>var selectSelected=document.getElementById("select-selected"),selectedLang=document.getElementById("selected-lang"),selectItems=document.getElementById("select-items"),selectOptions=selectItems.querySelectorAll("li");selectSelected.addEventListener("click",()=>{selectItems.classList.toggle("show");var e=selectSelected.getAttribute("aria-expanded")==="true";selectSelected.setAttribute("aria-expanded",(!e).toString())}),selectOptions.forEach(e=>{e.addEventListener("click",()=>{const t={};if(t.en="/en/boosting-gradient-boosting/",selectedLang.textContent=e.textContent,selectItems.classList.remove("show"),selectOptions.forEach(e=>{e.classList.remove("selected")}),e.classList.add("selected"),e.dataset.value==="zh-cn")return;if(!t[e.dataset.value]){_$("#lang-tooltip").style.opacity="1",setTimeout(()=>{_$("#lang-tooltip").style.opacity="0"},1e3);return}window.location=t[e.dataset.value]})}),document.addEventListener("click",e=>{e.target.closest(".custom-dropdown")||(selectItems.classList.remove("show"),selectSelected.setAttribute("aria-expanded","false"))})</script></nav></div><header id=header aria-label="Site header"><picture></picture><img fetchpriority=high src=/img/24.jpg alt="Gradient Boosting Machine（梯度提升机）"><div id=header-outer><div id=header-title><span id=logo><h1 data-aos=slide-up>Gradient Boosting Machine（梯度提升机）</h1></span><h2 id=subtitle-wrap data-aos=slide-down></h2></div></div></header><div id=content aria-label="Page content" class=sidebar-right><aside id=sidebar aria-label=Sidebar><div class="sidebar-wrapper-container sticky"><div class=sidebar-wrapper><div class=sidebar-wrap data-aos=fade-up><div class=sidebar-toc-sidebar><h3 class=toc-title>文章目录</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#51-函数空间梯度下降的核心思想friedman-2001>5.1 函数空间梯度下降的核心思想（Friedman 2001）</a></li><li><a href=#52-伪残差pseudo-residuals的概念>5.2 伪残差（Pseudo-residuals）的概念</a><ul><li><a href=#伪残差名称的由来>&ldquo;伪残差"名称的由来</a></li></ul></li><li><a href=#53-泰勒展开解释一阶梯度下降>5.3 泰勒展开解释（一阶梯度下降）</a></li><li><a href=#54-任意可微损失函数的统一框架>5.4 任意可微损失函数的统一框架</a></li><li><a href=#55-回归版本平方损失的完整推导>5.5 回归版本（平方损失）的完整推导</a><ul><li><a href=#伪残差计算>伪残差计算</a></li><li><a href=#完整回归流程>完整回归流程</a></li><li><a href=#其他回归损失ladhuber-与分位数>其他回归损失：LAD、Huber 与分位数</a></li></ul></li><li><a href=#56-分类版本对数损失的推导>5.6 分类版本（对数损失）的推导</a><ul><li><a href=#伪残差计算-1>伪残差计算</a></li><li><a href=#初始值与叶子值newton-步>初始值与叶子值（Newton 步）</a></li><li><a href=#多分类情况k-类>多分类情况（K 类）</a></li><li><a href=#多分类算法流程>多分类算法流程</a></li></ul></li><li><a href=#57-正则化技术shrinkage子采样列采样树复杂度控制>5.7 正则化技术：Shrinkage、子采样、列采样、树复杂度控制</a><ul><li><a href=#shrinkage学习率收缩>Shrinkage（学习率收缩）</a></li><li><a href=#子采样stochastic-gradient-boosting>子采样（Stochastic Gradient Boosting）</a></li><li><a href=#列采样column-subsampling>列采样（Column Subsampling）</a></li><li><a href=#树复杂度控制>树复杂度控制</a></li><li><a href=#正则化技术总结表>正则化技术总结表</a></li></ul></li><li><a href=#58-sklearn-api-与关键参数详解>5.8 sklearn API 与关键参数详解</a><ul><li><a href=#gradientboostingregressor>GradientBoostingRegressor</a></li><li><a href=#gradientboostingclassifier>GradientBoostingClassifier</a></li><li><a href=#关键参数说明表>关键参数说明表</a></li><li><a href=#参数调优建议>参数调优建议</a></li></ul></li><li><a href=#59-伪代码>5.9 伪代码</a></li><li><a href=#510-python-从零实现回归--分类逐行注释>5.10 Python 从零实现（回归 + 分类，逐行注释）</a></li><li><a href=#511-与-sklearn-的对比验证>5.11 与 sklearn 的对比验证</a></li><li><a href=#512-模型解释相对重要性与部分依赖图>5.12 模型解释：相对重要性与部分依赖图</a></li><li><a href=#参考文献>参考文献</a></li><li><a href=#第4章adaboost核心文献>第4章（AdaBoost）核心文献</a></li><li><a href=#第5章gradient-boosting核心文献>第5章（Gradient Boosting）核心文献</a></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/profile_picture.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>文章</div><div class=sidebar-state-number>74</div></div><a class=sidebar-state-category href=/categories/ aria-label=sidebar-state-category-link><div>分类</div><div class=sidebar-state-number>9</div></a><a class=sidebar-state-tag href=/tags/ aria-label=sidebar-state-tag-link><div>标签</div><div class=sidebar-state-number>27</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/ aria-label=首页></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>首页</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/archives aria-label=归档></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>归档</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/categories aria-label=目录></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>目录</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/tags aria-label=标签></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>标签</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/about aria-label=关于></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>关于</div></div></div></div><div class=sidebar-btn-wrapper style=position:static><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></div></div><div class=sidebar-widget></div></div></aside><section id=main aria-label="Main content"><nav aria-label=文章语言><a href=/en/boosting-gradient-boosting/ hreflang=en lang=en>English</a></nav><article class="h-entry article" itemscope itemtype=https://schema.org/BlogPosting><div class=article-inner data-aos=fade-up><div class=article-meta><div class=article-date><span class="article-date-link icon-calendar" data-aos=zoom-in><time datetime="2025-11-24 09:00:00 +0800 +0800" itemprop=datePublished>2025-11-24</time>
+<time style=display:none id=post-update-time>2025-11-24</time></span></div></div><div class=hr-line></div><div class="e-content article-entry" itemprop=articleBody><p>使用平方误差损失时，每一轮的新树拟合当前残差，再按学习率缩放后加入集成。</p><h2 id=51-函数空间梯度下降的核心思想friedman-2001><a class=header-anchor href=#51-%e5%87%bd%e6%95%b0%e7%a9%ba%e9%97%b4%e6%a2%af%e5%ba%a6%e4%b8%8b%e9%99%8d%e7%9a%84%e6%a0%b8%e5%bf%83%e6%80%9d%e6%83%b3friedman-2001></a>5.1 函数空间梯度下降的核心思想（Friedman 2001）</h2><p>Gradient Boosting 的核心思想由 <strong>Jerome H. Friedman</strong> 在 2001 年的经典论文 <em>&ldquo;Greedy Function Approximation: A Gradient Boosting Machine&rdquo;</em> 中提出（1999 年以技术报告形式发布），将 Boosting 框架重新解释为<strong>函数空间中的梯度下降</strong>（Gradient Descent in Function Space）。这是 Boosting 理论发展史上的又一次重大突破，将 AdaBoost 从特定算法提升为<strong>通用的函数优化框架</strong>。</p><p>给定训练集 $\{(x_i, y_i)\}_{i=1}^n$，目标是最小化一个可微损失函数：</p>$$\mathcal{L}(F) = \sum_{i=1}^{n} L\big(y_i, F(x_i)\big)$$<p><strong>符号说明</strong>：$F(x)$ 是从输入到预测的函数映射；$L(y, F)$ 为损失函数；$n$ 为训练样本数。</p><p>传统的梯度下降在<strong>参数空间</strong>中进行（如神经网络的权重参数），而 Gradient Boosting 将 $F(x)$ 本身视为优化对象——即<strong>函数空间梯度下降</strong>。在迭代 $m$ 步时，当前模型为 $F_{m-1}(x)$，根据梯度下降原理，更新方向应沿损失函数对当前预测的负梯度方向：</p>$$F_m(x) = F_{m-1}(x) - \rho_m \left. \frac{\partial L(y, F(x))}{\partial F(x)} \right|_{F=F_{m-1}}$$<p><strong>符号说明</strong>：$\rho_m$ 为步长（由线搜索确定）；$\frac{\partial L}{\partial F}$ 为损失函数对当前函数值预测的偏导数。</p><p>严格地说，上式只在训练点 $x_1, \ldots, x_n$ 上有定义：把 $\left(F(x_1), \ldots, F(x_n)\right)$ 看作一个 $n$ 维向量，负梯度就是 $n$ 维向量 $\left(r_{1m}, \ldots, r_{nm}\right)$（见 5.2 节）。这样的"梯度下降"只能更新训练样本上的预测值，无法推广到新样本。</p><p><strong>关键洞察</strong>：由于 $F$ 是任意函数，而负梯度只在训练点上已知，我们无法直接在连续函数空间中操作。Friedman 的突破性方法是：用一个<strong>弱学习器</strong>（通常是浅层决策树）$h_m(x)$ 来<strong>近似这个负梯度方向</strong>，从而将函数空间中的梯度下降转化为可计算的序列模型。每一棵新树被训练来拟合当前模型的"负梯度"，然后将树的预测以学习率为权重加入模型。</p><pre class=mermaid>
+  graph TD
+    A["传统梯度下降<br>参数空间"] --> B["更新模型参数 θ"]
+    C["函数空间梯度下降<br>Friedman 2001"] --> D["更新函数 F(x) 本身"]
+    D --> E["用弱学习器 h_m(x)<br>近似负梯度方向"]
+    E --> F["累加更新<br>旧模型加上新弱学习器"]
+</pre><hr><h2 id=52-伪残差pseudo-residuals的概念><a class=header-anchor href=#52-%e4%bc%aa%e6%ae%8b%e5%b7%aepseudo-residuals%e7%9a%84%e6%a6%82%e5%bf%b5></a>5.2 伪残差（Pseudo-residuals）的概念</h2><p>定义在迭代 $m$ 时，样本 $i$ 的<strong>伪残差</strong>（pseudo-residual）为：</p>$$r_{im} = -\left[ \frac{\partial L(y_i, F(x_i))}{\partial F(x_i)} \right]_{F=F_{m-1}}$$<p><strong>符号说明</strong>：$r_{im}$ 为第 $m$ 轮第 $i$ 个样本的伪残差；$F_{m-1}(x_i)$ 为当前模型对样本 $i$ 的预测值。</p><h3 id=伪残差名称的由来><a class=header-anchor href=#%e4%bc%aa%e6%ae%8b%e5%b7%ae%e5%90%8d%e7%a7%b0%e7%9a%84%e7%94%b1%e6%9d%a5></a>&ldquo;伪残差"名称的由来</h3><ul><li><strong>&ldquo;残差&rdquo;（residual）</strong>：对于平方损失 $L(y, F) = \frac{1}{2}(y - F)^2$，该式恰好退化为普通残差 $y_i - F_{m-1}(x_i)$，即观测值与预测值之差。</li><li><strong>&ldquo;伪&rdquo;（pseudo）</strong>：对于一般损失函数，它不再是观测值与预测值之差，而是损失函数对预测值的<strong>负梯度</strong>。它只在平方损失下恰好等于普通残差，因此冠以"伪"字。</li></ul><p>伪残差代表了<strong>在当前预测点处，使损失下降最快的方向</strong>。每个新弱学习器被训练来拟合这些伪残差，从而将整体模型推向损失更小的区域。从几何角度看，Gradient Boosting 的每一步都是在当前函数值的"切平面"上沿最速下降方向走一步。</p><pre class=mermaid>
+  graph LR
+    A["当前模型"] --> B["计算伪残差<br>负梯度方向"]
+    B --> C["训练弱学习器 h_m(x)<br>拟合伪残差"]
+    C --> D["更新模型<br>旧模型加上新弱学习器"]
+    D --> E["损失函数减小"]
+</pre><hr><h2 id=53-泰勒展开解释一阶梯度下降><a class=header-anchor href=#53-%e6%b3%b0%e5%8b%92%e5%b1%95%e5%bc%80%e8%a7%a3%e9%87%8a%e4%b8%80%e9%98%b6%e6%a2%af%e5%ba%a6%e4%b8%8b%e9%99%8d></a>5.3 泰勒展开解释（一阶梯度下降）</h2><p>Gradient Boosting 可视为对损失函数进行<strong>一阶泰勒展开</strong>后的贪心优化。</p><p>设当前模型预测为 $F_{m-1}(x_i)$，新增一个弱学习器 $h_m(x_i)$，则新预测为 $F_{m-1}(x_i) + h_m(x_i)$。对损失函数在 $F_{m-1}$ 处做一阶泰勒展开：</p>$$L\big(y_i, F_{m-1}(x_i) + h_m(x_i)\big) \approx L\big(y_i, F_{m-1}(x_i)\big) + h_m(x_i) \cdot \left. \frac{\partial L}{\partial F} \right|_{F_{m-1}}$$<p><strong>符号说明</strong>：$h_m(x_i)$ 为第 $m$ 个弱学习器对样本 $i$ 的预测值；$\frac{\partial L}{\partial F}$ 为损失函数对当前预测值的偏导数。</p><p>将伪残差代入：</p>$$L\big(y_i, F_{m-1}(x_i) + h_m(x_i)\big) \approx L\big(y_i, F_{m-1}(x_i)\big) - h_m(x_i) \cdot r_{im}$$<p>要让近似后的损失下降，应让 $\sum_i h_m(x_i)\, r_{im}$ 尽可能大，即 $h_m$ 在训练点上的取值与伪残差向量<strong>方向一致</strong>。但一阶近似只在 $h_m$ 很小时成立，单纯追求内积变大会把 $h_m$ 的幅度推向无穷。因此 Gradient Boosting 把问题拆成两步：先选<strong>方向</strong>——在弱学习器类中找与负梯度最"平行"的函数，Friedman (2001) 用最小二乘实现这一点；再定<strong>步长</strong>——通过线搜索（或逐叶子优化，见 5.4 节）确定走多远：</p>$$h_m(x) = \arg\min_{h} \sum_{i=1}^{n} \big(r_{im} - h(x_i)\big)^2$$<p><strong>符号说明</strong>：$h_m(x)$ 为拟合伪残差的最优弱学习器；$r_{im}$ 为第 $m$ 轮第 $i$ 个样本的伪残差。</p><p>这正是 Gradient Boosting 每一步的核心操作：训练一棵回归树去拟合当前模型的伪残差。由于回归树将特征空间划分为若干叶子区域，在每个叶子内输出常数预测值，因此它提供了一种灵活而高效的方式来近似任意负梯度方向。</p><hr><h2 id=54-任意可微损失函数的统一框架><a class=header-anchor href=#54-%e4%bb%bb%e6%84%8f%e5%8f%af%e5%be%ae%e6%8d%9f%e5%a4%b1%e5%87%bd%e6%95%b0%e7%9a%84%e7%bb%9f%e4%b8%80%e6%a1%86%e6%9e%b6></a>5.4 任意可微损失函数的统一框架</h2><p>Friedman (2001) 的核心贡献之一是将 Boosting 从 AdaBoost 的指数损失推广到<strong>任意可微损失函数</strong>的统一框架。这是 Gradient Boosting 比 AdaBoost 更具通用性的根本原因。</p><table><thead><tr><th>任务类型</th><th>常用损失函数</th><th>伪残差形式</th><th>应用场景</th></tr></thead><tbody><tr><td>回归</td><td>平方损失 $\frac{1}{2}(y - F)^2$</td><td>$y - F$（普通残差）</td><td>一般回归问题</td></tr><tr><td>回归</td><td>绝对损失 $\lvert y - F \rvert$</td><td>$\operatorname{sign}(y - F)$</td><td>含异常值的回归</td></tr><tr><td>回归</td><td>Huber 损失</td><td>$y - F$（当 $\lvert y-F \rvert \leq \delta$）；$\delta \operatorname{sign}(y-F)$（否则）</td><td>噪声鲁棒回归</td></tr><tr><td>回归</td><td>分位数损失（Quantile）</td><td>$\tau - \mathbb{I}(y < F)$，即 $y > F$ 时为 $\tau$，$y < F$ 时为 $\tau - 1$</td><td>预测区间、不确定性估计</td></tr><tr><td>二分类</td><td>对数损失（Logistic Loss），$y \in \{0,1\}$</td><td>$y - \sigma(F)$</td><td>二分类问题</td></tr><tr><td>多分类</td><td>多项式偏差（Multinomial Deviance）</td><td>$y_{ik} - p_{k}(x_i)$</td><td>K 类分类问题</td></tr><tr><td>排序</td><td>成对排序损失</td><td>依具体定义</td><td>学习排序（Learning to Rank）</td></tr></tbody></table><p><strong>统一算法框架</strong>：</p><ol><li><strong>初始化</strong>：$F_0(x) = \arg\min_\gamma \sum_i L(y_i, \gamma)$</li><li><strong>对于</strong> $m = 1, \dots, M$：<ul><li>计算伪残差：$r_{im} = -\left[\frac{\partial L}{\partial F}\right]_{F_{m-1}}$</li><li>拟合弱学习器：$h_m(x) = \arg\min_{h} \sum_i \big(r_{im} - h(x_i)\big)^2$</li><li>线搜索求最优步长：$\rho_m = \arg\min_\rho \sum_i L\big(y_i, F_{m-1}(x_i) + \rho h_m(x_i)\big)$</li><li>更新模型：$F_m(x) = F_{m-1}(x) + \nu \cdot \rho_m h_m(x)$</li></ul></li><li><strong>输出</strong>：最终模型 $F_M(x)$</li></ol><p><strong>符号说明</strong>：$\nu$ 为学习率（shrinkage）；$\rho_m$ 为线搜索最优步长；$M$ 为总迭代次数。</p><blockquote><p><strong>TreeBoost：逐叶子线搜索</strong>。当基学习器是含 $J$ 个叶子的回归树时，$h_m(x) = \sum_{j=1}^{J} b_{jm} \mathbb{I}(x \in R_{jm})$ 本身就是 $J$ 个"基函数"的组合。Friedman (2001) 建议不用一个全局步长 $\rho_m$，而是对每个叶子区域<strong>分别</strong>做线搜索：</p>$$\gamma_{jm} = \arg\min_{\gamma} \sum_{x_i \in R_{jm}} L\left(y_i, F_{m-1}(x_i) + \gamma\right)$$<p>然后更新 $F_m(x) = F_{m-1}(x) + \nu \sum_{j=1}^{J} \gamma_{jm} \mathbb{I}(x \in R_{jm})$。也就是说，树只用来确定<strong>如何划分区域</strong>，每个叶子的输出值则直接针对原损失函数重新优化。sklearn 的 <code>GradientBoostingRegressor/Classifier</code> 和 5.9 节的伪代码采用的都是这种形式，5.5、5.6 节给出了各损失下 $\gamma_{jm}$ 的具体公式。</p></blockquote><pre class=mermaid>
+  graph TD
+    A["选择损失函数 L"] --> B["计算伪残差<br>r = -∂L/∂F"]
+    B --> C["训练回归树拟合 r"]
+    C --> D["线搜索最优步长 ρ"]
+    D --> E["更新模型 F ← F + ν·ρ·h"]
+    E --> F{"是否收敛?"}
+    F -->|否| B
+    F -->|是| G["输出 F_M"]
+</pre><hr><h2 id=55-回归版本平方损失的完整推导><a class=header-anchor href=#55-%e5%9b%9e%e5%bd%92%e7%89%88%e6%9c%ac%e5%b9%b3%e6%96%b9%e6%8d%9f%e5%a4%b1%e7%9a%84%e5%ae%8c%e6%95%b4%e6%8e%a8%e5%af%bc></a>5.5 回归版本（平方损失）的完整推导</h2><p>对于回归问题，采用<strong>平方损失</strong>（Squared Error / Least Squares）：</p>$$L(y, F) = \frac{1}{2}(y - F)^2$$<p><strong>符号说明</strong>：$y$ 为真实目标值；$F$ 为模型预测值；系数 $\frac{1}{2}$ 是为了求导时与平方项抵消，简化计算。</p><h3 id=伪残差计算><a class=header-anchor href=#%e4%bc%aa%e6%ae%8b%e5%b7%ae%e8%ae%a1%e7%ae%97></a>伪残差计算</h3>$$r_{im} = -\frac{\partial}{\partial F}\left[\frac{1}{2}(y_i - F)^2\right]_{F=F_{m-1}} = -\left[-(y_i - F)\right]_{F=F_{m-1}} = y_i - F_{m-1}(x_i)$$<p><strong>关键结论</strong>：在平方损失下，伪残差恰好就是普通残差（观测值减去当前预测值）。因此，Gradient Boosting 回归的直观解释就是：</p><blockquote><p><strong>&ldquo;每一棵新树拟合当前集成模型的残差，然后将该树的预测以学习率为权重加入集成。&rdquo;</strong></p></blockquote><h3 id=完整回归流程><a class=header-anchor href=#%e5%ae%8c%e6%95%b4%e5%9b%9e%e5%bd%92%e6%b5%81%e7%a8%8b></a>完整回归流程</h3><p><strong>Step 1：初始化</strong></p>$$F_0(x) = \arg\min_\gamma \sum_{i=1}^{n} \frac{1}{2}(y_i - \gamma)^2 = \frac{1}{n}\sum_{i=1}^{n} y_i = \bar{y}$$<p><strong>符号说明</strong>：$\bar{y}$ 为训练集目标值的均值；$\gamma$ 为待优化的常数预测值。</p><p>在平方损失下，最优初始预测就是训练集的均值。这解释了为什么很多 Gradient Boosting 实现中 $F_0$ 被初始化为 <code>mean(y)</code>。</p><p><strong>Step 2：迭代</strong>（$m = 1, \dots, M$）</p><ul><li><strong>计算残差</strong>：$r_{im} = y_i - F_{m-1}(x_i)$</li><li><strong>拟合回归树</strong>：$h_m(x)$ 对 $\{(x_i, r_{im})\}$ 拟合，生成叶子区域 $\{R_{jm}\}_{j=1}^{J_m}$</li><li><strong>对每个叶子区域</strong> $R_{jm}$，计算最优输出值：</li></ul>$$\gamma_{jm} = \arg\min_\gamma \sum_{x_i \in R_{jm}} \frac{1}{2}\big(y_i - (F_{m-1}(x_i) + \gamma)\big)^2 = \frac{1}{\lvert R_{jm} \rvert}\sum_{x_i \in R_{jm}} r_{im}$$<p><strong>符号说明</strong>：$R_{jm}$ 为第 $m$ 棵树的第 $j$ 个叶子区域；$\lvert R_{jm} \rvert$ 为该叶子中的样本数；$\gamma_{jm}$ 为叶子 $j$ 的最优输出值（即该叶子内残差的均值）。</p><ul><li><strong>更新模型</strong>：</li></ul>$$F_m(x) = F_{m-1}(x) + \nu \sum_{j=1}^{J_m} \gamma_{jm} \, \mathbb{I}(x \in R_{jm})$$<p><strong>符号说明</strong>：$\nu$ 为学习率（shrinkage）；$\mathbb{I}(x \in R_{jm})$ 为指示函数（当 $x$ 落入叶子 $R_{jm}$ 时为 1，否则为 0）。</p><p><strong>Step 3：输出</strong> $F_M(x)$</p><pre class=mermaid>
+  graph TD
+    subgraph "GB 回归流程"
+        A["初始化为目标均值"] --> B["计算当前残差"]
+        B --> C["训练回归树拟合残差"]
+        C --> D["对每个叶子计算最优值 γ_jm<br>叶子内残差均值"]
+        D --> E["用叶子值累加更新模型"]
+        E --> F{"M 轮完成?"}
+        F -->|否| B
+        F -->|是| G["输出 F_M"]
+    end
+</pre><h3 id=其他回归损失ladhuber-与分位数><a class=header-anchor href=#%e5%85%b6%e4%bb%96%e5%9b%9e%e5%bd%92%e6%8d%9f%e5%a4%b1ladhuber-%e4%b8%8e%e5%88%86%e4%bd%8d%e6%95%b0></a>其他回归损失：LAD、Huber 与分位数</h3><p>平方损失对异常值敏感。Friedman (2001) 同时给出了几种稳健损失下的 TreeBoost 算法，它们的区别只在于三处：初始值 $F_0$、伪残差 $r_{im}$（见 5.4 节表格）以及叶子值 $\gamma_{jm}$。</p><table><thead><tr><th>损失</th><th>初始值 $F_0$</th><th>叶子值 $\gamma_{jm}$</th></tr></thead><tbody><tr><td>平方损失（LS）</td><td>$\bar{y}$</td><td>叶子内残差 $y_i - F_{m-1}(x_i)$ 的均值</td></tr><tr><td>绝对损失（LAD）</td><td>$\operatorname{median}\{y_i\}$</td><td>叶子内残差 $y_i - F_{m-1}(x_i)$ 的<strong>中位数</strong></td></tr><tr><td>分位数损失（$\tau$）</td><td>$\{y_i\}$ 的 $\tau$ 分位数</td><td>叶子内残差的 <strong>$\tau$ 分位数</strong></td></tr><tr><td>Huber 损失（M-TreeBoost）</td><td>$\operatorname{median}\{y_i\}$</td><td>中位数加一步修正，见下式</td></tr></tbody></table><p>LAD 与分位数损失的叶子值都是精确解：最小化 $\sum_{x_i \in R_{jm}} \lvert y_i - F_{m-1}(x_i) - \gamma \rvert$ 的 $\gamma$ 就是残差的中位数，分位数损失同理。注意此时<strong>树拟合的是伪残差 $\operatorname{sign}(y_i - F_{m-1}(x_i))$</strong>（只有 $\pm 1$），而叶子值却由原始残差决定，这正是 TreeBoost &ldquo;树定划分、叶子单独优化"的体现。</p><p>Huber 损失没有闭式的叶子解。Friedman (2001) 每轮先把阈值 $\delta_m$ 取为当前残差绝对值 $\left\{\lvert y_i - F_{m-1}(x_i) \rvert\right\}$ 的 $\alpha$ 分位数，再用"中位数 + 一步修正"近似叶子值：记 $\tilde{r}_{jm}$ 为叶子 $R_{jm}$ 内残差 $r_{i} = y_i - F_{m-1}(x_i)$ 的中位数，$N_{jm}$ 为叶子样本数，</p>$$\gamma_{jm} = \tilde{r}_{jm} + \frac{1}{N_{jm}} \sum_{x_i \in R_{jm}} \operatorname{sign}\left(r_i - \tilde{r}_{jm}\right) \min\left(\delta_m, \lvert r_i - \tilde{r}_{jm} \rvert\right)$$<p>sklearn 中 <code>loss='huber'</code> 和 <code>loss='quantile'</code> 共用参数 <code>alpha</code>：前者表示取残差绝对值的哪个分位数作为 $\delta_m$（默认 0.9），后者表示要估计的分位数 $\tau$。用 <code>alpha=0.05</code> 和 <code>alpha=0.95</code> 各训练一个分位数模型，即可得到 90% 预测区间。</p><hr><h2 id=56-分类版本对数损失的推导><a class=header-anchor href=#56-%e5%88%86%e7%b1%bb%e7%89%88%e6%9c%ac%e5%af%b9%e6%95%b0%e6%8d%9f%e5%a4%b1%e7%9a%84%e6%8e%a8%e5%af%bc></a>5.6 分类版本（对数损失）的推导</h2><p>对于<strong>二分类问题</strong>，Gradient Boosting 使用<strong>对数损失</strong>（Log Loss / Binomial Deviance）：</p>$$L(y, F) = -y \log\big(\sigma(F)\big) - (1-y) \log\big(1 - \sigma(F)\big)$$<p><strong>符号说明</strong>：$y \in \{0, 1\}$ 为类别标签；$\sigma(F) = \frac{1}{1 + e^{-F}}$ 为 logistic sigmoid 函数；$F(x)$ 输出的不是概率，而是<strong>log-odds（对数几率）</strong>。</p><h3 id=伪残差计算-1><a class=header-anchor href=#%e4%bc%aa%e6%ae%8b%e5%b7%ae%e8%ae%a1%e7%ae%97-1></a>伪残差计算</h3>$$r_{im} = -\frac{\partial L}{\partial F}\bigg|_{F_{m-1}} = y_i - \sigma\big(F_{m-1}(x_i)\big) = y_i - p_i$$<p><strong>符号说明</strong>：$p_i = \sigma(F_{m-1}(x_i))$ 是当前模型对样本 $i$ 预测为正类的概率。</p><p><strong>关键观察</strong>：</p><ul><li>即使对于分类任务，每棵新树仍然是<strong>回归树</strong>，因为它拟合的是连续梯度值（概率与标签之差），而非离散类别。</li><li>模型输出 $F(x)$ 是 log-odds，最终概率通过 $\sigma(F)$ 转换得到。</li><li>当 $y_i = 1$ 时，若 $p_i$ 接近 0（模型预测错误），则伪残差接近 1（模型应大幅增加该样本的 log-odds）；若 $p_i$ 接近 1（模型预测正确），则伪残差接近 0（模型已正确预测，无需大幅调整）。</li><li>伪残差的取值范围是 $(-1, 1)$，即使样本被严重错分，它对新树的"拉力"也是有界的，这是对数损失比指数损失更稳健的原因之一。</li></ul><h3 id=初始值与叶子值newton-步><a class=header-anchor href=#%e5%88%9d%e5%a7%8b%e5%80%bc%e4%b8%8e%e5%8f%b6%e5%ad%90%e5%80%bcnewton-%e6%ad%a5></a>初始值与叶子值（Newton 步）</h3><p><strong>初始值</strong>：最优常数满足 $\sum_i \left(y_i - \sigma(\gamma)\right) = 0$，即 $\sigma(\gamma) = \bar{y}$：</p>$$F_0(x) = \log\frac{\bar{y}}{1 - \bar{y}}$$<p>即训练集正类比例 $\bar{y}$ 的对数几率（sklearn 的默认初始化正是如此）。</p><p><strong>叶子值</strong>：对数损失下 $\gamma_{jm} = \arg\min_{\gamma} \sum_{x_i \in R_{jm}} L\left(y_i, F_{m-1}(x_i) + \gamma\right)$ 没有闭式解。记 $g_i$、$h_i$ 为损失对 $F$ 的一阶、二阶导数：</p>$$g_i = \frac{\partial L}{\partial F} = p_i - y_i, \qquad h_i = \frac{\partial^2 L}{\partial F^2} = p_i(1 - p_i)$$<p>从 $\gamma = 0$ 出发做<strong>一步 Newton-Raphson</strong> 近似：</p>$$\gamma_{jm} \approx -\frac{\sum_{x_i \in R_{jm}} g_i}{\sum_{x_i \in R_{jm}} h_i} = \frac{\sum_{x_i \in R_{jm}} (y_i - p_i)}{\sum_{x_i \in R_{jm}} p_i (1 - p_i)}$$<p>这就是 sklearn <code>GradientBoostingClassifier</code> 计算叶子值的方式（源码注释引用的正是 FHT 2000 的 Newton 步）。Friedman (2001) 原文使用 $y \in \{-1, +1\}$ 与 $L = \log\left(1 + e^{-2yF}\right)$ 的参数化，伪残差为 $\tilde{y}_i = \frac{2y_i}{1 + e^{2y_i F_{m-1}(x_i)}}$，相应的叶子值为 $\gamma_{jm} = \frac{\sum \tilde{y}_i}{\sum \lvert \tilde{y}_i \rvert \left(2 - \lvert \tilde{y}_i \rvert\right)}$，与上式只差参数化方式。</p><blockquote><p>这里只用了一步 Newton，而不是在每个叶子里把 $\gamma$ 优化到收敛，是计算量和精度之间的折中。XGBoost 把"二阶信息"进一步用到了<strong>树的分裂准则</strong>上（第 6 章）。</p></blockquote><h3 id=多分类情况k-类><a class=header-anchor href=#%e5%a4%9a%e5%88%86%e7%b1%bb%e6%83%85%e5%86%b5k-%e7%b1%bb></a>多分类情况（K 类）</h3><p>对于 <strong>K 类多分类问题</strong>，需要为每个类别 $k = 1, \dots, K$ 维护一个独立的函数 $F_k(x)$。使用<strong>多项式偏差损失</strong>（Multinomial Deviance）：</p>$$L\big(y, \{F_k\}\big) = -\sum_{k=1}^{K} \mathbb{I}(y = G_k) \log\big(p_k(x)\big)$$<p><strong>符号说明</strong>：$G_k$ 为第 $k$ 个类别；$\mathbb{I}(y = G_k)$ 为指示函数（当样本真实类别为 $G_k$ 时为 1，否则为 0）。</p><p>类别概率通过 softmax 计算：</p>$$p_k(x) = \frac{\exp\big(F_k(x)\big)}{\sum_{l=1}^{K} \exp\big(F_l(x)\big)}$$<p><strong>符号说明</strong>：$p_k(x)$ 为样本 $x$ 属于类别 $k$ 的概率；$F_k(x)$ 为类别 $k$ 的得分函数（logit）。由于 softmax 对所有 $F_k$ 同加一个函数不变，$F_k$ 只确定到相差一个公共项，Friedman (2001) 用约束 $\sum_{k=1}^K F_k(x) = 0$ 消除这一自由度。</p><p><strong>伪残差</strong>（对于类别 $k$）：</p>$$r_{ikm} = y_{ik} - p_{k, m-1}(x_i)$$<p><strong>符号说明</strong>：$y_{ik} = \mathbb{I}(y_i = G_k)$ 为类别 $k$ 的指示标签；$p_{k, m-1}(x_i)$ 为当前模型对类别 $k$ 的概率预测。</p><h3 id=多分类算法流程><a class=header-anchor href=#%e5%a4%9a%e5%88%86%e7%b1%bb%e7%ae%97%e6%b3%95%e6%b5%81%e7%a8%8b></a>多分类算法流程</h3><ol><li><strong>初始化</strong>：$F_{k0}(x) = 0$（Friedman 2001 原文）；sklearn 默认用各类先验概率的对数 $\log \bar{y}_k$（再减去各类的平均值，使 $\sum_k F_{k0} = 0$）初始化，其中 $\bar{y}_k$ 为第 $k$ 类样本的比例</li><li><strong>对于</strong> $m = 1, \dots, M$：<ul><li>用当前得分计算概率 $p_{k, m-1}(x_i)$（softmax）</li><li>对每个类别 $k = 1, \dots, K$：<ul><li>计算伪残差：$r_{ikm} = y_{ik} - p_{k, m-1}(x_i)$</li><li>拟合回归树 $h_{km}(x)$ 到伪残差</li><li>计算每个叶子区域的最优值（用一步 Newton-Raphson 近似，Friedman 2001 算法 6）：</li></ul></li></ul></li></ol>$$\gamma_{jkm} = \frac{K-1}{K} \cdot \frac{\sum_{x_i \in R_{jkm}} r_{ikm}}{\sum_{x_i \in R_{jkm}} \lvert r_{ikm} \rvert \left(1 - \lvert r_{ikm} \rvert\right)}$$<p><strong>符号说明</strong>：$R_{jkm}$ 为第 $m$ 轮类别 $k$ 的第 $j$ 个叶子区域；$\gamma_{jkm}$ 为该叶子的最优输出值。因子 $\frac{K-1}{K}$ 来自 $\sum_k F_k = 0$ 的约束。</p><pre><code> - 更新：$F_{km}(x) = F_{k, m-1}(x) + \nu \sum_{j} \gamma_{jkm} \, \mathbb{I}(x \in R_{jkm})$
+</code></pre><ol start=3><li><strong>输出</strong>：$\hat{y} = \arg\max_k F_{kM}(x)$，类别概率为 $p_k(x) = \operatorname{softmax}\left(F_{1M}(x), \ldots, F_{KM}(x)\right)_k$</li></ol><blockquote><p><strong>注意</strong>：每轮迭代需要拟合 $K$ 棵树，因此多分类 Gradient Boosting 的训练时间是二分类的约 $K$ 倍。</p></blockquote><pre class=mermaid>
+  graph TD
+    subgraph "GB 二分类流程"
+        A["初始化 F_0 = log(ȳ/(1-ȳ))<br>（正类比例的对数几率）"] --> B["计算伪残差 r_i = y_i - p_i"]
+        B --> C["训练回归树拟合 r_i"]
+        C --> D["更新 log-odds"]
+        D --> E["计算新概率 p = σ(F_m)"]
+        E --> F{"M 轮完成?"}
+        F -->|否| B
+        F -->|是| G["输出 sign(F_M)"]
+    end
+</pre><hr><h2 id=57-正则化技术shrinkage子采样列采样树复杂度控制><a class=header-anchor href=#57-%e6%ad%a3%e5%88%99%e5%8c%96%e6%8a%80%e6%9c%afshrinkage%e5%ad%90%e9%87%87%e6%a0%b7%e5%88%97%e9%87%87%e6%a0%b7%e6%a0%91%e5%a4%8d%e6%9d%82%e5%ba%a6%e6%8e%a7%e5%88%b6></a>5.7 正则化技术：Shrinkage、子采样、列采样、树复杂度控制</h2><p>Gradient Boosting 是贪婪算法，容易过拟合。Friedman 在 2001 和 2002 年的论文中提出了多种正则化策略，这些策略是现代 Gradient Boosting 实现（如 XGBoost、LightGBM）的基础。</p><h3 id=shrinkage学习率收缩><a class=header-anchor href=#shrinkage%e5%ad%a6%e4%b9%a0%e7%8e%87%e6%94%b6%e7%bc%a9></a>Shrinkage（学习率收缩）</h3><p>核心公式：</p>$$F_m(x) = F_{m-1}(x) + \nu \sum_{j=1}^{J_m} \gamma_{jm} \, \mathbb{I}(x \in R_{jm}), \quad 0 < \nu \leq 1$$<p><strong>符号说明</strong>：$\nu$ 为学习率（shrinkage factor），常用取值在 $0.01$ 到 $0.3$ 之间；$\gamma_{jm}$ 为第 $m$ 棵树各叶子的最优值（5.4 节）。</p><p><strong>作用机制</strong>：</p><ul><li>当 $\nu = 1$ 时，每棵树按（叶子内）最优步长完整地修正当前误差，训练损失下降很快，模型也更容易过拟合训练数据。</li><li>当 $\nu < 1$ 时，每棵树只贡献部分修正，将学习过程分散到更多轮迭代中。</li><li>小的 $\nu$ 使得模型对学习更"谨慎&rdquo;，大量弱学习器的平均效应能抵消单个树的噪声，显著提高泛化能力。</li></ul><p><strong>经验规律</strong>：学习率与树数量之间存在权衡关系：</p><table><thead><tr><th>learning_rate</th><th>n_estimators 建议</th><th>适用场景</th></tr></thead><tbody><tr><td>0.1</td><td>100~500</td><td>默认配置，平衡速度和质量</td></tr><tr><td>0.05</td><td>500~2000</td><td>更高精度，容忍更慢训练</td></tr><tr><td>0.01</td><td>2000+</td><td>追求极致性能，配合早停</td></tr></tbody></table><p>Friedman (2001) 通过实验发现，使用较小的学习率（如 $\nu = 0.1$ 或更小）配合足够多的树，能显著提升模型的泛化性能。ESL 第 10.12.1 节总结为：在相同轮数下，$\nu$ 越小训练误差越大，但经验上 $\nu < 0.1$ 通常能得到更好的测试误差，代价是需要相应更大的 $M$。因此实践中的策略通常是：先把 $\nu$ 设得较小，再用验证集或早停来确定 $M$。</p><blockquote><p><strong>为什么收缩有效</strong>：在平方损失、小步长的极限下，&ldquo;收缩 + 前向分步"会逼近一种类似 $L_1$ 正则化（Lasso）的路径（ESL 第 16.2 节讨论了 $\varepsilon$-forward stagewise 与 Lasso 的联系），这为收缩提供了一种正则化解释。</p></blockquote><h3 id=子采样stochastic-gradient-boosting><a class=header-anchor href=#%e5%ad%90%e9%87%87%e6%a0%b7stochastic-gradient-boosting></a>子采样（Stochastic Gradient Boosting）</h3><p>Friedman (2002) 在论文 <em>&ldquo;Stochastic Gradient Boosting&rdquo;</em> 中提出，受 Breiman 的 Bagging 启发，在每次迭代中<strong>无放回随机抽取</strong>训练集的一个子集来拟合当前树。</p><p><strong>算法修改</strong>：</p><ul><li>在每轮迭代 $m$ 中，从训练集中抽取比例 $f$（通常 $f = 0.5$）的样本子集 $S_m$</li><li>仅使用 $S_m$ 计算伪残差并拟合 $h_m$</li><li>更新时仍应用于全部训练样本的预测</li></ul><p>ESL 第 10.12.2 节指出，典型的抽样比例为 $1/2$，样本量 $N$ 很大时还可以显著小于 $1/2$。在 sklearn 中设置 <code>subsample &lt; 1.0</code> 即启用随机梯度提升，此时每轮未被抽中的样本可作为<strong>袋外（OOB）样本</strong>，<code>oob_improvement_</code> 记录了每一轮在 OOB 样本上的损失改进，可用来粗略估计合适的迭代轮数。</p><p><strong>正则化效果</strong>：</p><ul><li><strong>降低方差</strong>：不同树使用不同数据子集，增加了树之间的多样性，类似于 Bagging 的方差削减机制（sklearn 文档：<code>subsample &lt; 1.0</code> 会降低方差、增大偏差）。</li><li><strong>防止过拟合</strong>：随机性阻止模型对训练集的个别样本或异常值过度记忆。</li><li><strong>加速训练</strong>：每棵树只需拟合更小数据集。</li></ul><h3 id=列采样column-subsampling><a class=header-anchor href=#%e5%88%97%e9%87%87%e6%a0%b7column-subsampling></a>列采样（Column Subsampling）</h3><p>借鉴随机森林的思想，在每次分裂（或每棵树）时只考虑特征的一个随机子集：</p><ul><li><strong>按分裂采样</strong>：sklearn 的 <code>max_features</code> 表示<strong>每次寻找最佳分裂时</strong>考虑的特征数（XGBoost 中对应 <code>colsample_bynode</code>）。</li><li><strong>按树 / 按层采样</strong>：XGBoost 的 <code>colsample_bytree</code>（每棵树采样一次）和 <code>colsample_bylevel</code>（树的每一层采样一次），LightGBM 的 <code>feature_fraction</code>（按树）。</li></ul><p><strong>效果</strong>：降低树之间的相关性，减少方差，尤其适用于高维特征空间。</p><h3 id=树复杂度控制><a class=header-anchor href=#%e6%a0%91%e5%a4%8d%e6%9d%82%e5%ba%a6%e6%8e%a7%e5%88%b6></a>树复杂度控制</h3><table><thead><tr><th>技术</th><th>参数</th><th>典型范围</th><th>作用</th></tr></thead><tbody><tr><td>树深度限制</td><td><code>max_depth</code></td><td>3~6</td><td>限制每棵树的交互复杂度，depth=d 最多捕捉 d-way 特征交互</td></tr><tr><td>叶子最小样本</td><td><code>min_samples_leaf</code></td><td>5~50</td><td>防止叶子节点对单个样本过拟合，平滑预测</td></tr><tr><td>分裂最小样本</td><td><code>min_samples_split</code></td><td>2~20</td><td>控制节点分裂条件，避免过细分裂</td></tr><tr><td>最大叶子节点</td><td><code>max_leaf_nodes</code></td><td>-</td><td>直接控制树的大小，替代 max_depth</td></tr><tr><td>纯度减少阈值</td><td><code>min_impurity_decrease</code></td><td>0</td><td>预剪枝控制，分裂必须带来足够收益</td></tr></tbody></table><p><strong>经验</strong>：深度 3 的树可捕捉最多 3-way 特征交互；深度过大会快速记忆噪声。更一般地，有 $J$ 个叶子的树最多能表示 $J-1$ 阶的特征交互。ESL 第 10.11 节的经验是：叶子数 $4 \leq J \leq 8$ 在 Boosting 中通常效果良好，且在这个范围内结果对具体取值不太敏感；$J = 2$（树桩）只能得到不含交互项的加性模型。</p><h3 id=正则化技术总结表><a class=header-anchor href=#%e6%ad%a3%e5%88%99%e5%8c%96%e6%8a%80%e6%9c%af%e6%80%bb%e7%bb%93%e8%a1%a8></a>正则化技术总结表</h3><table><thead><tr><th>正则化技术</th><th>参数名</th><th>作用机制</th><th>来源</th><th>建议</th></tr></thead><tbody><tr><td>Shrinkage</td><td><code>learning_rate</code> ($\nu$)</td><td>缩放每棵树贡献</td><td>Friedman (2001)</td><td>0.01~0.1，配合更多树</td></tr><tr><td>行子采样</td><td><code>subsample</code></td><td>每棵树随机子集训练</td><td>Friedman (2002)</td><td>0.5~0.8，降低方差</td></tr><tr><td>列子采样</td><td><code>max_features</code></td><td>每次分裂随机选取部分特征</td><td>随机森林思想</td><td><code>sqrt</code> 或 <code>log2</code></td></tr><tr><td>树深度限制</td><td><code>max_depth</code></td><td>限制模型复杂度</td><td>通用</td><td>3~5 为典型值</td></tr><tr><td>叶子最小样本</td><td><code>min_samples_leaf</code></td><td>平滑叶子预测</td><td>通用</td><td>5~50</td></tr><tr><td>早停</td><td><code>n_iter_no_change</code></td><td>验证集损失不提升则停止</td><td>通用</td><td>设置 10~20 轮早停</td></tr></tbody></table><pre class=mermaid>
+  graph TD
+    A["Gradient Boosting<br>容易过拟合"] --> B["Shrinkage<br>learning_rate"]
+    A --> C["子采样<br>subsample"]
+    A --> D["列采样<br>max_features"]
+    A --> E["树复杂度控制<br>max_depth/min_samples_leaf"]
+    A --> F["早停<br>n_iter_no_change"]
+    B --> G["降低每棵树影响<br>分散学习过程"]
+    C --> H["增加树间多样性<br>Bagging式方差削减"]
+    D --> I["减少特征相关性<br>防止主导特征过拟合"]
+    E --> J["限制单树复杂度<br>防止记忆噪声"]
+    F --> K["防止无效迭代<br>节省计算资源"]
+    G --> L["最终效果：<br>提升泛化性能"]
+    H --> L
+    I --> L
+    J --> L
+    K --> L
+</pre><hr><h2 id=58-sklearn-api-与关键参数详解><a class=header-anchor href=#58-sklearn-api-%e4%b8%8e%e5%85%b3%e9%94%ae%e5%8f%82%e6%95%b0%e8%af%a6%e8%a7%a3></a>5.8 sklearn API 与关键参数详解</h2><p>scikit-learn 提供了 <code>GradientBoostingClassifier</code> 和 <code>GradientBoostingRegressor</code> 两个类，实现了经典的 Gradient Boosting Machine。</p><h3 id=gradientboostingregressor><a class=header-anchor href=#gradientboostingregressor></a>GradientBoostingRegressor</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.ensemble</span> <span class=kn>import</span> <span class=n>GradientBoostingRegressor</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>reg</span> <span class=o>=</span> <span class=n>GradientBoostingRegressor</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>loss</span><span class=o>=</span><span class=s1>&#39;squared_error&#39;</span><span class=p>,</span>       <span class=c1># 损失函数：&#39;squared_error&#39;, &#39;absolute_error&#39;, &#39;huber&#39;, &#39;quantile&#39;</span>
+</span></span><span class=line><span class=cl>    <span class=n>learning_rate</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span>          <span class=c1># 学习率（shrinkage）</span>
+</span></span><span class=line><span class=cl>    <span class=n>n_estimators</span><span class=o>=</span><span class=mi>100</span><span class=p>,</span>           <span class=c1># 树的数量（boosting 轮数）</span>
+</span></span><span class=line><span class=cl>    <span class=n>subsample</span><span class=o>=</span><span class=mf>1.0</span><span class=p>,</span>              <span class=c1># 子采样比例（1.0 = 无子采样）</span>
+</span></span><span class=line><span class=cl>    <span class=c1># criterion=&#39;friedman_mse&#39;, # 分裂准则；sklearn 1.9 起已无实际作用并被弃用（计划 1.11 移除），新代码不必再传</span>
+</span></span><span class=line><span class=cl>    <span class=n>min_samples_split</span><span class=o>=</span><span class=mi>2</span><span class=p>,</span>        <span class=c1># 节点分裂最小样本数</span>
+</span></span><span class=line><span class=cl>    <span class=n>min_samples_leaf</span><span class=o>=</span><span class=mi>1</span><span class=p>,</span>         <span class=c1># 叶子节点最小样本数</span>
+</span></span><span class=line><span class=cl>    <span class=n>max_depth</span><span class=o>=</span><span class=mi>3</span><span class=p>,</span>                <span class=c1># 树的最大深度</span>
+</span></span><span class=line><span class=cl>    <span class=n>max_leaf_nodes</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>        <span class=c1># 最大叶子节点数</span>
+</span></span><span class=line><span class=cl>    <span class=n>min_impurity_decrease</span><span class=o>=</span><span class=mf>0.0</span><span class=p>,</span>  <span class=c1># 分裂纯度减少阈值</span>
+</span></span><span class=line><span class=cl>    <span class=n>init</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>                  <span class=c1># 初始模型（默认：平方损失用均值，其他损失用相应分位数/中位数）</span>
+</span></span><span class=line><span class=cl>    <span class=n>random_state</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>          <span class=c1># 随机种子</span>
+</span></span><span class=line><span class=cl>    <span class=n>max_features</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>          <span class=c1># 每次分裂考虑的特征数（或比例）</span>
+</span></span><span class=line><span class=cl>    <span class=n>alpha</span><span class=o>=</span><span class=mf>0.9</span><span class=p>,</span>                  <span class=c1># Huber 的阈值分位数 / Quantile 损失的目标分位数</span>
+</span></span><span class=line><span class=cl>    <span class=n>verbose</span><span class=o>=</span><span class=mi>0</span><span class=p>,</span>                  <span class=c1># 输出详细程度</span>
+</span></span><span class=line><span class=cl>    <span class=n>validation_fraction</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span>    <span class=c1># 早停验证集比例</span>
+</span></span><span class=line><span class=cl>    <span class=n>n_iter_no_change</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>      <span class=c1># 早停迭代阈值（None 表示不早停）</span>
+</span></span><span class=line><span class=cl>    <span class=n>tol</span><span class=o>=</span><span class=mf>1e-4</span><span class=p>,</span>                   <span class=c1># 早停容差</span>
+</span></span><span class=line><span class=cl>    <span class=n>ccp_alpha</span><span class=o>=</span><span class=mf>0.0</span>               <span class=c1># 代价复杂度剪枝参数</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=gradientboostingclassifier><a class=header-anchor href=#gradientboostingclassifier></a>GradientBoostingClassifier</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.ensemble</span> <span class=kn>import</span> <span class=n>GradientBoostingClassifier</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>clf</span> <span class=o>=</span> <span class=n>GradientBoostingClassifier</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>loss</span><span class=o>=</span><span class=s1>&#39;log_loss&#39;</span><span class=p>,</span>            <span class=c1># 损失函数：&#39;log_loss&#39;（默认）, &#39;exponential&#39;</span>
+</span></span><span class=line><span class=cl>    <span class=n>learning_rate</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>n_estimators</span><span class=o>=</span><span class=mi>100</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>subsample</span><span class=o>=</span><span class=mf>1.0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>min_samples_split</span><span class=o>=</span><span class=mi>2</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>min_samples_leaf</span><span class=o>=</span><span class=mi>1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>max_depth</span><span class=o>=</span><span class=mi>3</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>max_leaf_nodes</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>init</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>random_state</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>max_features</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>verbose</span><span class=o>=</span><span class=mi>0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>validation_fraction</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>n_iter_no_change</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>tol</span><span class=o>=</span><span class=mf>1e-4</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>ccp_alpha</span><span class=o>=</span><span class=mf>0.0</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p><strong>注意</strong>：即使做分类，<code>GradientBoostingClassifier</code> 内部拟合的仍是<strong>回归树</strong>（预测梯度值），最终通过 sigmoid 或 softmax 得到概率。二分类每轮只拟合 1 棵树，$K$ 分类每轮拟合 $K$ 棵树。</p><p><strong>版本提示</strong>：样本量较大（sklearn 文档建议 <code>n_samples >= 10_000</code>）时，sklearn 推荐使用基于直方图的 <code>HistGradientBoostingRegressor/Classifier</code>，速度快得多（见第 9、10 章）。</p></blockquote><h3 id=关键参数说明表><a class=header-anchor href=#%e5%85%b3%e9%94%ae%e5%8f%82%e6%95%b0%e8%af%b4%e6%98%8e%e8%a1%a8></a>关键参数说明表</h3><table><thead><tr><th>参数</th><th>作用</th><th>建议</th></tr></thead><tbody><tr><td><code>loss</code></td><td>损失函数类型</td><td>噪声多用 <code>'huber'</code>，需预测区间用 <code>'quantile'</code></td></tr><tr><td><code>learning_rate</code></td><td>每棵树贡献缩放因子</td><td>0.01~0.1，越小需越多树</td></tr><tr><td><code>n_estimators</code></td><td>总树数</td><td>与 <code>learning_rate</code> 配合调整</td></tr><tr><td><code>subsample</code></td><td>每棵树使用样本比例</td><td>0.5~0.8 可降低方差</td></tr><tr><td><code>max_depth</code></td><td>树深度</td><td>3~5 为典型值，回归常用 3</td></tr><tr><td><code>max_features</code></td><td>每次分裂的特征采样</td><td><code>'sqrt'</code> 或 <code>'log2'</code> 可减少过拟合</td></tr><tr><td><code>min_samples_leaf</code></td><td>叶子最小样本</td><td>5~50 可防止过拟合</td></tr><tr><td><code>n_iter_no_change</code></td><td>早停轮数</td><td>设置 10 后自动启用早停</td></tr></tbody></table><h3 id=参数调优建议><a class=header-anchor href=#%e5%8f%82%e6%95%b0%e8%b0%83%e4%bc%98%e5%bb%ba%e8%ae%ae></a>参数调优建议</h3><ol><li><strong>固定 <code>learning_rate = 0.1</code></strong>，先用 <code>GridSearchCV</code> 或 <code>RandomizedSearchCV</code> 搜索 <code>n_estimators</code> 和 <code>max_depth</code>。</li><li><strong>降低 <code>learning_rate</code></strong>（如 0.05 或 0.01），同时增加 <code>n_estimators</code>（500+），使用早停 (<code>n_iter_no_change</code>)。</li><li><strong>启用子采样</strong>：设置 <code>subsample=0.8</code> 或 <code>0.5</code>，通常与 shrinkage 有协同效果。</li><li><strong>特征采样</strong>：高维数据可设置 <code>max_features='sqrt'</code>。</li></ol><hr><h2 id=59-伪代码><a class=header-anchor href=#59-%e4%bc%aa%e4%bb%a3%e7%a0%81></a>5.9 伪代码</h2><p><strong>算法: Gradient Tree Boosting（回归版本）</strong></p><ol><li><strong>输入</strong>：训练集 $\{(x_i, y_i)\}_{i=1}^n$，损失函数 $L(y, F)$，迭代次数 $M$，学习率 $\nu$，树深度 $d$</li><li><strong>输出</strong>：最终模型 $F_M(x)$</li><li><strong>初始化</strong>：
+$$F_0(x) \leftarrow \arg\min_\gamma \sum_i L(y_i, \gamma)$$
+（对平方损失，$F_0(x) = \bar{y}$）</li><li><strong>For</strong> $m = 1, 2, \ldots, M$ <strong>do</strong>：<ol><li>计算伪残差：
+$$r_i \leftarrow -\left[\frac{\partial L(y_i, F(x_i))}{\partial F(x_i)}\right]_{F=F_{m-1}}, \quad i = 1,\ldots,n$$</li><li>拟合回归树：
+$$h_m(x) \leftarrow \operatorname{TreeFit}\left(\{(x_i, r_i)\}_{i=1}^n;\ d\right)$$
+即用最大深度为 $d$ 的回归树以平方误差拟合 $\{(x_i, r_i)\}$，产生叶子区域 $\{R_{jm}\}_{j=1}^{J_m}$</li><li><strong>For</strong> 每个叶子 $j = 1, \ldots, J_m$ <strong>do</strong>：
+$$\gamma_{jm} \leftarrow \arg\min_\gamma \sum_{x_i \in R_{jm}} L(y_i, F_{m-1}(x_i) + \gamma)$$
+（对平方损失：$\gamma_{jm} = \frac{1}{\lvert R_{jm} \rvert}\sum_{x_i \in R_{jm}} r_i$，即叶子内残差均值；其他损失见 5.5、5.6 节）</li><li>更新模型：
+$$F_m(x) \leftarrow F_{m-1}(x) + \nu \sum_{j=1}^{J_m} \gamma_{jm} \, \mathbb{I}(x \in R_{jm})$$</li></ol></li><li><strong>返回</strong> $F_M(x)$</li></ol><hr><h2 id=510-python-从零实现回归--分类逐行注释><a class=header-anchor href=#510-python-%e4%bb%8e%e9%9b%b6%e5%ae%9e%e7%8e%b0%e5%9b%9e%e5%bd%92--%e5%88%86%e7%b1%bb%e9%80%90%e8%a1%8c%e6%b3%a8%e9%87%8a></a>5.10 Python 从零实现（回归 + 分类，逐行注释）</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span><span class=lnt>111
+</span><span class=lnt>112
+</span><span class=lnt>113
+</span><span class=lnt>114
+</span><span class=lnt>115
+</span><span class=lnt>116
+</span><span class=lnt>117
+</span><span class=lnt>118
+</span><span class=lnt>119
+</span><span class=lnt>120
+</span><span class=lnt>121
+</span><span class=lnt>122
+</span><span class=lnt>123
+</span><span class=lnt>124
+</span><span class=lnt>125
+</span><span class=lnt>126
+</span><span class=lnt>127
+</span><span class=lnt>128
+</span><span class=lnt>129
+</span><span class=lnt>130
+</span><span class=lnt>131
+</span><span class=lnt>132
+</span><span class=lnt>133
+</span><span class=lnt>134
+</span><span class=lnt>135
+</span><span class=lnt>136
+</span><span class=lnt>137
+</span><span class=lnt>138
+</span><span class=lnt>139
+</span><span class=lnt>140
+</span><span class=lnt>141
+</span><span class=lnt>142
+</span><span class=lnt>143
+</span><span class=lnt>144
+</span><span class=lnt>145
+</span><span class=lnt>146
+</span><span class=lnt>147
+</span><span class=lnt>148
+</span><span class=lnt>149
+</span><span class=lnt>150
+</span><span class=lnt>151
+</span><span class=lnt>152
+</span><span class=lnt>153
+</span><span class=lnt>154
+</span><span class=lnt>155
+</span><span class=lnt>156
+</span><span class=lnt>157
+</span><span class=lnt>158
+</span><span class=lnt>159
+</span><span class=lnt>160
+</span><span class=lnt>161
+</span><span class=lnt>162
+</span><span class=lnt>163
+</span><span class=lnt>164
+</span><span class=lnt>165
+</span><span class=lnt>166
+</span><span class=lnt>167
+</span><span class=lnt>168
+</span><span class=lnt>169
+</span><span class=lnt>170
+</span><span class=lnt>171
+</span><span class=lnt>172
+</span><span class=lnt>173
+</span><span class=lnt>174
+</span><span class=lnt>175
+</span><span class=lnt>176
+</span><span class=lnt>177
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>numpy</span> <span class=k>as</span> <span class=nn>np</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.tree</span> <span class=kn>import</span> <span class=n>DecisionTreeRegressor</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.metrics</span> <span class=kn>import</span> <span class=n>mean_squared_error</span><span class=p>,</span> <span class=n>accuracy_score</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># ==================== sigmoid 辅助函数 ====================</span>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>sigmoid</span><span class=p>(</span><span class=n>x</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;&#34;&#34;数值稳定的 sigmoid 函数&#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=c1># 裁剪输入防止 exp 溢出，然后计算 sigmoid</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>1</span> <span class=o>/</span> <span class=p>(</span><span class=mi>1</span> <span class=o>+</span> <span class=n>np</span><span class=o>.</span><span class=n>exp</span><span class=p>(</span><span class=o>-</span><span class=n>np</span><span class=o>.</span><span class=n>clip</span><span class=p>(</span><span class=n>x</span><span class=p>,</span> <span class=o>-</span><span class=mi>250</span><span class=p>,</span> <span class=mi>250</span><span class=p>)))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># ==================== 回归版本：Gradient Boosting Regressor ====================</span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>GradientBoostingRegressorScratch</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;&#34;&#34;
+</span></span></span><span class=line><span class=cl><span class=s2>    Gradient Boosting Regressor 简化实现（仅用于理解原理）
+</span></span></span><span class=line><span class=cl><span class=s2>    使用平方损失，支持 shrinkage（学习率）。
+</span></span></span><span class=line><span class=cl><span class=s2>    &#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>n_estimators</span><span class=o>=</span><span class=mi>100</span><span class=p>,</span> <span class=n>learning_rate</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span> <span class=n>max_depth</span><span class=o>=</span><span class=mi>3</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=c1># 总树数（boosting 迭代次数）</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>n_estimators</span> <span class=o>=</span> <span class=n>n_estimators</span>
+</span></span><span class=line><span class=cl>        <span class=c1># 学习率（shrinkage），控制每棵树的贡献比例</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>learning_rate</span> <span class=o>=</span> <span class=n>learning_rate</span>
+</span></span><span class=line><span class=cl>        <span class=c1># 每棵回归树的最大深度</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>max_depth</span> <span class=o>=</span> <span class=n>max_depth</span>
+</span></span><span class=line><span class=cl>        <span class=c1># 存储所有弱学习器（回归树）</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>trees</span> <span class=o>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=cl>        <span class=c1># 初始预测值（平方损失下为训练集均值）</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>f0</span> <span class=o>=</span> <span class=kc>None</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>fit</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>X</span><span class=p>,</span> <span class=n>y</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=c1># Step 1: 初始化 F_0(x) = mean(y)</span>
+</span></span><span class=line><span class=cl>        <span class=c1># 在平方损失下，最优常数预测是训练集的均值</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>f0</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>mean</span><span class=p>(</span><span class=n>y</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=c1># 用初始预测值填充当前预测 F</span>
+</span></span><span class=line><span class=cl>        <span class=n>F</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>full_like</span><span class=p>(</span><span class=n>y</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>f0</span><span class=p>,</span> <span class=n>dtype</span><span class=o>=</span><span class=nb>float</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=c1># Step 2: 迭代 boosting，每轮训练一棵回归树拟合残差</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=n>m</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>n_estimators</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>            <span class=c1># 2a: 计算伪残差（平方损失下伪残差 = 普通残差 = y - F）</span>
+</span></span><span class=line><span class=cl>            <span class=n>residuals</span> <span class=o>=</span> <span class=n>y</span> <span class=o>-</span> <span class=n>F</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=c1># 2b: 拟合回归树到残差上</span>
+</span></span><span class=line><span class=cl>            <span class=c1># 回归树学习的是 &#34;当前模型还差多少&#34;（残差）</span>
+</span></span><span class=line><span class=cl>            <span class=n>tree</span> <span class=o>=</span> <span class=n>DecisionTreeRegressor</span><span class=p>(</span><span class=n>max_depth</span><span class=o>=</span><span class=bp>self</span><span class=o>.</span><span class=n>max_depth</span><span class=p>,</span> <span class=n>random_state</span><span class=o>=</span><span class=n>m</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=n>tree</span><span class=o>.</span><span class=n>fit</span><span class=p>(</span><span class=n>X</span><span class=p>,</span> <span class=n>residuals</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=c1># 2c: 获取每片叶子的预测值</span>
+</span></span><span class=line><span class=cl>            <span class=c1># tree.predict 返回每个样本所属叶子的输出值（在平方损失下已是最优 gamma）</span>
+</span></span><span class=line><span class=cl>            <span class=n>gamma</span> <span class=o>=</span> <span class=n>tree</span><span class=o>.</span><span class=n>predict</span><span class=p>(</span><span class=n>X</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=c1># 2d: 更新模型（带 shrinkage：每棵树只贡献 learning_rate 比例的修正）</span>
+</span></span><span class=line><span class=cl>            <span class=n>F</span> <span class=o>+=</span> <span class=bp>self</span><span class=o>.</span><span class=n>learning_rate</span> <span class=o>*</span> <span class=n>gamma</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=c1># 保存当前树</span>
+</span></span><span class=line><span class=cl>            <span class=bp>self</span><span class=o>.</span><span class=n>trees</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>tree</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=bp>self</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>predict</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>X</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=c1># 从初始值 f0 开始</span>
+</span></span><span class=line><span class=cl>        <span class=n>F</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>full</span><span class=p>(</span><span class=n>X</span><span class=o>.</span><span class=n>shape</span><span class=p>[</span><span class=mi>0</span><span class=p>],</span> <span class=bp>self</span><span class=o>.</span><span class=n>f0</span><span class=p>,</span> <span class=n>dtype</span><span class=o>=</span><span class=nb>float</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=c1># 累加每棵树的贡献（都乘以 learning_rate）</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=n>tree</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>trees</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=n>F</span> <span class=o>+=</span> <span class=bp>self</span><span class=o>.</span><span class=n>learning_rate</span> <span class=o>*</span> <span class=n>tree</span><span class=o>.</span><span class=n>predict</span><span class=p>(</span><span class=n>X</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>F</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># ==================== 分类版本：Gradient Boosting Classifier ====================</span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>GradientBoostingClassifierScratch</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;&#34;&#34;
+</span></span></span><span class=line><span class=cl><span class=s2>    二分类 Gradient Boosting 简化实现（Log Loss / 对数损失）
+</span></span></span><span class=line><span class=cl><span class=s2>    标签要求: y ∈ {0, 1}
+</span></span></span><span class=line><span class=cl><span class=s2>    &#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>n_estimators</span><span class=o>=</span><span class=mi>100</span><span class=p>,</span> <span class=n>learning_rate</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span> <span class=n>max_depth</span><span class=o>=</span><span class=mi>3</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>n_estimators</span> <span class=o>=</span> <span class=n>n_estimators</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>learning_rate</span> <span class=o>=</span> <span class=n>learning_rate</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>max_depth</span> <span class=o>=</span> <span class=n>max_depth</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>trees</span> <span class=o>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=cl>        <span class=c1># 初始化 log-odds = 0 → 概率 = sigmoid(0) = 0.5</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>f0</span> <span class=o>=</span> <span class=mf>0.0</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>fit</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>X</span><span class=p>,</span> <span class=n>y</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=c1># y 应为 {0, 1}</span>
+</span></span><span class=line><span class=cl>        <span class=c1># 初始化当前模型的 log-odds 输出为 0</span>
+</span></span><span class=line><span class=cl>        <span class=n>F</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>full</span><span class=p>(</span><span class=n>X</span><span class=o>.</span><span class=n>shape</span><span class=p>[</span><span class=mi>0</span><span class=p>],</span> <span class=bp>self</span><span class=o>.</span><span class=n>f0</span><span class=p>,</span> <span class=n>dtype</span><span class=o>=</span><span class=nb>float</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=n>m</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>n_estimators</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>            <span class=c1># 计算当前概率预测 p = sigmoid(F)</span>
+</span></span><span class=line><span class=cl>            <span class=n>p</span> <span class=o>=</span> <span class=n>sigmoid</span><span class=p>(</span><span class=n>F</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=c1># 计算伪残差 = y - p（对数损失的负梯度）</span>
+</span></span><span class=line><span class=cl>            <span class=c1># 当 y=1 且 p≈0 时，残差≈1（需要大幅增加 log-odds）</span>
+</span></span><span class=line><span class=cl>            <span class=c1># 当 y=1 且 p≈1 时，残差≈0（已正确预测，无需调整）</span>
+</span></span><span class=line><span class=cl>            <span class=n>residuals</span> <span class=o>=</span> <span class=n>y</span> <span class=o>-</span> <span class=n>p</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=c1># 训练回归树拟合伪残差（注意：即使做分类，拟合的仍是回归树！）</span>
+</span></span><span class=line><span class=cl>            <span class=n>tree</span> <span class=o>=</span> <span class=n>DecisionTreeRegressor</span><span class=p>(</span><span class=n>max_depth</span><span class=o>=</span><span class=bp>self</span><span class=o>.</span><span class=n>max_depth</span><span class=p>,</span> <span class=n>random_state</span><span class=o>=</span><span class=n>m</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=n>tree</span><span class=o>.</span><span class=n>fit</span><span class=p>(</span><span class=n>X</span><span class=p>,</span> <span class=n>residuals</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=c1># 简化处理：直接使用树的预测值（叶子内伪残差的均值）作为 gamma</span>
+</span></span><span class=line><span class=cl>            <span class=c1># sklearn 等实现会对每个叶子做一步 Newton 更新：</span>
+</span></span><span class=line><span class=cl>            <span class=c1>#   gamma_j = sum(y - p) / sum(p * (1 - p))（见 5.6 节）</span>
+</span></span><span class=line><span class=cl>            <span class=c1># 另外这里 F_0 = 0（即 p = 0.5），而 sklearn 用正类比例的对数几率初始化</span>
+</span></span><span class=line><span class=cl>            <span class=n>gamma</span> <span class=o>=</span> <span class=n>tree</span><span class=o>.</span><span class=n>predict</span><span class=p>(</span><span class=n>X</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=c1># 更新 log-odds</span>
+</span></span><span class=line><span class=cl>            <span class=n>F</span> <span class=o>+=</span> <span class=bp>self</span><span class=o>.</span><span class=n>learning_rate</span> <span class=o>*</span> <span class=n>gamma</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=bp>self</span><span class=o>.</span><span class=n>trees</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>tree</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=bp>self</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>predict_proba</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>X</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=c1># 从初始 log-odds 开始</span>
+</span></span><span class=line><span class=cl>        <span class=n>F</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>full</span><span class=p>(</span><span class=n>X</span><span class=o>.</span><span class=n>shape</span><span class=p>[</span><span class=mi>0</span><span class=p>],</span> <span class=bp>self</span><span class=o>.</span><span class=n>f0</span><span class=p>,</span> <span class=n>dtype</span><span class=o>=</span><span class=nb>float</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=c1># 累加每棵树的贡献</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=n>tree</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>trees</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=n>F</span> <span class=o>+=</span> <span class=bp>self</span><span class=o>.</span><span class=n>learning_rate</span> <span class=o>*</span> <span class=n>tree</span><span class=o>.</span><span class=n>predict</span><span class=p>(</span><span class=n>X</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=c1># 将 log-odds 转换为概率</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>sigmoid</span><span class=p>(</span><span class=n>F</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>predict</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>X</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=c1># 概率 &gt;= 0.5 预测为正类（1），否则为负类（0）</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>predict_proba</span><span class=p>(</span><span class=n>X</span><span class=p>)</span> <span class=o>&gt;=</span> <span class=mf>0.5</span><span class=p>)</span><span class=o>.</span><span class=n>astype</span><span class=p>(</span><span class=nb>int</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># ==================== 使用示例：回归 ====================</span>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s2>&#34;__main__&#34;</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=kn>from</span> <span class=nn>sklearn.datasets</span> <span class=kn>import</span> <span class=n>make_friedman1</span><span class=p>,</span> <span class=n>make_classification</span>
+</span></span><span class=line><span class=cl>    <span class=kn>from</span> <span class=nn>sklearn.model_selection</span> <span class=kn>import</span> <span class=n>train_test_split</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1># ---------- 回归示例 ----------</span>
+</span></span><span class=line><span class=cl>    <span class=c1># 生成 Friedman #1 回归问题模拟数据（含噪声）</span>
+</span></span><span class=line><span class=cl>    <span class=n>X</span><span class=p>,</span> <span class=n>y</span> <span class=o>=</span> <span class=n>make_friedman1</span><span class=p>(</span><span class=n>n_samples</span><span class=o>=</span><span class=mi>1200</span><span class=p>,</span> <span class=n>random_state</span><span class=o>=</span><span class=mi>0</span><span class=p>,</span> <span class=n>noise</span><span class=o>=</span><span class=mf>1.0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>X_train</span><span class=p>,</span> <span class=n>X_test</span> <span class=o>=</span> <span class=n>X</span><span class=p>[:</span><span class=mi>200</span><span class=p>],</span> <span class=n>X</span><span class=p>[</span><span class=mi>200</span><span class=p>:]</span>
+</span></span><span class=line><span class=cl>    <span class=n>y_train</span><span class=p>,</span> <span class=n>y_test</span> <span class=o>=</span> <span class=n>y</span><span class=p>[:</span><span class=mi>200</span><span class=p>],</span> <span class=n>y</span><span class=p>[</span><span class=mi>200</span><span class=p>:]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1># 训练自实现模型</span>
+</span></span><span class=line><span class=cl>    <span class=n>model</span> <span class=o>=</span> <span class=n>GradientBoostingRegressorScratch</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=n>n_estimators</span><span class=o>=</span><span class=mi>100</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=n>learning_rate</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=n>max_depth</span><span class=o>=</span><span class=mi>3</span>
+</span></span><span class=line><span class=cl>    <span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>model</span><span class=o>.</span><span class=n>fit</span><span class=p>(</span><span class=n>X_train</span><span class=p>,</span> <span class=n>y_train</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1># 评估</span>
+</span></span><span class=line><span class=cl>    <span class=n>y_pred</span> <span class=o>=</span> <span class=n>model</span><span class=o>.</span><span class=n>predict</span><span class=p>(</span><span class=n>X_test</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>mse</span> <span class=o>=</span> <span class=n>mean_squared_error</span><span class=p>(</span><span class=n>y_test</span><span class=p>,</span> <span class=n>y_pred</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;Custom GB Regressor MSE: </span><span class=si>{</span><span class=n>mse</span><span class=si>:</span><span class=s2>.4f</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1># ---------- 与 sklearn 对比 ----------</span>
+</span></span><span class=line><span class=cl>    <span class=kn>from</span> <span class=nn>sklearn.ensemble</span> <span class=kn>import</span> <span class=n>GradientBoostingRegressor</span>
+</span></span><span class=line><span class=cl>    <span class=n>sklearn_model</span> <span class=o>=</span> <span class=n>GradientBoostingRegressor</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=n>n_estimators</span><span class=o>=</span><span class=mi>100</span><span class=p>,</span> <span class=n>learning_rate</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span> <span class=n>max_depth</span><span class=o>=</span><span class=mi>3</span><span class=p>,</span> <span class=n>random_state</span><span class=o>=</span><span class=mi>0</span>
+</span></span><span class=line><span class=cl>    <span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>sklearn_model</span><span class=o>.</span><span class=n>fit</span><span class=p>(</span><span class=n>X_train</span><span class=p>,</span> <span class=n>y_train</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>y_pred_sk</span> <span class=o>=</span> <span class=n>sklearn_model</span><span class=o>.</span><span class=n>predict</span><span class=p>(</span><span class=n>X_test</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>mse_sk</span> <span class=o>=</span> <span class=n>mean_squared_error</span><span class=p>(</span><span class=n>y_test</span><span class=p>,</span> <span class=n>y_pred_sk</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;Sklearn GB Regressor MSE: </span><span class=si>{</span><span class=n>mse_sk</span><span class=si>:</span><span class=s2>.4f</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1># ---------- 分类示例 ----------</span>
+</span></span><span class=line><span class=cl>    <span class=n>Xc</span><span class=p>,</span> <span class=n>yc</span> <span class=o>=</span> <span class=n>make_classification</span><span class=p>(</span><span class=n>n_samples</span><span class=o>=</span><span class=mi>1000</span><span class=p>,</span> <span class=n>n_features</span><span class=o>=</span><span class=mi>20</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                                  <span class=n>n_informative</span><span class=o>=</span><span class=mi>15</span><span class=p>,</span> <span class=n>random_state</span><span class=o>=</span><span class=mi>42</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>Xc_train</span><span class=p>,</span> <span class=n>Xc_test</span><span class=p>,</span> <span class=n>yc_train</span><span class=p>,</span> <span class=n>yc_test</span> <span class=o>=</span> <span class=n>train_test_split</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=n>Xc</span><span class=p>,</span> <span class=n>yc</span><span class=p>,</span> <span class=n>test_size</span><span class=o>=</span><span class=mf>0.3</span><span class=p>,</span> <span class=n>random_state</span><span class=o>=</span><span class=mi>42</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>clf</span> <span class=o>=</span> <span class=n>GradientBoostingClassifierScratch</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=n>n_estimators</span><span class=o>=</span><span class=mi>50</span><span class=p>,</span> <span class=n>learning_rate</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span> <span class=n>max_depth</span><span class=o>=</span><span class=mi>3</span>
+</span></span><span class=line><span class=cl>    <span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>clf</span><span class=o>.</span><span class=n>fit</span><span class=p>(</span><span class=n>Xc_train</span><span class=p>,</span> <span class=n>yc_train</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>yc_pred</span> <span class=o>=</span> <span class=n>clf</span><span class=o>.</span><span class=n>predict</span><span class=p>(</span><span class=n>Xc_test</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>acc</span> <span class=o>=</span> <span class=n>accuracy_score</span><span class=p>(</span><span class=n>yc_test</span><span class=p>,</span> <span class=n>yc_pred</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;Custom GB Classifier Accuracy: </span><span class=si>{</span><span class=n>acc</span><span class=si>:</span><span class=s2>.4f</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><hr><h2 id=511-与-sklearn-的对比验证><a class=header-anchor href=#511-%e4%b8%8e-sklearn-%e7%9a%84%e5%af%b9%e6%af%94%e9%aa%8c%e8%af%81></a>5.11 与 sklearn 的对比验证</h2><p>以下代码展示了如何将自定义实现与 sklearn 的 <code>GradientBoostingRegressor</code> 和 <code>GradientBoostingClassifier</code> 进行系统性的对比验证。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span><span class=lnt>79
+</span><span class=lnt>80
+</span><span class=lnt>81
+</span><span class=lnt>82
+</span><span class=lnt>83
+</span><span class=lnt>84
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>numpy</span> <span class=k>as</span> <span class=nn>np</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.datasets</span> <span class=kn>import</span> <span class=n>make_friedman1</span><span class=p>,</span> <span class=n>make_classification</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.model_selection</span> <span class=kn>import</span> <span class=n>train_test_split</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.ensemble</span> <span class=kn>import</span> <span class=n>GradientBoostingRegressor</span><span class=p>,</span> <span class=n>GradientBoostingClassifier</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.metrics</span> <span class=kn>import</span> <span class=n>mean_squared_error</span><span class=p>,</span> <span class=n>accuracy_score</span><span class=p>,</span> <span class=n>r2_score</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>matplotlib.pyplot</span> <span class=k>as</span> <span class=nn>plt</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># ==================== 回归对比验证 ====================</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;=&#34;</span> <span class=o>*</span> <span class=mi>60</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;回归任务对比验证&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;=&#34;</span> <span class=o>*</span> <span class=mi>60</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 生成 Friedman #1 数据（经典回归基准测试）</span>
+</span></span><span class=line><span class=cl><span class=n>X</span><span class=p>,</span> <span class=n>y</span> <span class=o>=</span> <span class=n>make_friedman1</span><span class=p>(</span><span class=n>n_samples</span><span class=o>=</span><span class=mi>1200</span><span class=p>,</span> <span class=n>random_state</span><span class=o>=</span><span class=mi>42</span><span class=p>,</span> <span class=n>noise</span><span class=o>=</span><span class=mf>1.0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>X_train</span><span class=p>,</span> <span class=n>X_test</span><span class=p>,</span> <span class=n>y_train</span><span class=p>,</span> <span class=n>y_test</span> <span class=o>=</span> <span class=n>train_test_split</span><span class=p>(</span><span class=n>X</span><span class=p>,</span> <span class=n>y</span><span class=p>,</span> <span class=n>test_size</span><span class=o>=</span><span class=mf>0.7</span><span class=p>,</span> <span class=n>random_state</span><span class=o>=</span><span class=mi>42</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 自定义实现（假设已导入 GradientBoostingRegressorScratch）</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>__main__</span> <span class=kn>import</span> <span class=n>GradientBoostingRegressorScratch</span>
+</span></span><span class=line><span class=cl><span class=n>custom_reg</span> <span class=o>=</span> <span class=n>GradientBoostingRegressorScratch</span><span class=p>(</span><span class=n>n_estimators</span><span class=o>=</span><span class=mi>100</span><span class=p>,</span> <span class=n>learning_rate</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span> <span class=n>max_depth</span><span class=o>=</span><span class=mi>3</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>custom_reg</span><span class=o>.</span><span class=n>fit</span><span class=p>(</span><span class=n>X_train</span><span class=p>,</span> <span class=n>y_train</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>y_pred_custom</span> <span class=o>=</span> <span class=n>custom_reg</span><span class=o>.</span><span class=n>predict</span><span class=p>(</span><span class=n>X_test</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># sklearn 实现</span>
+</span></span><span class=line><span class=cl><span class=n>sklearn_reg</span> <span class=o>=</span> <span class=n>GradientBoostingRegressor</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>n_estimators</span><span class=o>=</span><span class=mi>100</span><span class=p>,</span> <span class=n>learning_rate</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span> <span class=n>max_depth</span><span class=o>=</span><span class=mi>3</span><span class=p>,</span> <span class=n>random_state</span><span class=o>=</span><span class=mi>42</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>sklearn_reg</span><span class=o>.</span><span class=n>fit</span><span class=p>(</span><span class=n>X_train</span><span class=p>,</span> <span class=n>y_train</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>y_pred_sklearn</span> <span class=o>=</span> <span class=n>sklearn_reg</span><span class=o>.</span><span class=n>predict</span><span class=p>(</span><span class=n>X_test</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 评估指标对比</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;Custom  MSE: </span><span class=si>{</span><span class=n>mean_squared_error</span><span class=p>(</span><span class=n>y_test</span><span class=p>,</span> <span class=n>y_pred_custom</span><span class=p>)</span><span class=si>:</span><span class=s2>.4f</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;Sklearn MSE: </span><span class=si>{</span><span class=n>mean_squared_error</span><span class=p>(</span><span class=n>y_test</span><span class=p>,</span> <span class=n>y_pred_sklearn</span><span class=p>)</span><span class=si>:</span><span class=s2>.4f</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;Custom  R²:  </span><span class=si>{</span><span class=n>r2_score</span><span class=p>(</span><span class=n>y_test</span><span class=p>,</span> <span class=n>y_pred_custom</span><span class=p>)</span><span class=si>:</span><span class=s2>.4f</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;Sklearn R²:  </span><span class=si>{</span><span class=n>r2_score</span><span class=p>(</span><span class=n>y_test</span><span class=p>,</span> <span class=n>y_pred_sklearn</span><span class=p>)</span><span class=si>:</span><span class=s2>.4f</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 预测相关性（验证两者学习到的模式是否一致）</span>
+</span></span><span class=line><span class=cl><span class=n>correlation</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>corrcoef</span><span class=p>(</span><span class=n>y_pred_custom</span><span class=p>,</span> <span class=n>y_pred_sklearn</span><span class=p>)[</span><span class=mi>0</span><span class=p>,</span> <span class=mi>1</span><span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;预测相关性: </span><span class=si>{</span><span class=n>correlation</span><span class=si>:</span><span class=s2>.4f</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># ==================== 分类对比验证 ====================</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;</span><span class=se>\n</span><span class=s2>&#34;</span> <span class=o>+</span> <span class=s2>&#34;=&#34;</span> <span class=o>*</span> <span class=mi>60</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;分类任务对比验证&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;=&#34;</span> <span class=o>*</span> <span class=mi>60</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>Xc</span><span class=p>,</span> <span class=n>yc</span> <span class=o>=</span> <span class=n>make_classification</span><span class=p>(</span><span class=n>n_samples</span><span class=o>=</span><span class=mi>1000</span><span class=p>,</span> <span class=n>n_features</span><span class=o>=</span><span class=mi>20</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                              <span class=n>n_informative</span><span class=o>=</span><span class=mi>15</span><span class=p>,</span> <span class=n>random_state</span><span class=o>=</span><span class=mi>42</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>Xc_train</span><span class=p>,</span> <span class=n>Xc_test</span><span class=p>,</span> <span class=n>yc_train</span><span class=p>,</span> <span class=n>yc_test</span> <span class=o>=</span> <span class=n>train_test_split</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>Xc</span><span class=p>,</span> <span class=n>yc</span><span class=p>,</span> <span class=n>test_size</span><span class=o>=</span><span class=mf>0.3</span><span class=p>,</span> <span class=n>random_state</span><span class=o>=</span><span class=mi>42</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 自定义实现</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>__main__</span> <span class=kn>import</span> <span class=n>GradientBoostingClassifierScratch</span>
+</span></span><span class=line><span class=cl><span class=n>custom_clf</span> <span class=o>=</span> <span class=n>GradientBoostingClassifierScratch</span><span class=p>(</span><span class=n>n_estimators</span><span class=o>=</span><span class=mi>50</span><span class=p>,</span> <span class=n>learning_rate</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span> <span class=n>max_depth</span><span class=o>=</span><span class=mi>3</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>custom_clf</span><span class=o>.</span><span class=n>fit</span><span class=p>(</span><span class=n>Xc_train</span><span class=p>,</span> <span class=n>yc_train</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>yc_pred_custom</span> <span class=o>=</span> <span class=n>custom_clf</span><span class=o>.</span><span class=n>predict</span><span class=p>(</span><span class=n>Xc_test</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># sklearn 实现</span>
+</span></span><span class=line><span class=cl><span class=n>sklearn_clf</span> <span class=o>=</span> <span class=n>GradientBoostingClassifier</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>n_estimators</span><span class=o>=</span><span class=mi>50</span><span class=p>,</span> <span class=n>learning_rate</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span> <span class=n>max_depth</span><span class=o>=</span><span class=mi>3</span><span class=p>,</span> <span class=n>random_state</span><span class=o>=</span><span class=mi>42</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>sklearn_clf</span><span class=o>.</span><span class=n>fit</span><span class=p>(</span><span class=n>Xc_train</span><span class=p>,</span> <span class=n>yc_train</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>yc_pred_sklearn</span> <span class=o>=</span> <span class=n>sklearn_clf</span><span class=o>.</span><span class=n>predict</span><span class=p>(</span><span class=n>Xc_test</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;Custom  Accuracy: </span><span class=si>{</span><span class=n>accuracy_score</span><span class=p>(</span><span class=n>yc_test</span><span class=p>,</span> <span class=n>yc_pred_custom</span><span class=p>)</span><span class=si>:</span><span class=s2>.4f</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;Sklearn Accuracy: </span><span class=si>{</span><span class=n>accuracy_score</span><span class=p>(</span><span class=n>yc_test</span><span class=p>,</span> <span class=n>yc_pred_sklearn</span><span class=p>)</span><span class=si>:</span><span class=s2>.4f</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># ==================== 训练过程可视化（回归） ====================</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;</span><span class=se>\n</span><span class=s2>&#34;</span> <span class=o>+</span> <span class=s2>&#34;=&#34;</span> <span class=o>*</span> <span class=mi>60</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;训练过程分析：不同迭代次数的 MSE&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;=&#34;</span> <span class=o>*</span> <span class=mi>60</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>for</span> <span class=n>n_est</span> <span class=ow>in</span> <span class=p>[</span><span class=mi>10</span><span class=p>,</span> <span class=mi>25</span><span class=p>,</span> <span class=mi>50</span><span class=p>,</span> <span class=mi>100</span><span class=p>]:</span>
+</span></span><span class=line><span class=cl>    <span class=n>custom_reg</span> <span class=o>=</span> <span class=n>GradientBoostingRegressorScratch</span><span class=p>(</span><span class=n>n_estimators</span><span class=o>=</span><span class=n>n_est</span><span class=p>,</span> <span class=n>learning_rate</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span> <span class=n>max_depth</span><span class=o>=</span><span class=mi>3</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>custom_reg</span><span class=o>.</span><span class=n>fit</span><span class=p>(</span><span class=n>X_train</span><span class=p>,</span> <span class=n>y_train</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>pred</span> <span class=o>=</span> <span class=n>custom_reg</span><span class=o>.</span><span class=n>predict</span><span class=p>(</span><span class=n>X_test</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>mse</span> <span class=o>=</span> <span class=n>mean_squared_error</span><span class=p>(</span><span class=n>y_test</span><span class=p>,</span> <span class=n>pred</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;n_estimators=</span><span class=si>{</span><span class=n>n_est</span><span class=si>:</span><span class=s2>3d</span><span class=si>}</span><span class=s2> → Test MSE: </span><span class=si>{</span><span class=n>mse</span><span class=si>:</span><span class=s2>.4f</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;</span><span class=se>\n</span><span class=s2>注意：&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;1. 回归（平方损失）：两者的叶子值都是叶子内残差均值，差异主要来自分裂细节&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;   （如分裂准则的实现细节、特征遍历顺序与随机种子），两者预测高度相关&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;2. 分类：sklearn 用正类比例的对数几率初始化，并对每个叶子做一步 Newton 更新；&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;   自定义实现从 F_0 = 0 出发、直接使用残差均值，因此结果会有差异&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;3. 因此回归任务两者几乎一致，分类任务的结果可能有明显差距&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;4. 对于生产环境，建议直接使用 sklearn 或 XGBoost/LightGBM/CatBoost&#34;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><hr><h2 id=512-模型解释相对重要性与部分依赖图><a class=header-anchor href=#512-%e6%a8%a1%e5%9e%8b%e8%a7%a3%e9%87%8a%e7%9b%b8%e5%af%b9%e9%87%8d%e8%a6%81%e6%80%a7%e4%b8%8e%e9%83%a8%e5%88%86%e4%be%9d%e8%b5%96%e5%9b%be></a>5.12 模型解释：相对重要性与部分依赖图</h2><p>Friedman (2001) 在提出 GBM 的同时，还给出了两种解释树集成模型的工具（ESL 第 10.13 节），至今仍被广泛使用。</p><p><strong>相对重要性（Relative Importance）</strong>：对单棵有 $J$ 个叶子（$J-1$ 个内部节点）的树 $T$，特征 $X_\ell$ 的重要性定义为</p>$$\mathcal{I}_\ell^2(T) = \sum_{t=1}^{J-1} \hat{\imath}_t^2 \, \mathbb{I}\left(v(t) = \ell\right)$$<p>其中 $v(t)$ 为内部节点 $t$ 使用的分裂特征，$\hat{\imath}_t^2$ 为该次分裂带来的平方误差下降量。对 $M$ 棵树取平均即得到集成的重要性 $\mathcal{I}_\ell^2 = \frac{1}{M}\sum_{m=1}^{M} \mathcal{I}_\ell^2(T_m)$。sklearn 的 <code>feature_importances_</code> 就是这类基于不纯度下降的重要性（并归一化为和为 1）。需要注意，sklearn 文档提醒这种重要性偏向取值多（高基数）的特征，并且是在训练集上计算的；必要时可以改用 <code>sklearn.inspection.permutation_importance</code> 在验证集上计算置换重要性。</p><p><strong>部分依赖（Partial Dependence）</strong>：把特征分为关心的子集 $X_S$ 和其余特征 $X_C$，定义</p>$$\bar{f}_S(x_S) = \frac{1}{n} \sum_{i=1}^{n} F\left(x_S, x_{iC}\right)$$<p>即把每个训练样本的 $X_S$ 都替换成 $x_S$、其余特征保持不变，再对模型预测取平均。它刻画了在平均掉其他特征之后，模型输出如何随 $x_S$ 变化。sklearn 中可用 <code>sklearn.inspection.PartialDependenceDisplay.from_estimator</code> 绘制。当 $X_S$ 与 $X_C$ 强相关时，这种"替换"会产生现实中不存在的特征组合，解读时需要谨慎。</p><hr><h2 id=参考文献><a class=header-anchor href=#%e5%8f%82%e8%80%83%e6%96%87%e7%8c%ae></a>参考文献</h2><h2 id=第4章adaboost核心文献><a class=header-anchor href=#%e7%ac%ac4%e7%ab%a0adaboost%e6%a0%b8%e5%bf%83%e6%96%87%e7%8c%ae></a>第4章（AdaBoost）核心文献</h2><ol><li><strong>Freund, Y. & Schapire, R. E. (1997)</strong>. &ldquo;A Decision-Theoretic Generalization of On-Line Learning and an Application to Boosting.&rdquo; <em>Journal of Computer and System Sciences</em>, 55(1), 119-139.</li><li><strong>Freund, Y. & Schapire, R. E. (1996)</strong>. &ldquo;Experiments with a New Boosting Algorithm.&rdquo; <em>ICML</em>.</li><li><strong>Friedman, J., Hastie, T. & Tibshirani, R. (2000)</strong>. &ldquo;Additive Logistic Regression: A Statistical View of Boosting.&rdquo; <em>The Annals of Statistics</em>, 28(2), 337-407.</li><li><strong>Schapire, R. E., Freund, Y., Bartlett, P. & Lee, W. S. (1998)</strong>. &ldquo;Boosting the Margin: A New Explanation for the Effectiveness of Voting Methods.&rdquo; <em>The Annals of Statistics</em>, 26(5), 1651-1686.</li><li><strong>Zhu, J., Zou, H., Rosset, S. & Hastie, T. (2009)</strong>. &ldquo;Multi-class AdaBoost.&rdquo; <em>Statistics and Its Interface</em>, 2(3), 349-360.（2006 年技术报告版本）</li><li><strong>Drucker, H. (1997)</strong>. &ldquo;Improving Regressors using Boosting Techniques.&rdquo; <em>ICML</em>, 107-114.</li><li><strong>Wyner, A. J. (2003)</strong>. &ldquo;On Boosting and the Exponential Loss.&rdquo; <em>Proceedings of the Ninth International Workshop on Artificial Intelligence and Statistics (AISTATS 2003)</em>, 323-329.</li><li><strong>Schapire, R. E. & Singer, Y. (1999)</strong>. &ldquo;Improved Boosting Algorithms Using Confidence-rated Predictions.&rdquo; <em>Machine Learning</em>, 37(3), 297-336.</li><li><strong>Breiman, L. (1999)</strong>. &ldquo;Prediction Games and Arcing Algorithms.&rdquo; <em>Neural Computation</em>, 11(7), 1493-1517.</li><li><strong>Reyzin, L. & Schapire, R. E. (2006)</strong>. &ldquo;How Boosting the Margin Can Also Boost Classifier Complexity.&rdquo; <em>Proceedings of ICML 2006</em>.</li><li><strong>Long, P. M. & Servedio, R. A. (2010)</strong>. &ldquo;Random Classification Noise Defeats All Convex Potential Boosters.&rdquo; <em>Machine Learning</em>, 78(3), 287-304.</li><li><strong>Freund, Y. (2009)</strong>. &ldquo;A More Robust Boosting Algorithm.&rdquo; arXiv:0905.2138.</li><li><strong>Schapire, R. E. (2013)</strong>. &ldquo;Explaining AdaBoost.&rdquo; In <em>Empirical Inference</em>, Springer, 37-52.</li><li>李航. (2019). 《统计学习方法》（第 2 版）. 清华大学出版社. 第 8 章.</li></ol><h2 id=第5章gradient-boosting核心文献><a class=header-anchor href=#%e7%ac%ac5%e7%ab%a0gradient-boosting%e6%a0%b8%e5%bf%83%e6%96%87%e7%8c%ae></a>第5章（Gradient Boosting）核心文献</h2><ol start=15><li><strong>Friedman, J. H. (2001)</strong>. &ldquo;Greedy Function Approximation: A Gradient Boosting Machine.&rdquo; <em>The Annals of Statistics</em>, 29(5), 1189-1232.</li><li><strong>Friedman, J. H. (2002)</strong>. &ldquo;Stochastic Gradient Boosting.&rdquo; <em>Computational Statistics & Data Analysis</em>, 38(4), 367-378.</li><li><strong>Hastie, T., Tibshirani, R. & Friedman, J. (2009)</strong>. <em>The Elements of Statistical Learning</em> (2nd ed.). Springer. Chapter 10.</li><li><strong>Bühlmann, P. & Hothorn, T. (2007)</strong>. &ldquo;Boosting Algorithms: Regularization, Prediction and Model Fitting.&rdquo; <em>Statistical Science</em>, 22(4), 477-505.</li><li><strong>scikit-learn 官方文档</strong>：<code>GradientBoostingRegressor</code>、<code>GradientBoostingClassifier</code>、<code>AdaBoostClassifier</code>、<code>AdaBoostRegressor</code> API 参考（1.9 版）。</li></ol><hr><blockquote><p>生成日期：2026-06-30。
+编写角色：经典算法撰写员。</p></blockquote><p><a href=/2025/09/08/boosting-overview/>系列导读</a></p></div><footer class=article-footer><blockquote class=article-copyright><p><strong><span class="icon-user icon"></span>本文作者：</strong>Jingmengzhiyue</p><p><strong><span class="icon-link icon"></span>本文链接：</strong><a href=https://www.jingmengzhiyue.tech/2025/11/24/boosting-gradient-boosting/>https://www.jingmengzhiyue.tech/2025/11/24/boosting-gradient-boosting/</a></p><p><strong><span class="icon-pencil icon"></span>本文标题：</strong>Gradient Boosting Machine（梯度提升机）</p><p><strong><span class="icon-calendar icon"></span>本文发布时间：</strong>2025-11-24 09:00:00</p><p><strong><span class="icon-copyright icon"></span>本文版权：</strong>
+本博客所有文章除特别声明外，均采用 <a href=https://creativecommons.org/licenses/by/4.0/deed.zh rel="noopener nofollow noreferrer" target=_blank><span class=icon-creative-commons></span>BY</a> 许可协议。转载请注明出处！</p><span class="icon-creative-commons article-copyright-bg"></span></blockquote><ul class=article-category-list><li class=article-tag-list-item data-aos=zoom-in><a class=article-category-link href=/categories/Machine-Learning/ data-aos=zoom-in>Machine Learning</a></li></ul><ul class=article-tag-list itemprop=keywords><li class=article-tag-list-item data-aos=zoom-in><a class=article-tag-list-link href=/tags/Machine-Learning/ rel=tag>Machine Learning</a></li></ul></footer></div><nav id=article-nav aria-label="Article navigation" data-aos=fade-up><div class="article-nav-link-wrap left"><img data-src=/img/17.jpg data-sizes=auto alt=AdaBoost（自适应提升算法） class=lazyload><a href=/2025/11/06/boosting-adaboost/ aria-label=前一篇:AdaBoost（自适应提升算法） title=前一篇:AdaBoost（自适应提升算法）></a><div class=article-nav-caption>前一篇</div><h3 class=article-nav-title>AdaBoost（自适应提升算法）</h3></div><div class="article-nav-link-wrap right"><img data-src=/img/26.jpg data-sizes=auto alt=XGBoost class=lazyload><a href=/2026/01/15/boosting-xgboost/ aria-label=后一篇:XGBoost title=后一篇:XGBoost></a><div class=article-nav-caption>后一篇</div><h3 class=article-nav-title>XGBoost</h3></div></nav></article></section></div><footer id=footer aria-label="Site footer"><div style=width:100%;overflow:hidden><div class=footer-line></div></div><div id=footer-info><div><span class=icon-copyright></span>2023-2026<span class="footer-info-sep rotate"></span>Jingmengzhiyue</div><div>基于&nbsp;<a href=https://gohugo.io/ target=_blank rel="noopener nofollow noreferrer">Hugo</a>&nbsp;Theme.<a href=https://github.com/D-Sketon/hugo-theme-reimu target=_blank rel="noopener nofollow noreferrer">Reimu</a></div><div><span class=icon-brush>&nbsp;565.7k</span>
+&nbsp;|&nbsp;
+<span class=icon-coffee>&nbsp;19:36</span></div><div><span class=icon-eye></span>
+<span id=busuanzi_container_site_pv>总访问量&nbsp;<span id=busuanzi_value_site_pv></span></span>
+&nbsp;|&nbsp;
+<span class=icon-user></span>
+<span id=busuanzi_container_site_uv>总访客量&nbsp;<span id=busuanzi_value_site_uv></span></span></div></div></footer><div class=sidebar-top><div class="sidebar-top-taichi rotate"></div><div class=arrow-up></div></div><div id=mask class=hide></div></div><nav id=mobile-nav aria-label="Mobile navigation"><div class=sidebar-wrap><div class=sidebar-toc-sidebar><h3 class=toc-title>文章目录</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#51-函数空间梯度下降的核心思想friedman-2001>5.1 函数空间梯度下降的核心思想（Friedman 2001）</a></li><li><a href=#52-伪残差pseudo-residuals的概念>5.2 伪残差（Pseudo-residuals）的概念</a><ul><li><a href=#伪残差名称的由来>&ldquo;伪残差"名称的由来</a></li></ul></li><li><a href=#53-泰勒展开解释一阶梯度下降>5.3 泰勒展开解释（一阶梯度下降）</a></li><li><a href=#54-任意可微损失函数的统一框架>5.4 任意可微损失函数的统一框架</a></li><li><a href=#55-回归版本平方损失的完整推导>5.5 回归版本（平方损失）的完整推导</a><ul><li><a href=#伪残差计算>伪残差计算</a></li><li><a href=#完整回归流程>完整回归流程</a></li><li><a href=#其他回归损失ladhuber-与分位数>其他回归损失：LAD、Huber 与分位数</a></li></ul></li><li><a href=#56-分类版本对数损失的推导>5.6 分类版本（对数损失）的推导</a><ul><li><a href=#伪残差计算-1>伪残差计算</a></li><li><a href=#初始值与叶子值newton-步>初始值与叶子值（Newton 步）</a></li><li><a href=#多分类情况k-类>多分类情况（K 类）</a></li><li><a href=#多分类算法流程>多分类算法流程</a></li></ul></li><li><a href=#57-正则化技术shrinkage子采样列采样树复杂度控制>5.7 正则化技术：Shrinkage、子采样、列采样、树复杂度控制</a><ul><li><a href=#shrinkage学习率收缩>Shrinkage（学习率收缩）</a></li><li><a href=#子采样stochastic-gradient-boosting>子采样（Stochastic Gradient Boosting）</a></li><li><a href=#列采样column-subsampling>列采样（Column Subsampling）</a></li><li><a href=#树复杂度控制>树复杂度控制</a></li><li><a href=#正则化技术总结表>正则化技术总结表</a></li></ul></li><li><a href=#58-sklearn-api-与关键参数详解>5.8 sklearn API 与关键参数详解</a><ul><li><a href=#gradientboostingregressor>GradientBoostingRegressor</a></li><li><a href=#gradientboostingclassifier>GradientBoostingClassifier</a></li><li><a href=#关键参数说明表>关键参数说明表</a></li><li><a href=#参数调优建议>参数调优建议</a></li></ul></li><li><a href=#59-伪代码>5.9 伪代码</a></li><li><a href=#510-python-从零实现回归--分类逐行注释>5.10 Python 从零实现（回归 + 分类，逐行注释）</a></li><li><a href=#511-与-sklearn-的对比验证>5.11 与 sklearn 的对比验证</a></li><li><a href=#512-模型解释相对重要性与部分依赖图>5.12 模型解释：相对重要性与部分依赖图</a></li><li><a href=#参考文献>参考文献</a></li><li><a href=#第4章adaboost核心文献>第4章（AdaBoost）核心文献</a></li><li><a href=#第5章gradient-boosting核心文献>第5章（Gradient Boosting）核心文献</a></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/profile_picture.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>文章</div><div class=sidebar-state-number>74</div></div><a class=sidebar-state-category href=/categories/ aria-label=sidebar-state-category-link><div>分类</div><div class=sidebar-state-number>9</div></a><a class=sidebar-state-tag href=/tags/ aria-label=sidebar-state-tag-link><div>标签</div><div class=sidebar-state-number>27</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/ aria-label=首页></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>首页</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/archives aria-label=归档></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>归档</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/categories aria-label=目录></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>目录</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/tags aria-label=标签></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>标签</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/about aria-label=关于></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>关于</div></div></div></div></div><div class=sidebar-btn-wrapper><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></nav></div><div id=aplayer theme=var(--color-link)></div><script src=https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js integrity=sha384-3gT/vsepWkfz/ff7PpWNUeMzeWoH3cDhm/A8jM7ouoAK0/fP/9bcHHR5kHq2nf+e crossorigin=anonymous></script><script src=https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js integrity=sha384-J08i8An/QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q crossorigin=anonymous></script><script src=/js/main.js integrity crossorigin=anonymous></script><script src=/js/aos.js integrity crossorigin=anonymous></script><script>var aosInit=()=>{AOS.init({duration:1e3,easing:"ease",once:!0,offset:50})};document.readyState==="loading"?document.addEventListener("DOMContentLoaded",aosInit):aosInit()</script><script src=/js/pjax_main.js integrity crossorigin=anonymous data-pjax></script><div id=lazy-script><div><script data-pjax>window.REIMU_POST={author:"Jingmengzhiyue",title:"Gradient Boosting Machine（梯度提升机）",url:"https://www.jingmengzhiyue.tech/2025/11/24/boosting-gradient-boosting/",description:`使用平方误差损失时，每一轮的新树拟合当前残差，再按学习率缩放后加入集成。
+5.1 函数空间梯度下降的核心思想（Friedman 2001） Gradient Boosting 的核心思想由 Jerome H. Friedman 在 2001 年的经典论文 &ldquo;Greedy Function Approximation: A Gradient Boosting Machine&rdquo; 中提出（1999 年以技术报告形式发布），将 Boosting 框架重新解释为函数空间中的梯度下降（Gradient Descent in Function Space）。这是 Boosting 理 …`,cover:"https://www.jingmengzhiyue.tech/img/24.jpg"}</script><script src=https://npm.webcache.cn/mermaid@11.16.0/dist/mermaid.min.js data-pjax integrity=sha384-T/0lMUdJpd2S1ZHtRiofG3htU3xPCrFVeAQ1UUE2TJwlEJSV5NUwn30kP28n238E crossorigin=anonymous></script><script src=https://npm.webcache.cn/dompurify@3.2.6/dist/purify.min.js data-pjax integrity=sha384-JEyTNhjM6R1ElGoJns4U2Ln4ofPcqzSsynQkmEc/KGy6336qAZl70tDLufbkla+3 crossorigin=anonymous></script><script data-pjax>if(window.mermaid){const t=".mermaid",n=e=>{const n=_$$(t);return n.length?new Promise((t,s)=>{try{n.forEach(e),t()}catch(e){s(e)}}):Promise.resolve()},o=()=>n(e=>{e.getAttribute("data-original-code")||e.setAttribute("data-original-code",e.innerHTML)}),i=()=>n(e=>{const t=e.getAttribute("data-original-code");t&&(e.removeAttribute("data-processed"),e.innerHTML=DOMPurify.sanitize(t))}),a=async e=>{window.mermaid.initialize({theme:e,startOnLoad:!1}),await window.mermaid.run({querySelector:t,suppressErrors:!0}),window.svgPanZoom&&(window.__panZoomList?.forEach(e=>{try{e.destroy()}catch{}}),window.__panZoomList=[],_$$(".mermaid > svg").forEach(e=>{const t=e.getBBox();e.setAttribute("height",Math.max(t.height,80)),window.__panZoomList.push(window.svgPanZoom(e,{zoomEnabled:!0,controlIconsEnabled:!0,fit:!0,center:!0}))}),window.__resizeMermaidSvg&&window.removeEventListener("resize",window.__resizeMermaidSvg),window.__resizeMermaidSvg=()=>{try{window.__panZoomList.forEach(e=>{e.resize(),e.fit(),e.center()})}catch{window.removeEventListener("resize",window.__resizeMermaidSvg),window.__panZoomList=[]}},window.addEventListener("resize",window.__resizeMermaidSvg))},e=async e=>{try{await o(),await i(),await a(e)}catch(e){console.error(e)}};document.body.addEventListener("reimu:theme-set",t=>{const n=t.detail.isDark;e(n?"dark":"default")});const s=localStorage.getItem("dark_mode");if(s==="auto"){const t=window.matchMedia("(prefers-color-scheme: dark)").matches;e(t?"dark":"default")}else e(s==="true"?"dark":"default")}</script><script src=/js/insert_highlight.js integrity crossorigin=anonymous data-pjax></script><script src=/js/tabs.js integrity crossorigin=anonymous data-pjax defer></script><script type=module data-pjax>const PhotoSwipeLightbox = (await safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js", "sha384-DiL6M\/gG\u002bwmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF\/N6lrZi\/")).default;const initPswp = (gallery, children) => {
+          if (_$$(`${gallery} ${children}`).length > 0) {
+            new PhotoSwipeLightbox({
+              gallery,
+              children,pswpModule: () => safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8\u002boTJ7m3DfYEWX1fu1scuS4\u002bs")}).init();
+          }
+        }
+        const pswp = () => {
+          initPswp('.article-entry', 'a.article-gallery-item');
+          initPswp('.article-gallery', 'a.article-gallery-item');
+        }
+        pswp()
+      </script><script data-pjax>window.MathJax=JSON.parse('[{"loader":{"load":["input/asciimath","[tex]/noerrors"]},"options":{"ignoreHtmlClass":"tex2jax_ignore","processHtmlClass":"tex2jax_process","skipHtmlTags":["script","noscript","style","textarea","pre","code"]},"tex":{"autoload":{"color":[],"colorv2":["color"]},"displayMath":[["$$","$$"],["\\\\[","\\\\]"]],"inlineMath":[["$","$"],["\\\\(","\\\\)"]],"packages":{"[+]":["noerrors"]},"processEnvironments":true,"processEscapes":true,"tags":"ams","useLabelIds":true}}]')[0]</script><script src=https://npm.webcache.cn/mathjax@3.2.2/es5/tex-mml-chtml.js defer data-pjax integrity=sha384-Wuix6BuhrWbjDBs24bXrjf4ZQ5aFeFWBuKkFekO2t8xFU0iNaLQfp2K6/1Nxveei crossorigin=anonymous></script></div></div><script src=https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js async integrity=sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S crossorigin=anonymous></script><script>"serviceWorker"in navigator&&navigator.serviceWorker.getRegistrations().then(e=>{for(let t of e)t.unregister()})</script><script>const reimuCopyright=String.raw`
+   ______     ______     __     __    __     __  __    
+  /\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+  \ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+   \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+    \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                    
+  `;console.log(String.raw`%c ${reimuCopyright}`,"color: #ff5252;"),console.log("%c Theme.Reimu %c https://github.com/D-Sketon/hugo-theme-reimu ","color: white; background: #ff5252; padding:5px 0;","padding:4px;border:1px solid #ff5252;")</script><script>var setupAPlayer=()=>{if(!!1||!window.matchMedia("(max-width: 768px)").matches){const e=window.matchMedia("(max-width: 959px)").matches;if(e){const e=_$("#aplayer");if(e){const t=e.parentNode?.parentNode;t?.tagName==="ASIDE"&&(e.removeAttribute("data-aos"),t.parentNode.removeChild(e),document.body.appendChild(e))}}new APlayer({theme:"var(--color-link)",container:document.getElementById("aplayer"),audio:JSON.parse('[{"cover":"/img/24.jpg","name":"The Song Of Soul","url":"/music/The Song Of Soul.mp3"},{"cover":"/img/24.jpg","name":"Merry Christmas Mr Lawrence","url":"/music/Merry Christmas Mr Lawrence.mp3"},{"cover":"/img/24.jpg","name":"やさしさがしっとりと降るなかで","url":"/music/やさしさがしっとりと降るなかで.mp3"},{"artist":"千葉紗子","cover":"/img/24.jpg","name":"花手紙","url":"/music/花手紙.mp3"}]')||[],fixed:!!e||!0,autoplay:!1,loop:"all"||"all",order:"list"||"list",preload:"none"||"auto",volume:.7||.7,mutex:!0,listFolded:!0,lrcType:0||0})}}</script><script src=https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.js defer onload=setupAPlayer() integrity=sha384-gdGYZwHnfJM54evoZhpO0s6ZF5BQiybkiyW7VXr+h5UfruuRL/aORyw+5+HZoU6e crossorigin=anonymous></script></body></html>

@@ -1,0 +1,667 @@
+<!doctype html><html lang=zh-CN data-theme-mode=auto><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><title>LightGBM | Jingmengzhiyue</title><meta name=description content="热爱可抵万难"><script>window.siteConfig=JSON.parse('{"anchor":{"auto":{"enable":false,"length":60},"explicit":{"enable":false,"marker":"{#anchor-","prefix":"anchor-"}},"anchor_icon":null,"base":"https://www.jingmengzhiyue.tech/","clipboard":{"copyright":{"count":50,"enable":false,"license_type":"by-nc-sa"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-br":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ","zh-cn":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-tw":"複製失敗 (ﾟ⊿ﾟ)ﾂ"},"success":{"en":"Copy successfully (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-br":"Copiado com sucesso (*^▽^*)","zh-cn":"复制成功 (*^▽^*)","zh-tw":"複製成功 (*^▽^*)"}},"code_block":{"expand":true},"dark_mode":{"button":true,"mode":"auto"},"i18n_languages":[{"label":"简体中文","lang":"zh-cn"},{"label":"English","lang":"en"}],"icon_font":"4552607_ex15nbittbh","outdate":{"daysago":180,"enable":false,"message":{"en":"This article was last updated on {time}. Please note that the content may no longer be applicable.","ja":"この記事は最終更新日：{time}。記載内容が現在有効でない可能性がありますのでご注意ください。","pt-br":"Este artigo foi atualizado pela última vez em {time}. Observe que o conteúdo pode não ser mais aplicável.","zh-cn":"本文最后更新于 {time}，请注意文中内容可能已不适用。","zh-tw":"本文最後更新於 {time}，請注意文中內容可能已不適用。"}}}')</script><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap" media=print onload='this.media="all"'><link rel=preload href=//at.alicdn.com/t/c/font_4552607_ex15nbittbh.woff2 as=font type=font/woff2 crossorigin=anonymous><link rel=stylesheet href=/css/loader.min.ac746e154f756f8220326eeb52a719f142ab038be5a8ddf30ea5ef15ef2356ea.css><meta property="og:type" content="website"><meta property="og:title" content="LightGBM | Jingmengzhiyue"><meta property="og:description" content="热爱可抵万难"><meta property="og:url" content="https://www.jingmengzhiyue.tech/2026/01/22/boosting-lightgbm/"><meta property="og:site_name" content="热爱可抵万难"><meta property="og:image" content="https://www.jingmengzhiyue.tech/img/24.jpg"><meta property="article:author" content="Jingmengzhiyue"><meta property="article:published_time" content="2026-01-22T09:00:00+08:00"><meta property="article:modified_time" content="2026-01-22T09:00:00+08:00"><meta property="article:tag" content="Machine Learning"><meta name=twitter:card content="summary"><meta name=twitter:image content="https://www.jingmengzhiyue.tech/img/24.jpg"><link rel="shortcut icon" href=/favicon.ico><link rel=stylesheet href=/css/main.min.c69028af04cc11392739edc48eeb60465879b00de4286e0147bbc470f8f39418.css><link rel=preload as=style href=https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css integrity=sha384-IfxC36XL/toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx/1oA/0l8ysE crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><link rel=preload as=style href=https://npm.webcache.cn/katex@0.16.47/dist/katex.min.css integrity=sha384-nH0MfJ44wi1dd7w6jinlyBgljjS8EJAh2JBoRad8a3VDw2K69vfaaqm4WnR+gXtA crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><script src=https://npm.webcache.cn/pace-js@1.2.4/pace.min.js integrity=sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8 crossorigin=anonymous></script><link rel=stylesheet href=https://npm.webcache.cn/@reimujs/aos@0.1.3/dist/aos.css integrity=sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa crossorigin=anonymous><link rel=stylesheet href=https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.css integrity=sha384-tLMkTWh2pfXNWGFlUS0w1TFtRG5xZ9lPWFOooj+vDDLIL+xBGQU/voDBY5XE2lVh crossorigin=anonymous><link rel=icon href=/img/fluid.png type=image/png><link rel=apple-touch-icon href=/img/fluid.png><link rel=stylesheet href=/css/custom.css></head><body><div id=loader><div class="loading-left-bg loading-bg"></div><div class="loading-right-bg loading-bg"></div><div class=spinner-box><div class="loading-taichi rotate"><svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" shape-rendering="geometricPrecision"><path d="M303.5 432a80 80 0 01-12 160 80 80 0 0112-160z" fill="var(--red-1, #ff5252)"/><path d="M512 65a447 447 0 010 894V929a417 417 0 000-834 417 417 0 000 834v30a447 447 0 010-894zm0 30A417 417 0 01929 512 208.5 208.5.0 01720.5 720.5V592a80 80 0 000-160 80 80 0 000 160V720.5A208.5 208.5.0 01512 512 208.5 208.5.0 00303.5 303.5 208.5 208.5.0 0095 512 417 417 0 01512 95z" fill="var(--red-1, #ff5252)"/></svg></div><div class=loading-word>加载中...</div></div></div></div><script>var time=null,loaderEl=document.getElementById("loader"),startLoading=()=>{time=Date.now(),loaderEl.classList.remove("loading")},hideLoader=()=>{document.body.style.overflow="auto",loader.classList.add("loading")},endLoading=()=>{time?Date.now()-time>500?(time=null,hideLoader()):(setTimeout(endLoading,500-(Date.now()-time)),time=null):hideLoader()};window.addEventListener("DOMContentLoaded",endLoading),loaderEl.addEventListener("click",endLoading)</script><div id=copy-tooltip></div><div id=lang-tooltip>本文章没有找到对应的语言版本</div><div id=heatmap-tooltip></div><div id=container><div id=wrap><div id=header-nav><nav id=main-nav aria-label="Primary navigation"><a class=main-nav-link-wrap href=/><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>首页</span>
+</a><a class=main-nav-link-wrap href=/archives><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>归档</span>
+</a><a class=main-nav-link-wrap href=/categories><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>目录</span>
+</a><a class=main-nav-link-wrap href=/tags><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>标签</span>
+</a><a class=main-nav-link-wrap href=/about><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>关于</span>
+</a><a id=main-nav-toggle class=nav-icon aria-label="Toggle navigation" role=button></a></nav><nav id=sub-nav aria-label="Secondary navigation"></nav><nav id=i18n-nav aria-label="Language selection"><div class=custom-dropdown><div class=select-selected id=select-selected role=button aria-haspopup=listbox aria-expanded=false aria-label="Language menu"><span id=nav-language-btn class=nav-icon style="padding:0 20px 0 0"></span>
+<span id=selected-lang>简体中文</span></div><ul class=select-items id=select-items role=listbox aria-label=Languages><li data-value=zh-cn role=option class=selected aria-selected=true>简体中文</li><li data-value=en role=option aria-selected=false>English</li></ul></div><script>var selectSelected=document.getElementById("select-selected"),selectedLang=document.getElementById("selected-lang"),selectItems=document.getElementById("select-items"),selectOptions=selectItems.querySelectorAll("li");selectSelected.addEventListener("click",()=>{selectItems.classList.toggle("show");var e=selectSelected.getAttribute("aria-expanded")==="true";selectSelected.setAttribute("aria-expanded",(!e).toString())}),selectOptions.forEach(e=>{e.addEventListener("click",()=>{const t={};if(t.en="/en/boosting-lightgbm/",selectedLang.textContent=e.textContent,selectItems.classList.remove("show"),selectOptions.forEach(e=>{e.classList.remove("selected")}),e.classList.add("selected"),e.dataset.value==="zh-cn")return;if(!t[e.dataset.value]){_$("#lang-tooltip").style.opacity="1",setTimeout(()=>{_$("#lang-tooltip").style.opacity="0"},1e3);return}window.location=t[e.dataset.value]})}),document.addEventListener("click",e=>{e.target.closest(".custom-dropdown")||(selectItems.classList.remove("show"),selectSelected.setAttribute("aria-expanded","false"))})</script></nav></div><header id=header aria-label="Site header"><picture></picture><img fetchpriority=high src=/img/24.jpg alt=LightGBM><div id=header-outer><div id=header-title><span id=logo><h1 data-aos=slide-up>LightGBM</h1></span><h2 id=subtitle-wrap data-aos=slide-down></h2></div></div></header><div id=content aria-label="Page content" class=sidebar-right><aside id=sidebar aria-label=Sidebar><div class="sidebar-wrapper-container sticky"><div class=sidebar-wrapper><div class=sidebar-wrap data-aos=fade-up><div class=sidebar-toc-sidebar><h3 class=toc-title>文章目录</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#71-概述与核心创新>7.1 概述与核心创新</a></li><li><a href=#72-直方图决策树histogram-based-decision-tree>7.2 直方图决策树（Histogram-based Decision Tree）</a><ul><li><a href=#721-核心思想特征离散化到-k-个-bin>7.2.1 核心思想：特征离散化到 k 个 bin</a></li><li><a href=#722-算法流程>7.2.2 算法流程</a></li><li><a href=#723-复杂度分析与预排序算法对比>7.2.3 复杂度分析（与预排序算法对比）</a></li><li><a href=#724-直方图做差加速histogram-subtraction>7.2.4 直方图做差加速（Histogram Subtraction）</a></li><li><a href=#725-离散化的正则化效果>7.2.5 离散化的正则化效果</a></li></ul></li><li><a href=#73-leaf-wise叶子优先生长策略>7.3 Leaf-wise（叶子优先）生长策略</a><ul><li><a href=#731-与-level-wise层级优先的详细对比>7.3.1 与 Level-wise（层级优先）的详细对比</a></li><li><a href=#732-分裂增益公式>7.3.2 分裂增益公式</a></li><li><a href=#733-为什么更快但需要控制深度>7.3.3 为什么更快但需要控制深度</a></li></ul></li><li><a href=#74-gossgradient-based-one-side-sampling>7.4 GOSS（Gradient-based One-Side Sampling）</a><ul><li><a href=#741-核心思想梯度大的样本贡献更大>7.4.1 核心思想：梯度大的样本贡献更大</a></li><li><a href=#742-算法流程伪代码>7.4.2 算法流程（伪代码）</a></li><li><a href=#743-信息增益修正公式>7.4.3 信息增益修正公式</a></li><li><a href=#744-与-adaboost-采样策略的对比>7.4.4 与 AdaBoost 采样策略的对比</a></li></ul></li><li><a href=#75-efbexclusive-feature-bundling>7.5 EFB（Exclusive Feature Bundling）</a><ul><li><a href=#751-核心思想互斥特征捆绑>7.5.1 核心思想：互斥特征捆绑</a></li><li><a href=#752-冲突图--贪心-bundling-算法>7.5.2 冲突图 + 贪心 Bundling 算法</a></li><li><a href=#753-为什么类别特征-one-hot-编码后天然互斥>7.5.3 为什么类别特征 One-Hot 编码后天然互斥</a></li><li><a href=#754-特征偏移offset技术>7.5.4 特征偏移（Offset）技术</a></li><li><a href=#755-实际效果>7.5.5 实际效果</a></li></ul></li><li><a href=#76-类别特征处理>7.6 类别特征处理</a><ul><li><a href=#核心处理机制>核心处理机制</a></li></ul></li><li><a href=#77-并行学习与内存优化>7.7 并行学习与内存优化</a><ul><li><a href=#771-特征并行feature-paralleltree_learnerfeature>7.7.1 特征并行（Feature Parallel，<code>tree_learner='feature'</code>）</a></li><li><a href=#772-数据并行data-paralleltree_learnerdata>7.7.2 数据并行（Data Parallel，<code>tree_learner='data'</code>）</a></li><li><a href=#773-投票并行voting-paralleltree_learnervoting>7.7.3 投票并行（Voting Parallel，<code>tree_learner='voting'</code>）</a></li><li><a href=#774-内存优化总结>7.7.4 内存优化总结</a></li></ul></li><li><a href=#78-lightgbm在kaggle和实际应用中的表现>7.8 LightGBM在Kaggle和实际应用中的表现</a></li><li><a href=#79-python-api与关键参数详解>7.9 Python API与关键参数详解</a><ul><li><a href=#原生接口lgbtrain>原生接口（lgb.train）</a></li><li><a href=#scikit-learn兼容接口>Scikit-Learn兼容接口</a></li><li><a href=#关键参数详解>关键参数详解</a></li></ul></li><li><a href=#710-伪代码与实现细节>7.10 伪代码与实现细节</a><ul><li><a href=#lightgbm-整体训练流程>LightGBM 整体训练流程</a></li><li><a href=#实现细节洞察>实现细节洞察</a></li></ul></li><li><a href=#711-详细注释的python代码示例分类回归特征重要性早停>7.11 详细注释的Python代码示例（分类+回归+特征重要性+早停）</a></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/profile_picture.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>文章</div><div class=sidebar-state-number>74</div></div><a class=sidebar-state-category href=/categories/ aria-label=sidebar-state-category-link><div>分类</div><div class=sidebar-state-number>9</div></a><a class=sidebar-state-tag href=/tags/ aria-label=sidebar-state-tag-link><div>标签</div><div class=sidebar-state-number>27</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/ aria-label=首页></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>首页</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/archives aria-label=归档></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>归档</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/categories aria-label=目录></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>目录</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/tags aria-label=标签></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>标签</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/about aria-label=关于></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>关于</div></div></div></div><div class=sidebar-btn-wrapper style=position:static><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></div></div><div class=sidebar-widget></div></div></aside><section id=main aria-label="Main content"><nav aria-label=文章语言><a href=/en/boosting-lightgbm/ hreflang=en lang=en>English</a></nav><article class="h-entry article" itemscope itemtype=https://schema.org/BlogPosting><div class=article-inner data-aos=fade-up><div class=article-meta><div class=article-date><span class="article-date-link icon-calendar" data-aos=zoom-in><time datetime="2026-01-22 09:00:00 +0800 +0800" itemprop=datePublished>2026-01-22</time>
+<time style=display:none id=post-update-time>2026-01-22</time></span></div></div><div class=hr-line></div><div class="e-content article-entry" itemprop=articleBody><h2 id=71-概述与核心创新><a class=header-anchor href=#71-%e6%a6%82%e8%bf%b0%e4%b8%8e%e6%a0%b8%e5%bf%83%e5%88%9b%e6%96%b0></a>7.1 概述与核心创新</h2><p><strong>LightGBM</strong>（Light Gradient Boosting Machine）是由 <strong>微软亚洲研究院（Microsoft Research Asia）</strong> 的 <strong>Guolin Ke</strong>（柯国霖）等人与北京大学合作，于 2017 年在 NIPS 会议（NIPS 2017，即现在的 NeurIPS）上发表的高效梯度提升决策树系统（论文 <em>LightGBM: A Highly Efficient Gradient Boosting Decision Tree</em>）。作为 XGBoost 之后的又一里程碑式工作，LightGBM 不仅在训练速度上实现了数量级的提升，还在内存效率、高维稀疏数据处理、大规模数据场景等方面展现出卓越优势。</p><p>LightGBM 的四大核心技术构成了其高效性的基石：</p><ol><li><strong>直方图决策树</strong>（Histogram-based Decision Tree）：将连续特征离散化为有限个 bin，在直方图上进行统计和分裂查找，把每个特征的分裂点查找从 $O(\#\text{data})$ 降到 $O(\#\text{bin})$（直方图构建本身仍是 $O(\#\text{data})$）。直方图算法并非 LightGBM 首创，它是 LightGBM 的基础，后面三项才是论文的新贡献。</li><li><strong>Leaf-wise（叶子优先）生长策略</strong>：每次选择分裂增益最大的叶子进行分裂，而非按层级均匀分裂。相同分裂次数下能达到更低的训练损失，收敛更快。</li><li><strong>GOSS</strong>（Gradient-based One-Side Sampling）：基于梯度大小进行样本采样，保留所有大梯度样本，仅随机采样小梯度样本，并对小梯度样本乘以常数权重来补偿数据分布的变化，在大幅减少样本量的同时基本保持精度（论文给出了近似误差上界）。</li><li><strong>EFB</strong>（Exclusive Feature Bundling）：识别高维稀疏数据中互斥的特征，将其捆绑为单一特征，显著减少特征维度，加速直方图构建和分裂查找。</li></ol><blockquote><p><strong>核心洞察</strong>：LightGBM 并非简单地在 XGBoost 基础上做工程优化，而是<strong>从算法层面重新设计了树学习的基本流程</strong>——直方图替代预排序、Leaf-wise 替代 Level-wise、GOSS 和 EFB 分别从减少样本数和减少特征数两个方向降低直方图构建这一主要开销。这些创新使其在大规模数据（千万级样本、万级特征）上依然保持高效。</p></blockquote><hr><h2 id=72-直方图决策树histogram-based-decision-tree><a class=header-anchor href=#72-%e7%9b%b4%e6%96%b9%e5%9b%be%e5%86%b3%e7%ad%96%e6%a0%91histogram-based-decision-tree></a>7.2 直方图决策树（Histogram-based Decision Tree）</h2><h3 id=721-核心思想特征离散化到-k-个-bin><a class=header-anchor href=#721-%e6%a0%b8%e5%bf%83%e6%80%9d%e6%83%b3%e7%89%b9%e5%be%81%e7%a6%bb%e6%95%a3%e5%8c%96%e5%88%b0-k-%e4%b8%aa-bin></a>7.2.1 核心思想：特征离散化到 k 个 bin</h3><p>传统 GBDT 和 XGBoost 的精确贪心算法需要对每个特征的每个可能分割点进行排序遍历。当数据量达到百万级时，这一预排序过程成为主要瓶颈。LightGBM 的直方图算法从根本上改变了这一范式：<strong>将连续特征离散化为最多 $k$ 个 bin</strong>（参数 <code>max_bin</code>，默认 255），在离散后的 bin 上构建直方图进行统计，将分裂点查找的复杂度从 $O(\#\text{data})$ 降低到 $O(\#\text{bin})$。</p><p>具体来说，直方图算法分为两个阶段：</p><p><strong>阶段一：直方图构建（Binning）</strong></p><ol><li>对每个连续特征，将取值范围划分为 $k$ 个离散区间（bin）。</li><li>使用子样本（参数 <code>bin_construct_sample_cnt</code>，默认 200,000 个样本）确定 bin 的边界（大致按等频/分位数划分）。</li><li>将原始浮点特征值映射为 bin 索引（整数）。LightGBM 会按 <code>max_bin</code> 自动选择存储类型，例如 <code>max_bin=255</code> 时用 <code>uint8_t</code> 存储。</li></ol><p><strong>阶段二：直方图遍历（Split Finding）</strong></p><ol><li>对每个叶子节点，为每个特征构建直方图。</li><li>每个 bin 统计梯度之和 $\sum g_i$、Hessian 之和 $\sum h_i$ 和样本数（论文算法 1 只写了梯度和与样本数，实现中同时累加 Hessian）。</li><li>遍历所有 bin 计算分裂增益，找出最优分裂点。</li></ol><h3 id=722-算法流程><a class=header-anchor href=#722-%e7%ae%97%e6%b3%95%e6%b5%81%e7%a8%8b></a>7.2.2 算法流程</h3><p>LightGBM 直方图算法的完整流程如下：</p><ol><li><strong>特征离散化</strong>：对于每个连续特征，基于训练数据的分位数将其划分为 $k$ 个 bin。</li><li><strong>样本映射</strong>：将每个样本的原始特征值替换为对应的 bin 索引。</li><li><strong>直方图构建</strong>：对于当前节点的每个特征，初始化一个长度为 $k$ 的直方图数组。</li><li><strong>统计聚合</strong>：遍历节点中的所有样本，根据样本的 bin 索引，将 $g_i$、$h_i$ 累加到对应 bin 中。</li><li><strong>分裂查找</strong>：遍历直方图的每个 bin 边界作为候选分裂点，计算增益，选择最优分裂。</li><li><strong>递归分裂</strong>：对子节点重复步骤 3-5，直到满足停止条件。</li></ol><h3 id=723-复杂度分析与预排序算法对比><a class=header-anchor href=#723-%e5%a4%8d%e6%9d%82%e5%ba%a6%e5%88%86%e6%9e%90%e4%b8%8e%e9%a2%84%e6%8e%92%e5%ba%8f%e7%ae%97%e6%b3%95%e5%af%b9%e6%af%94></a>7.2.3 复杂度分析（与预排序算法对比）</h3><table><thead><tr><th>阶段</th><th>预排序算法（XGBoost exact）</th><th>直方图算法（LightGBM）</th><th>优势说明</th></tr></thead><tbody><tr><td>数据预处理</td><td>$O(\#\text{data} \times \#\text{feature} \times \log \#\text{data})$</td><td>分桶：对采样数据确定边界后线性映射</td><td>无需对全量数据排序</td></tr><tr><td>直方图构建（每节点）</td><td>无此步骤</td><td>$O(\#\text{data} \times \#\text{feature})$</td><td>只是简单累加，但仍是<strong>主要开销</strong></td></tr><tr><td>分裂点查找（每节点）</td><td>$O(\#\text{data} \times \#\text{feature})$</td><td>$O(\#\text{bin} \times \#\text{feature})$</td><td>$\#\text{bin} \ll \#\text{data}$（默认255 vs 百万）</td></tr><tr><td>内存占用</td><td>原始浮点值 + 预排序索引</td><td>只存 bin 索引（如 <code>uint8_t</code>），无需预排序信息</td><td>内存大幅降低</td></tr><tr><td>缓存友好性</td><td>差（随机访问梯度统计量）</td><td>优（顺序访问直方图数组）</td><td>提升缓存命中率</td></tr><tr><td>GPU 加速</td><td>复杂</td><td>天然适合</td><td>直方图聚合适合并行化</td></tr></tbody></table><p>由于 $\#\text{bin}$（默认 255）远小于 $\#\text{data}$（通常百万级），<strong>分裂点查找</strong>这一步的开销几乎可以忽略：在 1000 万样本的数据集上，预排序需要逐个检查约 1000 万个候选点，而直方图只需扫描 255 个 bin 边界。但整体训练并不会因此快上万倍，因为构建直方图仍要遍历节点内的每个样本，复杂度为 $O(\#\text{data} \times \#\text{feature})$。论文指出这一步主导了总开销，所以 LightGBM 又分别用 GOSS 减少样本数（$\#\text{data}$）、用 EFB 减少特征数（$\#\text{feature}$）。</p><h3 id=724-直方图做差加速histogram-subtraction><a class=header-anchor href=#724-%e7%9b%b4%e6%96%b9%e5%9b%be%e5%81%9a%e5%b7%ae%e5%8a%a0%e9%80%9fhistogram-subtraction></a>7.2.4 直方图做差加速（Histogram Subtraction）</h3><p>LightGBM 利用二叉树的结构特性，提出<strong>直方图做差加速</strong>技术。在二叉树中，父节点直方图等于左右子节点直方图之和：</p>$$
+\mathrm{Hist}_{\text{parent}} = \mathrm{Hist}_{\text{left}} + \mathrm{Hist}_{\text{right}}
+$$<p>（这里用 $\mathrm{Hist}$ 表示直方图，以免与 Hessian 之和 $H$ 混淆；等式对每个 bin 的梯度和、Hessian 和、样本数逐项成立。）因此，对于每次分裂，只需构建数据量较小的一侧子节点的直方图，另一侧通过父节点直方图减去已构建子节点直方图得到：</p>$$
+\mathrm{Hist}_{\text{sibling}} = \mathrm{Hist}_{\text{parent}} - \mathrm{Hist}_{\text{node}}
+$$<p><strong>优势分析</strong>：</p><ul><li>传统方法：每次分裂要为两个子节点各遍历一次样本来构建直方图，工作量与父节点样本数成正比。</li><li>做差加速：只遍历样本较少的那个子节点，工作量不超过父节点样本数的一半，另一侧通过减法获得，<strong>直方图构建的样本遍历量至少节省一半</strong>。</li><li>减法复杂度仅 $O(\#\text{bin} \times \#\text{feature})$，与样本数无关，远低于重新构建直方图。</li></ul><p>这一优化在 Leaf-wise 生长策略下同样适用：每次分裂一个叶子后，只需为两个新叶子中样本较少的那个构建直方图。</p><h3 id=725-离散化的正则化效果><a class=header-anchor href=#725-%e7%a6%bb%e6%95%a3%e5%8c%96%e7%9a%84%e6%ad%a3%e5%88%99%e5%8c%96%e6%95%88%e6%9e%9c></a>7.2.5 离散化的正则化效果</h3><p>直方图离散化不仅加速计算，还具有意想不到的正则化效果：</p><ul><li><strong>减少过拟合</strong>：将连续值压缩到有限 bin，相当于对特征进行了量化，减少了模型对训练数据中微小波动的敏感度。</li><li><strong>量化噪声</strong>（直观理解）：离散化会让分裂点不那么精确；但每棵树只是集成中的一个弱学习器，粗糙一些的分裂点对最终精度的影响通常有限，有时还能减少对训练数据细微波动的拟合。</li><li><strong>官方文档的说法</strong>：<code>max_bin</code> 较小可能降低训练集精度，但可能提升泛化能力（缓解过拟合）。是否真能提升要看数据，需通过验证集确认。</li></ul><hr><h2 id=73-leaf-wise叶子优先生长策略><a class=header-anchor href=#73-leaf-wise%e5%8f%b6%e5%ad%90%e4%bc%98%e5%85%88%e7%94%9f%e9%95%bf%e7%ad%96%e7%95%a5></a>7.3 Leaf-wise（叶子优先）生长策略</h2><h3 id=731-与-level-wise层级优先的详细对比><a class=header-anchor href=#731-%e4%b8%8e-level-wise%e5%b1%82%e7%ba%a7%e4%bc%98%e5%85%88%e7%9a%84%e8%af%a6%e7%bb%86%e5%af%b9%e6%af%94></a>7.3.1 与 Level-wise（层级优先）的详细对比</h3><p>传统树提升算法（包括 XGBoost 默认的 <code>grow_policy='depthwise'</code>）采用 <strong>Level-wise（层级优先）</strong> 生长策略：树按层级生长，每一层的所有节点同时分裂。LightGBM 采用 <strong>Leaf-wise（叶子优先，也称 best-first）</strong> 策略：每次从所有当前叶子中选择分裂增益（损失下降）最大的叶子进行分裂。这一策略源自 best-first 决策树（Shi, 2007），XGBoost 的 <code>hist</code> / <code>approx</code> 方法也可通过 <code>grow_policy='lossguide'</code> 使用。</p><pre class=mermaid>
+  graph TD
+    subgraph LevelWise["Level-wise: 按层生长，同层所有节点同时分裂"]
+        A1["Root"] --> B1["Level 1"]
+        A1 --> B2["Level 1"]
+        B1 --> C1["Level 2"]
+        B1 --> C2["Level 2"]
+        B2 --> C3["Level 2"]
+        B2 --> C4["Level 2"]
+    end
+
+    subgraph LeafWise["Leaf-wise: 每次只分裂增益最大的叶子"]
+        A2["Root"] --> B3["Gain=0.8"]
+        A2 --> B4["Gain=0.3"]
+        B3 --> C5["Gain=0.6"]
+        B3 --> C6["Gain=0.5"]
+        B4 --> C7["..."]
+        B4 --> C8["..."]
+    end
+
+    style A1 fill:#f9f,stroke:#333
+    style A2 fill:#f9f,stroke:#333
+</pre><table><thead><tr><th>维度</th><th>Level-wise（层级优先）</th><th>Leaf-wise（叶子优先）</th></tr></thead><tbody><tr><td>生长方式</td><td>按层分裂，同层所有节点同时分裂</td><td>每次只分裂增益最大的叶子</td></tr><tr><td>树结构</td><td>平衡树，各层节点均匀</td><td>非平衡树，某分支可能很深</td></tr><tr><td>收敛速度</td><td>较慢，存在无效分裂（增益很小的节点也被强制分裂）</td><td>更快，专注高增益分裂，每次分裂带来最大损失降低</td></tr><tr><td>过拟合风险</td><td>较低（树的深度可控）</td><td>较高（需配合 <code>max_depth</code> 或 <code>num_leaves</code> 限制）</td></tr><tr><td>相同叶子数下的训练损失</td><td>较高</td><td>通常更低（官方文档：固定 #leaf 时 Leaf-wise 往往得到更低的损失）</td></tr><tr><td>代表实现</td><td>XGBoost（默认 <code>depthwise</code>）、sklearn <code>GradientBoosting*</code></td><td>LightGBM、XGBoost（<code>lossguide</code>）、sklearn <code>HistGradientBoosting*</code></td></tr><tr><td>适用场景</td><td>小规模数据、需要平衡树结构</td><td>大规模数据、追求训练效率</td></tr></tbody></table><h3 id=732-分裂增益公式><a class=header-anchor href=#732-%e5%88%86%e8%a3%82%e5%a2%9e%e7%9b%8a%e5%85%ac%e5%bc%8f></a>7.3.2 分裂增益公式</h3><p>Leaf-wise 策略下的分裂增益与 XGBoost 的增益（<a href=/2026/01/15/boosting-xgboost/>XGBoost</a> 6.3.6）本质相同，都来自二阶近似。LightGBM 源码中叶子的得分写作 $\frac{G^2}{H+\lambda}$，没有 $\frac{1}{2}$ 因子，分裂增益为：</p>$$
+\mathrm{Gain} = \frac{G_L^2}{H_L + \lambda} + \frac{G_R^2}{H_R + \lambda} - \frac{(G_L + G_R)^2}{H_L + H_R + \lambda}
+$$<p>只有当 $\mathrm{Gain}$ 大于 <code>min_gain_to_split</code>（默认 0）时才分裂。其中 $G_L, G_R$ 为左右子节点梯度之和，$H_L, H_R$ 为 Hessian 之和，$\lambda$ 对应参数 <code>lambda_l2</code>（<strong>默认 0</strong>，而 XGBoost 的 <code>lambda</code> 默认为 1）。设置 <code>lambda_l1</code> 时，与 XGBoost 一样把 $G$ 换成软阈值 $\operatorname{sign}(G)\max(\lvert G \rvert - \lambda_1, 0)$。</p><blockquote><p>因为少了 $\frac{1}{2}$，同样的分裂在 LightGBM 中算出的增益是 XGBoost 方括号部分的 2 倍，所以 <code>min_gain_to_split</code> 与 XGBoost 的 <code>gamma</code> 数值上不能直接互换。</p></blockquote><p>Leaf-wise 的核心是：在所有候选叶子中，选择使上式增益最大的叶子进行分裂。这与 Level-wise 的"平均主义"形成鲜明对比——Level-wise 不加区分地分裂同层所有节点，即使某些节点的分裂增益很小。</p><h3 id=733-为什么更快但需要控制深度><a class=header-anchor href=#733-%e4%b8%ba%e4%bb%80%e4%b9%88%e6%9b%b4%e5%bf%ab%e4%bd%86%e9%9c%80%e8%a6%81%e6%8e%a7%e5%88%b6%e6%b7%b1%e5%ba%a6></a>7.3.3 为什么更快但需要控制深度</h3><p><strong>更快的根本原因</strong>：</p><ul><li><strong>资源集中</strong>：Level-wise 是平均主义，即使某些节点分裂增益很小（如增益接近0）也会被强制分裂，造成计算浪费。Leaf-wise 将计算资源集中在最有潜力的叶子节点，每次分裂都带来最大损失降低。</li><li><strong>相同分裂次数下损失更低</strong>：在相同分裂次数（即相同计算量）下，Leaf-wise 通常能达到更低的训练损失，因为它优先处理"最需要分裂"的区域。</li><li><strong>高效利用直方图</strong>：Leaf-wise 与直方图做差加速天然契合，因为每次只分裂一个叶子，直方图只需为该叶子及其子节点构建。</li></ul><p><strong>过拟合风险与控制</strong>：</p><ul><li>Leaf-wise 可能产生深度极不平衡的树，某些分支很深（对小数据区域过拟合），而另一些分支很浅。</li><li>如果不加控制，Leaf-wise 可能产生仅包含几个样本的深叶子，导致对小数据集的过拟合。</li></ul><p>LightGBM 通过以下参数控制过拟合：</p><table><thead><tr><th>参数</th><th>默认值</th><th>作用</th></tr></thead><tbody><tr><td><code>max_depth</code></td><td>-1（无限制）</td><td>树的最大深度，限制树的生长深度</td></tr><tr><td><code>num_leaves</code></td><td>31</td><td>最大叶子数，<strong>Leaf-wise的主要复杂度控制参数</strong></td></tr><tr><td><code>min_data_in_leaf</code></td><td>20</td><td>叶子最小样本数，防止叶子过于稀疏</td></tr><tr><td><code>min_sum_hessian_in_leaf</code></td><td>0.001</td><td>叶子最小Hessian和，控制叶子置信度</td></tr></tbody></table><p><strong>经验法则</strong>：深度为 $d$ 的二叉树最多有 $2^d$ 个叶子，所以同时设置两者时应满足 <code>num_leaves &lt;= 2^max_depth</code>。例如，当 <code>max_depth = 7</code> 时，<code>num_leaves</code> 超过 128 就没有意义。官方调参文档建议实际取值明显小于 $2^{\text{max\_depth}}$。注意即使设置了 <code>max_depth</code>，树仍按 Leaf-wise 方式生长，<code>max_depth</code> 只是额外的上限。</p><hr><h2 id=74-gossgradient-based-one-side-sampling><a class=header-anchor href=#74-gossgradient-based-one-side-sampling></a>7.4 GOSS（Gradient-based One-Side Sampling）</h2><h3 id=741-核心思想梯度大的样本贡献更大><a class=header-anchor href=#741-%e6%a0%b8%e5%bf%83%e6%80%9d%e6%83%b3%e6%a2%af%e5%ba%a6%e5%a4%a7%e7%9a%84%e6%a0%b7%e6%9c%ac%e8%b4%a1%e7%8c%ae%e6%9b%b4%e5%a4%a7></a>7.4.1 核心思想：梯度大的样本贡献更大</h3><p>GOSS 的核心洞察来源于对梯度分布的观察：在 Gradient Boosting 的每一轮迭代中，样本的梯度绝对值大小反映了模型对该样本的拟合程度。梯度绝对值大的样本是模型"还没学好"的样本（under-trained），而小梯度样本已被较好拟合。因此，<strong>大梯度样本对信息增益计算的贡献更大</strong>。</p><p>GOSS 的采样策略：</p><ul><li><strong>保留所有大梯度样本</strong>（梯度绝对值最大的 $a \times 100\%$ 样本）。</li><li><strong>随机采样小梯度样本</strong>（从剩余样本中随机选取 $b \times 100\%$）。</li><li><strong>通过常数乘子修正小梯度样本的权重</strong>，保持信息增益估计的无偏性。</li></ul><p>这一策略使得 GOSS 每轮只用约 $(a + b) \times 100\%$ 的样本建树。LightGBM 中 $a$、$b$ 分别对应参数 <code>top_rate</code>（默认 0.2）和 <code>other_rate</code>（默认 0.1），即默认每轮使用 30% 的样本；论文实验中用的是 $a=b=0.05$ 或 $a=b=0.1$，精度与全数据训练几乎相同。</p><h3 id=742-算法流程伪代码><a class=header-anchor href=#742-%e7%ae%97%e6%b3%95%e6%b5%81%e7%a8%8b%e4%bc%aa%e4%bb%a3%e7%a0%81></a>7.4.2 算法流程（伪代码）</h3><pre class=mermaid>
+  flowchart TD
+    A["输入: 训练集 I, 参数 a, b"] --> B["计算所有样本的梯度 g_i"]
+    B --> C["按梯度绝对值降序排序"]
+    C --> D["topSet = 前 a * len(I) 个样本"]
+    C --> E["剩余样本中随机选 b * len(I) 个"]
+    D --> F["usedSet = topSet + randSet"]
+    E --> F
+    F --> G["给randSet样本乘权重修正因子 (1-a)/b"]
+    G --> H["在usedSet上构建树"]
+    H --> I{"满足停止条件?"}
+    I -->|否| B
+    I -->|是| J["输出最终模型"]
+</pre><p><strong>伪代码</strong>：</p><ol><li>输入：训练数据 $I$，大梯度采样比例 $a$，小梯度采样比例 $b$</li><li>计算权重修正因子：$fact \leftarrow (1-a)/b$</li><li>计算大梯度样本数：$topN \leftarrow a \times |I|$</li><li>计算随机采样数：$\mathit{randN} \leftarrow b \times \lvert I \rvert$</li><li>对于每次迭代：<ol><li>计算所有样本的梯度 $g_i$</li><li>按梯度绝对值降序排序，得到索引数组 $\mathit{sorted}$</li><li>$\mathit{topSet} \leftarrow \mathit{sorted}[1:\mathit{topN}]$ // 保留大梯度样本</li><li>$\mathit{randSet} \leftarrow \operatorname{RandomPick}(\mathit{sorted}[\mathit{topN}+1:\mathit{end}],\ \mathit{randN})$ // 随机采样小梯度</li><li>$\mathit{usedSet} \leftarrow \mathit{topSet} \cup \mathit{randSet}$</li><li>初始化权重 $w_i \leftarrow 1$（对所有样本）</li><li>对于 $\mathit{randSet}$ 中的每个样本：$w_i \leftarrow w_i \times \mathit{fact}$ // 修正小梯度样本权重</li><li>使用加权样本 $(\mathit{usedSet}, -g_{\mathit{usedSet}}, w_{\mathit{usedSet}})$ 构建树</li></ol></li><li>输出最终模型</li></ol><blockquote><p><strong>实现细节（LightGBM 源码 <code>src/boosting/goss.hpp</code>）</strong></p><ul><li>排序依据是 $\lvert g_i h_i \rvert$ 而不是单纯的 $\lvert g_i \rvert$；对平方损失（$h_i$ 为常数）两者等价。</li><li>修正因子 $\frac{1-a}{b}$ 同时乘在被采样小梯度样本的梯度和 Hessian 上。</li><li>前 $\lfloor 1/\text{learning\_rate} \rfloor$ 轮不做 GOSS 采样（例如学习率 0.1 时前 10 轮用全部数据），因为训练初期梯度普遍较大，采样意义不大。</li><li>4.0 版起 GOSS 通过 <code>data_sample_strategy='goss'</code> 启用；旧写法 <code>boosting='goss'</code> 仍兼容，但会给出警告并被解释为 <code>boosting='gbdt'</code> + <code>data_sample_strategy='goss'</code>。</li></ul></blockquote><h3 id=743-信息增益修正公式><a class=header-anchor href=#743-%e4%bf%a1%e6%81%af%e5%a2%9e%e7%9b%8a%e4%bf%ae%e6%ad%a3%e5%85%ac%e5%bc%8f></a>7.4.3 信息增益修正公式</h3><p>GOSS 对采样后的样本集合估计信息增益，引入常数 $\frac{1-a}{b}$ 把 $B$ 上的梯度和放大回整个小梯度集合 $A^c$ 的规模，使估计近似无偏。</p><p>论文用<strong>方差增益</strong>衡量分裂质量。在某个节点的样本集合 $O$ 上，以特征 $j$ 的阈值 $d$ 分裂时：</p>$$
+V_{j\mid O}(d) = \frac{1}{n_O}\left[\frac{\left(\sum_{\{x_i \in O:\, x_{ij} \le d\}} g_i\right)^2}{n_{l\mid O}^j(d)} + \frac{\left(\sum_{\{x_i \in O:\, x_{ij} > d\}} g_i\right)^2}{n_{r\mid O}^j(d)}\right]
+$$<p>其中 $n_O$ 为节点样本数，$n_{l\mid O}^j(d)$、$n_{r\mid O}^j(d)$ 为左右两侧样本数。它相当于把 <a href=/2026/01/15/boosting-xgboost/>XGBoost</a> 中的 $\frac{G^2}{H+\lambda}$ 取 $h_i = 1$、$\lambda = 0$。</p><p>设 $A$ 为大梯度样本集合（保留全部，比例 $a$），$A^c$ 为其余样本，$B$ 为从 $A^c$ 中随机采样的子集（大小为 $b \times n$）。$A_l = \{x_i \in A \mid x_{ij} \leq d\}$，$A_r = \{x_i \in A \mid x_{ij} > d\}$ 为 $A$ 在分裂点 $d$ 左右的分裂。类似定义 $B_l, B_r$。</p><p>GOSS 的信息增益估计为：</p>$$
+\tilde{V}_j(d) = \frac{1}{n}\left[ \frac{\left(\sum_{x_i \in A_l} g_i + \frac{1-a}{b} \sum_{x_i \in B_l} g_i\right)^2}{n_l^j(d)} + \frac{\left(\sum_{x_i \in A_r} g_i + \frac{1-a}{b} \sum_{x_i \in B_r} g_i\right)^2}{n_r^j(d)} \right]
+$$<p><strong>符号表</strong>：</p><table><thead><tr><th>符号</th><th>含义</th></tr></thead><tbody><tr><td>$A$</td><td>大梯度样本集合（保留全部，比例 $a$）</td></tr><tr><td>$B$</td><td>从小梯度样本中随机采样的子集（比例 $b$）</td></tr><tr><td>$A_l, A_r$</td><td>大梯度样本在分裂点左右的分裂</td></tr><tr><td>$B_l, B_r$</td><td>小梯度采样样本在分裂点左右的分裂</td></tr><tr><td>$\frac{1-a}{b}$</td><td>权重补偿因子：$B$ 中样本数是 $bn$，而它代表的 $A^c$ 有 $(1-a)n$ 个样本，放大后梯度和的期望与 $A^c$ 上的真实梯度和一致</td></tr><tr><td>$n_l^j(d), n_r^j(d)$</td><td>分裂点 $d$ 左右两侧的样本数</td></tr></tbody></table><p><strong>理论保证</strong>：原始论文定理 3.2 证明，GOSS 的近似误差以至少 $1-\delta$ 概率满足：</p>$$
+\mathcal{E}(d) \leq C_{a,b}^2 \ln\frac{1}{\delta} \cdot \max\left\{\frac{1}{n_l^j(d)}, \frac{1}{n_r^j(d)}\right\} + 2DC_{a,b}\sqrt{\frac{\ln(1/\delta)}{n}}
+$$<p>其中近似误差 $\mathcal{E}(d) = \left\lvert \tilde{V}_j(d) - V_j(d) \right\rvert$，$C_{a,b} = \frac{1-a}{\sqrt{b}} \max_{x_i \in A^c} \lvert g_i \rvert$，$D = \max\left(\bar{g}_l^j(d), \bar{g}_r^j(d)\right)$，$\bar{g}_l^j(d)$、$\bar{g}_r^j(d)$ 分别为左右两侧梯度绝对值的平均。</p><p>关键结论：误差的渐近阶为 $O\left(\frac{1}{n_l^j(d)} + \frac{1}{n_r^j(d)} + \frac{1}{\sqrt{n}}\right)$。只要分裂不过于不平衡（$n_l^j(d)$、$n_r^j(d) \ge O(\sqrt{n})$），误差主要由第二项决定，并随 $n$ 增大以 $O(1/\sqrt{n})$ 的速度趋于 0，也就是说数据量很大时 GOSS 的近似相当准确。论文还说明，随机采样是 $a=0$ 时的特例，在很多情况下 GOSS 的误差更小。</p><h3 id=744-与-adaboost-采样策略的对比><a class=header-anchor href=#744-%e4%b8%8e-adaboost-%e9%87%87%e6%a0%b7%e7%ad%96%e7%95%a5%e7%9a%84%e5%af%b9%e6%af%94></a>7.4.4 与 AdaBoost 采样策略的对比</h3><table><thead><tr><th>特性</th><th>AdaBoost 采样</th><th>GOSS</th></tr></thead><tbody><tr><td>权重基础</td><td>样本权重（前序分类器错误率决定）</td><td>梯度绝对值（当前模型拟合残差决定）</td></tr><tr><td>采样策略</td><td>直接按权重加权训练（reweighting），或按权重有放回重采样（resampling）</td><td>保留大梯度样本，随机采样小梯度样本</td></tr><tr><td>适用算法</td><td>AdaBoost / 加权 Boosting</td><td>GBDT / LightGBM（用梯度大小近似识别更有信息量的样本）</td></tr><tr><td>修正机制</td><td>无显式修正（权重自然归一化）</td><td>显式常数乘子 $(1-a)/b$ 修正信息增益</td></tr><tr><td>理论保证</td><td>训练误差随轮数指数下降的上界</td><td>方差增益估计的近似误差上界（定理 3.2）</td></tr><tr><td>核心思想</td><td>关注被错分的困难样本</td><td>关注模型未充分拟合的样本（大梯度）</td></tr></tbody></table><p>AdaBoost 的样本权重直接反映错分累积程度；GBDT 虽然也可以接收外部样本权重，但每轮“哪些样本最需要被关注”通常由当前损失的梯度体现。GOSS 利用梯度绝对值作为<strong>信息量大小</strong>的近似指标，既保留了“关注困难样本”的直觉，又适配了 GBDT 的梯度优化框架。</p><hr><h2 id=75-efbexclusive-feature-bundling><a class=header-anchor href=#75-efbexclusive-feature-bundling></a>7.5 EFB（Exclusive Feature Bundling）</h2><h3 id=751-核心思想互斥特征捆绑><a class=header-anchor href=#751-%e6%a0%b8%e5%bf%83%e6%80%9d%e6%83%b3%e4%ba%92%e6%96%a5%e7%89%b9%e5%be%81%e6%8d%86%e7%bb%91></a>7.5.1 核心思想：互斥特征捆绑</h3><p>EFB 解决的是高维稀疏数据中的特征冗余问题。现实数据中，尤其是经过 one-hot 编码或词袋表示后的数据，特征维度极高但极其稀疏。许多特征是<strong>互斥</strong>（mutually exclusive）的——即很少在同一行同时取非零值。例如：</p><ul><li>One-hot 编码后的类别特征：每行只有一个值为 1，其余为 0。</li><li>文本挖掘中的词袋表示：每篇文档只包含少量词汇。</li></ul><p>EFB 将互斥特征捆绑成单一特征，在不损失信息的前提下减少特征维度，从而加速直方图构建和分裂查找。</p><h3 id=752-冲突图--贪心-bundling-算法><a class=header-anchor href=#752-%e5%86%b2%e7%aa%81%e5%9b%be--%e8%b4%aa%e5%bf%83-bundling-%e7%ae%97%e6%b3%95></a>7.5.2 冲突图 + 贪心 Bundling 算法</h3><p>原始论文证明（定理 4.1）：将特征划分为最少数量的互斥捆绑问题是 <strong>NP-hard</strong>。证明思路是将图着色问题归约到该问题：对任意图 $G=(V,E)$，为每个顶点构造一个特征，有边相连的两个特征会在某些样本上同时非零（即冲突），于是同一种颜色的顶点集合恰好对应一个互斥捆绑。</p><p>由于精确解难求，LightGBM 采用贪心近似算法：</p><pre class=mermaid>
+  flowchart TD
+    A["输入: 特征集合 F"] --> B["构建冲突图 G=(V,E)"]
+    B --> C["按度数降序排序特征"]
+    C --> D["初始化 bundles 为空列表"]
+    D --> E{"还有未分配特征?"}
+    E -->|是| F["取下一个特征 f"]
+    F --> G["寻找冲突最小的 bundle"]
+    G --> H{"冲突是否不超过阈值?"}
+    H -->|是| I["将 f 加入该 bundle"]
+    H -->|否| J["新建 bundle 包含 f"]
+    I --> E
+    J --> E
+    E -->|否| K["输出 bundles"]
+</pre><p><strong>伪代码</strong>：</p><ol><li>输入：特征集合 $F$，最大冲突数 $K$（论文正文用每个 bundle 的最大冲突率 $\gamma$ 描述允许的冲突程度，并说明随机污染少量特征值对训练精度的影响至多为 $O\left([(1-\gamma)n]^{-2/3}\right)$，所以 $\gamma$ 较小时可以较好地兼顾精度与效率）</li><li>构建冲突图 $G = (V, E)$：<ul><li>每个特征对应一个顶点</li><li>如果特征 $i$ 和 $j$ 在某些行同时非零，则添加边 $(i,j)$，边权为冲突次数</li></ul></li><li>按顶点在图中的度数降序排序特征</li><li>初始化：$\mathit{bundles} \leftarrow []$，以及每个 bundle 的累计冲突数</li><li>对于排序后的每个特征 $f$：<ol><li>依次检查已有的每个 bundle：若 $f$ 与该 bundle 的冲突数加上该 bundle 已有的冲突数 $\le K$，就把 $f$ 加入这个 bundle，并停止检查</li><li>如果没有任何 bundle 能容纳 $f$：新建一个只含 $f$ 的 bundle</li></ol></li><li>输出：$\mathit{bundles}$</li></ol><p>论文中这一步是“放进第一个满足条件的 bundle”（first-fit），不是在所有 bundle 中找冲突最小的。</p><p><strong>复杂度分析</strong>：</p><ul><li>贪心捆绑（论文算法 3）的时间复杂度为 $O(\#\text{feature}^2)$，只在训练前执行一次。</li><li>特征数达到百万级时这仍然很慢，论文因此给出更快的变体：不建图，直接按特征的<strong>非零值个数</strong>降序排序（非零值越多，越可能发生冲突，效果与按度数排序类似）。</li><li>论文主实验取 $\gamma = 0$，即不允许冲突。LightGBM 4.x 中 EFB 由 <code>enable_bundle</code>（默认 <code>true</code>）开关控制，没有对外暴露冲突率参数（在 4.7.0 中设置 <code>max_conflict_rate</code> 会提示 Unknown parameter）。</li></ul><h3 id=753-为什么类别特征-one-hot-编码后天然互斥><a class=header-anchor href=#753-%e4%b8%ba%e4%bb%80%e4%b9%88%e7%b1%bb%e5%88%ab%e7%89%b9%e5%be%81-one-hot-%e7%bc%96%e7%a0%81%e5%90%8e%e5%a4%a9%e7%84%b6%e4%ba%92%e6%96%a5></a>7.5.3 为什么类别特征 One-Hot 编码后天然互斥</h3><p>One-hot 编码将 $K$ 个类别的特征转换为 $K$ 个二元特征：</p><ul><li>对于任意样本，$K$ 个特征中恰好一个为 1，其余为 0。</li><li>因此 $K$ 个特征两两完全互斥（冲突率为 0）。</li><li>EFB 可将 $K$ 个特征捆绑为一个，特征数从 $K$ 减少到 1。</li></ul><p>论文实验表明，在包含大量 one-hot 或其他稀疏特征的数据集（如 KDD Cup 2010/2012）上，EFB 可带来显著加速。除 one-hot 特征外，EFB 也能捆绑那些“隐式互斥”的稀疏特征。</p><h3 id=754-特征偏移offset技术><a class=header-anchor href=#754-%e7%89%b9%e5%be%81%e5%81%8f%e7%a7%bboffset%e6%8a%80%e6%9c%af></a>7.5.4 特征偏移（Offset）技术</h3><p>将多个特征捆绑为一个后，需要区分不同原始特征的值。LightGBM 使用 <strong>Offset（偏移）</strong> 方法解决这一问题。</p><p>假设捆绑两个特征：</p><ul><li>特征 A：取值范围 $[0, 10)$</li><li>特征 B：取值范围 $[0, 20)$</li></ul><p>给特征 B 添加偏移量 10，使其取值范围变为 $[10, 30)$。合并后捆绑特征取值范围为 $[0, 30)$（论文中写作 $[0, 30]$），直方图可清楚区分每个值来自哪个原始特征。</p><p>一般化公式：</p>$$
+\text{newBin}[i] = \begin{cases} F[j].\text{bin}[i] + \text{binRanges}[j] & \text{if } F[j].\text{bin}[i] \neq 0 \\ 0 & \text{if } F[j].\text{bin}[i] = 0 \text{ for all } j \end{cases}
+$$<p>其中累积偏移量 $\text{binRanges}$ 由各特征的 bin 数依次累加得到：</p>$$
+\text{binRanges} = \left[0,\ \#\text{bin}(F_1),\ \#\text{bin}(F_1)+\#\text{bin}(F_2),\ \dots\right]
+$$<p>由于 bundle 内的特征互斥，每个样本至多有一个特征非零，所以 $\text{newBin}[i]$ 是唯一确定的（论文算法 4；有少量冲突时，后处理的特征会覆盖先前的值）。所有特征的 0 值共用捆绑特征的 0 号 bin。</p><p><strong>示例</strong>（假设 0 号 bin 表示零值，各特征的非零 bin 依次排在后面）：</p><table><thead><tr><th>原始特征</th><th>非零取值的 bin</th><th>偏移量</th><th>捆绑后对应的 bin</th></tr></thead><tbody><tr><td>F1</td><td>$1 \sim 2$</td><td>0</td><td>$1 \sim 2$</td></tr><tr><td>F2</td><td>$1 \sim 3$</td><td>2</td><td>$3 \sim 5$</td></tr><tr><td>F3</td><td>$1 \sim 4$</td><td>5</td><td>$6 \sim 9$</td></tr></tbody></table><p>捆绑特征共有 $1 + 2 + 3 + 4 = 10$ 个 bin（共用的 0 号 bin 加上三个特征各自的非零 bin），三个特征的取值区间互不重叠。</p><h3 id=755-实际效果><a class=header-anchor href=#755-%e5%ae%9e%e9%99%85%e6%95%88%e6%9e%9c></a>7.5.5 实际效果</h3><p>原始论文实验（表 2，单轮迭代平均耗时）表明：</p><ul><li>只加 EFB 时（EFB_only 对比 lgb_baseline），稀疏的大数据集上加速明显：Allstate 约 $8.5\times$（每轮从 6.07 s 降到 0.71 s），KDD10 约 $6.3\times$，KDD12 约 $8.3\times$，Flight Delay 约 $5.1\times$；稠密的 LETOR 数据集几乎没有变化（从 0.49 s 到 0.46 s）。这些数据集的特征维度从 136（LETOR）到 5400 万（KDD12）不等。</li><li>再加上 GOSS（即完整的 LightGBM），使用 10%–20% 的数据时，GOSS 自身又带来接近 $2\times$ 的加速。</li><li>EFB 不需要在建树时为每个稀疏特征额外维护非零数据表，节省了内存。</li><li>原本分散的特征被捆绑在一起，提高了空间局部性，显著改善缓存命中率。</li></ul><hr><h2 id=76-类别特征处理><a class=header-anchor href=#76-%e7%b1%bb%e5%88%ab%e7%89%b9%e5%be%81%e5%a4%84%e7%90%86></a>7.6 类别特征处理</h2><p>LightGBM 对类别特征提供了<strong>原生支持</strong>，无需手动进行 one-hot 编码。这一设计在高基数类别特征（如用户ID、商品ID）场景下尤为重要，因为 one-hot 编码会产生高维稀疏特征，既不高效也易造成过拟合。</p><h3 id=核心处理机制><a class=header-anchor href=#%e6%a0%b8%e5%bf%83%e5%a4%84%e7%90%86%e6%9c%ba%e5%88%b6></a>核心处理机制</h3><ol><li><p><strong>类别值需编码为非负整数</strong>：通过 <code>categorical_feature</code> 指定类别特征。LightGBM 核心库要求类别取值为整数（会被转成 <code>int32</code>，负值视为缺失，最好是从 0 开始的连续整数），<strong>不会</strong>自动把字符串映射成整数。Python 包中若输入是 pandas DataFrame 且列为 <code>category</code> 类型，会自动提取其整数编码，此时可直接使用 <code>categorical_feature='auto'</code>（默认；最新文档说明只自动识别无序的 category 列，有序的会按数值处理）。预测时遇到训练中没见过的类别会按缺失值处理。</p></li><li><p><strong>基于统计的分裂</strong>：对于类别特征，LightGBM 不寻找单个数值分裂点，而是把类别集合划分为两个子集。$k$ 个类别共有 $2^{k-1}-1$ 种二划分，逐一枚举不可行；但对回归树存在高效解法（Fisher, 1958），约 $O(k \log k)$ 即可找到最优划分。具体来说：</p><ul><li>在当前节点上，统计每个类别的梯度和 $G_c$ 与 Hessian 和 $H_c$。</li><li>按 $\frac{G_c}{H_c + \text{cat\_smooth}}$ 对类别排序（官方文档描述为按 <code>sum_gradient / sum_hessian</code> 排序，实现中分母加了平滑项 <code>cat_smooth</code>）。</li><li>在排序后的类别序列上像连续特征一样从两端扫描切分点，找出最优的两子集划分。</li><li>类别数不超过 <code>max_cat_to_onehot</code>（默认 4）时改用 one-vs-rest 分裂（一个类别对其余类别）。</li></ul><p>与类别分裂相关的正则化参数：<code>cat_smooth</code>（默认 10，减小小类别的噪声）、<code>cat_l2</code>（默认 10，类别分裂时额外的 L2 正则）、<code>max_cat_threshold</code>（默认 32，限制类别分裂时考虑的切分点数量）、<code>min_data_per_group</code>（默认 100，每个类别组的最少样本数）。官方文档建议，样本少或类别数多时用 <code>min_data_per_group</code>、<code>cat_smooth</code> 抑制过拟合；对类别数非常多的特征，直接把整数编码当作数值特征处理往往效果更好。</p></li><li><p><strong>避免 one-hot 的高维灾难</strong>：对于高基数类别特征（如百万级用户ID），one-hot 编码会产生百万维稀疏矩阵。LightGBM 将其作为单一特征处理，直方图 bin 数等于类别数（或受限的最大 bin 数），内存和计算效率远高于 one-hot 方案。</p></li></ol><p><strong>使用方式</strong>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>lightgbm</span> <span class=k>as</span> <span class=nn>lgb</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 指定类别特征索引（第0列和第3列为类别特征，取值需已编码为非负整数）</span>
+</span></span><span class=line><span class=cl><span class=n>categorical_features</span> <span class=o>=</span> <span class=p>[</span><span class=mi>0</span><span class=p>,</span> <span class=mi>3</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>train_data</span> <span class=o>=</span> <span class=n>lgb</span><span class=o>.</span><span class=n>Dataset</span><span class=p>(</span><span class=n>X_train</span><span class=p>,</span> <span class=n>label</span><span class=o>=</span><span class=n>y_train</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                          <span class=n>categorical_feature</span><span class=o>=</span><span class=n>categorical_features</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 若 X_train 是 pandas DataFrame，也可以把类别列转成 category 类型，</span>
+</span></span><span class=line><span class=cl><span class=c1># 默认的 categorical_feature=&#39;auto&#39; 会自动识别：</span>
+</span></span><span class=line><span class=cl><span class=c1># X_train[&#39;city&#39;] = X_train[&#39;city&#39;].astype(&#39;category&#39;)</span>
+</span></span></code></pre></td></tr></table></div></div><hr><h2 id=77-并行学习与内存优化><a class=header-anchor href=#77-%e5%b9%b6%e8%a1%8c%e5%ad%a6%e4%b9%a0%e4%b8%8e%e5%86%85%e5%ad%98%e4%bc%98%e5%8c%96></a>7.7 并行学习与内存优化</h2><p>以下内容依据 LightGBM 官方文档 <em>Features</em> 中的 “Optimization in Distributed Learning” 一节。并行方式由参数 <code>tree_learner</code> 选择：<code>serial</code>（默认，单机）、<code>feature</code>、<code>data</code>、<code>voting</code>。</p><h3 id=771-特征并行feature-paralleltree_learnerfeature><a class=header-anchor href=#771-%e7%89%b9%e5%be%81%e5%b9%b6%e8%a1%8cfeature-paralleltree_learnerfeature></a>7.7.1 特征并行（Feature Parallel，<code>tree_learner='feature'</code>）</h3><p><strong>传统特征并行</strong>：数据按列（特征）切分到不同 worker。各 worker 在自己的特征子集上找局部最优分裂，相互通信得到全局最优分裂；持有该特征的 worker 执行分裂，再把“每个样本去左还是去右”的划分结果发给其他 worker。缺点有两个：分裂操作本身是 $O(\#\text{data})$，无法被并行加速；划分结果的通信量约为 $O(\#\text{data}/8)$（每个样本 1 bit）。</p><p><strong>LightGBM 的特征并行</strong>：<strong>每个 worker 都持有完整数据</strong>，只是各自负责搜索不同的特征子集：</p><ol><li>各 worker 在本地负责的特征上寻找最优分裂点 {feature, threshold}。</li><li>相互通信，得到全局最优分裂。</li><li>每个 worker 都在本地执行这个分裂（因为都有完整数据，不需要传输划分结果）。</li></ol><p>由于分裂操作仍是 $O(\#\text{data})$，样本数很大时特征并行加速有限，此时应使用数据并行。</p><h3 id=772-数据并行data-paralleltree_learnerdata><a class=header-anchor href=#772-%e6%95%b0%e6%8d%ae%e5%b9%b6%e8%a1%8cdata-paralleltree_learnerdata></a>7.7.2 数据并行（Data Parallel，<code>tree_learner='data'</code>）</h3><p><strong>传统数据并行</strong>：数据按行切分，各 worker 用本地数据构建本地直方图，合并成全局直方图后寻找最优分裂。缺点是通信量大：点对点通信时每台机器约为 $O(\#\text{machine} \times \#\text{feature} \times \#\text{bin})$，用 All Reduce 等集合通信约为 $O(2 \times \#\text{feature} \times \#\text{bin})$。</p><p><strong>LightGBM 的数据并行优化</strong>：</p><ul><li><strong>Reduce Scatter 代替全量合并</strong>：不同 worker 负责合并不同（互不重叠）特征的直方图，各自在合并后的直方图上找局部最优分裂，再同步得到全局最优分裂。</li><li><strong>结合直方图做差</strong>：每次分裂只需通信样本较少的那个子节点的直方图，另一个子节点用减法得到。</li><li>综合起来，通信代价约为 $O(0.5 \times \#\text{feature} \times \#\text{bin})$。</li></ul><h3 id=773-投票并行voting-paralleltree_learnervoting><a class=header-anchor href=#773-%e6%8a%95%e7%a5%a8%e5%b9%b6%e8%a1%8cvoting-paralleltree_learnervoting></a>7.7.3 投票并行（Voting Parallel，<code>tree_learner='voting'</code>）</h3><p>投票并行进一步把数据并行的通信量降到与特征数无关的常数级别。它来自 PV-Tree（Meng et al., NIPS 2016），采用两阶段投票：</p><ol><li><strong>局部投票</strong>：每个 worker 根据本地数据选出增益最高的 top-$k$ 个特征（参数 <code>top_k</code>，默认 20）。</li><li><strong>全局投票</strong>：汇总各 worker 的投票，按得票数选出全局 top-$2k$ 个候选特征。</li><li>只收集这 $2k$ 个特征的完整直方图，合并后确定最优分裂。</li></ol><p><code>top_k</code> 越大结果越准确，但训练越慢。官方并行学习指南（<em>Distributed Learning Guide</em>）给出的选择建议：样本少时用特征并行；样本多、特征少时用数据并行；样本和特征都多时用投票并行。</p><h3 id=774-内存优化总结><a class=header-anchor href=#774-%e5%86%85%e5%ad%98%e4%bc%98%e5%8c%96%e6%80%bb%e7%bb%93></a>7.7.4 内存优化总结</h3><table><thead><tr><th>优化技术</th><th>机制</th><th>效果</th></tr></thead><tbody><tr><td>直方图存储</td><td>用 uint8 存储 bin 索引</td><td>相比 float32 存储原始值，内存降低 75%</td></tr><tr><td>直方图做差</td><td>父节点直方图减子节点直方图</td><td>直方图构建的样本遍历量至少减半</td></tr><tr><td>EFB</td><td>捆绑互斥特征</td><td>特征维度降低，直方图构建次数减少</td></tr><tr><td>GOSS</td><td>采样小梯度样本</td><td>每轮建树只用约 $(a+b)$ 比例的样本（默认 $0.2+0.1$，即减少 70%）</td></tr><tr><td>类别特征原生支持</td><td>避免 one-hot 高维稀疏</td><td>高基数类别场景内存大幅降低</td></tr></tbody></table><hr><h2 id=78-lightgbm在kaggle和实际应用中的表现><a class=header-anchor href=#78-lightgbm%e5%9c%a8kaggle%e5%92%8c%e5%ae%9e%e9%99%85%e5%ba%94%e7%94%a8%e4%b8%ad%e7%9a%84%e8%a1%a8%e7%8e%b0></a>7.8 LightGBM在Kaggle和实际应用中的表现</h2><p>LightGBM 自 2017 年发布以来，迅速成为 Kaggle 竞赛和工业界的主流工具之一。</p><p><strong>Kaggle 竞赛表现</strong>：</p><ul><li>在大量结构化数据竞赛中，LightGBM 与 XGBoost 并列为首选基线模型。</li><li>由于训练速度更快，在需要快速迭代和大量模型实验的竞赛中优势明显。</li><li>在内存受限的环境（如 Kaggle Notebook）中，LightGBM 的内存效率使其能处理更大规模数据。</li></ul><p><strong>工业界应用</strong>：</p><ul><li><strong>广告点击率预测（CTR）</strong>：处理大规模、高维稀疏的广告特征正是 GOSS 和 EFB 的设计目标，LightGBM 常用于 CTR 预估。</li><li><strong>推荐系统</strong>：作为特征交互模型，处理用户-商品高维稀疏特征。</li><li><strong>金融风控</strong>：信用评分、欺诈检测等场景，LightGBM 训练高效，并可配合特征重要性、SHAP 值（<code>predict(..., pred_contrib=True)</code>）解释模型，是常用方案之一。</li><li><strong>时间序列预测</strong>：结合适当的特征工程，LightGBM 在多种时间序列竞赛中表现出色。</li></ul><p><strong>与 XGBoost 的对比选择</strong>（经验性的粗略参考，样本量阈值并无严格界限，详细对比见 <a href=/2026/04/04/boosting-model-selection/>算法对比与选择决策</a>）：</p><ul><li>数据量较小（&lt; 10,000 样本）时，两者差异不大；XGBoost 的精确贪心可能略优。</li><li>数据量中等（10,000 - 100,000）时，LightGBM 的速度优势开始显现。</li><li>数据量较大（> 100,000 或高维稀疏）时，LightGBM 通常训练更快、内存更省，是首选。</li><li>对模型精度有极致要求的场景，两者可分别调参后做模型融合（Stacking）。</li></ul><hr><h2 id=79-python-api与关键参数详解><a class=header-anchor href=#79-python-api%e4%b8%8e%e5%85%b3%e9%94%ae%e5%8f%82%e6%95%b0%e8%af%a6%e8%a7%a3></a>7.9 Python API与关键参数详解</h2><p>LightGBM 提供两种 Python 接口：原生 <code>lgb.train</code> 接口和 scikit-learn 兼容接口。</p><h3 id=原生接口lgbtrain><a class=header-anchor href=#%e5%8e%9f%e7%94%9f%e6%8e%a5%e5%8f%a3lgbtrain></a>原生接口（lgb.train）</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>lightgbm</span> <span class=k>as</span> <span class=nn>lgb</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 1. 创建Dataset（LightGBM的高效数据格式）</span>
+</span></span><span class=line><span class=cl><span class=n>train_data</span> <span class=o>=</span> <span class=n>lgb</span><span class=o>.</span><span class=n>Dataset</span><span class=p>(</span><span class=n>X_train</span><span class=p>,</span> <span class=n>label</span><span class=o>=</span><span class=n>y_train</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>valid_data</span> <span class=o>=</span> <span class=n>lgb</span><span class=o>.</span><span class=n>Dataset</span><span class=p>(</span><span class=n>X_test</span><span class=p>,</span> <span class=n>label</span><span class=o>=</span><span class=n>y_test</span><span class=p>,</span> <span class=n>reference</span><span class=o>=</span><span class=n>train_data</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 2. 设置参数</span>
+</span></span><span class=line><span class=cl><span class=n>params</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;objective&#39;</span><span class=p>:</span> <span class=s1>&#39;binary&#39;</span><span class=p>,</span>           <span class=c1># 二分类</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;metric&#39;</span><span class=p>:</span> <span class=p>[</span><span class=s1>&#39;binary_logloss&#39;</span><span class=p>,</span> <span class=s1>&#39;auc&#39;</span><span class=p>],</span> <span class=c1># 评估指标</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;boosting_type&#39;</span><span class=p>:</span> <span class=s1>&#39;gbdt&#39;</span><span class=p>,</span>         <span class=c1># 提升类型（gbdt / dart / rf）；GOSS 用 data_sample_strategy=&#39;goss&#39; 开启</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;num_leaves&#39;</span><span class=p>:</span> <span class=mi>31</span><span class=p>,</span>                <span class=c1># 最大叶子数（Leaf-wise核心参数）</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;max_depth&#39;</span><span class=p>:</span> <span class=o>-</span><span class=mi>1</span><span class=p>,</span>                 <span class=c1># 树最大深度（-1表示无限制）</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;learning_rate&#39;</span><span class=p>:</span> <span class=mf>0.1</span><span class=p>,</span>            <span class=c1># 学习率</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;feature_fraction&#39;</span><span class=p>:</span> <span class=mf>0.8</span><span class=p>,</span>         <span class=c1># 列采样比例（每棵树）</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;bagging_fraction&#39;</span><span class=p>:</span> <span class=mf>0.8</span><span class=p>,</span>         <span class=c1># 行采样比例</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;bagging_freq&#39;</span><span class=p>:</span> <span class=mi>5</span><span class=p>,</span>               <span class=c1># 每5轮迭代执行一次bagging</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;min_data_in_leaf&#39;</span><span class=p>:</span> <span class=mi>20</span><span class=p>,</span>          <span class=c1># 叶子最小样本数</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;lambda_l1&#39;</span><span class=p>:</span> <span class=mf>0.1</span><span class=p>,</span>                <span class=c1># L1正则化</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;lambda_l2&#39;</span><span class=p>:</span> <span class=mf>1.0</span><span class=p>,</span>                <span class=c1># L2正则化</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;verbose&#39;</span><span class=p>:</span> <span class=o>-</span><span class=mi>1</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 3. 训练模型</span>
+</span></span><span class=line><span class=cl><span class=n>model</span> <span class=o>=</span> <span class=n>lgb</span><span class=o>.</span><span class=n>train</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>params</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>train_data</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>num_boost_round</span><span class=o>=</span><span class=mi>500</span><span class=p>,</span>             <span class=c1># 最大迭代轮数</span>
+</span></span><span class=line><span class=cl>    <span class=n>valid_sets</span><span class=o>=</span><span class=p>[</span><span class=n>train_data</span><span class=p>,</span> <span class=n>valid_data</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=n>valid_names</span><span class=o>=</span><span class=p>[</span><span class=s1>&#39;train&#39;</span><span class=p>,</span> <span class=s1>&#39;valid&#39;</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=n>callbacks</span><span class=o>=</span><span class=p>[</span><span class=n>lgb</span><span class=o>.</span><span class=n>early_stopping</span><span class=p>(</span><span class=mi>20</span><span class=p>),</span> <span class=n>lgb</span><span class=o>.</span><span class=n>log_evaluation</span><span class=p>(</span><span class=mi>50</span><span class=p>)]</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 4. 预测</span>
+</span></span><span class=line><span class=cl><span class=n>preds</span> <span class=o>=</span> <span class=n>model</span><span class=o>.</span><span class=n>predict</span><span class=p>(</span><span class=n>X_test</span><span class=p>,</span> <span class=n>num_iteration</span><span class=o>=</span><span class=n>model</span><span class=o>.</span><span class=n>best_iteration</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=scikit-learn兼容接口><a class=header-anchor href=#scikit-learn%e5%85%bc%e5%ae%b9%e6%8e%a5%e5%8f%a3></a>Scikit-Learn兼容接口</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>lightgbm</span> <span class=kn>import</span> <span class=n>LGBMClassifier</span><span class=p>,</span> <span class=n>LGBMRegressor</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 分类器</span>
+</span></span><span class=line><span class=cl><span class=n>model</span> <span class=o>=</span> <span class=n>LGBMClassifier</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>n_estimators</span><span class=o>=</span><span class=mi>500</span><span class=p>,</span>               <span class=c1># 树的数量</span>
+</span></span><span class=line><span class=cl>    <span class=n>num_leaves</span><span class=o>=</span><span class=mi>31</span><span class=p>,</span>                  <span class=c1># 最大叶子数</span>
+</span></span><span class=line><span class=cl>    <span class=n>max_depth</span><span class=o>=-</span><span class=mi>1</span><span class=p>,</span>                   <span class=c1># 树深度</span>
+</span></span><span class=line><span class=cl>    <span class=n>learning_rate</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>colsample_bytree</span><span class=o>=</span><span class=mf>0.8</span><span class=p>,</span>           <span class=c1># 列采样（即 feature_fraction 的 sklearn 风格名称）</span>
+</span></span><span class=line><span class=cl>    <span class=n>subsample</span><span class=o>=</span><span class=mf>0.8</span><span class=p>,</span>                  <span class=c1># 行采样（即 bagging_fraction）</span>
+</span></span><span class=line><span class=cl>    <span class=n>subsample_freq</span><span class=o>=</span><span class=mi>5</span><span class=p>,</span>               <span class=c1># 每5轮执行一次bagging（即 bagging_freq）</span>
+</span></span><span class=line><span class=cl>    <span class=n>min_child_samples</span><span class=o>=</span><span class=mi>20</span><span class=p>,</span>           <span class=c1># 叶子最小样本数</span>
+</span></span><span class=line><span class=cl>    <span class=n>reg_alpha</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span>                  <span class=c1># L1正则化</span>
+</span></span><span class=line><span class=cl>    <span class=n>reg_lambda</span><span class=o>=</span><span class=mf>1.0</span><span class=p>,</span>                 <span class=c1># L2正则化</span>
+</span></span><span class=line><span class=cl>    <span class=n>boosting_type</span><span class=o>=</span><span class=s1>&#39;gbdt&#39;</span><span class=p>,</span>           <span class=c1># 提升类型</span>
+</span></span><span class=line><span class=cl>    <span class=n>random_state</span><span class=o>=</span><span class=mi>42</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>n_jobs</span><span class=o>=</span><span class=mi>4</span><span class=p>,</span>                       <span class=c1># 并行线程数</span>
+</span></span><span class=line><span class=cl>    <span class=n>verbose</span><span class=o>=-</span><span class=mi>1</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>model</span><span class=o>.</span><span class=n>fit</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>X_train</span><span class=p>,</span> <span class=n>y_train</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>eval_set</span><span class=o>=</span><span class=p>[(</span><span class=n>X_test</span><span class=p>,</span> <span class=n>y_test</span><span class=p>)],</span>
+</span></span><span class=line><span class=cl>    <span class=n>callbacks</span><span class=o>=</span><span class=p>[</span><span class=n>lgb</span><span class=o>.</span><span class=n>early_stopping</span><span class=p>(</span><span class=mi>20</span><span class=p>),</span> <span class=n>lgb</span><span class=o>.</span><span class=n>log_evaluation</span><span class=p>(</span><span class=mi>50</span><span class=p>)]</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>preds</span> <span class=o>=</span> <span class=n>model</span><span class=o>.</span><span class=n>predict</span><span class=p>(</span><span class=n>X_test</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>preds_proba</span> <span class=o>=</span> <span class=n>model</span><span class=o>.</span><span class=n>predict_proba</span><span class=p>(</span><span class=n>X_test</span><span class=p>)[:,</span> <span class=mi>1</span><span class=p>]</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>在 LightGBM 4.7.0 中，sklearn 接口 <code>fit()</code> 的 <code>eval_set</code> 参数会给出弃用警告，新写法是关键字参数 <code>eval_X=..., eval_y=...</code>；更早的版本只支持 <code>eval_set</code>，所以本文代码仍用 <code>eval_set</code>，两种写法目前都能运行。另外，sklearn 接口在早停后 <code>predict</code> / <code>predict_proba</code> 会自动使用 <code>best_iteration_</code>。</p></blockquote><h3 id=关键参数详解><a class=header-anchor href=#%e5%85%b3%e9%94%ae%e5%8f%82%e6%95%b0%e8%af%a6%e8%a7%a3></a>关键参数详解</h3><table><thead><tr><th>参数</th><th>含义</th><th>默认值</th><th>调参建议</th></tr></thead><tbody><tr><td><code>num_leaves</code></td><td>最大叶子数</td><td>31</td><td>Leaf-wise核心参数，控制模型复杂度。若记 <code>max_depth</code> 为 $d$，不应超过 $2^d$，实践中通常明显小于 $2^d$。</td></tr><tr><td><code>max_depth</code></td><td>树最大深度</td><td>-1</td><td>限制过拟合，$\le 0$ 表示无限制。通常设为 5-10。</td></tr><tr><td><code>learning_rate</code></td><td>学习率</td><td>0.1</td><td>典型值 0.01-0.3。较小的值配合更多的 n_estimators。</td></tr><tr><td><code>min_data_in_leaf</code></td><td>叶子最小样本数</td><td>20</td><td>防止过拟合，大数据集可增大，小数据集可减小。sklearn 接口中名为 <code>min_child_samples</code>。</td></tr><tr><td><code>feature_fraction</code></td><td>列采样比例</td><td>1.0</td><td>每棵树随机选取的特征比例，防止过拟合，典型值 0.8。sklearn 接口中名为 <code>colsample_bytree</code>；按节点采样用 <code>feature_fraction_bynode</code>。</td></tr><tr><td><code>bagging_fraction</code></td><td>行采样比例</td><td>1.0</td><td>不放回地随机选取的样本比例，需配合 <code>bagging_freq > 0</code> 才生效。sklearn 接口中名为 <code>subsample</code>。</td></tr><tr><td><code>bagging_freq</code></td><td>行采样频率</td><td>0</td><td>每多少轮重新采样一次，0 表示不执行 bagging。sklearn 接口中名为 <code>subsample_freq</code>。</td></tr><tr><td><code>lambda_l1</code> / <code>reg_alpha</code></td><td>L1正则化</td><td>0.0</td><td>产生稀疏权重，类似 Lasso。</td></tr><tr><td><code>lambda_l2</code> / <code>reg_lambda</code></td><td>L2正则化</td><td>0.0</td><td>惩罚大权重，防止过拟合。典型值 0.1-10。</td></tr><tr><td><code>cat_smooth</code></td><td>类别特征平滑</td><td>10</td><td>处理类别特征的平滑参数，防止低频次类别过拟合。</td></tr><tr><td><code>max_bin</code></td><td>最大直方图 bin 数</td><td>255</td><td>增大可提升精度但增加计算量，减少可正则化。</td></tr><tr><td><code>min_gain_to_split</code></td><td>最小分裂增益</td><td>0.0</td><td>增益低于此值不分裂（含义类似 XGBoost 的 <code>gamma</code>，但数值尺度不同，见 7.3.2）。</td></tr><tr><td><code>data_sample_strategy</code></td><td>样本采样策略</td><td>bagging</td><td><code>bagging</code>（随机行采样）或 <code>goss</code>；4.0 版新增。<code>top_rate</code>（默认 0.2）、<code>other_rate</code>（默认 0.1）为 GOSS 的 $a$、$b$。</td></tr><tr><td><code>boosting_type</code></td><td>提升类型</td><td>gbdt</td><td><code>gbdt</code>（标准梯度提升）、<code>dart</code>（Dropouts meet Multiple Additive Regression Trees）、<code>rf</code>（随机森林）。旧版的 <code>goss</code> 选项已改为 <code>data_sample_strategy='goss'</code>。</td></tr></tbody></table><hr><h2 id=710-伪代码与实现细节><a class=header-anchor href=#710-%e4%bc%aa%e4%bb%a3%e7%a0%81%e4%b8%8e%e5%ae%9e%e7%8e%b0%e7%bb%86%e8%8a%82></a>7.10 伪代码与实现细节</h2><h3 id=lightgbm-整体训练流程><a class=header-anchor href=#lightgbm-%e6%95%b4%e4%bd%93%e8%ae%ad%e7%bb%83%e6%b5%81%e7%a8%8b></a>LightGBM 整体训练流程</h3><p><strong>伪代码</strong>：</p><ol><li>输入：训练集 $D = \{(x_i, y_i)\}_{i=1}^n$，迭代轮数 $T$，参数集合 $\Theta$</li><li><strong>特征预处理</strong>：<ul><li>对于每个连续特征：基于分位数划分为 $k$ 个 bin</li><li>将样本特征值映射为 bin 索引（按 <code>max_bin</code> 选择存储类型，如 <code>uint8_t</code>）</li><li>如果启用 EFB：贪心捆绑互斥特征，计算偏移量</li></ul></li><li>初始化：$\hat{y}_i \leftarrow b_0$，对所有 $i$（<code>boost_from_average=true</code> 时，回归、二分类等任务的 $b_0$ 取与标签均值对应的常数，否则为 0）</li><li>对于 $t = 1, 2, \dots, T$：<ol><li>计算梯度与 Hessian：$g_i \leftarrow \frac{\partial L(y_i, \hat{y}_i)}{\partial \hat{y}_i}$，$h_i \leftarrow \frac{\partial^2 L(y_i, \hat{y}_i)}{\partial \hat{y}_i^2}$，对所有 $i$</li><li>如果启用 GOSS：<ul><li>按 $\lvert g_i \rvert$（实现中为 $\lvert g_i h_i \rvert$）降序排序样本</li><li>$\mathit{topSet} \leftarrow$ 前 $a \times n$ 个大梯度样本</li><li>$\mathit{randSet} \leftarrow$ 从剩余样本中随机选 $b \times n$ 个</li><li>$\mathit{usedSet} \leftarrow \mathit{topSet} \cup \mathit{randSet}$</li><li>对 $\mathit{randSet}$ 中样本的 $g_i$、$h_i$ 乘以 $\frac{1-a}{b}$</li><li>在 $\mathit{usedSet}$ 上构建树</li></ul></li><li>否则（标准 GBDT）：在全部样本（或 bagging 采样后的样本）上构建树</li><li><strong>构建第 t 棵树（Leaf-wise）</strong>：<ul><li>在根节点上构建直方图，求出根节点的最优分裂及其增益</li><li>重复至多 $L_{\max} - 1$ 次，其中 $L_{\max}$ 表示 <code>num_leaves</code>：<ol><li>在所有当前叶子中选出最优分裂增益最大的叶子</li><li>如果该增益 $\le$ <code>min_gain_to_split</code>（或所有叶子都不满足 <code>min_data_in_leaf</code>、<code>max_depth</code> 等约束），停止建树</li><li>执行分裂，得到两个新叶子</li><li>利用<strong>直方图做差</strong>：对样本较少的子节点遍历样本构建直方图（每个特征统计 $G$ 和 $H$，按 <code>feature_fraction</code> 采样特征），另一子节点用父节点直方图减去它</li><li>在两个新叶子的直方图上遍历 bin 边界，求出各自的最优分裂及增益</li></ol></li></ul></li><li>对于每个叶子 $j$：计算叶子输出 $w_j^* \leftarrow -\frac{G_j}{H_j + \lambda}$（$\lambda$ 为 <code>lambda_l2</code>；有 <code>lambda_l1</code> 时用软阈值后的 $G_j$）</li><li>更新预测：$\hat{y}_i \leftarrow \hat{y}_i + \eta \cdot f_t(x_i)$</li><li>检查早停条件：如果验证集指标在 $\mathit{patience}$ 轮内无提升，则停止</li></ol></li><li>输出：最终模型 $F(x) = b_0 + \eta \sum_{t=1}^T f_t(x)$（LightGBM 存储的叶子值已乘上学习率）</li></ol><h3 id=实现细节洞察><a class=header-anchor href=#%e5%ae%9e%e7%8e%b0%e7%bb%86%e8%8a%82%e6%b4%9e%e5%af%9f></a>实现细节洞察</h3><p>从 LightGBM 源码的目录结构可以对应到上面各项技术（仓库原为 <code>microsoft/LightGBM</code>，现已迁移到 <code>lightgbm-org/LightGBM</code>，旧地址会自动跳转；以下路径以主分支为准）：</p><ul><li><strong>C++ 核心</strong>：主要训练逻辑在 <code>src/</code> 目录下。</li><li><strong>直方图与分裂查找</strong>：<code>src/treelearner/feature_histogram.hpp</code>（及 <code>.cpp</code>）实现直方图统计、分裂增益计算和类别特征分裂。</li><li><strong>Leaf-wise 树学习器</strong>：<code>src/treelearner/serial_tree_learner.cpp</code> 实现单机的 Leaf-wise 生长逻辑。</li><li><strong>并行树学习器</strong>：<code>src/treelearner/</code> 下的 <code>feature_parallel_tree_learner.cpp</code>、<code>data_parallel_tree_learner.cpp</code>、<code>voting_parallel_tree_learner.cpp</code>。</li><li><strong>GOSS 实现</strong>：<code>src/boosting/goss.hpp</code> 实现梯度单边采样（同目录的 <code>bagging.hpp</code> 实现普通 bagging）。</li><li><strong>EFB 实现</strong>：<code>src/io/dataset.cpp</code> 中的 <code>FastFeatureBundling</code> / <code>FindGroups</code> 在构建 Dataset 时执行特征捆绑。</li><li><strong>网络通信</strong>：<code>src/network/</code> 目录实现 socket / MPI 通信与集合通信。</li></ul><hr><h2 id=711-详细注释的python代码示例分类回归特征重要性早停><a class=header-anchor href=#711-%e8%af%a6%e7%bb%86%e6%b3%a8%e9%87%8a%e7%9a%84python%e4%bb%a3%e7%a0%81%e7%a4%ba%e4%be%8b%e5%88%86%e7%b1%bb%e5%9b%9e%e5%bd%92%e7%89%b9%e5%be%81%e9%87%8d%e8%a6%81%e6%80%a7%e6%97%a9%e5%81%9c></a>7.11 详细注释的Python代码示例（分类+回归+特征重要性+早停）</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span><span class=lnt>111
+</span><span class=lnt>112
+</span><span class=lnt>113
+</span><span class=lnt>114
+</span><span class=lnt>115
+</span><span class=lnt>116
+</span><span class=lnt>117
+</span><span class=lnt>118
+</span><span class=lnt>119
+</span><span class=lnt>120
+</span><span class=lnt>121
+</span><span class=lnt>122
+</span><span class=lnt>123
+</span><span class=lnt>124
+</span><span class=lnt>125
+</span><span class=lnt>126
+</span><span class=lnt>127
+</span><span class=lnt>128
+</span><span class=lnt>129
+</span><span class=lnt>130
+</span><span class=lnt>131
+</span><span class=lnt>132
+</span><span class=lnt>133
+</span><span class=lnt>134
+</span><span class=lnt>135
+</span><span class=lnt>136
+</span><span class=lnt>137
+</span><span class=lnt>138
+</span><span class=lnt>139
+</span><span class=lnt>140
+</span><span class=lnt>141
+</span><span class=lnt>142
+</span><span class=lnt>143
+</span><span class=lnt>144
+</span><span class=lnt>145
+</span><span class=lnt>146
+</span><span class=lnt>147
+</span><span class=lnt>148
+</span><span class=lnt>149
+</span><span class=lnt>150
+</span><span class=lnt>151
+</span><span class=lnt>152
+</span><span class=lnt>153
+</span><span class=lnt>154
+</span><span class=lnt>155
+</span><span class=lnt>156
+</span><span class=lnt>157
+</span><span class=lnt>158
+</span><span class=lnt>159
+</span><span class=lnt>160
+</span><span class=lnt>161
+</span><span class=lnt>162
+</span><span class=lnt>163
+</span><span class=lnt>164
+</span><span class=lnt>165
+</span><span class=lnt>166
+</span><span class=lnt>167
+</span><span class=lnt>168
+</span><span class=lnt>169
+</span><span class=lnt>170
+</span><span class=lnt>171
+</span><span class=lnt>172
+</span><span class=lnt>173
+</span><span class=lnt>174
+</span><span class=lnt>175
+</span><span class=lnt>176
+</span><span class=lnt>177
+</span><span class=lnt>178
+</span><span class=lnt>179
+</span><span class=lnt>180
+</span><span class=lnt>181
+</span><span class=lnt>182
+</span><span class=lnt>183
+</span><span class=lnt>184
+</span><span class=lnt>185
+</span><span class=lnt>186
+</span><span class=lnt>187
+</span><span class=lnt>188
+</span><span class=lnt>189
+</span><span class=lnt>190
+</span><span class=lnt>191
+</span><span class=lnt>192
+</span><span class=lnt>193
+</span><span class=lnt>194
+</span><span class=lnt>195
+</span><span class=lnt>196
+</span><span class=lnt>197
+</span><span class=lnt>198
+</span><span class=lnt>199
+</span><span class=lnt>200
+</span><span class=lnt>201
+</span><span class=lnt>202
+</span><span class=lnt>203
+</span><span class=lnt>204
+</span><span class=lnt>205
+</span><span class=lnt>206
+</span><span class=lnt>207
+</span><span class=lnt>208
+</span><span class=lnt>209
+</span><span class=lnt>210
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>numpy</span> <span class=k>as</span> <span class=nn>np</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>pandas</span> <span class=k>as</span> <span class=nn>pd</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>lightgbm</span> <span class=k>as</span> <span class=nn>lgb</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.datasets</span> <span class=kn>import</span> <span class=n>load_breast_cancer</span><span class=p>,</span> <span class=n>fetch_california_housing</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.model_selection</span> <span class=kn>import</span> <span class=n>train_test_split</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.metrics</span> <span class=kn>import</span> <span class=n>accuracy_score</span><span class=p>,</span> <span class=n>roc_auc_score</span><span class=p>,</span> <span class=n>mean_squared_error</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>matplotlib.pyplot</span> <span class=k>as</span> <span class=nn>plt</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># ============================================================</span>
+</span></span><span class=line><span class=cl><span class=c1># 示例1：二分类任务（使用乳腺癌数据集）</span>
+</span></span><span class=line><span class=cl><span class=c1># ============================================================</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;=&#34;</span> <span class=o>*</span> <span class=mi>60</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;示例1：LightGBM 二分类&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;=&#34;</span> <span class=o>*</span> <span class=mi>60</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 加载数据</span>
+</span></span><span class=line><span class=cl><span class=n>data</span> <span class=o>=</span> <span class=n>load_breast_cancer</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=n>X_cls</span><span class=p>,</span> <span class=n>y_cls</span> <span class=o>=</span> <span class=n>data</span><span class=o>.</span><span class=n>data</span><span class=p>,</span> <span class=n>data</span><span class=o>.</span><span class=n>target</span>
+</span></span><span class=line><span class=cl><span class=n>feature_names_cls</span> <span class=o>=</span> <span class=n>data</span><span class=o>.</span><span class=n>feature_names</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 划分训练集和测试集</span>
+</span></span><span class=line><span class=cl><span class=n>X_train_c</span><span class=p>,</span> <span class=n>X_test_c</span><span class=p>,</span> <span class=n>y_train_c</span><span class=p>,</span> <span class=n>y_test_c</span> <span class=o>=</span> <span class=n>train_test_split</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>X_cls</span><span class=p>,</span> <span class=n>y_cls</span><span class=p>,</span> <span class=n>test_size</span><span class=o>=</span><span class=mf>0.2</span><span class=p>,</span> <span class=n>random_state</span><span class=o>=</span><span class=mi>42</span><span class=p>,</span> <span class=n>stratify</span><span class=o>=</span><span class=n>y_cls</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 创建 LightGBM Dataset</span>
+</span></span><span class=line><span class=cl><span class=n>train_data_c</span> <span class=o>=</span> <span class=n>lgb</span><span class=o>.</span><span class=n>Dataset</span><span class=p>(</span><span class=n>X_train_c</span><span class=p>,</span> <span class=n>label</span><span class=o>=</span><span class=n>y_train_c</span><span class=p>,</span> <span class=n>feature_name</span><span class=o>=</span><span class=nb>list</span><span class=p>(</span><span class=n>feature_names_cls</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=n>valid_data_c</span> <span class=o>=</span> <span class=n>lgb</span><span class=o>.</span><span class=n>Dataset</span><span class=p>(</span><span class=n>X_test_c</span><span class=p>,</span> <span class=n>label</span><span class=o>=</span><span class=n>y_test_c</span><span class=p>,</span> <span class=n>reference</span><span class=o>=</span><span class=n>train_data_c</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 设置参数（注意：LightGBM使用lambda_l1和lambda_l2而非alpha和lambda）</span>
+</span></span><span class=line><span class=cl><span class=n>params_cls</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;objective&#39;</span><span class=p>:</span> <span class=s1>&#39;binary&#39;</span><span class=p>,</span>              <span class=c1># 二分类目标</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;metric&#39;</span><span class=p>:</span> <span class=p>[</span><span class=s1>&#39;binary_logloss&#39;</span><span class=p>,</span> <span class=s1>&#39;auc&#39;</span><span class=p>],</span> <span class=c1># 评估指标</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;boosting_type&#39;</span><span class=p>:</span> <span class=s1>&#39;gbdt&#39;</span><span class=p>,</span>            <span class=c1># 标准梯度提升</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;num_leaves&#39;</span><span class=p>:</span> <span class=mi>31</span><span class=p>,</span>                   <span class=c1># 最大叶子数（Leaf-wise核心参数）</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;max_depth&#39;</span><span class=p>:</span> <span class=mi>6</span><span class=p>,</span>                     <span class=c1># 限制最大深度防止过拟合</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;learning_rate&#39;</span><span class=p>:</span> <span class=mf>0.1</span><span class=p>,</span>               <span class=c1># 学习率</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;feature_fraction&#39;</span><span class=p>:</span> <span class=mf>0.8</span><span class=p>,</span>            <span class=c1># 每棵树的列采样比例（类似随机森林）</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;bagging_fraction&#39;</span><span class=p>:</span> <span class=mf>0.8</span><span class=p>,</span>            <span class=c1># 每轮迭代的行采样比例</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;bagging_freq&#39;</span><span class=p>:</span> <span class=mi>5</span><span class=p>,</span>                  <span class=c1># 每5轮执行一次bagging</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;min_data_in_leaf&#39;</span><span class=p>:</span> <span class=mi>20</span><span class=p>,</span>             <span class=c1># 叶子最小样本数，防止过拟合</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;lambda_l1&#39;</span><span class=p>:</span> <span class=mf>0.1</span><span class=p>,</span>                   <span class=c1># L1正则化</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;lambda_l2&#39;</span><span class=p>:</span> <span class=mf>1.0</span><span class=p>,</span>                   <span class=c1># L2正则化</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;verbose&#39;</span><span class=p>:</span> <span class=o>-</span><span class=mi>1</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 训练模型，使用早停和日志回调</span>
+</span></span><span class=line><span class=cl><span class=n>model_cls</span> <span class=o>=</span> <span class=n>lgb</span><span class=o>.</span><span class=n>train</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>params_cls</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>train_data_c</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>num_boost_round</span><span class=o>=</span><span class=mi>500</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>valid_sets</span><span class=o>=</span><span class=p>[</span><span class=n>train_data_c</span><span class=p>,</span> <span class=n>valid_data_c</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=n>valid_names</span><span class=o>=</span><span class=p>[</span><span class=s1>&#39;train&#39;</span><span class=p>,</span> <span class=s1>&#39;valid&#39;</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=n>callbacks</span><span class=o>=</span><span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=n>lgb</span><span class=o>.</span><span class=n>early_stopping</span><span class=p>(</span><span class=n>stopping_rounds</span><span class=o>=</span><span class=mi>20</span><span class=p>,</span> <span class=n>verbose</span><span class=o>=</span><span class=kc>True</span><span class=p>),</span>  <span class=c1># 早停：20轮不提升则停止</span>
+</span></span><span class=line><span class=cl>        <span class=n>lgb</span><span class=o>.</span><span class=n>log_evaluation</span><span class=p>(</span><span class=n>period</span><span class=o>=</span><span class=mi>50</span><span class=p>)</span>                          <span class=c1># 每50轮打印日志</span>
+</span></span><span class=line><span class=cl>    <span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 预测（使用最优迭代轮数）</span>
+</span></span><span class=line><span class=cl><span class=n>preds_proba_c</span> <span class=o>=</span> <span class=n>model_cls</span><span class=o>.</span><span class=n>predict</span><span class=p>(</span><span class=n>X_test_c</span><span class=p>,</span> <span class=n>num_iteration</span><span class=o>=</span><span class=n>model_cls</span><span class=o>.</span><span class=n>best_iteration</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>preds_c</span> <span class=o>=</span> <span class=p>(</span><span class=n>preds_proba_c</span> <span class=o>&gt;=</span> <span class=mf>0.5</span><span class=p>)</span><span class=o>.</span><span class=n>astype</span><span class=p>(</span><span class=nb>int</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 评估</span>
+</span></span><span class=line><span class=cl><span class=n>acc_c</span> <span class=o>=</span> <span class=n>accuracy_score</span><span class=p>(</span><span class=n>y_test_c</span><span class=p>,</span> <span class=n>preds_c</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>auc_c</span> <span class=o>=</span> <span class=n>roc_auc_score</span><span class=p>(</span><span class=n>y_test_c</span><span class=p>,</span> <span class=n>preds_proba_c</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;</span><span class=se>\n</span><span class=s2>[分类] Accuracy: </span><span class=si>{</span><span class=n>acc_c</span><span class=si>:</span><span class=s2>.4f</span><span class=si>}</span><span class=s2>, AUC: </span><span class=si>{</span><span class=n>auc_c</span><span class=si>:</span><span class=s2>.4f</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;[分类] 最优迭代轮数: </span><span class=si>{</span><span class=n>model_cls</span><span class=o>.</span><span class=n>best_iteration</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># ============================================================</span>
+</span></span><span class=line><span class=cl><span class=c1># 示例2：回归任务（使用California Housing数据集）</span>
+</span></span><span class=line><span class=cl><span class=c1># ============================================================</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;</span><span class=se>\n</span><span class=s2>&#34;</span> <span class=o>+</span> <span class=s2>&#34;=&#34;</span> <span class=o>*</span> <span class=mi>60</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;示例2：LightGBM 回归&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;=&#34;</span> <span class=o>*</span> <span class=mi>60</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 加载数据</span>
+</span></span><span class=line><span class=cl><span class=n>housing</span> <span class=o>=</span> <span class=n>fetch_california_housing</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=n>X_reg</span><span class=p>,</span> <span class=n>y_reg</span> <span class=o>=</span> <span class=n>housing</span><span class=o>.</span><span class=n>data</span><span class=p>,</span> <span class=n>housing</span><span class=o>.</span><span class=n>target</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>X_train_r</span><span class=p>,</span> <span class=n>X_test_r</span><span class=p>,</span> <span class=n>y_train_r</span><span class=p>,</span> <span class=n>y_test_r</span> <span class=o>=</span> <span class=n>train_test_split</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>X_reg</span><span class=p>,</span> <span class=n>y_reg</span><span class=p>,</span> <span class=n>test_size</span><span class=o>=</span><span class=mf>0.2</span><span class=p>,</span> <span class=n>random_state</span><span class=o>=</span><span class=mi>42</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 创建Dataset</span>
+</span></span><span class=line><span class=cl><span class=n>train_data_r</span> <span class=o>=</span> <span class=n>lgb</span><span class=o>.</span><span class=n>Dataset</span><span class=p>(</span><span class=n>X_train_r</span><span class=p>,</span> <span class=n>label</span><span class=o>=</span><span class=n>y_train_r</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>valid_data_r</span> <span class=o>=</span> <span class=n>lgb</span><span class=o>.</span><span class=n>Dataset</span><span class=p>(</span><span class=n>X_test_r</span><span class=p>,</span> <span class=n>label</span><span class=o>=</span><span class=n>y_test_r</span><span class=p>,</span> <span class=n>reference</span><span class=o>=</span><span class=n>train_data_r</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 设置回归参数</span>
+</span></span><span class=line><span class=cl><span class=n>params_reg</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;objective&#39;</span><span class=p>:</span> <span class=s1>&#39;regression&#39;</span><span class=p>,</span>          <span class=c1># 回归目标</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;metric&#39;</span><span class=p>:</span> <span class=p>[</span><span class=s1>&#39;rmse&#39;</span><span class=p>,</span> <span class=s1>&#39;mae&#39;</span><span class=p>],</span>          <span class=c1># 评估指标：RMSE和MAE</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;boosting_type&#39;</span><span class=p>:</span> <span class=s1>&#39;gbdt&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;num_leaves&#39;</span><span class=p>:</span> <span class=mi>31</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;max_depth&#39;</span><span class=p>:</span> <span class=mi>6</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;learning_rate&#39;</span><span class=p>:</span> <span class=mf>0.05</span><span class=p>,</span>              <span class=c1># 回归任务通常使用较小的学习率</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;feature_fraction&#39;</span><span class=p>:</span> <span class=mf>0.8</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;bagging_fraction&#39;</span><span class=p>:</span> <span class=mf>0.8</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;bagging_freq&#39;</span><span class=p>:</span> <span class=mi>5</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;min_data_in_leaf&#39;</span><span class=p>:</span> <span class=mi>20</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;lambda_l1&#39;</span><span class=p>:</span> <span class=mf>0.1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;lambda_l2&#39;</span><span class=p>:</span> <span class=mf>1.0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;verbose&#39;</span><span class=p>:</span> <span class=o>-</span><span class=mi>1</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>model_reg</span> <span class=o>=</span> <span class=n>lgb</span><span class=o>.</span><span class=n>train</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>params_reg</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>train_data_r</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>num_boost_round</span><span class=o>=</span><span class=mi>500</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>valid_sets</span><span class=o>=</span><span class=p>[</span><span class=n>train_data_r</span><span class=p>,</span> <span class=n>valid_data_r</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=n>valid_names</span><span class=o>=</span><span class=p>[</span><span class=s1>&#39;train&#39;</span><span class=p>,</span> <span class=s1>&#39;valid&#39;</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=n>callbacks</span><span class=o>=</span><span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=n>lgb</span><span class=o>.</span><span class=n>early_stopping</span><span class=p>(</span><span class=n>stopping_rounds</span><span class=o>=</span><span class=mi>20</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>        <span class=n>lgb</span><span class=o>.</span><span class=n>log_evaluation</span><span class=p>(</span><span class=n>period</span><span class=o>=</span><span class=mi>50</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 预测和评估</span>
+</span></span><span class=line><span class=cl><span class=n>preds_r</span> <span class=o>=</span> <span class=n>model_reg</span><span class=o>.</span><span class=n>predict</span><span class=p>(</span><span class=n>X_test_r</span><span class=p>,</span> <span class=n>num_iteration</span><span class=o>=</span><span class=n>model_reg</span><span class=o>.</span><span class=n>best_iteration</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>rmse_r</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>sqrt</span><span class=p>(</span><span class=n>mean_squared_error</span><span class=p>(</span><span class=n>y_test_r</span><span class=p>,</span> <span class=n>preds_r</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;</span><span class=se>\n</span><span class=s2>[回归] RMSE: </span><span class=si>{</span><span class=n>rmse_r</span><span class=si>:</span><span class=s2>.4f</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># ============================================================</span>
+</span></span><span class=line><span class=cl><span class=c1># 示例3：特征重要性分析（使用分类模型）</span>
+</span></span><span class=line><span class=cl><span class=c1># ============================================================</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;</span><span class=se>\n</span><span class=s2>&#34;</span> <span class=o>+</span> <span class=s2>&#34;=&#34;</span> <span class=o>*</span> <span class=mi>60</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;示例3：特征重要性分析&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;=&#34;</span> <span class=o>*</span> <span class=mi>60</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># LightGBM提供两种特征重要性：split（被用于分裂的次数，默认）和 gain（分裂带来的总增益）</span>
+</span></span><span class=line><span class=cl><span class=c1># 这里使用gain（对损失减少的总贡献）</span>
+</span></span><span class=line><span class=cl><span class=n>importance</span> <span class=o>=</span> <span class=n>model_cls</span><span class=o>.</span><span class=n>feature_importance</span><span class=p>(</span><span class=n>importance_type</span><span class=o>=</span><span class=s1>&#39;gain&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>importance_df</span> <span class=o>=</span> <span class=n>pd</span><span class=o>.</span><span class=n>DataFrame</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;feature&#39;</span><span class=p>:</span> <span class=n>feature_names_cls</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;importance&#39;</span><span class=p>:</span> <span class=n>importance</span>
+</span></span><span class=line><span class=cl><span class=p>})</span><span class=o>.</span><span class=n>sort_values</span><span class=p>(</span><span class=s1>&#39;importance&#39;</span><span class=p>,</span> <span class=n>ascending</span><span class=o>=</span><span class=kc>False</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;</span><span class=se>\n</span><span class=s2>Top 10 重要特征（按Gain）：&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>importance_df</span><span class=o>.</span><span class=n>head</span><span class=p>(</span><span class=mi>10</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 可视化</span>
+</span></span><span class=line><span class=cl><span class=n>plt</span><span class=o>.</span><span class=n>figure</span><span class=p>(</span><span class=n>figsize</span><span class=o>=</span><span class=p>(</span><span class=mi>10</span><span class=p>,</span> <span class=mi>6</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=n>top_n</span> <span class=o>=</span> <span class=mi>10</span>
+</span></span><span class=line><span class=cl><span class=n>top_features</span> <span class=o>=</span> <span class=n>importance_df</span><span class=o>.</span><span class=n>head</span><span class=p>(</span><span class=n>top_n</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>plt</span><span class=o>.</span><span class=n>barh</span><span class=p>(</span><span class=nb>range</span><span class=p>(</span><span class=n>top_n</span><span class=p>),</span> <span class=n>top_features</span><span class=p>[</span><span class=s1>&#39;importance&#39;</span><span class=p>]</span><span class=o>.</span><span class=n>values</span><span class=p>,</span> <span class=n>align</span><span class=o>=</span><span class=s1>&#39;center&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>plt</span><span class=o>.</span><span class=n>yticks</span><span class=p>(</span><span class=nb>range</span><span class=p>(</span><span class=n>top_n</span><span class=p>),</span> <span class=n>top_features</span><span class=p>[</span><span class=s1>&#39;feature&#39;</span><span class=p>]</span><span class=o>.</span><span class=n>values</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>plt</span><span class=o>.</span><span class=n>xlabel</span><span class=p>(</span><span class=s1>&#39;Feature Importance (Gain)&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>plt</span><span class=o>.</span><span class=n>title</span><span class=p>(</span><span class=s1>&#39;LightGBM Top 10 Feature Importance&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>plt</span><span class=o>.</span><span class=n>gca</span><span class=p>()</span><span class=o>.</span><span class=n>invert_yaxis</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=n>plt</span><span class=o>.</span><span class=n>tight_layout</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=n>plt</span><span class=o>.</span><span class=n>show</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># ============================================================</span>
+</span></span><span class=line><span class=cl><span class=c1># 示例4：使用sklearn接口 + GOSS + 自定义评估</span>
+</span></span><span class=line><span class=cl><span class=c1># ============================================================</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;</span><span class=se>\n</span><span class=s2>&#34;</span> <span class=o>+</span> <span class=s2>&#34;=&#34;</span> <span class=o>*</span> <span class=mi>60</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;示例4：LGBMClassifier + GOSS + 自定义评估&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;=&#34;</span> <span class=o>*</span> <span class=mi>60</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>lightgbm</span> <span class=kn>import</span> <span class=n>LGBMClassifier</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 使用GOSS采样（不再设置bagging参数，因为GOSS本身就是一种行采样策略）</span>
+</span></span><span class=line><span class=cl><span class=n>model_goss</span> <span class=o>=</span> <span class=n>LGBMClassifier</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>n_estimators</span><span class=o>=</span><span class=mi>500</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>boosting_type</span><span class=o>=</span><span class=s1>&#39;gbdt&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>data_sample_strategy</span><span class=o>=</span><span class=s1>&#39;goss&#39;</span><span class=p>,</span>        <span class=c1># LightGBM 4.0+ 的写法；旧版写作 boosting_type=&#39;goss&#39;</span>
+</span></span><span class=line><span class=cl>    <span class=n>top_rate</span><span class=o>=</span><span class=mf>0.2</span><span class=p>,</span>                       <span class=c1># a：保留的大梯度样本比例（默认 0.2）</span>
+</span></span><span class=line><span class=cl>    <span class=n>other_rate</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span>                     <span class=c1># b：从其余样本中采样的比例（默认 0.1）</span>
+</span></span><span class=line><span class=cl>    <span class=n>num_leaves</span><span class=o>=</span><span class=mi>31</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>max_depth</span><span class=o>=</span><span class=mi>6</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>learning_rate</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>colsample_bytree</span><span class=o>=</span><span class=mf>0.8</span><span class=p>,</span>               <span class=c1># 列采样仍可使用（即 feature_fraction）</span>
+</span></span><span class=line><span class=cl>    <span class=n>min_child_samples</span><span class=o>=</span><span class=mi>20</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>reg_alpha</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>reg_lambda</span><span class=o>=</span><span class=mf>1.0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>random_state</span><span class=o>=</span><span class=mi>42</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>n_jobs</span><span class=o>=</span><span class=mi>4</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>verbose</span><span class=o>=-</span><span class=mi>1</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 训练（注意新版LightGBM使用callbacks参数）</span>
+</span></span><span class=line><span class=cl><span class=n>model_goss</span><span class=o>.</span><span class=n>fit</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>X_train_c</span><span class=p>,</span> <span class=n>y_train_c</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>eval_set</span><span class=o>=</span><span class=p>[(</span><span class=n>X_test_c</span><span class=p>,</span> <span class=n>y_test_c</span><span class=p>)],</span>
+</span></span><span class=line><span class=cl>    <span class=n>eval_metric</span><span class=o>=</span><span class=s1>&#39;auc&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>callbacks</span><span class=o>=</span><span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=n>lgb</span><span class=o>.</span><span class=n>early_stopping</span><span class=p>(</span><span class=mi>20</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>        <span class=n>lgb</span><span class=o>.</span><span class=n>log_evaluation</span><span class=p>(</span><span class=mi>50</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>preds_proba_goss</span> <span class=o>=</span> <span class=n>model_goss</span><span class=o>.</span><span class=n>predict_proba</span><span class=p>(</span><span class=n>X_test_c</span><span class=p>)[:,</span> <span class=mi>1</span><span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=n>auc_goss</span> <span class=o>=</span> <span class=n>roc_auc_score</span><span class=p>(</span><span class=n>y_test_c</span><span class=p>,</span> <span class=n>preds_proba_goss</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;</span><span class=se>\n</span><span class=s2>[GOSS] AUC: </span><span class=si>{</span><span class=n>auc_goss</span><span class=si>:</span><span class=s2>.4f</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;[GOSS] 最优迭代轮数: </span><span class=si>{</span><span class=n>model_goss</span><span class=o>.</span><span class=n>best_iteration_</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># ============================================================</span>
+</span></span><span class=line><span class=cl><span class=c1># 示例5：保存和加载模型</span>
+</span></span><span class=line><span class=cl><span class=c1># ============================================================</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;</span><span class=se>\n</span><span class=s2>&#34;</span> <span class=o>+</span> <span class=s2>&#34;=&#34;</span> <span class=o>*</span> <span class=mi>60</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;示例5：模型保存与加载&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;=&#34;</span> <span class=o>*</span> <span class=mi>60</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 保存模型（LightGBM 的文本格式；有 best_iteration 时默认只保存到最优轮）</span>
+</span></span><span class=line><span class=cl><span class=n>model_cls</span><span class=o>.</span><span class=n>save_model</span><span class=p>(</span><span class=s1>&#39;lightgbm_model.txt&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 加载模型</span>
+</span></span><span class=line><span class=cl><span class=n>model_loaded</span> <span class=o>=</span> <span class=n>lgb</span><span class=o>.</span><span class=n>Booster</span><span class=p>(</span><span class=n>model_file</span><span class=o>=</span><span class=s1>&#39;lightgbm_model.txt&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>preds_loaded</span> <span class=o>=</span> <span class=n>model_loaded</span><span class=o>.</span><span class=n>predict</span><span class=p>(</span><span class=n>X_test_c</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;加载模型预测一致性: </span><span class=si>{</span><span class=n>np</span><span class=o>.</span><span class=n>allclose</span><span class=p>(</span><span class=n>preds_proba_c</span><span class=p>,</span> <span class=n>preds_loaded</span><span class=p>)</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p><a href=/2025/09/08/boosting-overview/>系列导读</a></p></div><footer class=article-footer><blockquote class=article-copyright><p><strong><span class="icon-user icon"></span>本文作者：</strong>Jingmengzhiyue</p><p><strong><span class="icon-link icon"></span>本文链接：</strong><a href=https://www.jingmengzhiyue.tech/2026/01/22/boosting-lightgbm/>https://www.jingmengzhiyue.tech/2026/01/22/boosting-lightgbm/</a></p><p><strong><span class="icon-pencil icon"></span>本文标题：</strong>LightGBM</p><p><strong><span class="icon-calendar icon"></span>本文发布时间：</strong>2026-01-22 09:00:00</p><p><strong><span class="icon-copyright icon"></span>本文版权：</strong>
+本博客所有文章除特别声明外，均采用 <a href=https://creativecommons.org/licenses/by/4.0/deed.zh rel="noopener nofollow noreferrer" target=_blank><span class=icon-creative-commons></span>BY</a> 许可协议。转载请注明出处！</p><span class="icon-creative-commons article-copyright-bg"></span></blockquote><ul class=article-category-list><li class=article-tag-list-item data-aos=zoom-in><a class=article-category-link href=/categories/Machine-Learning/ data-aos=zoom-in>Machine Learning</a></li></ul><ul class=article-tag-list itemprop=keywords><li class=article-tag-list-item data-aos=zoom-in><a class=article-tag-list-link href=/tags/Machine-Learning/ rel=tag>Machine Learning</a></li></ul></footer></div><nav id=article-nav aria-label="Article navigation" data-aos=fade-up><div class="article-nav-link-wrap left"><img data-src=/img/20.jpg data-sizes=auto alt=XGBoost class=lazyload><a href=/2026/01/15/boosting-xgboost/ aria-label=前一篇:XGBoost title=前一篇:XGBoost></a><div class=article-nav-caption>前一篇</div><h3 class=article-nav-title>XGBoost</h3></div><div class="article-nav-link-wrap right"><img data-src=/img/12.jpg data-sizes=auto alt=CatBoost class=lazyload><a href=/2026/02/19/boosting-catboost/ aria-label=后一篇:CatBoost title=后一篇:CatBoost></a><div class=article-nav-caption>后一篇</div><h3 class=article-nav-title>CatBoost</h3></div></nav></article></section></div><footer id=footer aria-label="Site footer"><div style=width:100%;overflow:hidden><div class=footer-line></div></div><div id=footer-info><div><span class=icon-copyright></span>2023-2026<span class="footer-info-sep rotate"></span>Jingmengzhiyue</div><div>基于&nbsp;<a href=https://gohugo.io/ target=_blank rel="noopener nofollow noreferrer">Hugo</a>&nbsp;Theme.<a href=https://github.com/D-Sketon/hugo-theme-reimu target=_blank rel="noopener nofollow noreferrer">Reimu</a></div><div><span class=icon-brush>&nbsp;565.7k</span>
+&nbsp;|&nbsp;
+<span class=icon-coffee>&nbsp;19:36</span></div><div><span class=icon-eye></span>
+<span id=busuanzi_container_site_pv>总访问量&nbsp;<span id=busuanzi_value_site_pv></span></span>
+&nbsp;|&nbsp;
+<span class=icon-user></span>
+<span id=busuanzi_container_site_uv>总访客量&nbsp;<span id=busuanzi_value_site_uv></span></span></div></div></footer><div class=sidebar-top><div class="sidebar-top-taichi rotate"></div><div class=arrow-up></div></div><div id=mask class=hide></div></div><nav id=mobile-nav aria-label="Mobile navigation"><div class=sidebar-wrap><div class=sidebar-toc-sidebar><h3 class=toc-title>文章目录</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#71-概述与核心创新>7.1 概述与核心创新</a></li><li><a href=#72-直方图决策树histogram-based-decision-tree>7.2 直方图决策树（Histogram-based Decision Tree）</a><ul><li><a href=#721-核心思想特征离散化到-k-个-bin>7.2.1 核心思想：特征离散化到 k 个 bin</a></li><li><a href=#722-算法流程>7.2.2 算法流程</a></li><li><a href=#723-复杂度分析与预排序算法对比>7.2.3 复杂度分析（与预排序算法对比）</a></li><li><a href=#724-直方图做差加速histogram-subtraction>7.2.4 直方图做差加速（Histogram Subtraction）</a></li><li><a href=#725-离散化的正则化效果>7.2.5 离散化的正则化效果</a></li></ul></li><li><a href=#73-leaf-wise叶子优先生长策略>7.3 Leaf-wise（叶子优先）生长策略</a><ul><li><a href=#731-与-level-wise层级优先的详细对比>7.3.1 与 Level-wise（层级优先）的详细对比</a></li><li><a href=#732-分裂增益公式>7.3.2 分裂增益公式</a></li><li><a href=#733-为什么更快但需要控制深度>7.3.3 为什么更快但需要控制深度</a></li></ul></li><li><a href=#74-gossgradient-based-one-side-sampling>7.4 GOSS（Gradient-based One-Side Sampling）</a><ul><li><a href=#741-核心思想梯度大的样本贡献更大>7.4.1 核心思想：梯度大的样本贡献更大</a></li><li><a href=#742-算法流程伪代码>7.4.2 算法流程（伪代码）</a></li><li><a href=#743-信息增益修正公式>7.4.3 信息增益修正公式</a></li><li><a href=#744-与-adaboost-采样策略的对比>7.4.4 与 AdaBoost 采样策略的对比</a></li></ul></li><li><a href=#75-efbexclusive-feature-bundling>7.5 EFB（Exclusive Feature Bundling）</a><ul><li><a href=#751-核心思想互斥特征捆绑>7.5.1 核心思想：互斥特征捆绑</a></li><li><a href=#752-冲突图--贪心-bundling-算法>7.5.2 冲突图 + 贪心 Bundling 算法</a></li><li><a href=#753-为什么类别特征-one-hot-编码后天然互斥>7.5.3 为什么类别特征 One-Hot 编码后天然互斥</a></li><li><a href=#754-特征偏移offset技术>7.5.4 特征偏移（Offset）技术</a></li><li><a href=#755-实际效果>7.5.5 实际效果</a></li></ul></li><li><a href=#76-类别特征处理>7.6 类别特征处理</a><ul><li><a href=#核心处理机制>核心处理机制</a></li></ul></li><li><a href=#77-并行学习与内存优化>7.7 并行学习与内存优化</a><ul><li><a href=#771-特征并行feature-paralleltree_learnerfeature>7.7.1 特征并行（Feature Parallel，<code>tree_learner='feature'</code>）</a></li><li><a href=#772-数据并行data-paralleltree_learnerdata>7.7.2 数据并行（Data Parallel，<code>tree_learner='data'</code>）</a></li><li><a href=#773-投票并行voting-paralleltree_learnervoting>7.7.3 投票并行（Voting Parallel，<code>tree_learner='voting'</code>）</a></li><li><a href=#774-内存优化总结>7.7.4 内存优化总结</a></li></ul></li><li><a href=#78-lightgbm在kaggle和实际应用中的表现>7.8 LightGBM在Kaggle和实际应用中的表现</a></li><li><a href=#79-python-api与关键参数详解>7.9 Python API与关键参数详解</a><ul><li><a href=#原生接口lgbtrain>原生接口（lgb.train）</a></li><li><a href=#scikit-learn兼容接口>Scikit-Learn兼容接口</a></li><li><a href=#关键参数详解>关键参数详解</a></li></ul></li><li><a href=#710-伪代码与实现细节>7.10 伪代码与实现细节</a><ul><li><a href=#lightgbm-整体训练流程>LightGBM 整体训练流程</a></li><li><a href=#实现细节洞察>实现细节洞察</a></li></ul></li><li><a href=#711-详细注释的python代码示例分类回归特征重要性早停>7.11 详细注释的Python代码示例（分类+回归+特征重要性+早停）</a></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/profile_picture.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>文章</div><div class=sidebar-state-number>74</div></div><a class=sidebar-state-category href=/categories/ aria-label=sidebar-state-category-link><div>分类</div><div class=sidebar-state-number>9</div></a><a class=sidebar-state-tag href=/tags/ aria-label=sidebar-state-tag-link><div>标签</div><div class=sidebar-state-number>27</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/ aria-label=首页></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>首页</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/archives aria-label=归档></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>归档</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/categories aria-label=目录></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>目录</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/tags aria-label=标签></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>标签</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/about aria-label=关于></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>关于</div></div></div></div></div><div class=sidebar-btn-wrapper><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></nav></div><div id=aplayer theme=var(--color-link)></div><script src=https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js integrity=sha384-3gT/vsepWkfz/ff7PpWNUeMzeWoH3cDhm/A8jM7ouoAK0/fP/9bcHHR5kHq2nf+e crossorigin=anonymous></script><script src=https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js integrity=sha384-J08i8An/QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q crossorigin=anonymous></script><script src=/js/main.js integrity crossorigin=anonymous></script><script src=/js/aos.js integrity crossorigin=anonymous></script><script>var aosInit=()=>{AOS.init({duration:1e3,easing:"ease",once:!0,offset:50})};document.readyState==="loading"?document.addEventListener("DOMContentLoaded",aosInit):aosInit()</script><script src=/js/pjax_main.js integrity crossorigin=anonymous data-pjax></script><div id=lazy-script><div><script data-pjax>window.REIMU_POST={author:"Jingmengzhiyue",title:"LightGBM",url:"https://www.jingmengzhiyue.tech/2026/01/22/boosting-lightgbm/",description:" 7.1 概述与核心创新 LightGBM（Light Gradient Boosting Machine）是由 微软亚洲研究院（Microsoft Research Asia） 的 Guolin Ke（柯国霖）等人与北京大学合作，于 2017 年在 NIPS 会议（NIPS 2017，即现在的 NeurIPS）上发表的高效梯度提升决策树系统（论文 LightGBM: A Highly Efficient Gradient Boosting Decision Tree）。作为 XGBoost 之后的又一里程碑式工作，LightGBM 不仅在训练速度上实现了数量级的提升，还在内存效率、高维稀疏数 …",cover:"https://www.jingmengzhiyue.tech/img/24.jpg"}</script><script src=https://npm.webcache.cn/mermaid@11.16.0/dist/mermaid.min.js data-pjax integrity=sha384-T/0lMUdJpd2S1ZHtRiofG3htU3xPCrFVeAQ1UUE2TJwlEJSV5NUwn30kP28n238E crossorigin=anonymous></script><script src=https://npm.webcache.cn/dompurify@3.2.6/dist/purify.min.js data-pjax integrity=sha384-JEyTNhjM6R1ElGoJns4U2Ln4ofPcqzSsynQkmEc/KGy6336qAZl70tDLufbkla+3 crossorigin=anonymous></script><script data-pjax>if(window.mermaid){const t=".mermaid",n=e=>{const n=_$$(t);return n.length?new Promise((t,s)=>{try{n.forEach(e),t()}catch(e){s(e)}}):Promise.resolve()},o=()=>n(e=>{e.getAttribute("data-original-code")||e.setAttribute("data-original-code",e.innerHTML)}),i=()=>n(e=>{const t=e.getAttribute("data-original-code");t&&(e.removeAttribute("data-processed"),e.innerHTML=DOMPurify.sanitize(t))}),a=async e=>{window.mermaid.initialize({theme:e,startOnLoad:!1}),await window.mermaid.run({querySelector:t,suppressErrors:!0}),window.svgPanZoom&&(window.__panZoomList?.forEach(e=>{try{e.destroy()}catch{}}),window.__panZoomList=[],_$$(".mermaid > svg").forEach(e=>{const t=e.getBBox();e.setAttribute("height",Math.max(t.height,80)),window.__panZoomList.push(window.svgPanZoom(e,{zoomEnabled:!0,controlIconsEnabled:!0,fit:!0,center:!0}))}),window.__resizeMermaidSvg&&window.removeEventListener("resize",window.__resizeMermaidSvg),window.__resizeMermaidSvg=()=>{try{window.__panZoomList.forEach(e=>{e.resize(),e.fit(),e.center()})}catch{window.removeEventListener("resize",window.__resizeMermaidSvg),window.__panZoomList=[]}},window.addEventListener("resize",window.__resizeMermaidSvg))},e=async e=>{try{await o(),await i(),await a(e)}catch(e){console.error(e)}};document.body.addEventListener("reimu:theme-set",t=>{const n=t.detail.isDark;e(n?"dark":"default")});const s=localStorage.getItem("dark_mode");if(s==="auto"){const t=window.matchMedia("(prefers-color-scheme: dark)").matches;e(t?"dark":"default")}else e(s==="true"?"dark":"default")}</script><script src=/js/insert_highlight.js integrity crossorigin=anonymous data-pjax></script><script src=/js/tabs.js integrity crossorigin=anonymous data-pjax defer></script><script type=module data-pjax>const PhotoSwipeLightbox = (await safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js", "sha384-DiL6M\/gG\u002bwmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF\/N6lrZi\/")).default;const initPswp = (gallery, children) => {
+          if (_$$(`${gallery} ${children}`).length > 0) {
+            new PhotoSwipeLightbox({
+              gallery,
+              children,pswpModule: () => safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8\u002boTJ7m3DfYEWX1fu1scuS4\u002bs")}).init();
+          }
+        }
+        const pswp = () => {
+          initPswp('.article-entry', 'a.article-gallery-item');
+          initPswp('.article-gallery', 'a.article-gallery-item');
+        }
+        pswp()
+      </script><script data-pjax>window.MathJax=JSON.parse('[{"loader":{"load":["input/asciimath","[tex]/noerrors"]},"options":{"ignoreHtmlClass":"tex2jax_ignore","processHtmlClass":"tex2jax_process","skipHtmlTags":["script","noscript","style","textarea","pre","code"]},"tex":{"autoload":{"color":[],"colorv2":["color"]},"displayMath":[["$$","$$"],["\\\\[","\\\\]"]],"inlineMath":[["$","$"],["\\\\(","\\\\)"]],"packages":{"[+]":["noerrors"]},"processEnvironments":true,"processEscapes":true,"tags":"ams","useLabelIds":true}}]')[0]</script><script src=https://npm.webcache.cn/mathjax@3.2.2/es5/tex-mml-chtml.js defer data-pjax integrity=sha384-Wuix6BuhrWbjDBs24bXrjf4ZQ5aFeFWBuKkFekO2t8xFU0iNaLQfp2K6/1Nxveei crossorigin=anonymous></script></div></div><script src=https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js async integrity=sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S crossorigin=anonymous></script><script>"serviceWorker"in navigator&&navigator.serviceWorker.getRegistrations().then(e=>{for(let t of e)t.unregister()})</script><script>const reimuCopyright=String.raw`
+   ______     ______     __     __    __     __  __    
+  /\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+  \ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+   \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+    \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                    
+  `;console.log(String.raw`%c ${reimuCopyright}`,"color: #ff5252;"),console.log("%c Theme.Reimu %c https://github.com/D-Sketon/hugo-theme-reimu ","color: white; background: #ff5252; padding:5px 0;","padding:4px;border:1px solid #ff5252;")</script><script>var setupAPlayer=()=>{if(!!1||!window.matchMedia("(max-width: 768px)").matches){const e=window.matchMedia("(max-width: 959px)").matches;if(e){const e=_$("#aplayer");if(e){const t=e.parentNode?.parentNode;t?.tagName==="ASIDE"&&(e.removeAttribute("data-aos"),t.parentNode.removeChild(e),document.body.appendChild(e))}}new APlayer({theme:"var(--color-link)",container:document.getElementById("aplayer"),audio:JSON.parse('[{"cover":"/img/24.jpg","name":"The Song Of Soul","url":"/music/The Song Of Soul.mp3"},{"cover":"/img/24.jpg","name":"Merry Christmas Mr Lawrence","url":"/music/Merry Christmas Mr Lawrence.mp3"},{"cover":"/img/24.jpg","name":"やさしさがしっとりと降るなかで","url":"/music/やさしさがしっとりと降るなかで.mp3"},{"artist":"千葉紗子","cover":"/img/24.jpg","name":"花手紙","url":"/music/花手紙.mp3"}]')||[],fixed:!!e||!0,autoplay:!1,loop:"all"||"all",order:"list"||"list",preload:"none"||"auto",volume:.7||.7,mutex:!0,listFolded:!0,lrcType:0||0})}}</script><script src=https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.js defer onload=setupAPlayer() integrity=sha384-gdGYZwHnfJM54evoZhpO0s6ZF5BQiybkiyW7VXr+h5UfruuRL/aORyw+5+HZoU6e crossorigin=anonymous></script></body></html>

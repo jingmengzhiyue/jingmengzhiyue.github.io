@@ -1,0 +1,722 @@
+<!doctype html><html lang=en data-theme-mode=auto><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><title>Gradient Boosting Machine | Jingmengzhiyue</title><meta name=description content="热爱可抵万难"><script>window.siteConfig=JSON.parse('{"anchor":{"auto":{"enable":false,"length":60},"explicit":{"enable":false,"marker":"{#anchor-","prefix":"anchor-"}},"anchor_icon":null,"base":"https://www.jingmengzhiyue.tech/","clipboard":{"copyright":{"count":50,"enable":false,"license_type":"by-nc-sa"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-br":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ","zh-cn":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-tw":"複製失敗 (ﾟ⊿ﾟ)ﾂ"},"success":{"en":"Copy successfully (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-br":"Copiado com sucesso (*^▽^*)","zh-cn":"复制成功 (*^▽^*)","zh-tw":"複製成功 (*^▽^*)"}},"code_block":{"expand":true},"dark_mode":{"button":true,"mode":"auto"},"i18n_languages":[{"label":"简体中文","lang":"zh-cn"},{"label":"English","lang":"en"}],"icon_font":"4552607_ex15nbittbh","outdate":{"daysago":180,"enable":false,"message":{"en":"This article was last updated on {time}. Please note that the content may no longer be applicable.","ja":"この記事は最終更新日：{time}。記載内容が現在有効でない可能性がありますのでご注意ください。","pt-br":"Este artigo foi atualizado pela última vez em {time}. Observe que o conteúdo pode não ser mais aplicável.","zh-cn":"本文最后更新于 {time}，请注意文中内容可能已不适用。","zh-tw":"本文最後更新於 {time}，請注意文中內容可能已不適用。"}}}')</script><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap" media=print onload='this.media="all"'><link rel=preload href=//at.alicdn.com/t/c/font_4552607_ex15nbittbh.woff2 as=font type=font/woff2 crossorigin=anonymous><link rel=stylesheet href=/css/loader.min.ac746e154f756f8220326eeb52a719f142ab038be5a8ddf30ea5ef15ef2356ea.css><meta property="og:type" content="website"><meta property="og:title" content="Gradient Boosting Machine | Jingmengzhiyue"><meta property="og:description" content="热爱可抵万难"><meta property="og:url" content="https://www.jingmengzhiyue.tech/en/boosting-gradient-boosting/"><meta property="og:site_name" content="热爱可抵万难"><meta property="og:image" content="https://www.jingmengzhiyue.tech/img/24.jpg"><meta property="article:author" content="Jingmengzhiyue"><meta property="article:published_time" content="2025-11-24T09:00:00+08:00"><meta property="article:modified_time" content="2025-11-24T09:00:00+08:00"><meta property="article:tag" content="Machine Learning"><meta name=twitter:card content="summary"><meta name=twitter:image content="https://www.jingmengzhiyue.tech/img/24.jpg"><link rel="shortcut icon" href=/favicon.ico><link rel=stylesheet href=/css/main.min.c69028af04cc11392739edc48eeb60465879b00de4286e0147bbc470f8f39418.css><link rel=preload as=style href=https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css integrity=sha384-IfxC36XL/toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx/1oA/0l8ysE crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><link rel=preload as=style href=https://npm.webcache.cn/katex@0.16.47/dist/katex.min.css integrity=sha384-nH0MfJ44wi1dd7w6jinlyBgljjS8EJAh2JBoRad8a3VDw2K69vfaaqm4WnR+gXtA crossorigin=anonymous onload='this.onload=null,this.rel="stylesheet"'><script src=https://npm.webcache.cn/pace-js@1.2.4/pace.min.js integrity=sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8 crossorigin=anonymous></script><link rel=stylesheet href=https://npm.webcache.cn/@reimujs/aos@0.1.3/dist/aos.css integrity=sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa crossorigin=anonymous><link rel=stylesheet href=https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.css integrity=sha384-tLMkTWh2pfXNWGFlUS0w1TFtRG5xZ9lPWFOooj+vDDLIL+xBGQU/voDBY5XE2lVh crossorigin=anonymous><link rel=icon href=/img/fluid.png type=image/png><link rel=apple-touch-icon href=/img/fluid.png><link rel=stylesheet href=/css/custom.css></head><body><div id=loader><div class="loading-left-bg loading-bg"></div><div class="loading-right-bg loading-bg"></div><div class=spinner-box><div class="loading-taichi rotate"><svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" shape-rendering="geometricPrecision"><path d="M303.5 432a80 80 0 01-12 160 80 80 0 0112-160z" fill="var(--red-1, #ff5252)"/><path d="M512 65a447 447 0 010 894V929a417 417 0 000-834 417 417 0 000 834v30a447 447 0 010-894zm0 30A417 417 0 01929 512 208.5 208.5.0 01720.5 720.5V592a80 80 0 000-160 80 80 0 000 160V720.5A208.5 208.5.0 01512 512 208.5 208.5.0 00303.5 303.5 208.5 208.5.0 0095 512 417 417 0 01512 95z" fill="var(--red-1, #ff5252)"/></svg></div><div class=loading-word>Loading...</div></div></div></div><script>var time=null,loaderEl=document.getElementById("loader"),startLoading=()=>{time=Date.now(),loaderEl.classList.remove("loading")},hideLoader=()=>{document.body.style.overflow="auto",loader.classList.add("loading")},endLoading=()=>{time?Date.now()-time>500?(time=null,hideLoader()):(setTimeout(endLoading,500-(Date.now()-time)),time=null):hideLoader()};window.addEventListener("DOMContentLoaded",endLoading),loaderEl.addEventListener("click",endLoading)</script><div id=copy-tooltip></div><div id=lang-tooltip>This article does not have a corresponding language version</div><div id=heatmap-tooltip></div><div id=container><div id=wrap><div id=header-nav><nav id=main-nav aria-label="Primary navigation"><a class=main-nav-link-wrap href=/en/><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>Home</span>
+</a><a class=main-nav-link-wrap href=/en/archives><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>Archives</span>
+</a><a class=main-nav-link-wrap href=/en/categories><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>Category</span>
+</a><a class=main-nav-link-wrap href=/en/tags><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>Tag</span>
+</a><a class=main-nav-link-wrap href=/en/about><div class='main-nav-icon icon rotate'>&#xe62b;</div><span class=main-nav-link>About</span>
+</a><a id=main-nav-toggle class=nav-icon aria-label="Toggle navigation" role=button></a></nav><nav id=sub-nav aria-label="Secondary navigation"></nav><nav id=i18n-nav aria-label="Language selection"><div class=custom-dropdown><div class=select-selected id=select-selected role=button aria-haspopup=listbox aria-expanded=false aria-label="Language menu"><span id=nav-language-btn class=nav-icon style="padding:0 20px 0 0"></span>
+<span id=selected-lang>English</span></div><ul class=select-items id=select-items role=listbox aria-label=Languages><li data-value=zh-cn role=option aria-selected=false>简体中文</li><li data-value=en role=option class=selected aria-selected=true>English</li></ul></div><script>var selectSelected=document.getElementById("select-selected"),selectedLang=document.getElementById("selected-lang"),selectItems=document.getElementById("select-items"),selectOptions=selectItems.querySelectorAll("li");selectSelected.addEventListener("click",()=>{selectItems.classList.toggle("show");var e=selectSelected.getAttribute("aria-expanded")==="true";selectSelected.setAttribute("aria-expanded",(!e).toString())}),selectOptions.forEach(e=>{e.addEventListener("click",()=>{const t={};if(t["zh-cn"]="/2025/11/24/boosting-gradient-boosting/",selectedLang.textContent=e.textContent,selectItems.classList.remove("show"),selectOptions.forEach(e=>{e.classList.remove("selected")}),e.classList.add("selected"),e.dataset.value==="en")return;if(!t[e.dataset.value]){_$("#lang-tooltip").style.opacity="1",setTimeout(()=>{_$("#lang-tooltip").style.opacity="0"},1e3);return}window.location=t[e.dataset.value]})}),document.addEventListener("click",e=>{e.target.closest(".custom-dropdown")||(selectItems.classList.remove("show"),selectSelected.setAttribute("aria-expanded","false"))})</script></nav></div><header id=header aria-label="Site header"><picture></picture><img fetchpriority=high src=/img/24.jpg alt="Gradient Boosting Machine"><div id=header-outer><div id=header-title><span id=logo><h1 data-aos=slide-up>Gradient Boosting Machine</h1></span><h2 id=subtitle-wrap data-aos=slide-down></h2></div></div></header><div id=content aria-label="Page content" class=sidebar-right><aside id=sidebar aria-label=Sidebar><div class="sidebar-wrapper-container sticky"><div class=sidebar-wrapper><div class=sidebar-wrap data-aos=fade-up><div class=sidebar-toc-sidebar><h3 class=toc-title>Contents</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#51-gradient-descent-in-function-space-friedman-2001>5.1 Gradient descent in function space (Friedman 2001)</a></li><li><a href=#52-pseudo-residuals>5.2 Pseudo-residuals</a><ul><li><a href=#where-the-name-comes-from>Where the name comes from</a></li></ul></li><li><a href=#53-the-taylor-expansion-view-first-order-gradient-descent>5.3 The Taylor-expansion view (first-order gradient descent)</a></li><li><a href=#54-a-unified-framework-for-any-differentiable-loss>5.4 A unified framework for any differentiable loss</a></li><li><a href=#55-the-regression-case-squared-loss-in-full>5.5 The regression case (squared loss) in full</a><ul><li><a href=#computing-the-pseudo-residual>Computing the pseudo-residual</a></li><li><a href=#the-full-regression-procedure>The full regression procedure</a></li><li><a href=#other-regression-losses-lad-huber-and-quantile>Other regression losses: LAD, Huber and quantile</a></li></ul></li><li><a href=#56-the-classification-case-log-loss>5.6 The classification case (log loss)</a><ul><li><a href=#computing-the-pseudo-residual-1>Computing the pseudo-residual</a></li><li><a href=#initial-value-and-leaf-values-newton-step>Initial value and leaf values (Newton step)</a></li><li><a href=#the-multiclass-case--classes>The multiclass case ($K$ classes)</a></li><li><a href=#the-multiclass-procedure>The multiclass procedure</a></li></ul></li><li><a href=#57-regularization-shrinkage-subsampling-column-sampling-tree-complexity>5.7 Regularization: shrinkage, subsampling, column sampling, tree complexity</a><ul><li><a href=#shrinkage-learning-rate>Shrinkage (learning rate)</a></li><li><a href=#subsampling-stochastic-gradient-boosting>Subsampling (stochastic gradient boosting)</a></li><li><a href=#column-subsampling>Column subsampling</a></li><li><a href=#controlling-tree-complexity>Controlling tree complexity</a></li><li><a href=#summary-of-regularization-techniques>Summary of regularization techniques</a></li></ul></li><li><a href=#58-the-sklearn-api-and-key-parameters>5.8 The sklearn API and key parameters</a><ul><li><a href=#gradientboostingregressor>GradientBoostingRegressor</a></li><li><a href=#gradientboostingclassifier>GradientBoostingClassifier</a></li><li><a href=#key-parameters>Key parameters</a></li><li><a href=#tuning-advice>Tuning advice</a></li></ul></li><li><a href=#59-pseudocode>5.9 Pseudocode</a></li><li><a href=#510-a-from-scratch-python-implementation-regression--classification-commented-line-by-line>5.10 A from-scratch Python implementation (regression + classification, commented line by line)</a></li><li><a href=#511-cross-checking-against-sklearn>5.11 Cross-checking against sklearn</a></li><li><a href=#512-model-interpretation-relative-importance-and-partial-dependence>5.12 Model interpretation: relative importance and partial dependence</a></li><li><a href=#references>References</a></li><li><a href=#core-references-for-chapter-4-adaboost>Core references for Chapter 4 (AdaBoost)</a></li><li><a href=#core-references-for-chapter-5-gradient-boosting>Core references for Chapter 5 (Gradient Boosting)</a></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/profile_picture.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>Posts</div><div class=sidebar-state-number>74</div></div><a class=sidebar-state-category href=/en/categories/ aria-label=sidebar-state-category-link><div>Categories</div><div class=sidebar-state-number>9</div></a><a class=sidebar-state-tag href=/en/tags/ aria-label=sidebar-state-tag-link><div>Tags</div><div class=sidebar-state-number>27</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/ aria-label=Home></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Home</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/archives aria-label=Archives></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Archives</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/categories aria-label=Category></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Category</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/tags aria-label=Tag></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Tag</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/about aria-label=About></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>About</div></div></div></div><div class=sidebar-btn-wrapper style=position:static><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></div></div><div class=sidebar-widget></div></div></aside><section id=main aria-label="Main content"><nav aria-label="Article language"><a href=/2025/11/24/boosting-gradient-boosting/ hreflang=zh-CN lang=zh-CN>简体中文</a></nav><article class="h-entry article" itemscope itemtype=https://schema.org/BlogPosting><div class=article-inner data-aos=fade-up><div class=article-meta><div class=article-date><span class="article-date-link icon-calendar" data-aos=zoom-in><time datetime="2025-11-24 09:00:00 +0800 +0800" itemprop=datePublished>2025-11-24</time>
+<time style=display:none id=post-update-time>2025-11-24</time></span></div></div><div class=hr-line></div><div class="e-content article-entry" itemprop=articleBody><p>With squared-error loss, each new tree fits the current residuals. The learning rate scales its contribution to the ensemble.</p><h2 id=51-gradient-descent-in-function-space-friedman-2001><a class=header-anchor href=#51-gradient-descent-in-function-space-friedman-2001></a>5.1 Gradient descent in function space (Friedman 2001)</h2><p><strong>Jerome H. Friedman</strong> introduced gradient boosting in his 2001 paper <em>&ldquo;Greedy Function Approximation: A Gradient Boosting Machine&rdquo;</em> (released as a technical report in 1999). He recast boosting as <strong>gradient descent in function space</strong>, another major step in the theory of boosting that lifted AdaBoost from a specific algorithm to a <strong>general framework for function optimization</strong>.</p><p>Given training data $\{(x_i, y_i)\}_{i=1}^n$, the goal is to minimize a differentiable loss:</p>$$\mathcal{L}(F) = \sum_{i=1}^{n} L\big(y_i, F(x_i)\big)$$<p><strong>Notation</strong>: $F(x)$ is the mapping from inputs to predictions; $L(y, F)$ is the loss; $n$ is the number of training samples.</p><p>Ordinary gradient descent works in <strong>parameter space</strong> (the weights of a neural network, say). Gradient boosting makes $F(x)$ itself the object of optimization — <strong>gradient descent in function space</strong>. At iteration $m$, with current model $F_{m-1}(x)$, gradient descent says to move along the negative gradient of the loss with respect to the current prediction:</p>$$F_m(x) = F_{m-1}(x) - \rho_m \left. \frac{\partial L(y, F(x))}{\partial F(x)} \right|_{F=F_{m-1}}$$<p><strong>Notation</strong>: $\rho_m$ is the step size (set by line search); $\frac{\partial L}{\partial F}$ is the partial derivative of the loss with respect to the predicted value.</p><p>Strictly speaking, that expression is only defined at the training points $x_1, \ldots, x_n$: treat $\left(F(x_1), \ldots, F(x_n)\right)$ as an $n$-dimensional vector and the negative gradient is the $n$-dimensional vector $\left(r_{1m}, \ldots, r_{nm}\right)$ (see Section 5.2). Such a &ldquo;gradient descent&rdquo; only updates predictions at the training samples; it can&rsquo;t be extended to new ones.</p><p><strong>The key insight</strong>: $F$ is an arbitrary function and the negative gradient is only known at the training points, so we can&rsquo;t work in the continuous function space directly. Friedman&rsquo;s move was to use a <strong>weak learner</strong> (usually a shallow decision tree) $h_m(x)$ to <strong>approximate that negative gradient direction</strong>, turning function-space gradient descent into a computable sequence of models. Each new tree is trained to fit the current model&rsquo;s &ldquo;negative gradient,&rdquo; and then its predictions enter the model weighted by the learning rate.</p><pre class=mermaid>
+  graph TD
+    A["Ordinary gradient descent<br>parameter space"] --> B["Update model parameters θ"]
+    C["Gradient descent in function space<br>Friedman 2001"] --> D["Update the function F(x) itself"]
+    D --> E["Use a weak learner h_m(x)<br>to approximate the negative gradient"]
+    E --> F["Accumulate the update<br>old model plus new weak learner"]
+</pre><hr><h2 id=52-pseudo-residuals><a class=header-anchor href=#52-pseudo-residuals></a>5.2 Pseudo-residuals</h2><p>Define the <strong>pseudo-residual</strong> of sample $i$ at iteration $m$ as</p>$$r_{im} = -\left[ \frac{\partial L(y_i, F(x_i))}{\partial F(x_i)} \right]_{F=F_{m-1}}$$<p><strong>Notation</strong>: $r_{im}$ is the pseudo-residual of sample $i$ at round $m$; $F_{m-1}(x_i)$ is the current model&rsquo;s prediction for sample $i$.</p><h3 id=where-the-name-comes-from><a class=header-anchor href=#where-the-name-comes-from></a>Where the name comes from</h3><ul><li><strong>&ldquo;Residual&rdquo;</strong>: under squared loss $L(y, F) = \frac{1}{2}(y - F)^2$, the expression reduces to the ordinary residual $y_i - F_{m-1}(x_i)$, the difference between observed and predicted.</li><li><strong>&ldquo;Pseudo&rdquo;</strong>: under a general loss it is no longer that difference but the <strong>negative gradient</strong> of the loss with respect to the prediction. Only under squared loss does it coincide with the ordinary residual, hence the &ldquo;pseudo.&rdquo;</li></ul><p>The pseudo-residual points in the direction that <strong>decreases the loss fastest at the current prediction</strong>. Each new weak learner is trained to fit these pseudo-residuals, which pushes the overall model toward lower loss. Geometrically, every gradient boosting step is a move in the steepest-descent direction on the tangent plane at the current function value.</p><pre class=mermaid>
+  graph LR
+    A["Current model"] --> B["Compute pseudo-residuals<br>negative gradient direction"]
+    B --> C["Train weak learner h_m(x)<br>to fit the pseudo-residuals"]
+    C --> D["Update the model<br>old model plus new weak learner"]
+    D --> E["Loss decreases"]
+</pre><hr><h2 id=53-the-taylor-expansion-view-first-order-gradient-descent><a class=header-anchor href=#53-the-taylor-expansion-view-first-order-gradient-descent></a>5.3 The Taylor-expansion view (first-order gradient descent)</h2><p>Gradient boosting can be seen as greedy optimization of a <strong>first-order Taylor expansion</strong> of the loss.</p><p>Let the current prediction be $F_{m-1}(x_i)$ and add a weak learner $h_m(x_i)$, so the new prediction is $F_{m-1}(x_i) + h_m(x_i)$. Expand the loss to first order around $F_{m-1}$:</p>$$L\big(y_i, F_{m-1}(x_i) + h_m(x_i)\big) \approx L\big(y_i, F_{m-1}(x_i)\big) + h_m(x_i) \cdot \left. \frac{\partial L}{\partial F} \right|_{F_{m-1}}$$<p><strong>Notation</strong>: $h_m(x_i)$ is the $m$-th weak learner&rsquo;s prediction for sample $i$; $\frac{\partial L}{\partial F}$ is the partial derivative of the loss with respect to the current prediction.</p><p>Substituting the pseudo-residual:</p>$$L\big(y_i, F_{m-1}(x_i) + h_m(x_i)\big) \approx L\big(y_i, F_{m-1}(x_i)\big) - h_m(x_i) \cdot r_{im}$$<p>To make the approximated loss drop, $\sum_i h_m(x_i)\, r_{im}$ should be as large as possible, which means $h_m$&rsquo;s values on the training points should <strong>point the same way</strong> as the pseudo-residual vector. But the first-order approximation only holds for small $h_m$; chasing a larger inner product alone would drive the magnitude of $h_m$ to infinity. So gradient boosting splits the problem in two: first pick the <strong>direction</strong> — the function in the weak-learner class most &ldquo;parallel&rdquo; to the negative gradient, which Friedman (2001) does by least squares; then set the <strong>step size</strong> — how far to move, by line search (or per-leaf optimization, see Section 5.4):</p>$$h_m(x) = \arg\min_{h} \sum_{i=1}^{n} \big(r_{im} - h(x_i)\big)^2$$<p><strong>Notation</strong>: $h_m(x)$ is the optimal weak learner fitted to the pseudo-residuals; $r_{im}$ is the pseudo-residual of sample $i$ at round $m$.</p><p>This is exactly the core operation at each gradient boosting step: train a regression tree to fit the current model&rsquo;s pseudo-residuals. Since a regression tree partitions the feature space into leaf regions and outputs a constant prediction in each, it offers a flexible and efficient way to approximate an arbitrary negative gradient direction.</p><hr><h2 id=54-a-unified-framework-for-any-differentiable-loss><a class=header-anchor href=#54-a-unified-framework-for-any-differentiable-loss></a>5.4 A unified framework for any differentiable loss</h2><p>One of Friedman&rsquo;s (2001) central contributions was to extend boosting from AdaBoost&rsquo;s exponential loss to a unified framework for <strong>any differentiable loss function</strong>. This is the fundamental reason gradient boosting is more general than AdaBoost.</p><table><thead><tr><th>Task</th><th>Common loss</th><th>Pseudo-residual</th><th>Applications</th></tr></thead><tbody><tr><td>Regression</td><td>Squared loss $\frac{1}{2}(y - F)^2$</td><td>$y - F$ (ordinary residual)</td><td>General regression</td></tr><tr><td>Regression</td><td>Absolute loss $\lvert y - F \rvert$</td><td>$\operatorname{sign}(y - F)$</td><td>Regression with outliers</td></tr><tr><td>Regression</td><td>Huber loss</td><td>$y - F$ (when $\lvert y-F \rvert \leq \delta$); $\delta \operatorname{sign}(y-F)$ (otherwise)</td><td>Noise-robust regression</td></tr><tr><td>Regression</td><td>Quantile loss</td><td>$\tau - \mathbb{I}(y < F)$, i.e. $\tau$ when $y > F$ and $\tau - 1$ when $y < F$</td><td>Prediction intervals, uncertainty estimation</td></tr><tr><td>Binary classification</td><td>Log loss, $y \in \{0,1\}$</td><td>$y - \sigma(F)$</td><td>Binary classification</td></tr><tr><td>Multiclass</td><td>Multinomial deviance</td><td>$y_{ik} - p_{k}(x_i)$</td><td>$K$-class problems</td></tr><tr><td>Ranking</td><td>Pairwise ranking loss</td><td>Depends on the definition</td><td>Learning to rank</td></tr></tbody></table><p><strong>The unified algorithm</strong>:</p><ol><li><strong>Initialize</strong>: $F_0(x) = \arg\min_\gamma \sum_i L(y_i, \gamma)$</li><li><strong>For</strong> $m = 1, \dots, M$:<ul><li>Compute pseudo-residuals: $r_{im} = -\left[\frac{\partial L}{\partial F}\right]_{F_{m-1}}$</li><li>Fit a weak learner: $h_m(x) = \arg\min_{h} \sum_i \big(r_{im} - h(x_i)\big)^2$</li><li>Line search for the best step: $\rho_m = \arg\min_\rho \sum_i L\big(y_i, F_{m-1}(x_i) + \rho h_m(x_i)\big)$</li><li>Update the model: $F_m(x) = F_{m-1}(x) + \nu \cdot \rho_m h_m(x)$</li></ul></li><li><strong>Output</strong>: the final model $F_M(x)$</li></ol><p><strong>Notation</strong>: $\nu$ is the learning rate (shrinkage); $\rho_m$ is the optimal step from the line search; $M$ is the total number of iterations.</p><blockquote><p><strong>TreeBoost: line search per leaf.</strong> When the base learner is a regression tree with $J$ leaves, $h_m(x) = \sum_{j=1}^{J} b_{jm} \mathbb{I}(x \in R_{jm})$ is itself a combination of $J$ &ldquo;basis functions.&rdquo; Friedman (2001) recommends skipping a single global step $\rho_m$ and running the line search <strong>separately</strong> in each leaf region:</p>$$\gamma_{jm} = \arg\min_{\gamma} \sum_{x_i \in R_{jm}} L\left(y_i, F_{m-1}(x_i) + \gamma\right)$$<p>then updating $F_m(x) = F_{m-1}(x) + \nu \sum_{j=1}^{J} \gamma_{jm} \mathbb{I}(x \in R_{jm})$. In other words, the tree only decides <strong>how to partition the regions</strong>, while each leaf&rsquo;s output is re-optimized directly against the original loss. sklearn&rsquo;s <code>GradientBoostingRegressor/Classifier</code> and the pseudocode in Section 5.9 both take this form, and Sections 5.5 and 5.6 give the formula for $\gamma_{jm}$ under each loss.</p></blockquote><pre class=mermaid>
+  graph TD
+    A["Choose a loss L"] --> B["Compute pseudo-residuals<br>r = -∂L/∂F"]
+    B --> C["Train a regression tree on r"]
+    C --> D["Line search for the best step ρ"]
+    D --> E["Update F ← F + ν·ρ·h"]
+    E --> F{"Converged?"}
+    F -->|No| B
+    F -->|Yes| G["Output F_M"]
+</pre><hr><h2 id=55-the-regression-case-squared-loss-in-full><a class=header-anchor href=#55-the-regression-case-squared-loss-in-full></a>5.5 The regression case (squared loss) in full</h2><p>For regression, use the <strong>squared error (least squares)</strong> loss:</p>$$L(y, F) = \frac{1}{2}(y - F)^2$$<p><strong>Notation</strong>: $y$ is the true target; $F$ is the model prediction; the $\frac{1}{2}$ cancels the square when differentiating, which simplifies things.</p><h3 id=computing-the-pseudo-residual><a class=header-anchor href=#computing-the-pseudo-residual></a>Computing the pseudo-residual</h3>$$r_{im} = -\frac{\partial}{\partial F}\left[\frac{1}{2}(y_i - F)^2\right]_{F=F_{m-1}} = -\left[-(y_i - F)\right]_{F=F_{m-1}} = y_i - F_{m-1}(x_i)$$<p><strong>The key result</strong>: under squared loss the pseudo-residual is exactly the ordinary residual (observed minus current prediction). So the intuitive reading of gradient boosting for regression is:</p><blockquote><p><strong>&ldquo;Each new tree fits the residuals of the current ensemble, and its predictions join the ensemble weighted by the learning rate.&rdquo;</strong></p></blockquote><h3 id=the-full-regression-procedure><a class=header-anchor href=#the-full-regression-procedure></a>The full regression procedure</h3><p><strong>Step 1: initialize</strong></p>$$F_0(x) = \arg\min_\gamma \sum_{i=1}^{n} \frac{1}{2}(y_i - \gamma)^2 = \frac{1}{n}\sum_{i=1}^{n} y_i = \bar{y}$$<p><strong>Notation</strong>: $\bar{y}$ is the mean target over the training set; $\gamma$ is the constant prediction being optimized.</p><p>Under squared loss the best initial prediction is the training mean. That&rsquo;s why many gradient boosting implementations initialize $F_0$ to <code>mean(y)</code>.</p><p><strong>Step 2: iterate</strong> ($m = 1, \dots, M$)</p><ul><li><strong>Compute residuals</strong>: $r_{im} = y_i - F_{m-1}(x_i)$</li><li><strong>Fit a regression tree</strong>: $h_m(x)$ trained on $\{(x_i, r_{im})\}$, producing leaf regions $\{R_{jm}\}_{j=1}^{J_m}$</li><li><strong>For each leaf region</strong> $R_{jm}$, compute the optimal output:</li></ul>$$\gamma_{jm} = \arg\min_\gamma \sum_{x_i \in R_{jm}} \frac{1}{2}\big(y_i - (F_{m-1}(x_i) + \gamma)\big)^2 = \frac{1}{\lvert R_{jm} \rvert}\sum_{x_i \in R_{jm}} r_{im}$$<p><strong>Notation</strong>: $R_{jm}$ is the $j$-th leaf region of the $m$-th tree; $\lvert R_{jm} \rvert$ is the number of samples in it; $\gamma_{jm}$ is the optimal output for leaf $j$ (the mean residual in that leaf).</p><ul><li><strong>Update the model</strong>:</li></ul>$$F_m(x) = F_{m-1}(x) + \nu \sum_{j=1}^{J_m} \gamma_{jm} \, \mathbb{I}(x \in R_{jm})$$<p><strong>Notation</strong>: $\nu$ is the learning rate (shrinkage); $\mathbb{I}(x \in R_{jm})$ is the indicator (1 when $x$ falls in leaf $R_{jm}$, otherwise 0).</p><p><strong>Step 3: output</strong> $F_M(x)$</p><pre class=mermaid>
+  graph TD
+    subgraph "GB regression flow"
+        A["Initialize to the target mean"] --> B["Compute current residuals"]
+        B --> C["Train a regression tree on the residuals"]
+        C --> D["Compute the optimal value γ_jm per leaf<br>mean residual in the leaf"]
+        D --> E["Accumulate the leaf values into the model"]
+        E --> F{"M rounds done?"}
+        F -->|No| B
+        F -->|Yes| G["Output F_M"]
+    end
+</pre><h3 id=other-regression-losses-lad-huber-and-quantile><a class=header-anchor href=#other-regression-losses-lad-huber-and-quantile></a>Other regression losses: LAD, Huber and quantile</h3><p>Squared loss is sensitive to outliers. Friedman (2001) also gave TreeBoost algorithms for several robust losses; they differ in only three places: the initial value $F_0$, the pseudo-residual $r_{im}$ (see the table in Section 5.4) and the leaf value $\gamma_{jm}$.</p><table><thead><tr><th>Loss</th><th>Initial $F_0$</th><th>Leaf value $\gamma_{jm}$</th></tr></thead><tbody><tr><td>Squared loss (LS)</td><td>$\bar{y}$</td><td>Mean of the in-leaf residuals $y_i - F_{m-1}(x_i)$</td></tr><tr><td>Absolute loss (LAD)</td><td>$\operatorname{median}\{y_i\}$</td><td><strong>Median</strong> of the in-leaf residuals $y_i - F_{m-1}(x_i)$</td></tr><tr><td>Quantile loss ($\tau$)</td><td>The $\tau$ quantile of $\{y_i\}$</td><td>The <strong>$\tau$ quantile</strong> of the in-leaf residuals</td></tr><tr><td>Huber loss (M-TreeBoost)</td><td>$\operatorname{median}\{y_i\}$</td><td>Median plus a one-step correction, see below</td></tr></tbody></table><p>The leaf values for LAD and quantile loss are exact: the $\gamma$ minimizing $\sum_{x_i \in R_{jm}} \lvert y_i - F_{m-1}(x_i) - \gamma \rvert$ is the median residual, and likewise for quantile loss. Note that here <strong>the tree is fitted to the pseudo-residual $\operatorname{sign}(y_i - F_{m-1}(x_i))$</strong> (only $\pm 1$), while the leaf value is determined by the raw residuals — exactly TreeBoost&rsquo;s &ldquo;the tree sets the partition, the leaves are optimized separately.&rdquo;</p><p>Huber loss has no closed-form leaf solution. Each round Friedman (2001) first sets the threshold $\delta_m$ to the $\alpha$ quantile of the current absolute residuals $\left\{\lvert y_i - F_{m-1}(x_i) \rvert\right\}$, then approximates the leaf value as &ldquo;median plus one-step correction&rdquo;: let $\tilde{r}_{jm}$ be the median of the residuals $r_{i} = y_i - F_{m-1}(x_i)$ within leaf $R_{jm}$ and $N_{jm}$ the number of samples there,</p>$$\gamma_{jm} = \tilde{r}_{jm} + \frac{1}{N_{jm}} \sum_{x_i \in R_{jm}} \operatorname{sign}\left(r_i - \tilde{r}_{jm}\right) \min\left(\delta_m, \lvert r_i - \tilde{r}_{jm} \rvert\right)$$<p>In sklearn, <code>loss='huber'</code> and <code>loss='quantile'</code> share the <code>alpha</code> parameter: for the former it&rsquo;s which quantile of the absolute residuals to use as $\delta_m$ (default 0.9), for the latter the quantile $\tau$ to estimate. Train one quantile model with <code>alpha=0.05</code> and another with <code>alpha=0.95</code> and you get a 90% prediction interval.</p><hr><h2 id=56-the-classification-case-log-loss><a class=header-anchor href=#56-the-classification-case-log-loss></a>5.6 The classification case (log loss)</h2><p>For <strong>binary classification</strong>, gradient boosting uses the <strong>log loss (binomial deviance)</strong>:</p>$$L(y, F) = -y \log\big(\sigma(F)\big) - (1-y) \log\big(1 - \sigma(F)\big)$$<p><strong>Notation</strong>: $y \in \{0, 1\}$ is the class label; $\sigma(F) = \frac{1}{1 + e^{-F}}$ is the logistic sigmoid; $F(x)$ outputs <strong>log-odds</strong>, not a probability.</p><h3 id=computing-the-pseudo-residual-1><a class=header-anchor href=#computing-the-pseudo-residual-1></a>Computing the pseudo-residual</h3>$$r_{im} = -\frac{\partial L}{\partial F}\bigg|_{F_{m-1}} = y_i - \sigma\big(F_{m-1}(x_i)\big) = y_i - p_i$$<p><strong>Notation</strong>: $p_i = \sigma(F_{m-1}(x_i))$ is the current model&rsquo;s probability that sample $i$ is positive.</p><p><strong>Key observations</strong>:</p><ul><li>Even for classification, each new tree is still a <strong>regression tree</strong>, because it fits a continuous gradient value (probability minus label) rather than a discrete class.</li><li>The model output $F(x)$ is log-odds; the probability comes from $\sigma(F)$.</li><li>When $y_i = 1$ and $p_i$ is near 0 (the model is wrong), the pseudo-residual is near 1 (the model should raise that sample&rsquo;s log-odds sharply); when $p_i$ is near 1 (the model is right), it&rsquo;s near 0 (no big adjustment needed).</li><li>The pseudo-residual lies in $(-1, 1)$, so even badly misclassified samples exert bounded &ldquo;pull&rdquo; on the new tree. That&rsquo;s one reason log loss is more robust than exponential loss.</li></ul><h3 id=initial-value-and-leaf-values-newton-step><a class=header-anchor href=#initial-value-and-leaf-values-newton-step></a>Initial value and leaf values (Newton step)</h3><p><strong>Initial value</strong>: the optimal constant satisfies $\sum_i \left(y_i - \sigma(\gamma)\right) = 0$, i.e. $\sigma(\gamma) = \bar{y}$:</p>$$F_0(x) = \log\frac{\bar{y}}{1 - \bar{y}}$$<p>that is, the log-odds of the positive-class rate $\bar{y}$ (which is exactly sklearn&rsquo;s default initialization).</p><p><strong>Leaf values</strong>: under log loss, $\gamma_{jm} = \arg\min_{\gamma} \sum_{x_i \in R_{jm}} L\left(y_i, F_{m-1}(x_i) + \gamma\right)$ has no closed form. Let $g_i$ and $h_i$ be the first and second derivatives of the loss with respect to $F$:</p>$$g_i = \frac{\partial L}{\partial F} = p_i - y_i, \qquad h_i = \frac{\partial^2 L}{\partial F^2} = p_i(1 - p_i)$$<p>Starting from $\gamma = 0$, take <strong>one Newton-Raphson step</strong>:</p>$$\gamma_{jm} \approx -\frac{\sum_{x_i \in R_{jm}} g_i}{\sum_{x_i \in R_{jm}} h_i} = \frac{\sum_{x_i \in R_{jm}} (y_i - p_i)}{\sum_{x_i \in R_{jm}} p_i (1 - p_i)}$$<p>This is how sklearn&rsquo;s <code>GradientBoostingClassifier</code> computes leaf values (its source comments point to FHT 2000&rsquo;s Newton step). Friedman&rsquo;s original 2001 paper uses the $y \in \{-1, +1\}$ parameterization with $L = \log\left(1 + e^{-2yF}\right)$, where the pseudo-residual is $\tilde{y}_i = \frac{2y_i}{1 + e^{2y_i F_{m-1}(x_i)}}$ and the leaf value is $\gamma_{jm} = \frac{\sum \tilde{y}_i}{\sum \lvert \tilde{y}_i \rvert \left(2 - \lvert \tilde{y}_i \rvert\right)}$ — the same thing under a different parameterization.</p><blockquote><p>Only one Newton step is taken here, rather than optimizing $\gamma$ to convergence in each leaf, as a compromise between cost and accuracy. XGBoost goes further and puts second-order information into the <strong>splitting criterion</strong> itself (Chapter 6).</p></blockquote><h3 id=the-multiclass-case--classes><a class=header-anchor href=#the-multiclass-case--classes></a>The multiclass case ($K$ classes)</h3><p>For a <strong>$K$-class problem</strong> you maintain one function $F_k(x)$ per class $k = 1, \dots, K$, using the <strong>multinomial deviance</strong>:</p>$$L\big(y, \{F_k\}\big) = -\sum_{k=1}^{K} \mathbb{I}(y = G_k) \log\big(p_k(x)\big)$$<p><strong>Notation</strong>: $G_k$ is the $k$-th class; $\mathbb{I}(y = G_k)$ is the indicator (1 when the sample&rsquo;s true class is $G_k$, otherwise 0).</p><p>Class probabilities come from the softmax:</p>$$p_k(x) = \frac{\exp\big(F_k(x)\big)}{\sum_{l=1}^{K} \exp\big(F_l(x)\big)}$$<p><strong>Notation</strong>: $p_k(x)$ is the probability that sample $x$ belongs to class $k$; $F_k(x)$ is the score function (logit) for class $k$. Since softmax is invariant to adding the same function to all $F_k$, the $F_k$ are determined only up to a shared term; Friedman (2001) removes that degree of freedom with the constraint $\sum_{k=1}^K F_k(x) = 0$.</p><p><strong>Pseudo-residual</strong> (for class $k$):</p>$$r_{ikm} = y_{ik} - p_{k, m-1}(x_i)$$<p><strong>Notation</strong>: $y_{ik} = \mathbb{I}(y_i = G_k)$ is the indicator label for class $k$; $p_{k, m-1}(x_i)$ is the current model&rsquo;s probability for class $k$.</p><h3 id=the-multiclass-procedure><a class=header-anchor href=#the-multiclass-procedure></a>The multiclass procedure</h3><ol><li><strong>Initialize</strong>: $F_{k0}(x) = 0$ in Friedman&rsquo;s (2001) original; sklearn initializes with the log of each class prior $\log \bar{y}_k$ (then subtracts the mean over classes so that $\sum_k F_{k0} = 0$), where $\bar{y}_k$ is the proportion of class $k$</li><li><strong>For</strong> $m = 1, \dots, M$:<ul><li>Compute probabilities from the current scores, $p_{k, m-1}(x_i)$ (softmax)</li><li>For each class $k = 1, \dots, K$:<ul><li>Compute the pseudo-residual: $r_{ikm} = y_{ik} - p_{k, m-1}(x_i)$</li><li>Fit a regression tree $h_{km}(x)$ to the pseudo-residuals</li><li>Compute the optimal value for each leaf region (one Newton-Raphson step, Friedman 2001 Algorithm 6):</li></ul></li></ul></li></ol>$$\gamma_{jkm} = \frac{K-1}{K} \cdot \frac{\sum_{x_i \in R_{jkm}} r_{ikm}}{\sum_{x_i \in R_{jkm}} \lvert r_{ikm} \rvert \left(1 - \lvert r_{ikm} \rvert\right)}$$<p><strong>Notation</strong>: $R_{jkm}$ is the $j$-th leaf region for class $k$ at round $m$; $\gamma_{jkm}$ is that leaf&rsquo;s optimal output. The factor $\frac{K-1}{K}$ comes from the constraint $\sum_k F_k = 0$.</p><pre><code> - Update: $F_{km}(x) = F_{k, m-1}(x) + \nu \sum_{j} \gamma_{jkm} \, \mathbb{I}(x \in R_{jkm})$
+</code></pre><ol start=3><li><strong>Output</strong>: $\hat{y} = \arg\max_k F_{kM}(x)$, with class probabilities $p_k(x) = \operatorname{softmax}\left(F_{1M}(x), \ldots, F_{KM}(x)\right)_k$</li></ol><blockquote><p><strong>Note</strong>: each round fits $K$ trees, so multiclass gradient boosting takes roughly $K$ times as long to train as binary.</p></blockquote><pre class=mermaid>
+  graph TD
+    subgraph "GB binary classification flow"
+        A["Initialize F_0 = log(ȳ/(1-ȳ))<br>(log-odds of the positive rate)"] --> B["Compute pseudo-residuals r_i = y_i - p_i"]
+        B --> C["Train a regression tree on r_i"]
+        C --> D["Update the log-odds"]
+        D --> E["Compute new probabilities p = σ(F_m)"]
+        E --> F{"M rounds done?"}
+        F -->|No| B
+        F -->|Yes| G["Output sign(F_M)"]
+    end
+</pre><hr><h2 id=57-regularization-shrinkage-subsampling-column-sampling-tree-complexity><a class=header-anchor href=#57-regularization-shrinkage-subsampling-column-sampling-tree-complexity></a>5.7 Regularization: shrinkage, subsampling, column sampling, tree complexity</h2><p>Gradient boosting is greedy and prone to overfitting. In his 2001 and 2002 papers Friedman proposed several regularization strategies that underpin modern implementations such as XGBoost and LightGBM.</p><h3 id=shrinkage-learning-rate><a class=header-anchor href=#shrinkage-learning-rate></a>Shrinkage (learning rate)</h3><p>The core update:</p>$$F_m(x) = F_{m-1}(x) + \nu \sum_{j=1}^{J_m} \gamma_{jm} \, \mathbb{I}(x \in R_{jm}), \quad 0 < \nu \leq 1$$<p><strong>Notation</strong>: $\nu$ is the learning rate (shrinkage factor), typically between $0.01$ and $0.3$; $\gamma_{jm}$ is the optimal value for each leaf of the $m$-th tree (Section 5.4).</p><p><strong>How it works</strong>:</p><ul><li>With $\nu = 1$, each tree corrects the current error by the full (in-leaf) optimal step; training loss falls fast and the model overfits more readily.</li><li>With $\nu < 1$, each tree contributes only part of the correction, spreading the learning over more rounds.</li><li>A small $\nu$ makes learning more cautious: averaging many weak learners cancels the noise of individual trees and improves generalization noticeably.</li></ul><p><strong>Rule of thumb</strong>: learning rate and tree count trade off:</p><table><thead><tr><th>learning_rate</th><th>Suggested n_estimators</th><th>When</th></tr></thead><tbody><tr><td>0.1</td><td>100-500</td><td>Default; balances speed and quality</td></tr><tr><td>0.05</td><td>500-2000</td><td>Higher accuracy, tolerates slower training</td></tr><tr><td>0.01</td><td>2000+</td><td>Chasing the best performance, with early stopping</td></tr></tbody></table><p>Friedman (2001) found experimentally that a small learning rate ($\nu = 0.1$ or less) with enough trees markedly improves generalization. ESL §10.12.1 summarizes it: for a fixed number of rounds, smaller $\nu$ means higher training error, but empirically $\nu < 0.1$ usually gives better test error at the cost of a correspondingly larger $M$. So the usual practice is to set $\nu$ small and then choose $M$ with a validation set or early stopping.</p><blockquote><p><strong>Why shrinkage helps</strong>: in the limit of small steps under squared loss, &ldquo;shrinkage + forward stagewise&rdquo; traces a path resembling $L_1$ regularization (Lasso); ESL §16.2 discusses the connection between $\varepsilon$-forward stagewise and the Lasso, which supplies a regularization reading of shrinkage.</p></blockquote><h3 id=subsampling-stochastic-gradient-boosting><a class=header-anchor href=#subsampling-stochastic-gradient-boosting></a>Subsampling (stochastic gradient boosting)</h3><p>In <em>&ldquo;Stochastic Gradient Boosting,&rdquo;</em> Friedman (2002), inspired by Breiman&rsquo;s bagging, proposed <strong>randomly drawing a subsample without replacement</strong> in each iteration to fit the current tree.</p><p><strong>Changes to the algorithm</strong>:</p><ul><li>In each iteration $m$, draw a fraction $f$ (usually $f = 0.5$) of the training set as $S_m$</li><li>Compute pseudo-residuals and fit $h_m$ using only $S_m$</li><li>Updates still apply to predictions for all training samples</li></ul><p>ESL §10.12.2 notes that a sampling fraction of $1/2$ is typical, and with large $N$ it can be well below $1/2$. In sklearn, setting <code>subsample &lt; 1.0</code> enables stochastic gradient boosting; samples not drawn in a round serve as <strong>out-of-bag (OOB)</strong> samples, and <code>oob_improvement_</code> records each round&rsquo;s loss improvement on them, a rough guide to a sensible number of iterations.</p><p><strong>Regularization effect</strong>:</p><ul><li><strong>Lower variance</strong>: different trees see different subsets, which increases diversity much as bagging does (sklearn&rsquo;s docs note that <code>subsample &lt; 1.0</code> lowers variance and raises bias).</li><li><strong>Less overfitting</strong>: the randomness stops the model from memorizing individual samples or outliers.</li><li><strong>Faster training</strong>: each tree fits a smaller dataset.</li></ul><h3 id=column-subsampling><a class=header-anchor href=#column-subsampling></a>Column subsampling</h3><p>Borrowing from random forests, consider only a random subset of features at each split (or per tree):</p><ul><li><strong>Per split</strong>: sklearn&rsquo;s <code>max_features</code> is the number of features considered <strong>each time a best split is sought</strong> (XGBoost&rsquo;s <code>colsample_bynode</code>).</li><li><strong>Per tree / per level</strong>: XGBoost&rsquo;s <code>colsample_bytree</code> (once per tree) and <code>colsample_bylevel</code> (once per level); LightGBM&rsquo;s <code>feature_fraction</code> (per tree).</li></ul><p><strong>Effect</strong>: less correlation between trees, lower variance, especially useful in high-dimensional feature spaces.</p><h3 id=controlling-tree-complexity><a class=header-anchor href=#controlling-tree-complexity></a>Controlling tree complexity</h3><table><thead><tr><th>Technique</th><th>Parameter</th><th>Typical range</th><th>Effect</th></tr></thead><tbody><tr><td>Depth limit</td><td><code>max_depth</code></td><td>3-6</td><td>Caps each tree&rsquo;s interaction order; depth=d captures at most d-way feature interactions</td></tr><tr><td>Minimum samples per leaf</td><td><code>min_samples_leaf</code></td><td>5-50</td><td>Stops leaves from overfitting single samples; smooths predictions</td></tr><tr><td>Minimum samples to split</td><td><code>min_samples_split</code></td><td>2-20</td><td>Controls when a node may split, avoiding overly fine splits</td></tr><tr><td>Maximum leaves</td><td><code>max_leaf_nodes</code></td><td>-</td><td>Controls tree size directly, an alternative to max_depth</td></tr><tr><td>Impurity decrease threshold</td><td><code>min_impurity_decrease</code></td><td>0</td><td>Pre-pruning: a split must earn enough gain</td></tr></tbody></table><p><strong>Rules of thumb</strong>: a tree of depth 3 captures at most 3-way feature interactions; too much depth memorizes noise fast. More generally, a tree with $J$ leaves can represent feature interactions up to order $J-1$. ESL §10.11 reports that $4 \leq J \leq 8$ leaves usually works well in boosting and that results aren&rsquo;t very sensitive to the exact value in that range; $J = 2$ (a stump) only yields an additive model with no interaction terms.</p><h3 id=summary-of-regularization-techniques><a class=header-anchor href=#summary-of-regularization-techniques></a>Summary of regularization techniques</h3><table><thead><tr><th>Technique</th><th>Parameter</th><th>Mechanism</th><th>Origin</th><th>Suggested</th></tr></thead><tbody><tr><td>Shrinkage</td><td><code>learning_rate</code> ($\nu$)</td><td>Scales each tree&rsquo;s contribution</td><td>Friedman (2001)</td><td>0.01-0.1, with more trees</td></tr><tr><td>Row subsampling</td><td><code>subsample</code></td><td>Trains each tree on a random subset</td><td>Friedman (2002)</td><td>0.5-0.8 to lower variance</td></tr><tr><td>Column subsampling</td><td><code>max_features</code></td><td>Random feature subset per split</td><td>Random forest idea</td><td><code>sqrt</code> or <code>log2</code></td></tr><tr><td>Depth limit</td><td><code>max_depth</code></td><td>Caps model complexity</td><td>General</td><td>3-5 typical</td></tr><tr><td>Minimum leaf samples</td><td><code>min_samples_leaf</code></td><td>Smooths leaf predictions</td><td>General</td><td>5-50</td></tr><tr><td>Early stopping</td><td><code>n_iter_no_change</code></td><td>Stops when validation loss stalls</td><td>General</td><td>Stop after 10-20 rounds</td></tr></tbody></table><pre class=mermaid>
+  graph TD
+    A["Gradient boosting<br>overfits easily"] --> B["Shrinkage<br>learning_rate"]
+    A --> C["Subsampling<br>subsample"]
+    A --> D["Column sampling<br>max_features"]
+    A --> E["Tree complexity control<br>max_depth/min_samples_leaf"]
+    A --> F["Early stopping<br>n_iter_no_change"]
+    B --> G["Reduce each tree's influence<br>spread out learning"]
+    C --> H["More diversity between trees<br>bagging-style variance reduction"]
+    D --> I["Less feature correlation<br>stops dominant features overfitting"]
+    E --> J["Limit single-tree complexity<br>stops noise memorization"]
+    F --> K["Avoid wasted iterations<br>save compute"]
+    G --> L["Net effect:<br>better generalization"]
+    H --> L
+    I --> L
+    J --> L
+    K --> L
+</pre><hr><h2 id=58-the-sklearn-api-and-key-parameters><a class=header-anchor href=#58-the-sklearn-api-and-key-parameters></a>5.8 The sklearn API and key parameters</h2><p>scikit-learn provides <code>GradientBoostingClassifier</code> and <code>GradientBoostingRegressor</code>, implementing the classic Gradient Boosting Machine.</p><h3 id=gradientboostingregressor><a class=header-anchor href=#gradientboostingregressor></a>GradientBoostingRegressor</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.ensemble</span> <span class=kn>import</span> <span class=n>GradientBoostingRegressor</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>reg</span> <span class=o>=</span> <span class=n>GradientBoostingRegressor</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>loss</span><span class=o>=</span><span class=s1>&#39;squared_error&#39;</span><span class=p>,</span>       <span class=c1># loss: &#39;squared_error&#39;, &#39;absolute_error&#39;, &#39;huber&#39;, &#39;quantile&#39;</span>
+</span></span><span class=line><span class=cl>    <span class=n>learning_rate</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span>          <span class=c1># learning rate (shrinkage)</span>
+</span></span><span class=line><span class=cl>    <span class=n>n_estimators</span><span class=o>=</span><span class=mi>100</span><span class=p>,</span>           <span class=c1># number of trees (boosting rounds)</span>
+</span></span><span class=line><span class=cl>    <span class=n>subsample</span><span class=o>=</span><span class=mf>1.0</span><span class=p>,</span>              <span class=c1># sampling fraction (1.0 = no subsampling)</span>
+</span></span><span class=line><span class=cl>    <span class=c1># criterion=&#39;friedman_mse&#39;, # splitting criterion; no effect since sklearn 1.9 and deprecated</span>
+</span></span><span class=line><span class=cl>    <span class=c1>#                           # (scheduled for removal in 1.11), so don&#39;t pass it in new code</span>
+</span></span><span class=line><span class=cl>    <span class=n>min_samples_split</span><span class=o>=</span><span class=mi>2</span><span class=p>,</span>        <span class=c1># minimum samples to split a node</span>
+</span></span><span class=line><span class=cl>    <span class=n>min_samples_leaf</span><span class=o>=</span><span class=mi>1</span><span class=p>,</span>         <span class=c1># minimum samples in a leaf</span>
+</span></span><span class=line><span class=cl>    <span class=n>max_depth</span><span class=o>=</span><span class=mi>3</span><span class=p>,</span>                <span class=c1># maximum tree depth</span>
+</span></span><span class=line><span class=cl>    <span class=n>max_leaf_nodes</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>        <span class=c1># maximum number of leaves</span>
+</span></span><span class=line><span class=cl>    <span class=n>min_impurity_decrease</span><span class=o>=</span><span class=mf>0.0</span><span class=p>,</span>  <span class=c1># impurity-decrease threshold for a split</span>
+</span></span><span class=line><span class=cl>    <span class=n>init</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>                  <span class=c1># initial model (default: mean for squared loss, the matching quantile/median otherwise)</span>
+</span></span><span class=line><span class=cl>    <span class=n>random_state</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>          <span class=c1># random seed</span>
+</span></span><span class=line><span class=cl>    <span class=n>max_features</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>          <span class=c1># features (or fraction) considered per split</span>
+</span></span><span class=line><span class=cl>    <span class=n>alpha</span><span class=o>=</span><span class=mf>0.9</span><span class=p>,</span>                  <span class=c1># quantile for the Huber threshold / target quantile for Quantile loss</span>
+</span></span><span class=line><span class=cl>    <span class=n>verbose</span><span class=o>=</span><span class=mi>0</span><span class=p>,</span>                  <span class=c1># verbosity</span>
+</span></span><span class=line><span class=cl>    <span class=n>validation_fraction</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span>    <span class=c1># fraction held out for early stopping</span>
+</span></span><span class=line><span class=cl>    <span class=n>n_iter_no_change</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>      <span class=c1># early-stopping patience (None disables it)</span>
+</span></span><span class=line><span class=cl>    <span class=n>tol</span><span class=o>=</span><span class=mf>1e-4</span><span class=p>,</span>                   <span class=c1># early-stopping tolerance</span>
+</span></span><span class=line><span class=cl>    <span class=n>ccp_alpha</span><span class=o>=</span><span class=mf>0.0</span>               <span class=c1># cost-complexity pruning parameter</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=gradientboostingclassifier><a class=header-anchor href=#gradientboostingclassifier></a>GradientBoostingClassifier</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.ensemble</span> <span class=kn>import</span> <span class=n>GradientBoostingClassifier</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>clf</span> <span class=o>=</span> <span class=n>GradientBoostingClassifier</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>loss</span><span class=o>=</span><span class=s1>&#39;log_loss&#39;</span><span class=p>,</span>            <span class=c1># loss: &#39;log_loss&#39; (default), &#39;exponential&#39;</span>
+</span></span><span class=line><span class=cl>    <span class=n>learning_rate</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>n_estimators</span><span class=o>=</span><span class=mi>100</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>subsample</span><span class=o>=</span><span class=mf>1.0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>min_samples_split</span><span class=o>=</span><span class=mi>2</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>min_samples_leaf</span><span class=o>=</span><span class=mi>1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>max_depth</span><span class=o>=</span><span class=mi>3</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>max_leaf_nodes</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>init</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>random_state</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>max_features</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>verbose</span><span class=o>=</span><span class=mi>0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>validation_fraction</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>n_iter_no_change</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>tol</span><span class=o>=</span><span class=mf>1e-4</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>ccp_alpha</span><span class=o>=</span><span class=mf>0.0</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p><strong>Note</strong>: even for classification, <code>GradientBoostingClassifier</code> fits <strong>regression trees</strong> internally (predicting gradient values) and gets probabilities through sigmoid or softmax at the end. Binary problems fit 1 tree per round; $K$-class problems fit $K$.</p><p><strong>Version note</strong>: for larger datasets (sklearn&rsquo;s docs suggest <code>n_samples >= 10_000</code>), scikit-learn recommends the histogram-based <code>HistGradientBoostingRegressor/Classifier</code>, which is far faster (see Chapters 9 and 10).</p></blockquote><h3 id=key-parameters><a class=header-anchor href=#key-parameters></a>Key parameters</h3><table><thead><tr><th>Parameter</th><th>Role</th><th>Suggested</th></tr></thead><tbody><tr><td><code>loss</code></td><td>Loss type</td><td>Use <code>'huber'</code> for noisy data; <code>'quantile'</code> when you need prediction intervals</td></tr><tr><td><code>learning_rate</code></td><td>Scaling factor on each tree&rsquo;s contribution</td><td>0.01-0.1; smaller needs more trees</td></tr><tr><td><code>n_estimators</code></td><td>Total number of trees</td><td>Tune together with <code>learning_rate</code></td></tr><tr><td><code>subsample</code></td><td>Fraction of samples per tree</td><td>0.5-0.8 lowers variance</td></tr><tr><td><code>max_depth</code></td><td>Tree depth</td><td>3-5 typical; 3 is common for regression</td></tr><tr><td><code>max_features</code></td><td>Feature sampling per split</td><td><code>'sqrt'</code> or <code>'log2'</code> reduces overfitting</td></tr><tr><td><code>min_samples_leaf</code></td><td>Minimum samples in a leaf</td><td>5-50 guards against overfitting</td></tr><tr><td><code>n_iter_no_change</code></td><td>Early-stopping patience</td><td>Setting 10 turns early stopping on</td></tr></tbody></table><h3 id=tuning-advice><a class=header-anchor href=#tuning-advice></a>Tuning advice</h3><ol><li><strong>Fix <code>learning_rate = 0.1</code></strong> first, and search <code>n_estimators</code> and <code>max_depth</code> with <code>GridSearchCV</code> or <code>RandomizedSearchCV</code>.</li><li><strong>Lower <code>learning_rate</code></strong> (to 0.05 or 0.01) while raising <code>n_estimators</code> (500+), and use early stopping (<code>n_iter_no_change</code>).</li><li><strong>Turn on subsampling</strong>: set <code>subsample=0.8</code> or <code>0.5</code>; it usually works together with shrinkage.</li><li><strong>Feature sampling</strong>: for high-dimensional data, try <code>max_features='sqrt'</code>.</li></ol><hr><h2 id=59-pseudocode><a class=header-anchor href=#59-pseudocode></a>5.9 Pseudocode</h2><p><strong>Algorithm: Gradient Tree Boosting (regression)</strong></p><ol><li><strong>Input</strong>: training set $\{(x_i, y_i)\}_{i=1}^n$, loss $L(y, F)$, number of iterations $M$, learning rate $\nu$, tree depth $d$</li><li><strong>Output</strong>: the final model $F_M(x)$</li><li><strong>Initialize</strong>:
+$$F_0(x) \leftarrow \arg\min_\gamma \sum_i L(y_i, \gamma)$$
+(for squared loss, $F_0(x) = \bar{y}$)</li><li><strong>For</strong> $m = 1, 2, \ldots, M$ <strong>do</strong>:<ol><li>Compute the pseudo-residuals:
+$$r_i \leftarrow -\left[\frac{\partial L(y_i, F(x_i))}{\partial F(x_i)}\right]_{F=F_{m-1}}, \quad i = 1,\ldots,n$$</li><li>Fit a regression tree:
+$$h_m(x) \leftarrow \operatorname{TreeFit}\left(\{(x_i, r_i)\}_{i=1}^n;\ d\right)$$
+i.e. fit a depth-$d$ regression tree to $\{(x_i, r_i)\}$ under squared error, producing leaf regions $\{R_{jm}\}_{j=1}^{J_m}$</li><li><strong>For</strong> each leaf $j = 1, \ldots, J_m$ <strong>do</strong>:
+$$\gamma_{jm} \leftarrow \arg\min_\gamma \sum_{x_i \in R_{jm}} L(y_i, F_{m-1}(x_i) + \gamma)$$
+(for squared loss: $\gamma_{jm} = \frac{1}{\lvert R_{jm} \rvert}\sum_{x_i \in R_{jm}} r_i$, the mean in-leaf residual; for other losses see Sections 5.5 and 5.6)</li><li>Update the model:
+$$F_m(x) \leftarrow F_{m-1}(x) + \nu \sum_{j=1}^{J_m} \gamma_{jm} \, \mathbb{I}(x \in R_{jm})$$</li></ol></li><li><strong>Return</strong> $F_M(x)$</li></ol><hr><h2 id=510-a-from-scratch-python-implementation-regression--classification-commented-line-by-line><a class=header-anchor href=#510-a-from-scratch-python-implementation-regression--classification-commented-line-by-line></a>5.10 A from-scratch Python implementation (regression + classification, commented line by line)</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span><span class=lnt>111
+</span><span class=lnt>112
+</span><span class=lnt>113
+</span><span class=lnt>114
+</span><span class=lnt>115
+</span><span class=lnt>116
+</span><span class=lnt>117
+</span><span class=lnt>118
+</span><span class=lnt>119
+</span><span class=lnt>120
+</span><span class=lnt>121
+</span><span class=lnt>122
+</span><span class=lnt>123
+</span><span class=lnt>124
+</span><span class=lnt>125
+</span><span class=lnt>126
+</span><span class=lnt>127
+</span><span class=lnt>128
+</span><span class=lnt>129
+</span><span class=lnt>130
+</span><span class=lnt>131
+</span><span class=lnt>132
+</span><span class=lnt>133
+</span><span class=lnt>134
+</span><span class=lnt>135
+</span><span class=lnt>136
+</span><span class=lnt>137
+</span><span class=lnt>138
+</span><span class=lnt>139
+</span><span class=lnt>140
+</span><span class=lnt>141
+</span><span class=lnt>142
+</span><span class=lnt>143
+</span><span class=lnt>144
+</span><span class=lnt>145
+</span><span class=lnt>146
+</span><span class=lnt>147
+</span><span class=lnt>148
+</span><span class=lnt>149
+</span><span class=lnt>150
+</span><span class=lnt>151
+</span><span class=lnt>152
+</span><span class=lnt>153
+</span><span class=lnt>154
+</span><span class=lnt>155
+</span><span class=lnt>156
+</span><span class=lnt>157
+</span><span class=lnt>158
+</span><span class=lnt>159
+</span><span class=lnt>160
+</span><span class=lnt>161
+</span><span class=lnt>162
+</span><span class=lnt>163
+</span><span class=lnt>164
+</span><span class=lnt>165
+</span><span class=lnt>166
+</span><span class=lnt>167
+</span><span class=lnt>168
+</span><span class=lnt>169
+</span><span class=lnt>170
+</span><span class=lnt>171
+</span><span class=lnt>172
+</span><span class=lnt>173
+</span><span class=lnt>174
+</span><span class=lnt>175
+</span><span class=lnt>176
+</span><span class=lnt>177
+</span><span class=lnt>178
+</span><span class=lnt>179
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>numpy</span> <span class=k>as</span> <span class=nn>np</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.tree</span> <span class=kn>import</span> <span class=n>DecisionTreeRegressor</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.metrics</span> <span class=kn>import</span> <span class=n>mean_squared_error</span><span class=p>,</span> <span class=n>accuracy_score</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># ==================== sigmoid helper ====================</span>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>sigmoid</span><span class=p>(</span><span class=n>x</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;&#34;&#34;Numerically stable sigmoid.&#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=c1># clip the input to keep exp from overflowing, then compute the sigmoid</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>1</span> <span class=o>/</span> <span class=p>(</span><span class=mi>1</span> <span class=o>+</span> <span class=n>np</span><span class=o>.</span><span class=n>exp</span><span class=p>(</span><span class=o>-</span><span class=n>np</span><span class=o>.</span><span class=n>clip</span><span class=p>(</span><span class=n>x</span><span class=p>,</span> <span class=o>-</span><span class=mi>250</span><span class=p>,</span> <span class=mi>250</span><span class=p>)))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># ==================== Regression: Gradient Boosting Regressor ====================</span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>GradientBoostingRegressorScratch</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;&#34;&#34;
+</span></span></span><span class=line><span class=cl><span class=s2>    A simplified Gradient Boosting Regressor (for understanding the mechanics only).
+</span></span></span><span class=line><span class=cl><span class=s2>    Uses squared loss and supports shrinkage (learning rate).
+</span></span></span><span class=line><span class=cl><span class=s2>    &#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>n_estimators</span><span class=o>=</span><span class=mi>100</span><span class=p>,</span> <span class=n>learning_rate</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span> <span class=n>max_depth</span><span class=o>=</span><span class=mi>3</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=c1># total number of trees (boosting iterations)</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>n_estimators</span> <span class=o>=</span> <span class=n>n_estimators</span>
+</span></span><span class=line><span class=cl>        <span class=c1># learning rate (shrinkage): how much of each tree&#39;s contribution to keep</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>learning_rate</span> <span class=o>=</span> <span class=n>learning_rate</span>
+</span></span><span class=line><span class=cl>        <span class=c1># maximum depth of each regression tree</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>max_depth</span> <span class=o>=</span> <span class=n>max_depth</span>
+</span></span><span class=line><span class=cl>        <span class=c1># all weak learners (regression trees)</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>trees</span> <span class=o>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=cl>        <span class=c1># initial prediction (the training mean under squared loss)</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>f0</span> <span class=o>=</span> <span class=kc>None</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>fit</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>X</span><span class=p>,</span> <span class=n>y</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=c1># Step 1: initialize F_0(x) = mean(y)</span>
+</span></span><span class=line><span class=cl>        <span class=c1># under squared loss the best constant prediction is the training mean</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>f0</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>mean</span><span class=p>(</span><span class=n>y</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=c1># fill the current prediction F with the initial value</span>
+</span></span><span class=line><span class=cl>        <span class=n>F</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>full_like</span><span class=p>(</span><span class=n>y</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>f0</span><span class=p>,</span> <span class=n>dtype</span><span class=o>=</span><span class=nb>float</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=c1># Step 2: run boosting, fitting one regression tree to the residuals each round</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=n>m</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>n_estimators</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>            <span class=c1># 2a: compute pseudo-residuals (under squared loss they equal y - F)</span>
+</span></span><span class=line><span class=cl>            <span class=n>residuals</span> <span class=o>=</span> <span class=n>y</span> <span class=o>-</span> <span class=n>F</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=c1># 2b: fit a regression tree to the residuals</span>
+</span></span><span class=line><span class=cl>            <span class=c1># the tree learns &#34;how much the current model is still missing&#34;</span>
+</span></span><span class=line><span class=cl>            <span class=n>tree</span> <span class=o>=</span> <span class=n>DecisionTreeRegressor</span><span class=p>(</span><span class=n>max_depth</span><span class=o>=</span><span class=bp>self</span><span class=o>.</span><span class=n>max_depth</span><span class=p>,</span> <span class=n>random_state</span><span class=o>=</span><span class=n>m</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=n>tree</span><span class=o>.</span><span class=n>fit</span><span class=p>(</span><span class=n>X</span><span class=p>,</span> <span class=n>residuals</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=c1># 2c: get each leaf&#39;s output</span>
+</span></span><span class=line><span class=cl>            <span class=c1># tree.predict returns the leaf output for each sample</span>
+</span></span><span class=line><span class=cl>            <span class=c1># (already the optimal gamma under squared loss)</span>
+</span></span><span class=line><span class=cl>            <span class=n>gamma</span> <span class=o>=</span> <span class=n>tree</span><span class=o>.</span><span class=n>predict</span><span class=p>(</span><span class=n>X</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=c1># 2d: update the model (with shrinkage: each tree contributes only learning_rate of its correction)</span>
+</span></span><span class=line><span class=cl>            <span class=n>F</span> <span class=o>+=</span> <span class=bp>self</span><span class=o>.</span><span class=n>learning_rate</span> <span class=o>*</span> <span class=n>gamma</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=c1># keep the current tree</span>
+</span></span><span class=line><span class=cl>            <span class=bp>self</span><span class=o>.</span><span class=n>trees</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>tree</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=bp>self</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>predict</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>X</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=c1># start from the initial value f0</span>
+</span></span><span class=line><span class=cl>        <span class=n>F</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>full</span><span class=p>(</span><span class=n>X</span><span class=o>.</span><span class=n>shape</span><span class=p>[</span><span class=mi>0</span><span class=p>],</span> <span class=bp>self</span><span class=o>.</span><span class=n>f0</span><span class=p>,</span> <span class=n>dtype</span><span class=o>=</span><span class=nb>float</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=c1># accumulate each tree&#39;s contribution (each scaled by learning_rate)</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=n>tree</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>trees</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=n>F</span> <span class=o>+=</span> <span class=bp>self</span><span class=o>.</span><span class=n>learning_rate</span> <span class=o>*</span> <span class=n>tree</span><span class=o>.</span><span class=n>predict</span><span class=p>(</span><span class=n>X</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>F</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># ==================== Classification: Gradient Boosting Classifier ====================</span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>GradientBoostingClassifierScratch</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;&#34;&#34;
+</span></span></span><span class=line><span class=cl><span class=s2>    A simplified binary Gradient Boosting (log loss).
+</span></span></span><span class=line><span class=cl><span class=s2>    Labels must be y ∈ {0, 1}.
+</span></span></span><span class=line><span class=cl><span class=s2>    &#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>n_estimators</span><span class=o>=</span><span class=mi>100</span><span class=p>,</span> <span class=n>learning_rate</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span> <span class=n>max_depth</span><span class=o>=</span><span class=mi>3</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>n_estimators</span> <span class=o>=</span> <span class=n>n_estimators</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>learning_rate</span> <span class=o>=</span> <span class=n>learning_rate</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>max_depth</span> <span class=o>=</span> <span class=n>max_depth</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>trees</span> <span class=o>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=cl>        <span class=c1># initialize log-odds = 0 → probability = sigmoid(0) = 0.5</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>f0</span> <span class=o>=</span> <span class=mf>0.0</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>fit</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>X</span><span class=p>,</span> <span class=n>y</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=c1># y should be {0, 1}</span>
+</span></span><span class=line><span class=cl>        <span class=c1># initialize the model&#39;s log-odds output to 0</span>
+</span></span><span class=line><span class=cl>        <span class=n>F</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>full</span><span class=p>(</span><span class=n>X</span><span class=o>.</span><span class=n>shape</span><span class=p>[</span><span class=mi>0</span><span class=p>],</span> <span class=bp>self</span><span class=o>.</span><span class=n>f0</span><span class=p>,</span> <span class=n>dtype</span><span class=o>=</span><span class=nb>float</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=n>m</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>n_estimators</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>            <span class=c1># current probability prediction p = sigmoid(F)</span>
+</span></span><span class=line><span class=cl>            <span class=n>p</span> <span class=o>=</span> <span class=n>sigmoid</span><span class=p>(</span><span class=n>F</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=c1># pseudo-residual = y - p (the negative gradient of log loss)</span>
+</span></span><span class=line><span class=cl>            <span class=c1># when y=1 and p≈0, the residual ≈1 (log-odds needs a big boost)</span>
+</span></span><span class=line><span class=cl>            <span class=c1># when y=1 and p≈1, the residual ≈0 (already right, no adjustment needed)</span>
+</span></span><span class=line><span class=cl>            <span class=n>residuals</span> <span class=o>=</span> <span class=n>y</span> <span class=o>-</span> <span class=n>p</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=c1># train a regression tree on the pseudo-residuals</span>
+</span></span><span class=line><span class=cl>            <span class=c1># (note: even for classification, this is still a regression tree!)</span>
+</span></span><span class=line><span class=cl>            <span class=n>tree</span> <span class=o>=</span> <span class=n>DecisionTreeRegressor</span><span class=p>(</span><span class=n>max_depth</span><span class=o>=</span><span class=bp>self</span><span class=o>.</span><span class=n>max_depth</span><span class=p>,</span> <span class=n>random_state</span><span class=o>=</span><span class=n>m</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=n>tree</span><span class=o>.</span><span class=n>fit</span><span class=p>(</span><span class=n>X</span><span class=p>,</span> <span class=n>residuals</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=c1># simplification: use the tree&#39;s predictions directly (mean pseudo-residual in the leaf) as gamma.</span>
+</span></span><span class=line><span class=cl>            <span class=c1># sklearn and others take one Newton step per leaf:</span>
+</span></span><span class=line><span class=cl>            <span class=c1>#   gamma_j = sum(y - p) / sum(p * (1 - p))  (see Section 5.6)</span>
+</span></span><span class=line><span class=cl>            <span class=c1># also, F_0 = 0 here (so p = 0.5), whereas sklearn initializes with the log-odds of the positive rate.</span>
+</span></span><span class=line><span class=cl>            <span class=n>gamma</span> <span class=o>=</span> <span class=n>tree</span><span class=o>.</span><span class=n>predict</span><span class=p>(</span><span class=n>X</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=c1># update the log-odds</span>
+</span></span><span class=line><span class=cl>            <span class=n>F</span> <span class=o>+=</span> <span class=bp>self</span><span class=o>.</span><span class=n>learning_rate</span> <span class=o>*</span> <span class=n>gamma</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=bp>self</span><span class=o>.</span><span class=n>trees</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>tree</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=bp>self</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>predict_proba</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>X</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=c1># start from the initial log-odds</span>
+</span></span><span class=line><span class=cl>        <span class=n>F</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>full</span><span class=p>(</span><span class=n>X</span><span class=o>.</span><span class=n>shape</span><span class=p>[</span><span class=mi>0</span><span class=p>],</span> <span class=bp>self</span><span class=o>.</span><span class=n>f0</span><span class=p>,</span> <span class=n>dtype</span><span class=o>=</span><span class=nb>float</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=c1># accumulate each tree&#39;s contribution</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=n>tree</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>trees</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=n>F</span> <span class=o>+=</span> <span class=bp>self</span><span class=o>.</span><span class=n>learning_rate</span> <span class=o>*</span> <span class=n>tree</span><span class=o>.</span><span class=n>predict</span><span class=p>(</span><span class=n>X</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=c1># convert log-odds to probabilities</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>sigmoid</span><span class=p>(</span><span class=n>F</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>predict</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>X</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=c1># probability &gt;= 0.5 → positive class (1), otherwise negative (0)</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>predict_proba</span><span class=p>(</span><span class=n>X</span><span class=p>)</span> <span class=o>&gt;=</span> <span class=mf>0.5</span><span class=p>)</span><span class=o>.</span><span class=n>astype</span><span class=p>(</span><span class=nb>int</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># ==================== Example usage: regression ====================</span>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s2>&#34;__main__&#34;</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=kn>from</span> <span class=nn>sklearn.datasets</span> <span class=kn>import</span> <span class=n>make_friedman1</span><span class=p>,</span> <span class=n>make_classification</span>
+</span></span><span class=line><span class=cl>    <span class=kn>from</span> <span class=nn>sklearn.model_selection</span> <span class=kn>import</span> <span class=n>train_test_split</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1># ---------- regression example ----------</span>
+</span></span><span class=line><span class=cl>    <span class=c1># generate synthetic Friedman #1 regression data (with noise)</span>
+</span></span><span class=line><span class=cl>    <span class=n>X</span><span class=p>,</span> <span class=n>y</span> <span class=o>=</span> <span class=n>make_friedman1</span><span class=p>(</span><span class=n>n_samples</span><span class=o>=</span><span class=mi>1200</span><span class=p>,</span> <span class=n>random_state</span><span class=o>=</span><span class=mi>0</span><span class=p>,</span> <span class=n>noise</span><span class=o>=</span><span class=mf>1.0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>X_train</span><span class=p>,</span> <span class=n>X_test</span> <span class=o>=</span> <span class=n>X</span><span class=p>[:</span><span class=mi>200</span><span class=p>],</span> <span class=n>X</span><span class=p>[</span><span class=mi>200</span><span class=p>:]</span>
+</span></span><span class=line><span class=cl>    <span class=n>y_train</span><span class=p>,</span> <span class=n>y_test</span> <span class=o>=</span> <span class=n>y</span><span class=p>[:</span><span class=mi>200</span><span class=p>],</span> <span class=n>y</span><span class=p>[</span><span class=mi>200</span><span class=p>:]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1># train the custom model</span>
+</span></span><span class=line><span class=cl>    <span class=n>model</span> <span class=o>=</span> <span class=n>GradientBoostingRegressorScratch</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=n>n_estimators</span><span class=o>=</span><span class=mi>100</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=n>learning_rate</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=n>max_depth</span><span class=o>=</span><span class=mi>3</span>
+</span></span><span class=line><span class=cl>    <span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>model</span><span class=o>.</span><span class=n>fit</span><span class=p>(</span><span class=n>X_train</span><span class=p>,</span> <span class=n>y_train</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1># evaluate</span>
+</span></span><span class=line><span class=cl>    <span class=n>y_pred</span> <span class=o>=</span> <span class=n>model</span><span class=o>.</span><span class=n>predict</span><span class=p>(</span><span class=n>X_test</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>mse</span> <span class=o>=</span> <span class=n>mean_squared_error</span><span class=p>(</span><span class=n>y_test</span><span class=p>,</span> <span class=n>y_pred</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;Custom GB Regressor MSE: </span><span class=si>{</span><span class=n>mse</span><span class=si>:</span><span class=s2>.4f</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1># ---------- compare against sklearn ----------</span>
+</span></span><span class=line><span class=cl>    <span class=kn>from</span> <span class=nn>sklearn.ensemble</span> <span class=kn>import</span> <span class=n>GradientBoostingRegressor</span>
+</span></span><span class=line><span class=cl>    <span class=n>sklearn_model</span> <span class=o>=</span> <span class=n>GradientBoostingRegressor</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=n>n_estimators</span><span class=o>=</span><span class=mi>100</span><span class=p>,</span> <span class=n>learning_rate</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span> <span class=n>max_depth</span><span class=o>=</span><span class=mi>3</span><span class=p>,</span> <span class=n>random_state</span><span class=o>=</span><span class=mi>0</span>
+</span></span><span class=line><span class=cl>    <span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>sklearn_model</span><span class=o>.</span><span class=n>fit</span><span class=p>(</span><span class=n>X_train</span><span class=p>,</span> <span class=n>y_train</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>y_pred_sk</span> <span class=o>=</span> <span class=n>sklearn_model</span><span class=o>.</span><span class=n>predict</span><span class=p>(</span><span class=n>X_test</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>mse_sk</span> <span class=o>=</span> <span class=n>mean_squared_error</span><span class=p>(</span><span class=n>y_test</span><span class=p>,</span> <span class=n>y_pred_sk</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;Sklearn GB Regressor MSE: </span><span class=si>{</span><span class=n>mse_sk</span><span class=si>:</span><span class=s2>.4f</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1># ---------- classification example ----------</span>
+</span></span><span class=line><span class=cl>    <span class=n>Xc</span><span class=p>,</span> <span class=n>yc</span> <span class=o>=</span> <span class=n>make_classification</span><span class=p>(</span><span class=n>n_samples</span><span class=o>=</span><span class=mi>1000</span><span class=p>,</span> <span class=n>n_features</span><span class=o>=</span><span class=mi>20</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                                  <span class=n>n_informative</span><span class=o>=</span><span class=mi>15</span><span class=p>,</span> <span class=n>random_state</span><span class=o>=</span><span class=mi>42</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>Xc_train</span><span class=p>,</span> <span class=n>Xc_test</span><span class=p>,</span> <span class=n>yc_train</span><span class=p>,</span> <span class=n>yc_test</span> <span class=o>=</span> <span class=n>train_test_split</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=n>Xc</span><span class=p>,</span> <span class=n>yc</span><span class=p>,</span> <span class=n>test_size</span><span class=o>=</span><span class=mf>0.3</span><span class=p>,</span> <span class=n>random_state</span><span class=o>=</span><span class=mi>42</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>clf</span> <span class=o>=</span> <span class=n>GradientBoostingClassifierScratch</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=n>n_estimators</span><span class=o>=</span><span class=mi>50</span><span class=p>,</span> <span class=n>learning_rate</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span> <span class=n>max_depth</span><span class=o>=</span><span class=mi>3</span>
+</span></span><span class=line><span class=cl>    <span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>clf</span><span class=o>.</span><span class=n>fit</span><span class=p>(</span><span class=n>Xc_train</span><span class=p>,</span> <span class=n>yc_train</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>yc_pred</span> <span class=o>=</span> <span class=n>clf</span><span class=o>.</span><span class=n>predict</span><span class=p>(</span><span class=n>Xc_test</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>acc</span> <span class=o>=</span> <span class=n>accuracy_score</span><span class=p>(</span><span class=n>yc_test</span><span class=p>,</span> <span class=n>yc_pred</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;Custom GB Classifier Accuracy: </span><span class=si>{</span><span class=n>acc</span><span class=si>:</span><span class=s2>.4f</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><hr><h2 id=511-cross-checking-against-sklearn><a class=header-anchor href=#511-cross-checking-against-sklearn></a>5.11 Cross-checking against sklearn</h2><p>The code below systematically compares the custom implementations with sklearn&rsquo;s <code>GradientBoostingRegressor</code> and <code>GradientBoostingClassifier</code>.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span><span class=lnt>79
+</span><span class=lnt>80
+</span><span class=lnt>81
+</span><span class=lnt>82
+</span><span class=lnt>83
+</span><span class=lnt>84
+</span><span class=lnt>85
+</span><span class=lnt>86
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>numpy</span> <span class=k>as</span> <span class=nn>np</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.datasets</span> <span class=kn>import</span> <span class=n>make_friedman1</span><span class=p>,</span> <span class=n>make_classification</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.model_selection</span> <span class=kn>import</span> <span class=n>train_test_split</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.ensemble</span> <span class=kn>import</span> <span class=n>GradientBoostingRegressor</span><span class=p>,</span> <span class=n>GradientBoostingClassifier</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sklearn.metrics</span> <span class=kn>import</span> <span class=n>mean_squared_error</span><span class=p>,</span> <span class=n>accuracy_score</span><span class=p>,</span> <span class=n>r2_score</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>matplotlib.pyplot</span> <span class=k>as</span> <span class=nn>plt</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># ==================== Regression comparison ====================</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;=&#34;</span> <span class=o>*</span> <span class=mi>60</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;Regression: side-by-side comparison&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;=&#34;</span> <span class=o>*</span> <span class=mi>60</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># generate Friedman #1 data (a classic regression benchmark)</span>
+</span></span><span class=line><span class=cl><span class=n>X</span><span class=p>,</span> <span class=n>y</span> <span class=o>=</span> <span class=n>make_friedman1</span><span class=p>(</span><span class=n>n_samples</span><span class=o>=</span><span class=mi>1200</span><span class=p>,</span> <span class=n>random_state</span><span class=o>=</span><span class=mi>42</span><span class=p>,</span> <span class=n>noise</span><span class=o>=</span><span class=mf>1.0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>X_train</span><span class=p>,</span> <span class=n>X_test</span><span class=p>,</span> <span class=n>y_train</span><span class=p>,</span> <span class=n>y_test</span> <span class=o>=</span> <span class=n>train_test_split</span><span class=p>(</span><span class=n>X</span><span class=p>,</span> <span class=n>y</span><span class=p>,</span> <span class=n>test_size</span><span class=o>=</span><span class=mf>0.7</span><span class=p>,</span> <span class=n>random_state</span><span class=o>=</span><span class=mi>42</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># custom implementation (assuming GradientBoostingRegressorScratch is already imported)</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>__main__</span> <span class=kn>import</span> <span class=n>GradientBoostingRegressorScratch</span>
+</span></span><span class=line><span class=cl><span class=n>custom_reg</span> <span class=o>=</span> <span class=n>GradientBoostingRegressorScratch</span><span class=p>(</span><span class=n>n_estimators</span><span class=o>=</span><span class=mi>100</span><span class=p>,</span> <span class=n>learning_rate</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span> <span class=n>max_depth</span><span class=o>=</span><span class=mi>3</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>custom_reg</span><span class=o>.</span><span class=n>fit</span><span class=p>(</span><span class=n>X_train</span><span class=p>,</span> <span class=n>y_train</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>y_pred_custom</span> <span class=o>=</span> <span class=n>custom_reg</span><span class=o>.</span><span class=n>predict</span><span class=p>(</span><span class=n>X_test</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># sklearn implementation</span>
+</span></span><span class=line><span class=cl><span class=n>sklearn_reg</span> <span class=o>=</span> <span class=n>GradientBoostingRegressor</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>n_estimators</span><span class=o>=</span><span class=mi>100</span><span class=p>,</span> <span class=n>learning_rate</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span> <span class=n>max_depth</span><span class=o>=</span><span class=mi>3</span><span class=p>,</span> <span class=n>random_state</span><span class=o>=</span><span class=mi>42</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>sklearn_reg</span><span class=o>.</span><span class=n>fit</span><span class=p>(</span><span class=n>X_train</span><span class=p>,</span> <span class=n>y_train</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>y_pred_sklearn</span> <span class=o>=</span> <span class=n>sklearn_reg</span><span class=o>.</span><span class=n>predict</span><span class=p>(</span><span class=n>X_test</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># compare metrics</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;Custom  MSE: </span><span class=si>{</span><span class=n>mean_squared_error</span><span class=p>(</span><span class=n>y_test</span><span class=p>,</span> <span class=n>y_pred_custom</span><span class=p>)</span><span class=si>:</span><span class=s2>.4f</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;Sklearn MSE: </span><span class=si>{</span><span class=n>mean_squared_error</span><span class=p>(</span><span class=n>y_test</span><span class=p>,</span> <span class=n>y_pred_sklearn</span><span class=p>)</span><span class=si>:</span><span class=s2>.4f</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;Custom  R²:  </span><span class=si>{</span><span class=n>r2_score</span><span class=p>(</span><span class=n>y_test</span><span class=p>,</span> <span class=n>y_pred_custom</span><span class=p>)</span><span class=si>:</span><span class=s2>.4f</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;Sklearn R²:  </span><span class=si>{</span><span class=n>r2_score</span><span class=p>(</span><span class=n>y_test</span><span class=p>,</span> <span class=n>y_pred_sklearn</span><span class=p>)</span><span class=si>:</span><span class=s2>.4f</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># correlation of predictions (do the two learn the same patterns?)</span>
+</span></span><span class=line><span class=cl><span class=n>correlation</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>corrcoef</span><span class=p>(</span><span class=n>y_pred_custom</span><span class=p>,</span> <span class=n>y_pred_sklearn</span><span class=p>)[</span><span class=mi>0</span><span class=p>,</span> <span class=mi>1</span><span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;Prediction correlation: </span><span class=si>{</span><span class=n>correlation</span><span class=si>:</span><span class=s2>.4f</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># ==================== Classification comparison ====================</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;</span><span class=se>\n</span><span class=s2>&#34;</span> <span class=o>+</span> <span class=s2>&#34;=&#34;</span> <span class=o>*</span> <span class=mi>60</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;Classification: side-by-side comparison&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;=&#34;</span> <span class=o>*</span> <span class=mi>60</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>Xc</span><span class=p>,</span> <span class=n>yc</span> <span class=o>=</span> <span class=n>make_classification</span><span class=p>(</span><span class=n>n_samples</span><span class=o>=</span><span class=mi>1000</span><span class=p>,</span> <span class=n>n_features</span><span class=o>=</span><span class=mi>20</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                              <span class=n>n_informative</span><span class=o>=</span><span class=mi>15</span><span class=p>,</span> <span class=n>random_state</span><span class=o>=</span><span class=mi>42</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>Xc_train</span><span class=p>,</span> <span class=n>Xc_test</span><span class=p>,</span> <span class=n>yc_train</span><span class=p>,</span> <span class=n>yc_test</span> <span class=o>=</span> <span class=n>train_test_split</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>Xc</span><span class=p>,</span> <span class=n>yc</span><span class=p>,</span> <span class=n>test_size</span><span class=o>=</span><span class=mf>0.3</span><span class=p>,</span> <span class=n>random_state</span><span class=o>=</span><span class=mi>42</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># custom implementation</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>__main__</span> <span class=kn>import</span> <span class=n>GradientBoostingClassifierScratch</span>
+</span></span><span class=line><span class=cl><span class=n>custom_clf</span> <span class=o>=</span> <span class=n>GradientBoostingClassifierScratch</span><span class=p>(</span><span class=n>n_estimators</span><span class=o>=</span><span class=mi>50</span><span class=p>,</span> <span class=n>learning_rate</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span> <span class=n>max_depth</span><span class=o>=</span><span class=mi>3</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>custom_clf</span><span class=o>.</span><span class=n>fit</span><span class=p>(</span><span class=n>Xc_train</span><span class=p>,</span> <span class=n>yc_train</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>yc_pred_custom</span> <span class=o>=</span> <span class=n>custom_clf</span><span class=o>.</span><span class=n>predict</span><span class=p>(</span><span class=n>Xc_test</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># sklearn implementation</span>
+</span></span><span class=line><span class=cl><span class=n>sklearn_clf</span> <span class=o>=</span> <span class=n>GradientBoostingClassifier</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>n_estimators</span><span class=o>=</span><span class=mi>50</span><span class=p>,</span> <span class=n>learning_rate</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span> <span class=n>max_depth</span><span class=o>=</span><span class=mi>3</span><span class=p>,</span> <span class=n>random_state</span><span class=o>=</span><span class=mi>42</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>sklearn_clf</span><span class=o>.</span><span class=n>fit</span><span class=p>(</span><span class=n>Xc_train</span><span class=p>,</span> <span class=n>yc_train</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>yc_pred_sklearn</span> <span class=o>=</span> <span class=n>sklearn_clf</span><span class=o>.</span><span class=n>predict</span><span class=p>(</span><span class=n>Xc_test</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;Custom  Accuracy: </span><span class=si>{</span><span class=n>accuracy_score</span><span class=p>(</span><span class=n>yc_test</span><span class=p>,</span> <span class=n>yc_pred_custom</span><span class=p>)</span><span class=si>:</span><span class=s2>.4f</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;Sklearn Accuracy: </span><span class=si>{</span><span class=n>accuracy_score</span><span class=p>(</span><span class=n>yc_test</span><span class=p>,</span> <span class=n>yc_pred_sklearn</span><span class=p>)</span><span class=si>:</span><span class=s2>.4f</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># ==================== Visualizing training (regression) ====================</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;</span><span class=se>\n</span><span class=s2>&#34;</span> <span class=o>+</span> <span class=s2>&#34;=&#34;</span> <span class=o>*</span> <span class=mi>60</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;Training analysis: MSE at different iteration counts&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;=&#34;</span> <span class=o>*</span> <span class=mi>60</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>for</span> <span class=n>n_est</span> <span class=ow>in</span> <span class=p>[</span><span class=mi>10</span><span class=p>,</span> <span class=mi>25</span><span class=p>,</span> <span class=mi>50</span><span class=p>,</span> <span class=mi>100</span><span class=p>]:</span>
+</span></span><span class=line><span class=cl>    <span class=n>custom_reg</span> <span class=o>=</span> <span class=n>GradientBoostingRegressorScratch</span><span class=p>(</span><span class=n>n_estimators</span><span class=o>=</span><span class=n>n_est</span><span class=p>,</span> <span class=n>learning_rate</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span> <span class=n>max_depth</span><span class=o>=</span><span class=mi>3</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>custom_reg</span><span class=o>.</span><span class=n>fit</span><span class=p>(</span><span class=n>X_train</span><span class=p>,</span> <span class=n>y_train</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>pred</span> <span class=o>=</span> <span class=n>custom_reg</span><span class=o>.</span><span class=n>predict</span><span class=p>(</span><span class=n>X_test</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>mse</span> <span class=o>=</span> <span class=n>mean_squared_error</span><span class=p>(</span><span class=n>y_test</span><span class=p>,</span> <span class=n>pred</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;n_estimators=</span><span class=si>{</span><span class=n>n_est</span><span class=si>:</span><span class=s2>3d</span><span class=si>}</span><span class=s2> → Test MSE: </span><span class=si>{</span><span class=n>mse</span><span class=si>:</span><span class=s2>.4f</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;</span><span class=se>\n</span><span class=s2>Notes:&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;1. Regression (squared loss): both use the in-leaf mean residual as the leaf value,&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;   so the gap comes mainly from splitting details (criterion implementation, feature&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;   traversal order, random seed); the two predictions are highly correlated.&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;2. Classification: sklearn initializes with the log-odds of the positive rate and takes&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;   one Newton step per leaf; the custom version starts from F_0 = 0 and uses the mean&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;   residual directly, so the results differ.&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;3. Hence the two nearly agree on regression but can differ noticeably on classification.&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;4. In production, use sklearn or XGBoost/LightGBM/CatBoost directly.&#34;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><hr><h2 id=512-model-interpretation-relative-importance-and-partial-dependence><a class=header-anchor href=#512-model-interpretation-relative-importance-and-partial-dependence></a>5.12 Model interpretation: relative importance and partial dependence</h2><p>Along with GBM, Friedman (2001) gave two tools for interpreting tree ensembles (ESL §10.13) that are still in wide use.</p><p><strong>Relative importance</strong>: for a single tree $T$ with $J$ leaves ($J-1$ internal nodes), the importance of feature $X_\ell$ is defined as</p>$$\mathcal{I}_\ell^2(T) = \sum_{t=1}^{J-1} \hat{\imath}_t^2 \, \mathbb{I}\left(v(t) = \ell\right)$$<p>where $v(t)$ is the splitting feature used at internal node $t$ and $\hat{\imath}_t^2$ is the squared-error reduction from that split. Averaging over $M$ trees gives the ensemble&rsquo;s importance, $\mathcal{I}_\ell^2 = \frac{1}{M}\sum_{m=1}^{M} \mathcal{I}_\ell^2(T_m)$. sklearn&rsquo;s <code>feature_importances_</code> is this kind of impurity-decrease importance (normalized to sum to 1). Note that sklearn&rsquo;s docs warn this measure favors high-cardinality features and is computed on the training set; when in doubt, compute permutation importance on a validation set with <code>sklearn.inspection.permutation_importance</code>.</p><p><strong>Partial dependence</strong>: split the features into a subset of interest $X_S$ and the rest $X_C$, and define</p>$$\bar{f}_S(x_S) = \frac{1}{n} \sum_{i=1}^{n} F\left(x_S, x_{iC}\right)$$<p>that is, replace every training sample&rsquo;s $X_S$ with $x_S$, leave the other features alone, and average the model&rsquo;s predictions. It describes how the model output moves with $x_S$ once the other features are averaged out. In sklearn, plot it with <code>sklearn.inspection.PartialDependenceDisplay.from_estimator</code>. When $X_S$ and $X_C$ are strongly correlated, this substitution produces feature combinations that don&rsquo;t occur in reality, so read the result with care.</p><hr><h2 id=references><a class=header-anchor href=#references></a>References</h2><h2 id=core-references-for-chapter-4-adaboost><a class=header-anchor href=#core-references-for-chapter-4-adaboost></a>Core references for Chapter 4 (AdaBoost)</h2><ol><li><strong>Freund, Y. & Schapire, R. E. (1997)</strong>. &ldquo;A Decision-Theoretic Generalization of On-Line Learning and an Application to Boosting.&rdquo; <em>Journal of Computer and System Sciences</em>, 55(1), 119-139.</li><li><strong>Freund, Y. & Schapire, R. E. (1996)</strong>. &ldquo;Experiments with a New Boosting Algorithm.&rdquo; <em>ICML</em>.</li><li><strong>Friedman, J., Hastie, T. & Tibshirani, R. (2000)</strong>. &ldquo;Additive Logistic Regression: A Statistical View of Boosting.&rdquo; <em>The Annals of Statistics</em>, 28(2), 337-407.</li><li><strong>Schapire, R. E., Freund, Y., Bartlett, P. & Lee, W. S. (1998)</strong>. &ldquo;Boosting the Margin: A New Explanation for the Effectiveness of Voting Methods.&rdquo; <em>The Annals of Statistics</em>, 26(5), 1651-1686.</li><li><strong>Zhu, J., Zou, H., Rosset, S. & Hastie, T. (2009)</strong>. &ldquo;Multi-class AdaBoost.&rdquo; <em>Statistics and Its Interface</em>, 2(3), 349-360. (2006 technical report version)</li><li><strong>Drucker, H. (1997)</strong>. &ldquo;Improving Regressors using Boosting Techniques.&rdquo; <em>ICML</em>, 107-114.</li><li><strong>Wyner, A. J. (2003)</strong>. &ldquo;On Boosting and the Exponential Loss.&rdquo; <em>Proceedings of the Ninth International Workshop on Artificial Intelligence and Statistics (AISTATS 2003)</em>, 323-329.</li><li><strong>Schapire, R. E. & Singer, Y. (1999)</strong>. &ldquo;Improved Boosting Algorithms Using Confidence-rated Predictions.&rdquo; <em>Machine Learning</em>, 37(3), 297-336.</li><li><strong>Breiman, L. (1999)</strong>. &ldquo;Prediction Games and Arcing Algorithms.&rdquo; <em>Neural Computation</em>, 11(7), 1493-1517.</li><li><strong>Reyzin, L. & Schapire, R. E. (2006)</strong>. &ldquo;How Boosting the Margin Can Also Boost Classifier Complexity.&rdquo; <em>Proceedings of ICML 2006</em>.</li><li><strong>Long, P. M. & Servedio, R. A. (2010)</strong>. &ldquo;Random Classification Noise Defeats All Convex Potential Boosters.&rdquo; <em>Machine Learning</em>, 78(3), 287-304.</li><li><strong>Freund, Y. (2009)</strong>. &ldquo;A More Robust Boosting Algorithm.&rdquo; arXiv:0905.2138.</li><li><strong>Schapire, R. E. (2013)</strong>. &ldquo;Explaining AdaBoost.&rdquo; In <em>Empirical Inference</em>, Springer, 37-52.</li><li>Li, H. (2019). <em>Statistical Learning Methods</em> (2nd ed.). Tsinghua University Press. Ch. 8.</li></ol><h2 id=core-references-for-chapter-5-gradient-boosting><a class=header-anchor href=#core-references-for-chapter-5-gradient-boosting></a>Core references for Chapter 5 (Gradient Boosting)</h2><ol start=15><li><strong>Friedman, J. H. (2001)</strong>. &ldquo;Greedy Function Approximation: A Gradient Boosting Machine.&rdquo; <em>The Annals of Statistics</em>, 29(5), 1189-1232.</li><li><strong>Friedman, J. H. (2002)</strong>. &ldquo;Stochastic Gradient Boosting.&rdquo; <em>Computational Statistics & Data Analysis</em>, 38(4), 367-378.</li><li><strong>Hastie, T., Tibshirani, R. & Friedman, J. (2009)</strong>. <em>The Elements of Statistical Learning</em> (2nd ed.). Springer. Chapter 10.</li><li><strong>Bühlmann, P. & Hothorn, T. (2007)</strong>. &ldquo;Boosting Algorithms: Regularization, Prediction and Model Fitting.&rdquo; <em>Statistical Science</em>, 22(4), 477-505.</li><li><strong>scikit-learn documentation</strong>: API reference for <code>GradientBoostingRegressor</code>, <code>GradientBoostingClassifier</code>, <code>AdaBoostClassifier</code> and <code>AdaBoostRegressor</code> (version 1.9).</li></ol><hr><blockquote><p>Generated: 2026-06-30.
+Role: classic algorithms writer.</p></blockquote><p><a href=/en/boosting-overview/>Series overview</a></p></div><footer class=article-footer><blockquote class=article-copyright><p><strong><span class="icon-user icon"></span>Author: </strong>Jingmengzhiyue</p><p><strong><span class="icon-link icon"></span>Permalink: </strong><a href=https://www.jingmengzhiyue.tech/en/boosting-gradient-boosting/>https://www.jingmengzhiyue.tech/en/boosting-gradient-boosting/</a></p><p><strong><span class="icon-pencil icon"></span>Title: </strong>Gradient Boosting Machine</p><p><strong><span class="icon-calendar icon"></span>Published: </strong>2025-11-24 09:00:00</p><p><strong><span class="icon-copyright icon"></span>License: </strong>All articles on this blog are licensed under the <a href=https://creativecommons.org/licenses/by/4.0/deed.zh rel="noopener nofollow noreferrer" target=_blank><span class=icon-creative-commons></span>BY</a> license agreement unless otherwise stated. Please indicate the source when reprinting!</p><span class="icon-creative-commons article-copyright-bg"></span></blockquote><ul class=article-category-list><li class=article-tag-list-item data-aos=zoom-in><a class=article-category-link href=/en/categories/machine-learning/ data-aos=zoom-in>Machine Learning</a></li></ul><ul class=article-tag-list itemprop=keywords><li class=article-tag-list-item data-aos=zoom-in><a class=article-tag-list-link href=/en/tags/machine-learning/ rel=tag>Machine Learning</a></li></ul></footer></div><nav id=article-nav aria-label="Article navigation" data-aos=fade-up><div class="article-nav-link-wrap left"><img data-src=/img/29.jpg data-sizes=auto alt="AdaBoost (Adaptive Boosting)" class=lazyload><a href=/en/boosting-adaboost/ aria-label="Prev:AdaBoost (Adaptive Boosting)" title="Prev:AdaBoost (Adaptive Boosting)"></a><div class=article-nav-caption>Prev</div><h3 class=article-nav-title>AdaBoost (Adaptive Boosting)</h3></div><div class="article-nav-link-wrap right"><img data-src=/img/24.jpg data-sizes=auto alt=XGBoost class=lazyload><a href=/en/boosting-xgboost/ aria-label=Next:XGBoost title=Next:XGBoost></a><div class=article-nav-caption>Next</div><h3 class=article-nav-title>XGBoost</h3></div></nav></article></section></div><footer id=footer aria-label="Site footer"><div style=width:100%;overflow:hidden><div class=footer-line></div></div><div id=footer-info><div><span class=icon-copyright></span>2023-2026<span class="footer-info-sep rotate"></span>Jingmengzhiyue</div><div>Powered by&nbsp;<a href=https://gohugo.io/ target=_blank rel="noopener nofollow noreferrer">Hugo</a>&nbsp;Theme.<a href=https://github.com/D-Sketon/hugo-theme-reimu target=_blank rel="noopener nofollow noreferrer">Reimu</a></div><div><span class=icon-brush>&nbsp;312.2k</span>
+&nbsp;|&nbsp;
+<span class=icon-coffee>&nbsp;25:08</span></div><div><span class=icon-eye></span>
+<span id=busuanzi_container_site_pv>Number of visits&nbsp;<span id=busuanzi_value_site_pv></span></span>
+&nbsp;|&nbsp;
+<span class=icon-user></span>
+<span id=busuanzi_container_site_uv>Number of visitors&nbsp;<span id=busuanzi_value_site_uv></span></span></div></div></footer><div class=sidebar-top><div class="sidebar-top-taichi rotate"></div><div class=arrow-up></div></div><div id=mask class=hide></div></div><nav id=mobile-nav aria-label="Mobile navigation"><div class=sidebar-wrap><div class=sidebar-toc-sidebar><h3 class=toc-title>Contents</h3><div class="sidebar-toc-wrapper toc-div-class"><nav id=TableOfContents><ul><li><a href=#51-gradient-descent-in-function-space-friedman-2001>5.1 Gradient descent in function space (Friedman 2001)</a></li><li><a href=#52-pseudo-residuals>5.2 Pseudo-residuals</a><ul><li><a href=#where-the-name-comes-from>Where the name comes from</a></li></ul></li><li><a href=#53-the-taylor-expansion-view-first-order-gradient-descent>5.3 The Taylor-expansion view (first-order gradient descent)</a></li><li><a href=#54-a-unified-framework-for-any-differentiable-loss>5.4 A unified framework for any differentiable loss</a></li><li><a href=#55-the-regression-case-squared-loss-in-full>5.5 The regression case (squared loss) in full</a><ul><li><a href=#computing-the-pseudo-residual>Computing the pseudo-residual</a></li><li><a href=#the-full-regression-procedure>The full regression procedure</a></li><li><a href=#other-regression-losses-lad-huber-and-quantile>Other regression losses: LAD, Huber and quantile</a></li></ul></li><li><a href=#56-the-classification-case-log-loss>5.6 The classification case (log loss)</a><ul><li><a href=#computing-the-pseudo-residual-1>Computing the pseudo-residual</a></li><li><a href=#initial-value-and-leaf-values-newton-step>Initial value and leaf values (Newton step)</a></li><li><a href=#the-multiclass-case--classes>The multiclass case ($K$ classes)</a></li><li><a href=#the-multiclass-procedure>The multiclass procedure</a></li></ul></li><li><a href=#57-regularization-shrinkage-subsampling-column-sampling-tree-complexity>5.7 Regularization: shrinkage, subsampling, column sampling, tree complexity</a><ul><li><a href=#shrinkage-learning-rate>Shrinkage (learning rate)</a></li><li><a href=#subsampling-stochastic-gradient-boosting>Subsampling (stochastic gradient boosting)</a></li><li><a href=#column-subsampling>Column subsampling</a></li><li><a href=#controlling-tree-complexity>Controlling tree complexity</a></li><li><a href=#summary-of-regularization-techniques>Summary of regularization techniques</a></li></ul></li><li><a href=#58-the-sklearn-api-and-key-parameters>5.8 The sklearn API and key parameters</a><ul><li><a href=#gradientboostingregressor>GradientBoostingRegressor</a></li><li><a href=#gradientboostingclassifier>GradientBoostingClassifier</a></li><li><a href=#key-parameters>Key parameters</a></li><li><a href=#tuning-advice>Tuning advice</a></li></ul></li><li><a href=#59-pseudocode>5.9 Pseudocode</a></li><li><a href=#510-a-from-scratch-python-implementation-regression--classification-commented-line-by-line>5.10 A from-scratch Python implementation (regression + classification, commented line by line)</a></li><li><a href=#511-cross-checking-against-sklearn>5.11 Cross-checking against sklearn</a></li><li><a href=#512-model-interpretation-relative-importance-and-partial-dependence>5.12 Model interpretation: relative importance and partial dependence</a></li><li><a href=#references>References</a></li><li><a href=#core-references-for-chapter-4-adaboost>Core references for Chapter 4 (AdaBoost)</a></li><li><a href=#core-references-for-chapter-5-gradient-boosting>Core references for Chapter 5 (Gradient Boosting)</a></li></ul></nav></div></div><div class="sidebar-common-sidebar hidden"><div class=sidebar-author><img data-src=/avatar/profile_picture.png data-sizes=auto alt=Jingmengzhiyue class=lazyload><div class=sidebar-author-name>Jingmengzhiyue</div><div class=sidebar-description>热爱可抵万难</div></div><div class=sidebar-state><div class=sidebar-state-article><div>Posts</div><div class=sidebar-state-number>74</div></div><a class=sidebar-state-category href=/en/categories/ aria-label=sidebar-state-category-link><div>Categories</div><div class=sidebar-state-number>9</div></a><a class=sidebar-state-tag href=/en/tags/ aria-label=sidebar-state-tag-link><div>Tags</div><div class=sidebar-state-number>27</div></a></div><div class=sidebar-social><div class="icon-github sidebar-social-icon"><a href=https://github.com/jingmengzhiyue itemprop=url target=_blank aria-label=github rel="noopener nofollow noreferrer"></a></div></div><div class=sidebar-menu><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/ aria-label=Home></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Home</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/archives aria-label=Archives></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Archives</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/categories aria-label=Category></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Category</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/tags aria-label=Tag></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>Tag</div></div><div class=sidebar-menu-link-wrap><a class=sidebar-menu-link-dummy href=/en/about aria-label=About></a><div class='sidebar-menu-icon icon rotate'>&#xe62b;</div><div class=sidebar-menu-link>About</div></div></div></div></div><div class=sidebar-btn-wrapper><div class="sidebar-toc-btn current"></div><div class=sidebar-common-btn></div></div></nav></div><div id=aplayer theme=var(--color-link)></div><script src=https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js integrity=sha384-3gT/vsepWkfz/ff7PpWNUeMzeWoH3cDhm/A8jM7ouoAK0/fP/9bcHHR5kHq2nf+e crossorigin=anonymous></script><script src=https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js integrity=sha384-J08i8An/QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q crossorigin=anonymous></script><script src=/js/main.js integrity crossorigin=anonymous></script><script src=/js/aos.js integrity crossorigin=anonymous></script><script>var aosInit=()=>{AOS.init({duration:1e3,easing:"ease",once:!0,offset:50})};document.readyState==="loading"?document.addEventListener("DOMContentLoaded",aosInit):aosInit()</script><script src=/js/pjax_main.js integrity crossorigin=anonymous data-pjax></script><div id=lazy-script><div><script data-pjax>window.REIMU_POST={author:"Jingmengzhiyue",title:"Gradient Boosting Machine",url:"https://www.jingmengzhiyue.tech/en/boosting-gradient-boosting/",description:`With squared-error loss, each new tree fits the current residuals. The learning rate scales its contribution to the ensemble.
+5.1 Gradient descent in function space (Friedman 2001) Jerome H. Friedman introduced gradient boosting in his 2001 paper &ldquo;Greedy Function Approximation: A Gradient …`,cover:"https://www.jingmengzhiyue.tech/img/24.jpg"}</script><script src=https://npm.webcache.cn/mermaid@11.16.0/dist/mermaid.min.js data-pjax integrity=sha384-T/0lMUdJpd2S1ZHtRiofG3htU3xPCrFVeAQ1UUE2TJwlEJSV5NUwn30kP28n238E crossorigin=anonymous></script><script src=https://npm.webcache.cn/dompurify@3.2.6/dist/purify.min.js data-pjax integrity=sha384-JEyTNhjM6R1ElGoJns4U2Ln4ofPcqzSsynQkmEc/KGy6336qAZl70tDLufbkla+3 crossorigin=anonymous></script><script data-pjax>if(window.mermaid){const t=".mermaid",n=e=>{const n=_$$(t);return n.length?new Promise((t,s)=>{try{n.forEach(e),t()}catch(e){s(e)}}):Promise.resolve()},o=()=>n(e=>{e.getAttribute("data-original-code")||e.setAttribute("data-original-code",e.innerHTML)}),i=()=>n(e=>{const t=e.getAttribute("data-original-code");t&&(e.removeAttribute("data-processed"),e.innerHTML=DOMPurify.sanitize(t))}),a=async e=>{window.mermaid.initialize({theme:e,startOnLoad:!1}),await window.mermaid.run({querySelector:t,suppressErrors:!0}),window.svgPanZoom&&(window.__panZoomList?.forEach(e=>{try{e.destroy()}catch{}}),window.__panZoomList=[],_$$(".mermaid > svg").forEach(e=>{const t=e.getBBox();e.setAttribute("height",Math.max(t.height,80)),window.__panZoomList.push(window.svgPanZoom(e,{zoomEnabled:!0,controlIconsEnabled:!0,fit:!0,center:!0}))}),window.__resizeMermaidSvg&&window.removeEventListener("resize",window.__resizeMermaidSvg),window.__resizeMermaidSvg=()=>{try{window.__panZoomList.forEach(e=>{e.resize(),e.fit(),e.center()})}catch{window.removeEventListener("resize",window.__resizeMermaidSvg),window.__panZoomList=[]}},window.addEventListener("resize",window.__resizeMermaidSvg))},e=async e=>{try{await o(),await i(),await a(e)}catch(e){console.error(e)}};document.body.addEventListener("reimu:theme-set",t=>{const n=t.detail.isDark;e(n?"dark":"default")});const s=localStorage.getItem("dark_mode");if(s==="auto"){const t=window.matchMedia("(prefers-color-scheme: dark)").matches;e(t?"dark":"default")}else e(s==="true"?"dark":"default")}</script><script src=/js/insert_highlight.js integrity crossorigin=anonymous data-pjax></script><script src=/js/tabs.js integrity crossorigin=anonymous data-pjax defer></script><script type=module data-pjax>const PhotoSwipeLightbox = (await safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js", "sha384-DiL6M\/gG\u002bwmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF\/N6lrZi\/")).default;const initPswp = (gallery, children) => {
+          if (_$$(`${gallery} ${children}`).length > 0) {
+            new PhotoSwipeLightbox({
+              gallery,
+              children,pswpModule: () => safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8\u002boTJ7m3DfYEWX1fu1scuS4\u002bs")}).init();
+          }
+        }
+        const pswp = () => {
+          initPswp('.article-entry', 'a.article-gallery-item');
+          initPswp('.article-gallery', 'a.article-gallery-item');
+        }
+        pswp()
+      </script><script data-pjax>window.MathJax=JSON.parse('[{"loader":{"load":["input/asciimath","[tex]/noerrors"]},"options":{"ignoreHtmlClass":"tex2jax_ignore","processHtmlClass":"tex2jax_process","skipHtmlTags":["script","noscript","style","textarea","pre","code"]},"tex":{"autoload":{"color":[],"colorv2":["color"]},"displayMath":[["$$","$$"],["\\\\[","\\\\]"]],"inlineMath":[["$","$"],["\\\\(","\\\\)"]],"packages":{"[+]":["noerrors"]},"processEnvironments":true,"processEscapes":true,"tags":"ams","useLabelIds":true}}]')[0]</script><script src=https://npm.webcache.cn/mathjax@3.2.2/es5/tex-mml-chtml.js defer data-pjax integrity=sha384-Wuix6BuhrWbjDBs24bXrjf4ZQ5aFeFWBuKkFekO2t8xFU0iNaLQfp2K6/1Nxveei crossorigin=anonymous></script></div></div><script src=https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js async integrity=sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S crossorigin=anonymous></script><script>"serviceWorker"in navigator&&navigator.serviceWorker.getRegistrations().then(e=>{for(let t of e)t.unregister()})</script><script>const reimuCopyright=String.raw`
+   ______     ______     __     __    __     __  __    
+  /\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+  \ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+   \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+    \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                    
+  `;console.log(String.raw`%c ${reimuCopyright}`,"color: #ff5252;"),console.log("%c Theme.Reimu %c https://github.com/D-Sketon/hugo-theme-reimu ","color: white; background: #ff5252; padding:5px 0;","padding:4px;border:1px solid #ff5252;")</script><script>var setupAPlayer=()=>{if(!!1||!window.matchMedia("(max-width: 768px)").matches){const e=window.matchMedia("(max-width: 959px)").matches;if(e){const e=_$("#aplayer");if(e){const t=e.parentNode?.parentNode;t?.tagName==="ASIDE"&&(e.removeAttribute("data-aos"),t.parentNode.removeChild(e),document.body.appendChild(e))}}new APlayer({theme:"var(--color-link)",container:document.getElementById("aplayer"),audio:JSON.parse('[{"cover":"/img/24.jpg","name":"The Song Of Soul","url":"/music/The Song Of Soul.mp3"},{"cover":"/img/24.jpg","name":"Merry Christmas Mr Lawrence","url":"/music/Merry Christmas Mr Lawrence.mp3"},{"cover":"/img/24.jpg","name":"やさしさがしっとりと降るなかで","url":"/music/やさしさがしっとりと降るなかで.mp3"},{"artist":"千葉紗子","cover":"/img/24.jpg","name":"花手紙","url":"/music/花手紙.mp3"}]')||[],fixed:!!e||!0,autoplay:!1,loop:"all"||"all",order:"list"||"list",preload:"none"||"auto",volume:.7||.7,mutex:!0,listFolded:!0,lrcType:0||0})}}</script><script src=https://npm.webcache.cn/aplayer@1.10.1/dist/APlayer.min.js defer onload=setupAPlayer() integrity=sha384-gdGYZwHnfJM54evoZhpO0s6ZF5BQiybkiyW7VXr+h5UfruuRL/aORyw+5+HZoU6e crossorigin=anonymous></script></body></html>

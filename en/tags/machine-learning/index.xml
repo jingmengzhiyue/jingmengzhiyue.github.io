@@ -1,4 +1,195 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Machine Learning on 热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/en/tags/machine-learning/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>en</language><copyright>All articles on this blog are licensed under the BY license agreement unless otherwise stated. Please indicate the source when reprinting!</copyright><lastBuildDate>Tue, 12 Aug 2025 09:00:00 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/en/tags/machine-learning/index.xml" rel="self" type="application/rss+xml"/><item><title>Diffusion Models, Part 4: Cross-Modal Diffusion and Implementation</title><link>https://www.jingmengzhiyue.tech/en/diffusion-model-cross-modal-and-practice/</link><pubDate>Tue, 12 Aug 2025 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/diffusion-model-cross-modal-and-practice/</guid><description>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Machine Learning on 热爱可抵万难</title><link>https://www.jingmengzhiyue.tech/en/tags/machine-learning/</link><description>Recent content from 热爱可抵万难</description><generator>Hugo</generator><language>en</language><copyright>All articles on this blog are licensed under the BY license agreement unless otherwise stated. Please indicate the source when reprinting!</copyright><lastBuildDate>Fri, 26 Jun 2026 09:00:00 +0800</lastBuildDate><atom:link href="https://www.jingmengzhiyue.tech/en/tags/machine-learning/index.xml" rel="self" type="application/rss+xml"/><item><title>References</title><link>https://www.jingmengzhiyue.tech/en/boosting-references/</link><pubDate>Fri, 26 Jun 2026 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/boosting-references/</guid><description>
+<![CDATA[<h1>References</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>Boosting is one of the most classic and most practical techniques in machine learning, and its literature spans more than three decades — from the theoretical foundations of the mid-1990s, through the engineering explosion of the 2010s, to industrial deployment in the 2020s — forming a remarkably rich body of knowledge. This article doesn&rsquo;t just list references; it aims to give readers a clear reading path so they can build their own understanding efficiently, whatever their background.</p>
+        
+        <hr><p>Published on 2026-06-26 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2026-06-26</p>]]></description><category>Machine Learning</category></item><item><title>End-to-End Python Examples</title><link>https://www.jingmengzhiyue.tech/en/boosting-python-examples/</link><pubDate>Tue, 09 Jun 2026 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/boosting-python-examples/</guid><description>
+<![CDATA[<h1>End-to-End Python Examples</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>This article provides complete, runnable Python examples covering binary classification, regression, model persistence and SHAP explanation. The code targets sklearn 1.4+, XGBoost 2.1+, LightGBM 4.0+ and CatBoost 1.2+, and includes comments; it has been run end to end under scikit-learn 1.9.1, XGBoost 3.4.1, LightGBM 4.7.0, CatBoost 1.2.10, shap 0.54.1 and optuna 5.1.0 (Python 3.13).</p>
+<blockquote>
+<p><strong>Version differences to watch</strong></p>
+<ul>
+<li>XGBoost: <code>early_stopping_rounds</code>, <code>eval_metric</code> and <code>callbacks</code> were deprecated in <code>fit()</code> from 1.6 and removed from <code>fit()</code> in 2.1, so they belong in the constructor (the code here follows that).</li>
+<li>LightGBM: from 4.0, <code>fit()</code> / <code>train()</code> no longer accept <code>early_stopping_rounds</code> or <code>verbose_eval</code>; use <code>callbacks=[lgb.early_stopping(...)]</code> instead. From 4.7 the sklearn interface gains <code>eval_X</code> / <code>eval_y</code> and marks <code>eval_set</code> deprecated (it still works, with a warning).</li>
+<li>scikit-learn: <code>AdaBoostClassifier</code>&rsquo;s <code>SAMME.R</code> was deprecated in 1.4 and removed in 1.6; the <code>algorithm</code> parameter itself was deprecated in 1.6 and removed in 1.8, so passing <code>algorithm=...</code> raises <code>TypeError</code> in new versions.</li>
+</ul>
+</blockquote>
+<h2 id="111-a-complete-binary-classification-workflow">
+<a class="header-anchor" href="#111-a-complete-binary-classification-workflow"></a>
+11.1 A complete binary classification workflow
+</h2><p>This example uses sklearn&rsquo;s <code>make_classification</code> to generate data and walks through the whole path from loading to evaluation and visualization, comparing XGBoost, LightGBM and CatBoost along the way.</p>
+        
+        <hr><p>Published on 2026-06-09 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2026-06-09</p>]]></description><category>Machine Learning</category></item><item><title>Tuning Guide and Best Practices</title><link>https://www.jingmengzhiyue.tech/en/boosting-tuning/</link><pubDate>Fri, 17 Apr 2026 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/boosting-tuning/</guid><description>
+<![CDATA[<h1>Tuning Guide and Best Practices</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>Boosting performance depends heavily on hyperparameters. Unlike random forests, which work out of the box, boosting&rsquo;s default settings tend to be aggressive (XGBoost&rsquo;s <code>max_depth=6</code>, <code>eta=0.3</code>), and getting the best out of it takes systematic tuning. This article lays out a general staged tuning framework, gives concrete parameter advice for each algorithm, and offers fixes for the common traps.</p>
+<h2 id="101-a-general-strategy-staged-tuning">
+<a class="header-anchor" href="#101-a-general-strategy-staged-tuning"></a>
+10.1 A general strategy: staged tuning
+</h2><p>Boosting has many parameters that interact (the <code>learning_rate</code>/<code>n_estimators</code> trade-off, for one). A blind full grid search is both expensive and prone to landing in a local optimum. <strong>Staged tuning</strong> — layering the work by importance, refining step by step — works better.</p>
+        
+        <hr><p>Published on 2026-04-17 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2026-04-17</p>]]></description><category>Machine Learning</category></item><item><title>Comparing Algorithms and Choosing One</title><link>https://www.jingmengzhiyue.tech/en/boosting-model-selection/</link><pubDate>Sat, 04 Apr 2026 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/boosting-model-selection/</guid><description>
+<![CDATA[<h1>Comparing Algorithms and Choosing One</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>The boosting family is crowded — from classic AdaBoost to modern XGBoost, LightGBM and CatBoost — and each member has its own design philosophy, optimization target and sweet spot. On real projects, picking the right algorithm often matters more than fine-tuning it. This article compares the five mainstream boosting algorithms across several dimensions and lays out a practical decision procedure.</p>
+<p>The comparison below covers training and prediction speed, memory use, accuracy, and feature handling.</p>
+        
+        <hr><p>Published on 2026-04-04 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2026-04-04</p>]]></description><category>Machine Learning</category></item><item><title>CatBoost</title><link>https://www.jingmengzhiyue.tech/en/boosting-catboost/</link><pubDate>Thu, 19 Feb 2026 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/boosting-catboost/</guid><description>
+<![CDATA[<h1>CatBoost</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h2 id="81-overview-and-core-innovations">
+<a class="header-anchor" href="#81-overview-and-core-innovations"></a>
+8.1 Overview and core innovations
+</h2><p><strong>CatBoost</strong> (Categorical Boosting) is a gradient boosted decision tree implementation open-sourced by <strong>Yandex</strong>, the Russian search company, in 2017. Two papers are central: Prokhorenkova et al., <em>CatBoost: unbiased boosting with categorical features</em> (NeurIPS 2018, arXiv 2017), which introduces ordered boosting and ordered target statistics; and Dorogush, Ershov and Gulin, <em>CatBoost: gradient boosting with categorical features support</em> (arXiv 2018), which covers the library&rsquo;s overall design, feature combinations and GPU implementation. The name states the positioning: <strong>unbiased, efficient gradient boosting for datasets with many categorical features</strong>. Compared with XGBoost and LightGBM, CatBoost&rsquo;s distinctiveness lies in systematically solving, at the theoretical level, the <strong>prediction shift</strong> problem in gradient boosting, and in proposing <strong>ordered boosting</strong> and <strong>ordered target statistics</strong>, with <strong>oblivious trees</strong> as base learners.</p>
+        
+        <hr><p>Published on 2026-02-19 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2026-02-19</p>]]></description><category>Machine Learning</category></item><item><title>LightGBM</title><link>https://www.jingmengzhiyue.tech/en/boosting-lightgbm/</link><pubDate>Thu, 22 Jan 2026 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/boosting-lightgbm/</guid><description>
+<![CDATA[<h1>LightGBM</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h2 id="71-overview-and-core-innovations">
+<a class="header-anchor" href="#71-overview-and-core-innovations"></a>
+7.1 Overview and core innovations
+</h2><p><strong>LightGBM</strong> (Light Gradient Boosting Machine) is a highly efficient gradient boosted decision tree system from <strong>Guolin Ke</strong> and colleagues at <strong>Microsoft Research Asia</strong>, working with Peking University, published at NIPS 2017 (now NeurIPS; paper <em>LightGBM: A Highly Efficient Gradient Boosting Decision Tree</em>). The next milestone after XGBoost, LightGBM not only speeds up training by orders of magnitude but also shows clear advantages in memory efficiency, high-dimensional sparse data and large-scale settings.</p>
+        
+        <hr><p>Published on 2026-01-22 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2026-01-22</p>]]></description><category>Machine Learning</category></item><item><title>XGBoost</title><link>https://www.jingmengzhiyue.tech/en/boosting-xgboost/</link><pubDate>Thu, 15 Jan 2026 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/boosting-xgboost/</guid><description>
+<![CDATA[<h1>XGBoost</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h2 id="61-overview-and-core-innovations">
+<a class="header-anchor" href="#61-overview-and-core-innovations"></a>
+6.1 Overview and core innovations
+</h2><p><strong>XGBoost</strong> (eXtreme Gradient Boosting) is a scalable end-to-end tree boosting system introduced by <strong>Tianqi Chen</strong> and <strong>Carlos Guestrin</strong> at ACM SIGKDD in 2016 (KDD 2016, paper <em>XGBoost: A Scalable Tree Boosting System</em>). It reworks gradient boosted decision trees (GBDT) on both the algorithmic and the engineering side, combining <strong>second-order Taylor expansion</strong>, an <strong>explicitly regularized objective</strong>, <strong>weighted quantile sketches</strong>, <strong>sparsity-aware split finding</strong> and <strong>system-level optimizations</strong> (block structure, cache awareness, out-of-core computation) to break new ground in both speed and accuracy.</p>
+        
+        <hr><p>Published on 2026-01-15 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2026-01-15</p>]]></description><category>Machine Learning</category></item><item><title>Gradient Boosting Machine</title><link>https://www.jingmengzhiyue.tech/en/boosting-gradient-boosting/</link><pubDate>Mon, 24 Nov 2025 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/boosting-gradient-boosting/</guid><description>
+<![CDATA[<h1>Gradient Boosting Machine</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>With squared-error loss, each new tree fits the current residuals. The learning rate scales its contribution to the ensemble.</p>
+<h2 id="51-gradient-descent-in-function-space-friedman-2001">
+<a class="header-anchor" href="#51-gradient-descent-in-function-space-friedman-2001"></a>
+5.1 Gradient descent in function space (Friedman 2001)
+</h2><p><strong>Jerome H. Friedman</strong> introduced gradient boosting in his 2001 paper <em>&ldquo;Greedy Function Approximation: A Gradient Boosting Machine&rdquo;</em> (released as a technical report in 1999). He recast boosting as <strong>gradient descent in function space</strong>, another major step in the theory of boosting that lifted AdaBoost from a specific algorithm to a <strong>general framework for function optimization</strong>.</p>
+        
+        <hr><p>Published on 2025-11-24 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2025-11-24</p>]]></description><category>Machine Learning</category></item><item><title>AdaBoost (Adaptive Boosting)</title><link>https://www.jingmengzhiyue.tech/en/boosting-adaboost/</link><pubDate>Thu, 06 Nov 2025 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/boosting-adaboost/</guid><description>
+<![CDATA[<h1>AdaBoost (Adaptive Boosting)</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>Misclassified samples gain weight after each round, while the upper bound on training error decreases with successive rounds under the weak-learning condition.</p>
+<h2 id="41-overview-and-core-idea">
+<a class="header-anchor" href="#41-overview-and-core-idea"></a>
+4.1 Overview and core idea
+</h2><p><strong>Yoav Freund</strong> and <strong>Robert E. Schapire</strong> first presented AdaBoost (Adaptive Boosting) as a conference paper in 1995 (EuroCOLT 1995) and published the full version in the <em>Journal of Computer and System Sciences</em> in 1997. It is the most classic and most influential member of the boosting family, and one of the most important algorithms in the history of machine learning.</p>
+        
+        <hr><p>Published on 2025-11-06 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2025-11-06</p>]]></description><category>Machine Learning</category></item><item><title>Forward Stagewise Additive Models and the Loss-Function Framework</title><link>https://www.jingmengzhiyue.tech/en/boosting-additive-models/</link><pubDate>Thu, 23 Oct 2025 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/boosting-additive-models/</guid><description>
+<![CDATA[<h1>Forward Stagewise Additive Models and the Loss-Function Framework</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h2 id="31-the-additive-model-boostings-mathematical-base">
+<a class="header-anchor" href="#31-the-additive-model-boostings-mathematical-base"></a>
+3.1 The additive model: boosting&rsquo;s mathematical base
+</h2><p>The mathematical framework of boosting rests on the <strong>additive model</strong>. An additive model writes a complicated prediction function as a linear combination of simple basis functions, which turns one high-dimensional optimization problem into a series of low-dimensional ones.</p>
+<h3 id="311-the-form-of-an-additive-model">
+<a class="header-anchor" href="#311-the-form-of-an-additive-model"></a>
+3.1.1 The form of an additive model
+</h3><p>The general form is</p>
+$$f(x) = \sum_{m=1}^M \beta_m b(x; \gamma_m)$$<p><strong>Notation:</strong></p>
+<table>
+	<thead>
+			<tr>
+					<th>Symbol</th>
+					<th>Meaning</th>
+					<th>Notes</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>$x$</td>
+					<td>Input feature vector</td>
+					<td>$x \in \mathbb{R}^d$</td>
+			</tr>
+			<tr>
+					<td>$M$</td>
+					<td>Total number of basis functions</td>
+					<td>Corresponds to the number of boosting iterations</td>
+			</tr>
+			<tr>
+					<td>$\beta_m$</td>
+					<td>Expansion coefficient of the $m$-th basis function</td>
+					<td>A scalar weight setting that function&rsquo;s contribution</td>
+			</tr>
+			<tr>
+					<td>$b(x; \gamma_m)$</td>
+					<td>Basis function (the weak learner)</td>
+					<td>A simple function characterized by $\gamma_m$</td>
+			</tr>
+			<tr>
+					<td>$\gamma_m$</td>
+					<td>Parameter vector of the basis function</td>
+					<td>Split points and leaf values of a decision tree, for instance</td>
+			</tr>
+			<tr>
+					<td>$f(x)$</td>
+					<td>Final prediction function</td>
+					<td>Weighted sum of all basis functions</td>
+			</tr>
+	</tbody>
+</table>
+<p>The flexibility of the additive model lies in the choice of $b(x; \gamma)$. In different settings it takes different forms:</p>
+        
+        <hr><p>Published on 2025-10-23 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2025-10-23</p>]]></description><category>Machine Learning</category></item><item><title>The Core Idea of Boosting and Its History</title><link>https://www.jingmengzhiyue.tech/en/boosting-history/</link><pubDate>Sun, 28 Sep 2025 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/boosting-history/</guid><description>
+<![CDATA[<h1>The Core Idea of Boosting and Its History</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h2 id="21-the-core-idea">
+<a class="header-anchor" href="#21-the-core-idea"></a>
+2.1 The core idea
+</h2><p>The core idea of boosting fits in one sentence: <strong>combine, in sequence, a series of weak learners that are only slightly better than random guessing, and build a strong learner of arbitrarily high accuracy</strong>.</p>
+<p>That&rsquo;s a very different philosophy from bagging&rsquo;s parallel voting. If bagging is many minds pulling together while staying diverse, boosting is steady, step-by-step refinement. Each round tries to correct what the previous model got wrong, concentrating on the samples that are hardest to learn. This adaptive strategy lets boosting approach the target function gradually, from simple to complex, from rough to fine.</p>
+        
+        <hr><p>Published on 2025-09-28 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2025-09-28</p>]]></description><category>Machine Learning</category></item><item><title>Overview of Ensemble Learning</title><link>https://www.jingmengzhiyue.tech/en/boosting-ensemble-learning/</link><pubDate>Thu, 11 Sep 2025 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/boosting-ensemble-learning/</guid><description>
+<![CDATA[<h1>Overview of Ensemble Learning</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <h2 id="11-what-ensemble-learning-is">
+<a class="header-anchor" href="#11-what-ensemble-learning-is"></a>
+1.1 What ensemble learning is
+</h2><p>Ensemble learning is one of the central paradigms in machine learning, and its core idea comes from an old proverb: three cobblers working together are a match for Zhuge Liang. Statistics and machine learning formalize that idea as follows: <strong>combine several individual learners working on the same problem, and you get predictions that are more accurate and more stable than any single model can produce</strong>.</p>
+        
+        <hr><p>Published on 2025-09-11 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2025-09-11</p>]]></description><category>Machine Learning</category></item><item><title>Boosting Algorithms: A Reading Guide</title><link>https://www.jingmengzhiyue.tech/en/boosting-overview/</link><pubDate>Mon, 08 Sep 2025 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/boosting-overview/</guid><description>
+<![CDATA[<h1>Boosting Algorithms: A Reading Guide</h1><p>Author: Jingmengzhiyue()</p>
+        
+          <p>How do weak learners become a strong model? This series starts with ensemble learning, then follows boosting from AdaBoost to modern tree libraries. The final posts cover model selection, tuning, and hands-on Python examples.</p>
+<h2 id="chapter-map">
+<a class="header-anchor" href="#chapter-map"></a>
+Chapter map
+</h2><h3 id="part-i-foundations">
+<a class="header-anchor" href="#part-i-foundations"></a>
+Part I: Foundations
+</h3><ul>
+<li><a href="/en/boosting-ensemble-learning/">Chapter 1: Overview of Ensemble Learning</a></li>
+<li><a href="/en/boosting-history/">Chapter 2: The Core Idea of Boosting and Its History</a></li>
+<li><a href="/en/boosting-additive-models/">Chapter 3: Forward Stagewise Additive Models and the Loss-Function Framework</a></li>
+</ul>
+<h3 id="part-ii-classic-algorithms">
+<a class="header-anchor" href="#part-ii-classic-algorithms"></a>
+Part II: Classic Algorithms
+</h3><ul>
+<li><a href="/en/boosting-adaboost/">Chapter 4: AdaBoost (Adaptive Boosting)</a></li>
+<li><a href="/en/boosting-gradient-boosting/">Chapter 5: Gradient Boosting Machine</a></li>
+</ul>
+<h3 id="part-iii-modern-high-performance-implementations">
+<a class="header-anchor" href="#part-iii-modern-high-performance-implementations"></a>
+Part III: Modern High-Performance Implementations
+</h3><ul>
+<li><a href="/en/boosting-xgboost/">Chapter 6: XGBoost</a></li>
+<li><a href="/en/boosting-lightgbm/">Chapter 7: LightGBM</a></li>
+<li><a href="/en/boosting-catboost/">Chapter 8: CatBoost</a></li>
+</ul>
+<h3 id="part-iv-a-practitioners-guide">
+<a class="header-anchor" href="#part-iv-a-practitioners-guide"></a>
+Part IV: A Practitioner&rsquo;s Guide
+</h3><ul>
+<li><a href="/en/boosting-model-selection/">Chapter 9: Comparing Algorithms and Choosing One</a></li>
+<li><a href="/en/boosting-tuning/">Chapter 10: Tuning Guide and Best Practices</a></li>
+<li><a href="/en/boosting-python-examples/">Chapter 11: End-to-End Python Examples</a></li>
+<li><a href="/en/boosting-references/">Chapter 12: References</a></li>
+</ul>
+        
+        <hr><p>Published on 2025-09-08 at <a href='https://www.jingmengzhiyue.tech/'>热爱可抵万难</a>, last modified on 2025-09-08</p>]]></description><category>Machine Learning</category></item><item><title>Diffusion Models, Part 4: Cross-Modal Diffusion and Implementation</title><link>https://www.jingmengzhiyue.tech/en/diffusion-model-cross-modal-and-practice/</link><pubDate>Tue, 12 Aug 2025 09:00:00 +0800</pubDate><guid>https://www.jingmengzhiyue.tech/en/diffusion-model-cross-modal-and-practice/</guid><description>
 <![CDATA[<h1>Diffusion Models, Part 4: Cross-Modal Diffusion and Implementation</h1><p>Author: Jingmengzhiyue()</p>
         
           <h1 id="chapter-7-cross-modal-diffusion--video-3d-audio-and-discrete-data">
